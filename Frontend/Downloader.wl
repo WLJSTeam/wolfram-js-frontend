@@ -27,7 +27,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         Echo["Downloader >> Get request"];
 
         If[rangesString === False,
-            Return[ImportFile[path, "Base"->Nothing] ]
+            Return[ImportFile[path, "Base"->{Nothing}] ]
         ];
 
         With[{

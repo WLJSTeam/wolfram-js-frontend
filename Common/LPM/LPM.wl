@@ -268,18 +268,22 @@ Module[{new, data},
     Echo["LPM >> fetching info for "<>new<>" on Github..."];
 
     (* here we FETCH PACLETINFO.WL file and use its metadata *)
-    data = Check[urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.wl"], $Failed];
-    If[FailureQ[data], data = Check[urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.m"], $Failed] ];
-
+    data = urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.wl"] // Quiet;
+    If[!MatchQ[ToString[Head[data] ], "PacletObject" | "Paclet"], 
+      data = urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.m"];
+    ];
 
     (* if failed. we just STOP *)
-    If[FailureQ[data],
+
+    If[!MatchQ[ToString[Head[data] ], "PacletObject" | "Paclet"], (* some issue with contexts *)
+      Echo["Failed"];
+      Echo[ToString[data, InputForm] ];
       Echo["LPM >> ERROR cannot get "<>new<>"!"];
       Echo["LPM >> Aborting"];
       Abort[];
     ];
 
-    Join[a, data//First, <|"git-url"->new|>]
+    Join[a, Switch[ToString[Head[data] ], "PacletObject", data//First, "Paclet", Association @ KeyValueMap[Function[{k,v}, ToString[k]->v], Association @@ data] ], <|"git-url"->new|>]
 ]
 
 (* general function *)
@@ -340,7 +344,7 @@ InstallPaclet[dir_String][a_Association, Rule[Github, Rule[url_String, branch_St
     If[MissingQ[a["git-url"]], Echo["LPM >> ERROR!!! not git-url was found"]; Abort[]];
 
     (* construct name of the folder *)
-    dirName = FileNameJoin[{dirName, StringReplace[a["Name"], "/"->"_"]}];
+    dirName = FileNameJoin[{dirName, StringReplace[Lookup[a, "Name", a[Name] ], "/"->"_"]}];
 
     If[FileExistsQ[dirName],
         Echo["LPM >> package folder "<>dirName<>" already exists!"];
