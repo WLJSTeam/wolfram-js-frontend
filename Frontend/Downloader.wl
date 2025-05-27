@@ -26,8 +26,31 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
     handler["GET"][request_] := With[{path = URLDecode[request["Query", "path"] ], rangesString = Lookup[request["Headers"], "Range", False]},
         Echo["Downloader >> Get request"];
 
+        If[!FileExistsQ[path],
+            Echo["File: "<>path<>" does not exist"];
+                    <|
+                        "Code" -> 404, 
+                        "Headers" -> <|
+                            "Content-Length" -> 0,
+                            "Connection"-> "Keep-Alive"
+                        |>
+                    |>  // Return;                 
+        ];
+
         If[rangesString === False,
-            Return[ImportFile[path, "Base"->{Nothing}] ]
+
+            With[{file = ReadByteArray[path]},
+                    <|
+                        "Body" -> file,
+                        "Code" -> 200, 
+                        "Headers" -> <|
+                            "Content-Type" -> GetMIMEType[path], 
+                            "Content-Length" -> Length[file],
+                            "Connection"-> "Keep-Alive", 
+                            "Keep-Alive" -> "timeout=5, max=1000"
+                        |>
+                    |>  // Return;            
+            ];
         ];
 
         With[{

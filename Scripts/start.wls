@@ -33,6 +33,8 @@ Needs["KirillBelov`HTTPHandler`Extensions`"]
 Needs["KirillBelov`WebSocketHandler`"]
 Needs["KirillBelov`LTP`"]
 
+Needs["LetWL`"]
+
 
 Needs["CoffeeLiqueur`Notebook`Utils`"];
 
