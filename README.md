@@ -31,6 +31,7 @@ The notebook combines live code in WL, JS, Mermaid and many more, GUI blocks for
   </p>
 </div>
 
+[![DOI](https://zenodo.org/badge/588982265.svg)](https://doi.org/10.5281/zenodo.15538087)
 
 ## Resources
 
