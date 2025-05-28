@@ -23,7 +23,7 @@ convertVersion[any_PacletObject] := convertVersion[any["Version"]]
 inspectPackages[dir_String, cbk_] := Module[{ 
   packages
 },
-  packages = Get /@ FileNames["PacletInfo.wl", {dir}, {2}];
+  packages = Get /@ DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {dir}, {2}], DirectoryName];
 
   With[{found = SortBy[PacletFind[#["Name"] ], convertVersion]},
 
@@ -56,8 +56,6 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, info, rep
       CreateDirectory[projectDir, CreateIntermediateDirectories->True];
       If[!FileExistsQ[projectDir], Echo["LPM >> Cannot create project directory by path "<>projectDir<>" !!!"]; Abort[] ];
     ];
-
-    Echo["LPM >> project directory >> "<>projectDir];
     
 
     If[FileExistsQ[FileNameJoin[{projectDir, ".wl_timestamp"}] ] && !OptionValue["ForceUpdates"],
@@ -66,27 +64,26 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, info, rep
           skipUpdates = True;
           
         ];
-        Echo[StringJoin["LPM >> updated last time >> ", time // TextString] ];
       ]
     ];
 
     (* PASSIVE mode :: skips all checks and just loads wl_package folder *)
     If[skipUpdates, 
       inspectPackages[FileNameJoin[{projectDir, "wl_packages"}], OptionValue["ConflictResolutionFunction"] ];
-      Map[pacletDirectoryLoad] @  Map[DirectoryName] @  FileNames["PacletInfo.wl", {#}, {2}]& @ FileNameJoin[{projectDir, "wl_packages"}];
+      Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}];
       Return[Null, Module];
     ];
 
-    Echo["LPM >> fetching packages info..."];
+    Echo["LPM >> fetching packages info"];
 
     If[FailureQ[ URLFetch["https://github.com"] ],
       If[!electronConfirmed,
-        Echo["LPM >> ERROR! no internet connection to github.com!"];
+        Echo["LPM >> ERROR! no connection to github.com!"];
 
         If[!MissingQ[cache], 
           Echo["LPM >> using stored data"];
           inspectPackages[FileNameJoin[{projectDir, "wl_packages"}], OptionValue["ConflictResolutionFunction"] ];
-          Map[pacletDirectoryLoad] @  Map[DirectoryName] @  FileNames["PacletInfo.wl", {#}, {2}]& @ FileNameJoin[{projectDir, "wl_packages"}];
+          Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}];
           Return[Null, Module];
         ,
           Echo["LPM >> ERROR! no cache found ;()"];
@@ -184,7 +181,7 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, info, rep
 
     (* finally load dirs *)
     inspectPackages[FileNameJoin[{projectDir, "wl_packages"}], OptionValue["ConflictResolutionFunction"] ];
-    Map[pacletDirectoryLoad] @  Map[DirectoryName] @  FileNames["PacletInfo.wl", {#}, {2}]& @ FileNameJoin[{projectDir, "wl_packages"}];
+    Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}];
 ]
 
 Options[PacletRepositories] = {"Directory"->None, "Passive"->False, "ForceUpdates" -> False, "AutomaticUpdates"->True, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[14, "Days"], "ConflictResolutionFunction" -> Function[{conflicting, true}, 
@@ -212,7 +209,7 @@ convertVersion[str_String] := ToExpression[StringReplace[str, "." -> ""]]
 CheckUpdates[a_Association, Rule[Github, _]] := Module[{package, new, now},
   (* fetch any *)
   package = FetchInfo[a];
-  If[!AssociationQ[package], Echo["LPM >> cannot check the github! skipping..."]; Return[False, Module]];
+  If[!AssociationQ[package], Echo["LPM >> cannot check. Skipping..."]; Return[False, Module]];
 
   (* a feature on how we can detect on what we are looking at *)
   If[KeyExistsQ[package, "tag_name"],
@@ -246,14 +243,14 @@ FetchInfo[a_Association, Rule[Github, url_String]] := Module[{new, data},
   (* extracting from given url *)
   new = StringCases[url, RegularExpression[".com\\/(.*).git"]->"$1"]//First // Quiet;
     If[!StringQ[new], new = StringCases[url, RegularExpression[".com\\/(.*)"]->"$1"]//First];
-    Echo["LPM >> fetching releases info for "<>new<>" on a Github..."];
+    Echo["LPM >> fetching releases info for "<>new<>" on Github..."];
 
   (* here we FETCH GITHUB API RESPONCE and use releases metadata *)
   data = urlImport["https://api.github.com/repos/"<>new<>"releases/latest", "JSON"] // Association // Quiet;
 
   (* if there is NO RELEASES *)
   If[!StringQ[data["zipball_url"]],
-    Print["Releases are not available for now... taking a master branch"];
+    Print["Releases are not available. Taking a master branch"];
     (* TAKE MASTER Branch *)
     Return[FetchInfo[a, Rule[Github, Rule[url, "master"]]]];
   ];
@@ -268,19 +265,25 @@ Module[{new, data},
   (* extracting from given url *)    
     new = StringCases[url, RegularExpression[".com\\/(.*).git"]->"$1"]//First // Quiet;
     If[!StringQ[new], new = StringCases[url, RegularExpression[".com\\/(.*)"]->"$1"]//First];
-    Echo["LPM >> fetching info for "<>new<>" on a Github..."];
+    Echo["LPM >> fetching info for "<>new<>" on Github..."];
 
     (* here we FETCH PACLETINFO.WL file and use its metadata *)
-    data = Check[urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.wl"], $Failed];
-    
+    data = urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.wl"] // Quiet;
+    If[!MatchQ[ToString[Head[data] ], "PacletObject" | "Paclet"], 
+      data = urlGet["https://raw.githubusercontent.com/"<>new<>"/"<>ToLowerCase[branch]<>"/PacletInfo.m"];
+    ];
+
     (* if failed. we just STOP *)
-    If[FailureQ[data],
+
+    If[!MatchQ[ToString[Head[data] ], "PacletObject" | "Paclet"], (* some issue with contexts *)
+      Echo["Failed"];
+      Echo[ToString[data, InputForm] ];
       Echo["LPM >> ERROR cannot get "<>new<>"!"];
       Echo["LPM >> Aborting"];
       Abort[];
     ];
 
-    Join[a, data//First, <|"git-url"->new|>]
+    Join[a, Switch[ToString[Head[data] ], "PacletObject", data//First, "Paclet", Association @ KeyValueMap[Function[{k,v}, ToString[k]->v], Association @@ data] ], <|"git-url"->new|>]
 ]
 
 (* general function *)
@@ -303,31 +306,31 @@ InstallPaclet[dir_String][a_Association, Rule[Github, url_String]] := Module[{di
 
     (* in a case of update, directory will probably be there.. cleaning it! *)
     If[FileExistsQ[dirName],
-        Echo["LPM >> package folder "<>dirName<>" already exists!"];
+        Echo["LPM >> package folder already exists!"];
         Echo["LPM >> purging..."];
         DeleteDirectory[dirName, DeleteContents -> True];
     ];
 
     (* download release *)
-    Echo["LPM >> fetching a release..."];    
+    Echo["LPM >> fetching a release"];    
     urlDownload[a["zipball_url"], FileNameJoin[{dir, "___temp.zip"}]];
     
     (* extract to temporary directory and copy *)
-    Echo["LPM >> extracting..."];
+    Echo["LPM >> extracting"];
     ExtractArchive[FileNameJoin[{dir, "___temp.zip"}], FileNameJoin[{dir, "___temp"}]];
     DeleteFile[FileNameJoin[{dir, "___temp.zip"}]];
     
     (* locate PacletInfo, if it is not there, this is very bad. *)
-    pacletPath = FileNames["PacletInfo.wl", FileNameJoin[{dir, "___temp"}], 2] // First;
+    pacletPath = FileNames["PacletInfo.wl" | "PacletInfo.m", FileNameJoin[{dir, "___temp"}], 2] // First;
 
     If[!FileExistsQ[pacletPath], Echo["LPM >> FAILED!!! to fetch by "<>ToString[pacletPath]]; Abort[]];
     pacletPath = DirectoryName[pacletPath];
 
-    Echo[StringTemplate["LPM >> copying... from `` to ``"][pacletPath, dirName]];
+    Echo[StringTemplate["LPM >> copying from `` to ``"][pacletPath, dirName]];
  
     CopyDirectory[pacletPath, dirName];
     DeleteDirectory[FileNameJoin[{dir, "___temp"}], DeleteContents -> True];
-    Print["LPM >> finished!"];
+    Print["LPM >> finished"];
 
     a
 ]
@@ -341,7 +344,7 @@ InstallPaclet[dir_String][a_Association, Rule[Github, Rule[url_String, branch_St
     If[MissingQ[a["git-url"]], Echo["LPM >> ERROR!!! not git-url was found"]; Abort[]];
 
     (* construct name of the folder *)
-    dirName = FileNameJoin[{dirName, StringReplace[a["Name"], "/"->"_"]}];
+    dirName = FileNameJoin[{dirName, StringReplace[Lookup[a, "Name", a[Name] ], "/"->"_"]}];
 
     If[FileExistsQ[dirName],
         Echo["LPM >> package folder "<>dirName<>" already exists!"];
@@ -353,20 +356,20 @@ InstallPaclet[dir_String][a_Association, Rule[Github, Rule[url_String, branch_St
     Echo["LPM >> fetching a zip archive from the master branch..."];    
     urlDownload["https://github.com/"<>a["git-url"]<>"/zipball/"<>ToLowerCase[branch], FileNameJoin[{dir, "___temp.zip"}]];
     
-    Echo["LPM >> extracting..."];
+    Echo["LPM >> extracting"];
     ExtractArchive[FileNameJoin[{dir, "___temp.zip"}], FileNameJoin[{dir, "___temp"}]];
     DeleteFile[FileNameJoin[{dir, "___temp.zip"}]];
     
-    pacletPath = FileNames["PacletInfo.wl", FileNameJoin[{dir, "___temp"}], 2] // First;
+    pacletPath = FileNames["PacletInfo.wl" | "PacletInfo.m", FileNameJoin[{dir, "___temp"}], 2] // First;
 
     If[!FileExistsQ[pacletPath], Echo["LPM >> FAILED!!! to fetch by "<>ToString[pacletPath]]; Abort[]];
     pacletPath = DirectoryName[pacletPath];
 
-    Echo[StringTemplate["LPM >> copying... from `` to ``"][pacletPath, dirName]];
+    Echo[StringTemplate["LPM >> copying from `` to ``"][pacletPath, dirName]];
  
     CopyDirectory[pacletPath, dirName];
     DeleteDirectory[FileNameJoin[{dir, "___temp"}], DeleteContents -> True];
-    Print["LPM >> finished!"];
+    Print["LPM >> finished"];
 
     a
 ]

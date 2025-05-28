@@ -273,6 +273,8 @@ start[k_LocalKernelObject] := Module[{link},
         LinkWrite[link, EnterTextPacket["<<JerryI`Misc`WLJS`Transport`"] ];
         LinkWrite[link, EnterTextPacket["<<KirillBelov`CSockets`EventsExtension`"] ];
         LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`Events`"] ];
+        LinkWrite[link, EnterTextPacket["<<LetWL`"] ];
+        
 
         (* unknown bug, doesn't work in initialization ... *)
         LinkWrite[link, EnterTextPacket["Unprotect[Interpretation, InterpretationBox]"] ];
@@ -312,6 +314,10 @@ checkState[k_LocalKernelObject] := Module[{},
     EventFire[k, "Error", "Timeout"];
 ]
 
+(* [NOTE] You may easily overload the evaluation que on Windows machines *)
+(* It will stall during LinkWrite *)
+(* Mostly affects the initial start, then works without issues *)
+
 LocalKernelObject /: GenericKernel`SubmitTransaction[k_LocalKernelObject, t_] := With[{ev = t["Evaluator"], s = Transaction`Serialize[t]},
     LinkWrite[k["Link"], EnterExpressionPacket[ Internal`Kernel`Apply[ ev, s ] ] // Unevaluated  ]
 ]
@@ -323,6 +329,10 @@ LocalKernelObject /: GenericKernel`Async[k_LocalKernelObject, expr_] := With[{},
 GenericKernel`Stdout[k_LocalKernelObject][any_] := k["LTPSocket"][any]
 
 SetAttributes[GenericKernel`Async, HoldRest]
+
+(* [NOTE] You may easily overload the evaluation que on Windows machines *)
+(* It will stall during LinkWrite *)
+(* Mostly affects the initial start, then works without issues *)
 
 LocalKernelObject /: GenericKernel`Init[k_LocalKernelObject, expr_, OptionsPattern[] ] := With[{once = OptionValue["Once"], tracker = OptionValue["TrackingProgress"]},
     If[!once,

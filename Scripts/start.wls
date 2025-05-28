@@ -18,7 +18,8 @@ PacletRepositories[{
   Github -> "https://github.com/JerryI/WebSocketHandler" -> "master",
   Github -> "https://github.com/JerryI/CSocketListener" -> "master",
   Github -> "https://github.com/JerryI/wl-wlx" -> "master",
-  Github -> "https://github.com/JerryI/wl-misc" -> "main"
+  Github -> "https://github.com/JerryI/wl-misc" -> "main",
+  Github -> "https://github.com/lshifr/LetWL" -> "master"
 }, "Directory" -> Directory[], "MaxVersionDiff"-> 1, "AutomaticUpdates"-> False ]
 
 (* web-server *)
@@ -31,6 +32,8 @@ Needs["KirillBelov`HTTPHandler`"]
 Needs["KirillBelov`HTTPHandler`Extensions`"]
 Needs["KirillBelov`WebSocketHandler`"]
 Needs["KirillBelov`LTP`"]
+
+Needs["LetWL`"]
 
 
 Needs["CoffeeLiqueur`Notebook`Utils`"];
@@ -129,6 +132,17 @@ With[{appJSON = Import[FileNameJoin[{Directory[], "package.json"}], "RawJSON"]},
 Echo["System`$Env"];
 Echo[ToString[$Env, InputForm] ];
 
+versionToNumber[ver_String] := FromDigits[ToExpression@StringSplit[ver, "."], 1000];
+
+If[versionToNumber[$VersionNumber] > versionToNumber["14.2"],
+  Echo["Warning: your Wolfram Kernel version is higher, that tested with WLJS Notebook. We do not guarantee it will work"];
+];
+
+If[versionToNumber[$VersionNumber] < versionToNumber["13.1"],
+  Echo["Error: your Wolfram Kernel version is lower than 13.1. WLJS App won't work. We are sorry"];
+  Echo["You can always download a freeware Wolfram Engine"];
+  Exit[-1];
+];
 
 MergeDirectories[source_String, target_String] := (
   Echo[StringTemplate["Copy directory `` to ``"][source, target]];

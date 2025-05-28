@@ -39,7 +39,7 @@ Table[
 , {i, Select[Packages // Keys, (Packages[#, "enabled"] && KeyExistsQ[Packages[#, "wljs-meta"], param])&]}] // Flatten;
 
 
-Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, cache, updated, removed, new, current, updatable, skipUpdates = False, versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
+Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, cache, updated, removed, new, current, updatable, automaticUpdates = OptionValue["AutomaticUpdates"], skipUpdates = False, versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)
     repos = (#-><|"key"->#|>)&/@list // Association;
 
@@ -155,7 +155,10 @@ Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, c
         new = InstallPaclet[projectDir] /@ new;
 
         (* what must be updated *)
-        updatable = Select[current, CheckUpdates];
+        updatable = If[automaticUpdates, Select[current, CheckUpdates], 
+          Echo["WLJS Extensions >> Automatic updates were disabled by default since 2.5.6"];
+          {}
+        ];
         (* will be updated *)
         updated   = ((#->repos[#])&/@ Keys[updatable]) // Association;
 
@@ -212,7 +215,7 @@ Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, c
     $packages = sortPackages[$packages];
 ]
 
-Options[Repositories] = {"Directory"->Directory[], "ForceUpdates" -> False, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[4, "Days"]}
+Options[Repositories] = {"Directory"->Directory[], "ForceUpdates" -> False, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[4, "Days"], "AutomaticUpdates"->True}
 
 sortPackages[assoc_Association] := With[{},
     Map[

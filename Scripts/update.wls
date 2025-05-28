@@ -20,7 +20,8 @@ PacletRepositories[{
   Github -> "https://github.com/JerryI/WebSocketHandler" -> "master",
   Github -> "https://github.com/JerryI/CSocketListener" -> "master",
   Github -> "https://github.com/JerryI/wl-wlx" -> "master",
-  Github -> "https://github.com/JerryI/wl-misc" -> "main"
+  Github -> "https://github.com/JerryI/wl-misc" -> "main",
+  Github -> "https://github.com/lshifr/LetWL" -> "master"
 }, "Directory" -> Directory[], "MaxVersionDiff"-> 1 ]
 
 
