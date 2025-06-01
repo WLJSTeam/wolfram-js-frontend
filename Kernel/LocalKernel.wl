@@ -28,8 +28,9 @@ LTPServerStart[port_:36800] := With[{},
 ]
 
 (*  internal function that will be called by other kernel remotely *)
-Internal`Kernel`LTPConnected[uid_String] := With[{o = GenericKernel`HashMap[uid]},
+Internal`Kernel`LTPConnected[uid_String, pid_] := With[{o = GenericKernel`HashMap[uid]},
     Echo["LocalKernel >> local kernel link connected!"];
+    Echo["LocalKernel >> PID: "<>ToString[pid] ];
     o["LTPSocket"] = SocketConnect[ "127.0.0.1:"<>ToString[o["Port"] ] ] ;
     Echo[o["LTPSocket"] ];
 
@@ -42,6 +43,8 @@ Internal`Kernel`LTPConnected[uid_String] := With[{o = GenericKernel`HashMap[uid]
     o["LTPSocket"] = o["LTPSocket"] // LTPTransport;
 
     o["ReadyQ"] = True;
+    o["PID"] = pid;
+    
     o["State"]  = "Connected";
 
     o["HeartBeat"] = heartBeat[o];
@@ -150,7 +153,7 @@ tcpConnect[port_, o_LocalKernelObject] := With[{host = o["Host"], uid = o["Hash"
         Internal`RemoteFS /: StringTake[Internal`RemoteFS[url_], n_] := StringTake[url,n]; 
         Internal`RemoteFS /: Import[Internal`RemoteFS[url_], w_] := Import[url, w];
 
-        LTPEvaluate[Internal`Kernel`Stdout, Internal`Kernel`LTPConnected[uid] ];
+        With[{pid = $ProcessID}, LTPEvaluate[Internal`Kernel`Stdout, Internal`Kernel`LTPConnected[uid, pid] ] ];
     ) // HoldRemotePacket
 ]
 
@@ -167,7 +170,11 @@ restart[k_LocalKernelObject] := With[{},
     k["State"] = "Stopped";
     EventFire[k, "State", k["State"] ];
     
-    
+
+    If[Check[ProcessObject[k["PID"] ], False] =!= False,
+        ProcessObject[k["PID"] ] // KillProcess; 
+    ];
+
     SetTimeout[start[k], 1500];
 ]
 
@@ -187,7 +194,15 @@ unlink[k_LocalKernelObject] := With[{},
     k["State"] = "Stopped";
     k["Dead"] = True;
     EventFire[k, "State", k["State"] ];
-    EventFire[k, "Exit", True ];
+
+    If[Check[ProcessObject[k["PID"] ], False] === False,
+        EventFire[k, "Exit", True ];
+    ,
+        ProcessObject[k["PID"] ] // KillProcess;
+        EventFire[k, "Exit", True ];    
+    ];
+
+    
 ]
 
 start[k_LocalKernelObject] := Module[{link},
