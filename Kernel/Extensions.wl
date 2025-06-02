@@ -7,9 +7,14 @@ SaveConfiguration;
 InstallByURL;
 Includes;
 
+SharedDir;
+SyncShared;
+
 Github;
 
 Begin["`Private`"]
+
+
 
 $ProjectDir;
 
@@ -30,6 +35,36 @@ Packages /: Set[ Packages[name_String, fields__], value_ ] := With[{tag = $name2
 VersionsStore[dir_String, repos_Association] := Export[FileNameJoin[{dir, "wljs_packages_version.wl"}], Map[Function[data, data["version"] ], repos] ]
 VersionsLoad[dir_String] := If[FileExistsQ[FileNameJoin[{dir, "wljs_packages_version.wl"}] ], Import[FileNameJoin[{dir, "wljs_packages_version.wl"}] ], None ]
 
+
+SyncShared[dir_, shared_] := With[{},
+
+  SharedDir = shared;
+  (* create shared dir *)
+  If[!FileExistsQ[SharedDir ],
+      CreateDirectory[SharedDir ];
+  ];
+
+
+
+  Do[ 
+    Do[ 
+      With[{original = FileNameJoin[{dir, "wljs_packages", Packages[i, "name"], StringSplit[j, "/"]} // Flatten]},
+        Map[Function[path, 
+          With[{targetPath = FileNameJoin[{shared, FileNameTake[path]}]},
+            Echo["WLJS Extensions >> Sync deferred packages >> "<>FileNameTake[path] ];
+            If[FileExistsQ[targetPath],
+              If[FileDate[targetPath] < FileDate[path],
+                CopyFile[path, targetPath, OverwriteTarget->True]
+              ]
+            ,
+              CopyFile[path, targetPath]
+            ]
+          ]
+        ], {original}];
+      ]
+    , {j, {Packages[i, "wljs-meta", "deferred"]} // Flatten} ];
+  , {i, Select[Packages // Keys, (Packages[#, "enabled"] && KeyExistsQ[Packages[#, "wljs-meta"], "deferred"])&]}]
+];
 
 Includes[param_] := Includes[param] = 
 Table[ 

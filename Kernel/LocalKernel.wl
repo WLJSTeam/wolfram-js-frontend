@@ -6,7 +6,7 @@ LocalKernel;
 Begin["`Private`"]
 
 Needs["CoffeeLiqueur`Notebook`Kernel`" -> "GenericKernel`"];
-
+Needs["CoffeeLiqueur`ExtensionManager`" -> "af`"];
 
 CreateType[LocalKernelObject, GenericKernel`Kernel, {"RootDirectory"->Directory[], "CreatedQ"->False, "StandardOutput"->Null, "InitList"-> {}, "Host"->"127.0.0.1", "Port"->36808, "ReadyQ"->False, "State"->"Undefined", "wolframscript" -> ("\""<>First[$CommandLine]<>"\" -wstp")}]
 
@@ -82,7 +82,7 @@ HeldRemotePacket /: LinkWrite[lnk_, HeldRemotePacket[p_String] ] := With[{pp = p
 HoldRemotePacket[any_] := any // Hold // Compress // HeldRemotePacket
 SetAttributes[HoldRemotePacket, HoldFirst]
 
-tcpConnect[port_, o_LocalKernelObject] := With[{host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port]},
+tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port]},
     (  
         Print["Establishing LTP link... using "<>addr];
         Internal`Kernel`Host = host;
@@ -104,6 +104,8 @@ tcpConnect[port_, o_LocalKernelObject] := With[{host = o["Host"], uid = o["Hash"
         Internal`Kernel`Hash = uid;
         Internal`Kernel`WLJSQ = True;
         System`$FrontEndWLJSQ = True; (* DEPRICATED *)
+
+        AppendTo[$Path, shared]; (* add shared directory *)
 
         Internal`Kernel`Watchdog;
         Internal`Kernel`Watchdog`store = <||>;

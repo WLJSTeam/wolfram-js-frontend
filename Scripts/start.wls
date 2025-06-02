@@ -236,6 +236,9 @@ RandomWord[];
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
+WLJSPackages`SyncShared[Directory[], FileNameJoin[{Directory[], "__shared"}] ];
+
+
 (*EventHandler[AppExtensions`AppEvents // EventClone, {
  any_ :> (Echo[StringTemplate["App Event ``: ``"][any, #]]&)
 }];*)
