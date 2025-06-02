@@ -74,7 +74,7 @@ Table[
 , {i, Select[Packages // Keys, (Packages[#, "enabled"] && KeyExistsQ[Packages[#, "wljs-meta"], param])&]}] // Flatten;
 
 
-Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, cache, updated, removed, new, current, updatable, automaticUpdates = OptionValue["AutomaticUpdates"], skipUpdates = False, versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
+Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, cache, updated, removed, new, current, updatable, strictMode = OptionValue["StrictMode"], automaticUpdates = OptionValue["AutomaticUpdates"], skipUpdates = False, versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)
     repos = (#-><|"key"->#|>)&/@list // Association;
 
@@ -97,7 +97,7 @@ Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, c
 
     If[FileExistsQ[FileNameJoin[{projectDir, ".wljs_timestamp"}] ] && !OptionValue["ForceUpdates"],
       With[{time = Get[ FileNameJoin[{projectDir, ".wljs_timestamp"}] ]},
-        If[Now - time < OptionValue["UpdateInterval"],
+        If[Now - time < OptionValue["UpdateInterval"] || strictMode,
           skipUpdates = True;
           Echo[StringJoin["WLJS Extensions >> last updated >> ", time // TextString] ];
         ]
@@ -250,7 +250,7 @@ Repositories[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, c
     $packages = sortPackages[$packages];
 ]
 
-Options[Repositories] = {"Directory"->Directory[], "ForceUpdates" -> False, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[4, "Days"], "AutomaticUpdates"->True}
+Options[Repositories] = {"Directory"->Directory[], "StrictMode"->False, "ForceUpdates" -> False, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[4, "Days"], "AutomaticUpdates"->True}
 
 sortPackages[assoc_Association] := With[{},
     Map[

@@ -38,7 +38,7 @@ inspectPackages[dir_String, cbk_] := Module[{
   ] &/@ packages;
 ]
 
-PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, info, repos, cache, updated, removed, new, current, updatable, skipUpdates = OptionValue["Passive"], automaticUpdates = OptionValue["AutomaticUpdates"], versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
+PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMode = OptionValue["StrictMode"], info, repos, cache, updated, removed, new, current, updatable, skipUpdates = OptionValue["Passive"], automaticUpdates = OptionValue["AutomaticUpdates"], versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)
     repos = (#-><|"key"->#|>)&/@list // Association;
 
@@ -60,7 +60,7 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, info, rep
 
     If[FileExistsQ[FileNameJoin[{projectDir, ".wl_timestamp"}] ] && !OptionValue["ForceUpdates"],
       With[{time = Get[ FileNameJoin[{projectDir, ".wl_timestamp"}] ]},
-        If[Now - time < OptionValue["UpdateInterval"],
+        If[Now - time < OptionValue["UpdateInterval"] || strictMode,
           skipUpdates = True;
           
         ];
@@ -184,7 +184,7 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, info, rep
     Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}];
 ]
 
-Options[PacletRepositories] = {"Directory"->None, "Passive"->False, "ForceUpdates" -> False, "AutomaticUpdates"->True, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[14, "Days"], "ConflictResolutionFunction" -> Function[{conflicting, true}, 
+Options[PacletRepositories] = {"Directory"->None, "StrictMode"->False, "Passive"->False, "ForceUpdates" -> False, "AutomaticUpdates"->True, "MaxVersionDiff" -> None, "UpdateInterval" -> Quantity[14, "Days"], "ConflictResolutionFunction" -> Function[{conflicting, true}, 
   Echo["LPM >> resolving by uninstalling a global one"];
   If[PacletUninstall[conflicting] =!= Null,
     Echo["FAILED!"];
