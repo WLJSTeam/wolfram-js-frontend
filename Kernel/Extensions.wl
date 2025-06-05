@@ -52,12 +52,11 @@ SyncShared[dir_, shared_] := With[{},
         Map[Function[path, 
           With[{targetPath = FileNameJoin[{shared, FileNameTake[path]}]},
             Echo["WLJS Extensions >> Sync deferred packages >> "<>FileNameTake[path] ];
-            If[FileExistsQ[targetPath],
-              If[FileDate[targetPath] < FileDate[path],
-                CopyFile[path, targetPath, OverwriteTarget->True]
-              ]
+            If[DirectoryQ[path],
+              If[FileExistsQ[targetPath], DeleteDirectory[targetPath, DeleteContents->True] ];
+              CopyDirectory[path, targetPath]
             ,
-              CopyFile[path, targetPath]
+              CopyFile[path, targetPath, OverwriteTarget->True]
             ]
           ]
         ], {original}];
