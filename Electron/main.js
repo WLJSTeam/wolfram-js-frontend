@@ -2301,6 +2301,9 @@ app.whenReady().then(() => {
                     const img = await e.sender.capturePage(rect);
                     let data;
                     switch(l.format) {
+                        case 'JPG':
+                            data = img.toJPEG(l.quality);
+                        break;
                         case 'JPEG':
                             data = img.toJPEG(l.quality);
                         break;
