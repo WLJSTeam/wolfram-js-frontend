@@ -65,7 +65,7 @@ trackpadUtils.onForceClick(() => {
 
 const { Canvas, createCanvas, Image, ImageData } = require("@napi-rs/canvas")
 const pdfjsLib = require("./pdfjs/pdf");
-const { PDFDocument } = require('pdf-lib');
+const { PDFDocument, breakTextIntoLines } = require('pdf-lib');
 //pdf-tools
 
 const NodeCanvasFactory = {
@@ -1279,6 +1279,16 @@ const windows = {
     }
 };
 
+const exportImageBuffer = async (buffer, format, pp, frames) => {
+    const len = Math.min(buffer.length, frames);
+    for (let i=0; i<len; ++i) {
+        const frame = buffer.pop();
+        const p = path.join(pp, String(frame[0]) + "." + format);
+        fs.writeFileSync(p, frame[1]);
+        console.log(p);
+    }
+}
+
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);
     if (fs.existsSync(dirname)) {
@@ -2245,21 +2255,87 @@ app.whenReady().then(() => {
     ipcMain.on('uninstall-cli', () => {
         //trackpadUtils.triggerFeedback();
         cli_uninstall();
-    });    
+    }); 
+    
+    const capturePocket = {};
 
     ipcMain.handle('capture', async (e, area) => {
         let zoom = e.sender.zoomFactor;
 
-
         if (area) {
-            area.x = Math.round(area.x * zoom);
-            area.y = Math.round(area.y * zoom);
-            area.width = Math.round(area.width * zoom);
-            area.height = Math.round(area.height * zoom);
+            if (!area.deferred) {
+                    area.x = Math.round(area.x * zoom);
+                    area.y = Math.round(area.y * zoom);
+                    area.width = Math.round(area.width * zoom);
+                    area.height = Math.round(area.height * zoom);
+                    const img = await e.sender.capturePage(area)
+                    return img.toDataURL();
+            }
+
+            switch(area.deferred.type) {
+                case 'Init':
+                    capturePocket[area.deferred.id] = {
+                        buffer: [], format: area.deferred.format, 
+                        quality: area.deferred.quality,
+                        path: decodeURIComponent(area.deferred.path)
+                    };
+                    
+
+                    return;
+
+                case 'Purge':
+                    delete capturePocket[area.deferred.id];
+                    return;
+
+                case 'Record': {
+                    console.log(area);
+                    area.x = Math.round(area.x * zoom);
+                    area.y = Math.round(area.y * zoom);
+                    area.width = Math.round(area.width * zoom);
+                    area.height = Math.round(area.height * zoom);
+                    const l = capturePocket[area.deferred.id];
+
+                    const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
+                    console.log(rect);
+
+                    const img = await e.sender.capturePage(rect);
+                    let data;
+                    switch(l.format) {
+                        case 'JPEG':
+                            data = img.toJPEG(l.quality);
+                        break;
+                        default:
+                            data = img.toPNG();
+                        break;
+                    }
+                    l.buffer.push([l.buffer.length, data]);
+
+                    if (l.buffer > 20) {
+                        await exportImageBuffer(l.buffer, l.format, l.path, 20);
+                    }
+                }
+                    return 'Saved';
+
+                case 'Export': {
+                    const id = area.deferred.id;
+                    const l = capturePocket[id];
+
+                    await exportImageBuffer(l.buffer, l.format, l.path, Infinity);
+
+                    delete l.buffer;
+                    delete capturePocket[id];
+
+                    return 'Exported';                    
+
+                }
+            }
+
+        } else {
+            const img = await e.sender.capturePage(area)
+            return img.toDataURL();
         }
-        const img = await e.sender.capturePage(area)
-        return img.toDataURL();
-    });
+
+    });   
 
     ipcMain.on('set-progress', (e, p) => {
         const senderWindow = BrowserWindow.fromWebContents(e.sender); // BrowserWindow or null
