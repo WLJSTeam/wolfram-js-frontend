@@ -53,10 +53,35 @@ SyncShared[dir_, shared_] := With[{},
           With[{targetPath = FileNameJoin[{shared, FileNameTake[path]}]},
             Echo["WLJS Extensions >> Sync deferred packages >> "<>FileNameTake[path] ];
             If[DirectoryQ[path],
-              If[FileExistsQ[targetPath], DeleteDirectory[targetPath, DeleteContents->True] ];
-              CopyDirectory[path, targetPath]
+
+              If[FileExistsQ[targetPath], 
+                With[{
+                  hash1 = Total[FileHash[#, "CRC32"] &/@ FileNames["*.*", targetPath] ],
+                  hash2 = Total[FileHash[#, "CRC32"] &/@ FileNames["*.*", path] ]
+                },
+                  If[hash1 =!= hash2,
+                    Echo["WLJS Extensions >> Overwritting: "<>FileNameTake[path] ];
+                    DeleteDirectory[targetPath, DeleteContents->True];
+                    CopyDirectory[path, targetPath];
+                  ]
+                ]
+                
+              
+              ,
+                Echo["WLJS Extensions >> Copying: "<>FileNameTake[path] ];
+                CopyDirectory[path, targetPath];
+              ];
+              
             ,
-              CopyFile[path, targetPath, OverwriteTarget->True]
+              If[FileExistsQ[targetPath],
+                If[FileHash[targetPath] =!=  FileHash[path],
+                  Echo["WLJS Extensions >> Overwritting: "<>FileNameTake[path] ];
+                  CopyFile[path, targetPath, OverwriteTarget->True]
+                ]
+              ,
+                Echo["WLJS Extensions >> Copying: "<>FileNameTake[path] ];
+                CopyFile[path, targetPath]
+              ]
             ]
           ]
         ], {original}];
