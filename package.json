@@ -108,6 +108,10 @@
         }
       ]
     },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
     "win": {
       "target": "NSIS",
       "icon": "./Electron/build/512x512.ico",
