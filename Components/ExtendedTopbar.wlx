@@ -220,6 +220,8 @@ Component[OptionsPattern[]] := With[{
                   let timer;
 
                   this.on('Saving', async (data) => {
+                    if (timer) return;
+
                     timer = setTimeout(() => {
                       spinner = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                       spinner.setAttribute('class', "ml-auto mr-auto w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-teal-600");
@@ -235,6 +237,8 @@ Component[OptionsPattern[]] := With[{
                   });
 
                   this.on('Saved', async (data) => {
+                    if (api) api?.blockWindow(false);
+                    
                     if (timer) {
                       clearTimeout(timer);
                       timer = undefined;
@@ -246,7 +250,7 @@ Component[OptionsPattern[]] := With[{
                     saveBtn.firstChild.classList.remove('hidden');
                     saveBtn.disabled = false;
 
-                    if (api) api?.blockWindow(false);
+                    
                   });                  
 
                   this.on('WSRequest', () => {
