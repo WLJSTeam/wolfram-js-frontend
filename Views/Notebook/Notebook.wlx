@@ -643,9 +643,11 @@ Component[OptionsPattern[]] := With[{
 
             If[Length[ReleaseHold @ kernels] == 0, WebUISubmit[Alert["No Kernels are available"], client]; Return[] ];
          
-            notebook["Evaluator"] = .;
-            notebook["WebSocketQ"] = False; 
-            WebUISubmit[UINotebook["CreateServer"], client];
+            If[MemberQ[notebook["Properties"], "Evaluator"],
+                notebook["Evaluator"] = .;
+                notebook["WebSocketQ"] = False; 
+                WebUISubmit[UINotebook["CreateServer"], client];
+            ];
 
             With[{cli = client},
 
