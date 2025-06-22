@@ -652,10 +652,12 @@ Component[OptionsPattern[]] := With[{
             With[{cli = client},
 
                 If[KeyExistsQ[payload, "Kernel"],
-            
-                    notebook["Evaluator"] = payload["Kernel"]["Container"];
 
-                    If[TrueQ[payload["Kernel"]["ContainerReadyQ"]],
+                    kernel = GenericKernel`HashMap[payload["Kernel"]];
+            
+                    notebook["Evaluator"] = kernel["Container"];
+
+                    If[TrueQ[kernel["ContainerReadyQ"]],
                         EventFire[notebook, "AquairedKernel", True];
                         Then[checkWSLink[notebook, cli, secret, log], Function[Null,
                             Echo["Kernel was changed!"];
@@ -664,6 +666,7 @@ Component[OptionsPattern[]] := With[{
                             ClearAll[kernel]; ClearAll[payload];
                         ] ];
                     ,
+                        Echo[kernel];
                         WebUISubmit[Alert["Initialization is not complete"], cli];
                     ];
 
@@ -787,6 +790,13 @@ Component[OptionsPattern[]] := With[{
                 (*/* finish */*)
                 EventFire[event, "Loaded", notebook];
                 EventFire[controller, "NotebookShown", <|"Client"->$Client, "Notebook"->notebook|>];
+
+                If[MemberQ[notebook["Properties"], "AutoconnectKernel"],
+                    Echo["Autoconnecting provided kernel"];
+                    
+                    EventFire[controller, "ChangeKernel", <|"Client"->$Client, "Kernel"->notebook["AutoconnectKernel"]|>];
+                    notebook["AutoconnectKernel"] = .;
+                ];
             ]];
 
         ],
