@@ -636,17 +636,49 @@ Component[OptionsPattern[]] := With[{
             ];            
         ]],        
 
-        "ChangeKernel" -> Function[Null,
-        
-            If[Length[ReleaseHold @ kernels] == 0, WebUISubmit[Alert["No Kernels are available"], $Client]; Return[] ];
-            requestKernel[notebook, kernels, modals, $Client, Function[Null,
-                (*/* reset all links */*)
+        "ChangeKernel" -> Function[p, Module[{kernel, client, payload = <||>},
+            If[AssociationQ[p], payload = p];
+
+            client = Lookup[payload, "Client", $Client];
+
+            If[Length[ReleaseHold @ kernels] == 0, WebUISubmit[Alert["No Kernels are available"], client]; Return[] ];
+         
+            notebook["Evaluator"] = .;
+            notebook["WebSocketQ"] = False; 
+            WebUISubmit[UINotebook["CreateServer"], client];
+
+            With[{cli = client},
+
+                If[KeyExistsQ[payload, "Kernel"],
+            
+                    notebook["Evaluator"] = payload["Kernel"]["Container"];
+
+                    If[TrueQ[payload["Kernel"]["ContainerReadyQ"]],
+                        EventFire[notebook, "AquairedKernel", True];
+                        Then[checkWSLink[notebook, cli, secret, log], Function[Null,
+                            Echo["Kernel was changed!"];
+
+                            ClearAll[client];
+                            ClearAll[kernel]; ClearAll[payload];
+                        ] ];
+                    ,
+                        WebUISubmit[Alert["Initialization is not complete"], cli];
+                    ];
+
+                ,
+
+                    requestKernel[notebook, kernels, modals, cli, Function[Null,
+                        Then[checkWSLink[notebook, cli, secret, log], Function[Null,
+                            Echo["Kernel was changed!"];
+
+                            ClearAll[client];
+                            ClearAll[kernel]; ClearAll[payload];
+                        ] ];
+                    ]];
                 
-                notebook["Evaluator"] = .;
-                notebook["WebSocketQ"] = False; 
-                WebUISubmit[UINotebook["CreateServer"], $Client];
-            ]];
-        ],
+                ];
+            ];    
+        ] ],
 
         "RestartKernel" -> Function[Null,
             Echo["Manual Kernel restart"];
