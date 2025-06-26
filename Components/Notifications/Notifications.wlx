@@ -153,7 +153,7 @@ EventHandler[evCloned, {
 
         core.HapticFeedback = () => {
             if (!window.electronAPI) {
-                console.warn('This is electron only feature'); 
+                console.log('This is electron only feature'); 
                 return;
             }
             //if (!window.electronAPI.harptic) {console.warn('Haptic feedback not supported in your App'); return}

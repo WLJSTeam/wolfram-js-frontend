@@ -124,6 +124,10 @@
           "icon": "./Electron/build/file/512x512.ico"
         },
         {
+          "ext": "nb",
+          "role": "Editor"
+        },        
+        {
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
