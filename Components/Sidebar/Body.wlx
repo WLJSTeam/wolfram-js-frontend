@@ -1,14 +1,26 @@
-ItemList := ImportComponent["Components/ItemList.wlx"];
+ItemList = ImportComponent["Components/ItemList.wlx"];
 
-
+Component[OptionsPattern[]] := With[{
+  icons = OptionValue["Icons"],
+  port = OptionValue["Port"],
+  parameters = OptionValue["Parameters"],
+  path = OptionValue["Path"],
+  rawPath = OptionValue["RawPath"]
+},
 
     <nav class="flex flex-1 flex-col" style="-webkit-app-region:none">
       <ul role="list" class="flex flex-1 flex-col gap-y-7 p-0">
         <li class="list-none">
-          <ItemList Icons={$Options["Icons"]} Port={$Options["Port"]} Parameters={$Options["Parameters"]} Level={0} Class={"-mx-2 space-y-0"} RawPath={$Options["RawPath"]} Path={$Options["Path"]} Current={$Options["Path"]} />
+          <ItemList Icons={icons} Port={port} Parameters={parameters} Level={0} Class={"-mx-2 space-y-0"} RawPath={rawPath} Path={path} Current={path} />
         </li>
         
       </ul>
     </nav>
+
+];
+
+Options[Component] = {"Icons"->Null, "Port"->Null, "RawPath"->Null, "Path"->Null, "Parameters"-><||>}
+
+Component
 
 

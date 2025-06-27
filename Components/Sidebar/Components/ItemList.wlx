@@ -1,42 +1,52 @@
-Level    = $Options["Level"];
-Class = StringJoin[$Options["Class"], " pl-", ToString[Level]];
-Path     = $Options["Path"];
-RawPath  = $Options["RawPath"];
-Current  = $Options["Current"];
-Parameters = $Options["Parameters"];
 
-Icons = $Options["Icons"];
 
-Port = $Options["Port"];
+Dir  = ImportComponent["ItemDirectory.wlx"];
+Fl   = ImportComponent["ItemFile.wlx"];
+Pl   = ImportComponent["ItemParent.wlx"];
 
-Dir  := ImportComponent["ItemDirectory.wlx"];
-Fl   := ImportComponent["ItemFile.wlx"];
-Pl   := ImportComponent["ItemParent.wlx"];
 
-If[!DirectoryQ[Path], Path = DirectoryName[Path]];
+Component[OptionsPattern[]] := With[{
+  Level    = OptionValue["Level"],
+  Class = StringJoin[OptionValue["Class"], " pl-", ToString[Level]],
+  Path     = If[!DirectoryQ[#], DirectoryName[#], #]& @ (OptionValue["Path"]),
+  RawPath  = OptionValue["RawPath"],
+  Current  = OptionValue["Current"],
+  Parameters = OptionValue["Parameters"],
 
-With[{
-  Ul = Table[
-    If[DirectoryQ[i],  
-    
-      <li class="list-none"><Dir Icons={Icons} Port={Port} Parameters={Parameters} Level={Level+1} File={i} Selected={SameQ[Current, i]}/></li>,
-      <li class="list-none"><Fl  Icons={Icons} Port={Port} Parameters={Parameters} File={i} Selected={SameQ[Current, i]}/></li>
-    ]
-  , {i, Select[FileNames["*", Path], !StringMatchQ[#, ___~~".DS_Store"]&]}],
+  Icons = OptionValue["Icons"],
+  Port = OptionValue["Port"]
 
-  Extra =   
-   With[{
-    parent = ParentDirectory[Path]
-   },
-    If[Level == 0 && StringQ[parent] && $Env["parent_folder"] =!= parent,
-      <li class="list-none"><Pl RawPath={RawPath} File={parent}/></li>
-    ,
-      ""
-    ]
-  ]
 },
-  <ul class="p-0 {Class}">
-    <Extra/>
-    <Ul/>
-  </ul>
-]
+
+
+  With[{
+    Ul = Table[
+      If[DirectoryQ[i],  
+
+        <li class="list-none"><Dir Icons={Icons} Port={Port} Parameters={Parameters} ListComponent={Component} Level={Level+1} File={i} Selected={SameQ[Current, i]}/></li>,
+        <li class="list-none"><Fl  Icons={Icons} Port={Port} Parameters={Parameters} File={i} Selected={SameQ[Current, i]}/></li>
+      ]
+    , {i, Select[FileNames["*", Path], !StringMatchQ[#, ___~~".DS_Store"]&]}],
+
+    Extra =   
+     With[{
+      parent = ParentDirectory[Path]
+     },
+      If[Level == 0 && StringQ[parent] && $Env["parent_folder"] =!= parent,
+        <li class="list-none"><Pl RawPath={RawPath} File={parent}/></li>
+      ,
+        ""
+      ]
+    ]
+  },
+    <ul class="p-0 {Class}">
+      <Extra/>
+      <Ul/>
+    </ul>
+  ]
+
+];
+
+Options[Component] = {"RawPath"->Null, "Level"->Null, "Class"->"", "Current"->"", "Path"->"", "Parameters"-><||>, "Port"->"", "Icons"->""};
+
+Component

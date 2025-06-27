@@ -1,4 +1,4 @@
-Sidebar := ImportComponent["Body.wlx"];
+Sidebar = ImportComponent["Body.wlx"];
 
 Controller["Delete", sidebarId_, ___] := Function[name,
   With[{p = URLDecode[name]},
