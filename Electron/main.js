@@ -394,11 +394,15 @@ const buildMenu = (opts) => {
                 { role: 'unhide' },
                 { type: 'separator' },
                 ...(options.footermenu),
-                { 
-                    label: 'Close App',
-                    role: 'quit',
-                    accelerator: shortcut('close')
-                }
+                { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
+                    console.warn('Quit dialog');
+                    dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                        if (res.response == 0) {
+                            app.quit();
+                        }
+                    })
+                    
+                }}
             ]
         }] : []),
         // { role: 'fileMenu' }
@@ -558,10 +562,20 @@ const buildMenu = (opts) => {
                             windows.focused.call('checkupdates', true);
                         }
                     },
-                    ...(isMac ? [{ type: 'separator' }] : [])                 
+                    ...(isMac ? [{ type: 'separator' }] : [
+                        { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
+                            console.warn('Quit dialog');
+                            dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                                if (res.response == 0) {
+                                    app.quit();
+                                }
+                            })
+                    
+                        }}
+                    ])
                 ] : []),
                 //win.webContents.send('context', 'Iconize');
-                ...(isMac ? [{ role: 'close' }] : [{ type: 'separator' }, ...(options.footermenu)])
+                ...(isMac ? [] : [{ type: 'separator' }, ...(options.footermenu)])
             ]
         },
         // { role: 'editMenu' }
@@ -659,16 +673,8 @@ const buildMenu = (opts) => {
                 { role: 'togglefullscreen' },
                 ...(isMac ? [
                     { type: 'separator' },
-                    { role: 'front' },
-                    { type: 'separator' },
-                    { role: 'window' }
-                ] : [
-                    { 
-                        label: 'Close Window',
-                        role: 'close',
-                        accelerator: shortcut('close')
-                    }
-                ])
+                    { role: 'front' }
+                ] : [])
             ]
         },
 
@@ -911,7 +917,11 @@ callFakeMenu["checkupdates"] = () => {
 }
 
 callFakeMenu["exit"] = () => {
-    app.quit();
+    dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                        if (res.response == 0) {
+                            app.quit();
+                        }
+                    })
 }
 
 const devicesHID = {};
