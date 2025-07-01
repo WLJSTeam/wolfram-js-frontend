@@ -51,11 +51,7 @@
           "name": "WLJS Notebook",
           "role": "Editor",
           "icon": "./Electron/build/file/512x512.icns"
-        },
-        {
-          "ext": "nb",
-          "role": "Editor"
-        },         
+        },        
         {
           "ext": "wlw",
           "name": "WLJS Widget",
@@ -93,10 +89,6 @@
           "name": "WLJS Notebook",
           "role": "Editor",
           "icon": "./Electron/build/file/512x512.png"
-        },
-        {
-          "ext": "nb",
-          "role": "Editor"
         }, 
         {
           "mimeType": "application/wlw",
@@ -130,11 +122,7 @@
           "name": "WLJS Notebook",
           "role": "Editor",
           "icon": "./Electron/build/file/512x512.ico"
-        },
-        {
-          "ext": "nb",
-          "role": "Editor"
-        },        
+        },      
         {
           "ext": "wlw",
           "name": "WLJS Widget",
