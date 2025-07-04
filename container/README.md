@@ -21,7 +21,7 @@ A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfr
       -e PGID=$(id -g) \
       -p 8080:3000 \
       --name wljs \
-      ghcr.io/jerryi/wolfram-js-frontend:main
+      ghcr.io/wljsteam/wolfram-js-frontend:main
     ```
 
     You will now be prompted for your Wolfram login information, enter it and wait for the message `Open your browser at http://...`. You can now safely detach from the container using <kbd>Ctrl</kbd>+<kbd>p</kbd> <kbd>Ctrl</kbd>+<kbd>q</kbd> and close your terminal.
@@ -73,7 +73,7 @@ docker run -it \
   -e WOLFRAMID_PASSWORD=password \
   -p 8080:3000 \
   --name wljs \
-  ghcr.io/jerryi/wolfram-js-frontend:main
+  ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
 ## Persistent storage for WLJS configuration
@@ -88,7 +88,7 @@ docker run -it \
   -e PGID=$(id -g) \
   -p 8080:3000 \
   --name wljs \
-  ghcr.io/jerryi/wolfram-js-frontend:main
+  ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
 ***Note***
@@ -106,7 +106,7 @@ docker run -it \
   -e PGID=$(id -g) \
   -p 8080:3000 \
   --name wljs \
-  ghcr.io/jerryi/wolfram-js-frontend:main
+  ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
 ## NGINX Proxy
@@ -204,7 +204,7 @@ docker run -it \
   -e PGID=$(id -g) \
   -p "127.0.0.1:3000:3000" \
   --name wljs \
-  ghcr.io/jerryi/wolfram-js-frontend:main
+  ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
 
@@ -212,4 +212,4 @@ docker run -it \
 
 ## Known Issues
 
-- Offline offline documentation is not available
+- Offline documentation is not available
