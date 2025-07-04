@@ -202,7 +202,7 @@ docker run -it \
   -e PGID=$(id -g) \
   -p 8000:3000 \
   --name wljs \
-  ghcr.io/jerryi/wolfram-js-frontend:main
+  ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
 Then open `http://127.0.0.1:8000`
