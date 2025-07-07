@@ -46,7 +46,7 @@ jobs:
 
       - name: Install ffmpeg inside Wolfram container
         run: |
-          docker exec wolfram bash -c "apt-get update && apt-get install -y ffmpeg"
+          docker exec --user root wolfram bash -c "apt-get update && apt-get install -y ffmpeg"
 
       - name: Fetch all dependencies inside Wolfram container
         run: |
