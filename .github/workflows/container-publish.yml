@@ -44,6 +44,10 @@ jobs:
         run: |
           sudo chmod -R 777 $GITHUB_WORKSPACE
 
+      - name: Install ffmpeg inside Wolfram container
+        run: |
+          docker exec --user root wolfram bash -c "apt-get update && apt-get install -y ffmpeg"
+
       - name: Fetch all dependencies inside Wolfram container
         run: |
           docker exec -e WOLFRAMSCRIPT_ENTITLEMENTID=${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }} wolfram \
