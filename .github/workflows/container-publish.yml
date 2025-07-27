@@ -1,9 +1,6 @@
 name: Container image
 
-on:
-  workflow_dispatch:
-  release:
-    types: [published]
+on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
