@@ -1,11 +1,11 @@
-SuggestKernel = ImportComponent["Components/SuggestKernel.wlx"];
-TextField     = ImportComponent["Components/TextField.wlx"];
-PickAFile     = ImportComponent["Components/PickAFile.wlx"];
-Initcells     = ImportComponent["Components/Initcells.wlx"];
-Generic       = ImportComponent["Components/Generic.wlx"];
-Custom        = ImportComponent["Components/Custom.wlx"];
-Selector       = ImportComponent["Components/Select.wlx"];
-RequestPathToSave.wlx = ImportComponent["Components/RequestPathToSave.wlx"];
+SuggestKernel = ImportComponent["Components/SuggestKernel.wlx"]//Once;
+TextField     = ImportComponent["Components/TextField.wlx"]//Once;
+PickAFile     = ImportComponent["Components/PickAFile.wlx"]//Once;
+Initcells     = ImportComponent["Components/Initcells.wlx"]//Once;
+Generic       = ImportComponent["Components/Generic.wlx"]//Once;
+Custom        = ImportComponent["Components/Custom.wlx"]//Once;
+Selector       = ImportComponent["Components/Select.wlx"]//Once;
+RequestPathToSave = ImportComponent["Components/RequestPathToSave.wlx"]//Once;
 
 Component[OptionsPattern[]] := With[{port = OptionValue["ModalsPort"]},
     <div>
@@ -16,7 +16,7 @@ Component[OptionsPattern[]] := With[{port = OptionValue["ModalsPort"]},
         <Generic Events={port}/>
         <Custom Events={port}/>
         <Selector Events={port}/>
-        <RequestPathToSave.wlx Events={port}/>
+        <RequestPathToSave Events={port}/>
     </div>
 ]
 
