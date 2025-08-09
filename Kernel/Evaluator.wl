@@ -2,6 +2,7 @@ BeginPackage["CoffeeLiqueur`Notebook`Evaluator`", {"KirillBelov`Objects`", "Jerr
 
 StandardEvaluator::usage = "StandardEvaluator[opts__] creates a basic Evaluator"
 EvaluateTransaction;
+TerminateTransactions;
 
 ReadyQ;
 Container::usage = "a static construction used for combinning StaticEvaluators and Kernels"
@@ -40,6 +41,18 @@ InitializedContainer[k_(*Kernel*)][t_Transaction] := Module[{evaluator, state},
 
     EvaluateTransaction[evaluator, k, t];
     t 
+]
+
+InitializedContainer[k_(*Kernel*)][$Aborted] := Module[{diposableToken},
+    Print["Termination Eval"];
+    diposableToken = Function[Null,
+        Echo["Aborting Kernel"];
+        If[k["State"] === "Initialized", GenericKernel`AbortEvaluation[k] ];
+        diposableToken = Null;
+    ];
+
+    TerminateTransactions[#, diposableToken] &/@ Flatten[eList];
+    ClearAll[diposableToken];
 ]
 
 StandardEvaluator /: ReadyQ[StandardEvaluator[o_(*Kernel*)] ] := True

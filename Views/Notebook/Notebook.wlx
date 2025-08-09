@@ -727,7 +727,7 @@ Component[OptionsPattern[]] := With[{
                 Return[];
             ];
 
-            If[notebook["Evaluator"]["Kernel"]["State"] === "Initialized", GenericKernel`AbortEvaluation[notebook["Evaluator"]["Kernel"]] (*`*) ];
+            notebook["Evaluator"][$Aborted];
             Map[Function[cell,
                 cell["State"] = "Idle";
                 EventFire[cell, "State", "Idle"];
