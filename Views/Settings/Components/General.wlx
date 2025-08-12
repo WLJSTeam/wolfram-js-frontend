@@ -22,6 +22,7 @@ parseInt[any_String] := ToExpression[any]
 parseInt[any_] := any 
 
 defaultBackupTime = If[KeyExistsQ[settings, "BackupTimeout"], Round[settings["BackupTimeout"]/60/1000], 3]
+defaultInputSaveDelay = If[KeyExistsQ[settings, "InputSaveDelay"], settings["InputSaveDelay"], 180]
 defaultTheme = If[KeyExistsQ[settings, "Theme"], settings["Theme"], "System"]
 
 defaultTray = If[KeyExistsQ[settings, "RunInTray"], settings["RunInTray"], False]
@@ -105,6 +106,12 @@ EventHandler[Secret, {"Load" -> Function[Null,
                     ]
                 ];
             ]
+        ],
+
+        "InputSaveDelay" -> Function[value,
+            settings = Join[settings, <|"InputSaveDelay"-> parseInt[value]|>];
+            onSave[settings];
+            EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];
         ],
 
         "BackupTimeout" -> Function[value,
@@ -197,9 +204,17 @@ EventHandler[Secret, {"Load" -> Function[Null,
 
             <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
                 <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-                    <label for="BackupTimeout" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Backup time interval</label>
+                    <label for="BackupTimeout" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Backup time interval (mins)</label>
                     <input type="number" value="{defaultBackupTime}" min="3" max="3000" step="1" id="BackupTimeout" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
                     <WebUIEventListener Id={"BackupTimeout"} Type={"blur"} Event={controller} Pattern={"BackupTimeout"}/>
+                </div> 
+            </div> 
+
+            <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
+                <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                    <label for="inputSaveDelay" class="block text-xs font-medium text-gray-900 dark:text-gray-400">On change saving interval (ms)</label>
+                    <input type="number" value="{defaultInputSaveDelay}" min="50" max="500" step="20" id="inputSaveDelay" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
+                    <WebUIEventListener Id={"inputSaveDelay"} Type={"blur"} Event={controller} Pattern={"InputSaveDelay"}/>
                 </div> 
             </div> 
 

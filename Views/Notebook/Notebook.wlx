@@ -413,9 +413,14 @@ evaluateCell[cell_, notebook_, secret_String, log_String, kernels_, cli_, modals
     promise
 ] ];
 
-Script[OptionsPattern[]] := With[{ExtensionTemplateInjection = OptionValue["ExtensionTemplateInjection"]},
+Script[OptionsPattern[]] := With[{
+    ExtensionTemplateInjection = OptionValue["ExtensionTemplateInjection"],
+    InputSaveDelay = Lookup[OptionValue["Parameters"], "InputSaveDelay", 200]
+},
     <div>
         <script type="module">
+            CellWrapper.inputSaveDelay = <InputSaveDelay/>;
+
             core.UINotebook = async (args, env) => {
                 const type = await interpretate(args[0], env);
                 core.UINotebook[type](args.slice(1), env);
@@ -972,7 +977,7 @@ Component[OptionsPattern[]] := With[{
             <ExtensionTemplateInjection Template={"Footer"} Modals={modals} Messager={log} Notebook={notebook} Event={secret} Controls={controller}/>
             <ExtensionTemplateInjection Template={"Scripts"} />
 
-            <Script ExtensionTemplateInjection={ExtensionTemplateInjection}/>
+            <Script Parameters={parameters} ExtensionTemplateInjection={ExtensionTemplateInjection}/>
             
             <WebUIOnLoad Event={secret} Pattern={"Load"}/>
         </main>
@@ -981,7 +986,7 @@ Component[OptionsPattern[]] := With[{
 ]
 
 Options[Component] = {"Parameters"->Null, "IframeQ"->False, "AppEvents"->"blacksheep", "Kernels"->{}, "Modals"->"", "Controls" ->"", "ControlsPort"->"", "Notebook"->Null, "Event"->"blackhole", "Messager"->"blackout", "Secret" :> CreateUUID[], "ExtensionTemplateWrapper"-> sequenceIdentity, "ExtensionTemplateInjection" -> emptyStringFunction, "ExternalEventHandlers" -> Null}
-Options[Script] = {"ExtensionTemplateInjection" -> emptyStringFunction}
+Options[Script] = {"Parameters"->Null, "ExtensionTemplateInjection" -> emptyStringFunction}
 
 emptyStringFunction[x__] := ""
 sequenceIdentity[first__, rulels___Rule] := first 
