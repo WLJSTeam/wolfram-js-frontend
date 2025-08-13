@@ -415,7 +415,7 @@ evaluateCell[cell_, notebook_, secret_String, log_String, kernels_, cli_, modals
 
 Script[OptionsPattern[]] := With[{
     ExtensionTemplateInjection = OptionValue["ExtensionTemplateInjection"],
-    InputSaveDelay = Lookup[OptionValue["Parameters"], "InputSaveDelay", 200]
+    InputSaveDelay = Lookup[OptionValue["Parameters"], "InputSaveDelay", 180]
 },
     <div>
         <script type="module">
