@@ -1,5 +1,19 @@
 # How you can help this project
-WLJS Notebook is modular project. 
+
+- Share your thoughts
+Start a discussion with feedback, feature ideas, or suggestions. Even small comments help shape the project.
+
+- Show your work done with WLJS
+Share demos, repos, blog posts, or screenshots of what you’ve built using WLJS. It helps others see what’s possible and inspires the community.
+
+- Contribute to the codebase (see below)
+Submit pull requests for bug fixes, features, or documentation improvements. Even tiny fixes are valuable.
+
+- Spread the word
+Tell others about WLJS—post on social media, write articles, or speak about it at meetups.
+
+- Support development
+If possible, sponsor or donate to help sustain ongoing work.
 
 **Please, contact @JerryI before working on code and etc.**
 
@@ -35,7 +49,7 @@ Here is some to-do list grouped by repos
 ## wljs-inputs
 ### Primary
 - [x] `TableForm` does not support styling
-- [ ] `Dataset` does not support nested sets with asscoiations or other datasets inside.
+- [x] `Dataset` does not support nested sets with asscoiations or other datasets inside.
 - [x] `Entity` is not supported
 
 
@@ -50,7 +64,7 @@ Here is some to-do list grouped by repos
 ## wljs-video
 ### Primary
 - [x] video preview is extremely slow, decoding from video to a set of images is a main bottleneck.
-- [ ] no sound (need to be used together with PCM streamer from wljs-audio)
+- [x] no sound (need to be used together with PCM streamer from wljs-audio)
 
 ## wljs-sound
 ### Primary
@@ -62,3 +76,4 @@ Here is some to-do list grouped by repos
 - [ ] **Wolfram Language Documentation** (frontend agnostic and in a Markdown format)
 - [x] support for syntax sugar for `NeuralNetwork` package of Wolfram Language. For now it is not clear, how to clean up Mathematica's `MakeBoxes` definitons for various neural network object. There is a possibility to use wrapper function, see more in [Issue](https://github.com/JerryI/wolfram-js-frontend/issues/186).
 - [x] write a fast implementation of parser/encoder of [WXF](https://github.com/JerryI/wolfram-js-frontend/issues/196) in Javascript. For now we use `ExpressionJSON` for communication, which does not use features of `NumericArray` and `ByteArray` and adds a large overhead in serializaing/deserializing on WL's and JS's sides. There is a [preliminaly work](https://github.com/xndc/uncompress) posted already.
+- [ ] write a fast implementation of WXF encoder in JS to supply the data from JS to WL. I should transform any Javascript object into native WL structure
