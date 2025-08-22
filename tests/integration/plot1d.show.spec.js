@@ -113,6 +113,22 @@ test.describe('1D Plot', () => {
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'placedSwatch2.png']);
   });   
 
+  test('Labeled Plot', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Labeled[Plot[{x,x^2}, {x,0,1}], Red, Bottom]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'labeled1.png']);
+  });   
+
+  test('Labeled Plot pointa', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'ListPlot[MapThread[Labeled, {{{1,2},{2,4},{4,6}}, {"1","2","3"}}]]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'labeledPoints.png']);
+  });   
+
+
+  
   
 
   

@@ -245,6 +245,13 @@ test.describe('Easy check for most basic decorators', () => {
   
   });
 
+  test('Labeled expr', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Labeled[any, Red, Bottom]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'labeled2.png']);
+  });     
+
   test('Dataset', async () => {
     await clearCell(page);
   
@@ -276,9 +283,21 @@ test.describe('Easy check for most basic decorators', () => {
   });   
   
   
+  test('Table form heading', async () => {
+    await clearCell(page);
   
-  
+    const outputCell = await evaluate(page, 'TableForm[Table[{t,t^2},{t,0,10,1}], TableHeadings -> {None,{"t","sq"}}]', 18000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'tableFormHeading.png']);
+  });    
 
+  test('Large Dataset', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'ResourceData["Global and National Annual CO2 Emissions from Fossil Fuel Burning 1751-2014"]', 18000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'bigDataset.png']);
+  });  
+  
+  
 
 });
 
