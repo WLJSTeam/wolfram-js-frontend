@@ -252,6 +252,11 @@ App[request_] := Module[{localExtensions}, With[{
             <WLJSTransportScript TwoKernels={True} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     
             <WebUIInitializationScript/>
             <ExtensionsStyles/>
+            <style>
+              .cin > :nth-child(2)::after {
+                  display:none
+              }            
+            </style>
         </Head>  
         <body class="h-full"> 
         <ExtensionTemplates Template={"AppHead"} />
