@@ -370,3 +370,13 @@ input::selection {
   overflow: hidden;
 }
 
+.cin > :nth-child(2)::after {
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: #e0e0e0;
+    left: -0.75rem;
+    border-radius: 0.15rem;
+}
