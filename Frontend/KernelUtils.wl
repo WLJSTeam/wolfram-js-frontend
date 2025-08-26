@@ -84,6 +84,9 @@ wsStartListerning[kernel_, port_, host_] := With[{},
           (* configure the handler for WLJS communications *)
           Internal`Kernel`ws["MessageHandler", "Evaluate"]  = Function[True] -> WLJSTransportHandler;
 
+
+          Off[Function::fpct]; (* fixme, when a symbol gets cleared, see  Experimental`ValueFunction *)
+          
           (* symbols tracking *)
           WLJSTransportHandler["AddTracking"] = Function[{symbol, name, cli, callback},
               (*Print["Add tracking... for "<>name];*)
