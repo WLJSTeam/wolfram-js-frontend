@@ -111,7 +111,12 @@ docker run -it \
 ```
 
 ## NGINX Proxy
-The container also includes a nginx proxy running by default. This aggreggates the http and websockets ports into one port at 3000 (inside the container). It also makes it possible to further reverse proxy the application and add TLS encryption
+The container also includes a nginx proxy running by default. This aggreggates the http and websockets ports into one port at 3000 (inside the container). It also makes it possible to further reverse proxy the application and add TLS encryption.
+
+**Encrypted connection is mandatory** if WLJS Notebook is hosted on a remote server, otherwise some features will not work due to the restrictions of the unsequred context such as:
+- Export to interactive HTML
+- Audio/Video input
+- Clipboard access
 
 ### TLS proxy config
 
@@ -148,6 +153,44 @@ server {
 ```
 
 Make sure to change port mapping from `80:3000` to `3000:3000` in the starting sequence if you start nginx TLS proxy outside the container
+
+#### Note: if you do not have SSL certificate
+It is still worth to use HTTPS with invalid certificate since you can always bypass all checks in any web browser. Here is an example of NGINX configuration:
+
+*/etc/nginx/sites-enabled/default*
+```                              
+server {
+    listen 80;
+    server_name <YourDomainName>;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name <YourDomainName>;
+
+    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem; 
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+
+    set $upstream http://127.0.0.1:3000;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "keep-alive, upgrade";
+
+        proxy_pass $upstream;
+    }
+}
+
+```
+where files `/etc/ssl/certs/ssl-cert-snakeoil.pem` do not exist.
+
+Make sure to change port mapping from `80:3000` to `3000:3000` in the starting sequence.
+
 
 ### Basic Authentication
 *We do recommend to set this if you plan to access it from the public IP*
@@ -208,9 +251,3 @@ docker run -it \
   ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
-
-
-
-## Known Issues
-
-- Offline documentation is not available
