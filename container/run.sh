@@ -13,6 +13,9 @@ if [ "$(getent passwd wljs | cut -d: -f6)" != "/home/wljs" ]; then
   usermod -d /home/wljs -m wljs
 fi
 
+# a bug, no idea why
+usermod -d /home/wljs ubuntu
+
 # Check if the script is running as root and set LICENSE_DIR accordingly
 if [ "$PGID" -eq 0 ]; then
   LICENSE_DIR=/root/.WolframEngine/Licensing
