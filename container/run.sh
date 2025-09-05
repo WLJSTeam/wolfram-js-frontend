@@ -6,13 +6,13 @@ PUID=${PUID:-1000}
 PGID=${PGID:-1000}
 
 # Check if the script is running as root and set LICENSE_DIR accordingly
-if [ "$PGID" -eq 0 ]; then
-  LICENSE_DIR=/root/.WolframEngine/Licensing
-  WL_DIR=/root/.WolframEngine
-else
-  LICENSE_DIR=/home/wljs/.WolframEngine/Licensing
-  WL_DIR=/home/wljs/.WolframEngine
-fi
+#if [ "$PGID" -eq 0 ]; then
+  #LICENSE_DIR=/root/.WolframEngine/Licensing
+  #WL_DIR=/root/.WolframEngine
+#else
+LICENSE_DIR=/home/wljs/.WolframEngine/Licensing
+WL_DIR=/home/wljs/.WolframEngine
+#fi
 
 mkdir -p $LICENSE_DIR
 
