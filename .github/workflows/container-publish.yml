@@ -30,26 +30,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Start Wolfram Engine Container
-        run: |
-          docker run -d --name wolfram \
-            -v $GITHUB_WORKSPACE:/workspace \
-            -w /workspace \
-            wolframresearch/wolframengine:14.2 tail -f /dev/null
-
-      - name: Fix permissions for /workspace directory at host level
-        run: |
-          sudo chmod -R 777 $GITHUB_WORKSPACE
-
-      - name: Install ffmpeg inside Wolfram container
-        run: |
-          docker exec --user root wolfram bash -c "apt-get update && apt-get install -y ffmpeg"
-
-      - name: Fetch all dependencies inside Wolfram container
-        run: |
-          docker exec -e WOLFRAMSCRIPT_ENTITLEMENTID=${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }} wolfram \
-          wolframscript -script ./Scripts/update.wls
-
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -62,6 +42,8 @@ jobs:
         with:
           context: .
           file: "./container/Containerfile"
+          secrets: |
+            "wolfram_license=${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true

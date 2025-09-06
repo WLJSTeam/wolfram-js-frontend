@@ -1,4 +1,17 @@
-FROM docker.io/wolframresearch/wolframengine
+# syntax=docker/dockerfile:1
+FROM docker.io/wolframresearch/wolframengine AS deps
+
+RUN apt-get update && apt-get install -y ffmpeg
+
+COPY Scripts/update.wls /workspace/Scripts/update.wls
+COPY Common/ /workspace/Common/
+
+WORKDIR /workspace
+
+RUN --mount=type=secret,id=wolfram_license,env=WOLFRAMSCRIPT_ENTITLEMENTID,required=true wolframscript -script Scripts/update.wls
+
+
+FROM wolframresearch/wolframengine:14.2 AS final
 
 USER root
 
@@ -6,23 +19,25 @@ RUN useradd -m wljs
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+COPY --from=deps /workspace/wl_packages /wljs/wl_packages  
+COPY --from=deps /workspace/wljs_packages /wljs/wljs_packages
+
+COPY ./ /wljs/
+COPY container/run.sh /usr/local/bin/run.sh
+
+COPY container/wljs-routes /etc/nginx/sites-available/default
+COPY container/proxy-snippet.conf /etc/nginx/snippets/proxy.conf
+
 RUN apt-get update && apt-get install -y \
     git \
     nginx \
     expect \
     curl \
+    ffmpeg \
  && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
  && apt-get install -y nodejs \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && chmod +x /usr/local/bin/run.sh
 
-COPY container/wljs-routes /etc/nginx/sites-available/default
-COPY container/proxy-snippet.conf /etc/nginx/snippets/proxy.conf
-
-RUN mkdir -p /wljs
-COPY ./ /wljs/
-
-COPY container/run.sh /run.sh
-RUN chmod +x /run.sh
-
-CMD /run.sh
+CMD ["/usr/local/bin/run.sh"]
