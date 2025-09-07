@@ -10,19 +10,20 @@ A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfr
 
 2. Register at the [Wolfram Engine download page](https://www.wolfram.com/engine/). Click to download (only needed to be redirected to the right place) and then follow the `Get your license` instructions. Register on the next page and acquire the license (it is free). A confirmation message will be sent to your email address. Please follow the link received by email.
 
-3. Start the container (*not by a superuser*):
+3. Start the container (*not by a superuser!*):
     For example
 
-    ```bash
-    docker run -it \
-      -v ~/wljs:"/home/wljs/WLJS Notebooks" \
-      -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
-      -e PUID=$(id -u) \
-      -e PGID=$(id -g) \
-      -p 8080:3000 \
-      --name wljs \
-      ghcr.io/wljsteam/wolfram-js-frontend:main
-    ```
+```bash
+docker run -it \
+  -v wljs_data:/wljs \
+  -v ~/wljs:"/home/wljs/WLJS Notebooks" \
+  -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
+  -e PUID=$(id -u) \
+  -e PGID=$(id -g) \
+  -p 8080:3000 \
+  --name wljs \
+  ghcr.io/wljsteam/wolfram-js-frontend:main
+```
 
     You will now be prompted for your Wolfram login information, enter it and wait for the message `Open your browser at http://...`. You can now safely detach from the container using <kbd>Ctrl</kbd>+<kbd>p</kbd> <kbd>Ctrl</kbd>+<kbd>q</kbd> and close your terminal.
 
@@ -40,7 +41,7 @@ A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfr
 
 You may change port mapping in the starting sequence.
 
-## How to update an image
+## How to update
 To feath a new version, you need to purge the old one including a named volume
 
 ```bash
@@ -76,25 +77,11 @@ docker run -it \
   ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
-## Persistent storage for WLJS configuration
-Use named volume to store your configuration, settings and packages updates. Mount `/wljs` path inside the container, for instance
-
-```bash
-docker run -it \
-  -v wljs_data:/wljs \
-  -v ~/wljs:"/home/wljs/WLJS Notebooks" \
-  -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
-  -e PUID=$(id -u) \
-  -e PGID=$(id -g) \
-  -p 8080:3000 \
-  --name wljs \
-  ghcr.io/wljsteam/wolfram-js-frontend:main
-```
-
 ***Note***
 To update WLJS Notebook image, please, remove named volume `wljs_data` as well. Otherwise some packages may appear to be outdated
 
 ## Running as root
+*Not recommended*
 Change the mounting directories
 
 ```bash
@@ -110,7 +97,12 @@ docker run -it \
 ```
 
 ## NGINX Proxy
-The container also includes a nginx proxy running by default. This aggreggates the http and websockets ports into one port at 3000 (inside the container). It also makes it possible to further reverse proxy the application and add TLS encryption
+The container also includes a nginx proxy running by default. This aggreggates the http and websockets ports into one port at 3000 (inside the container). It also makes it possible to further reverse proxy the application and add TLS encryption.
+
+**Encrypted connection is mandatory** if WLJS Notebook is hosted on a remote server, otherwise some features will not work due to the restrictions of the unsequred context such as:
+- Export to interactive HTML
+- Audio/Video input
+- Clipboard access
 
 ### TLS proxy config
 
@@ -147,6 +139,44 @@ server {
 ```
 
 Make sure to change port mapping from `80:3000` to `3000:3000` in the starting sequence if you start nginx TLS proxy outside the container
+
+#### Note: if you do not have SSL certificate
+It is still worth to use HTTPS with invalid certificate since you can always bypass all checks in any web browser. Here is an example of NGINX configuration:
+
+*/etc/nginx/sites-enabled/default*
+```                              
+server {
+    listen 80;
+    server_name <YourDomainName>;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name <YourDomainName>;
+
+    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem; 
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+
+    set $upstream http://127.0.0.1:3000;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "keep-alive, upgrade";
+
+        proxy_pass $upstream;
+    }
+}
+
+```
+where files `/etc/ssl/certs/ssl-cert-snakeoil.pem` do not exist.
+
+Make sure to change port mapping from `80:3000` to `3000:3000` in the starting sequence.
+
 
 ### Basic Authentication
 *We do recommend to set this if you plan to access it from the public IP*
@@ -207,9 +237,3 @@ docker run -it \
   ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
-
-
-
-## Known Issues
-
-- Offline documentation is not available

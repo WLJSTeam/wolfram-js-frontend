@@ -5,6 +5,17 @@ set -eux -o pipefail
 PUID=${PUID:-1000}
 PGID=${PGID:-1000}
 
+groupmod -o -g "$PGID" wljs
+usermod -o -u "$PUID" wljs
+
+if [ "$(getent passwd wljs | cut -d: -f6)" != "/home/wljs" ]; then
+  mkdir -p /home/wljs
+  usermod -d /home/wljs -m wljs
+fi
+
+# a bug, no idea why
+usermod -d /home/wljs ubuntu
+
 # Check if the script is running as root and set LICENSE_DIR accordingly
 if [ "$PGID" -eq 0 ]; then
   LICENSE_DIR=/root/.WolframEngine/Licensing
@@ -18,8 +29,7 @@ mkdir -p $LICENSE_DIR
 
 chmod -R 777 $WL_DIR
 
-groupmod -o -g "$PGID" wljs
-usermod -o -u "$PUID" wljs
+
 
 function activate_wolframscript {
   if [ -z ${WOLFRAMID_USERNAME+x} -o -z ${WOLFRAMID_PASSWORD+x} ]; then
