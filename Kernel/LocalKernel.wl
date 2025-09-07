@@ -120,7 +120,6 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
 
         Internal`Kernel`Watchdog["Assertion", name_String, test_, action_] := (
            If[!KeyExistsQ[Internal`Kernel`Watchdog`store, name],
-             Echo["Added watchdog >> "<>name];
              Internal`Kernel`Watchdog`store[name] = {Hold[test], Hold[action]};
              Internal`Kernel`Watchdog`state[name] = ReleaseHold[test];
            ];
@@ -128,10 +127,12 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
 
         Internal`Kernel`Watchdog::assert = "Assertion failed ``. Actions were applied";
 
+        Internal`Kernel`Watchdog`$Journal = {};
+
         Internal`Kernel`Watchdog["Test"] := With[{},
             KeyValueMap[Function[{key, value},
                 If[Internal`Kernel`Watchdog`state[key] =!= ReleaseHold[value[[1]]],
-                    Message[Internal`Kernel`Watchdog::assert, key];
+                    Internal`Kernel`Watchdog`$Journal = Append[Internal`Kernel`Watchdog`$Journal, StringTemplate[Internal`Kernel`Watchdog::assert][key] ];
                     value[[2]] // ReleaseHold;
                     Internal`Kernel`Watchdog`state[key] = ReleaseHold[value[[1]]];
                 ];
