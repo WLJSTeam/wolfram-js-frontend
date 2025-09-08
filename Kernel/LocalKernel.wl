@@ -132,7 +132,7 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
         Internal`Kernel`Watchdog["Test"] := With[{},
             KeyValueMap[Function[{key, value},
                 If[Internal`Kernel`Watchdog`state[key] =!= ReleaseHold[value[[1]]],
-                    Internal`Kernel`Watchdog`$Journal = Append[Internal`Kernel`Watchdog`$Journal, StringTemplate[Internal`Kernel`Watchdog::assert][key] ];
+                    Internal`Kernel`Watchdog`$Journal = Append[Internal`Kernel`Watchdog`$Journal, {StringTemplate[Internal`Kernel`Watchdog::assert][key], Now} ];
                     value[[2]] // ReleaseHold;
                     Internal`Kernel`Watchdog`state[key] = ReleaseHold[value[[1]]];
                 ];
