@@ -1,7 +1,9 @@
 # syntax=docker/dockerfile:1
 FROM docker.io/wolframresearch/wolframengine AS deps
 
+USER root
 RUN apt-get update && apt-get install -y ffmpeg
+User wolframengine
 
 COPY Scripts/update.wls /workspace/Scripts/update.wls
 COPY Common/ /workspace/Common/
