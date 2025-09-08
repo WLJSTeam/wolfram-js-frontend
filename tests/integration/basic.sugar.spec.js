@@ -198,7 +198,14 @@ test.describe('Easy check for most basic decorators', () => {
   
     const outputCell = await evaluate(page, 'Image[Table[Clip[(x^2 - y^2)/10000.0], {x,-100,100}, {y,-100,100}],Magnification->Graphics`DPR[]]', 15000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'image.png']);
-  });     
+  });    
+  
+  test('Reals', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Reals', 15000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'realss.png']);
+  });  
   
 
   test('Derivative Decoration', async () => {
