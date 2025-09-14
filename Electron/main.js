@@ -2871,23 +2871,23 @@ function check_wl (configuration, cbk, window) {
         new promt('binary', 'Do you have Wolfram Engine installed?', (answer) => {
             if (answer) {
                 windows.log.print("");
-                new promt('binary', 'Please, locate an executable called `wolframscript` or `WolframKernel`', ()=>{}, window);
+                new promt('binary', 'Please, locate an executable called wolframscript or WolframKernel', ()=>{
+                    setTimeout(() => {
+                        const promise = dialog.showOpenDialog({ title: 'Locate wolframscript', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
+                        promise.then((res) => {
+                            if (!res.canceled) {
+                                server.wolfram.path = res.filePaths[0];
+                                console.log(res.filePaths);
+                                windows.log.clear();
+                                check_wl(undefined, cbk, window);
+                            } else {
+                                windows.log.clear();
+                                check_wl(undefined, cbk, window);
+                            }
+                        });
+                    }, 1000);                    
+                }, window);
                 windows.log.print('Please, locate an executable called `wolframscript` or `WolframKernel`', '\x1b[44m');
-
-                setTimeout(() => {
-                    const promise = dialog.showOpenDialog({ title: 'Locate wolframscript', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
-                    promise.then((res) => {
-                        if (!res.canceled) {
-                            server.wolfram.path = res.filePaths[0];
-                            console.log(res.filePaths);
-                            windows.log.clear();
-                            check_wl(undefined, cbk, window);
-                        } else {
-                            windows.log.clear();
-                            check_wl(undefined, cbk, window);
-                        }
-                    });
-                }, 2000);
 
             } else {
                 install_wl(window);
@@ -2942,32 +2942,34 @@ function check_wl (configuration, cbk, window) {
                     
                     windows.log.print('Please, locate an executable called `wolframscript` or `WolframKernel`', '\x1b[44m');
 
-                    setTimeout(() => {
-                        const promise = dialog.showOpenDialog({ title: 'Locate wolframscript or WolframKernel', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
-                        promise.then((res) => {
-                            if (!res.canceled) {
-                                //throw ;
-                                if (path.basename(res.filePaths[0]) == 'Wolfram Engine' && isMac) {
-                                    
+                    new promt('binary', 'Please, locate an executable called wolframscript or WolframKernel', () => {
+                        setTimeout(() => {
+                            const promise = dialog.showOpenDialog({ title: 'Locate wolframscript or WolframKernel', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
+                            promise.then((res) => {
+                                if (!res.canceled) {
+                                    //throw ;
+                                    if (path.basename(res.filePaths[0]) == 'Wolfram Engine' && isMac) {
+
+                                        windows.log.clear();
+                                        windows.log.print("Error!");
+                                        windows.log.print('Please do not select "Wolfram Engine" Unix binary on OSX! Use WolframKernel link file instead', '\x1b[44m');
+                                        windows.log.print('Restarting in 2 seconds...');
+
+                                        setTimeout(() => {check_wl(undefined, cbk, window);}, 2000);
+
+                                        return;
+                                    }
+                                    server.wolfram.path = res.filePaths[0];
+                                    console.log(res.filePaths);
                                     windows.log.clear();
-                                    windows.log.print("Error!");
-                                    windows.log.print('Please do not select "Wolfram Engine" Unix binary on OSX! Use WolframKernel link file instead', '\x1b[44m');
-                                    windows.log.print('Restarting in 2 seconds...');
-                                    
-                                    setTimeout(() => {check_wl(undefined, cbk, window);}, 2000);
-                                    
-                                    return;
+                                    check_wl(undefined, cbk, window);
+                                } else {
+                                    windows.log.clear();
+                                    check_wl(undefined, cbk, window);
                                 }
-                                server.wolfram.path = res.filePaths[0];
-                                console.log(res.filePaths);
-                                windows.log.clear();
-                                check_wl(undefined, cbk, window);
-                            } else {
-                                windows.log.clear();
-                                check_wl(undefined, cbk, window);
-                            }
-                        });
-                    }, 2000);
+                            });
+                        }, 1000);
+                    }, window);
 
                 } else {
                     install_wl(window);
@@ -3362,10 +3364,13 @@ function install_wl(window) {
     windows.log.clear();
     windows.log.info('Wolfram Engine is required');
     windows.log.print("Please download and install Wolfram Engine manually. A windows will open shortly. A feature for auto-installation is not supported for now.");
-    setTimeout(() => {
-        shell.openExternal("https://www.wolfram.com/engine/");
-        app.quit();
-    }, 3000);
+    
+    new promt('binary', 'Please download and install freeware Wolfram Engine manually. A window will open shortly. ', () => {
+        setTimeout(() => {
+            shell.openExternal("https://www.wolfram.com/engine/");
+            app.quit();
+        }, 1000);        
+    }, window);
 }
 
 function reinstall(cbk, window) {
