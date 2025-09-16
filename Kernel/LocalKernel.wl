@@ -118,9 +118,12 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
             EventFire[Internal`Kernel`Stdout[secret], "Pong", True];
         );
 
-        Internal`Kernel`Watchdog["Assertion", name_String, test_, action_] := (
+        Internal`Kernel`Watchdog["Assertion", name_String, test_, action_] := With[{uid = CreateUUID[]},
+            Internal`Kernel`Watchdog["Assertion", name, test, action, uid ];
+        ];
+        Internal`Kernel`Watchdog["Assertion", name_String, test_, action_, tag_] := (
            If[!KeyExistsQ[Internal`Kernel`Watchdog`store, name],
-             Internal`Kernel`Watchdog`store[name] = {Hold[test], Hold[action]};
+             Internal`Kernel`Watchdog`store[name] = {Hold[test], Hold[action], tag};
              Internal`Kernel`Watchdog`state[name] = ReleaseHold[test];
            ];
         );
@@ -129,14 +132,19 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
 
         Internal`Kernel`Watchdog`$Journal = {};
 
-        Internal`Kernel`Watchdog["Test"] := With[{},
+        Internal`Kernel`Watchdog["Test"] := Module[{firedTags},
             KeyValueMap[Function[{key, value},
                 If[Internal`Kernel`Watchdog`state[key] =!= ReleaseHold[value[[1]]],
                     Internal`Kernel`Watchdog`$Journal = Append[Internal`Kernel`Watchdog`$Journal, {StringTemplate[Internal`Kernel`Watchdog::assert][key], Now} ];
-                    value[[2]] // ReleaseHold;
+                    
+                    If[!TrueQ[firedTags[value[[3]] ] ], value[[2]] // ReleaseHold];
+                    With[{v = value[[3]]}, firedTags[v] = True];
+                    
                     Internal`Kernel`Watchdog`state[key] = ReleaseHold[value[[1]]];
                 ];
             ], Internal`Kernel`Watchdog`store ];
+            
+            ClearAll[firedTags];
         ];
 
         Internal`Kernel`Watchdog["QuickTest"] := Internal`Kernel`Watchdog["Test"];
