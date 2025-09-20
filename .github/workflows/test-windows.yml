@@ -51,21 +51,27 @@ jobs:
           Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
           echo 'Installed Wolfram Engine.'
 
-      - name: Install Caddy (Chocolatey) and stage binary
+      - name: Install Caddy (Chocolatey) and export path
         shell: pwsh
         run: |
           choco install caddy -y --no-progress
-          $bin = (Get-Command caddy.exe).Source
-          if (-not $bin) { throw "caddy.exe not found after choco install" }
-          $caddyExe = Join-Path $env:RUNNER_TEMP "caddy.exe"
-          Copy-Item $bin $caddyExe -Force
-          Write-Host "Caddy at $caddyExe"
+      
+          $real = Join-Path $env:ProgramData "chocolatey\lib\caddy\tools\caddy.exe"
+          if (-not (Test-Path $real)) {
+            $real = Get-ChildItem -Path (Join-Path $env:ProgramData "chocolatey\lib\caddy\tools") -Recurse -Filter "caddy*.exe" |
+                    Select-Object -ExpandProperty FullName -First 1
+          }
+          if (-not $real) { throw "Could not locate real caddy.exe under Chocolatey lib." }
+      
+          # Make it available to later steps
+          "CADDY_EXE=$real" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Host "Using Caddy at $real"
 
 
       - name: Start local proxy (Caddy) on :3000
         shell: pwsh
         run: |
-          $caddy = Join-Path $env:RUNNER_TEMP "caddy.exe"
+          $caddy = $env:CADDY_EXE
           $caddyfile = Join-Path $env:RUNNER_TEMP "Caddyfile"
       
           $lines = @(
@@ -87,7 +93,6 @@ jobs:
             '}'
           )
           $cfg = $lines -join "`r`n"
-          $caddyfile | Out-Null
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
       
           $caddyOut = Join-Path $env:RUNNER_TEMP "caddy.out.log"
@@ -95,10 +100,8 @@ jobs:
       
           $proc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
             -RedirectStandardOutput $caddyOut -RedirectStandardError $caddyErr -PassThru -WindowStyle Hidden
-      
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "caddy.pid") -Value $proc.Id
       
-          # Show a little output from both streams
           Start-Sleep -Seconds 1
           Write-Host "=== Caddy STDOUT (tail) ==="
           Get-Content $caddyOut -Tail 50
@@ -120,16 +123,20 @@ jobs:
           $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
           $out = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
           $err = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
-      
+       
           $proc = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:3000") `
             -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "cloudflared.pid") -Value $proc.Id
-      
-          # Tail both so the trycloudflare URL shows up
-          Write-Host "==== cloudflared STDOUT (tail) ===="
+       
+          # Live tail so the trycloudflare URL appears once cloudflared emits it
+          Start-Job -Name "tail-cloudflared-out" -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $out | Out-Null
+          Start-Job -Name "tail-cloudflared-err" -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $err | Out-Null
+       
+          Start-Sleep -Seconds 3
+          Write-Host "==== cloudflared (initial tails) ===="
           Get-Content $out -Tail 80
-          Write-Host "==== cloudflared STDERR (tail) ===="
           Get-Content $err -Tail 40
+
 
       - name: Start Wolfram server (your app)
         env:
