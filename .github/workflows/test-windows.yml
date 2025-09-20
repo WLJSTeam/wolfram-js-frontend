@@ -69,33 +69,37 @@ jobs:
         run: |
           $caddy = Join-Path $env:RUNNER_TEMP "caddy.exe"
           $caddyfile = Join-Path $env:RUNNER_TEMP "Caddyfile"
-
-          @"
-:3000
-
-# WebSocket service 1
-route /ws* {
-  reverse_proxy 127.0.0.1:4001
-}
-
-# WebSocket service 2
-route /ws2* {
-  reverse_proxy 127.0.0.1:4002
-}
-
-# Everything else to the HTTP app
-route /* {
-  reverse_proxy 127.0.0.1:4000
-}
-"@ | Out-File -FilePath $caddyfile -Encoding utf8
-
+          
+          $lines = @(
+            ':3000',
+            '',
+            '# WebSocket service 1',
+            'route /ws* {',
+            '  reverse_proxy 127.0.0.1:4001',
+            '}',
+            '',
+            '# WebSocket service 2',
+            'route /ws2* {',
+            '  reverse_proxy 127.0.0.1:4002',
+            '}',
+            '',
+            '# Everything else to the HTTP app',
+            'route /* {',
+            '  reverse_proxy 127.0.0.1:4000',
+            '}'
+          )
+          
+          $cfg = $lines -join "`r`n"
+          Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
+          
           $caddyLog = Join-Path $env:RUNNER_TEMP "caddy.log"
           $proc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
             -RedirectStandardOutput $caddyLog -RedirectStandardError $caddyLog -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "caddy.pid") -Value $proc.Id
-
+          
           Start-Sleep -Seconds 1
           Get-Content $caddyLog -Tail 50
+
 
       - name: Download cloudflared (Quick Tunnel)
         shell: pwsh
