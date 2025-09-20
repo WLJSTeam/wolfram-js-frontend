@@ -55,27 +55,31 @@ jobs:
         shell: pwsh
         run: |
           choco install caddy -y --no-progress
-      
+
           $real = Join-Path $env:ProgramData "chocolatey\lib\caddy\tools\caddy.exe"
           if (-not (Test-Path $real)) {
             $real = Get-ChildItem -Path (Join-Path $env:ProgramData "chocolatey\lib\caddy\tools") -Recurse -Filter "caddy*.exe" |
                     Select-Object -ExpandProperty FullName -First 1
           }
           if (-not $real) { throw "Could not locate real caddy.exe under Chocolatey lib." }
-      
-          # Make it available to later steps
+
           "CADDY_EXE=$real" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
           Write-Host "Using Caddy at $real"
-
 
       - name: Start local proxy (Caddy) on :3000
         shell: pwsh
         run: |
           $caddy = $env:CADDY_EXE
           $caddyfile = Join-Path $env:RUNNER_TEMP "Caddyfile"
-      
+
+          # Caddyfile with instant readiness endpoint
           $lines = @(
             ':3000',
+            '',
+            '# Instant readiness endpoint (independent of backends)',
+            'route /healthz* {',
+            '  respond "ok" 200',
+            '}',
             '',
             '# WebSocket service 1',
             'route /ws* {',
@@ -94,37 +98,36 @@ jobs:
           )
           $cfg = $lines -join "`r`n"
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
-      
+
           $caddyOut = Join-Path $env:RUNNER_TEMP "caddy.out.log"
           $caddyErr = Join-Path $env:RUNNER_TEMP "caddy.err.log"
-      
-          $proc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
-            -RedirectStandardOutput $caddyOut -RedirectStandardError $caddyErr -PassThru -WindowStyle Hidden
+
+          $proc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) -RedirectStandardOutput $caddyOut -RedirectStandardError $caddyErr -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "caddy.pid") -Value $proc.Id
-      
+
           Start-Sleep -Seconds 1
           Write-Host "=== Caddy STDOUT (tail) ==="
-          Get-Content $caddyOut -Tail 50
+          if (Test-Path $caddyOut) { Get-Content $caddyOut -Tail 50 }
           Write-Host "=== Caddy STDERR (tail) ==="
-          Get-Content $caddyErr -Tail 50
+          if (Test-Path $caddyErr) { Get-Content $caddyErr -Tail 50 }
 
-          # Wait up to 30s for port 3000 to be listening
-          $deadline = (Get-Date).AddSeconds(30)
-          $ready = $false
-          while ((Get-Date) -lt $deadline -and -not $ready) {
+          # Verify HTTP response from Caddy (not dependent on backends)
+          $okLocal = $false
+          $deadlineLocal = (Get-Date).AddSeconds(15)
+          while ((Get-Date) -lt $deadlineLocal -and -not $okLocal) {
             Start-Sleep -Seconds 1
             try {
-              $nc = Test-NetConnection -ComputerName 127.0.0.1 -Port 3000 -WarningAction SilentlyContinue
-              if ($nc.TcpTestSucceeded) { $ready = $true }
+              $resp = Invoke-WebRequest -Uri "http://127.0.0.1:3000/healthz" -TimeoutSec 5 -UseBasicParsing -ErrorAction Stop
+              if ($resp.StatusCode -eq 200) { $okLocal = $true }
             } catch {}
           }
-          if (-not $ready) {
-            Write-Host "Caddy did not open :3000 in time. Recent logs:"
-            Get-Content $caddyOut -Tail 60
-            Get-Content $caddyErr -Tail 60
-            throw "Caddy not ready on :3000"
+          if (-not $okLocal) {
+            Write-Host "Caddy did not answer /healthz. Recent logs:"
+            if (Test-Path $caddyOut) { Get-Content $caddyOut -Tail 80 }
+            if (Test-Path $caddyErr) { Get-Content $caddyErr -Tail 80 }
+            throw "Caddy not responding on :3000"
           }
-          Write-Host "Caddy is listening on :3000"
+          Write-Host "Caddy responded 200 on /healthz"
 
       - name: Download cloudflared (Quick Tunnel)
         shell: pwsh
@@ -166,27 +169,22 @@ jobs:
             throw "Timed out waiting for trycloudflare URL."
           }
 
-          # Health-check the public URL (up to 60s) to avoid 1033
+          # Health-check the public URL (up to 60s) using /healthz
           $ok = $false
           $deadline2 = (Get-Date).AddSeconds(60)
           while ((Get-Date) -lt $deadline2 -and -not $ok) {
             Start-Sleep -Seconds 2
             try {
-              # Treat ANY HTTP status (2xx–5xx) as success = edge can reach the tunnel
-              $resp = Invoke-WebRequest -Uri $url -SkipHttpErrorCheck -TimeoutSec 10 -ErrorAction Stop
+              $resp = Invoke-WebRequest -Uri ($url + "/healthz") -SkipHttpErrorCheck -TimeoutSec 10 -ErrorAction Stop
               if ($resp.StatusCode -ge 200 -and $resp.StatusCode -lt 600) { $ok = $true }
-            } catch {
-              # If we still failed (DNS/TLS/connect), keep trying
-              $ok = $false
-            }
+            } catch { $ok = $false }
           }
           if (-not $ok) {
-            Write-Host "Could not reach $url yet. cloudflared logs:"
+            Write-Host "Edge cannot reach /healthz yet. cloudflared logs:"
             if (Test-Path $out) { Get-Content $out -Tail 120 }
             if (Test-Path $err) { Get-Content $err -Tail 120 }
-            throw "Tunnel up but not reachable from edge (1033). Check that cloudflared is still running and :3000 is open."
+            throw "Tunnel created but edge can’t reach origin (1033)."
           }
-
 
           Write-Host "✅ Quick Tunnel URL: $url"
           "PUBLIC_URL=$url" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
@@ -194,11 +192,9 @@ jobs:
 
           # Show recent logs for context
           Write-Host "==== cloudflared STDOUT (tail) ===="
-          Get-Content $out -Tail 80
+          if (Test-Path $out) { Get-Content $out -Tail 80 }
           Write-Host "==== cloudflared STDERR (tail) ===="
-          Get-Content $err -Tail 40
-
-
+          if (Test-Path $err) { Get-Content $err -Tail 40 }
 
       - name: Start Wolfram server (your app)
         env:
@@ -215,7 +211,7 @@ jobs:
           & wolframscript -f ./Scripts/start.wls http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2
           $exitCode = $LASTEXITCODE
           Write-Host "==== Wolfram server exited with code $exitCode ===="
-          
+
           if ($exitCode -ne 0) {
             throw "Wolfram server process exited with non-zero code: $exitCode"
           }
@@ -238,7 +234,3 @@ jobs:
             try { Stop-Process -Id $pid -Force -ErrorAction Stop } catch {}
             Remove-Item $caddyPidFile -Force
           }
-          # Stop tail job
-          $job = Get-Job -Name "tail-cloudflared" -ErrorAction SilentlyContinue
-          if ($job -and $job.State -eq 'Running') { Stop-Job $job -Force }
-          if ($job) { Receive-Job $job -Keep | Out-Null; Remove-Job $job -Force }
