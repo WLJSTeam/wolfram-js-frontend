@@ -1,0 +1,103 @@
+name: Run server on Windows
+on: workflow_dispatch
+
+jobs:
+  build-x86:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      WOLFRAM_SYSTEM_ID: Windows-x86-64-v7
+      WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL: https://files.wolframcdn.com/packages/winget/14.0.0.0/WolframEngine_14.0.0_WIN.msi
+      WOLFRAMENGINE_CACHE_KEY: WolframEngine-U
+      WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY: WolframEngine
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Cache/restore Wolfram Engine install
+        id: cache-restore
+        uses: actions/cache@v4
+        env:
+          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
+        with:
+          path: ${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}
+          key: wolframengine-${{ env.WOLFRAM_SYSTEM_ID }}-${{ env.WOLFRAMENGINE_CACHE_KEY }}
+
+      - name: Download and install Wolfram Engine
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        env:
+          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
+          WOLFRAMENGINE_INSTALL_MSI_PATH: '${{ runner.temp }}\WolframEngine-Install.msi'
+          WOLFRAMENGINE_INSTALL_LOG_PATH: '${{ runner.temp }}\WolframEngine-Install.log'
+        shell: pwsh
+        run: |
+          echo 'Downloading Wolfram Engine installer...'
+          $msiFile = '${{ env.WOLFRAMENGINE_INSTALL_MSI_PATH }}'
+          $logFile = '${{ env.WOLFRAMENGINE_INSTALL_LOG_PATH }}'
+          Import-Module BitsTransfer
+          Start-BitsTransfer '${{ env.WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL }}' $msiFile
+          echo 'Installing Wolfram Engine...'
+          $MSIArguments = @(
+            "/i", ('"{0}"' -f $msiFile),
+            'INSTALLLOCATION="${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}"',
+            "/qn", "/norestart", "/L*v", $logFile
+          )
+          Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
+          echo 'Installed Wolfram Engine.'
+
+      - name: Download cloudflared (for public tunnel)
+        shell: pwsh
+        run: |
+          $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
+          Invoke-WebRequest -Uri "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe" -OutFile $cf
+          Write-Host "cloudflared at $cf"
+
+      - name: Run server, expose ports, and stream logs
+        env:
+          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
+          WOLFRAMINIT: "-pwfile !cloudlm.wolfram.com -entitlement ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
+        shell: pwsh
+        run: |
+          # Ensure Wolfram binaries are on PATH
+          $env:Path += ';' + (Join-Path $env:WOLFRAMENGINE_INSTALLATION_DIRECTORY '')
+
+          # Paths
+          $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
+          $log1 = Join-Path $env:RUNNER_TEMP "cloudflared-20560.log"
+          $log2 = Join-Path $env:RUNNER_TEMP "cloudflared-20559.log"
+
+          # Start tunnels (write logs to files so we can tail and see public URLs)
+          $cf1 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20560") -RedirectStandardOutput $log1 -RedirectStandardError $log1 -PassThru
+          $cf2 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20559") -RedirectStandardOutput $log2 -RedirectStandardError $log2 -PassThru
+
+          # Tail tunnel logs so URLs appear in the job log
+          $tailJob1 = Start-Job -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $log1
+          $tailJob2 = Start-Job -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $log2
+
+          Write-Host "==== Waiting for tunnel URLs... ===="
+          Start-Sleep -Seconds 4
+          Get-Content $log1 -Tail 50
+          Get-Content $log2 -Tail 50
+
+          Write-Host "==== Starting Wolfram server (console output below) ===="
+          # Run your server script in the foreground so we see its console output
+          # Use wolframscript if you prefer: 'wolframscript -file ./Scripts/start.wls'
+          & wolfram -script ./Scripts/start.wls
+          $exitCode = $LASTEXITCODE
+          Write-Host "==== Wolfram server exited with code $exitCode ===="
+
+          # Cleanup tunnels and tailers
+          foreach ($p in @($cf1,$cf2)) {
+            if ($p -and !$p.HasExited) { Stop-Process -Id $p.Id -Force }
+          }
+          foreach ($j in @($tailJob1,$tailJob2)) {
+            if ($j.State -eq 'Running') { Stop-Job $j -Force }
+            Receive-Job $j -Keep | Out-Null
+            Remove-Job $j -Force
+          }
+
+          if ($exitCode -ne 0) {
+            throw "Wolfram server process exited with non-zero code: $exitCode"
+          }
