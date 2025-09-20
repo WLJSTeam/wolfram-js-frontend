@@ -150,7 +150,7 @@ jobs:
 
           Write-Host "==== Starting Wolfram server (console output below) ===="
           # Your script should start services on 4000/4001/4002 as needed.
-          & wolfram -script ./Scripts/start.wls http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2
+          & wolframscript -f ./Scripts/start.wls http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2
           $exitCode = $LASTEXITCODE
           Write-Host "==== Wolfram server exited with code $exitCode ===="
           
