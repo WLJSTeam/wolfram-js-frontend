@@ -115,7 +115,8 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = StringJoin[result, ".wln"]},
+              Module[{filename = result},
+                  If[!StringMatchQ[filename, __~~".wln"],  filename = filename <> ".wln"];
                   If[filename === ".wln", filename = StringJoin[name, filename] ];
                   If[DirectoryName[filename] === "", filename = FileNameJoin[{path, filename}] ];
                   
