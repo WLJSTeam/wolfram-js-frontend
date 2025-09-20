@@ -65,26 +65,36 @@ jobs:
 
           # Paths
           $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
-          $log1 = Join-Path $env:RUNNER_TEMP "cloudflared-20560.log"
-          $log2 = Join-Path $env:RUNNER_TEMP "cloudflared-20559.log"
+          $log1Out = Join-Path $env:RUNNER_TEMP "cloudflared-20560.out.log"
+          $log1Err = Join-Path $env:RUNNER_TEMP "cloudflared-20560.err.log"
+          $log2Out = Join-Path $env:RUNNER_TEMP "cloudflared-20559.out.log"
+          $log2Err = Join-Path $env:RUNNER_TEMP "cloudflared-20559.err.log"
 
-          # Start tunnels (write logs to files so we can tail and see public URLs)
-          $cf1 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20560") -RedirectStandardOutput $log1 -RedirectStandardError $log1 -PassThru
-          $cf2 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20559") -RedirectStandardOutput $log2 -RedirectStandardError $log2 -PassThru
+          # Start tunnels (stdout and stderr go to DIFFERENT files)
+          $cf1 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20560") -RedirectStandardOutput $log1Out -RedirectStandardError $log1Err -PassThru -WindowStyle Hidden
+          $cf2 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20559") -RedirectStandardOutput $log2Out -RedirectStandardError $log2Err -PassThru -WindowStyle Hidden
 
           # Tail tunnel logs so URLs appear in the job log
-          $tailJob1 = Start-Job -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $log1
-          $tailJob2 = Start-Job -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $log2
+          $tailJobs = @()
+          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $log1Out,"20560-OUT"
+          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $log1Err,"20560-ERR"
+          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $log2Out,"20559-OUT"
+          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $log2Err,"20559-ERR"
 
           Write-Host "==== Waiting for tunnel URLs... ===="
           Start-Sleep -Seconds 4
-          Get-Content $log1 -Tail 50
-          Get-Content $log2 -Tail 50
+          # Print the latest lines once in case the URL already appeared before -Wait kicked in
+          Get-Content $log1Out -Tail 50
+          Get-Content $log1Err -Tail 50
+          Get-Content $log2Out -Tail 50
+          Get-Content $log2Err -Tail 50
 
           Write-Host "==== Starting Wolfram server (console output below) ===="
-          # Run your server script in the foreground so we see its console output
-          # Use wolframscript if you prefer: 'wolframscript -file ./Scripts/start.wls'
+          # Option A: wolfram -script (as you had)
           & wolfram -script ./Scripts/start.wls
+          # Option B (uncomment if you prefer):
+          # & wolframscript -file ./Scripts/start.wls
+
           $exitCode = $LASTEXITCODE
           Write-Host "==== Wolfram server exited with code $exitCode ===="
 
@@ -92,7 +102,7 @@ jobs:
           foreach ($p in @($cf1,$cf2)) {
             if ($p -and !$p.HasExited) { Stop-Process -Id $p.Id -Force }
           }
-          foreach ($j in @($tailJob1,$tailJob2)) {
+          foreach ($j in $tailJobs) {
             if ($j.State -eq 'Running') { Stop-Job $j -Force }
             Receive-Job $j -Keep | Out-Null
             Remove-Job $j -Force
