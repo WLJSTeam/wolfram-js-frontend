@@ -138,8 +138,8 @@ If[versionToNumber[$VersionNumber] > versionToNumber["14.2"],
   Echo["Warning: your Wolfram Kernel version is higher, that tested with WLJS Notebook. We do not guarantee it will work"];
 ];
 
-If[versionToNumber[$VersionNumber] < versionToNumber["13.1"],
-  Echo["Error: your Wolfram Kernel version is lower than 13.1. WLJS App won't work. We are sorry"];
+If[versionToNumber[$VersionNumber] < versionToNumber["13.3"],
+  Echo["Error: your Wolfram Kernel version is older than 13.3. WLJS App won't work. We are sorry"];
   Echo["You can always download a freeware Wolfram Engine"];
   Exit[-1];
 ];

@@ -127,8 +127,6 @@ Export entire notebooks as standalone `.html` files, retaining all embedded data
 [Download Wolfram Engine](https://www.wolfram.com/engine/) (Version 13.3+ recommended). Activation is required after installation.
 
 #### Tested
-- Wolfram Engine 13.1 (no copilot)
-- Wolfram Engine 13.2 (no copilot)
 - Wolfram Engine 13.3 (no copilot)
 - Wolfram Engine 13.4 (no copilot)
 - Wolfram Engine 14.0
