@@ -117,25 +117,53 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe" -OutFile $cf
           Write-Host "cloudflared at $cf"
 
-      - name: Start Quick Tunnel (→ http://127.0.0.1:3000)
+      - name: Start Quick Tunnel (→ http://127.0.0.1:3000) and capture URL
+        id: quicktunnel
         shell: pwsh
         run: |
-          $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
+          $cf  = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
           $out = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
           $err = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
-       
-          $proc = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:3000") `
-            -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
+      
+          # Start cloudflared (no-autoupdate keeps logs quieter/stable)
+          $proc = Start-Process -FilePath $cf -ArgumentList @(
+            "tunnel","--no-autoupdate","--url","http://127.0.0.1:3000"
+          ) -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "cloudflared.pid") -Value $proc.Id
-       
-          # Live tail so the trycloudflare URL appears once cloudflared emits it
-          Start-Job -Name "tail-cloudflared-out" -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $out | Out-Null
-          Start-Job -Name "tail-cloudflared-err" -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $err | Out-Null
-       
-          Start-Sleep -Seconds 3
-          Write-Host "==== cloudflared (initial tails) ===="
+      
+          # Wait up to 120s for the trycloudflare URL to appear (stdout or stderr)
+          $url = $null
+          $deadline = (Get-Date).AddSeconds(120)
+          while ((Get-Date) -lt $deadline -and -not $url) {
+            Start-Sleep -Seconds 1
+            $content = ""
+            if (Test-Path $out) { $content += (Get-Content $out -Raw -ErrorAction SilentlyContinue) }
+            if (Test-Path $err) { $content += "`n" + (Get-Content $err -Raw -ErrorAction SilentlyContinue) }
+            $m = [regex]::Match($content, 'https://[a-z0-9-]+\.trycloudflare\.com')
+            if ($m.Success) { $url = $m.Value }
+            elseif ($proc.HasExited) { break }
+          }
+      
+          if (-not $url) {
+            Write-Host "cloudflared logs (stdout tail):"
+            if (Test-Path $out) { Get-Content $out -Tail 120 }
+            Write-Host "cloudflared logs (stderr tail):"
+            if (Test-Path $err) { Get-Content $err -Tail 120 }
+            throw "Timed out waiting for trycloudflare URL."
+          }
+      
+          Write-Host "✅ Quick Tunnel URL: $url"
+      
+          # Export for later steps and job summary
+          "PUBLIC_URL=$url" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          "public_url=$url" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+      
+          # Show last lines as a sanity check
+          Write-Host "==== cloudflared STDOUT (tail) ===="
           Get-Content $out -Tail 80
+          Write-Host "==== cloudflared STDERR (tail) ===="
           Get-Content $err -Tail 40
+
 
 
       - name: Start Wolfram server (your app)
