@@ -108,7 +108,23 @@ jobs:
           Write-Host "=== Caddy STDERR (tail) ==="
           Get-Content $caddyErr -Tail 50
 
-
+          # Wait up to 30s for port 3000 to be listening
+          $deadline = (Get-Date).AddSeconds(30)
+          $ready = $false
+          while ((Get-Date) -lt $deadline -and -not $ready) {
+            Start-Sleep -Seconds 1
+            try {
+              $nc = Test-NetConnection -ComputerName 127.0.0.1 -Port 3000 -WarningAction SilentlyContinue
+              if ($nc.TcpTestSucceeded) { $ready = $true }
+            } catch {}
+          }
+          if (-not $ready) {
+            Write-Host "Caddy did not open :3000 in time. Recent logs:"
+            Get-Content $caddyOut -Tail 60
+            Get-Content $caddyErr -Tail 60
+            throw "Caddy not ready on :3000"
+          }
+          Write-Host "Caddy is listening on :3000"
 
       - name: Download cloudflared (Quick Tunnel)
         shell: pwsh
@@ -117,7 +133,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe" -OutFile $cf
           Write-Host "cloudflared at $cf"
 
-      - name: Start Quick Tunnel (→ http://127.0.0.1:3000) and capture URL
+      - name: Start Quick Tunnel (→ http://127.0.0.1:3000), capture & verify URL
         id: quicktunnel
         shell: pwsh
         run: |
@@ -125,13 +141,12 @@ jobs:
           $out = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
           $err = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
       
-          # Start cloudflared (no-autoupdate keeps logs quieter/stable)
-          $proc = Start-Process -FilePath $cf -ArgumentList @(
-            "tunnel","--no-autoupdate","--url","http://127.0.0.1:3000"
-          ) -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
+          # Start cloudflared; prefer IPv4 and keep it quiet/stable
+          $args = @("tunnel","--no-autoupdate","--edge-ip-version","4","--url","http://127.0.0.1:3000")
+          $proc = Start-Process -FilePath $cf -ArgumentList $args -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "cloudflared.pid") -Value $proc.Id
       
-          # Wait up to 120s for the trycloudflare URL to appear (stdout or stderr)
+          # Wait up to 120s for the trycloudflare URL to appear
           $url = $null
           $deadline = (Get-Date).AddSeconds(120)
           while ((Get-Date) -lt $deadline -and -not $url) {
@@ -143,7 +158,6 @@ jobs:
             if ($m.Success) { $url = $m.Value }
             elseif ($proc.HasExited) { break }
           }
-      
           if (-not $url) {
             Write-Host "cloudflared logs (stdout tail):"
             if (Test-Path $out) { Get-Content $out -Tail 120 }
@@ -152,13 +166,32 @@ jobs:
             throw "Timed out waiting for trycloudflare URL."
           }
       
-          Write-Host "✅ Quick Tunnel URL: $url"
+          # Health-check the public URL (up to 60s) to avoid 1033
+          $ok = $false
+          $deadline2 = (Get-Date).AddSeconds(60)
+          while ((Get-Date) -lt $deadline2 -and -not $ok) {
+            Start-Sleep -Seconds 2
+            try {
+              # Use Invoke-WebRequest; ignore TLS validation quirks through CF
+              $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
+              if ($resp.StatusCode -ge 200 -and $resp.StatusCode -lt 600) { $ok = $true } # any response means tunnel is live
+            } catch {
+              # keep trying; 502 from Caddy/backends is still fine for tunnel reachability
+              $ok = $false
+            }
+          }
+          if (-not $ok) {
+            Write-Host "Could not reach $url yet. cloudflared logs:"
+            if (Test-Path $out) { Get-Content $out -Tail 120 }
+            if (Test-Path $err) { Get-Content $err -Tail 120 }
+            throw "Tunnel up but not reachable from edge (1033). Check that cloudflared is still running and :3000 is open."
+          }
       
-          # Export for later steps and job summary
+          Write-Host "✅ Quick Tunnel URL: $url"
           "PUBLIC_URL=$url" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
           "public_url=$url" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
       
-          # Show last lines as a sanity check
+          # Show recent logs for context
           Write-Host "==== cloudflared STDOUT (tail) ===="
           Get-Content $out -Tail 80
           Write-Host "==== cloudflared STDERR (tail) ===="
