@@ -67,7 +67,7 @@ jobs:
         run: |
           $caddy = Join-Path $env:RUNNER_TEMP "caddy.exe"
           $caddyfile = Join-Path $env:RUNNER_TEMP "Caddyfile"
-
+      
           $lines = @(
             ':3000',
             '',
@@ -86,17 +86,25 @@ jobs:
             '  reverse_proxy 127.0.0.1:4000',
             '}'
           )
-
           $cfg = $lines -join "`r`n"
+          $caddyfile | Out-Null
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
-
-          $caddyLog = Join-Path $env:RUNNER_TEMP "caddy.log"
+      
+          $caddyOut = Join-Path $env:RUNNER_TEMP "caddy.out.log"
+          $caddyErr = Join-Path $env:RUNNER_TEMP "caddy.err.log"
+      
           $proc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
-            -RedirectStandardOutput $caddyLog -RedirectStandardError $caddyLog -PassThru -WindowStyle Hidden
+            -RedirectStandardOutput $caddyOut -RedirectStandardError $caddyErr -PassThru -WindowStyle Hidden
+      
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "caddy.pid") -Value $proc.Id
-
+      
+          # Show a little output from both streams
           Start-Sleep -Seconds 1
-          Get-Content $caddyLog -Tail 50
+          Write-Host "=== Caddy STDOUT (tail) ==="
+          Get-Content $caddyOut -Tail 50
+          Write-Host "=== Caddy STDERR (tail) ==="
+          Get-Content $caddyErr -Tail 50
+
 
 
       - name: Download cloudflared (Quick Tunnel)
@@ -110,18 +118,18 @@ jobs:
         shell: pwsh
         run: |
           $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
-          $log = Join-Path $env:RUNNER_TEMP "cloudflared.log"
-
-          # Quick Tunnel (no secrets): prints a https://*.trycloudflare.com URL
+          $out = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
+          $err = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
+      
           $proc = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:3000") `
-            -RedirectStandardOutput $log -RedirectStandardError $log -PassThru -WindowStyle Hidden
+            -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "cloudflared.pid") -Value $proc.Id
-
-          # Tail so the public URL appears in logs
-          $null = Start-Job -Name "tail-cloudflared" -ScriptBlock { param($p) Get-Content -Path $p -Wait } -ArgumentList $log
-          Start-Sleep -Seconds 3
-          Write-Host "==== Cloudflared log (tail) ===="
-          Get-Content $log -Tail 80
+      
+          # Tail both so the trycloudflare URL shows up
+          Write-Host "==== cloudflared STDOUT (tail) ===="
+          Get-Content $out -Tail 80
+          Write-Host "==== cloudflared STDERR (tail) ===="
+          Get-Content $err -Tail 40
 
       - name: Start Wolfram server (your app)
         env:
