@@ -51,22 +51,14 @@ jobs:
           Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
           echo 'Installed Wolfram Engine.'
 
-      - name: Download Caddy (reverse proxy)
+      - name: Install Caddy (Chocolatey) and stage binary
         shell: pwsh
         run: |
-          $caddyZip = Join-Path $env:RUNNER_TEMP "caddy.zip"
+          choco install caddy -y --no-progress
+          $bin = (Get-Command caddy.exe).Source
+          if (-not $bin) { throw "caddy.exe not found after choco install" }
           $caddyExe = Join-Path $env:RUNNER_TEMP "caddy.exe"
-      
-          # Stable download endpoint (returns latest release ZIP for Windows amd64)
-          Invoke-WebRequest -Uri "https://caddyserver.com/api/download?os=windows&arch=amd64" -OutFile $caddyZip
-      
-          Expand-Archive -Path $caddyZip -DestinationPath $env:RUNNER_TEMP -Force
-      
-          # Find caddy.exe in the extracted folder
-          $found = Get-ChildItem -Path $env:RUNNER_TEMP -Recurse -Filter "caddy.exe" | Select-Object -First 1
-          if (-not $found) { throw "caddy.exe not found after extraction" }
-          Copy-Item $found.FullName $caddyExe -Force
-      
+          Copy-Item $bin $caddyExe -Force
           Write-Host "Caddy at $caddyExe"
 
 
