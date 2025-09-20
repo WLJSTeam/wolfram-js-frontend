@@ -56,20 +56,26 @@ jobs:
         run: |
           $caddyZip = Join-Path $env:RUNNER_TEMP "caddy.zip"
           $caddyExe = Join-Path $env:RUNNER_TEMP "caddy.exe"
-          Invoke-WebRequest -Uri "https://github.com/caddyserver/caddy/releases/latest/download/caddy_windows_amd64.zip" -OutFile $caddyZip
+      
+          # Stable download endpoint (returns latest release ZIP for Windows amd64)
+          Invoke-WebRequest -Uri "https://caddyserver.com/api/download?os=windows&arch=amd64" -OutFile $caddyZip
+      
           Expand-Archive -Path $caddyZip -DestinationPath $env:RUNNER_TEMP -Force
-          if (-not (Test-Path $caddyExe)) {
-            $found = Get-ChildItem -Path $env:RUNNER_TEMP -Recurse -Filter "caddy.exe" | Select-Object -First 1
-            if ($found) { Copy-Item $found.FullName $caddyExe }
-          }
+      
+          # Find caddy.exe in the extracted folder
+          $found = Get-ChildItem -Path $env:RUNNER_TEMP -Recurse -Filter "caddy.exe" | Select-Object -First 1
+          if (-not $found) { throw "caddy.exe not found after extraction" }
+          Copy-Item $found.FullName $caddyExe -Force
+      
           Write-Host "Caddy at $caddyExe"
+
 
       - name: Start local proxy (Caddy) on :3000
         shell: pwsh
         run: |
           $caddy = Join-Path $env:RUNNER_TEMP "caddy.exe"
           $caddyfile = Join-Path $env:RUNNER_TEMP "Caddyfile"
-          
+
           $lines = @(
             ':3000',
             '',
@@ -88,15 +94,15 @@ jobs:
             '  reverse_proxy 127.0.0.1:4000',
             '}'
           )
-          
+
           $cfg = $lines -join "`r`n"
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
-          
+
           $caddyLog = Join-Path $env:RUNNER_TEMP "caddy.log"
           $proc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
             -RedirectStandardOutput $caddyLog -RedirectStandardError $caddyLog -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "caddy.pid") -Value $proc.Id
-          
+
           Start-Sleep -Seconds 1
           Get-Content $caddyLog -Tail 50
 
