@@ -140,12 +140,12 @@ jobs:
           $cf  = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
           $out = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
           $err = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
-      
+
           # Start cloudflared; prefer IPv4 and keep it quiet/stable
           $args = @("tunnel","--no-autoupdate","--edge-ip-version","4","--url","http://127.0.0.1:3000")
           $proc = Start-Process -FilePath $cf -ArgumentList $args -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -WindowStyle Hidden
           Set-Content -Path (Join-Path $env:RUNNER_TEMP "cloudflared.pid") -Value $proc.Id
-      
+
           # Wait up to 120s for the trycloudflare URL to appear
           $url = $null
           $deadline = (Get-Date).AddSeconds(120)
@@ -165,18 +165,18 @@ jobs:
             if (Test-Path $err) { Get-Content $err -Tail 120 }
             throw "Timed out waiting for trycloudflare URL."
           }
-      
+
           # Health-check the public URL (up to 60s) to avoid 1033
           $ok = $false
           $deadline2 = (Get-Date).AddSeconds(60)
           while ((Get-Date) -lt $deadline2 -and -not $ok) {
             Start-Sleep -Seconds 2
             try {
-              # Use Invoke-WebRequest; ignore TLS validation quirks through CF
-              $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
-              if ($resp.StatusCode -ge 200 -and $resp.StatusCode -lt 600) { $ok = $true } # any response means tunnel is live
+              # Treat ANY HTTP status (2xx–5xx) as success = edge can reach the tunnel
+              $resp = Invoke-WebRequest -Uri $url -SkipHttpErrorCheck -TimeoutSec 10 -ErrorAction Stop
+              if ($resp.StatusCode -ge 200 -and $resp.StatusCode -lt 600) { $ok = $true }
             } catch {
-              # keep trying; 502 from Caddy/backends is still fine for tunnel reachability
+              # If we still failed (DNS/TLS/connect), keep trying
               $ok = $false
             }
           }
@@ -186,11 +186,12 @@ jobs:
             if (Test-Path $err) { Get-Content $err -Tail 120 }
             throw "Tunnel up but not reachable from edge (1033). Check that cloudflared is still running and :3000 is open."
           }
-      
+
+
           Write-Host "✅ Quick Tunnel URL: $url"
           "PUBLIC_URL=$url" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
           "public_url=$url" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-      
+
           # Show recent logs for context
           Write-Host "==== cloudflared STDOUT (tail) ===="
           Get-Content $out -Tail 80
