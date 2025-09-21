@@ -211,11 +211,40 @@ jobs:
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $cfErr,"CF-ERR"
 
           # --- Start your app (listens on 4000/4001/4002)
+          # --- Start your app (background) so cloudflared stays up
           $env:Path += ';' + (Join-Path $env:WOLFRAMENGINE_INSTALLATION_DIRECTORY '')
-          Write-Host "==== Starting Wolfram server (console output below) ===="
-          & wolframscript -f ./Scripts/start.wls http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2
-          $appExit = $LASTEXITCODE
-          Write-Host "==== Wolfram script exited with code $appExit ===="
+          
+          $wolfOut = Join-Path $env:RUNNER_TEMP "wolfram.out.log"
+          $wolfErr = Join-Path $env:RUNNER_TEMP "wolfram.err.log"
+          $wolfram = Start-Process -FilePath "wolframscript" -ArgumentList @(
+            "-f","./Scripts/start.wls",
+            "http","4000","ws","4001","ws2","4002","wsprefix","ws","ws2prefix","ws2"
+          ) -RedirectStandardOutput $wolfOut -RedirectStandardError $wolfErr -PassThru -WindowStyle Hidden
+          
+          Write-Host "Wolfram server launched (PID $($wolfram.Id)). Tailing logs:"
+          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | % { Write-Host "[$tag] $_" } } -ArgumentList $wolfOut,"WOLFRAM-OUT"
+          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | % { Write-Host "[$tag] $_" } } -ArgumentList $wolfErr,"WOLFRAM-ERR"
+          
+          # --- Keep the tunnel alive while monitoring processes
+          $mins = [int]($env:KEEP_ALIVE_MINUTES)
+          if ($mins -le 0) { $stopAt = [DateTime]::MaxValue } else { $stopAt = (Get-Date).AddMinutes($mins) }
+          
+          Write-Host "Keep-alive running until $stopAt (or until a process exits). URL: $url"
+          while ((Get-Date) -lt $stopAt) {
+            Start-Sleep -Seconds 5
+          
+            if ($caddyProc.HasExited) { throw "caddy exited early with code $($caddyProc.ExitCode)" }
+            if ($cfProc.HasExited)   { throw "cloudflared exited early with code $($cfProc.ExitCode)" }
+            if ($wolfram.HasExited)  { Write-Host "Wolfram exited with code $($wolfram.ExitCode). Keeping tunnel up until keep-alive window ends."; break }
+          }
+          
+          # (Optional) wait out remaining time if Wolfram exited early
+          while ((Get-Date) -lt $stopAt) {
+            Start-Sleep -Seconds 5
+            if ($caddyProc.HasExited) { throw "caddy exited early with code $($caddyProc.ExitCode)" }
+            if ($cfProc.HasExited)   { throw "cloudflared exited early with code $($cfProc.ExitCode)" }
+          }
+
 
           # --- Keep the tunnel alive
           $mins = [int]($env:KEEP_ALIVE_MINUTES)

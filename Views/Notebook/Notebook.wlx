@@ -623,7 +623,7 @@ Component[OptionsPattern[]] := With[{
             EventFire[controller, "ReopenAsQuick", <|"Notebook" -> notebook, "Client"-> client, "Path" -> notebook["Path"]|>];
         ],
 
-        "Backup" -> Function[data, With[{timer = AbsoluteTime[]},
+        "Backup" -> Function[data, Module[{}, With[{timer = AbsoluteTime[]},
             If[TrueQ[notebook["_suspendBackups"]], Return[Null, Module]];
 
             EventFire[log, "Notebook:Sync:Started", True];
@@ -639,7 +639,7 @@ Component[OptionsPattern[]] := With[{
                     EventFire[controller, "DumpSaveTemporal", notebook];
                 ]];
             ];            
-        ]],        
+        ]]],        
 
         "ChangeKernel" -> Function[p, Module[{kernel, client, payload = <||>},
             If[AssociationQ[p], payload = p];
