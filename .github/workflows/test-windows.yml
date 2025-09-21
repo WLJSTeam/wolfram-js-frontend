@@ -34,7 +34,27 @@ jobs:
           path: ${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}
           key: wolframengine-${{ env.WOLFRAM_SYSTEM_ID }}-${{ env.WOLFRAMENGINE_CACHE_KEY }}
 
-
+      - name: Download and install Wolfram Engine
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        env:
+          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
+          WOLFRAMENGINE_INSTALL_MSI_PATH: '${{ runner.temp }}\WolframEngine-Install.msi'
+          WOLFRAMENGINE_INSTALL_LOG_PATH: '${{ runner.temp }}\WolframEngine-Install.log'
+        shell: pwsh
+        run: |
+          echo 'Downloading Wolfram Engine installer...'
+          $msiFile = '${{ env.WOLFRAMENGINE_INSTALL_MSI_PATH }}'
+          $logFile = '${{ env.WOLFRAMENGINE_INSTALL_LOG_PATH }}'
+          Import-Module BitsTransfer
+          Start-BitsTransfer '${{ env.WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL }}' $msiFile
+          echo 'Installing Wolfram Engine...'
+          $MSIArguments = @(
+            "/i", ('"{0}"' -f $msiFile),
+            'INSTALLLOCATION="${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}"',
+            "/qn", "/norestart", "/L*v", $logFile
+          )
+          Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
+          echo 'Installed Wolfram Engine.'
 
       - name: Install Caddy (Chocolatey) and export path
         shell: pwsh
@@ -183,7 +203,6 @@ jobs:
             Write-Host "Name printed but DNS not live yet. Continuing to keep the tunnel up."
           }
 
-
           # --- Tail logs in background
           $tailJobs = @()
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $caddyOut,"CADDY-OUT"
@@ -191,7 +210,12 @@ jobs:
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $cfOut,"CF-OUT"
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $cfErr,"CF-ERR"
 
-
+          # --- Start your app (listens on 4000/4001/4002)
+          $env:Path += ';' + (Join-Path $env:WOLFRAMENGINE_INSTALLATION_DIRECTORY '')
+          Write-Host "==== Starting Wolfram server (console output below) ===="
+          & wolframscript -f ./Scripts/start.wls http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2
+          $appExit = $LASTEXITCODE
+          Write-Host "==== Wolfram script exited with code $appExit ===="
 
           # --- Keep the tunnel alive
           $mins = [int]($env:KEEP_ALIVE_MINUTES)
