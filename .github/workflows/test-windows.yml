@@ -100,7 +100,6 @@ jobs:
             '    header_up X-Forwarded-Host {host}',
             '    header_up X-Forwarded-Proto {scheme}',
             '    header_up X-Forwarded-For {remote}',
-            '    transport http { dial_timeout 10s }',
             '  }',
             '}',
             '',
@@ -111,7 +110,6 @@ jobs:
             '    header_up X-Forwarded-Host {host}',
             '    header_up X-Forwarded-Proto {scheme}',
             '    header_up X-Forwarded-For {remote}',
-            '    transport http { dial_timeout 10s }',
             '  }',
             '}',
             '',
@@ -122,20 +120,18 @@ jobs:
             '    header_up X-Forwarded-Host {host}',
             '    header_up X-Forwarded-Proto {scheme}',
             '    header_up X-Forwarded-For {remote}',
-            '    transport http { dial_timeout 10s }',
             '  }',
             '}',
             '',
-            '# Gracefully handle upstream errors (e.g., app not ready) instead of 502',
+            '# Gracefully handle upstream 5xx during warm-up',
             'handle_errors {',
-            '  @bad {',
-            '    expression {http.error.status_code} >= 500 && {http.error.status_code} < 600',
-            '  }',
+            '  @bad expression `{http.error.status_code} >= 500 && {http.error.status_code} < 600`',
             '  respond @bad "Service is starting — try again in a moment." 200',
             '}'
           )
           $cfg = $lines -join "`r`n"
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
+
 
 
           # --- Start Caddy
