@@ -85,7 +85,6 @@ jobs:
           $cfOut = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
           $cfErr = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
 
-          # --- Write Caddyfile (with /healthz)
           $lines = @(
             ':3000',
             '',
@@ -96,21 +95,48 @@ jobs:
             '',
             '# WebSocket service 1',
             'route /ws* {',
-            '  reverse_proxy 127.0.0.1:4001',
+            '  reverse_proxy 127.0.0.1:4001 {',
+            '    header_up Host {upstream_hostport}',
+            '    header_up X-Forwarded-Host {host}',
+            '    header_up X-Forwarded-Proto {scheme}',
+            '    header_up X-Forwarded-For {remote}',
+            '    transport http { dial_timeout 10s }',
+            '  }',
             '}',
             '',
             '# WebSocket service 2',
             'route /ws2* {',
-            '  reverse_proxy 127.0.0.1:4002',
+            '  reverse_proxy 127.0.0.1:4002 {',
+            '    header_up Host {upstream_hostport}',
+            '    header_up X-Forwarded-Host {host}',
+            '    header_up X-Forwarded-Proto {scheme}',
+            '    header_up X-Forwarded-For {remote}',
+            '    transport http { dial_timeout 10s }',
+            '  }',
             '}',
             '',
             '# Everything else to the HTTP app',
             'route /* {',
-            '  reverse_proxy 127.0.0.1:4000',
+            '  reverse_proxy 127.0.0.1:4000 {',
+            '    header_up Host {upstream_hostport}',
+            '    header_up X-Forwarded-Host {host}',
+            '    header_up X-Forwarded-Proto {scheme}',
+            '    header_up X-Forwarded-For {remote}',
+            '    transport http { dial_timeout 10s }',
+            '  }',
+            '}',
+            '',
+            '# Gracefully handle upstream errors (e.g., app not ready) instead of 502',
+            'handle_errors {',
+            '  @bad {',
+            '    expression {http.error.status_code} >= 500 && {http.error.status_code} < 600',
+            '  }',
+            '  respond @bad "Service is starting — try again in a moment." 200',
             '}'
           )
           $cfg = $lines -join "`r`n"
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
+
 
           # --- Start Caddy
           $caddyProc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
