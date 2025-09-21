@@ -167,12 +167,22 @@ jobs:
           "## Quick Tunnel URL`n$url" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
 
           # Wait for DNS to resolve publicly (best-effort)
-          $host = ($url -replace '^https?://','' -replace '/$','')
+          # Wait up to 60s for DNS to resolve publicly
+          $publicHost = ([Uri]$url).Host
           $dnsOk = $false
           $dnsDeadline = (Get-Date).AddSeconds(60)
           while ((Get-Date) -lt $dnsDeadline -and -not $dnsOk) {
-            try { Resolve-DnsName $host -Type A -ErrorAction Stop | Out-Null; $dnsOk = $true } catch { Start-Sleep -Seconds 2 }
+            try {
+              Resolve-DnsName $publicHost -Type A -ErrorAction Stop | Out-Null
+              $dnsOk = $true
+            } catch {
+              Start-Sleep -Seconds 2
+            }
           }
+          if (-not $dnsOk) {
+            Write-Host "Name printed but DNS not live yet. Continuing to keep the tunnel up."
+          }
+
 
           # --- Tail logs in background
           $tailJobs = @()
