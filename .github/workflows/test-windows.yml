@@ -2,7 +2,11 @@ name: Run server on Windows
 
 on:
   workflow_dispatch:
-
+    inputs:
+      keep_alive_minutes:
+        description: "Keep the tunnel alive for N minutes after startup (0=infinite until cancel)"
+        required: false
+        default: "120"
 jobs:
   WindowsServer-x86:
     runs-on: windows-latest
@@ -75,6 +79,7 @@ jobs:
         env:
           WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
           WOLFRAMINIT: "-pwfile !cloudlm.wolfram.com -entitlement ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
+          KEEP_ALIVE_MINUTES: ${{ github.event.inputs.keep_alive_minutes || '120' }}
         run: |
           # --- Paths
           $caddy = $env:CADDY_EXE
@@ -84,7 +89,8 @@ jobs:
           $cf  = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
           $cfOut = Join-Path $env:RUNNER_TEMP "cloudflared.out.log"
           $cfErr = Join-Path $env:RUNNER_TEMP "cloudflared.err.log"
-
+      
+          # --- Write Caddyfile (with /healthz)
           $lines = @(
             ':3000',
             '',
@@ -131,13 +137,11 @@ jobs:
           )
           $cfg = $lines -join "`r`n"
           Set-Content -Path $caddyfile -Value $cfg -Encoding utf8
-
-
-
+      
           # --- Start Caddy
           $caddyProc = Start-Process -FilePath $caddy -ArgumentList @("run","--config",$caddyfile) `
             -RedirectStandardOutput $caddyOut -RedirectStandardError $caddyErr -PassThru -WindowStyle Hidden
-
+      
           # Wait until Caddy answers /healthz locally
           $okLocal = $false
           $deadlineLocal = (Get-Date).AddSeconds(20)
@@ -154,12 +158,12 @@ jobs:
             throw "Caddy not responding on :3000"
           }
           Write-Host "Caddy responded 200 on /healthz"
-
+      
           # --- Start Quick Tunnel
           $cfArgs = @("tunnel","--no-autoupdate","--edge-ip-version","4","--url","http://127.0.0.1:3000")
           $cfProc = Start-Process -FilePath $cf -ArgumentList $cfArgs `
             -RedirectStandardOutput $cfOut -RedirectStandardError $cfErr -PassThru -WindowStyle Hidden
-
+      
           # Capture trycloudflare URL
           $url = $null
           $deadline = (Get-Date).AddSeconds(120)
@@ -178,7 +182,8 @@ jobs:
             throw "Timed out waiting for trycloudflare URL."
           }
           Write-Host "✅ Quick Tunnel URL: $url"
-
+          "## Quick Tunnel URL`n$url" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+      
           # Verify edge can reach /healthz
           $okEdge = $false
           $deadline2 = (Get-Date).AddSeconds(60)
@@ -195,22 +200,41 @@ jobs:
             Write-Host "==== cloudflared STDERR (tail) ===="; if (Test-Path $cfErr) { Get-Content $cfErr -Tail 120 }
             throw "Tunnel created but edge can’t reach origin (1033)."
           }
-
-          # --- Tail logs in background (keep them visible during the app run)
+      
+          # --- Tail logs in background
           $tailJobs = @()
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $caddyOut,"CADDY-OUT"
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $caddyErr,"CADDY-ERR"
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $cfOut,"CF-OUT"
           $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $cfErr,"CF-ERR"
-
-          # --- Run your app (starts 4000/4001/4002)
+      
+          # --- Start your app (may return quickly)
           $env:Path += ';' + (Join-Path $env:WOLFRAMENGINE_INSTALLATION_DIRECTORY '')
           Write-Host "==== Starting Wolfram server (console output below) ===="
           & wolframscript -f ./Scripts/start.wls http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2
-          $exitCode = $LASTEXITCODE
-          Write-Host "==== Wolfram server exited with code $exitCode ===="
-
-          # --- Cleanup
+          $appExit = $LASTEXITCODE
+          Write-Host "==== Wolfram script exited with code $appExit ===="
+      
+          # --- Keep the tunnel alive for KEEP_ALIVE_MINUTES (0 = infinite)
+          $mins = [int]($env:KEEP_ALIVE_MINUTES)
+          if ($mins -le 0) {
+            Write-Host "Keep-alive: infinite (until job is cancelled)."
+            while ($true) {
+              Start-Sleep -Seconds 5
+              if ($cfProc.HasExited) { throw "cloudflared exited early with code $($cfProc.ExitCode)" }
+              if ($caddyProc.HasExited) { throw "caddy exited early with code $($caddyProc.ExitCode)" }
+            }
+          } else {
+            Write-Host "Keep-alive: $mins minute(s) starting now."
+            $stopAt = (Get-Date).AddMinutes($mins)
+            while ((Get-Date) -lt $stopAt) {
+              Start-Sleep -Seconds 5
+              if ($cfProc.HasExited) { throw "cloudflared exited early with code $($cfProc.ExitCode)" }
+              if ($caddyProc.HasExited) { throw "caddy exited early with code $($caddyProc.ExitCode)" }
+            }
+          }
+      
+          # --- Cleanup (normally you won't reach here unless you change logic above)
           foreach ($j in $tailJobs) {
             if ($j.State -eq 'Running') { Stop-Job $j -Force }
             Receive-Job $j -Keep | Out-Null
@@ -219,5 +243,5 @@ jobs:
           foreach ($p in @($cfProc,$caddyProc)) {
             if ($p -and !$p.HasExited) { try { Stop-Process -Id $p.Id -Force -ErrorAction Stop } catch {} }
           }
-
-          if ($exitCode -ne 0) { throw "Wolfram server process exited with non-zero code: $exitCode" }
+      
+          if ($appExit -ne 0) { throw "Wolfram startup exited with non-zero code: $appExit" }
