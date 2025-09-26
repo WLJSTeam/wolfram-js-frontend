@@ -2527,7 +2527,7 @@ function start_server (window) {
     }
 
     windows.log.info('Starting server');
-    server.wolfram.process.stdin.write('System`$Env = <|"ElectronCode"->'+server.electronCode+'|>;');
+    server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+'|>;');
     server.wolfram.process.stdin.write(`Get[URLDecode["${encodeURIComponent(runPath)}"]]\n`);
 
     const PACError = new RegExp(/Execution of PAC script at/);

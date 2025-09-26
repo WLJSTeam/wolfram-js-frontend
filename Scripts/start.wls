@@ -174,6 +174,7 @@ If[!DirectoryQ[AppExtensions`DemosDir], CreateDirectory[AppExtensions`DemosDir];
 AppExtensions`ExtensionsDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Extensions"}];
 If[!DirectoryQ[AppExtensions`ExtensionsDir], CreateDirectory[AppExtensions`ExtensionsDir]; ];
 
+AppExtensions`AppDataDir = Lookup[$Env, "AppData", Directory[] ];
 
 (* ~~check version~~ *)
 Echo["Checking version of WLJS Notebook ..."];
@@ -185,6 +186,7 @@ Echo[">> BackupsDir: "<> AppExtensions`BackupsDir];
 Echo[">> DefaultDocumentsDir: "<> AppExtensions`DefaultDocumentsDir];
 Echo[">> DemosDir: "<> AppExtensions`DemosDir];
 Echo[">> ExtensionsDir: "<> AppExtensions`ExtensionsDir];
+Echo[">> AppDataDir: "<> AppExtensions`AppDataDir];
 Echo[">> Root: "<> Directory[] ];
 
 (* load users extensions *)
@@ -199,7 +201,7 @@ RandomWord[];
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
-WLJSPackages`SyncShared[Directory[], FileNameJoin[{Directory[], "__shared"}] ];
+WLJSPackages`SyncShared[Directory[], FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
 
 
 (*EventHandler[AppExtensions`AppEvents // EventClone, {

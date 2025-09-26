@@ -21,6 +21,7 @@ BackupsDir;
 DefaultDocumentsDir;
 DemosDir;
 ExtensionsDir;
+AppDataDir;
 
 Templates;
 TemplateInjection;
