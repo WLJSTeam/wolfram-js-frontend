@@ -3,6 +3,7 @@ Temp/
 __backups/*.wln
 __ntemp/*.wln
 __localkernel/*
+__shared
 _settings.wl
 shipped/*
 *.DS_STORE

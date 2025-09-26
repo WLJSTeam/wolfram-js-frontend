@@ -144,26 +144,6 @@ If[versionToNumber[$VersionNumber] < versionToNumber["13.3"],
   Exit[-1];
 ];
 
-MergeDirectories[source_String, target_String] := (
-  Echo[StringTemplate["Copy directory `` to ``"][source, target]];
-  If[!DirectoryQ[target], CreateDirectory[target]; ];
-  
-  With[{names = FileNames[All, source]},
-    With[{folders = Select[names, DirectoryQ[#] &], files = Select[names, !DirectoryQ[#] &]},
-
-    
-      Map[Function[folder,
-        With[{folderName = FileNameTake[folder, -1] },
-          MergeDirectories[folder, FileNameJoin[{target, folderName}]]
-        ]], folders];
-
-      Map[Function[file,
-        CopyFile[file, FileNameJoin[{target, FileNameTake[file, -1]}], OverwriteTarget->True];
-        Echo[StringTemplate["Copied `` to ``"][file, FileNameJoin[{target, FileNameTake[file, -1]}]]];
-      ], files];
-    ]
-  ];
-);
 
 syncDemoFolders[path_String] := Null;
 

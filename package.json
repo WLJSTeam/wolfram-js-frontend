@@ -156,7 +156,22 @@
       "./Electron/build/**/*",
       "./Electron/build/**/",
       "./Electron/pdfjs/**",
-      "./bundle/**"
+      "./Assets/**",
+      "./Common/**",
+      "./Components/**",
+      "./Frontend/**",
+      "./Kernel/**",
+      "./Scripts/**",
+      "./Views/**",
+      "./wl_packages/**",
+      "./wljs_packages/**",
+      "./package.json",
+      "./PacletInfo.wl",
+      "./wl_packages_lock.wl",
+      "./wljs_packages_lock.wl",
+      "./wljs_packages_users.wl",
+      "./.wl_timestamp",
+      "./.wljs_timestamp"
     ],
     "asar": false
   },

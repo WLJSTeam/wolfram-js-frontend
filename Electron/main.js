@@ -45,17 +45,19 @@ let trackpadUtils = {
 if (isMac) trackpadUtils = require("electron-trackpad-utils");
 
 //all routes to important folders
-let installationFolder;
+let appDataFolder;
 
 //check if it is working from the repo folder of not
 if (app.isPackaged) {
-    installationFolder = path.join(app.getPath('appData'), 'wljs-notebook');
+    appDataFolder = path.join(app.getPath('appData'), 'wljs-notebook');
 } else {
-    installationFolder = app.getAppPath();
+    appDataFolder = app.getAppPath();
 }
 
-const runPath = path.join(installationFolder, 'Scripts', 'start.wls');
-const updatePath = path.join(installationFolder, 'Scripts', 'update.wls');
+let rootAppFolder = app.getAppPath();
+
+const runPath = path.join(rootAppFolder, 'Scripts', 'start.wls');
+const updatePath = path.join(rootAppFolder, 'Scripts', 'update.wls');
 const workingDir = app.getPath('home');
 
 trackpadUtils.onForceClick(() => {
@@ -216,7 +218,7 @@ function check_cli_installed(log_window) {
         return;
     }
 
-    fs.exists(path.join(installationFolder, '.cli_i'), (existsQ) => {
+    fs.exists(path.join(appDataFolder, '.cli_i'), (existsQ) => {
         if (existsQ) {
             console.log('Cli is installed');
             return;
@@ -226,7 +228,7 @@ function check_cli_installed(log_window) {
 
         console.log('Cli is not installed');
 
-        if (fs.existsSync(path.join(installationFolder, '.nocli_i'))) {
+        if (fs.existsSync(path.join(appDataFolder, '.nocli_i'))) {
             console.log('skipped because of a user');
             return;
         }
@@ -248,7 +250,7 @@ function check_cli_installed(log_window) {
                     if (error) throw error;
                     console.log('stdout: ' + stdout);
 
-                    fs.writeFile(path.join(installationFolder, '.cli_i'), 'Nothing to see here', function(err) {
+                    fs.writeFile(path.join(appDataFolder, '.cli_i'), 'Nothing to see here', function(err) {
                         if (err) throw err;
                     });                    
                   }
@@ -264,7 +266,7 @@ function check_cli_installed(log_window) {
             if (answer) {
                 install()
             } else {
-                fs.writeFile(path.join(installationFolder, '.nocli_i'), 'Nothing to see here', function(err) {
+                fs.writeFile(path.join(appDataFolder, '.nocli_i'), 'Nothing to see here', function(err) {
                     if (err) throw err;
                 });
             }
@@ -303,12 +305,12 @@ pluginsMenu.items = {};
 pluginsMenu.fetch = () => {
     pluginsMenu.items = {kernel: [], edit: [], view: [], file: [], misc: []}
 
-    if (!fs.existsSync(path.join(installationFolder, 'wljs_packages'))) return;
+    if (!fs.existsSync(path.join(rootAppFolder, 'wljs_packages'))) return;
 
     
 
-    fs.readdirSync(path.join(installationFolder, 'wljs_packages'), { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
-        const p = path.join(installationFolder, 'wljs_packages', item.name, 'package.json');
+    fs.readdirSync(path.join(rootAppFolder, 'wljs_packages'), { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
+        const p = path.join(rootAppFolder, 'wljs_packages', item.name, 'package.json');
         if (fs.existsSync(p)) {
             const package = JSON.parse(fs.readFileSync(p, 'utf8'));
             if (package["wljs-meta"]["menu"]) {
@@ -355,8 +357,8 @@ pluginsMenu.fetch = () => {
 
 //load shortcuts
 let shortcuts_table = require("./shortcuts.json");
-if (fs.existsSync(path.join(installationFolder, "Electron", "shortcuts.json"))) {
-    shortcuts_table = JSON.parse(fs.readFileSync(path.join(installationFolder, "Electron", "shortcuts.json"), 'utf8'));
+if (fs.existsSync(path.join(appDataFolder, "Electron", "shortcuts.json"))) {
+    shortcuts_table = JSON.parse(fs.readFileSync(path.join(appDataFolder, "Electron", "shortcuts.json"), 'utf8'));
 } 
 
 const { spawnSync, spawn } = require('child_process');
@@ -552,14 +554,7 @@ const buildMenu = (opts) => {
                         label: 'Locate AppData',
                         click: async(ev) => {
                             console.log(ev);
-                            shell.showItemInFolder(installationFolder);
-                        }
-                    },
-                    {
-                        label: 'Check updates',
-                        click: async(ev) => {
-                            console.log(ev);
-                            windows.focused.call('checkupdates', true);
+                            shell.showItemInFolder(appDataFolder);
                         }
                     },
                     ...(isMac ? [{ type: 'separator' }] : [
@@ -891,7 +886,7 @@ callFakeMenu["locateExamples"] = async(ev) => {
 
 callFakeMenu["locateAppData"] = async(ev) => {
     console.log(ev);
-    shell.showItemInFolder(installationFolder);
+    shell.showItemInFolder(appDataFolder);
 }
 
 callFakeMenu["reload"] = () => {
@@ -912,9 +907,6 @@ callFakeMenu["quickmode"] = () => {
     windows.focused.call('reopenasquick', true);
 }
 
-callFakeMenu["checkupdates"] = () => {
-    windows.focused.call('checkupdates', true);
-}
 
 callFakeMenu["exit"] = () => {
     dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
@@ -1294,7 +1286,7 @@ const exportImageBuffer = async (buffer, format, pp, frames) => {
     for (let i=0; i<len; ++i) {
         const frame = buffer.pop();
         const p = path.join(pp, String(frame[0]) + "." + format);
-        fs.writeFileSync(p, frame[1]);
+        fs.writeFileSync(p, frame[1], {flag:'w'});
         console.log(p);
     }
 }
@@ -1309,7 +1301,7 @@ function ensureDirectoryExistence(filePath) {
   }
 
 const dumpLogs = (cbk) => {
-    const p = path.join(installationFolder, 'Debug', 'System.log');
+    const p = path.join(appDataFolder, 'Debug', 'System.log');
     ensureDirectoryExistence(p);
     fs.writeFile(p, windows.log.dump.join('\r\n'), function(err) {
         if (err) throw err;
@@ -1323,8 +1315,8 @@ const dumpLogs = (cbk) => {
 }
 
 const read_wl_settings = () => {
-    if (!fs.existsSync(path.join(installationFolder, '_settings.wl'))) return;
-    const file = fs.readFileSync(path.join(installationFolder, '_settings.wl'), 'utf8');
+    if (!fs.existsSync(path.join(appDataFolder, '_settings.wl'))) return;
+    const file = fs.readFileSync(path.join(appDataFolder, '_settings.wl'), 'utf8');
     console.log(file);
 
     const r = new RegExp(/("\w*") -> *\n* *("?[^"|>,]*"?)/gm);
@@ -2008,8 +2000,8 @@ if (process.defaultApp) {
 
 //reset HTTP cache in the browser if an update flag was detected (created by WL)
 const checkCacheReset = (cbk) => {
-    if (fs.existsSync(path.join(installationFolder, '.wasupdated'))) {
-        fs.unlinkSync(path.join(installationFolder, '.wasupdated'));
+    if (fs.existsSync(path.join(appDataFolder, '.wasupdated'))) {
+        fs.unlinkSync(path.join(appDataFolder, '.wasupdated'));
         session.defaultSession.clearStorageData();
         session.defaultSession.clearCache();
 
@@ -2128,92 +2120,7 @@ app.whenReady().then(() => {
     windows.log.construct((log_window) => {
         windows.log.version(app.getVersion());
         
-        ipcMain.on('reinstall', () => {
-            reinstall((state) => {
-                if (state) {
-                    server.browserMode = false; 
-                    server.frontend.RunInTray = false;
-                    app.relaunch();
-                    app.quit();
-                }
-            }, log_window);
-        });
-
-        ipcMain.on('update', () => {
-            windows.log.info('Update mode');
-            windows.log.clear();
-            windows.log.print('Shutting down a server...');
-
-            try {
-                server.shutdown(true);
-            } catch(err) {
-                windows.log.print(err);
-            }
-
-            
-            server.down = true;
-            setTimeout(() => {
-                windows.log.info('Update mode');
-                windows.log.print('Please wait a bit more. This ensures, that Wolfram Kernel has finished the execution.');
-            }, 2000);
-
-            setTimeout(() => {
-                windows.log.info('Update mode');
-                windows.log.print('1 more second before starting an update');
-            }, 3000);            
-
-            setTimeout(() => {
-                initServer();
-
-                windows.log.print('Done');
-                check_wl(load_configuration(), () => store_configuration(() => {
-
-                    windows.log.info('Starting script');
-                    server.wolfram.process.stdin.write(`Get[URLDecode["${encodeURIComponent(updatePath)}"]]\n`);
-                    server.wolfram.process.stdin.write(`\n`);
-                
-                    const sign = new RegExp(/@Electron, go ahead/);
-                    let sign_match;
-                
-                    server.wolfram.streamer = (data) => {
-                        if (sign_match) return;
-                
-                        const string = data.toString();
-                        windows.log.print(string);
-                
-                        sign_match = sign.exec(string);
-                        if (sign_match) { 
-                            
-
-                            try {
-                                server.shutdown(true);
-                            } catch(err) {
-                                windows.log.print(err);
-                            }   
-                            
-                            server.down = false;
-
-                            windows.log.info('Finished');
-
-                            session.defaultSession.clearStorageData();
-                            session.defaultSession.clearCache();
-                            windows.log.print('Cache clear');
-                            
-                            setTimeout(() => {
-                                initServer();
-                                check_installed(() => check_wl(load_configuration(), () => store_configuration(() => start_server(log_window)), log_window), log_window);
-                            }, 1000);
-                        }
-                    };
-
-                    server.wolfram.process.stdout.on('data', server.wolfram.streamer);
-                    
-                    
-                }), log_window)
-            }, 4000);
-
-
-        });
+ 
         //new promt('input', 'Do you have Wolfram Engine installed?', (answer) => console.log(answer), log_window);
         check_installed(() => check_wl(load_configuration(), () => store_configuration(() => start_server(log_window)), log_window), log_window);
     });
@@ -2591,7 +2498,7 @@ app.whenReady().then(() => {
     });
 
     ipcMain.on('locate-logfile', () => {
-        shell.showItemInFolder(installationFolder);
+        shell.showItemInFolder(appDataFolder);
     });
 
     globalShortcut.register(shortcut("overlay"), () => {
@@ -2834,7 +2741,7 @@ function store_configuration(cbk) {
         wolfram: server.wolfram
     };
 
-    fs.writeFile(path.join(installationFolder, 'configuration.ini'), JSON.stringify(opts), function(err) {
+    fs.writeFile(path.join(appDataFolder, 'configuration.ini'), JSON.stringify(opts), function(err) {
         if (err) throw err;
     });
 
@@ -2842,8 +2749,8 @@ function store_configuration(cbk) {
 }
 
 function load_configuration() {
-    if (!fs.existsSync(path.join(installationFolder, 'configuration.ini'))) return undefined;
-    return JSON.parse(fs.readFileSync(path.join(installationFolder, 'configuration.ini'), 'utf8'));
+    if (!fs.existsSync(path.join(appDataFolder, 'configuration.ini'))) return undefined;
+    return JSON.parse(fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8'));
 }
 
 //checking if there is working Wolfram Kernel.
@@ -3373,105 +3280,13 @@ function install_wl(window) {
     }, window);
 }
 
-function reinstall(cbk, window) {
-    const toRemove = ['package.json', '.wl_timestamp', '.wljs_timestamp', 'wl_packages_lock.wl', 'wljs_packages_lock.wl', 'wljs_packages_users.wl'];
-    const dirToRemove = ['wl_packages', 'Scripts', 'wljs_packages', '__localkernel'];
-    const recreate = ['__localkernel'];
 
-    new promt('binary', 'This action will remove wl*, wljs* package folders', (answer) => {
-        if (answer) {
-            //cbk(true); return;
-            if (!app.isPackaged) return cbk(false);
-
-            toRemove.forEach((p) => {
-                if (fs.existsSync(path.join(installationFolder, p))) {
-                    fs.unlinkSync(path.join(installationFolder, p));
-                }
-            });
-        
-            dirToRemove.forEach((p) => {
-                if (fs.existsSync(path.join(installationFolder, p))) {
-                    fs.rmSync(path.join(installationFolder, p), { recursive: true, force: true });
-                }
-            });
-        
-            recreate.forEach((p) => {
-                fs.mkdirSync(path.join(installationFolder, p))
-            });
-        
-            cbk(true);
-        } else {
-            cbk(false);
-        }
-    }, window);
-
-
-
-}
 
 function check_installed (cbk, window) {
-    if (!app.isPackaged) return cbk(); //development env
-
-    windows.log.print('checking WLJS Application Data...', '\x1b[32m');
-    windows.log.print(installationFolder, '\x1b[32m');
-
-    const package = path.join(installationFolder, 'package.json');
-
-    if (fs.existsSync(package)) {
-        windows.log.print('package-data located');
-        fs.readFile(package, 'utf8', (err, raw) => {
-            if (err) {
-                windows.log.print('Cannot read '+package+'!');
-                windows.log.info('Cannot read package files');
-                windows.log.print('Clean installation', '\x1b[34m');
-                install_frontend(cbk, window);
-                return;
-            }
-
-            const data = JSON.parse(raw);
-            
-            windows.log.print('AppData: ' + data["version"], '\x1b[34m');
-            windows.log.print('Binary: ' + app.getVersion(), '\x1b[34m');
-            if ((app.getVersion().trim()) != (data["version"].trim())) {
-                windows.log.print('Needs an update', '\x1b[34m');
-                install_frontend(cbk, window);
-            } else {
-                return cbk();
-            }
-        });
-    } else {
-        windows.log.print('Clean installation', '\x1b[34m');
-        install_frontend(cbk, window);
-    }
+    return cbk(); 
 }
 
 
-function install_frontend(cbk, window, force=false) {
-    if (!app.isPackaged) return cbk(); //development env
-
-    const sub = path.join(app.getAppPath(), 'bundle');
-    windows.log.print(sub);
-
-    if (fs.existsSync(sub)) {
-        windows.log.print('Copying files...');
-        fse.copySync(sub, installationFolder, { overwrite: true });
-        windows.log.print('');
-        windows.log.print('Done!');
-        windows.log.info('Done!');
-        server.wasUpdated = true;
-
-        windows.log.print('Cache reset');
-
-        session.defaultSession.clearStorageData();
-        session.defaultSession.clearCache();
-
-        cbk();
-    } else {
-        windows.log.clear();
-        windows.log.print('Fatal error. No bundle files found ');
-    }
-
-}
 
 
 

@@ -2972,11 +2972,6 @@ const logger = document.getElementById('log');
 const logFile = document.getElementById('log_file');
 logFile.addEventListener('click', () => window.electronAPI.locateLogFile());
 
-const reinstall = document.getElementById('reinstall');
-reinstall.addEventListener('click', () => {
-    window.electronAPI.reinstall();
-    reinstall.remove();
-});
 
 // Open the terminal in #terminal-container
 term.open(logger);
@@ -3065,11 +3060,7 @@ window.electronAPI.addPromt((event, id, title) => {
     modal.classList.remove('hidden');
 });
 
-const updateBtn = document.getElementById("update_button");
-updateBtn.addEventListener('click', () => {
-    window.electronAPI.update();
-    updateBtn.remove();
-})
+
 
 
 window.electronAPI.addDialog((event, id, title) => {

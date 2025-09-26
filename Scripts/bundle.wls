@@ -7,37 +7,6 @@ PacletDirectoryLoad[Directory[]];
 
 Get[FileNameJoin[{Directory[], "Common", "LPM", "LPM.wl"}] ];
 
-If[FileExistsQ[FileNameJoin[{Directory[],"bundle"}] ], DeleteDirectory[FileNameJoin[{Directory[],"bundle"}], DeleteContents->True ] ];
-
-CreateDirectory[FileNameJoin[{Directory[],"bundle"}] ];
-
-root = Directory[];
-
-SetDirectory[FileNameJoin[{Directory[],"bundle"}] ];
-
-Echo["Copying repo files..."];
-Map[
-    If[DirectoryQ[FileNameJoin[{root, #}] ],
-        Echo["copying directory "<>#];
-        CopyDirectory[FileNameJoin[{root, #}], FileNameJoin[{Directory[], #}] ]
-    ,
-        Echo["copying file "<>#];
-        CopyFile[FileNameJoin[{root, #}], FileNameJoin[{Directory[], #}] ]
-    ]&
-, {
-    "__localkernel",
-    "Assets",
-    "Common",
-    "Components",
-    "Electron",
-    "Frontend",
-    "Kernel",
-    "Scripts",
-    "Views",
-    "package.json",
-    "PacletInfo.wl"
-}];
-
 Echo["Done! Now wl and wljs packages"];
 
 PacletRepositories[{
