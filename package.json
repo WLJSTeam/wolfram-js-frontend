@@ -1,6 +1,6 @@
 {
   "name": "wljs-notebook",
-  "version": "2.8.4",
+  "version": "2.8.5",
   "recommended-client-version": "2.6.3",
   "description": "Dynamic Notebook Environment for Wolfram Language written in Javascript",
   "author": {
