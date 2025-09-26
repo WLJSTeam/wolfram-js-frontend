@@ -48,7 +48,7 @@ jobs:
       - name: Fetch all dependencies inside Wolfram container
         run: |
           docker exec -e WOLFRAMSCRIPT_ENTITLEMENTID=${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }} wolfram \
-          wolframscript -script ./Scripts/update.wls
+          wolframscript -script ./Scripts/bundle.wls
 
       - name: Extract Docker metadata
         id: meta

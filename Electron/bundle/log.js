@@ -2969,9 +2969,6 @@ const term = new xtermExports.Terminal({cursorBlink: true, rows: 13, fontFamily:
 
 const logger = document.getElementById('log');
 
-const logFile = document.getElementById('log_file');
-logFile.addEventListener('click', () => window.electronAPI.locateLogFile());
-
 
 // Open the terminal in #terminal-container
 term.open(logger);

@@ -57,15 +57,7 @@ Component[OptionsPattern[]] := With[{
         <button data-name="locateExamples" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
        
           Locate Examples
-        </button>
-        <button data-name="locateAppData" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
-   
-          Locate AppData
-        </button> 
-        <button data-name="checkupdates" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
-   
-          Check updates
-        </button>               
+        </button>              
       </div>
       
     ,  

@@ -10,17 +10,30 @@ Get[FileNameJoin[{Directory[], "Common", "LPM", "LPM.wl"}] ];
 Off[General::shdw]; (* avoid warning messages from ContextAliases *)
 Off[Part::partd]; (* avoid warning messages from WLX *)
 
-PacletRepositories[{
-  Github -> "https://github.com/KirillBelovTest/Objects" -> "master",
-  Github -> "https://github.com/JerryI/Internal" -> "master",
-  Github -> "https://github.com/JerryI/TCPServer" -> "master",
-  Github -> "https://github.com/JerryI/HTTPHandler" -> "master",
-  Github -> "https://github.com/JerryI/WebSocketHandler" -> "master",
-  Github -> "https://github.com/JerryI/CSocketListener" -> "master",
-  Github -> "https://github.com/JerryI/wl-wlx" -> "master",
-  Github -> "https://github.com/JerryI/wl-misc" -> "main",
-  Github -> "https://github.com/lshifr/LetWL" -> "master"
-}, "Directory" -> Directory[], "MaxVersionDiff"-> 1, "AutomaticUpdates"-> False, "StrictMode"->True  ]
+(* WLJS Package manager *)
+Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
+
+With[{deps = Get[FileNameJoin[{Directory[], "dependencies.wl"}] ]},
+  If[FailureQ[LPMLoad[Directory[] ] ], 
+    Echo["wl_packages is empty"];
+
+    DeleteDirectory[FileNameJoin[{Directory[], "wl_packages"}],   DeleteContents->True] // Quiet;
+    DeleteDirectory[FileNameJoin[{Directory[], "wljs_packages"}], DeleteContents->True] // Quiet;
+    DeleteFile[FileNameJoin[{Directory[], #}] ] &/@ {
+      ".wl_timestamp",
+      "wl_packages_lock.wl"
+    } // Quiet;
+
+    Echo["Installing all..."];
+    LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[], "MaxVersionDiff"-> 3 ];
+
+    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> Directory[] , "MaxVersionDiff"-> 3];
+  ,
+
+    WLJSPackages`Load[Directory[] ];
+  ];
+];
+
 
 (* web-server *)
 Needs["KirillBelov`CSockets`"]
@@ -77,9 +90,6 @@ Needs["JerryI`WLX`WLJS`"]
 Needs["JerryI`WLX`WebUI`"]
 
 Needs["CodeParser`"]
-
-(* WLJS Package manager *)
-Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 
 
 (* env parameters *)
@@ -161,6 +171,10 @@ If[!DirectoryQ[AppExtensions`DefaultDocumentsDir], CreateDirectory[AppExtensions
 AppExtensions`DemosDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Demos"}];
 If[!DirectoryQ[AppExtensions`DemosDir], CreateDirectory[AppExtensions`DemosDir]; syncDemoFolders[AppExtensions`DemosDir]; ];
 
+AppExtensions`ExtensionsDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Extensions"}];
+If[!DirectoryQ[AppExtensions`ExtensionsDir], CreateDirectory[AppExtensions`ExtensionsDir]; ];
+
+
 (* ~~check version~~ *)
 Echo["Checking version of WLJS Notebook ..."];
 Echo[AppExtensions`FrontendEnv["AppJSON"]["version"] ];
@@ -170,48 +184,17 @@ Echo[">> QuickNotesDir: "<> AppExtensions`QuickNotesDir];
 Echo[">> BackupsDir: "<> AppExtensions`BackupsDir];
 Echo[">> DefaultDocumentsDir: "<> AppExtensions`DefaultDocumentsDir];
 Echo[">> DemosDir: "<> AppExtensions`DemosDir];
+Echo[">> ExtensionsDir: "<> AppExtensions`ExtensionsDir];
 Echo[">> Root: "<> Directory[] ];
+
+(* load users extensions *)
+WLJSPackages`Load[ AppExtensions`ExtensionsDir ];
 
 {loadSettings, storeSettings}        = Get[FileNameJoin[{"Frontend", "Settings.wl"}] ];
 
-WLJSPackages`Repositories[{
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-editor" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-d3" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-mk" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-three" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-graphics-d3" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-html-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-inputs" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-interpreter" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-js-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-markdown-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-magic-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-plotly" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-cells" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-revealjs" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-wlx-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-mermaid-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-snippets" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-alt-cell-controls" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-print-redirect-fix" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-export-html" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-manipulate" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sound" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-video" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-templates" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-xterm" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-excalidraw" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-toc" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-wxf-accelerator" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-neuralnet" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-docs-archive" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-demos-archive" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-debugger" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-api" -> "base"
-}, "Directory" -> Directory[], "MaxVersionDiff"-> 3, "AutomaticUpdates"-> False, "StrictMode"->True ]
-
 RandomWord[];
+
+
 
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];

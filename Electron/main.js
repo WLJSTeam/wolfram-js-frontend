@@ -549,14 +549,6 @@ const buildMenu = (opts) => {
                             shell.openExternal(windows.focused.win.webContents.getURL());
                         }
                     },
-                    { type: 'separator' },
-                    {
-                        label: 'Locate AppData',
-                        click: async(ev) => {
-                            console.log(ev);
-                            shell.showItemInFolder(appDataFolder);
-                        }
-                    },
                     ...(isMac ? [{ type: 'separator' }] : [
                         { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
                             console.warn('Quit dialog');

@@ -90,22 +90,4 @@ EventHandler[installEvent, Function[val,
             </div> 
         ]
     , {CategoryName, Complement[Keys @ categoryPackages, {"Internal"}] }] // StringRiffle
-,
-    <style>
-        #github-link:focus-visible {
-            outline:unset;
-        }
-        .w15 {
-            width: 15rem;
-        }
-    </style>
-,
-    <div class="pb-10 pb-10 mt-5 gap-y-2 flex flex-col">
-        <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-            <label for="name" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Install a new one</label>
-            <input type="text" id="github-link" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Put a Github link and leave the focus"/>
-            <WebUIEventListener Id={"github-link"} Type={"blur"} Event={installEvent}/>
-        </div> 
-        <Knob Label={"Check updates"} Event={updateEvent} Class={"w15"}/>
-    </div>   
 }
