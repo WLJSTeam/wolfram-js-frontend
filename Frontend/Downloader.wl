@@ -6,6 +6,8 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
     
     Begin["`Internal`"]
 
+    Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
+
     parseBytesRange[str_String] := Module[{matches},
       matches = StringCases[
         str,
@@ -23,10 +25,18 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         Echo[k];
     )
 
-    handler["GET"][request_] := With[{path = URLDecode[request["Query", "path"] ], rangesString = Lookup[request["Headers"], "Range", False]},
+    wljsPackages = FileNameJoin[{Directory[], "wljs_packages"}];
+
+
+    handler["GET"][request_] := With[{
+        rawPath = URLDecode[request["Query", "path"] ], rangesString = Lookup[request["Headers"], "Range", False]
+    }, Module[{
+        path = rawPath
+    },
+        path = SelectFirst[If[# === Null, rawPath, FileNameJoin[{#, rawPath}] ] &/@ {wljsPackages, AppExtensions`ExtensionsDir, Directory[], Null}, FileExistsQ ];
         Echo["Downloader >> Get request"];
 
-        If[!FileExistsQ[path],
+        If[MissingQ[path],
             Echo["File: "<>path<>" does not exist"];
                     <|
                         "Code" -> 404, 
@@ -84,12 +94,17 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         ]
     
         
-    ]
+    ] ]
 
-    handler["HEAD"][request_] := With[{path = URLDecode[request["Query", "path"] ]},
+    handler["HEAD"][request_] := With[{
+        rawPath = URLDecode[request["Query", "path"] ]
+    }, Module[{
+        path
+    },
         Echo["Downloader >> Head request"];
-        Echo[request];
-        If[FileExistsQ[path],
+        path = SelectFirst[If[# === Null, rawPath, FileNameJoin[{#, rawPath}] ] &/@ {wljsPackages, AppExtensions`ExtensionsDir, Directory[], Null}, FileExistsQ ];
+
+        If[!MissingQ[path],
             <|
                 "Code" -> 200, 
                 "Headers" -> <|
@@ -112,7 +127,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
                 |>
             |>  
         ]      
-    ]
+    ] ]
 
     module[OptionsPattern[] ] := With[{http = OptionValue["HTTPHandler"]},
         Echo["Downloads module was attached"];

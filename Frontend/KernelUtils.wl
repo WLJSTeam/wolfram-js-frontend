@@ -17,6 +17,9 @@ Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 Needs["CoffeeLiqueur`Notebook`Kernel`" -> "GenericKernel`"];
 Needs["CoffeeLiqueur`Notebook`Evaluator`" -> "StandardEvaluator`"]
 
+Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
+
+
 initializeKernel[parameters_][kernel_] := With[{
   wsPort = parameters["env", "ws2"], 
   spinner = Notifications`Spinner["Topic"->"Initialization of the Kernel", "Body"->"Please, wait"]
@@ -28,8 +31,8 @@ initializeKernel[parameters_][kernel_] := With[{
 
   (* load kernels and provide remote path *)
   With[{
-    path = ToString[URLBuild[<|"Scheme" -> "http", 	"Query"->{"path" -> URLEncode[FileNameJoin[{Directory[], "wljs_packages", FileNameSplit[#][[1]] }] ]}, "Domain" -> (StringTemplate["``:``"][With[{h =  parameters["env", "host"]}, If[h === "0.0.0.0", "127.0.0.1", h] ], parameters["env", "http"] ]), "Path" -> "downloadFile/"|> ], InputForm],
-    p = Import[FileNameJoin[{"wljs_packages", #}], "String"]
+    path = ToString[URLBuild[<|"Scheme" -> "http", 	"Query"->{"path" -> URLEncode[ FileNameSplit[#][[1]] ]}, "Domain" -> (StringTemplate["``:``"][With[{h =  parameters["env", "host"]}, If[h === "0.0.0.0", "127.0.0.1", h] ], parameters["env", "http"] ]), "Path" -> "downloadFile/"|> ], InputForm],
+    p = Import[#, "String", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}]
   },
     Echo[StringJoin["Loading into Kernel... ", #] ];
 
@@ -38,10 +41,7 @@ initializeKernel[parameters_][kernel_] := With[{
     With[{processed = StringReplace[p, "$RemotePackageDirectory" -> ("Internal`RemoteFS["<>path<>"]")]},
       GenericKernel`Async[kernel,  ImportString[processed, "WL"] ](*`*);
     ];
-    (*With[{u = StringJoin["Block[{System`$RemotePackageDirectory = Internal`RemoteFS[",path,"]}, Get[\"",dir,"\"] ];"]},
-      Echo[u];
-      GenericKernel`Init[kernel,  ToExpression[ u ] ](*`*);
-    ];*)
+
   ] &/@ WLJSPackages`Includes["kernel"];
 
   Echo["Starting WS link"];

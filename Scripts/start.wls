@@ -27,10 +27,10 @@ With[{deps = Get[FileNameJoin[{Directory[], "dependencies.wl"}] ]},
     Echo["Installing all..."];
     LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[], "MaxVersionDiff"-> 3 ];
 
-    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> Directory[] , "MaxVersionDiff"-> 3];
+    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> FileNameJoin[{Directory[], "wljs_packages"}], "MaxVersionDiff"-> 3];
   ,
 
-    WLJSPackages`Load[Directory[] ];
+    WLJSPackages`Load[FileNameJoin[{Directory[], "wljs_packages"}] ];
   ];
 ];
 
@@ -201,7 +201,8 @@ RandomWord[];
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
-WLJSPackages`SyncShared[Directory[], FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
+WLJSPackages`SyncShared[FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
+WLJSPackages`SyncShared[AppExtensions`ExtensionsDir, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
 
 
 (*EventHandler[AppExtensions`AppEvents // EventClone, {
@@ -240,10 +241,15 @@ With[{now = Now},
 (* load stuff into frontend *)
 Echo["Loading packages: FRONTEND"];
 
-  If[FailureQ[Get[FileNameJoin[{Directory[], "wljs_packages",  UniversalPathConverter[#]}] ] ],
-    Echo["Failed to load some of the packages (see logs)"];
-    Exit[0]
-  ] &/@ WLJSPackages`Includes["frontend"]; 
+If[FailureQ[
+    Get[
+      UniversalPathConverter[#],
+      Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}
+    ] 
+  ],
+  Echo["Failed to load some of the packages (see logs)"];
+  Exit[0]
+] &/@ WLJSPackages`Includes["frontend"]; 
 
 JerryI`WLX`Importer`Private`CacheControl["Hour"];
 
@@ -264,7 +270,7 @@ Downloader   = ImportComponent["Frontend/Downloader.wl"];
 
 (* Global variables *)
 
-$ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], "/", ""}
+$ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], AppExtensions`ExtensionsDir, "/", ""}
 
 
 
@@ -360,30 +366,6 @@ PromptWindow["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "Extensio
 ExtendedApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 IframeApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 App["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-
-(*Echo["Autotest start!"];
-
-If[$Env["bypasstest"] === "True" || $Env["bypasstest"] === True,
-  Echo["Autotest was skipped"];
-,
-  (* autotest *)
-  With[{secret = "123"},
-    With[{
-            result = Get[StringTemplate["http://``:``/test/``"][$Env["host"], $Env["http"], URLEncode[ secret ] ] ]
-        },
-
-      If[result === ToString[ Hash[secret] ],
-        Echo["Autotest passed!"];
-      ,
-        Echo["Autotest failed!"];
-        Echo[result];
-        If[!TrueQ[$Env["bypasstest"] ], Exit[-1] ];
-      ];
-    ];
-  ];
-];*)
-
-
 
 
 SetTimeout[

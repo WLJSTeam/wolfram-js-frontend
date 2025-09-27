@@ -11,6 +11,7 @@ CoffeeLiqueur`ExtensionManager`Load;
 
 SharedDir;
 SyncShared;
+$ExposedDirectories;
 
 Begin["`Private`"]
 
@@ -48,7 +49,7 @@ SyncShared[dir_, shared_] := With[{},
 
   Do[ 
     Do[ 
-      With[{original = FileNameJoin[{dir, "wljs_packages", Packages[i, "name"], StringSplit[j, "/"]} // Flatten]},
+      With[{original = FileNameJoin[{dir, Packages[i, "name"], StringSplit[j, "/"]} // Flatten]},
         Map[Function[path, 
           With[{targetPath = FileNameJoin[{shared, FileNameTake[path]}]},
             Echo["WLJS Extensions >> Sync deferred packages >> "<>FileNameTake[path] ];
@@ -90,6 +91,8 @@ SyncShared[dir_, shared_] := With[{},
   , {i, Select[Packages // Keys, (Packages[#, "enabled"] && KeyExistsQ[Packages[#, "wljs-meta"], "deferred"])&]}]
 ];
 
+$ExposedDirectories = {};
+
 Includes[param_] := Includes[param] = 
 Table[ 
     Table[ 
@@ -101,30 +104,20 @@ Table[
 CoffeeLiqueur`ExtensionManager`Load[projectDir_ ]  := Module[{repos}, With[{metas = GetReposMeta[projectDir]},
   If[Length[metas] == 0, Return[Null, Module] ];
   If[$ProjectDir === Null,  $ProjectDir = projectDir];
+  $ExposedDirectories = Append[$ExposedDirectories, projectDir] // DeleteDuplicates;
+
   $packages = Join[If[$packages === Null, <||>, $packages], metas ];
   $packages = sortPackages[$packages]; 
 ] ]
 
-InstallAll[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, cache, updated, removed, new, current, updatable, strictMode = OptionValue["StrictMode"], automaticUpdates = OptionValue["AutomaticUpdates"], skipUpdates = False, versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
+InstallAll[list_List, OptionsPattern[] ] := Module[{projectDir = OptionValue["Directory"], info, repos, cache, updated, removed, new, current, updatable, strictMode = OptionValue["StrictMode"], automaticUpdates = OptionValue["AutomaticUpdates"], skipUpdates = False, versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)
     repos = (#-><|"key"->#|>)&/@list // Association;
 
-    (* locating project directory *)
-    If[OptionValue["Directory"]//StringQ,
-      projectDir = OptionValue["Directory"];
-      If[!StringQ[projectDir], Echo["WLJS Extensions >> Sorry. wrong folder!"]; Abort[] ];
-    ,
-      projectDir = NotebookDirectory[];
-      If[!StringQ[projectDir], projectDir = DirectoryName[$InputFileName] ];
-      If[!StringQ[projectDir], Echo["WLJS Extensions >> Sorry. cannot work without project directory. Save your notebook / script first"]; Abort[] ];    
-    ];
-
-    If[!FileExistsQ[projectDir],
-      CreateDirectory[projectDir, CreateIntermediateDirectories->True];
-      If[!FileExistsQ[projectDir], Echo["WLJS Extensions >> Cannot create project directory at path "<>projectDir<>" !!!"]; Abort[] ];
-    ];
-
+    If[!FileExistsQ[projectDir], CreateDirectory[projectDir, CreateIntermediateDirectories->True] ];
     Echo["WLJS Extensions >> project directory >> "<>projectDir];
+
+    $ExposedDirectories = Append[$ExposedDirectories, projectDir] // DeleteDuplicates;
 
     (* fetching new information from Github for each repo in the list *)
     repos = If[!AssociationQ[#], Missing[], #] &/@ FetchInfo /@ repos;
@@ -133,7 +126,6 @@ InstallAll[list_List, OptionsPattern[] ] := Module[{projectDir, info, repos, cac
 
     repos = InstallPaclet[projectDir] /@ repos;
     repos = OverlayReposMeta[projectDir, repos];
-    repos = OverlayAnonymousReposMeta[projectDir, repos];
 
     $ProjectDir = projectDir;
     $packages = repos;
@@ -159,15 +151,15 @@ SaveConfiguration := With[{},
     CacheStore[$ProjectDir, $packages]
 ]
 
-OverlayReposMeta[dir_String, repos_Association] := With[{},
+OverlayReposMeta[dir_, repos_Association] := With[{},
    With[{data = #},
-    Join[data, Import[FileNameJoin[{dir, "wljs_packages", data["name"], "package.json"}], "RawJSON"] ]
+    Join[data, Import[FileNameJoin[{data["name"], "package.json"}], "RawJSON"], Path->dir ]
    ] &/@ repos
 ]
 
 
 
-GetReposMeta[dir_String] := With[{files = FileNames["package.json", FileNameJoin[{dir, "wljs_packages"}], 2] },
+GetReposMeta[dir_] := With[{files = Flatten[FileNames["package.json", dir, 2] ] },
   If[Length[files] == 0,
    {}
   ,
@@ -178,23 +170,6 @@ GetReposMeta[dir_String] := With[{files = FileNames["package.json", FileNameJoin
   ]
 ] 
 
-OverlayAnonymousReposMeta[dir_String, repos_Association] := With[{
-    registered =  With[{data = #},
-        FileNameJoin[{dir, "wljs_packages", data["name"], "package.json"}]
-    ] &/@ repos // Values,
-
-    found = FileNames["package.json", FileNameJoin[{dir, "wljs_packages"}], 2]    
-},
-    With[{ new = Complement[found, registered] },
-        If[Length[new] =!= 0, Echo["WLJS Extensions >> Found an unregistered packages! Probably created by a user outside"] ];
-
-        Join[repos, Association @ Map[
-            Function[path,
-                Anonymous[path] -> Join[Import[path, "RawJSON"], <|"enabled"->True, "users"->True|>]
-            ]
-        , new] ]
-    ]
-]
 
 
 CacheStore[dir_String, repos_Association] := With[{
@@ -308,7 +283,7 @@ InstallPaclet[dir_String][a_Association, Rule[Github | "Github", url_String]] :=
 
 (* for branch *)
 InstallPaclet[dir_String][a_Association, Rule[Github | "Github", Rule[url_String, branch_String]]] := Module[{dirName, pacletPath},
-    dirName = FileNameJoin[{dir, "wljs_packages"}];
+    dirName = dir;
     If[!FileExistsQ[dirName], CreateDirectory[dirName]];
 
     (* internal error, if there is no url provided *)
@@ -356,7 +331,7 @@ RemovePaclet[dir_String][a_Association, Rule[Github | "Github", url_String]] := 
 
 (* branches *)
 RemovePaclet[dir_String][a_Association, Rule[Github  | "Github", Rule[url_String, branch_String]]] := Module[{dirName, pacletPath},
-    dirName = FileNameJoin[{dir, "wljs_packages"}];
+    dirName = dir;
     dirName = FileNameJoin[{dirName, StringReplace[a["name"], "/"->"_"]}];
 
     If[FileExistsQ[dirName],

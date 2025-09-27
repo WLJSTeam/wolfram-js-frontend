@@ -16,5 +16,5 @@ LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[], "M
 Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 
 
-WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> Directory[] , "MaxVersionDiff"-> 3]
+WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> FileNameJoin[{Directory[], "wljs_packages"}] , "MaxVersionDiff"-> 3]
 
