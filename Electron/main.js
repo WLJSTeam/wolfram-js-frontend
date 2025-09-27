@@ -56,6 +56,8 @@ if (app.isPackaged) {
 
 let rootAppFolder = app.getAppPath();
 
+const userExtensions = path.join(app.getPath('documents'), 'WLJS Notebooks', 'Extensions');
+
 const runPath = path.join(rootAppFolder, 'Scripts', 'start.wls');
 const updatePath = path.join(rootAppFolder, 'Scripts', 'update.wls');
 const workingDir = app.getPath('home');
@@ -307,10 +309,7 @@ pluginsMenu.fetch = () => {
 
     if (!fs.existsSync(path.join(rootAppFolder, 'wljs_packages'))) return;
 
-    
-
-    fs.readdirSync(path.join(rootAppFolder, 'wljs_packages'), { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
-        const p = path.join(rootAppFolder, 'wljs_packages', item.name, 'package.json');
+    const appendItem = (item, p) => {
         if (fs.existsSync(p)) {
             const package = JSON.parse(fs.readFileSync(p, 'utf8'));
             if (package["wljs-meta"]["menu"]) {
@@ -350,8 +349,19 @@ pluginsMenu.fetch = () => {
                         contextMenuExtensions.push(mitem);
                 });
             }
-        }
-    })
+        }    
+    }    
+    const defaultPath = path.join(rootAppFolder, 'wljs_packages');
+
+    fs.readdirSync(defaultPath, { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
+        const p = path.join(defaultPath, item.name, 'package.json');
+        appendItem(item, p);
+    });
+
+    fs.readdirSync(userExtensions, { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
+        const p = path.join(userExtensions, item.name, 'package.json');
+        appendItem(item, p);
+    });    
 }
 
 
@@ -2532,36 +2542,18 @@ function start_server (window) {
 
     const PACError = new RegExp(/Execution of PAC script at/);
 
-    const help_me_sign = new RegExp(/@Electron, fetch me libraries/);
-    let help_me_sign_match;
+
 
     let url_match;
     const url_reg = new RegExp(/Open http:\/\/(?<ip>[0-9|.]*):(?<port>[0-9]*) in your browser/);
 
     server.wolfram.streamer = (data) => {
-        if (help_me_sign_match) return;
+
 
         const string = data.toString();
         windows.log.print(string);
 
-        help_me_sign_match = help_me_sign.exec(string);
-        if (help_me_sign_match && !server.running) {
-            try {
-                server.shutdown(true);
-            } catch(err) {
-                console.error(err);
-            }
-
-
-            windows.log.clear();
-            windows.log.print("Running recovery mode. Installing shipped libraries...");
-
-            install_frontend(() => {
-                check_wl(load_configuration(), () => store_configuration(() => start_server(window)), window)
-            }, window, true);
-            
-            return;
-        }
+        
 
         //listerning for a specific line in output
         url_match = url_reg.exec(string);
@@ -2588,7 +2580,6 @@ function start_server (window) {
 
     };
     server.wolfram.errors = (data) => {
-        if (help_me_sign_match) return;
         const string = data.toString();
 
         //checking errors

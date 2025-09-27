@@ -27,11 +27,6 @@ EventHandler[Secret, {"Load" -> Function[Null,
         ]
     }];
 
-    EventHandler[updateEvent, Function[Null,
-        DeleteFile[".wljs_timestamp"];  
-        DeleteFile[".wl_timestamp"]; 
-        EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Will be checked on the next startup."];
-    ]];
 
     With[{socket = EventClone[$Client]},
         EventHandler[socket, {
@@ -47,41 +42,20 @@ EventHandler[Secret, {"Load" -> Function[Null,
     ];
 ]}];
 
-EventHandler[installEvent, Function[val,
-    With[{url = First[StringCases[val, RegularExpression["github\\.com\\/(.*)\\/(.*)\\/?"] :> {"$1", "$2"}] ] },
-        With[{data = Import[StringTemplate["https://raw.githubusercontent.com/``/``/main/package.json"]@@url , "JSON"]}, 
-            If[KeyExistsQ[Association[data], "wljs-meta"],
-                With[{spinner = Notifications`Spinner["Topic"->"Installation", "Body"->StringTemplate["Please wait, until an intalation of `` is finished..."][Last @ url]] (*`*)},
-                    EventFire[Messager, spinner, Null];
-                    WLJSPackages`InstallByURL[val, Function[{result, message},
-                        EventFire[spinner["Promise"], Resolve, True];
-                        If[result,
-                            EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), message];
-                            WLJSPackages`SaveConfiguration;
-                        ,
-                            EventFire[Messager, "Error", message];
-                        ];
-                    ]];
-
-                ];
-                
-            ,
-                EventFire[Messager, "Warning", "A link provided does not point to a valid package!"];
-            ];
-        ]
-    ];
-]];
 
 {
     <div class="px-4 sm:px-0 pb-3 border-b border-gray-100">
         <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-300">Extensions</h3>
-        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-500">Manage or install new</p>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-500">List of loaded WLJS modules</p>
     </div>
 ,
     Table[
         With[{Tb = Table[
             With[{FullName = StringJoin[WLJSPackages`Packages[key, "name"], " :: ", WLJSPackages`Packages[key, "version"]], Name = WLJSPackages`Packages[key, "name"], Desc = WLJSPackages`Packages[key, "description"], enabled = WLJSPackages`Packages[key, "enabled"]},
-                <Checkbox Label={FullName} Event={controller} Topic={Name} Description={Desc} Checked={enabled}/>
+                <div class="ml-3 text-sm leading-6">
+                      <label for="comments" class="font-medium text-gray-900 dark:text-gray-300"><FullName/></label>
+                      <p class="text-gray-500"><Desc/></p>
+                </div>
             ]
         , {key, categoryPackages[CategoryName]}]},
             <div class="mt-4 overflow-y-auto" style="max-height:60%">   
