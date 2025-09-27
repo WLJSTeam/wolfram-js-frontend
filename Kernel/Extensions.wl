@@ -37,7 +37,7 @@ VersionsStore[dir_String, repos_Association] := Export[FileNameJoin[{dir, "wljs_
 VersionsLoad[dir_String] := If[FileExistsQ[FileNameJoin[{dir, "wljs_packages_version.wl"}] ], Import[FileNameJoin[{dir, "wljs_packages_version.wl"}] ], None ]
 
 
-SyncShared[dir_, shared_] := With[{},
+SyncShared[dirs_List, shared_] := With[{},
 
   SharedDir = shared;
   (* create shared dir *)
@@ -49,7 +49,7 @@ SyncShared[dir_, shared_] := With[{},
 
   Do[ 
     Do[ 
-      With[{original = FileNameJoin[{dir, Packages[i, "name"], StringSplit[j, "/"]} // Flatten]},
+      With[{original = SelectFirst[(FileNameJoin[{#, Packages[i, "name"], StringSplit[j, "/"]} // Flatten]) &/@ dirs, FileExistsQ]},
         Map[Function[path, 
           With[{targetPath = FileNameJoin[{shared, FileNameTake[path]}]},
             Echo["WLJS Extensions >> Sync deferred packages >> "<>FileNameTake[path] ];
@@ -153,7 +153,7 @@ SaveConfiguration := With[{},
 
 OverlayReposMeta[dir_, repos_Association] := With[{},
    With[{data = #},
-    Join[data, Import[FileNameJoin[{data["name"], "package.json"}], "RawJSON"], Path->dir ]
+    Join[data, Import[FileNameJoin[{data["name"], "package.json"}], "RawJSON" , Path->{dir}] ]
    ] &/@ repos
 ]
 

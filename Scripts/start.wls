@@ -139,8 +139,6 @@ With[{appJSON = Import[FileNameJoin[{Directory[], "package.json"}], "RawJSON"]},
   $Env["AppJSON"] = appJSON;
 ];
 
-Echo["System`$Env"];
-Echo[ToString[$Env, InputForm] ];
 
 versionToNumber[ver_String] := FromDigits[ToExpression@StringSplit[ver, "."], 1000];
 
@@ -201,9 +199,7 @@ RandomWord[];
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
-WLJSPackages`SyncShared[FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
-WLJSPackages`SyncShared[AppExtensions`ExtensionsDir, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
-
+WLJSPackages`SyncShared[{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
 
 (*EventHandler[AppExtensions`AppEvents // EventClone, {
  any_ :> (Echo[StringTemplate["App Event ``: ``"][any, #]]&)
