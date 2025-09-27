@@ -307,7 +307,7 @@ pluginsMenu.items = {};
 pluginsMenu.fetch = () => {
     pluginsMenu.items = {kernel: [], edit: [], view: [], file: [], misc: []}
 
-    if (!fs.existsSync(path.join(rootAppFolder, 'wljs_packages'))) return;
+    
 
     const appendItem = (item, p) => {
         if (fs.existsSync(p)) {
@@ -353,10 +353,14 @@ pluginsMenu.fetch = () => {
     }    
     const defaultPath = path.join(rootAppFolder, 'wljs_packages');
 
+    if (!fs.existsSync(defaultPath)) return;
+
     fs.readdirSync(defaultPath, { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
         const p = path.join(defaultPath, item.name, 'package.json');
         appendItem(item, p);
     });
+
+    if (!fs.existsSync(userExtensions)) return;
 
     fs.readdirSync(userExtensions, { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
         const p = path.join(userExtensions, item.name, 'package.json');
