@@ -30,7 +30,7 @@ defaultMaterial = If[KeyExistsQ[settings, "WindowsBackgroundMaterial"], settings
 
 FrontEndCustomCSS = If[KeyExistsQ[settings, "FrontEndCustomCSS"], settings["FrontEndCustomCSS"], ""];
 
-DefaultHome = Join[<|"Home"->FileNameJoin[{Directory[], "Examples"}]|>, settings]["Home"];
+DefaultHome = Join[<|"Home"->AppExtensions`DefaultDocumentsDir|>, settings]["Home"];
 
 EventHandler[Secret, {"Load" -> Function[Null,
     EventFire[homefolderEvent, "ChangeLabel", <|"Client" -> $Client, "Text"->URLEncode[DefaultHome]|>];
