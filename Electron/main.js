@@ -2751,6 +2751,7 @@ function check_wl (configuration, cbk, window) {
         console.log('TRY');
         program = spawn(server.wolfram.path, server.wolfram.args, { cwd: workingDir });
     } catch (err) {
+        console.log('catch::err');
         windows.log.clear();
         windows.log.print(err);
         console.log(err);
@@ -2788,7 +2789,7 @@ function check_wl (configuration, cbk, window) {
 
 
     program.on('close', (code) => {
-
+        console.log('on::close');
 
         if (_nohup) {
             windows.log.info("Process exited with code "+code);
@@ -2812,6 +2813,8 @@ function check_wl (configuration, cbk, window) {
 
     //error
     program.on('error', function(err) {
+        console.log('on::error');
+        
         windows.log.print("");
         windows.log.info("Cannot execute a given process");
         windows.log.print("Cannot execute a given process", '\x1b[46m');
@@ -2819,12 +2822,13 @@ function check_wl (configuration, cbk, window) {
 
         if (cautch) return;
         cautch = true;
+        console.log("Cannot execute a given process");
 
         setTimeout(() => {
             windows.log.clear();
             windows.log.print(err);
             console.log(err);
-            //windows.log.print('Do you have Wolfram Engine installed?', '\x1b[42m');
+            console.log('Do you have Wolfram Engine installed?');
             windows.log.info("Cannot locate wolframscript!");
             new promt('binary', 'Do you have Wolfram Engine installed?', (answer) => {
                 if (answer) {
@@ -2882,6 +2886,7 @@ function check_wl (configuration, cbk, window) {
     }); */
 
     program.stderr.once('data', (data) => {
+        console.log('stderr::data');
         console.warn(data.toString());
         if (_nohup) return;
         _nohup = true;

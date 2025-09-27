@@ -65,10 +65,6 @@ debug.addEventListener('click', () => {
 
 const info = document.getElementById("modal_info");
 
-const installDir = document.getElementById('log_file')
-installDir.addEventListener('click', () => {
-    window.electronAPI.locateLogFile();
-})
 
 window.electronAPI.updateInfo((event, info) => {
     document.getElementById("modal_info_state").innerText = info;
