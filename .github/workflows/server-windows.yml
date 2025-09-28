@@ -43,47 +43,87 @@ jobs:
         shell: bash
         run: |
           set -eux
-
+      
+          # global bits: logs + websocket upgrade helper
+          cat >/etc/nginx/nginx.conf <<'EOF'
+          user www-data;
+          worker_processes auto;
+          pid /run/nginx.pid;
+          include /etc/nginx/modules-enabled/*.conf;
+      
+          events { worker_connections 1024; }
+      
+          http {
+            sendfile on;
+            tcp_nopush on;
+            tcp_nodelay on;
+            keepalive_timeout 65;
+            types_hash_max_size 2048;
+      
+            include       /etc/nginx/mime.types;
+            default_type  application/octet-stream;
+      
+            map $http_upgrade $connection_upgrade {
+              default upgrade;
+              ''      close;
+            }
+      
+            log_format main '$remote_addr - $host [$time_local] '
+                            '"$request" $status $body_bytes_sent '
+                            '"$http_referer" "$http_user_agent" '
+                            'upstream=$upstream_addr rt=$request_time urt=$upstream_response_time';
+            access_log /var/log/nginx/access.log main;
+            error_log  /var/log/nginx/error.log warn;
+      
+            gzip on;
+            include /etc/nginx/sites-enabled/*;
+          }
+          EOF
+      
           # common proxy settings (incl. websockets)
           cat >/etc/nginx/snippets/proxy.conf <<'EOF'
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
-
+      
           proxy_http_version 1.1;
           proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection "upgrade";
-
-          proxy_read_timeout 3600;
-          proxy_send_timeout 3600;
+          proxy_set_header Connection $connection_upgrade;
+      
+          proxy_read_timeout 3600s;
+          proxy_send_timeout 3600s;
+          proxy_connect_timeout 30s;
+      
+          proxy_buffering off;   # helpful for ws / event streams
           EOF
-
+      
           # main server (listens on 3000)
           cat >/etc/nginx/sites-available/app.conf <<'EOF'
           server {
             listen 3000;
-
+      
             location / {
               include snippets/proxy.conf;
               proxy_pass http://127.0.0.1:4000;
             }
-
+      
             location /ws {
               include snippets/proxy.conf;
-              proxy_pass http://127.0.0.1:4001/;
+              proxy_pass http://127.0.0.1:4001;
             }
-
+      
             location /ws2 {
               include snippets/proxy.conf;
-              proxy_pass http://127.0.0.1:4002/;
+              proxy_pass http://127.0.0.1:4002;
             }
           }
           EOF
-
+      
           rm -f /etc/nginx/sites-enabled/default
           ln -sf /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app.conf
           nginx -t
+
 
 
       - name: Run server, expose 3000 via tunnel, and stream logs
