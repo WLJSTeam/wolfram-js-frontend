@@ -43,42 +43,7 @@ jobs:
         shell: bash
         run: |
           set -eux
-      
-          # global bits: logs + websocket upgrade helper
-          cat >/etc/nginx/nginx.conf <<'EOF'
-          user www-data;
-          worker_processes auto;
-          pid /run/nginx.pid;
-          include /etc/nginx/modules-enabled/*.conf;
-      
-          events { worker_connections 1024; }
-      
-          http {
-            sendfile on;
-            tcp_nopush on;
-            tcp_nodelay on;
-            keepalive_timeout 65;
-            types_hash_max_size 2048;
-      
-            include       /etc/nginx/mime.types;
-            default_type  application/octet-stream;
-      
-            map $http_upgrade $connection_upgrade {
-              default upgrade;
-              ''      close;
-            }
-      
-            log_format main '$remote_addr - $host [$time_local] '
-                            '"$request" $status $body_bytes_sent '
-                            '"$http_referer" "$http_user_agent" '
-                            'upstream=$upstream_addr rt=$request_time urt=$upstream_response_time';
-            access_log /var/log/nginx/access.log main;
-            error_log  /var/log/nginx/error.log warn;
-      
-            gzip on;
-            include /etc/nginx/sites-enabled/*;
-          }
-          EOF
+    
       
           # common proxy settings (incl. websockets)
           cat >/etc/nginx/snippets/proxy.conf <<'EOF'
@@ -91,11 +56,11 @@ jobs:
           proxy_set_header X-Forwarded-Ssl on;
           proxy_set_header X-Forwarded-For $remote_addr;
           proxy_set_header X-Real-IP $remote_addr;
-          
+
           # Custom; support wss
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "keep-alive, upgrade";
-          
+
           # Proxy Configuration
           client_body_buffer_size 128k;
           proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
@@ -104,7 +69,7 @@ jobs:
           proxy_cache_bypass $cookie_session;
           proxy_no_cache $cookie_session;
           proxy_buffers 64 256k;
-          
+
           send_timeout 5m;
           proxy_read_timeout 360;
           proxy_send_timeout 360;
