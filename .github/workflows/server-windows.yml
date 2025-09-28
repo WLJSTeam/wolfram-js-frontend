@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Install tools in container
         run: |
-          set -euxo pipefail
+          set -eux
           apt-get update -y
           apt-get install -y curl ca-certificates libuv1-dev
 
@@ -27,7 +27,7 @@ jobs:
         env:
           CF_BIN: '${{ runner.temp }}/cloudflared'
         run: |
-          set -euxo pipefail
+          set -eux
           curl -L "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" -o "${CF_BIN}"
           chmod +x "${CF_BIN}"
           echo "cloudflared at ${CF_BIN}"
@@ -36,7 +36,7 @@ jobs:
         env:
           CF_BIN: '${{ runner.temp }}/cloudflared'
         run: |
-          set -euxo pipefail
+          set -eux
 
           # Show versions if present (container already has Wolfram)
           wolframscript -version || true
