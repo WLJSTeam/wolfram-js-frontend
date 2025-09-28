@@ -39,76 +39,70 @@ jobs:
           apt-get update -y
           apt-get install -y nginx
 
-      - name: Configure nginx (proxy 3000 → 4000, 4001, 4002)
+      - name: Configure nginx (use known-good proxy headers)
         shell: bash
         run: |
           set -eux
-    
-      
-          # common proxy settings (incl. websockets)
+
+          # headers + proxy behavior (NO http-context directives here)
           cat >/etc/nginx/snippets/proxy.conf <<'EOF'
-          # /etc/nginx/snippets/proxy.conf
+          ## Headers
           proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
           proxy_set_header X-Forwarded-Proto $scheme;
-          
-          proxy_http_version 1.1;
-          
-          # WebSocket upgrade
-          map $http_upgrade $connection_upgrade {
-            default upgrade;
-            ''      close;
-          }
+          proxy_set_header X-Forwarded-Host $http_host;
+          proxy_set_header X-Forwarded-Uri $request_uri;
+          proxy_set_header X-Forwarded-Ssl on;
+          proxy_set_header X-Forwarded-For $remote_addr;
+          proxy_set_header X-Real-IP $remote_addr;
+
+          # Custom; support wss
           proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection $connection_upgrade;
-          
-          # Forward WS-specific headers explicitly (some clients/frameworks are picky)
-          proxy_set_header Sec-WebSocket-Version $http_sec_websocket_version;
-          proxy_set_header Sec-WebSocket-Key $http_sec_websocket_key;
-          proxy_set_header Sec-WebSocket-Protocol $http_sec_websocket_protocol;
-          proxy_set_header Sec-WebSocket-Extensions $http_sec_websocket_extensions;
-          proxy_set_header Origin $http_origin;
-          
-          # Timeouts + buffering
-          proxy_read_timeout 3600s;
-          proxy_send_timeout 3600s;
-          proxy_connect_timeout 30s;
+          proxy_set_header Connection "keep-alive, upgrade";
+
+          # Proxy Configuration
+          client_body_buffer_size 128k;
+          proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+          proxy_redirect  http://  $scheme://;
+          proxy_http_version 1.1;
+          proxy_cache_bypass $cookie_session;
+          proxy_no_cache $cookie_session;
+          proxy_buffers 64 256k;
+
+          send_timeout 5m;
+          proxy_read_timeout 360;
+          proxy_send_timeout 360;
+          proxy_connect_timeout 360;
           proxy_buffering off;
-
-
           EOF
-      
-          # main server (listens on 3000)
+
+          # site listening on 3000, proxying to 4000/4001/4002
           cat >/etc/nginx/sites-available/app.conf <<'EOF'
           server {
             listen 3000;
 
             location / {
               include snippets/proxy.conf;
-
               proxy_pass http://127.0.0.1:4000;
             }
 
             location /ws {
               include snippets/proxy.conf;
-
-              proxy_pass http://127.0.0.1:4001;
+              proxy_pass http://127.0.0.1:4001/;
             }
 
             location /ws2 {
               include snippets/proxy.conf;
-
-              proxy_pass http://127.0.0.1:4002;
+              proxy_pass http://127.0.0.1:4002/;
             }
-
           }
           EOF
-      
+
           rm -f /etc/nginx/sites-enabled/default
           ln -sf /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app.conf
-          nginx -t
 
+          # validate config
+          nginx -t
 
 
       - name: Run server, expose 3000 via tunnel, and stream logs
@@ -118,38 +112,48 @@ jobs:
         run: |
           set -eux
       
-          # Start nginx in the background (no systemd in container)
+          # 1) start Wolfram (binds to 0.0.0.0)
+          wolframscript -f ./Scripts/start.wls \
+            host 0.0.0.0 \
+            http 4000 \
+            ws 4001 \
+            ws2 4002 \
+            wsprefix ws \
+            ws2prefix ws2 \
+            >/tmp/wolfram.out.log 2>/tmp/wolfram.err.log &
+          WOLFRAM_PID=$!
+      
+          # 2) wait for upstream ports to open (avoids early 502s)
+          wait_port() { local h=$1 p=$2; for i in $(seq 1 120); do (echo >/dev/tcp/$h/$p) >/dev/null 2>&1 && return 0 || sleep 0.5; done; echo "Port $h:$p not ready" >&2; return 1; }
+          wait_port 127.0.0.1 4000
+          wait_port 127.0.0.1 4001
+          wait_port 127.0.0.1 4002
+      
+          # 3) start nginx (daemonizes)
           nginx
       
-          # Versions (optional)
-          wolframscript -version || true
-          wolfram -version || true
-      
+          # 4) tunnel to nginx:3000
           LOG_DIR="${RUNNER_TEMP}"
           LOG_OUT="${LOG_DIR}/cloudflared-3000.out.log"
           LOG_ERR="${LOG_DIR}/cloudflared-3000.err.log"
-      
-          # Tunnel to nginx (port 3000)
           nohup "${CF_BIN}" tunnel --url http://127.0.0.1:3000 >"${LOG_OUT}" 2>"${LOG_ERR}" &
           CF_PID=$!
       
           echo "==== Waiting for tunnel URLs... ===="
-          sleep 4
+          sleep 3
           (tail -n +1 -F "${LOG_OUT}" & echo $! > "${LOG_DIR}/tail1.pid") &
           (tail -n +1 -F "${LOG_ERR}" & echo $! > "${LOG_DIR}/tail2.pid") &
+          (tail -n +1 -F /tmp/wolfram.out.log & echo $! > "${LOG_DIR}/wout.pid") &
+          (tail -n +1 -F /tmp/wolfram.err.log & echo $! > "${LOG_DIR}/werr.pid") &
       
-          echo "==== Starting Wolfram server ===="
-          # Your command (http on 4000, websockets on 4001 (/ws) and 4002 (/ws2)):
-          wolframscript -f ./Scripts/start.wls host 0.0.0.0 http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2 || EXIT_CODE=$? || true
+          # keep job alive while server runs
+          wait ${WOLFRAM_PID} || EXIT_CODE=$? || true
           EXIT_CODE=${EXIT_CODE:-0}
           echo "==== Wolfram server exited with code ${EXIT_CODE} ===="
       
-          # Cleanup
+          # cleanup
           kill "${CF_PID}" || true
-          if [ -f "${LOG_DIR}/tail1.pid" ]; then kill "$(cat "${LOG_DIR}/tail1.pid")" || true; fi
-          if [ -f "${LOG_DIR}/tail2.pid" ]; then kill "$(cat "${LOG_DIR}/tail2.pid")" || true; fi
-      
-          # Stop nginx gracefully
+          for f in tail1.pid tail2.pid wout.pid werr.pid; do [ -f "${LOG_DIR}/$f" ] && kill "$(cat "${LOG_DIR}/$f")" || true; done
           nginx -s quit || true
       
           if [ "${EXIT_CODE}" -ne 0 ]; then
