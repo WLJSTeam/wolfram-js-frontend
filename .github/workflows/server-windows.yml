@@ -2,105 +2,72 @@ name: Run server on Windows
 on: workflow_dispatch
 
 jobs:
-  ServerWindows-x86:
-    runs-on: windows-latest
-    timeout-minutes: 20
+  server-linux-x86:
+    runs-on: ubuntu-latest
+    container:
+      image: wolframresearch/wolframengine:14.2
+      options: --user root
     env:
-      WOLFRAM_SYSTEM_ID: Windows-x86-64-v7
-      WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL: https://files.wolframcdn.com/packages/winget/14.0.0.0/WolframEngine_14.0.0_WIN.msi
-      WOLFRAMENGINE_CACHE_KEY: WolframEngine-U
-      WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY: WolframEngine
+      WOLFRAM_SYSTEM_ID: Linux-x86-64-v8
+      WOLFRAMINIT: "-pwfile !cloudlm.wolfram.com -entitlement ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
+    timeout-minutes: 20
     steps:
+      - name: Install tools in container
+        run: |
+          set -euxo pipefail
+          apt-get update -y
+          apt-get install -y curl ca-certificates libuv1-dev
+
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
 
-      - name: Cache/restore Wolfram Engine install
-        id: cache-restore
-        uses: actions/cache@v4
-        env:
-          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
-        with:
-          path: ${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}
-          key: wolframengine-${{ env.WOLFRAM_SYSTEM_ID }}-${{ env.WOLFRAMENGINE_CACHE_KEY }}
-
-      - name: Download and install Wolfram Engine
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        env:
-          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
-          WOLFRAMENGINE_INSTALL_MSI_PATH: '${{ runner.temp }}\WolframEngine-Install.msi'
-          WOLFRAMENGINE_INSTALL_LOG_PATH: '${{ runner.temp }}\WolframEngine-Install.log'
-        shell: pwsh
-        run: |
-          echo 'Downloading Wolfram Engine installer...'
-          $msiFile = '${{ env.WOLFRAMENGINE_INSTALL_MSI_PATH }}'
-          $logFile = '${{ env.WOLFRAMENGINE_INSTALL_LOG_PATH }}'
-          Import-Module BitsTransfer
-          Start-BitsTransfer '${{ env.WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL }}' $msiFile
-          echo 'Installing Wolfram Engine...'
-          $MSIArguments = @(
-            "/i", ('"{0}"' -f $msiFile),
-            'INSTALLLOCATION="${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}"',
-            "/qn", "/norestart", "/L*v", $logFile
-          )
-          Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
-          echo 'Installed Wolfram Engine.'
-
       - name: Download cloudflared (for public tunnel)
-        shell: pwsh
+        env:
+          CF_BIN: '${{ runner.temp }}/cloudflared'
         run: |
-          $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
-          Invoke-WebRequest -Uri "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe" -OutFile $cf
-          Write-Host "cloudflared at $cf"
+          set -euxo pipefail
+          curl -L "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" -o "${CF_BIN}"
+          chmod +x "${CF_BIN}"
+          echo "cloudflared at ${CF_BIN}"
 
       - name: Run server, expose ports, and stream logs
         env:
-          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
-          WOLFRAMINIT: "-pwfile !cloudlm.wolfram.com -entitlement ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
-        shell: pwsh
+          CF_BIN: '${{ runner.temp }}/cloudflared'
         run: |
-          # Ensure Wolfram binaries are on PATH
-          $env:Path += ';' + (Join-Path $env:WOLFRAMENGINE_INSTALLATION_DIRECTORY '')
+          set -euxo pipefail
 
-          # Paths
-          $cf = Join-Path $env:RUNNER_TEMP "cloudflared.exe"
-          $log1Out = Join-Path $env:RUNNER_TEMP "cloudflared-20560.out.log"
-          $log1Err = Join-Path $env:RUNNER_TEMP "cloudflared-20560.err.log"
+          # Show versions if present (container already has Wolfram)
+          wolframscript -version || true
+          wolfram -version || true
 
-          # Start tunnels (stdout and stderr go to DIFFERENT files)
-          $cf1 = Start-Process -FilePath $cf -ArgumentList @("tunnel","--url","http://127.0.0.1:20560") -RedirectStandardOutput $log1Out -RedirectStandardError $log1Err -PassThru -WindowStyle Hidden
+          LOG_DIR="${RUNNER_TEMP}"
+          LOG1_OUT="${LOG_DIR}/cloudflared-20560.out.log"
+          LOG1_ERR="${LOG_DIR}/cloudflared-20560.err.log"
 
-          # Tail tunnel logs so URLs appear in the job log
-          $tailJobs = @()
-          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $log1Out,"20560-OUT"
-          $tailJobs += Start-Job -ScriptBlock { param($p,$tag) Get-Content -Path $p -Wait | ForEach-Object { Write-Host "[$tag] $_" } } -ArgumentList $log1Err,"20560-ERR"
+          # Start tunnel in background; keep stdout/stderr separate
+          nohup "${CF_BIN}" tunnel --url http://127.0.0.1:20560 \
+            >"${LOG1_OUT}" 2>"${LOG1_ERR}" &
+          CF_PID=$!
 
-          Write-Host "==== Waiting for tunnel URLs... ===="
-          Start-Sleep -Seconds 4
-          # Print the latest lines once in case the URL already appeared before -Wait kicked in
-          Get-Content $log1Out -Tail 50
-          Get-Content $log1Err -Tail 50
+          echo "==== Waiting for tunnel URLs... ===="
+          sleep 4
+          (tail -n +1 -F "${LOG1_OUT}" & echo $! > "${LOG_DIR}/tail1.pid") &
+          (tail -n +1 -F "${LOG1_ERR}" & echo $! > "${LOG_DIR}/tail2.pid") &
 
-          Write-Host "==== Starting Wolfram server (console output below) ===="
-          # Option A: wolfram -script (as you had)
-          # & wolfram -script ./Scripts/start.wls
-          # Option B (uncomment if you prefer):
-          & wolframscript -file ./Scripts/start.wls
-
-          $exitCode = $LASTEXITCODE
-          Write-Host "==== Wolfram server exited with code $exitCode ===="
+          echo "==== Starting Wolfram server (console output below) ===="
+          # Use your script like on Windows:
+          wolframscript -file ./Scripts/start.wls || EXIT_CODE=$? || true
+          EXIT_CODE=${EXIT_CODE:-0}
+          echo "==== Wolfram server exited with code ${EXIT_CODE} ===="
 
           # Cleanup tunnels and tailers
-          foreach ($p in @($cf1,$cf2)) {
-            if ($p -and !$p.HasExited) { Stop-Process -Id $p.Id -Force }
-          }
-          foreach ($j in $tailJobs) {
-            if ($j.State -eq 'Running') { Stop-Job $j -Force }
-            Receive-Job $j -Keep | Out-Null
-            Remove-Job $j -Force
-          }
+          kill "${CF_PID}" || true
+          if [ -f "${LOG_DIR}/tail1.pid" ]; then kill "$(cat "${LOG_DIR}/tail1.pid")" || true; fi
+          if [ -f "${LOG_DIR}/tail2.pid" ]; then kill "$(cat "${LOG_DIR}/tail2.pid")" || true; fi
 
-          if ($exitCode -ne 0) {
-            throw "Wolfram server process exited with non-zero code: $exitCode"
-          }
+          if [ "${EXIT_CODE}" -ne 0 ]; then
+            echo "Wolfram server process exited with non-zero code: ${EXIT_CODE}" >&2
+            exit "${EXIT_CODE}"
+          fi
