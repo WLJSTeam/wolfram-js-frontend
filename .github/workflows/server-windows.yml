@@ -32,41 +32,101 @@ jobs:
           chmod +x "${CF_BIN}"
           echo "cloudflared at ${CF_BIN}"
 
-      - name: Run server, expose ports, and stream logs
+      - name: Install nginx
+        shell: bash
+        run: |
+          set -eux
+          apt-get update -y
+          apt-get install -y nginx
+
+      - name: Configure nginx (proxy 3000 → 4000, 4001, 4002)
+        shell: bash
+        run: |
+          set -eux
+
+          # common proxy settings (incl. websockets)
+          cat >/etc/nginx/snippets/proxy.conf <<'EOF'
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+
+          proxy_read_timeout 3600;
+          proxy_send_timeout 3600;
+          EOF
+
+          # main server (listens on 3000)
+          cat >/etc/nginx/sites-available/app.conf <<'EOF'
+          server {
+            listen 3000;
+
+            location / {
+              include snippets/proxy.conf;
+              proxy_pass http://127.0.0.1:4000;
+            }
+
+            location /ws {
+              include snippets/proxy.conf;
+              proxy_pass http://127.0.0.1:4001/;
+            }
+
+            location /ws2 {
+              include snippets/proxy.conf;
+              proxy_pass http://127.0.0.1:4002/;
+            }
+          }
+          EOF
+
+          rm -f /etc/nginx/sites-enabled/default
+          ln -sf /etc/nginx/sites-available/app.conf /etc/nginx/sites-enabled/app.conf
+          nginx -t
+
+
+      - name: Run server, expose 3000 via tunnel, and stream logs
+        shell: bash
         env:
           CF_BIN: '${{ runner.temp }}/cloudflared'
         run: |
           set -eux
-
-          # Show versions if present (container already has Wolfram)
+      
+          # Start nginx in the background (no systemd in container)
+          nginx
+      
+          # Versions (optional)
           wolframscript -version || true
           wolfram -version || true
-
+      
           LOG_DIR="${RUNNER_TEMP}"
-          LOG1_OUT="${LOG_DIR}/cloudflared-20560.out.log"
-          LOG1_ERR="${LOG_DIR}/cloudflared-20560.err.log"
-
-          # Start tunnel in background; keep stdout/stderr separate
-          nohup "${CF_BIN}" tunnel --url http://127.0.0.1:20560 \
-            >"${LOG1_OUT}" 2>"${LOG1_ERR}" &
+          LOG_OUT="${LOG_DIR}/cloudflared-3000.out.log"
+          LOG_ERR="${LOG_DIR}/cloudflared-3000.err.log"
+      
+          # Tunnel to nginx (port 3000)
+          nohup "${CF_BIN}" tunnel --url http://127.0.0.1:3000 >"${LOG_OUT}" 2>"${LOG_ERR}" &
           CF_PID=$!
-
+      
           echo "==== Waiting for tunnel URLs... ===="
           sleep 4
-          (tail -n +1 -F "${LOG1_OUT}" & echo $! > "${LOG_DIR}/tail1.pid") &
-          (tail -n +1 -F "${LOG1_ERR}" & echo $! > "${LOG_DIR}/tail2.pid") &
-
-          echo "==== Starting Wolfram server (console output below) ===="
-          # Use your script like on Windows:
-          wolframscript -file ./Scripts/start.wls || EXIT_CODE=$? || true
+          (tail -n +1 -F "${LOG_OUT}" & echo $! > "${LOG_DIR}/tail1.pid") &
+          (tail -n +1 -F "${LOG_ERR}" & echo $! > "${LOG_DIR}/tail2.pid") &
+      
+          echo "==== Starting Wolfram server ===="
+          # Your command (http on 4000, websockets on 4001 (/ws) and 4002 (/ws2)):
+          wolframscript -f ./Scripts/start.wls host 0.0.0.0 http 4000 ws 4001 ws2 4002 wsprefix ws ws2prefix ws2 || EXIT_CODE=$? || true
           EXIT_CODE=${EXIT_CODE:-0}
           echo "==== Wolfram server exited with code ${EXIT_CODE} ===="
-
-          # Cleanup tunnels and tailers
+      
+          # Cleanup
           kill "${CF_PID}" || true
           if [ -f "${LOG_DIR}/tail1.pid" ]; then kill "$(cat "${LOG_DIR}/tail1.pid")" || true; fi
           if [ -f "${LOG_DIR}/tail2.pid" ]; then kill "$(cat "${LOG_DIR}/tail2.pid")" || true; fi
-
+      
+          # Stop nginx gracefully
+          nginx -s quit || true
+      
           if [ "${EXIT_CODE}" -ne 0 ]; then
             echo "Wolfram server process exited with non-zero code: ${EXIT_CODE}" >&2
             exit "${EXIT_CODE}"
