@@ -105,58 +105,38 @@ jobs:
           nginx -t
 
 
-      - name: Run server, expose 3000 via tunnel, and stream logs
+      - name: Run server, proxy with nginx, and expose via Cloudflare (no waits)
         shell: bash
         env:
           CF_BIN: '${{ runner.temp }}/cloudflared'
         run: |
           set -eux
       
-          # 1) start Wolfram (binds to 0.0.0.0)
+          # 1) start nginx (daemonizes)
+          nginx
+      
+          # 2) start cloudflared in the background, stream logs to console
+          #    stdbuf forces line-buffering so the URL appears immediately in the logs.
+          stdbuf -oL -eL "${CF_BIN}" tunnel \
+            --no-autoupdate \
+            --loglevel info \
+            --url http://127.0.0.1:3000 &
+          CF_PID=$!
+          echo "cloudflared started (pid=${CF_PID}); the public URL will appear above as soon as it's ready."
+      
+          # 3) run your Wolfram server in the foreground (no waits anywhere)
           wolframscript -f ./Scripts/start.wls \
             host 0.0.0.0 \
             http 4000 \
             ws 4001 \
             ws2 4002 \
             wsprefix ws \
-            ws2prefix ws2 \
-            >/tmp/wolfram.out.log 2>/tmp/wolfram.err.log &
-          WOLFRAM_PID=$!
+            ws2prefix ws2
       
-          # 2) wait for upstream ports to open (avoids early 502s)
-          wait_port() { local h=$1 p=$2; for i in $(seq 1 120); do (echo >/dev/tcp/$h/$p) >/dev/null 2>&1 && return 0 || sleep 0.5; done; echo "Port $h:$p not ready" >&2; return 1; }
-          wait_port 127.0.0.1 4000
-          wait_port 127.0.0.1 4001
-          wait_port 127.0.0.1 4002
+          EXIT_CODE=$?
       
-          # 3) start nginx (daemonizes)
-          nginx
-      
-          # 4) tunnel to nginx:3000
-          LOG_DIR="${RUNNER_TEMP}"
-          LOG_OUT="${LOG_DIR}/cloudflared-3000.out.log"
-          LOG_ERR="${LOG_DIR}/cloudflared-3000.err.log"
-          nohup "${CF_BIN}" tunnel --url http://127.0.0.1:3000 >"${LOG_OUT}" 2>"${LOG_ERR}" &
-          CF_PID=$!
-      
-          echo "==== Waiting for tunnel URLs... ===="
-          sleep 3
-          (tail -n +1 -F "${LOG_OUT}" & echo $! > "${LOG_DIR}/tail1.pid") &
-          (tail -n +1 -F "${LOG_ERR}" & echo $! > "${LOG_DIR}/tail2.pid") &
-          (tail -n +1 -F /tmp/wolfram.out.log & echo $! > "${LOG_DIR}/wout.pid") &
-          (tail -n +1 -F /tmp/wolfram.err.log & echo $! > "${LOG_DIR}/werr.pid") &
-      
-          # keep job alive while server runs
-          wait ${WOLFRAM_PID} || EXIT_CODE=$? || true
-          EXIT_CODE=${EXIT_CODE:-0}
-          echo "==== Wolfram server exited with code ${EXIT_CODE} ===="
-      
-          # cleanup
+          # 4) cleanup (when Wolfram exits, stop the tunnel and nginx)
           kill "${CF_PID}" || true
-          for f in tail1.pid tail2.pid wout.pid werr.pid; do [ -f "${LOG_DIR}/$f" ] && kill "$(cat "${LOG_DIR}/$f")" || true; done
           nginx -s quit || true
       
-          if [ "${EXIT_CODE}" -ne 0 ]; then
-            echo "Wolfram server process exited with non-zero code: ${EXIT_CODE}" >&2
-            exit "${EXIT_CODE}"
-          fi
+          exit "${EXIT_CODE}"
