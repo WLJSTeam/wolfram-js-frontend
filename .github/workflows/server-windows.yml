@@ -105,7 +105,7 @@ jobs:
           nginx -t
 
 
-      - name: Run server, proxy with nginx, and expose via Cloudflare (no waits)
+      - name: Run server, proxy with nginx, and expose via Cloudflare (nohup + visible URL)
         shell: bash
         env:
           CF_BIN: '${{ runner.temp }}/cloudflared'
@@ -115,16 +115,21 @@ jobs:
           # 1) start nginx (daemonizes)
           nginx
       
-          # 2) start cloudflared in the background, stream logs to console
-          #    stdbuf forces line-buffering so the URL appears immediately in the logs.
-          stdbuf -oL -eL "${CF_BIN}" tunnel \
+          # 2) start cloudflared immune to SIGHUP and stream its logs to console
+          CF_LOG=/tmp/cloudflared.log
+          : > "$CF_LOG"
+          nohup "${CF_BIN}" tunnel \
             --no-autoupdate \
             --loglevel info \
-            --url http://127.0.0.1:3000 &
+            --url http://127.0.0.1:3000 \
+            >>"$CF_LOG" 2>&1 &
           CF_PID=$!
-          echo "cloudflared started (pid=${CF_PID}); the public URL will appear above as soon as it's ready."
       
-          # 3) run your Wolfram server in the foreground (no waits anywhere)
+          # Stream cloudflared logs so the public URL is visible in the job output
+          tail -n +1 -F "$CF_LOG" &
+          TAIL_PID=$!
+      
+          # 3) run your Wolfram server in the foreground (no waits)
           wolframscript -f ./Scripts/start.wls \
             host 0.0.0.0 \
             http 4000 \
@@ -132,11 +137,11 @@ jobs:
             ws2 4002 \
             wsprefix ws \
             ws2prefix ws2
-      
           EXIT_CODE=$?
       
-          # 4) cleanup (when Wolfram exits, stop the tunnel and nginx)
-          kill "${CF_PID}" || true
+          # 4) cleanup
+          kill "$TAIL_PID" || true
+          kill "$CF_PID" || true
           nginx -s quit || true
       
-          exit "${EXIT_CODE}"
+          exit "$EXIT_CODE"
