@@ -174,6 +174,12 @@ If[!DirectoryQ[AppExtensions`ExtensionsDir], CreateDirectory[AppExtensions`Exten
 
 AppExtensions`AppDataDir = Lookup[$Env, "AppData", Directory[] ];
 
+AppExtensions`AppConfig = FileNameJoin[{AppExtensions`AppDataDir, "_settings.wl"}];
+
+If[KeyExistsQ[$Env, "store_config_in_docs"],
+  AppExtensions`AppConfig = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "config.wl"}];
+];
+
 (* ~~check version~~ *)
 Echo["Checking version of WLJS Notebook ..."];
 Echo[AppExtensions`FrontendEnv["AppJSON"]["version"] ];
@@ -185,6 +191,7 @@ Echo[">> DefaultDocumentsDir: "<> AppExtensions`DefaultDocumentsDir];
 Echo[">> DemosDir: "<> AppExtensions`DemosDir];
 Echo[">> ExtensionsDir: "<> AppExtensions`ExtensionsDir];
 Echo[">> AppDataDir: "<> AppExtensions`AppDataDir];
+Echo[">> AppConfig: "<> AppExtensions`AppConfig];
 Echo[">> Root: "<> Directory[] ];
 
 (* load users extensions *)

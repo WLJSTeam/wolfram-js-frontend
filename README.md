@@ -204,7 +204,6 @@ See [instructions here](./container/README.md)
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/home/wljs/WLJS Notebooks" \
   -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
   -e PUID=$(id -u) \
