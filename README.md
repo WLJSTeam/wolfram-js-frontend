@@ -18,6 +18,12 @@ It is the first open-source solution featuring true 2D math input combined with 
 
 The notebook combines live code in WL, JS, Mermaid and many more, GUI blocks for user input, equations, narrative text, visualizations, interactive widgets.
 
+![Wolfram Language](https://img.shields.io/badge/Wolfram%20Language-DD1100?style=for-the-badge&logo=wolfram&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black)
+![Electron.js](https://img.shields.io/badge/Electron.js-47848F?style=for-the-badge&logo=electron&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+
 
 <div class="note">
   <p>
@@ -81,6 +87,10 @@ WLJS Notebook is optimized for interactive computing and allows to make complex 
 
 > The entire scene above is generated on the Wolfram Kernel and streamed to WebGL buffers via low-latency binary sockets.
 
+### LLM Integration 🤖
+An optional AI-assistant will see directly, edit or add any cell in the notebook. No confirmation, no chat dialogs:
+
+![LLM](imgs/Screenshot%202025-09-29%20at%2010.28.05.png)
 
 ### Command Palette & GUI-in-Code Emulation 🎨
 ### Native Math Input/Output in the Code Editor 🧮
@@ -132,6 +142,7 @@ Export entire notebooks as standalone `.html` files, retaining all embedded data
 - Wolfram Engine 14.0
 - Wolfram Engine 14.1
 - Wolfram Engine 14.2
+- Wolfram Engine 14.3
 
 **macOS Installation via Homebrew:**
 ```shell
