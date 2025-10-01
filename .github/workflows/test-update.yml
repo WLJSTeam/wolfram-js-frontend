@@ -8,7 +8,7 @@ on: workflow_dispatch
 
 jobs:
   autotest:
-    runs-on: macos-14
+    runs-on: macos-latest
     env:
       WOLFRAM_SYSTEM_ID: MacOSX-ARM
       WOLFRAMENGINE_CACHE_KEY: WolframEngine-B
