@@ -15,8 +15,7 @@ Needs["CoffeeLiqueur`Notebook`Kernel`" -> "GenericKernel`"];
 init[o_] := With[{uid = CreateUUID[]},
     If[!ListQ[eList], eList = {}];
     eList = SortBy[Append[eList, o], #["Priority"]&];
-    Print["Added new!"];
-    Print[o];
+    Echo["Evaluator >> Added new"];
     o
 ];
 

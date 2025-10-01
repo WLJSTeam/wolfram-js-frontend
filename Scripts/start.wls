@@ -10,17 +10,30 @@ Get[FileNameJoin[{Directory[], "Common", "LPM", "LPM.wl"}] ];
 Off[General::shdw]; (* avoid warning messages from ContextAliases *)
 Off[Part::partd]; (* avoid warning messages from WLX *)
 
-PacletRepositories[{
-  Github -> "https://github.com/KirillBelovTest/Objects" -> "master",
-  Github -> "https://github.com/JerryI/Internal" -> "master",
-  Github -> "https://github.com/JerryI/TCPServer" -> "master",
-  Github -> "https://github.com/JerryI/HTTPHandler" -> "master",
-  Github -> "https://github.com/JerryI/WebSocketHandler" -> "master",
-  Github -> "https://github.com/JerryI/CSocketListener" -> "master",
-  Github -> "https://github.com/JerryI/wl-wlx" -> "master",
-  Github -> "https://github.com/JerryI/wl-misc" -> "main",
-  Github -> "https://github.com/lshifr/LetWL" -> "master"
-}, "Directory" -> Directory[], "MaxVersionDiff"-> 1, "AutomaticUpdates"-> False, "StrictMode"->True  ]
+(* WLJS Package manager *)
+Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
+
+With[{deps = Get[FileNameJoin[{Directory[], "dependencies.wl"}] ]},
+  If[FailureQ[LPMLoad[Directory[] ] ], 
+    Echo["wl_packages is empty"];
+
+    DeleteDirectory[FileNameJoin[{Directory[], "wl_packages"}],   DeleteContents->True] // Quiet;
+    DeleteDirectory[FileNameJoin[{Directory[], "wljs_packages"}], DeleteContents->True] // Quiet;
+    DeleteFile[FileNameJoin[{Directory[], #}] ] &/@ {
+      ".wl_timestamp",
+      "wl_packages_lock.wl"
+    } // Quiet;
+
+    Echo["Installing all..."];
+    LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[], "MaxVersionDiff"-> 3 ];
+
+    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> FileNameJoin[{Directory[], "wljs_packages"}], "MaxVersionDiff"-> 3];
+  ,
+
+    WLJSPackages`Load[FileNameJoin[{Directory[], "wljs_packages"}] ];
+  ];
+];
+
 
 (* web-server *)
 Needs["KirillBelov`CSockets`"]
@@ -78,9 +91,6 @@ Needs["JerryI`WLX`WebUI`"]
 
 Needs["CodeParser`"]
 
-(* WLJS Package manager *)
-Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
-
 
 (* env parameters *)
 System`$Env;
@@ -129,8 +139,6 @@ With[{appJSON = Import[FileNameJoin[{Directory[], "package.json"}], "RawJSON"]},
   $Env["AppJSON"] = appJSON;
 ];
 
-Echo["System`$Env"];
-Echo[ToString[$Env, InputForm] ];
 
 versionToNumber[ver_String] := FromDigits[ToExpression@StringSplit[ver, "."], 1000];
 
@@ -144,26 +152,6 @@ If[versionToNumber[$VersionNumber] < versionToNumber["13.3"],
   Exit[-1];
 ];
 
-MergeDirectories[source_String, target_String] := (
-  Echo[StringTemplate["Copy directory `` to ``"][source, target]];
-  If[!DirectoryQ[target], CreateDirectory[target]; ];
-  
-  With[{names = FileNames[All, source]},
-    With[{folders = Select[names, DirectoryQ[#] &], files = Select[names, !DirectoryQ[#] &]},
-
-    
-      Map[Function[folder,
-        With[{folderName = FileNameTake[folder, -1] },
-          MergeDirectories[folder, FileNameJoin[{target, folderName}]]
-        ]], folders];
-
-      Map[Function[file,
-        CopyFile[file, FileNameJoin[{target, FileNameTake[file, -1]}], OverwriteTarget->True];
-        Echo[StringTemplate["Copied `` to ``"][file, FileNameJoin[{target, FileNameTake[file, -1]}]]];
-      ], files];
-    ]
-  ];
-);
 
 syncDemoFolders[path_String] := Null;
 
@@ -181,6 +169,17 @@ If[!DirectoryQ[AppExtensions`DefaultDocumentsDir], CreateDirectory[AppExtensions
 AppExtensions`DemosDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Demos"}];
 If[!DirectoryQ[AppExtensions`DemosDir], CreateDirectory[AppExtensions`DemosDir]; syncDemoFolders[AppExtensions`DemosDir]; ];
 
+AppExtensions`ExtensionsDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Extensions"}];
+If[!DirectoryQ[AppExtensions`ExtensionsDir], CreateDirectory[AppExtensions`ExtensionsDir]; ];
+
+AppExtensions`AppDataDir = Lookup[$Env, "AppData", Directory[] ];
+
+AppExtensions`AppConfig = FileNameJoin[{AppExtensions`AppDataDir, "_settings.wl"}];
+
+If[KeyExistsQ[$Env, "store_config_in_docs"],
+  AppExtensions`AppConfig = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "config.wl"}];
+];
+
 (* ~~check version~~ *)
 Echo["Checking version of WLJS Notebook ..."];
 Echo[AppExtensions`FrontendEnv["AppJSON"]["version"] ];
@@ -190,54 +189,24 @@ Echo[">> QuickNotesDir: "<> AppExtensions`QuickNotesDir];
 Echo[">> BackupsDir: "<> AppExtensions`BackupsDir];
 Echo[">> DefaultDocumentsDir: "<> AppExtensions`DefaultDocumentsDir];
 Echo[">> DemosDir: "<> AppExtensions`DemosDir];
+Echo[">> ExtensionsDir: "<> AppExtensions`ExtensionsDir];
+Echo[">> AppDataDir: "<> AppExtensions`AppDataDir];
+Echo[">> AppConfig: "<> AppExtensions`AppConfig];
 Echo[">> Root: "<> Directory[] ];
+
+(* load users extensions *)
+WLJSPackages`Load[ AppExtensions`ExtensionsDir ];
 
 {loadSettings, storeSettings}        = Get[FileNameJoin[{"Frontend", "Settings.wl"}] ];
 
-WLJSPackages`Repositories[{
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-editor" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-d3" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-mk" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-three" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-graphics-d3" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-html-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-inputs" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-interpreter" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-js-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-markdown-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-magic-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-plotly" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-cells" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-revealjs" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-wlx-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-mermaid-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-snippets" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-alt-cell-controls" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-print-redirect-fix" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-export-html" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-manipulate" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sound" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-video" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-templates" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-xterm" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-excalidraw" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-toc" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-wxf-accelerator" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-neuralnet" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-docs-archive" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-demos-archive" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-debugger" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-api" -> "base"
-}, "Directory" -> Directory[], "MaxVersionDiff"-> 3, "AutomaticUpdates"-> False, "StrictMode"->True ]
-
 RandomWord[];
+
+
 
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
-WLJSPackages`SyncShared[Directory[], FileNameJoin[{Directory[], "__shared"}] ];
-
+WLJSPackages`SyncShared[{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
 
 (*EventHandler[AppExtensions`AppEvents // EventClone, {
  any_ :> (Echo[StringTemplate["App Event ``: ``"][any, #]]&)
@@ -275,10 +244,15 @@ With[{now = Now},
 (* load stuff into frontend *)
 Echo["Loading packages: FRONTEND"];
 
-  If[FailureQ[Get[FileNameJoin[{Directory[], "wljs_packages",  UniversalPathConverter[#]}] ] ],
-    Echo["Failed to load some of the packages (see logs)"];
-    Exit[0]
-  ] &/@ WLJSPackages`Includes["frontend"]; 
+If[FailureQ[
+    Get[
+      UniversalPathConverter[#],
+      Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}
+    ] 
+  ],
+  Echo["Failed to load some of the packages (see logs)"];
+  Exit[0]
+] &/@ WLJSPackages`Includes["frontend"]; 
 
 JerryI`WLX`Importer`Private`CacheControl["Hour"];
 
@@ -299,7 +273,7 @@ Downloader   = ImportComponent["Frontend/Downloader.wl"];
 
 (* Global variables *)
 
-$ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], "/", ""}
+$ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], AppExtensions`ExtensionsDir, "/", ""}
 
 
 
@@ -395,30 +369,6 @@ PromptWindow["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "Extensio
 ExtendedApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 IframeApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 App["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-
-(*Echo["Autotest start!"];
-
-If[$Env["bypasstest"] === "True" || $Env["bypasstest"] === True,
-  Echo["Autotest was skipped"];
-,
-  (* autotest *)
-  With[{secret = "123"},
-    With[{
-            result = Get[StringTemplate["http://``:``/test/``"][$Env["host"], $Env["http"], URLEncode[ secret ] ] ]
-        },
-
-      If[result === ToString[ Hash[secret] ],
-        Echo["Autotest passed!"];
-      ,
-        Echo["Autotest failed!"];
-        Echo[result];
-        If[!TrueQ[$Env["bypasstest"] ], Exit[-1] ];
-      ];
-    ];
-  ];
-];*)
-
-
 
 
 SetTimeout[

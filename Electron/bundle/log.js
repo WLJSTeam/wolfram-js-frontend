@@ -2969,14 +2969,6 @@ const term = new xtermExports.Terminal({cursorBlink: true, rows: 13, fontFamily:
 
 const logger = document.getElementById('log');
 
-const logFile = document.getElementById('log_file');
-logFile.addEventListener('click', () => window.electronAPI.locateLogFile());
-
-const reinstall = document.getElementById('reinstall');
-reinstall.addEventListener('click', () => {
-    window.electronAPI.reinstall();
-    reinstall.remove();
-});
 
 // Open the terminal in #terminal-container
 term.open(logger);
@@ -3027,10 +3019,7 @@ debug.addEventListener('click', () => {
 
 const info = document.getElementById("modal_info");
 
-const installDir = document.getElementById('log_file');
-installDir.addEventListener('click', () => {
-    window.electronAPI.locateLogFile();
-});
+
 
 window.electronAPI.updateInfo((event, info) => {
     document.getElementById("modal_info_state").innerText = info;
@@ -3065,11 +3054,7 @@ window.electronAPI.addPromt((event, id, title) => {
     modal.classList.remove('hidden');
 });
 
-const updateBtn = document.getElementById("update_button");
-updateBtn.addEventListener('click', () => {
-    window.electronAPI.update();
-    updateBtn.remove();
-})
+
 
 
 window.electronAPI.addDialog((event, id, title) => {

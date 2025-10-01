@@ -20,6 +20,9 @@ QuickNotesDir;
 BackupsDir;
 DefaultDocumentsDir;
 DemosDir;
+ExtensionsDir;
+AppDataDir;
+AppConfig;
 
 Templates;
 TemplateInjection;

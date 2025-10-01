@@ -15,7 +15,6 @@ A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfr
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/home/wljs/WLJS Notebooks" \
   -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
   -e PUID=$(id -u) \
@@ -47,7 +46,6 @@ To feath a new version, you need to purge the old one including a named volume
 ```bash
 docker stop wljs
 docker rm wljs
-docker volume rm wljs_data
 docker system prune -a
 ```
 
@@ -77,16 +75,12 @@ docker run -it \
   ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
-***Note***
-To update WLJS Notebook image, please, remove named volume `wljs_data` as well. Otherwise some packages may appear to be outdated
-
 ## Running as root
 *Not recommended*
 Change the mounting directories
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/root/WLJS Notebooks" \
   -v ~/wljs/Licensing:/root/.WolframEngine/Licensing \
   -e PUID=$(id -u) \
@@ -227,7 +221,6 @@ Restart nginx.
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/home/wljs/WLJS Notebooks" \
   -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
   -e PUID=$(id -u) \
