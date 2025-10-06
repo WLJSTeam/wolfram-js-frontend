@@ -274,7 +274,7 @@ Downloader   = ImportComponent["Frontend/Downloader.wl"];
 (* Global variables *)
 
 $ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], AppExtensions`ExtensionsDir, "/", ""}
-
+$ExposedRoutes = <||>;
 
 
 EventHandler[AppExtensions`AppEvents // EventClone, {
@@ -309,6 +309,10 @@ EventHandler[AppExtensions`AppEvents // EventClone, {
   $ExposedDirectories = Append[$ExposedDirectories, path] // DeleteDuplicates;
  ],
 
+ "App:ExtendRoute" -> Function[route,
+  $ExposedRoutes = Join[$ExposedRoutes, route];
+ ], 
+
  "App:RemovePath" -> Function[paths, Module[{p = $ExposedDirectories},
     $ExposedDirectories = p /. {paths -> Nothing};
   ] ]
@@ -323,7 +327,7 @@ ElectronGetVersion[request_] := If[KeyExistsQ[request["Headers"], "Electron"], r
 (* serve static *)
 AppExtensions`HTTPFileExtensions = {"jpeg", "wlx", "ttf",  "otf", "woff", "woff2", "css", "js", "png", "jpg", "webp", "svg", "pdf", "gif", "dat"};
 http["MessageHandler", "File"]  = GetFileRequestQ[AppExtensions`HTTPFileExtensions] -> (
-  ImportFile[#, "Base":>$ExposedDirectories] &
+  ImportFile[#, "Base":>$ExposedDirectories, "Routes":>$ExposedRoutes] &
 )
 
 SocketListen[CSocketOpen[$Env["host"], $Env["http"]], tcp@#&]
