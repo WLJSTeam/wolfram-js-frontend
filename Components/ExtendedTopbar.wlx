@@ -127,7 +127,7 @@ Component[OptionsPattern[]] := With[{
     subscribeToNotebookSocketState[Global`$Client(*`*), messages, localController];
   ]];
 
-    <div style="z-index: 100;" class="flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 osx:pl-20 md:osx:pl-2 osx-zen:pl-20 win:pl-0 owin:pl-0 md:pl-2  win-zen:pl-0 owin-zen:pl-0 linux-zen:pl-0 bro-zen:pl-0">
+    <div style="z-index: 100;" class="atitlebar flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 osx:pl-20 md:osx:pl-2 osx-zen:pl-20 win:pl-0 owin:pl-0 md:pl-2  win-zen:pl-0 owin-zen:pl-0 linux-zen:pl-0 bro-zen:pl-0">
         <Menu/>
         <div class="my-auto mr-auto lg:border-r border-gray-300 dark:border-gray-500 pr-1 pt-1 win:pt035 owin:pt035 bro:pt-2 osx:h-fit h-full overflow-hidden">
           <button id="sidebar-toggle" title="Toggle sidebar" class="zen:ml-0 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6 bro:ml-0 win:ml-0 owin:ml-0 linux:ml-0">

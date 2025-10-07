@@ -162,14 +162,56 @@ toggleWindowSize[_, client_] := With[{},
   WebUISubmit[Global`UIToggleWindowBonds[True](*`*), client];
 ]
 
-checkUpdates[GlobalMessanger_, ModalController_, Client_] := With[{},
-  DeleteFile[FileNameJoin[{Directory[], ".wljs_timestamp"}] ];
-  DeleteFile[FileNameJoin[{Directory[], ".wl_timestamp"}] ];
 
-  WebUISubmit[Global`UIClearCache[](*`*), Client];
+UIPrintPDF;
 
-  EventFire[GlobalMessanger, "Warning", "Restart is required"];
-]
+headerPrintTemplate = "
+@media print { \
+    #frame { \
+        height: fit-content; \
+    } \
+    .atitlebar { \
+        display:none \
+    } \
+    .button-cmore {display:none} \
+    .button-chide {display:none} \
+    .button-cplay {display:none} \
+    .button-cadd {display:none} \
+}";
+
+printPDF[client_, ModalController_] := With[{},
+ If[sidebarState === "show", WebUISubmit[Global`UIToggleWindowBonds[True](*`*), client]];
+ Then[WebUIFetch[UIPrintPDF[
+  "crop"->False, "printBackground"->True, "pageSize"->"A4", "scale"->1, 
+  "generateDocumentOutline" -> True, "HeaderCSS"->headerPrintTemplate,
+  "margins"-><|"right"->0, "left"->0, "top"->0, "bottom"->0|>
+], client, "Format"->"JSON"], Function[payload,
+  With[{data = ByteArray[payload]},
+
+  
+      With[{
+          p = Promise[]
+      },
+          EventFire[ModalController, "RequestPathToSave", <|
+              "Promise"->p,
+              "Title"->"Printed notebook",
+              "Ext"->"pdf",
+              "Client"->client
+          |>];
+          
+          Then[p, Function[result, 
+              Module[{filename = result, file},
+                  If[!StringMatchQ[filename, __~~".pdf"],  filename = StringJoin[filename, ".pdf"]];
+                  If[filename === ".pdf", filename = StringJoin[name, filename] ];
+                  file = OpenWrite[filename, BinaryFormat->True];
+                  BinaryWrite[file, data];
+                  Close[file];
+              ] 
+          ]]
+
+      ]
+  ]
+]] ];
 
 
 ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
@@ -254,10 +296,6 @@ App[request_] := With[{
                     WebUILocation[StringJoin["/acknowledgments", ""], $Client, "Target"->_, "Features"->"width=600,height=400"];
                   ],
 
-                  "CheckUpdates" -> Function[Null,
-                    checkUpdates[GlobalMessanger, ModalController, $Client];
-                  ],
-
                   "Exit" -> Function[Null,
                     Exit[0];
                   ],
@@ -331,7 +369,7 @@ App[request_] := With[{
       "ReopenAsQuick" -> (reopenNotebookAsQuick[#, GlobalMessanger, ModalController, $Client]&),
       "DumpSaveTemporal" -> (backupNotebook[#, GlobalMessanger, $Client]&),
       "SidebarToggle" -> (toggleWindowSize[#, $Client]&),
-      "CheckUpdates" -> (checkUpdates[GlobalMessanger, ModalController, $Client]&)
+      "PrintPDF" -> (printPDF[$Client, ModalController]&)
     }];
   {
     "<!DOCTYPE html>"
@@ -386,14 +424,25 @@ App[request_] := With[{
 
 Script[Rule["Secret", Secret_]] := With[{},
   <script type="module">
-    core.UIClearCache = async (args, env) => {
-      if (window.electronAPI) {
-        if (window.electronAPI.clearCache) {
-          window.electronAPI.clearCache();
-        }
+    core.UIPrintPDF = async (args, env) => {
+      if (!(window?.electronAPI?.toPDF)) {
+          alert('PDF generation is only possible using WLJS desktop app (Electron)');
+          throw('PDF generation is only possible on desktop app (Electron)');
       }
+      const options = await core._getRules(args, env);
+      const cssHead = options.HeaderCSS;
+      const style = document.createElement("style");
+        style.setAttribute("type", "text/css");
+        style.textContent = cssHead;
+        document.head.appendChild(style);
+  
+      const p = new Deferred();
+      electronAPI.toPDF(options, (result)=>{
+        p.resolve(Array.from(result));
+        style.remove();
+      })
+      return p.promise;      
     }
-
     core.UIToggleWindowBonds = async (args, env) => {
       if (document.documentElement.getAttribute('sidebar') === 'hidden' || window.innerWidth < 800) {
         document.documentElement.setAttribute('sidebar', 'show');

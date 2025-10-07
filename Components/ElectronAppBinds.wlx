@@ -17,6 +17,11 @@ Controls = $Options["Controls"];
             server.emitt('<Controls/>', 'True', '_NewNotebook');
         });
 
+        api.listener('print', () => {
+            console.log('note');
+            server.emitt('<Controls/>', 'True', 'PrintPDF');
+        });
+
         api.listener('acknowledgments', () => {
             open('/acknowledgments', '_blank');
         });

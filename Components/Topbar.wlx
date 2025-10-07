@@ -127,7 +127,7 @@ Component[OptionsPattern[]] := With[{
     subscribeToNotebookSocketState[Global`$Client(*`*), messages, localController];
   ]];
 
-    <div style="z-index: 100;" class="flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 pl-20 win:pl-0 owin:pl-0 linux:pl-2">
+    <div style="z-index: 100;" class="atitlebar flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 pl-20 win:pl-0 owin:pl-0 linux:pl-2">
         
         <div class="my-auto mr-auto lg:border-r win:pt035 owin:pt035 border-gray-300 dark:border-gray-500 pr-1 flex flex-row linux:pt-fix h-full osx:h-fit overflow-hidden"> 
           <Menu/>
