@@ -325,6 +325,12 @@ pluginsMenu.fetch = () => {
                     if (mi["accelerator"]) {
                         mitem.accelerator = isMac ? mi["accelerator"][0] : mi["accelerator"][1];
                     }
+                    if (package["wljs-meta"]["priority"]) {
+                        mitem.priority = package["wljs-meta"]["priority"];
+                    } else {
+                        mitem.priority = 1;
+                    }
+
                     let section = mi["section"];
                     if (!section) section =  "misc";
 
@@ -388,7 +394,8 @@ const shortcut = (id) => {
 
 const callFakeMenu = {}
 
-const buildMenu = (opts) => {
+let buildMenu = {};
+buildMenu = (opts) => {
     //default options
     const defaults = {
         footermenu: [],
@@ -461,7 +468,7 @@ const buildMenu = (opts) => {
                         windows.focused.call('newnotebook', true);
                     }
                 },              
-                ...options.plugins.file,
+                ...(options.plugins.file.sort((a, b)=> (a.priority - b.priority))),
                 { type: 'separator' },
                 {
                     label: 'Prompt call',
@@ -521,6 +528,15 @@ const buildMenu = (opts) => {
                                 windows.focused.call('saveas', encodeURIComponent(res.filePath) );
                             }
                         });
+                    }
+                },
+                { type: 'separator' },
+                {
+                    label: 'Print',
+                    click: async(ev) => {
+                
+                        windows.focused.call('print', true);
+                        //windows.focused.win.webContents.print({silent: false, printBackground: false, deviceName: ''}, console.log);
                     }
                 },
                 /*{ type: 'separator' },
@@ -624,7 +640,7 @@ const buildMenu = (opts) => {
                     }
                 },
                 { type: 'separator' },
-                ...options.plugins.edit,
+                ...(options.plugins.edit.sort((a, b)=> (b.priority - a.priority))),
                 ...(isMac ? [
                     { role: 'pasteAndMatchStyle' },
                     { role: 'delete' },
@@ -665,7 +681,7 @@ const buildMenu = (opts) => {
                         }
                     }
                 },
-                ...options.plugins.view,
+                ...(options.plugins.view.sort((a, b)=> (a.priority - b.priority))),
                 { type: 'separator' },
                 { role: 'resetZoom' },
                 { role: 'zoomIn' },
@@ -716,7 +732,7 @@ const buildMenu = (opts) => {
                     }
                 },
 
-                ...options.plugins.kernel,
+                ...(options.plugins.kernel.sort((a, b)=> (a.priority - b.priority))),
 
                 { type: 'separator' },
 
@@ -760,7 +776,7 @@ const buildMenu = (opts) => {
 
                 { type: 'separator' },
 
-                ...options.plugins.misc,
+                ...(options.plugins.misc.sort((a, b)=> (a.priority - b.priority))),
                 {
                     role: 'help',
                     label: 'Acknowledgments',
@@ -774,8 +790,53 @@ const buildMenu = (opts) => {
         }
     ];
 
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    const noMenu = [
+        // { role: 'appMenu' }
+        ...(isMac ? [{
+            label: app.name,
+            submenu: [
+                { role: 'about' },
+                { type: 'separator' },
+                ...(options.footermenu),
+                { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
+                    console.warn('Quit dialog');
+                    dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                        if (res.response == 0) {
+                            app.quit();
+                        }
+                    })
+                    
+                }}
+            ]
+        }] : []),
+        // { role: 'fileMenu' }
+        ...(isMac ? [] : [{
+            label: 'File',
+            submenu: [
+                    ...(isMac ? [{ type: 'separator' }] : [
+                        { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
+                            console.warn('Quit dialog');
+                            dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                                if (res.response == 0) {
+                                    app.quit();
+                                }
+                            })
+                    
+                        }}
+                    ])
+            ]
+        }]),
+
+        {
+            label: 'Window',
+            submenu: [
+                { role: 'toggleDevTools' }
+            ]
+        }        
+    ];
+
+    buildMenu.small = Menu.buildFromTemplate(noMenu);
+    buildMenu.main  = Menu.buildFromTemplate(template);
 }
 
 callFakeMenu["openFile"] = async () => {
@@ -808,6 +869,12 @@ callFakeMenu["openFolder"] = async () => {
 callFakeMenu["Save"] = async () => {
     windows.focused.call('save', true);
 }
+
+callFakeMenu["print"] = async (ev) => {
+    windows.focused.call('print', true);
+    //windows.focused.call('print', true);
+}
+
 
 callFakeMenu["SaveAs"] = async () => {
     const promise = dialog.showSaveDialog({ title: 'Save as', properties: ['createDirectory'], filters: [
@@ -1387,7 +1454,14 @@ function parseWindowFeatures(features) {
     );
 }
 
+
+
 function create_window(opts, cbk = () => {}) {
+    if (buildMenu.main) {
+        Menu.setApplicationMenu(buildMenu.main);
+        buildMenu.main = undefined
+    }
+
         //default options
         const defaults = {
             title: 'Notebook',
@@ -2102,6 +2176,8 @@ app.whenReady().then(() => {
 
     pluginsMenu.fetch();
     buildMenu({plugins: pluginsMenu.items});
+    Menu.setApplicationMenu(buildMenu.small);
+    
 
 
     powerSaver();
@@ -2151,6 +2227,10 @@ app.whenReady().then(() => {
 
     ipcMain.handle('system-window-zoom-get', async (e) => {
         return e.sender.getZoomLevel()+1;
+    });
+
+    ipcMain.on('print', (e, opts) => {
+        e.sender.print({printBackground: true})
     });
 
     ipcMain.handle('print-pdf', async (e, opts) => {
@@ -2603,11 +2683,7 @@ function start_server (window) {
 
 //applicable only to the first time!!!
 function create_first_window() {
-    //we need to decide what to open!
-    if (server.wasUpdated) { //reset app menu
-        pluginsMenu.fetch();
-        buildMenu({plugins: pluginsMenu.items});
-    }
+    
 
     const parsedCommndLine = parseArgs(process.argv);
     const commandOnly = parsedCommndLine.c;

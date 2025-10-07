@@ -31,6 +31,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   setProgress: (p) => ipcRenderer.send('set-progress', p),
 
+  print: (p) => ipcRenderer.send('print', p),
+
   changeWindowSizeBy: (p) => ipcRenderer.send('resize-window-by', p),
 
   blockWindow: (state, message) => {

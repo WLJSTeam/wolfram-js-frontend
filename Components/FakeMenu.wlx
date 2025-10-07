@@ -81,7 +81,11 @@ Component[OptionsPattern[]] := With[{
       <button data-name="browser" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
   
         Open in browser
-      </button>            
+      </button>   
+      <button data-name="print" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+
+        Print
+      </button>               
       <button data-name="exit" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
 
         Exit
