@@ -27,7 +27,7 @@ test.describe('Bar and Charts', () => {
   test('Bubble', async () => {
     await clearCell(page);
   
-    const outputCell = await evaluate(page, 'SeedRandom[120]; BubbleChart[RandomReal[1, {5, 7, 3}]]', 25000, 1500);
+    const outputCell = await evaluate(page, 'SeedRandom[120]; BubbleChart[RandomReal[1, {5, 7, 3}]]', 55000, 3500);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'bubble.png']);
   });  
 
