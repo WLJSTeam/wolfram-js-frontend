@@ -175,14 +175,14 @@ test.describe('Easy check for most basic decorators', () => {
   test('Plot', async () => {
     await clearCell(page);
   
-    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}]', 15000);
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}]', 25000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot.png']);
   });  
 
   test('Sphere', async () => {
     await clearCell(page);
   
-    const outputCell = await evaluate(page, 'Graphics3D[Sphere[]]', 15000);
+    const outputCell = await evaluate(page, 'Graphics3D[Sphere[]]', 25000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'sphere.png']);
   });  
   

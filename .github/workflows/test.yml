@@ -2,10 +2,6 @@ name: Autotest
 
 on: workflow_dispatch
 
-# WL cannot spawn evaluation kernel using entitlements
-# LinkObject::linkd: Unable to communicate with closed link LinkObject["/Applications/Wolfram Engine.app/Contents/Resources/Wolfram Player.app/Contents/MacOS/WolframKernel" -wstp, 6290, 13].
-# >> $Failed
-
 jobs:
   autotest:
     runs-on: macos-latest
