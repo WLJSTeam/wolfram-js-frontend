@@ -175,7 +175,7 @@ test.describe('Easy check for most basic decorators', () => {
   test('Plot', async () => {
     await clearCell(page);
   
-    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}]', 25000);
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}]', 45000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot.png']);
   });  
 

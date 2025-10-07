@@ -14,20 +14,19 @@ Off[Part::partd]; (* avoid warning messages from WLX *)
 Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 
 With[{deps = Get[FileNameJoin[{Directory[], "dependencies.wl"}] ]},
-  If[FailureQ[LPMLoad[Directory[] ] ], 
+  If[FailureQ[LPMLoad[ "Directory" -> Directory[] ] ], 
     Echo["wl_packages is empty"];
 
     DeleteDirectory[FileNameJoin[{Directory[], "wl_packages"}],   DeleteContents->True] // Quiet;
     DeleteDirectory[FileNameJoin[{Directory[], "wljs_packages"}], DeleteContents->True] // Quiet;
     DeleteFile[FileNameJoin[{Directory[], #}] ] &/@ {
-      ".wl_timestamp",
       "wl_packages_lock.wl"
     } // Quiet;
 
     Echo["Installing all..."];
-    LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[], "MaxVersionDiff"-> 3 ];
+    LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[] ];
 
-    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> FileNameJoin[{Directory[], "wljs_packages"}], "MaxVersionDiff"-> 3];
+    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> FileNameJoin[{Directory[], "wljs_packages"}] ];
   ,
 
     WLJSPackages`Load[FileNameJoin[{Directory[], "wljs_packages"}] ];

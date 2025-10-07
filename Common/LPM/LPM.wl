@@ -2,7 +2,7 @@ BeginPackage["JerryI`LPM`"]
 
 PacletRepositories::usage = "depricated"
 LPMRepositories::usage = "LPMRepositories[{\"Github\" -> \"URL to the repo\", ...}] specify the wolfram packages to be synced via remote url"
-LPMLoad::usage = ""
+LPMLoad::usage = "LPMLoad[\"Directory\"->...] loads paclets stored by LPMRepositories[] without checking updates and etc"
 Github::usage = "depricated"
 
 
@@ -38,7 +38,20 @@ inspectPackages[dir_String, cbk_] := Module[{
 
 LPMRepositories = PacletRepositories;
 
-LPMLoad[projectDir_String] := If[FileExistsQ[FileNameJoin[{projectDir, "wl_packages"}] ], Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}], $Failed];
+LPMLoad[OptionsPattern[] ] := Module[{projectDir},
+  If[OptionValue["Directory"]//StringQ,
+    projectDir = OptionValue["Directory"];
+    If[!StringQ[projectDir], Echo["LPM >> Sorry. This is a wrong folder!"]; Abort[]];
+  ,
+    projectDir = NotebookDirectory[] // Quiet;
+    If[!StringQ[projectDir], projectDir = DirectoryName[$InputFileName]];
+    If[!StringQ[projectDir], Echo["LPM >> Sorry. We cannot work without a project directory. Save your notebook / script first"]; Abort[]];    
+  ];
+
+  If[FileExistsQ[FileNameJoin[{projectDir, "wl_packages"}] ], Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}], $Failed]
+]
+
+Options[LPMLoad] = {"Directory"->None}
 
 PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMode = OptionValue["StrictMode"], info, repos, cache, updated, removed, new, current, updatable, skipUpdates = OptionValue["Passive"], automaticUpdates = OptionValue["AutomaticUpdates"], versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)
@@ -49,7 +62,7 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMod
       projectDir = OptionValue["Directory"];
       If[!StringQ[projectDir], Echo["LPM >> Sorry. This is a wrong folder!"]; Abort[]];
     ,
-      projectDir = NotebookDirectory[];
+      projectDir = NotebookDirectory[] // Quiet;
       If[!StringQ[projectDir], projectDir = DirectoryName[$InputFileName]];
       If[!StringQ[projectDir], Echo["LPM >> Sorry. We cannot work without a project directory. Save your notebook / script first"]; Abort[]];    
     ];
@@ -57,20 +70,6 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMod
     If[!FileExistsQ[projectDir],
       CreateDirectory[projectDir, CreateIntermediateDirectories->True];
       If[!FileExistsQ[projectDir], Echo["LPM >> Cannot create project directory by path "<>projectDir<>" !!!"]; Abort[] ];
-    ];
-    
-
-    If[FileExistsQ[FileNameJoin[{projectDir, ".wl_timestamp"}] ] && !OptionValue["ForceUpdates"],
-      With[{time = Get[ FileNameJoin[{projectDir, ".wl_timestamp"}] ]},
-        If[Now - time < OptionValue["UpdateInterval"] || strictMode,
-          skipUpdates = True;
-          
-          With[{c = CacheLoad[projectDir]}, If[AssociationQ[c] && !TrueQ[strictMode], 
-            If[Length[Complement[Keys[repos], Keys[c] ] ] > 0, skipUpdates = False];
-          ] ];
-          
-        ];
-      ]
     ];
 
     (* PASSIVE mode :: skips all checks and just loads wl_package folder *)
@@ -137,30 +136,6 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMod
 
       (* will be updated *)
       updated   = ((#->repos[#])&/@ Keys[updatable]) // Association;
-
-      If[maxVersionDiff =!= None,
-        (* filter if the version is too high *)
-        versionControl = VersionsLoad[projectDir];
-        If[versionControl =!= None,
-          (* apply filter *)
-
-          updated = Table[ With[{
-            lookupVersion = Lookup[versionControl, key, Missing[] ]
-          },
-            
-            If[
-              MissingQ[lookupVersion] || (
-                convertVersion[ updated[key]["Version"] ] - convertVersion[lookupVersion] <= maxVersionDiff
-              ),
-
-                key -> updated[key],
-
-                Echo["LPM >> Version difference is too high. Bundled: "<>lookupVersion<>" vs Remote: "<>updated[key]["Version"] ]; 
-                Echo["Skipping..."];
-                Nothing
-          ] ], {key, Keys[updated]}] // Association;
-        ];
-      ];
  
       Echo[StringTemplate["LPM >> will be UPDATED: ``"][Length[updatable]]];
 
@@ -170,13 +145,6 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMod
 
     (* update local cache file aka packages.json *)
     CacheStore[projectDir, repos];
-
-    (* store version (if applicable) *)
-    If[maxVersionDiff =!= None && versionControl === None,
-      VersionsStore[projectDir, repos]
-    ];
-
-    Put[Now, FileNameJoin[{projectDir, ".wl_timestamp"}] ];
 
     (* finally load dirs *)
     inspectPackages[FileNameJoin[{projectDir, "wl_packages"}], OptionValue["ConflictResolutionFunction"] ];
@@ -193,10 +161,6 @@ Options[PacletRepositories] = {"Directory"->None, "StrictMode"->False, "Passive"
 
 CacheStore[dir_String, repos_Association] := Export[FileNameJoin[{dir, "wl_packages_lock.wl"}], repos]
 CacheLoad[dir_String] := If[!FileExistsQ[FileNameJoin[{dir, "wl_packages_lock.wl"}]], Missing[], Import[FileNameJoin[{dir, "wl_packages_lock.wl"}]]];
-
-VersionsStore[dir_String, repos_Association] := Export[FileNameJoin[{dir, "wl_packages_version.wl"}], Map[Function[data, data["Version"] ], repos] ]
-VersionsLoad[dir_String] := If[FileExistsQ[FileNameJoin[{dir, "wl_packages_version.wl"}] ], Import[FileNameJoin[{dir, "wl_packages_version.wl"}] ], None ]
-
 
 CheckUpdates[a_Association] := Module[{result},
   CheckUpdates[a, a["key"]]
