@@ -105,6 +105,9 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
         Internal`Kernel`WLJSQ = True;
         System`$FrontEndWLJSQ = True; (* DEPRICATED *)
 
+        Off[Unset::norep];
+        Off[TagUnset::norep];
+
         AppendTo[$Path, shared]; (* add shared directory *)
 
         Internal`Kernel`Watchdog;
