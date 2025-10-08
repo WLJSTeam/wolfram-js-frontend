@@ -380,3 +380,13 @@ input::selection {
     left: -0.75rem;
     border-radius: 0.15rem;
 }
+
+@media print {
+  #frame {height: fit-content !important;} 
+  .atitlebar {display:none !important;} 
+  .print\:hide {display: none !important;}
+  .button-cmore {display:none !important;} 
+  .button-chide {display:none !important;} 
+  .button-cplay {display:none !important;} 
+  .button-cadd {display:none !important;} 
+}

@@ -110,7 +110,7 @@ EventHandler[evCloned, {
 
 {
     <WebUIContainer Event={Controller}>
-        <div aria-live="assertive" style="z-index:100" class="pointer-events-none fixed inset-0 flex items-start px-6 mt-12 win:px-5 owin:px-5 linux:px-5">
+        <div aria-live="assertive" style="z-index:100" class="print:hide pointer-events-none fixed inset-0 flex items-start px-6 mt-12 win:px-5 owin:px-5 linux:px-5">
             <div class="flex w-full flex-col items-center space-y-0 sm:items-end">      
                 <WebUIContainerChild/>
             </div>  

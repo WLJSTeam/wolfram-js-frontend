@@ -180,28 +180,17 @@ promise
 
 UIPrintPDF;
 
-headerPrintTemplate = "
-@media print { \
-    #frame { \
-        height: fit-content; \
-    } \
-    .atitlebar { \
-        display:none \
-    } \
-    .button-cmore {display:none} \
-    .button-chide {display:none} \
-    .button-cplay {display:none} \
-    .button-cadd {display:none} \
-}";
-
-printPDF[client_, ModalController_] := Then[WebUIFetch[UIPrintPDF[
+printPDF[client_, ModalController_, log_] := With[{spinner = Notifications`Spinner["Topic"->"Printing", "Body"->"Please, wait"]}, 
+EventFire[log, spinner, True];
+Then[WebUIFetch[UIPrintPDF[
   "crop"->False, "printBackground"->True, "pageSize"->"A4", "scale"->1, 
-  "generateDocumentOutline" -> True, "HeaderCSS"->headerPrintTemplate,
+  "generateDocumentOutline" -> True, "HeaderCSS"->"",
   "margins"-><|"right"->0, "left"->0, "top"->0, "bottom"->0|>
 ], client, "Format"->"JSON"], Function[payload,
   With[{data = ByteArray[payload]},
 
-  
+      Delete[spinner];
+
       With[{
           p = Promise[]
       },
@@ -219,12 +208,14 @@ printPDF[client_, ModalController_] := Then[WebUIFetch[UIPrintPDF[
                   file = OpenWrite[filename, BinaryFormat->True];
                   BinaryWrite[file, data];
                   Close[file];
+
+                  EventFire[log, "Saved", "Exported to "<>file];
               ] 
           ]]
 
       ]
   ]
-]];
+]] ];
 
 
 ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
@@ -369,7 +360,7 @@ App[request_] := With[{
       "DumpSaveAs" -> (dumpNotebookAs[#, GlobalMessanger, ModalController, $Client]&),
       "DumpSaveTemporal" -> (backupNotebook[#, GlobalMessanger, $Client]&),
       "ReopenAsQuick" -> (reopenNotebookAsQuick[#, GlobalMessanger, ModalController, $Client]&),
-      "PrintPDF" -> (printPDF[$Client, ModalController]&)
+      "PrintPDF" -> (printPDF[$Client, ModalController, GlobalMessanger]&)
     }];
   {
     "<!DOCTYPE html>"
@@ -417,17 +408,10 @@ Script[Rule["Secret", Secret_]] := With[{},
           alert('PDF generation is only possible using WLJS desktop app (Electron)');
           throw('PDF generation is only possible on desktop app (Electron)');
       }
-      const options = await core._getRules(args, env);
-      const cssHead = options.HeaderCSS;
-      const style = document.createElement("style");
-        style.setAttribute("type", "text/css");
-        style.textContent = cssHead;
-        document.head.appendChild(style);
-  
+      const options = await core._getRules(args, env);  
       const p = new Deferred();
       electronAPI.toPDF(options, (result)=>{
         p.resolve(Array.from(result));
-        style.remove();
       })
       return p.promise;      
     }
