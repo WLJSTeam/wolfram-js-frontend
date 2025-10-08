@@ -180,7 +180,7 @@ promise
 
 UIPrintPDF;
 
-printPDF[client_, ModalController_, log_] := With[{spinner = Notifications`Spinner["Topic"->"Printing", "Body"->"Please, wait"]}, 
+printPDF[client_, ModalController_, log_] := Module[{spinner = Notifications`Spinner["Topic"->"Printing", "Body"->"Please, wait"]}, 
 EventFire[log, spinner, True];
 Then[WebUIFetch[UIPrintPDF[
   "crop"->False, "printBackground"->True, "pageSize"->"A4", "scale"->1, 
@@ -190,6 +190,10 @@ Then[WebUIFetch[UIPrintPDF[
   With[{data = ByteArray[payload]},
 
       Delete[spinner];
+      If[Length[data] == 0,
+        EventFire[log, "Error", "Printing requires WLJS Desktop App"];
+        Return[Null, Module];
+      ];
 
       With[{
           p = Promise[]
@@ -209,7 +213,7 @@ Then[WebUIFetch[UIPrintPDF[
                   BinaryWrite[file, data];
                   Close[file];
 
-                  EventFire[log, "Saved", "Exported to "<>file];
+                  EventFire[log, "Saved", StringJoin["Exported to ", file]];
               ] 
           ]]
 
@@ -405,8 +409,7 @@ Script[Rule["Secret", Secret_]] := With[{},
   <script type="module">
     core.UIPrintPDF = async (args, env) => {
       if (!(window?.electronAPI?.toPDF)) {
-          alert('PDF generation is only possible using WLJS desktop app (Electron)');
-          throw('PDF generation is only possible on desktop app (Electron)');
+          return [];
       }
       const options = await core._getRules(args, env);  
       const p = new Deferred();
