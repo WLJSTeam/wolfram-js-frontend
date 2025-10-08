@@ -2,12 +2,12 @@
 
 PacletObject[
   <|
-    "Name" -> "JerryI/WolframJSFrontend",
-    "Description" -> "Implementation of web-frontend for Wolfram Engine",
-    "Creator" -> "Kirill Vasin",
+    "Name" -> "CoffeeLiqueur/WLJSNotebook",
+    "Description" -> "Dynamic Notebook Environment for Wolfram Language",
+    "Creator" -> "WLJSTeam",
     "License" -> "GPL-3.0",
-    "PublisherID" -> "JerryI",
-    "Version" -> "2.8.4",
+    "PublisherID" -> "CoffeeLiqueur",
+    "Version" -> "2.8.6",
     "WolframVersion" -> "13+",
     "Extensions" -> {
       {
