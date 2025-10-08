@@ -199,7 +199,7 @@ printPDF[client_, ModalController_, log_] := Module[{spinner = Notifications`Spi
                   BinaryWrite[file, data];
                   Close[file];
 
-                  EventFire[log, "Saved", StringJoin["Exported to ", file]];
+                  EventFire[log, "Saved", StringJoin["Exported to ", filename]];
               ] 
           ]]
 

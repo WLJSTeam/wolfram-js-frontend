@@ -213,7 +213,7 @@ Then[WebUIFetch[UIPrintPDF[
                   BinaryWrite[file, data];
                   Close[file];
 
-                  EventFire[log, "Saved", StringJoin["Exported to ", file]];
+                  EventFire[log, "Saved", StringJoin["Exported to ", filename]];
               ] 
           ]]
 
