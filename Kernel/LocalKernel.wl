@@ -7,6 +7,8 @@ Begin["`Private`"]
 
 Needs["CoffeeLiqueur`Notebook`Kernel`" -> "GenericKernel`"];
 Needs["CoffeeLiqueur`ExtensionManager`" -> "af`"];
+Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
+
 
 CreateType[LocalKernelObject, GenericKernel`Kernel, {"RootDirectory"->Directory[], "CreatedQ"->False, "StandardOutput"->Null, "InitList"-> {}, "Host"->"127.0.0.1", "Port"->36808, "ReadyQ"->False, "State"->"Undefined", "wolframscript" -> ("\""<>First[$CommandLine]<>"\" -wstp")}]
 
@@ -82,7 +84,22 @@ HeldRemotePacket /: LinkWrite[lnk_, HeldRemotePacket[p_String] ] := With[{pp = p
 HoldRemotePacket[any_] := any // Hold // Compress // HeldRemotePacket
 SetAttributes[HoldRemotePacket, HoldFirst]
 
-tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port]},
+
+
+requestId = CreateUUID[];
+EventHandler[requestId, Function[assoc, Module[{file},
+    file = assoc["Path"] // FileNameJoin;
+    Echo["LocalKernel >> File request: "<>file];
+    file = ReadByteArray[file, Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}];
+    With[{data = file, promise = assoc["Promise"], kernel = GenericKernel`HashMap[assoc["Kernel"] ]},
+        GenericKernel`Async[kernel, EventFire[promise, Resolve,  data] ];
+] ] ] ];
+
+tcpConnect[port_, o_LocalKernelObject] := With[{
+    shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], 
+    addr = "127.0.0.1:"<>ToString[port],
+    requestId = requestId
+},
     (  
         Print["Establishing LTP link... using "<>addr];
         Internal`Kernel`Host = host;
@@ -152,20 +169,24 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
 
         Internal`Kernel`Watchdog["QuickTest"] := Internal`Kernel`Watchdog["Test"];
 
+        Kernel`Internal`requestFile[path_] := With[{promise = Promise[]},
+            Echo["Request for "<>path];
+            EventFire[Internal`Kernel`Stdout[requestId], <|"Path"->FileNameSplit[path], "Promise" -> promise, "Kernel"->Internal`Kernel`Hash|>];
+            WaitAll[promise, 30]
+        ];
+
         Unprotect[FileNameJoin];
         FileNameJoin[{Internal`RemoteFS[url_], any__}] := With[{parsed = URLParse[url]},
-          With[{r = Join[parsed, <|"Query" -> {"path" -> URLEncode[FileNameJoin[{URLDecode["path" /. parsed["Query"] ], any}] ]}|>] // URLBuild // Internal`RemoteFS},
-            r
-          ]
+          Internal`RemoteFS[ FileNameJoin[{url, any} // Flatten] ]
         ];
 
         Protect[FileNameJoin];   
         
            
 
-        Internal`RemoteFS /: Get[Internal`RemoteFS[url_] ] := Get[url];   
+        Internal`RemoteFS /: Get[Internal`RemoteFS[url_] ] := ImportByteArray[Kernel`Internal`requestFile[url] ];   
         Internal`RemoteFS /: StringTake[Internal`RemoteFS[url_], n_] := StringTake[url,n]; 
-        Internal`RemoteFS /: Import[Internal`RemoteFS[url_], w_] := Import[url, w];
+        Internal`RemoteFS /: Import[Internal`RemoteFS[url_], w_] := ImportByteArray[Kernel`Internal`requestFile[ url], w];
 
         With[{pid = $ProcessID}, LTPEvaluate[Internal`Kernel`Stdout, Internal`Kernel`LTPConnected[uid, pid] ] ];
     ) // HoldRemotePacket
