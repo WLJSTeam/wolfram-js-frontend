@@ -383,6 +383,7 @@ input::selection {
 
 @media print {
   #frame {height: fit-content !important;} 
+  main {box-sizing: none !important;}
   .atitlebar {display:none !important;} 
   .print\:hide {display: none !important;}
   .button-cmore {display:none !important;} 
