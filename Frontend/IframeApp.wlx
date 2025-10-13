@@ -231,7 +231,7 @@ App[request_] := With[{
     loadSettingsOnceMore;
 
     EventHandler[OnLoad, Function[Null,
-      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env|>];
+      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "IFrameQ"->True|>];
 
       If[settings["FirstLaunch"] =!= False,
         settings = Join[settings, <|"FirstLaunch" -> False|>];

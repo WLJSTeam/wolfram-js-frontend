@@ -336,7 +336,7 @@ App[request_] := With[{
     }]; 
 
     EventHandler[OnLoad, Function[Null,
-      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "Controls"->GlobalControls|>];
+      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "Controls"->GlobalControls, "ExtendedAppQ"->True|>];
 
       If[settings["FirstLaunch"] =!= False,
         settings = Join[settings, <|"FirstLaunch" -> False|>];
