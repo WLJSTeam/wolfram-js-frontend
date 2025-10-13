@@ -263,7 +263,8 @@ App[request_] := With[{
        ("NewNotebook" | "_NewNotebook" | "_NewQuickNotebook") -> (createNotebook[<|"Quick"->True, "HaveToSaveAs"->True|>, <|"BaseDirectory"->AppExtensions`QuickNotesDir(*`*)|>, GlobalMessanger, ModalController, $Client, Path]&),
       "DumpSave" -> (dumpNotebook[#, GlobalMessanger, ModalController, $Client]&),
       "DumpSaveAs" -> (dumpNotebookAs[#, GlobalMessanger, ModalController, $Client]&),
-      "DumpSaveTemporal" -> (backupNotebook[#, GlobalMessanger, $Client]&)
+      "DumpSaveTemporal" -> (backupNotebook[#, GlobalMessanger, $Client]&),
+      "IFrameQ" -> (True)&
     }];
   {
     "<!DOCTYPE html>"
