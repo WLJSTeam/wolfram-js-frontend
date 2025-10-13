@@ -1222,9 +1222,12 @@ const windows = {
                 height: 400,
                 resizable: false,
                 title: 'Launcher',
+                contextMenu: true,
+                
                 webPreferences: {
                     preload: path.join(__dirname, 'preload_log.js'),
                     webSecurity: false,
+                    contextMenu: true
                     //nodeIntegration: true
                 }
              });
@@ -1243,10 +1246,12 @@ const windows = {
                     height: 400,
                     resizable: false,
                     title: 'Launcher',
+                    contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
                         //webSecurity: false,
-                        nodeIntegration: true
+                        nodeIntegration: true,
+                        contextMenu: true
                     }
                  });
 
@@ -1262,15 +1267,26 @@ const windows = {
                     height: 400,
                     resizable: false,
                     title: 'Launcher',
+                    contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
                         //webSecurity: false,
-                        nodeIntegration: true
+                        nodeIntegration: true,
+                        contextMenu: true
                     },
 
                     icon: path.join(__dirname, "build", "512x512.png")
                  });                
             }
+
+            contextMenu({
+                window: win,
+                menu: (actions, props, browserWindow, dictionarySuggestions) => [
+                    actions.cut(),
+                    actions.copy(),
+                    actions.paste()
+                ]
+            });            
 
             win.webContents.setWindowOpenHandler((details) => {
                 shell.openExternal(details.url); // Open URL in user's browser.
