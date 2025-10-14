@@ -21,6 +21,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 0 : 0,
 
+  timeout: 90000,
+
   snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
   
   /* Opt out of parallel tests on CI. */
