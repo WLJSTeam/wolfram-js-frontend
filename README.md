@@ -1,5 +1,5 @@
 <h1 align="center">WLJS Notebook</h1>
-<h2 align="center">Next-Gen Digital Notebook for Physics, Math, and Data Science</h2>
+<h2 align="center">Open-source notebook interface for Wolfram Engine</h2>
 
 It is the first open-source solution featuring true 2D math input combined with powerful syntax sugar and the fastest granular interactive evaluation engine, making it ideal for advanced mathematical workflows, scientific computing, and data exploration.
 
