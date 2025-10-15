@@ -143,7 +143,7 @@ jobs:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
           project-slug: 'wljs-notebook'
-          signing-policy-slug: 'default'
+          signing-policy-slug: 'test-signing'
           github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
           wait-for-completion: true
           output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}
