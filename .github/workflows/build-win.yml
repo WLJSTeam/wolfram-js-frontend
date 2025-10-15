@@ -152,14 +152,14 @@ jobs:
         run: |
           $ver = (Get-Content package.json -Raw | ConvertFrom-Json).version
           "version=$ver" >> $env:GITHUB_OUTPUT
-      
+
       # (Optional) List what we actually got back from SignPath
       - name: Debug signed folder
         shell: pwsh
         run: |
           Write-Host "SIGNED_OUT_DIR: $env:SIGNED_OUT_DIR"
           Get-ChildItem -Recurse -Force "$env:SIGNED_OUT_DIR" | Format-List FullName,Length
-      
+
       # Find the signed installer (EXE preferred, else MSI)
       - name: Find signed installer
         id: find_signed
@@ -178,14 +178,14 @@ jobs:
             Write-Error "No .exe or .msi found under $dir"
             exit 1
           }
-      
+
       # Publish the FOUND file (exact path) to a release
       - name: Publish signed artifact to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.appver.outputs.version }}
           name: v${{ steps.appver.outputs.version }}
-          draft: false
+          draft: true
           prerelease: false
           files: ${{ steps.find_signed.outputs.file }}
         env:
