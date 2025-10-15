@@ -1,5 +1,11 @@
-name: Build for Windows 
+name: Build for Windows
 on: workflow_dispatch
+
+# SignPath needs access to artifacts; set minimal permissions.
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build-x86:
     runs-on: windows-latest
@@ -8,11 +14,22 @@ jobs:
       WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL: https://files.wolframcdn.com/packages/winget/14.0.0.0/WolframEngine_14.0.0_WIN.msi
       WOLFRAMENGINE_CACHE_KEY: WolframEngine-B
       WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY: WolframEngine
+
+      # Adjust this if your build outputs to a different pattern/name.
+      # Common electron-builder outputs: dist/*.exe, dist/*.msi
+      unsigned_glob: dist/*.exe
+
+
     steps:
+      - name: Resolve temp-based paths
+        shell: pwsh
+        run: |
+          echo "SIGNED_OUT_DIR=$env:RUNNER_TEMP\signed-artifacts" >> $env:GITHUB_ENV
+
       - name: Check out repository
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GH_TOKEN }}        
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Patch specific dependencies from package.json
         shell: pwsh
@@ -35,7 +52,6 @@ jobs:
           }
 
           $json | ConvertTo-Json -Depth 10 | Out-File -Encoding UTF8 $pkgPath
-
 
       - name: Install Node.js manually
         run: |
@@ -97,13 +113,83 @@ jobs:
           WOLFRAMINIT: "-pwfile !cloudlm.wolfram.com -entitlement ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
         run: |
           $env:Path += ';${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}\'
-
           wolfram -script ./Scripts/bundle.wls
 
-
-      - name: Build Electron
+      - name: Build Electron (no publish)
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}      
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          npm run dist-win86
-        
+          npx electron-builder --win --x64 --publish never
+      
+      # ─────────────────────────────
+      # SignPath integration
+      # ─────────────────────────────
+      - name: Upload unsigned artifact (for SignPath)
+        id: upload-unsigned-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-windows-artifact
+          path: ${{ env.unsigned_glob }}       # e.g. dist/wljs-notebook-*-x64-win.exe
+          if-no-files-found: error
+          compression-level: 0
+      
+      - name: Submit signing request to SignPath
+        id: sign-with-signpath
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
+          project-slug: 'wolfram-js-frontend'
+          signing-policy-slug: 'test-signing'
+          github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}
+      
+      # Read app version (PowerShell, works on Windows)
+      - name: Read app version
+        id: appver
+        shell: pwsh
+        run: |
+          $ver = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          "version=$ver" >> $env:GITHUB_OUTPUT
+
+      # (Optional) List what we actually got back from SignPath
+      - name: Debug signed folder
+        shell: pwsh
+        run: |
+          Write-Host "SIGNED_OUT_DIR: $env:SIGNED_OUT_DIR"
+          Get-ChildItem -Recurse -Force "$env:SIGNED_OUT_DIR" | Format-List FullName,Length
+
+      # Find the signed installer (EXE preferred, else MSI)
+      - name: Find signed installer
+        id: find_signed
+        shell: pwsh
+        run: |
+          $dir = "$env:SIGNED_OUT_DIR"
+          $exe = Get-ChildItem -Path $dir -Recurse -Filter *.exe | Select-Object -First 1
+          $msi = Get-ChildItem -Path $dir -Recurse -Filter *.msi | Select-Object -First 1
+          if ($exe) {
+            "file=$($exe.FullName)" >> $env:GITHUB_OUTPUT
+            "ext=.exe" >> $env:GITHUB_OUTPUT
+          } elseif ($msi) {
+            "file=$($msi.FullName)" >> $env:GITHUB_OUTPUT
+            "ext=.msi" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Error "No .exe or .msi found under $dir"
+            exit 1
+          }
+
+      # Publish the FOUND file (exact path) to a release
+      - name: Publish signed artifact to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.appver.outputs.version }}
+          name: v${{ steps.appver.outputs.version }}
+          draft: true
+          prerelease: false
+          files: ${{ steps.find_signed.outputs.file }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+
+
