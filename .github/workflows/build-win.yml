@@ -148,13 +148,13 @@ jobs:
           wait-for-completion: true
           output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}
 
-      # Optional: grab version from package.json for a nice tag
-      - name: Read app version
+      - name: Read app version #FIXME!
         id: appver
-        shell: bash
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
-      
-      # Create/Update a GitHub release and upload the SIGNED files
+        shell: pwsh
+        run: |
+          $ver = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          "version=$ver" >> $env:GITHUB_OUTPUT
+
       - name: Publish signed artifacts to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
