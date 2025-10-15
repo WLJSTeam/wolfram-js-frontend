@@ -3,7 +3,7 @@ on: workflow_dispatch
 
 # SignPath needs access to artifacts; set minimal permissions.
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
@@ -120,22 +120,19 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npx electron-builder --win --x64 --publish never
-
-
+      
       # ─────────────────────────────
-      # SignPath integration starts
+      # SignPath integration
       # ─────────────────────────────
-
       - name: Upload unsigned artifact (for SignPath)
         id: upload-unsigned-artifact
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-windows-artifact
-          # Adjust if needed to match your build output
-          path: ${{ env.unsigned_glob }}
+          path: ${{ env.unsigned_glob }}       # e.g. dist/wljs-notebook-*-x64-win.exe
           if-no-files-found: error
           compression-level: 0
-
+      
       - name: Submit signing request to SignPath
         id: sign-with-signpath
         uses: signpath/github-action-submit-signing-request@v1
@@ -147,23 +144,52 @@ jobs:
           github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
           wait-for-completion: true
           output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}
-
-      - name: Read app version #FIXME!
+      
+      # Read app version (PowerShell, works on Windows)
+      - name: Read app version
         id: appver
         shell: pwsh
         run: |
           $ver = (Get-Content package.json -Raw | ConvertFrom-Json).version
           "version=$ver" >> $env:GITHUB_OUTPUT
-
-      - name: Publish signed artifacts to GitHub Release
+      
+      # (Optional) List what we actually got back from SignPath
+      - name: Debug signed folder
+        shell: pwsh
+        run: |
+          Write-Host "SIGNED_OUT_DIR: $env:SIGNED_OUT_DIR"
+          Get-ChildItem -Recurse -Force "$env:SIGNED_OUT_DIR" | Format-List FullName,Length
+      
+      # Find the signed installer (EXE preferred, else MSI)
+      - name: Find signed installer
+        id: find_signed
+        shell: pwsh
+        run: |
+          $dir = "$env:SIGNED_OUT_DIR"
+          $exe = Get-ChildItem -Path $dir -Recurse -Filter *.exe | Select-Object -First 1
+          $msi = Get-ChildItem -Path $dir -Recurse -Filter *.msi | Select-Object -First 1
+          if ($exe) {
+            "file=$($exe.FullName)" >> $env:GITHUB_OUTPUT
+            "ext=.exe" >> $env:GITHUB_OUTPUT
+          } elseif ($msi) {
+            "file=$($msi.FullName)" >> $env:GITHUB_OUTPUT
+            "ext=.msi" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Error "No .exe or .msi found under $dir"
+            exit 1
+          }
+      
+      # Publish the FOUND file (exact path) to a release
+      - name: Publish signed artifact to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.appver.outputs.version }}
           name: v${{ steps.appver.outputs.version }}
           draft: false
           prerelease: false
-          files: |
-            ${{ env.SIGNED_OUT_DIR }}\*.exe
+          files: ${{ steps.find_signed.outputs.file }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+
 
