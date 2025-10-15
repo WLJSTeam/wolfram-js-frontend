@@ -19,10 +19,13 @@ jobs:
       # Common electron-builder outputs: dist/*.exe, dist/*.msi
       unsigned_glob: dist/*.exe
 
-      # Where the SignPath action will drop the signed artifact(s)
-      SIGNED_OUT_DIR: '${{ runner.temp }}\signed-artifacts'
 
     steps:
+      - name: Resolve temp-based paths
+        shell: pwsh
+        run: |
+          echo "SIGNED_OUT_DIR=$env:RUNNER_TEMP\signed-artifacts" >> $env:GITHUB_ENV
+
       - name: Check out repository
         uses: actions/checkout@v2
         with:
@@ -141,7 +144,7 @@ jobs:
           organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
           github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
           wait-for-completion: true
-          output-artifact-directory: '${{ env.SIGNED_OUT_DIR }}'
+          output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}
 
       # Optional: grab version from package.json for a nice tag
       - name: Read app version
