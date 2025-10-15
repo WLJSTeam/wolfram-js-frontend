@@ -432,7 +432,7 @@ Script[Rule["Secret", Secret_]] := With[{},
     core.UIToggleWindowBonds = async (args, env) => {
       if (document.documentElement.getAttribute('sidebar') === 'hidden' || window.innerWidth < 800) {
         document.documentElement.setAttribute('sidebar', 'show');
-        server.emitt('<Secret/>', 'show', 'SaveSidebarState');
+        server.io.fire('<Secret/>', 'show', 'SaveSidebarState');
         if (window.electronAPI) {
           if (window.electronAPI.enlargeWindowSizeIfneeded) {
             window.electronAPI.enlargeWindowSizeIfneeded();
@@ -440,7 +440,7 @@ Script[Rule["Secret", Secret_]] := With[{},
         }
       } else {
         document.documentElement.setAttribute('sidebar', 'hidden');
-        server.emitt('<Secret/>', 'hidden', 'SaveSidebarState');
+        server.io.fire('<Secret/>', 'hidden', 'SaveSidebarState');
       }
       
     }
