@@ -17,7 +17,7 @@ jobs:
 
       # Adjust this if your build outputs to a different pattern/name.
       # Common electron-builder outputs: dist/*.exe, dist/*.msi
-      unsigned_glob: dist/*.exe
+      unsigned_glob: dist/*.msi
 
 
     steps:
@@ -129,7 +129,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-windows-artifact
-          path: ${{ env.unsigned_glob }}       # e.g. dist/wljs-notebook-*-x64-win.exe
+          path: ${{ env.unsigned_glob }}       # e.g. dist/wljs-notebook-*-x64-win.msi
           if-no-files-found: error
           compression-level: 0
       

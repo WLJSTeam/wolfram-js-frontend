@@ -108,12 +108,11 @@
         }
       ]
     },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+    "msi": {
+      "oneClick": false
     },
     "win": {
-      "target": "NSIS",
+      "target": "msi",
       "icon": "./Electron/build/512x512.ico",
       "artifactName": "wljs-notebook-${version}-${arch}-win.${ext}",
       "fileAssociations": [
