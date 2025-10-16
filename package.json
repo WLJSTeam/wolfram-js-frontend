@@ -113,6 +113,7 @@
     },
     "win": {
       "target": "msi",
+      "signAndEditExecutable": true,
       "icon": "./Electron/build/512x512.ico",
       "artifactName": "wljs-notebook-${version}-${arch}-win.${ext}",
       "fileAssociations": [
