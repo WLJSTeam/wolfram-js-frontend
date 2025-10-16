@@ -116,10 +116,7 @@ jobs:
           wolfram -script ./Scripts/bundle.wls
 
 
-      # ─────────────────────────────
-      # Collect + sign 3 DLLs (from 3 folders) before Electron build
-      # ─────────────────────────────
-      - name: Define DLL dirs (edit these!)
+      - name: Define DLL dirs 
         shell: pwsh
         run: |
           $dirs = @(
@@ -137,33 +134,34 @@ jobs:
           "SIGNED_DLL_DIR=$env:RUNNER_TEMP\signed-dlls"    | Out-File $env:GITHUB_ENV -Append
           "DLL_EXTRACT=$env:RUNNER_TEMP\dlls-signed-extract" | Out-File $env:GITHUB_ENV -Append
 
-      - name: Stage DLLs into a ZIP (preserve folder layout)
+      # Stage DLLs preserving relative paths (same as before, but no Compress-Archive)
+      - name: Stage DLLs
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
           $dirs = $env:DLL_DIRS -split ';'
+
           if (Test-Path $env:DLL_STAGE) { Remove-Item $env:DLL_STAGE -Recurse -Force }
           New-Item -ItemType Directory -Force -Path $env:DLL_STAGE | Out-Null
 
           foreach ($dir in $dirs) {
             if (-not (Test-Path $dir)) { throw "Folder not found: $dir" }
-            $dll = Get-ChildItem $dir -Filter *.dll | Select-Object -First 1
-            if (-not $dll) { throw "No .dll in $dir" }
-            # Recreate the same folder path inside the stage root
+            $dlls = Get-ChildItem -Path $dir -Filter *.dll -File
+            if ($dlls.Count -ne 1) { throw "Expected exactly 1 .dll in $dir, found $($dlls.Count)" }
+            $dll = $dlls[0]
+
             $dest = Join-Path $env:DLL_STAGE $dir
             New-Item -ItemType Directory -Force -Path $dest | Out-Null
             Copy-Item $dll.FullName -Destination $dest -Force
           }
 
-          if (Test-Path $env:DLL_ZIP) { Remove-Item $env:DLL_ZIP -Force }
-          Compress-Archive -Path (Join-Path $env:DLL_STAGE '*') -DestinationPath $env:DLL_ZIP
-
-      - name: Upload unsigned DLL ZIP (for SignPath)
+   
+      - name: Upload unsigned DLL artifact (folder, not zip)
         id: upload-unsigned-dlls
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-dlls-zip
-          path: ${{ env.DLL_ZIP }}
+          path: ${{ env.DLL_STAGE }}/*      
           if-no-files-found: error
           compression-level: 0
 
