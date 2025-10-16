@@ -178,60 +178,86 @@ jobs:
           wait-for-completion: true
           output-artifact-directory: '${{ env.SIGNED_DLL_DIR }}'
 
-      - name: Put signed DLLs back into their original folders (with logging)
+      - name: Put signed DLLs back into their original folders (handles extracted or zip; deep search + logging)
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-      
           Write-Host "Signed output directory: $env:SIGNED_DLL_DIR"
-          $signedZip = Get-ChildItem -Path "${{ env.SIGNED_DLL_DIR }}" -Recurse -Filter *.zip | Select-Object -First 1
-          if (-not $signedZip) { throw "Signed ZIP not found in $env:SIGNED_DLL_DIR" }
-          Write-Host "Using signed ZIP: $($signedZip.FullName)"
       
-          if (Test-Path $env:DLL_EXTRACT) {
-            Write-Host "Cleaning previous extract folder: $env:DLL_EXTRACT"
-            Remove-Item $env:DLL_EXTRACT -Recurse -Force
+          # If the connector downloaded a .zip, extract it; otherwise use the extracted dir as-is.
+          $root = $env:SIGNED_DLL_DIR
+          $signedZip = Get-ChildItem -Path $root -Recurse -Filter *.zip -File | Select-Object -First 1
+          if ($signedZip) {
+            Write-Host "Found signed ZIP: $($signedZip.FullName)"
+            if (Test-Path $env:DLL_EXTRACT) {
+              Write-Host "Cleaning previous extract folder: $env:DLL_EXTRACT"
+              Remove-Item $env:DLL_EXTRACT -Recurse -Force
+            }
+            New-Item -ItemType Directory -Force -Path $env:DLL_EXTRACT | Out-Null
+            Write-Host "Extracting ZIP to: $env:DLL_EXTRACT"
+            Expand-Archive -Path $signedZip.FullName -DestinationPath $env:DLL_EXTRACT -Force
+            $root = $env:DLL_EXTRACT
+          } else {
+            Write-Host "No ZIP found; assuming files were already extracted under: $root"
           }
-          New-Item -ItemType Directory -Force -Path $env:DLL_EXTRACT | Out-Null
-          Write-Host "Extracting ZIP to: $env:DLL_EXTRACT"
-          Expand-Archive -Path $signedZip.FullName -DestinationPath $env:DLL_EXTRACT -Force
       
           $dirs = $env:DLL_DIRS -split ';'
           Write-Host "DLL directories to restore:" ($dirs -join ', ')
       
           foreach ($dir in $dirs) {
-            $srcDir = Join-Path $env:DLL_EXTRACT $dir
-            if (-not (Test-Path $srcDir)) { throw "Signed folder not found in ZIP: $srcDir" }
+            if (-not (Test-Path $dir)) { throw "Destination folder not found: $dir" }
       
-            # Only 1 DLL expected per folder
-            $signed = Get-ChildItem $srcDir -Filter *.dll -File | Select-Object -First 1
-            if (-not $signed) { throw "No signed .dll found under $srcDir" }
+            # We expect exactly one original DLL in each destination folder (non-recursive).
+            $origDlls = Get-ChildItem -Path $dir -Filter *.dll -File
+            if ($origDlls.Count -eq 0) { throw "No original .dll found in destination: $dir" }
+            if ($origDlls.Count -gt 1) { throw "Expected exactly 1 original .dll in $dir, found $($origDlls.Count)" }
+            $origDll = $origDlls[0]
       
-            $destDir = $dir
-            $destPath = Join-Path $destDir $signed.Name
+            # First try to find the signed DLL in the same relative subfolder we staged.
+            $relCandidateDir = Join-Path $root $dir
+            $signed = $null
+            if (Test-Path $relCandidateDir) {
+              $signed = Get-ChildItem -Path $relCandidateDir -Filter $origDll.Name -File -Recurse | Select-Object -First 1
+              if ($signed) {
+                Write-Host "Found signed DLL under expected relative path: $($relCandidateDir)"
+              }
+            }
+      
+            # Fallback: deep search anywhere under $root by filename.
+            if (-not $signed) {
+              Write-Host "Searching deeply for signed '$($origDll.Name)' under: $root"
+              $signedMatches = Get-ChildItem -Path $root -Recurse -Filter $origDll.Name -File
+              if ($signedMatches.Count -eq 0) {
+                Write-Host "Signed DLL named '$($origDll.Name)' not found. Listing DLLs present for debugging:"
+                Get-ChildItem -Path $root -Recurse -Filter *.dll -File | ForEach-Object { Write-Host "  $_" }
+                throw "Missing signed DLL for: $($origDll.FullName)"
+              }
+              if ($signedMatches.Count -gt 1) {
+                Write-Host "::warning::Multiple signed matches for '$($origDll.Name)'. Using the first match."
+              }
+              $signed = $signedMatches[0]
+            }
       
             # Log the copy with absolute paths
             $fromAbs = (Resolve-Path $signed.FullName).Path
-            $toAbs = (Resolve-Path $destDir).Path
-            $toFull = Join-Path $toAbs $signed.Name
+            $toAbsDir = (Resolve-Path $dir).Path
+            $toAbs = Join-Path $toAbsDir $origDll.Name
       
             Write-Host "Copying signed DLL:"
             Write-Host "  FROM: $fromAbs"
-            Write-Host "  TO:   $toFull"
+            Write-Host "  TO:   $toAbs"
       
-            Copy-Item -Path $signed.FullName -Destination $destDir -Force
+            Copy-Item -Path $signed.FullName -Destination $dir -Force
       
-            # Quick confirmation
-            if (Test-Path $destPath) {
-              $size = (Get-Item $destPath).Length
-              Write-Host "  ✔ Placed: $destPath ($size bytes)"
+            if (Test-Path $toAbs) {
+              $size = (Get-Item $toAbs).Length
+              Write-Host "  ✔ Placed: $toAbs ($size bytes)"
             } else {
-              throw "Copy failed: $destPath not found after copy."
+              throw "Copy failed: $toAbs not found after copy."
             }
           }
       
           Write-Host "All signed DLLs restored to their original folders."
-
 
 
       - name: Build Electron (no publish)
