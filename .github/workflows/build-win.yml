@@ -115,6 +115,127 @@ jobs:
           $env:Path += ';${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}\'
           wolfram -script ./Scripts/bundle.wls
 
+
+      # ─────────────────────────────
+      # Collect + sign 3 DLLs (from 3 folders) before Electron build
+      # ─────────────────────────────
+      - name: Define DLL dirs (edit these!)
+        shell: pwsh
+        run: |
+          $dirs = @(
+            "wl_packages\KirillBelov_CSockets\Fallback",       
+            "wl_packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v6",  
+            "wl_packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v7",
+            "wl_packages\KirillBelov_CSockets\UV\Windows-x86-64"
+          )
+          # Persist for later steps (semicolon-separated)
+          "DLL_DIRS=$($dirs -join ';')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+          # Common paths used below
+          "DLL_STAGE=$env:RUNNER_TEMP\dll-stage"           | Out-File $env:GITHUB_ENV -Append
+          "DLL_ZIP=$env:RUNNER_TEMP\dlls-to-sign.zip"      | Out-File $env:GITHUB_ENV -Append
+          "SIGNED_DLL_DIR=$env:RUNNER_TEMP\signed-dlls"    | Out-File $env:GITHUB_ENV -Append
+          "DLL_EXTRACT=$env:RUNNER_TEMP\dlls-signed-extract" | Out-File $env:GITHUB_ENV -Append
+
+      - name: Stage DLLs into a ZIP (preserve folder layout)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dirs = $env:DLL_DIRS -split ';'
+          if (Test-Path $env:DLL_STAGE) { Remove-Item $env:DLL_STAGE -Recurse -Force }
+          New-Item -ItemType Directory -Force -Path $env:DLL_STAGE | Out-Null
+
+          foreach ($dir in $dirs) {
+            if (-not (Test-Path $dir)) { throw "Folder not found: $dir" }
+            $dll = Get-ChildItem $dir -Filter *.dll | Select-Object -First 1
+            if (-not $dll) { throw "No .dll in $dir" }
+            # Recreate the same folder path inside the stage root
+            $dest = Join-Path $env:DLL_STAGE $dir
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item $dll.FullName -Destination $dest -Force
+          }
+
+          if (Test-Path $env:DLL_ZIP) { Remove-Item $env:DLL_ZIP -Force }
+          Compress-Archive -Path (Join-Path $env:DLL_STAGE '*') -DestinationPath $env:DLL_ZIP
+
+      - name: Upload unsigned DLL ZIP (for SignPath)
+        id: upload-unsigned-dlls
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-dlls-zip
+          path: ${{ env.DLL_ZIP }}
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: Submit DLL signing request to SignPath
+        id: sign-dlls
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
+          project-slug: 'wolfram-js-frontend'     
+          signing-policy-slug: 'test-signing'
+          artifact-configuration-slug: 'dll'
+          github-artifact-id: '${{ steps.upload-unsigned-dlls.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: '${{ env.SIGNED_DLL_DIR }}'
+
+      - name: Put signed DLLs back into their original folders (with logging)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+      
+          Write-Host "Signed output directory: $env:SIGNED_DLL_DIR"
+          $signedZip = Get-ChildItem -Path "${{ env.SIGNED_DLL_DIR }}" -Recurse -Filter *.zip | Select-Object -First 1
+          if (-not $signedZip) { throw "Signed ZIP not found in $env:SIGNED_DLL_DIR" }
+          Write-Host "Using signed ZIP: $($signedZip.FullName)"
+      
+          if (Test-Path $env:DLL_EXTRACT) {
+            Write-Host "Cleaning previous extract folder: $env:DLL_EXTRACT"
+            Remove-Item $env:DLL_EXTRACT -Recurse -Force
+          }
+          New-Item -ItemType Directory -Force -Path $env:DLL_EXTRACT | Out-Null
+          Write-Host "Extracting ZIP to: $env:DLL_EXTRACT"
+          Expand-Archive -Path $signedZip.FullName -DestinationPath $env:DLL_EXTRACT -Force
+      
+          $dirs = $env:DLL_DIRS -split ';'
+          Write-Host "DLL directories to restore:" ($dirs -join ', ')
+      
+          foreach ($dir in $dirs) {
+            $srcDir = Join-Path $env:DLL_EXTRACT $dir
+            if (-not (Test-Path $srcDir)) { throw "Signed folder not found in ZIP: $srcDir" }
+      
+            # Only 1 DLL expected per folder
+            $signed = Get-ChildItem $srcDir -Filter *.dll -File | Select-Object -First 1
+            if (-not $signed) { throw "No signed .dll found under $srcDir" }
+      
+            $destDir = $dir
+            $destPath = Join-Path $destDir $signed.Name
+      
+            # Log the copy with absolute paths
+            $fromAbs = (Resolve-Path $signed.FullName).Path
+            $toAbs = (Resolve-Path $destDir).Path
+            $toFull = Join-Path $toAbs $signed.Name
+      
+            Write-Host "Copying signed DLL:"
+            Write-Host "  FROM: $fromAbs"
+            Write-Host "  TO:   $toFull"
+      
+            Copy-Item -Path $signed.FullName -Destination $destDir -Force
+      
+            # Quick confirmation
+            if (Test-Path $destPath) {
+              $size = (Get-Item $destPath).Length
+              Write-Host "  ✔ Placed: $destPath ($size bytes)"
+            } else {
+              throw "Copy failed: $destPath not found after copy."
+            }
+          }
+      
+          Write-Host "All signed DLLs restored to their original folders."
+
+
+
       - name: Build Electron (no publish)
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
