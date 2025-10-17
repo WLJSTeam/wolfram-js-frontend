@@ -242,7 +242,7 @@ We sign official desktop releases publised on Github Releases.
 - [**Committers and reviewers**](https://github.com/orgs/WLJSTeam/teams/committers-and-reviewers/)
 
 ## Privacy policy
-This program / code-base will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. See more at [Privacy Policy](./PRIVACY.md).
+This program / code-base will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. See more at [Privacy Policy](./SECURITY.md).
 
 
 ---
