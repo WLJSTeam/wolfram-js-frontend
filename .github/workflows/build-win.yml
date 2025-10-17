@@ -172,7 +172,7 @@ jobs:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
           project-slug: 'wolfram-js-frontend'     
-          signing-policy-slug: 'test-signing'
+          signing-policy-slug: 'release-signing'
           artifact-configuration-slug: 'dll'
           github-artifact-id: '${{ steps.upload-unsigned-dlls.outputs.artifact-id }}'
           wait-for-completion: true
@@ -285,7 +285,7 @@ jobs:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
           project-slug: 'wolfram-js-frontend'
-          signing-policy-slug: 'test-signing'
+          signing-policy-slug: 'release-signing'
           github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
           wait-for-completion: true
           output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}

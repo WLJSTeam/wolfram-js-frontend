@@ -60,7 +60,10 @@ As an independent open-source project, we’re unaffiliated with Wolfram or any 
 
 ---
 
-<a href="https://scoutforge.net/reviews/wljs-notebook/" title="Trusted and reviewed by Scout Forge"><img src="https://scoutforge.net/wp-content/themes/wp-theme/assets/img/badges/badge-light.webp" style="width: 300px" width="300" alt="Trusted and Reviewed by Scout Forge"/></a>
+<div style="display: flex;">
+<img src="https://avatars.githubusercontent.com/u/34448643?s=200&v=4" width="300" style="margin-right:0.5rem"/>
+Free code signing on Windows provided by [SignPath.io](https://SignPath.io), certificate by *SignPath Foundation*
+</div>
 
 ## Showcase
 
@@ -215,9 +218,11 @@ docker run -it \
 
 Then open `http://127.0.0.1:8000`
 
+---
 
-## **Technology Stack**
-**Languages:** Wolfram Language, HTML, CSS, JavaScript, C
+<a href="https://scoutforge.net/reviews/wljs-notebook/" title="Trusted and reviewed by Scout Forge"><img src="https://scoutforge.net/wp-content/themes/wp-theme/assets/img/badges/badge-light.webp" style="width: 300px" width="300" alt="Trusted and Reviewed by Scout Forge"/></a>
+
+---
 
 ## **License**
-GNU GPLv3
+WLJS Notebooks (including all extensions, graphics and sound libraries, frontend and backend) are licensed under GPLv3 👩🏼‍⚖️. The algorithms, functions, and other components of the Wolfram Language provided by the freeware distribution of Wolfram Engine are the intellectual property of Wolfram Research, Inc. See the [license agreement](https://arc.net/l/quote/jhgiwsdj) if you use it in commerce.
