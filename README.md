@@ -222,6 +222,29 @@ docker run -it \
 
 Then open `http://127.0.0.1:8000`
 
+## Code signing policy
+We sign official desktop releases publised on Github Releases.
+
+### What we sign
+- **Windows:** Installers (`.exe`, `.msi`) and executable binaries.
+- **macOS:** `.app` bundles and `.dmg` installers.
+- **Source archives & checksums:** Each release includes SHA-256 checksums for all artifacts.
+
+### Platforms & identities
+- **Windows** — Signed by **SignPath.io** using a certificate issued to **SignPath Foundation**.  
+  _Free code signing sponsored by [SignPath.io](https://SignPath.io)._
+- **macOS** — Signed with an Apple **Developer ID** certificate owned by our team (`com.coffeeliqueur.*`).  
+  Gatekeeper should show the developer as our Developer ID when opening the app.
+
+> Community or third-party builds are **not** covered by our signing policy.
+
+## Team roles and their members
+- [**Committers and reviewers**](https://github.com/orgs/WLJSTeam/teams/committers-and-reviewers/)
+
+## Privacy policy
+This program / code-base will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it. See more at [Privacy Policy](./PRIVACY.md).
+
+
 ---
 
 <a href="https://scoutforge.net/reviews/wljs-notebook/" title="Trusted and reviewed by Scout Forge"><img src="https://scoutforge.net/wp-content/themes/wp-theme/assets/img/badges/badge-light.webp" style="width: 300px" width="300" alt="Trusted and Reviewed by Scout Forge"/></a>
@@ -229,4 +252,4 @@ Then open `http://127.0.0.1:8000`
 ---
 
 ## **License**
-WLJS Notebooks (including all extensions, graphics and sound libraries, frontend and backend) are licensed under GPLv3 👩🏼‍⚖️. The algorithms, functions, and other components of the Wolfram Language provided by the freeware distribution of Wolfram Engine are the intellectual property of Wolfram Research, Inc. See the [license agreement](https://arc.net/l/quote/jhgiwsdj) if you use it in commerce.
+WLJS Notebooks (including all extensions, graphics and sound libraries, frontend and backend) are licensed under GPLv3 👩🏼‍⚖️. The algorithms, functions, and other components of the Wolfram Language provided by the freeware distribution of Wolfram Engine are the intellectual property of Wolfram Research, Inc. See the [license agreement](https://www.wolfram.com/legal/terms/wolfram-engine.html) if you use it in commerce.
