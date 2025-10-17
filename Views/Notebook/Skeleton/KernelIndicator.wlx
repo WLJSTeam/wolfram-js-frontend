@@ -1,16 +1,8 @@
-notebook     = $Options["Notebook"];
-Controller   = CreateUUID[];
+Component[OptionsPattern[]] := With[{
+  notebook     = OptionValue["Notebook"],
+  Controller   = CreateUUID[]
+},
 
-If[!KernelQ[notebook["Kernel"]],
-    (* /* Print[">> notebook >> kernel is not ready yet"];
-    EventHandler[EventClone[notebook], {
-        "Kernel State" -> Function[kernel,
-            Print[kernel];
-        ]
-    }]; */ *)
-,
-   Null
-];
 
 <div>
     <div id="{Controller}"></div>
@@ -29,3 +21,9 @@ If[!KernelQ[notebook["Kernel"]],
       });      
     </WebUIJSBind>
 </div>
+];
+
+Options[Component] = {"Controller"->""}
+
+
+Component

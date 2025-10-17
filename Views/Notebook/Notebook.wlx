@@ -1,18 +1,17 @@
-CellsContainer := ImportComponent["Components/CellsContainer.wlx"];
-TopBar         := ImportComponent["Components/TopBar.wlx"];
-Console        := ImportComponent["Components/Console.wlx"];
+CellsContainer  = ImportComponent["Skeleton/CellsContainer.wlx"];
+TopBar          = ImportComponent["Skeleton/TopBar.wlx"];
 
 {CellGenerator, CellGeneratorScript}   = ImportComponent["CellGenerator.wlx"];
 
-{ControlsL, ControlsR, ControlsScript}            = ImportComponent["Components/Controls.wlx"];
-{Hr, HrScript}                        = ImportComponent["Components/Hr.wlx"];
-{EvaluationBar, EvaluationBarScript}  = ImportComponent["Components/EvaluationBar.wlx"];
+{ControlsL, ControlsR, ControlsScript}            = ImportComponent["Skeleton/Controls.wlx"];
+{Hr, HrScript}                        = ImportComponent["Skeleton/Hr.wlx"];
+{EvaluationBar, EvaluationBarScript}  = ImportComponent["Skeleton/EvaluationBar.wlx"];
 
-{CellDropdown, DropdownScript} = ImportComponent["Components/Dropdown.wlx"];
+{CellDropdown, DropdownScript} = ImportComponent["Skeleton/Dropdown.wlx"];
 
-KernelIndicator:= ImportComponent["Components/KernelIndicator.wlx"];
+KernelIndicator = ImportComponent["Skeleton/KernelIndicator.wlx"];
 
-ElectronBinds  := ImportComponent["Components/ElectronBinds.wlx"];
+ElectronBinds  = ImportComponent["Skeleton/ElectronBinds.wlx"];
 
 Global`UINotebook (*`*);
 
@@ -967,7 +966,7 @@ Component[OptionsPattern[]] := With[{
             <ExtensionTemplateInjection Template={"Notebook-Prolog"} Notebook={notebook} Event={secret} />
             <TopBar Notebook={notebook}/>
             <ExtensionTemplateWrapper Template={"CellsContainer"} Notebook={notebook} Event={secret}>
-                <CellsContainer Parameters={parameters} Notebook={notebook} Event={secret}></CellsContainer>
+                <CellsContainer Parameters={parameters} Notebook={notebook} Event={secret}/>
             </ExtensionTemplateWrapper>
             <ExtensionTemplateInjection Template={"Notebook-Epilog"} Notebook={notebook} Event={secret} />
 

@@ -115,6 +115,151 @@ jobs:
           $env:Path += ';${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}\'
           wolfram -script ./Scripts/bundle.wls
 
+
+      - name: Define DLL dirs 
+        shell: pwsh
+        run: |
+          $dirs = @(
+            "wl_packages\KirillBelov_CSockets\Fallback",       
+            "wl_packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v6",  
+            "wl_packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v7",
+            "wl_packages\KirillBelov_CSockets\UV\Windows-x86-64"
+          )
+          # Persist for later steps (semicolon-separated)
+          "DLL_DIRS=$($dirs -join ';')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+          # Common paths used below
+          "DLL_STAGE=$env:RUNNER_TEMP\dll-stage"           | Out-File $env:GITHUB_ENV -Append
+          "DLL_ZIP=$env:RUNNER_TEMP\dlls-to-sign.zip"      | Out-File $env:GITHUB_ENV -Append
+          "SIGNED_DLL_DIR=$env:RUNNER_TEMP\signed-dlls"    | Out-File $env:GITHUB_ENV -Append
+          "DLL_EXTRACT=$env:RUNNER_TEMP\dlls-signed-extract" | Out-File $env:GITHUB_ENV -Append
+
+      # Stage DLLs preserving relative paths (same as before, but no Compress-Archive)
+      - name: Stage DLLs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dirs = $env:DLL_DIRS -split ';'
+
+          if (Test-Path $env:DLL_STAGE) { Remove-Item $env:DLL_STAGE -Recurse -Force }
+          New-Item -ItemType Directory -Force -Path $env:DLL_STAGE | Out-Null
+
+          foreach ($dir in $dirs) {
+            if (-not (Test-Path $dir)) { throw "Folder not found: $dir" }
+            $dlls = Get-ChildItem -Path $dir -Filter *.dll -File
+            if ($dlls.Count -ne 1) { throw "Expected exactly 1 .dll in $dir, found $($dlls.Count)" }
+            $dll = $dlls[0]
+
+            $dest = Join-Path $env:DLL_STAGE $dir
+            New-Item -ItemType Directory -Force -Path $dest | Out-Null
+            Copy-Item $dll.FullName -Destination $dest -Force
+          }
+
+   
+      - name: Upload unsigned DLL artifact (folder, not zip)
+        id: upload-unsigned-dlls
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-dlls-zip
+          path: ${{ env.DLL_STAGE }}/*      
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: Submit DLL signing request to SignPath
+        id: sign-dlls
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
+          project-slug: 'wolfram-js-frontend'     
+          signing-policy-slug: 'release-signing'
+          artifact-configuration-slug: 'dll'
+          github-artifact-id: '${{ steps.upload-unsigned-dlls.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: '${{ env.SIGNED_DLL_DIR }}'
+
+      - name: Put signed DLLs back into their original folders (handles extracted or zip; deep search + logging)
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Write-Host "Signed output directory: $env:SIGNED_DLL_DIR"
+      
+          # If the connector downloaded a .zip, extract it; otherwise use the extracted dir as-is.
+          $root = $env:SIGNED_DLL_DIR
+          $signedZip = Get-ChildItem -Path $root -Recurse -Filter *.zip -File | Select-Object -First 1
+          if ($signedZip) {
+            Write-Host "Found signed ZIP: $($signedZip.FullName)"
+            if (Test-Path $env:DLL_EXTRACT) {
+              Write-Host "Cleaning previous extract folder: $env:DLL_EXTRACT"
+              Remove-Item $env:DLL_EXTRACT -Recurse -Force
+            }
+            New-Item -ItemType Directory -Force -Path $env:DLL_EXTRACT | Out-Null
+            Write-Host "Extracting ZIP to: $env:DLL_EXTRACT"
+            Expand-Archive -Path $signedZip.FullName -DestinationPath $env:DLL_EXTRACT -Force
+            $root = $env:DLL_EXTRACT
+          } else {
+            Write-Host "No ZIP found; assuming files were already extracted under: $root"
+          }
+      
+          $dirs = $env:DLL_DIRS -split ';'
+          Write-Host "DLL directories to restore:" ($dirs -join ', ')
+      
+          foreach ($dir in $dirs) {
+            if (-not (Test-Path $dir)) { throw "Destination folder not found: $dir" }
+      
+            # We expect exactly one original DLL in each destination folder (non-recursive).
+            $origDlls = Get-ChildItem -Path $dir -Filter *.dll -File
+            if ($origDlls.Count -eq 0) { throw "No original .dll found in destination: $dir" }
+            if ($origDlls.Count -gt 1) { throw "Expected exactly 1 original .dll in $dir, found $($origDlls.Count)" }
+            $origDll = $origDlls[0]
+      
+            # First try to find the signed DLL in the same relative subfolder we staged.
+            $relCandidateDir = Join-Path $root $dir
+            $signed = $null
+            if (Test-Path $relCandidateDir) {
+              $signed = Get-ChildItem -Path $relCandidateDir -Filter $origDll.Name -File -Recurse | Select-Object -First 1
+              if ($signed) {
+                Write-Host "Found signed DLL under expected relative path: $($relCandidateDir)"
+              }
+            }
+      
+            # Fallback: deep search anywhere under $root by filename.
+            if (-not $signed) {
+              Write-Host "Searching deeply for signed '$($origDll.Name)' under: $root"
+              $signedMatches = Get-ChildItem -Path $root -Recurse -Filter $origDll.Name -File
+              if ($signedMatches.Count -eq 0) {
+                Write-Host "Signed DLL named '$($origDll.Name)' not found. Listing DLLs present for debugging:"
+                Get-ChildItem -Path $root -Recurse -Filter *.dll -File | ForEach-Object { Write-Host "  $_" }
+                throw "Missing signed DLL for: $($origDll.FullName)"
+              }
+              if ($signedMatches.Count -gt 1) {
+                Write-Host "::warning::Multiple signed matches for '$($origDll.Name)'. Using the first match."
+              }
+              $signed = $signedMatches[0]
+            }
+      
+            # Log the copy with absolute paths
+            $fromAbs = (Resolve-Path $signed.FullName).Path
+            $toAbsDir = (Resolve-Path $dir).Path
+            $toAbs = Join-Path $toAbsDir $origDll.Name
+      
+            Write-Host "Copying signed DLL:"
+            Write-Host "  FROM: $fromAbs"
+            Write-Host "  TO:   $toAbs"
+      
+            Copy-Item -Path $signed.FullName -Destination $dir -Force
+      
+            if (Test-Path $toAbs) {
+              $size = (Get-Item $toAbs).Length
+              Write-Host "  ✔ Placed: $toAbs ($size bytes)"
+            } else {
+              throw "Copy failed: $toAbs not found after copy."
+            }
+          }
+      
+          Write-Host "All signed DLLs restored to their original folders."
+
+
       - name: Build Electron (no publish)
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -140,7 +285,7 @@ jobs:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
           organization-id: 'a11e9ec9-516b-42a1-97d7-8a62e7508a48'
           project-slug: 'wolfram-js-frontend'
-          signing-policy-slug: 'test-signing'
+          signing-policy-slug: 'release-signing'
           github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
           wait-for-completion: true
           output-artifact-directory: ${{ env.SIGNED_OUT_DIR }}

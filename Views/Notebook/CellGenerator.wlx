@@ -1,16 +1,16 @@
-CellsGroup     := ImportComponent["Components/CellGroup.wlx"];
-CellFrame      := ImportComponent["Components/CellFrame.wlx"];
-Children       := ImportComponent["Components/Children.wlx"];
-CellsSubgroup  := ImportComponent["Components/CellSubgroup.wlx"];
+CellsGroup      = ImportComponent["Skeleton/CellGroup.wlx"];
+CellFrame       = ImportComponent["Skeleton/CellFrame.wlx"];
+Children        = ImportComponent["Skeleton/Children.wlx"];
+CellsSubgroup   = ImportComponent["Skeleton/CellSubgroup.wlx"];
 
-Border          = ImportComponent["Components/Border.wlx"];
+Border          = ImportComponent["Skeleton/Border.wlx"];
 
-CellWrapper    := ImportComponent["Components/CellWrapper.wlx"];
-{Hr, HrScript}  = ImportComponent["Components/Hr.wlx"];
+CellWrapper     = ImportComponent["Skeleton/CellWrapper.wlx"];
+{Hr, HrScript}  = ImportComponent["Skeleton/Hr.wlx"];
 
-{ControlsLeft, ControlsRight, ControlsScript}            = ImportComponent["Components/Controls.wlx"];
+{ControlsLeft, ControlsRight, ControlsScript}            = ImportComponent["Skeleton/Controls.wlx"];
 
-{EvaluationBar, EvaluationBarScript}  = ImportComponent["Components/EvaluationBar.wlx"];
+{EvaluationBar, EvaluationBarScript}  = ImportComponent["Skeleton/EvaluationBar.wlx"];
 
 Component[cell_cell`CellObj, cli_, parameters_, OptionsPattern[]] := With[{
     ExtensionTemplateInjection = OptionValue["ExtensionTemplateInjection"], 
@@ -36,7 +36,7 @@ Component[cell_cell`CellObj, cli_, parameters_, OptionsPattern[]] := With[{
                     <EvaluationBar Cell={cell} Client={cli}/>
                     <Hr Cell={cell}/> 
                     <ExtensionTemplateWrapper Template={"Children"} Cell={cell} Client={cli}>
-                        <Children Cell={cell}></Children>
+                        <Children Cell={cell}/>
                     </ExtensionTemplateWrapper>
                     <ExtensionTemplateInjection Template={"CellFrame-Epilog"} Cell={cell} Client={cli}/>
                 </CellFrame>

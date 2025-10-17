@@ -1,0 +1,11 @@
+Component[children__, opts: OptionsPattern[]] := Component[ToStringRiffle[{children}], opts]
+
+Component[Child_, OptionsPattern[]] := With[{
+    id = OptionValue["Cell"]["Hash"]
+},
+    <div class="grow cframe" style="position:relative" id="frame-{id}"><Child/></div>
+];
+
+Options[Component] = {"Cell"->Null}
+
+Component

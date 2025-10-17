@@ -3,11 +3,11 @@
 PacletObject[
   <|
     "Name" -> "CoffeeLiqueur/WLJSNotebook",
-    "Description" -> "Dynamic Notebook Environment for Wolfram Language",
+    "Description" -> "Open-source Notebook Environment for Wolfram Language",
     "Creator" -> "WLJSTeam",
     "License" -> "GPL-3.0",
     "PublisherID" -> "CoffeeLiqueur",
-    "Version" -> "2.8.6",
+    "Version" -> "2.8.7",
     "WolframVersion" -> "13+",
     "Extensions" -> {
       {

@@ -6,8 +6,7 @@ ExtensionSidebarIcons        =  $Options["ExtensionSidebarIcons"];
 middleware                = $Options["Middleware"];
 
 
-Head        := ImportComponent["Components/Head.wlx"];
-Breadcrumbs := ImportComponent["Components/Topbar/Breadcrumbs.wlx"];
+Head        = ImportComponent["Components/Head.wlx"];
 
 Kernels   =  ImportComponent["Components/Kernel/Minimal.wlx"];
 
@@ -21,7 +20,7 @@ Views            = ImportComponent["Views.wl"];
 
 TopBar           = ImportComponent["Components/Topbar.wlx"];
 
-ElectronBinds           := ImportComponent["Components/ElectronAppBinds.wlx"];
+ElectronBinds           = ImportComponent["Components/ElectronAppBinds.wlx"];
 
 BrowserMenu            = ImportComponent["Components/FakeMenuBrowser.wlx"];
 
