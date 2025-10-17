@@ -61,8 +61,12 @@ As an independent open-source project, we’re unaffiliated with Wolfram or any 
 ---
 
 <div style="display: flex;">
-<img src="https://avatars.githubusercontent.com/u/34448643?s=200&v=4" width="300" style="margin-right:0.5rem"/>
+<img src="https://avatars.githubusercontent.com/u/34448643?s=200&v=4" width="50" style="margin-right:0.5rem"/>
+
+
 Free code signing on Windows provided by [SignPath.io](https://SignPath.io), certificate by *SignPath Foundation*
+
+
 </div>
 
 ## Showcase
