@@ -2,7 +2,7 @@ http                      =  $Options["HTTPHandler"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
 
-Head        := ImportComponent["Components/Head.wlx"];
+Head        = ImportComponent["Components/Head.wlx"];
 
 Notifications  = ImportComponent["Components/Notifications/Notifications.wlx"];
 

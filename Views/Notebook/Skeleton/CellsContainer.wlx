@@ -1,8 +1,10 @@
-id = $Options["Notebook"]["Hash"];
-Color = If[StringQ[#], #, "teal"]& @ ($Options["Parameters"]["AccentColor"]);
+Component[OptionsPattern[]] := With[{
+    id = OptionValue["Notebook"]["Hash"],
+    Color = If[StringQ[#], #, "teal"]& @ (OptionValue["Parameters"]["AccentColor"])
+},
 
 With[{},
-    If[TrueQ[$Options["Parameters"]["ExpertMode"]],
+    If[TrueQ[OptionValue["Parameters"]["ExpertMode"]],
         <div class="ccontainer px-3 pr-4 py-2 sm:px-2 sm:pr-3 md:px-4 md:pr-5 win:sc-b owin:sc-b overflow-y-auto grow bg-white bg-g-trans" style="padding-bottom: 25rem" id="container-{id}">
             <style>
                 :root {
@@ -13,7 +15,6 @@ With[{},
                     background: #fa87f01f;
                 }
             </style>
-            <$Children/>
         </div>
     ,
         <div class="ccontainer px-3 pr-4 py-2 sm:px-2 sm:pr-3 md:px-4 md:pr-5 win:sc-b owin:sc-b overflow-y-auto grow bg-white bg-g-trans" style="padding-bottom: 25rem" id="container-{id}">
@@ -22,7 +23,10 @@ With[{},
                     --editor-selected-tint: #0088550d;
                 }
             </style>
-            <$Children/>
         </div>
     ]
-]
+] ];
+
+Options[Component] = {"Notebook"->"", "Parameters"->""}
+
+Component

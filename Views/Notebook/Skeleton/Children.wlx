@@ -1,0 +1,11 @@
+
+Component[OptionsPattern[]] := With[{
+    id = OptionValue["Cell"]["Hash"]
+},
+    <div class="cchildren" id="children-{id}"></div>
+];
+
+
+Options[Component] = {"Cell"->Null};
+
+Component

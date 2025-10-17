@@ -1,4 +1,4 @@
-Controls = $Options["Controls"];
+Component[OptionsPattern[]] := With[{Controls = OptionValue["Controls"]},
 
 <script type="module">
     const api = window.electronAPI || window.iframeAPI;
@@ -36,3 +36,8 @@ Controls = $Options["Controls"];
         });     
     }
 </script>
+];
+
+Options[Component] = {"Controls"->""};
+
+Component

@@ -1,5 +1,0 @@
-id = $Options["Cell"]["Hash"];
-Class = If[KeyExistsQ[$Options, "Class"], $Options["Class"], ""];
-Style = If[KeyExistsQ[$Options, "Style"], $Options["Style"], ""];
-
-<div class="cgroup transition duration-100 ease-linear {Class}" style="{Style}" id="group-{id}"><$Children/></div>

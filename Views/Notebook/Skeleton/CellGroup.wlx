@@ -1,0 +1,13 @@
+Component[c__, opts: OptionsPattern[]] := Component[ToStringRiffle[{c}], opts]
+
+Component[Child_, OptionsPattern[]] := With[{
+    id = OptionValue["Cell"]["Hash"],
+    Class = OptionValue["Class"],
+    Style = OptionValue["Style"]
+},
+    <div class="cgroup transition duration-100 ease-linear {Class}" style="{Style}" id="group-{id}"><Child/></div>
+];
+
+Options[Component] = {"Class"->"", "Style"->"", "Cell"->Null};
+
+Component

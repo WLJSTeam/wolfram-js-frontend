@@ -28,7 +28,6 @@
   "https://github.com/JerryI/wljs-wlx-support" -> "base",
   "https://github.com/JerryI/wljs-mermaid-support" -> "base",
   "https://github.com/JerryI/wljs-snippets" -> "base",
-  "https://github.com/JerryI/wljs-alt-cell-controls" -> "base",
   "https://github.com/JerryI/wljs-print-redirect-fix" -> "base",
   "https://github.com/JerryI/wljs-export-html" -> "base",
   "https://github.com/JerryI/wljs-manipulate" -> "base",

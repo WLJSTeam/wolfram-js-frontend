@@ -1,6 +1,6 @@
 http                      =  $Options["HTTPHandler"];
 
-Head        := ImportComponent["Components/Head.wlx"];
+Head        = ImportComponent["Components/Head.wlx"];
 
 ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
 ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
