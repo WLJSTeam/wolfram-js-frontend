@@ -82,7 +82,7 @@ PacletRepositories[list_List, OptionsPattern[]] := Module[{projectDir, strictMod
     Echo["LPM >> fetching packages info"];
 
     If[FailureQ[ URLFetch["https://github.com"] ],
-        Echo["LPM >> ERROR! no connection to github.com!"];
+        Echo["LPM >> ERROR! no connection to the internet"];
 
         If[!MissingQ[cache], 
           Echo["LPM >> using stored data"];
@@ -168,6 +168,8 @@ CheckUpdates[a_Association] := Module[{result},
 
 convertVersion[str_String] := ToExpression[StringReplace[str, "." -> ""]]
 
+CheckUpdates[a_Association, _] := False
+
 (* general function work for both Releases & Branches *)
 CheckUpdates[a_Association, Rule[Github | "Github", _]] := Module[{package, new, now},
   (* fetch any *)
@@ -200,6 +202,8 @@ CheckUpdates[a_Association, Rule[Github | "Github", _]] := Module[{package, new,
 FetchInfo[a_Association] := Module[{result},
   FetchInfo[a, a["key"]]
 ]
+
+FetchInfo[a_Association, _] := a 
 
 (* for releases *)
 FetchInfo[a_Association, Rule[Github | "Github", url_String]] := Module[{new, data},
@@ -337,6 +341,64 @@ InstallPaclet[dir_String][a_Association, Rule[Github | "Github", Rule[url_String
     a
 ]
 
+urlQ[s_String] := StringMatchQ[s, __~~"://"~~__]
+urlQ[URL[s_String] ] := StringMatchQ[s, __~~"://"~~__]
+urlQ[File[s_String] ] := False
+takeName[s_String] := StringReplace[FileBaseName[If[urlQ[s],
+  URLParse[s]["Path"][[-1]]
+,
+  FileNameSplit[s][[-1]]
+] ], {"."->"_", "-"->"_", "%"->"_", "/"->"_", "\\"->"_", " "->"_"}]
+
+takeFileName[s_String] := FileNameTake[If[urlQ[s],
+  URLParse[s]["Path"][[-1]]
+,
+  FileNameSplit[s][[-1]]
+] ]
+
+InstallPaclet[dir_String][a_Association, url_String] := Module[{dirName, pacletPath},
+    dirName = FileNameJoin[{dir, "wl_packages"}];
+    If[!FileExistsQ[dirName], CreateDirectory[dirName] ];
+
+    (* construct name of the folder *)
+    dirName = FileNameJoin[{dirName, takeName[url]}];
+
+    If[FileExistsQ[dirName],
+        Echo["LPM >> package folder "<>dirName<>" already exists!"];
+        Echo["LPM >> purging..."];
+        DeleteDirectory[dirName, DeleteContents -> True];
+    ];
+
+    If[FileExtension[url // takeFileName] =!= "paclet", 
+      Echo["LPM >> ERROR! File "<>(url // takeFileName)<>" is not a paclet"];
+      Abort[];
+    ];
+
+    Echo["LPM >> fetching a paclet archive..."];    
+    pacletPath = urlDownload[url];
+    If[FailureQ[pacletPath], 
+      Echo["LPM >> ERROR! Could not download "<>(url // takeFileName)];
+      Abort[];
+    ];
+    
+    Echo["LPM >> extracting"];
+    pacletPath = ExtractPacletArchive[pacletPath, CreateDirectory[] ];
+
+    If[FailureQ[pacletPath], 
+      Echo["LPM >> ERROR! Could not extract "<>(url // takeFileName)];
+      Abort[];
+    ];
+
+    
+    Echo[StringTemplate["LPM >> copying from `` to ``"][pacletPath, dirName] ];
+    CopyDirectory[pacletPath, dirName];
+ 
+    CopyDirectory[pacletPath, dirName];
+    DeleteDirectory[pacletPath, DeleteContents -> True];
+    Print["LPM >> finished"];
+
+    a
+]
 
 (* general function *)
 RemovePaclet[dir_String][a_Association] := RemovePaclet[dir][a, a["key"]]
@@ -368,6 +430,22 @@ RemovePaclet[dir_String][a_Association, Rule[Github | "Github", url_String]] := 
 RemovePaclet[dir_String][a_Association, Rule[Github | "Github", Rule[url_String, branch_String]]] := Module[{dirName, pacletPath},
     dirName = FileNameJoin[{dir, "wl_packages"}];
     dirName = FileNameJoin[{dirName, StringReplace[a["Name"], "/"->"_"]}];
+
+    If[FileExistsQ[dirName],
+        Echo["LPM >> package folder "<>dirName<>" is about to be removed"];
+        Echo["LPM >> purging..."];
+        DeleteDirectory[dirName, DeleteContents -> True];
+    ,
+        Echo["LPM >> package folder "<>dirName<>" was already removed!"];
+        Echo["LPM >> UNEXPECTED BEHAVIOUR!"]; Abort[];
+    ];
+
+    a
+]
+
+RemovePaclet[dir_String][a_Association, url_String] := Module[{dirName, pacletPath},
+    dirName = FileNameJoin[{dir, "wl_packages"}];
+    dirName = FileNameJoin[{dirName, takeName[url]}];
 
     If[FileExistsQ[dirName],
         Echo["LPM >> package folder "<>dirName<>" is about to be removed"];
