@@ -324,7 +324,7 @@ start[k_LocalKernelObject] := Module[{link},
                 any_ :> (Echo[any]&)
             }];
 
-            k["PrintTask"] = Looper`Submit[
+            k["PrintTask"] = MicrotaskSubmit[
                 If[LinkReadyQ[kernel["Link"] ], EventFire[kernel["StandardOutput"], LinkRead[kernel["Link"] ], kernel] ];
             , "Continuous" -> True];
         ];

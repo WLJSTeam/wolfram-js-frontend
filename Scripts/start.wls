@@ -401,4 +401,7 @@ SetTimeout[
 
 (* Main sync thread *)
 
-Looper[];
+While[True,
+  MicrotasksRun[];
+  Pause[0.01];
+];
