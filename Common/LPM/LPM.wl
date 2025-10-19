@@ -59,7 +59,7 @@ LPMLoad[OptionsPattern[] ] := With[{result = Catch[Module[{projectDir},
 
 Options[LPMLoad] = {"Directory"->None}
 
-PacletRepositories[list_List, OptionsPattern[]] := With[{deffered = OptionValue["Deffered"], preserve = OptionValue["PreserveConfiguration"], result = Catch[Module[{projectDir, strictMode = OptionValue["StrictMode"], info, repos, cache, updated, removed, new, current, updatable, skipUpdates = OptionValue["Passive"], automaticUpdates = OptionValue["AutomaticUpdates"], versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
+PacletRepositories[list_List, OptionsPattern[]] := With[{deffered = OptionValue["Deffered"], preserve = OptionValue["PreserveConfiguration"]}, {result = Catch[Module[{projectDir, strictMode = OptionValue["StrictMode"], info, repos, cache, updated, removed, new, current, updatable, skipUpdates = OptionValue["Passive"], automaticUpdates = OptionValue["AutomaticUpdates"], versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)
     repos = (#-><|"key"->#|>)&/@list // Association;
 
