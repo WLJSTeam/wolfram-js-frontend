@@ -222,6 +222,13 @@ docker run -it \
 
 Then open `http://127.0.0.1:8000`
 
+##### What is included:
+- Node 18
+- Clang + utils (for WL functions compilation)
+- git
+- ffmpeg
+- curl
+
 ## Code signing policy
 We sign official desktop releases publised on Github Releases.
 

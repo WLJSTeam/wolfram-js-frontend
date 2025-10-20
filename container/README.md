@@ -6,10 +6,10 @@ A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfr
 
 ### What is included:
 - Node 18
-- Clang + Utils
-- GIT
-- FFMPEG
-- CURL
+- Clang + utils
+- git
+- ffmpeg
+- curl
 
 ## Getting Started
 
