@@ -1501,7 +1501,8 @@ function create_window(opts, cbk = () => {}) {
         }       
         
         if (isWindows) {
-            options.override.maximizable = false;
+            options.disallowFullscreen = true;
+            
         }
 
         if ((new RegExp(/gptchat/)).exec(options.url)) {
@@ -1539,6 +1540,8 @@ function create_window(opts, cbk = () => {}) {
             options.linuxMenuBar = false;
             options.contextMenu = false;
             options.override.maximizable = true;
+            options.disallowFullscreen = false;
+            //options.override.fullScreenable = true;
         }        
         
 
@@ -1665,6 +1668,24 @@ function create_window(opts, cbk = () => {}) {
                 //win.setRoundedCorner();
             }*/
             if (!options.overlay) {
+                if (options.disallowFullscreen) {
+                  /*  let maxed = false;
+                    win.on('maximize', (event) => {
+                        maxed = !maxed;
+                        const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+                        win.unmaximize();
+                        if (maxed) {         
+                            setTimeout(() => win.setBounds({ x: 0, y: 0, width, height }), 100);
+                        } else {
+                            setTimeout(() => win.setBounds({ x: width/4.0, y: height/4.0, width:width/2.0, height:height/2.0 }), 100);
+                        }
+                        
+                    });*/
+
+                    //win.setMaximizable(false);
+                }
+
+
                 if (!IS_WINDOWS_11 || server.frontend.WindowsLegacy) {
                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
@@ -1685,7 +1706,7 @@ function create_window(opts, cbk = () => {}) {
                 //a bug with maximizing the window
                 //https://github.com/electron/electron/issues/38743
 
-                win.once('maximize', () => {
+                /*win.once('maximize', () => {
                     const checkTheme = () => {
                         if (!nativeTheme.shouldUseDarkColors) {
                             win.setBackgroundColor("#fff");
@@ -1701,7 +1722,7 @@ function create_window(opts, cbk = () => {}) {
                     });
 
                     checkTheme();
-                });
+                });*/
 
 
 

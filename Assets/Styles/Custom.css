@@ -391,3 +391,23 @@ input::selection {
   .button-cplay {display:none !important;} 
   .button-cadd {display:none !important;} 
 }
+
+[os="Windows"] .win\:autohide {
+  display:none
+}
+
+[os="Windows"] .win\:barfix {
+  padding-top:0 !important;
+  margin-top: 0.25rem !important;
+}
+
+[os="WindowsLegacy"] .owin\:barfix {
+  padding-top:0 !important;
+  margin-top: 0.25rem !important;
+}
+
+@media (min-width: 768px) {
+  [os="Windows"] .win\:autohide {
+    display:inline-block
+  }
+}
