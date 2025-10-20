@@ -1496,23 +1496,30 @@ function create_window(opts, cbk = () => {}) {
         options.minWidth = 576;
         if (!isMac) {
             options.minWidth = 700;
-        }        
+        }       
+        
+        if (isWindows) {
+            options.override.maximizable = false;
+        }
 
         if ((new RegExp(/gptchat/)).exec(options.url)) {
             options.minWidth = 200;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
 
         if ((new RegExp(/docFind/)).exec(options.url)) {
             options.width = options.minWidth;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
 
         if ((new RegExp(/settings/)).exec(options.url)) {
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
         
 
@@ -1520,6 +1527,7 @@ function create_window(opts, cbk = () => {}) {
             options.height = 310;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
 
         if (new RegExp(/window/).exec(options.url)) {
@@ -1528,6 +1536,7 @@ function create_window(opts, cbk = () => {}) {
             options.height = 500;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = true;
         }        
         
 
@@ -1552,6 +1561,7 @@ function create_window(opts, cbk = () => {}) {
             options.override.titleBarOverlay = undefined;
             options.override.vibrancy = undefined;
             options.override.backgroundMaterial = false; 
+            options.override.maximizable = false;
         }
 
         let win;
