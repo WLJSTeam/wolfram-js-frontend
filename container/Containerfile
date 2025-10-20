@@ -1,49 +1,33 @@
 FROM docker.io/wolframresearch/wolframengine
 
 USER root
+
+RUN useradd -m wljs
+
 ENV DEBIAN_FRONTEND=noninteractive
 
-# --- Base tools + Node + build toolchain + clang ---
 RUN apt-get update && apt-get install -y \
-    git nginx expect curl ca-certificates gnupg \
-    build-essential cmake ninja-build pkg-config \
-    clang lld lldb \
+    git \
+    nginx \
+    expect \
+    curl \
  && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
- && apt-get install -y --no-install-recommends nodejs \
+ && apt-get install -y nodejs \
+ && apt-get install -y \
+    ca-certificates \
+    gnupg  \
+    build-essential \
+    cmake \
+    ninja-build \
+    pkg-config \
+    clang \
+    lld \
+    lldb \
+ && apt-get install nvidia-cuda-toolkit -y \
+ && apt-get install nvidia-utils-580-server -y \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-
-# Detect codename at build-time
-ARG UBUNTU_CODENAME
-# Fallback if not supplied: read from image
-RUN if [ -z "$UBUNTU_CODENAME" ]; then \
-      . /etc/os-release && echo "UBUNTU_CODENAME=$UBUNTU_CODENAME" >> /tmp/osenv; \
-    fi
-
-# NVIDIA key + repo
-RUN apt-get update && apt-get install -y --no-install-recommends wget \
- && mkdir -p /usr/share/keyrings \
- && wget -O /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg https://nvidia.github.io/libnvidia-container/gpgkey \
- && . /etc/os-release \
- && wget -qO /etc/apt/sources.list.d/cuda.list \
-      https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_CODENAME:-$UBUNTU_CODENAME}/x86_64/cuda-${UBUNTU_CODENAME:-$UBUNTU_CODENAME}.list \
- && wget -qO /usr/share/keyrings/cuda-archive-keyring.gpg \
-      https://developer.download.nvidia.com/compute/cuda/repos/${UBUNTU_CODENAME:-$UBUNTU_CODENAME}/x86_64/3bf863cc.pub \
- && apt-get update \
- # Minimal CUDA for nvcc + core libs 
- && apt-get install -y --no-install-recommends \
-      cuda-compiler-12-4 \
-      cuda-cudart-dev-12-4 \
-      libcurand-dev-12-4 \
-      libcublas-dev-12-4 \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-ENV CUDA_HOME=/usr/local/cuda
-ENV PATH="${CUDA_HOME}/bin:${PATH}"
-ENV LD_LIBRARY_PATH="${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}"
-
-# --- your existing bits ---
-RUN useradd -m wljs
 COPY container/wljs-routes /etc/nginx/sites-available/default
 COPY container/proxy-snippet.conf /etc/nginx/snippets/proxy.conf
 
@@ -52,4 +36,5 @@ COPY ./ /wljs/
 
 COPY container/run.sh /run.sh
 RUN chmod +x /run.sh
-CMD ["/run.sh"]
+
+CMD /run.sh
