@@ -6,15 +6,19 @@ RUN useradd -m wljs
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
-    git \
-    nginx \
-    expect \
-    curl \
- && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
- && apt-get install -y nodejs \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+      ffmpeg ca-certificates gnupg curl git nginx expect \
+      build-essential cmake ninja-build pkg-config clang lld lldb; \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+# NodeSource setup + nodejs (separate chunk, with no cached .debs kept)
+RUN set -eux; \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends -o APT::Keep-Downloaded-Packages=false nodejs; \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY container/wljs-routes /etc/nginx/sites-available/default
 COPY container/proxy-snippet.conf /etc/nginx/snippets/proxy.conf

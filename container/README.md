@@ -4,6 +4,13 @@
 ## Description
 A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfram-js-frontend) project is provided here. The image is based on the on the [Wolfram Engine](https://hub.docker.com/r/wolframresearch/wolframengine) docker image to provide wolframscript.
 
+### What is included:
+- Node 18
+- Clang + Utils
+- GIT
+- FFMPEG
+- CURL
+
 ## Getting Started
 
 1. Make sure you have either installed [docker](https://docs.docker.com/engine/install/) or [podman](https://podman.io/get-started) on your machine.
