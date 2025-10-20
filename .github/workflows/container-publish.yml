@@ -1,5 +1,4 @@
 name: Container image
-
 on: workflow_dispatch
 
 env:
@@ -8,20 +7,32 @@ env:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest  # Run on host machine with Docker installed
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4   
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0             
+          fetch-depth: 0
+
+      # ---- Free a LOT of disk on the runner (10–30 GB) ----
+      - name: Free runner disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          df -h
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          # Use a recent BuildKit with better compression and GC
+          driver-opts: |
+            image=moby/buildkit:latest
 
       - name: Log into registry ${{ env.REGISTRY }}
         uses: docker/login-action@v3
@@ -30,25 +41,33 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # ---- Your prep container (Wolfram) ----
       - name: Start Wolfram Engine Container
         run: |
           docker run -d --name wolfram \
-            -v $GITHUB_WORKSPACE:/workspace \
+            -v "$GITHUB_WORKSPACE":/workspace \
             -w /workspace \
             wolframresearch/wolframengine:14.2 tail -f /dev/null
 
-      - name: Fix permissions for /workspace directory at host level
-        run: |
-          sudo chmod -R 777 $GITHUB_WORKSPACE
-
-      - name: Install ffmpeg inside Wolfram container
-        run: |
-          docker exec --user root wolfram bash -c "apt-get update && apt-get install -y ffmpeg"
+      - name: Fix permissions for /workspace
+        run: sudo chmod -R 777 "$GITHUB_WORKSPACE"
 
       - name: Fetch all dependencies inside Wolfram container
+        env:
+          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
         run: |
-          docker exec -e WOLFRAMSCRIPT_ENTITLEMENTID=${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }} wolfram \
-          wolframscript -script ./Scripts/bundle.wls
+          docker exec -e WOLFRAMSCRIPT_ENTITLEMENTID="$WOLFRAMSCRIPT_ENTITLEMENTID" wolfram \
+            wolframscript -script ./Scripts/bundle.wls
+
+      # ---- Stop & remove the heavy helper container BEFORE our image build ----
+      - name: Tear down Wolfram container and prune
+        if: always()
+        run: |
+          docker ps -a
+          docker rm -f wolfram || true
+          # Clean up everything to reclaim space (images, containers, volumes, build cache)
+          docker system prune -af --volumes
+          df -h
 
       - name: Extract Docker metadata
         id: meta
@@ -56,14 +75,27 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      # ---- Build & push with stronger compression and GHA cache ----
       - name: Build and push Docker image
-        id: build-and-push
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: "./container/Containerfile"
+          file: ./container/Containerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
+          # GHA cache helps avoid rebuilding toolchains repeatedly
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # Use zstd compression -> smaller layers during export
+          sbom: false
+          provenance: false
+          outputs: type=registry,compression=zstd,force-compression=true
+
+      # Optional: final GC to keep the job lean
+      - name: Final prune
+        if: always()
+        run: |
+          docker buildx prune -af || true
+          docker system prune -af --volumes || true
+          df -h

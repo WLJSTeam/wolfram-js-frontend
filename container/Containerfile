@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-      ca-certificates gnupg curl git nginx expect \
+      ca-certificates gnupg ffmpeg curl git nginx expect \
       build-essential cmake ninja-build pkg-config clang lld lldb; \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
