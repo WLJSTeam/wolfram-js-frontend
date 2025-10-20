@@ -1246,6 +1246,7 @@ const windows = {
                     height: 400,
                     resizable: false,
                     title: 'Launcher',
+                    maximizable: false,
                     contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
@@ -1266,6 +1267,7 @@ const windows = {
                     width: 600,
                     height: 400,
                     resizable: false,
+                    maximizable: false,
                     title: 'Launcher',
                     contextMenu: true,
                     webPreferences: {

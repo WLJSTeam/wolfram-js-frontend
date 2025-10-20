@@ -2797,6 +2797,16 @@ ol {
   opacity: 1;
 }
 
+[os="Windows"] .win\:autohide {
+  display:none
+}
+
+@media (min-width: 768px) {
+  [os="Windows"] .win\:autohide {
+    display:inline-block
+  }
+}
+
 [os="Windows"] .win\:m-4 {
   margin: 1rem;
 }
