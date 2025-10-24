@@ -288,6 +288,10 @@ start[k_LocalKernelObject] := Module[{link},
         LinkWrite[link, Unevaluated[ PacletDirectoryLoad[Directory[] ] ] ];
         LinkWrite[link, Unevaluated[ PacletDirectoryLoad[FileNameJoin[{Directory[], "wl_packages"}] ] ] ];
 
+        If[TrueQ @ Internal`$NoWRServices, 
+             LinkWrite[link, Unevaluated[ Get[FileNameJoin[{Directory[], "Common", "Patches", "NoWR.wl"}] ] ] ];
+        ];
+
         LinkWrite[link, EnterTextPacket["<<KirillBelov`CSockets`"] ];
         LinkWrite[link, EnterTextPacket["<<KirillBelov`Objects`"] ];
         LinkWrite[link, EnterTextPacket["<<KirillBelov`Internal`"] ];

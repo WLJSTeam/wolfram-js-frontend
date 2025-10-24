@@ -198,9 +198,14 @@ WLJSPackages`Load[ AppExtensions`ExtensionsDir ];
 
 {loadSettings, storeSettings}        = Get[FileNameJoin[{"Frontend", "Settings.wl"}] ];
 
-RandomWord[];
+(* check if there is internet or connection to WR servers *)
+(* NetworkConnected is not robust enough *)
+Internal`$NoWRServices = !StringQ[RandomWord[]];
 
-
+If[TrueQ @ Internal`$NoWRServices, 
+  Echo["No WR servers are reachable, we will apply patches to some system symbols..."];
+  Get[FileNameJoin[{Directory[], "Common", "Patches", "NoWR.wl"}]]
+];
 
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
