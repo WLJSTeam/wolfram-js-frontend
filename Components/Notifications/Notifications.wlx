@@ -163,6 +163,6 @@ EventHandler[evCloned, {
 }
 ] ];
 
-Options[Component] = {"Controls"->"", "MessagePort"->""}
+Options[Component] = {"Controls"->"", "MessagePort"->"", "ElectronQ" -> False}
 
 Component

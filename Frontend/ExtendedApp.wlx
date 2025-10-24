@@ -255,6 +255,7 @@ App[request_] := With[{
         SidebarId = CreateUUID[],
         OnLoad =  CreateUUID[],
         kernels = Hold[AppExtensions`KernelList] (*`*),
+        isElectron = ElectronQ[request],
         GlobalParameters = Join[<|"Navigator"->(If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]), "ElectronQ" -> ElectronQ[request], "AccentColor"->"teal", "BackupTimeout" -> (3 60 1000)|>, settings],
         AppClass = If[ElectronQ[request], "", "dark:bg-gray-800"],
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
@@ -383,8 +384,7 @@ App[request_] := With[{
         </style>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full">
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
 
           <div id="sidebar" style="user-select: none; -webkit-app-region: drag; overflow:hidden" class="hidden pt-10 linux:pt-0 md:fixed zen:hidden md:inset-y-0 md:z-50 md:w-sidesys md:flex md:flex-col osx:border-r border-gray-300 dark:border-gray-600 filter">        
@@ -400,8 +400,8 @@ App[request_] := With[{
             <div id="s-resizer" class="hidden h-full md:block zen:hidden top-0 absolute w-1" style="cursor: ew-resize; z-index:1000"></div>          
             <div class="h-full flex flex-col">
               <TopBar Menu={FakeMenu} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
-              <Notifications Controls={GlobalControls} MessagePort={GlobalMessanger}/>
-              <Views Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
+              <Notifications ElectronQ={isElectron} Controls={GlobalControls} MessagePort={GlobalMessanger}/>
+              <Views Parameters={GlobalParameters} ElectronQ={isElectron} Modals={ModalController} Kernels={kernels} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
           </div>

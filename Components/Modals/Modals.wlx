@@ -20,6 +20,6 @@ Component[OptionsPattern[]] := With[{port = OptionValue["ModalsPort"]},
     </div>
 ]
 
-Options[Component] = {"ModalsPort" -> ""}
+Options[Component] = {"ModalsPort" -> "", "ElectronQ" -> False}
 
 Component

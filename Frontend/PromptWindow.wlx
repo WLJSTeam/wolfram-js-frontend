@@ -164,7 +164,8 @@ localTemplates["Notebook-Prolog"] = {PromptTools}
 App[request_] := Module[{localExtensions}, With[{
   Secret = CreateUUID[], 
   GlobalControls  = CreateUUID[],
-  promtEventUID = CreateUUID[]
+  promtEventUID = CreateUUID[],
+  isElectron = ElectronQ[request],
 },
 
 
@@ -260,8 +261,7 @@ App[request_] := Module[{localExtensions}, With[{
         <body class="h-full"> 
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full">
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
           <style>
             .ccontainer {
@@ -287,7 +287,7 @@ App[request_] := Module[{localExtensions}, With[{
           </style>
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
-              <Views Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} Path={n["Path"]} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={localExtensions}/>
+              <Views Parameters={GlobalParameters} ElectronQ={isElectron} Modals={ModalController} Kernels={kernels} Path={n["Path"]} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={localExtensions}/>
             </div> 
           </div>
         </div>

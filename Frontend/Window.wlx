@@ -33,6 +33,7 @@ App[request_] := With[{
         Secret = CreateUUID[], 
         GlobalControls  = CreateUUID[],
         ModalController = CreateUUID[],
+        isElectron = ElectronQ[request],
         GlobalMessanger = CreateUUID[],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>,
         window        = win`HashMap[request["Query", "id"]] (*`*),
@@ -62,15 +63,14 @@ App[request_] := With[{
         <body class="h-full owin:border owin:border-slate-400"> 
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full overflow-hidden">
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron}/>
           
           <div id="frame" class="h-full overflow-hidden">
             <div class="h-full flex flex-col">
               <div style="z-index: 100;" class="sticky top-0 z-40 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-300 px-2 pl-20 md:pl-2 dark:border-gray-500 bg-239 dark:bg-gray-700 hidden osx:flex win:flex owin:flex win:h-titlebar owin:h-titlebar">
                 <div class="grow h-full" style="-webkit-app-region: drag"></div>       
               </div>              
-              <Notifications MessagePort={GlobalMessanger}/>
+              <Notifications ElectronQ={isElectron} MessagePort={GlobalMessanger}/>
               <WindowView Parameters={GlobalParameters} Modals={ModalController} Window={window} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
             </div> 
           </div>

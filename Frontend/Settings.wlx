@@ -21,6 +21,7 @@ App[request_] := With[{
         Secret = CreateUUID[], 
         GlobalControls  = CreateUUID[],
         ModalController = CreateUUID[],
+        isElectron = ElectronQ[request],
         GlobalMessanger = CreateUUID[],
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>
@@ -49,12 +50,11 @@ App[request_] := With[{
         <body class="h-full owin:border owin:border-slate-400"> 
         <ExtensionTemplates Template={"AppHead"} />
         <div>
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron}/>
           
           <div id="frame">
             <div class="h-full flex flex-col">          
-              <Notifications MessagePort={GlobalMessanger}/>
+              <Notifications MessagePort={GlobalMessanger} ElectronQ={isElectron}/>
               <Settings Parameters={GlobalParameters} Modals={ModalController} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
             </div> 
           </div>
