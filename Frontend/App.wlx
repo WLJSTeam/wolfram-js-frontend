@@ -260,7 +260,7 @@ App[request_] := With[{
 
   
   With[{
-        
+        cachedClient = Unique["cachedClient"],
         SidebarId = CreateUUID[],
         OnLoad    = CreateUUID[],
         kernels = Hold[AppExtensions`KernelList] (*`*),
@@ -331,8 +331,22 @@ App[request_] := With[{
     loadSettingsOnceMore;
 
     EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
       EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "Controls"->GlobalControls|>];
       
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["App >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+          EventFire[AppEvent, "AppUIDestroy", True];
+        ]}]
+      ];
+
       If[settings["FirstLaunch"] =!= False,
         settings = Join[settings, <|"FirstLaunch" -> False|>];
         storeSettings[settings];              
@@ -381,16 +395,17 @@ App[request_] := With[{
             <FrontEndCustomCSS/>
         </Head>  
         <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full">
-          <Modals ModalsPort={ModalController} ElectronQ={isElectron}/>
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron} CachedClient={cachedClient}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
           <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
 
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
               <TopBar Menu={FakeMenu} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
-              <Notifications Controls={GlobalControls} MessagePort={GlobalMessanger} ElectronQ={isElectron}/>
+              <Notifications Controls={GlobalControls} CachedClient={cachedClient} MessagePort={GlobalMessanger} ElectronQ={isElectron}/>
               <Views Parameters={GlobalParameters} ElectronQ={isElectron} Modals={ModalController} Kernels={kernels} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
@@ -399,7 +414,6 @@ App[request_] := With[{
         <Script Secret={Secret}/>
         <ExtensionTemplates Template={"AppScripts"} />
         <ElectronBinds Controls={GlobalControls}/>
-        <WebUIOnLoad Event={OnLoad}/>
       </body>
     </html>
   } // StringRiffle

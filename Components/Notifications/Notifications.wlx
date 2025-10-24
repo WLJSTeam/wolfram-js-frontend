@@ -163,6 +163,6 @@ EventHandler[evCloned, {
 }
 ] ];
 
-Options[Component] = {"Controls"->"", "MessagePort"->"", "ElectronQ" -> False}
+Options[Component] = {"Controls"->"", "MessagePort"->"", "ElectronQ" -> False, "CachedClient" -> False}
 
 Component

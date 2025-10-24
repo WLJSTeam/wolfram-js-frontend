@@ -34,11 +34,32 @@ App[request_] := With[{
         GlobalControls  = CreateUUID[],
         ModalController = CreateUUID[],
         isElectron = ElectronQ[request],
+        cachedClient = Unique["cachedClient"],
         GlobalMessanger = CreateUUID[],
+        OnLoad = CreateUUID[],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>,
         window        = win`HashMap[request["Query", "id"]] (*`*),
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]
     },
+
+    EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
+      EventRemove[OnLoad];
+      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "Controls"->GlobalControls, "WindowQ"->True|>];
+
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["Window >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+          EventFire[AppEvent, "AppUIDestroy", True];
+        ]}]
+      ];      
+    ]];
 
     (* /* redirect to extensions  */ *)
     EventHandler[EventClone[GlobalMessanger], {
@@ -61,16 +82,17 @@ App[request_] := With[{
             <ExtensionsStyles/>
         </Head>  
         <body class="h-full owin:border owin:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full overflow-hidden">
-          <Modals ModalsPort={ModalController} ElectronQ={isElectron}/>
+          <Modals CachedClient={cachedClient} ModalsPort={ModalController} ElectronQ={isElectron}/>
           
           <div id="frame" class="h-full overflow-hidden">
             <div class="h-full flex flex-col">
               <div style="z-index: 100;" class="sticky top-0 z-40 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-300 px-2 pl-20 md:pl-2 dark:border-gray-500 bg-239 dark:bg-gray-700 hidden osx:flex win:flex owin:flex win:h-titlebar owin:h-titlebar">
                 <div class="grow h-full" style="-webkit-app-region: drag"></div>       
               </div>              
-              <Notifications ElectronQ={isElectron} MessagePort={GlobalMessanger}/>
+              <Notifications CachedClient={cachedClient} ElectronQ={isElectron} MessagePort={GlobalMessanger}/>
               <WindowView Parameters={GlobalParameters} Modals={ModalController} Window={window} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
             </div> 
           </div>

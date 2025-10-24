@@ -1,17 +1,17 @@
-Window[OptionsPattern[]] := With[{request = OptionValue["Data"]["Callback"], Title=OptionValue["Data"]["Title"], DefaultValue =OptionValue["Data"]["String"],  loader = OptionValue["Data"]["LazyLoad"], client = OptionValue["Data"]["Client"]},
+Window[OptionsPattern[]] := With[{promise = OptionValue["Data"]["Promise"], Title=OptionValue["Data"]["title"], DefaultValue =OptionValue["Data"]["default"],  loader = OptionValue["Data"]["LazyLoad"], client = OptionValue["Data"]["Client"]},
     With[{
         Uid = CreateUUID[]
       },
 
       EventHandler[Uid, {
-        "Success" -> Function[encoded,
+        "Success" -> Function[text,
             EventFire[loader, "Remove", <|"Client" -> client|>];
-            EventFire[request, "Success", URLDecode[encoded]];
+            EventFire[promise, Resolve, text];
         ],
         
         "Cancelled" -> Function[Null,
             EventFire[loader, "Remove", <|"Client" -> client|>];
-            EventFire[request, "Cancelled", <|"Client" -> client|>];
+            EventFire[promise, Resolve, False];
         ]
       }];
     
@@ -49,12 +49,12 @@ Window[OptionsPattern[]] := With[{request = OptionValue["Data"]["Callback"], Tit
                         document.addEventListener('keydown', keyListener);
                         const submit = (el) => {
                             document.removeEventListener('keydown', keyListener);
-                            server.emitt('<Uid/>', '"'+encodeURIComponent(text.value.trim())+'"', 'Success');
+                            server.io.fire('<Uid/>', text.value.trim(), 'Success');
                         };
 
                         const close = () => {
                             document.removeEventListener('keydown', keyListener);
-                            server.emitt('<Uid/>', 'True', 'Cancelled');
+                            server.io.fire('<Uid/>', true, 'Cancelled');
                         };
 
                     
@@ -69,18 +69,49 @@ Window[OptionsPattern[]] := With[{request = OptionValue["Data"]["Callback"], Tit
 
 Options[Window] = {"Channel" -> "", "Data" -> <| |>};
 
-Component[OptionsPattern[]] := With[{Event = OptionValue["Events"], Channel = CreateUUID[], LazyLoad = CreateUUID[]}, Module[{loaded = False},
-    EventHandler[Event, {
-        "TextField" -> Function[data,
-            EventFire[LazyLoad, "Load", Join[data, <|"Client" -> data["Client"], "LazyLoad" -> LazyLoad|>]];
-        ]
-    }];
+Component[OptionsPattern[]] := With[{
+    Port = OptionValue["Port"], Channel = CreateUUID[], LazyLoad = CreateUUID[],
+    electronQ = OptionValue["ElectronQ"],
+    destructor = OptionValue["Destructor"],
+    cli = OptionValue["Client"]
+}, Module[{loaded = False},
 
-    <WebUILazyLoad Event={LazyLoad}>
-        <Window Channel={Channel} Data={WebUILazyLoadDataProvided}/>
-    </WebUILazyLoad>
+    If[electronQ,
+        EventHandler[Port, {
+            "TextBox" -> Function[data,
+                EventFire[LazyLoad, "Load", Join[data, <|"Client" -> If[SymbolQ[cli], Global`$Client, cli], "LazyLoad" -> LazyLoad|>]];
+            ]
+        }];
+
+        <WebUILazyLoad Event={LazyLoad}>
+            <Window Channel={Channel} Data={WebUILazyLoadDataProvided}/>
+        </WebUILazyLoad>    
+    ,
+      With[{Controller1 = CreateUUID[]},
+        EventHandler[Port, {
+            "TextBox" -> Function[data, With[{Controller2 = CreateUUID[]},
+                EventHandler[Controller2, Function[text,
+                    EventRemove[Controller2];
+                    EventFire[data["Promise"], Resolve, text];
+                ]];
+                EventFire[Controller1, "Request", Join[KeyDrop[data, {"Promise"}], <|"Controller" -> Controller2, "Client" -> If[SymbolQ[cli], Global`$Client, cli]|>]];
+            ] ]
+        }];
+
+        <WebUIJSBind Event={Controller1}>
+            this.on('Request', async (payload, env) => {
+                const args = await interpretate(data, {hold:true});
+                const title = await interpretate(args.title, {});
+                const default = await interpretate(args.default, {});
+                const res = window.prompt(title, default);
+                const ctl = await interpretate(args.Controller, {});
+                server.io.fire(ctl, res);
+            })
+        </WebUIJSBind>    
+      ]
+    ]
 ]];
 
-Options[Component] = {"Events" -> ""}
+Options[Component] = {"Port" -> "", "Client" -> "", "ElectronQ" -> "", "Destructor"->Null}
 
 Component

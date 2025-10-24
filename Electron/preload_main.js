@@ -83,6 +83,30 @@ contextBridge.exposeInMainWorld('electronAPI', {
     });
   },
 
+  showOpenDialog: (params, cbk) => {
+    ipcRenderer.invoke('showOpenDialog', params).then((result) => {
+      cbk(result);
+    });
+  },
+
+  showSaveDialog: (params, cbk) => {
+    ipcRenderer.invoke('showSaveDialog', params).then((result) => {
+      cbk(result);
+    });
+  },
+
+  showMessageBox: (params, cbk) => {
+    ipcRenderer.invoke('showMessageBox', params).then((result) => {
+      cbk(result);
+    });
+  },
+
+  showErrorBox: (params, cbk) => {
+    ipcRenderer.invoke('showErrorBox', params).then((result) => {
+      cbk(result);
+    });
+  }, 
+
   requestOpenFileWindow: (params, cbk) => {
     ipcRenderer.invoke('system-open-something', params).then((result) => {
       cbk(result);

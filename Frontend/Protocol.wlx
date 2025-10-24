@@ -178,6 +178,7 @@ App[request_] := With[{
   Secret = CreateUUID[], 
   GlobalControls  = CreateUUID[],
   Path = defaultHomeFolder,
+  cachedClient = Unique["cachedClient"],
   Protocol = If[StringTake[#, -1] === "/", StringDrop[#, -1], # ] &@ (If[StringTake[#, 1] === "/", StringDrop[#, 1], #] &@ URLDecode @ StringDrop[request["Path"], 
     Switch[$OperatingSystem,
       "Windows", 
@@ -249,7 +250,21 @@ App[request_] := With[{
     loadSettingsOnceMore;
 
     EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
       EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env|>];
+
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["Protocol >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+          EventFire[AppEvent, "AppUIDestroy", True];
+        ]}]
+      ];
 
       If[settings["FirstLaunch"] =!= False,
         settings = Join[settings, <|"FirstLaunch" -> False|>];
@@ -294,15 +309,16 @@ App[request_] := With[{
         </Head>  
         <ExtensionTemplates Template={"AppHead"} />
         <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <div class="h-full">
-          <Modals ModalsPort={ModalController}/>
+          <Modals CachedClient={cachedClient} ModalsPort={ModalController}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
           <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
 
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
               <TopBar Menu={FakeMenu} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
-              <Notifications MessagePort={GlobalMessanger}/>
+              <Notifications CachedClient={cachedClient} MessagePort={GlobalMessanger}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
           </div>
@@ -310,7 +326,6 @@ App[request_] := With[{
         <Script Secret={Secret}/>
         <ExtensionTemplates Template={"AppScripts"} />
         <ElectronBinds Controls={GlobalControls}/>
-        <WebUIOnLoad Event={OnLoad}/>
       </body>
     </html>
   } // StringRiffle

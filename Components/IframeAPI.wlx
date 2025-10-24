@@ -88,10 +88,43 @@
   requestFileWindow: (params, cbk) => {
     const uuid = uuidv4();
     promisesTable[uuid] = cbk;
+    console.warn('legacy method call!');
 
     console.log('iframe >> send a post message to parent window');
     window.parent.postMessage({'type':'request', 'method':'requestFileWindow', 'params':params, 'promise':uuid}, "*");
   },
+
+  showOpenDialog: () => {
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showOpenDialog', 'params':params, 'promise':uuid}, "*");
+  },
+
+  showSaveDialog: () => {
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showSaveDialog', 'params':params, 'promise':uuid}, "*");
+  },
+  
+  showMessageBox: () => {
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showMessageBox', 'params':params, 'promise':uuid}, "*");
+  },
+  
+  showErrorBox: () => {
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showErrorBox', 'params':params, 'promise':uuid}, "*");
+  },  
 
   requestOpenFileWindow: (params, cbk) => {
     VOID()

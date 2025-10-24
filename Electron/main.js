@@ -2526,6 +2526,7 @@ app.whenReady().then(() => {
     });
 
     ipcMain.handle('system-save-something', async (event, p) => {
+        console.warn('legacy method call!');
         const result = await dialog.showSaveDialog({ title: p.title, properties: ['createDirectory'], filters: p.filters || [
             { extensions: p.extension }
         ]});
@@ -2537,7 +2538,28 @@ app.whenReady().then(() => {
         }
     });
 
+    ipcMain.handle('showOpenDialog', async (event, p) => {
+        const result = await dialog.showOpenDialog(p);
+        return result;
+    }); 
+
+    ipcMain.handle('showSaveDialog', async (event, p) => {
+        const result = await dialog.showSaveDialog(p);
+        return result;
+    }); 
+
+    ipcMain.handle('showMessageBox', async (event, p) => {
+        const result = await dialog.showMessageBox(p);
+        return result;
+    });     
+
+    ipcMain.handle('showErrorBox', async (event, p) => {
+        const result = await dialog.showErrorBox(p);
+        return result;
+    });     
+
     ipcMain.handle('system-open-something', async (event, p) => {
+        console.warn('legacy method call!');
         const result = await dialog.showOpenDialog({ title: p.title, filters: p.filters || [
             { extensions: p.extension }
         ],
@@ -2553,6 +2575,7 @@ app.whenReady().then(() => {
     });    
 
     ipcMain.handle('system-open-folder-something', async (event, p) => {
+        console.warn('legacy method call!');
         const result = await dialog.showOpenDialog({ title: p.title, buttonLabel:'Set', properties: ['openDirectory', 'createDirectory']});
 
         if (!result.canceled) {

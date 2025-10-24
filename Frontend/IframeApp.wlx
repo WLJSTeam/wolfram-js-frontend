@@ -206,6 +206,7 @@ App[request_] := With[{
         
         SidebarId = CreateUUID[],
         OnLoad    = CreateUUID[],
+        cachedClient = Unique["cachedClient"],
         kernels = Hold[AppExtensions`KernelList] (*`*),
         
         GlobalParameters = Join[<|"Navigator"->(If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]), "ElectronQ" -> ElectronQ[request], "AccentColor"->"teal", "BackupTimeout" -> (3 60 1000)|>, settings],
@@ -230,7 +231,21 @@ App[request_] := With[{
     loadSettingsOnceMore;
 
     EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
       EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "IFrameQ"->True|>];
+
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["IFrame >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+          EventFire[AppEvent, "AppUIDestroy", True];
+        ]}]
+      ];
 
       If[settings["FirstLaunch"] =!= False,
         settings = Join[settings, <|"FirstLaunch" -> False|>];
@@ -280,17 +295,17 @@ App[request_] := With[{
             <IframeAPI/>
         </Head>  
         <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full">
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals ElectronQ={True} CachedClient={cachedClient} ModalsPort={ModalController}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
           <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
 
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
-              <Notifications Controls={GlobalControls} MessagePort={GlobalMessanger}/>
-              <Views Query={query} Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} IframeQ={True} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
+              <Notifications ElectronQ={True} CachedClient={cachedClient} Controls={GlobalControls} MessagePort={GlobalMessanger}/>
+              <Views ElectronQ={True} Query={query} Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} IframeQ={True} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
           </div>
@@ -298,7 +313,6 @@ App[request_] := With[{
         <Script Secret={Secret}/>
         <ExtensionTemplates Template={"AppScripts"} />
         <ElectronBinds Controls={GlobalControls}/>
-        <WebUIOnLoad Event={OnLoad}/>
       </body>
     </html>
   } // StringRiffle

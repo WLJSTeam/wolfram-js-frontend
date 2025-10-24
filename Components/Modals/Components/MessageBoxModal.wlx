@@ -1,0 +1,49 @@
+Component[OptionsPattern[]] := With[{
+    Port = OptionValue["Port"],
+    Controller1 = CreateUUID[],
+    electronQ = OptionValue["ElectronQ"],
+    destructor = OptionValue["Destructor"],
+    cli = OptionValue["Client"]
+}, Module[{},
+    EventHandler[Port, {
+        "MessageBox" -> Function[data, With[{Controller2 = CreateUUID[]},
+            EventHandler[Controller2, Function[result,
+                EventFire[data["Promise"], Resolve, result];
+                EventRemove[Controller2];
+            ]];
+
+            EventFire[Controller1, "Request", <|
+                "Controller" -> Controller2, "Client"->If[SymbolQ[cli], Global`$Client, cli], "Options"->KeyDrop[data, {"Promise"}]
+            |>];
+        ] ]
+    }];
+
+
+    If[electronQ,
+        <WebUIJSBind Event={Controller1}>
+            this.on('Request', async (payload) => {
+                const api = window.electronAPI || window.iframeAPI;
+                const args = await interpretate(data, {hold:true});
+                const opts = await interpretate(args.Options, {});
+                const ctl = await interpretate(args.Controller, {});
+                api.showMessageBox(opts, (result) => {
+                    server.io.fire(ctl, result);
+                })
+            })
+        </WebUIJSBind>
+    ,
+        <WebUIJSBind Event={Controller1}>
+            this.on('Request', async (payload, env) => {
+                const args = await interpretate(data, {hold:true});
+                const opts = await interpretate(args.Options, {});
+                const ctl = await interpretate(args.Controller, {});
+                const res = window.confirm(opts.confirmMessage || opts.message);
+                server.io.fire(ctl, res);
+            })
+        </WebUIJSBind>
+    ]
+]];
+
+Options[Component] = {"Port" -> "", "Client" -> "", "ElectronQ" -> "", "Destructor"->Null}
+
+Component
