@@ -309,7 +309,7 @@ App[request_] := Module[{localExtensions}, With[{
           </style>
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
-              <Views Parameters={GlobalParameters} ElectronQ={isElectron} Modals={ModalController} Kernels={kernels} Path={n["Path"]} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={localExtensions}/>
+              <Views Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} Path={n["Path"]} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={localExtensions}/>
             </div> 
           </div>
         </div>

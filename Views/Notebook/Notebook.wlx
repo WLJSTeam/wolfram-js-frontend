@@ -202,8 +202,8 @@ requestKernel[notebook_, kernels_, modals_, client_, Success_] := With[{},
         Then[promise, Function[result, 
           Echo[StringJoin["Picked kernel >> ", ToString[result]]];
           Switch[result,
-            n_Integer, 
-             With[{k = ReleaseHold[kernels][[n]]},
+            _Integer, 
+             With[{k = ReleaseHold[kernels][[result]]},
                 
                 If[TrueQ[k["ContainerReadyQ"]],
                     notebook["Evaluator"] = k["Container"];

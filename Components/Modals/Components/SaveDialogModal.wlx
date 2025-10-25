@@ -1,5 +1,7 @@
 ModalController = Unique["modalControllerBox"];
 
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
 Component[OptionsPattern[]] := With[{
     Port = OptionValue["Port"],
     electronQ = OptionValue["ElectronQ"],
@@ -8,7 +10,7 @@ Component[OptionsPattern[]] := With[{
 }, Module[{},
     EventHandler[Port, {
         "SaveDialog" -> Function[data, With[{},
-            Then[WebUIFetch[ModalController[KeyDrop[data, {"Promise"}]], If[SymbolQ[cli], Global`$Client, cli], "Format"->"JSON"], Function[result,
+            Then[WebUIFetch[ModalController[KeyDrop[data, {"Promise"}]], If[SymbolQ[cli], Global`$Client, cli], "Format"->"RawJSON"], Function[result,
                 EventFire[data["Promise"], Resolve, result];
             ]];
         ] ]

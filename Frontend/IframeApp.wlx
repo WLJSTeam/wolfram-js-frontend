@@ -12,8 +12,6 @@ Kernels   =  ImportComponent["Components/Kernel/Minimal.wlx"];
 
 Notifications  = ImportComponent["Components/Notifications/Notifications.wlx"];
 
-Alert           = ImportComponent["Components/Alert.wlx"];
-
 Modals           = ImportComponent["Components/Modals/Modals.wlx"];
 
 Views            = ImportComponent["Views.wl"];
@@ -301,11 +299,10 @@ App[request_] := With[{
           <Modals ElectronQ={True} CachedClient={cachedClient} ModalsPort={ModalController}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
           <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
-
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
               <Notifications ElectronQ={True} CachedClient={cachedClient} Controls={GlobalControls} MessagePort={GlobalMessanger}/>
-              <Views ElectronQ={True} Query={query} Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} IframeQ={True} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
+              <Views Query={query} Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} IframeQ={True} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
           </div>

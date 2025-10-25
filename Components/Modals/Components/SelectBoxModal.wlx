@@ -119,6 +119,8 @@ Window[OptionsPattern[]] := With[{promise = OptionValue["Data"]["Promise"],  Opt
 
 Options[Window] = {"Channel" -> "", "Data" -> <| |>};
 
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
 Component[OptionsPattern[]] := With[{
     Port = OptionValue["Port"], Channel = CreateUUID[], LazyLoad = CreateUUID[],
     electronQ = OptionValue["ElectronQ"],
@@ -137,18 +139,19 @@ Component[OptionsPattern[]] := With[{
                     "type" -> Lookup[data, "type", "question"],
                     "noLink" -> False,
                     "cancelId" -> Length[data["list"]]
-                |>]
-              ];
+                |>];
+              
 
-              Then[p, Function[res,
-                If[res["response"] ===  Length[data["list"]],
-                    EventFire[data["Promise"], Resolve, False];
-                ,
-                    EventFire[data["Promise"], Resolve, res["response"] + 1];
-                ]
-              ]];
+               Then[p, Function[res,
+                 If[res["response"] ===  Length[data["list"]],
+                     EventFire[data["Promise"], Resolve, False];
+                 ,
+                     EventFire[data["Promise"], Resolve, res["response"] + 1];
+                 ]
+               ]];
+              ];
             ]
-        }];
+        }]; ""
     ,   
         EventHandler[Port, {
             "SelectBox" -> Function[data,

@@ -12,7 +12,7 @@ Component[OptionsPattern[]] := With[{
 },
 
 
-    EventHandler[port, {"ElectronQ" -> (electronQ)&}];
+    EventHandler[port, {"ElectronQ" -> (electronQ&)}];
 
     <div>
         <HTMLDialogModal   Port={port} Client={cli} ElectronQ={electronQ}/>

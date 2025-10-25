@@ -28,6 +28,8 @@ Window[OptionsPattern[]] := With[{
 
 Options[Window] = {"Channel" -> "", "Data" -> <| |>};
 
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
 Component[OptionsPattern[]] := With[{Port = OptionValue["Port"], Channel = CreateUUID[], LazyLoad = CreateUUID[], Cli = OptionValue["Client"]}, Module[{loaded = False},
     EventHandler[Port, {
         "HTMLWindow" -> Function[data,
