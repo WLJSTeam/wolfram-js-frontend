@@ -77,12 +77,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('system-window-enlarge-if-needed',  {});
   },
 
-  requestFileWindow: (params, cbk) => {
-    ipcRenderer.invoke('system-save-something', params).then((result) => {
-      cbk(result);
-    });
-  },
-
   showOpenDialog: (params, cbk) => {
     ipcRenderer.invoke('showOpenDialog', params).then((result) => {
       cbk(result);
@@ -107,23 +101,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     });
   }, 
 
-  requestOpenFileWindow: (params, cbk) => {
-    ipcRenderer.invoke('system-open-something', params).then((result) => {
-      cbk(result);
-    });
-  },  
-
   requestScreenshot: (params, cbk) => {
     ipcRenderer.invoke('capture', params).then((result) => {
       cbk(result);
     });
   },  
-
-  requestFolderWindow: (params, cbk) => {
-    ipcRenderer.invoke('system-open-folder-something', params).then((result) => {
-      cbk(result);
-    });
-  },
 
   windowExpand: (path) => {
     console.log(path);

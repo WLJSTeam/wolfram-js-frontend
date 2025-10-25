@@ -1372,16 +1372,6 @@ const windows = {
     }
 };
 
-const exportImageBuffer = async (buffer, format, pp, frames) => {
-    const len = Math.min(buffer.length, frames);
-    for (let i=0; i<len; ++i) {
-        const frame = buffer.pop();
-        const p = path.join(pp, String(frame[0]) + "." + format);
-        fs.writeFileSync(p, frame[1], {flag:'w'});
-        console.log(p);
-    }
-}
-
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);
     if (fs.existsSync(dirname)) {
@@ -2262,10 +2252,6 @@ app.whenReady().then(() => {
     if (!server.frontend.NoUpdates) autoUpdater.checkForUpdatesAndNotify();
 
     
-
-    //server.url.local = `http://127.0.0.1:20560`;
-    //create_window({url: 'http://127.0.0.1:20560', show: true, focus: true, cacheClear: true});
-
     ipcMain.on('system-harptic', () => {
         trackpadUtils.triggerFeedback();
     });
@@ -2309,10 +2295,11 @@ app.whenReady().then(() => {
         cli_uninstall();
     }); 
     
-    const capturePocket = {};
+    const capturedBuffer = {};
 
     ipcMain.handle('capture', async (e, area) => {
         let zoom = e.sender.zoomFactor;
+        const windowId = e.sender.id;
 
         if (area) {
             if (!area.deferred) {
@@ -2320,69 +2307,38 @@ app.whenReady().then(() => {
                     area.y = Math.round(area.y * zoom);
                     area.width = Math.round(area.width * zoom);
                     area.height = Math.round(area.height * zoom);
-                    const img = await e.sender.capturePage(area)
+                    const img = await e.sender.capturePage(area);
                     return img.toDataURL();
             }
 
-            switch(area.deferred.type) {
-                case 'Init':
-                    capturePocket[area.deferred.id] = {
-                        buffer: [], format: area.deferred.format, 
-                        quality: area.deferred.quality,
-                        path: decodeURIComponent(area.deferred.path)
-                    };
-                    
+            switch(area.deferred) {
+                case 'Flush':
+                    capturedBuffer[windowId] = [];
+                    return 'flushed';
 
-                    return;
+                case 'Capture': {
+                        console.log(area);
+                        area.x = Math.round(area.x * zoom);
+                        area.y = Math.round(area.y * zoom);
+                        area.width = Math.round(area.width * zoom);
+                        area.height = Math.round(area.height * zoom);
 
-                case 'Purge':
-                    delete capturePocket[area.deferred.id];
-                    return;
+                        const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
+                        console.log(rect);
 
-                case 'Record': {
-                    console.log(area);
-                    area.x = Math.round(area.x * zoom);
-                    area.y = Math.round(area.y * zoom);
-                    area.width = Math.round(area.width * zoom);
-                    area.height = Math.round(area.height * zoom);
-                    const l = capturePocket[area.deferred.id];
-
-                    const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
-                    console.log(rect);
-
-                    const img = await e.sender.capturePage(rect);
-                    let data;
-                    switch(l.format) {
-                        case 'JPG':
-                            data = img.toJPEG(l.quality);
-                        break;
-                        case 'JPEG':
-                            data = img.toJPEG(l.quality);
-                        break;
-                        default:
-                            data = img.toPNG();
-                        break;
+                        const img = await e.sender.capturePage(rect);
+                        capturedBuffer[windowId].push(img);
                     }
-                    l.buffer.push([l.buffer.length, data]);
+                    return 'captured';
 
-                    if (l.buffer > 20) {
-                        await exportImageBuffer(l.buffer, l.format, l.path, 20);
-                    }
+                case 'Pop': {
+                    const item = capturedBuffer[windowId].shift();
+                    if (item) return item.toDataURL();                
+                    return false;
                 }
-                    return 'Saved';
 
-                case 'Export': {
-                    const id = area.deferred.id;
-                    const l = capturePocket[id];
-
-                    await exportImageBuffer(l.buffer, l.format, l.path, Infinity);
-
-                    delete l.buffer;
-                    delete capturePocket[id];
-
-                    return 'Exported';                    
-
-                }
+                default:
+                    return false;
             }
 
         } else {
@@ -2436,8 +2392,6 @@ app.whenReady().then(() => {
         session.defaultSession.clearCache();
 
         if (senderWindow) {
-
-
             const ses = senderWindow.webContents.session;
             ses.clearCache();
         }
@@ -2525,66 +2479,29 @@ app.whenReady().then(() => {
         }
     });
 
-    ipcMain.handle('system-save-something', async (event, p) => {
-        console.warn('legacy method call!');
-        const result = await dialog.showSaveDialog({ title: p.title, properties: ['createDirectory'], filters: p.filters || [
-            { extensions: p.extension }
-        ]});
-
-        if (!result.canceled) {
-            return encodeURIComponent(result.filePath);
-        } else {
-            return false;
-        }
-    });
-
     ipcMain.handle('showOpenDialog', async (event, p) => {
+        console.log(p);
         const result = await dialog.showOpenDialog(p);
         return result;
     }); 
 
     ipcMain.handle('showSaveDialog', async (event, p) => {
+        console.log(p);
         const result = await dialog.showSaveDialog(p);
         return result;
     }); 
 
     ipcMain.handle('showMessageBox', async (event, p) => {
+        console.log(p);
         const result = await dialog.showMessageBox(p);
         return result;
     });     
 
     ipcMain.handle('showErrorBox', async (event, p) => {
-        const result = await dialog.showErrorBox(p);
+        console.log(p);
+        const result = await dialog.showErrorBox(p.title, p.content);
         return result;
     });     
-
-    ipcMain.handle('system-open-something', async (event, p) => {
-        console.warn('legacy method call!');
-        const result = await dialog.showOpenDialog({ title: p.title, filters: p.filters || [
-            { extensions: p.extension }
-        ],
-            properties: p.list? ["multiSelections", "openFile"] : ["openFile"]
-        });
-
-        if (!result.canceled) {
-            if (p.list) return result.filePaths.map(encodeURIComponent);
-            return encodeURIComponent(result.filePaths[0]);
-        } else {
-            return false;
-        }
-    });    
-
-    ipcMain.handle('system-open-folder-something', async (event, p) => {
-        console.warn('legacy method call!');
-        const result = await dialog.showOpenDialog({ title: p.title, buttonLabel:'Set', properties: ['openDirectory', 'createDirectory']});
-
-        if (!result.canceled) {
-            return encodeURIComponent(result.filePaths[0]);
-        } else {
-            return false;
-        }
-    });
-
 
     ipcMain.on('system-window-expand', (e, p) => {
         windows.focused.win.setBounds({ width: 800 , animate: true});
@@ -3334,7 +3251,7 @@ function activate_wl(program, success, rejection, window) {
             program.stdin.write('\n');
 
             windows.log.clear();
-            windows.log.print('Waiting for the responce from wolframscript');
+            windows.log.print('Waiting for the response from wolframscript');
 
             let _nohup = false;
             let timer = setTimeout(() => {

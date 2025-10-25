@@ -97,15 +97,21 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
       With[{
           p = Promise[]
       },
-          EventFire[ModalController, "RequestPathToSave", <|
+          EventFire[ModalController, "SaveDialog", <|
               "Promise"->p,
-              "Title"->"Notebook",
-              "Ext"->"wln",
-              "Client"->client
+              "title"->"Save notebook",
+              "properties"->{"createDirectory", "dontAddToRecent"},
+              "filters"->{<|"extensions"->"wln", "name"->"WLJS Notebook"|>}
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = result},
+              Module[{filename = If[StringQ[result], result, result["filePath"]]},
+                  If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
+                    Echo["Cancelled saving"]; Echo[result];
+                    EventFire[GlobalMessanger, "Notebook:Saving:Finished", True]; 
+                    Return[];
+                  ];
+
                   If[!StringMatchQ[filename, __~~".wln"],  filename = StringJoin[filename, ".wln"]];
                   If[filename === ".wln", filename = StringJoin[name, filename] ];
                   If[DirectoryName[filename] === "", filename = FileNameJoin[{path, filename}] ];
@@ -129,7 +135,7 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
                     ]
                   ];                  
               ];
-          ], Function[result, EventFire[GlobalMessanger, "Notebook:Saving:Finished", True]; Echo["!!!R!!"]; Echo[result] ] ];
+          ]  ];
 
       ]
     ,
@@ -197,15 +203,19 @@ Then[WebUIFetch[UIPrintPDF[
       With[{
           p = Promise[]
       },
-          EventFire[ModalController, "RequestPathToSave", <|
+          EventFire[ModalController, "SaveDialog", <|
               "Promise"->p,
-              "Title"->"Printed notebook",
-              "Ext"->"pdf",
-              "Client"->client
+              "title"->"Save PDF",
+              "properties"->{"createDirectory", "dontAddToRecent"},
+              "filters"->{<|"extensions"->"pdf", "name"->"PDF Document"|>}
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = result, file},
+              Module[{filename = If[StringQ[result], result, result["filePath"]], file},
+                  If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
+                    Return[];
+                  ];
+
                   If[!StringMatchQ[filename, __~~".pdf"],  filename = StringJoin[filename, ".pdf"]];
                   If[filename === ".pdf", filename = StringJoin[name, filename] ];
                   file = OpenWrite[filename, BinaryFormat->True];

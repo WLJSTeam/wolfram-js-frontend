@@ -22,12 +22,12 @@ Controller["Download", __] := Function[name,
   WebUISubmit[Global`UIOpenDownloadWindow[name, FileNameTake[name // URLDecode]] (*`*), $Client];
 ];
 
-Controller["Rename", sidebarId_, modals_, path_, Controls_] := Function[name,
-  With[{decoded = URLDecode[name], request = CreateUUID[]},
-    With[{splitted = FileNameSplit[decoded]},
-      EventHandler[request, {
-        "Success" -> Function[name,
-          EventRemove[request];
+Controller["Rename", sidebarId_, modals_, path_, Controls_] := Function[dname,
+  With[{decoded = URLDecode[dname]},
+    With[{splitted = FileNameSplit[decoded], promise = Promise[]},
+      Then[promise, Function[name,
+        If[StringQ[name],
+      
           If[Length[splitted] == 1,
             If[DirectoryQ[decoded],
               RenameDirectory[decoded, name];
@@ -55,15 +55,10 @@ Controller["Rename", sidebarId_, modals_, path_, Controls_] := Function[name,
             ];
             EventFire[sidebarId, "Refresh", <|"Client"->$Client|>];        
           ];
-        ],
-
-        _ -> Function[Null,
-          Echo["Cancelled or did not managed to perform"];
-          EventRemove[request];
         ]
-      }];
+      ]];
 
-      EventFire[modals, "TextField", <|"Client"->$Client, "Callback"->request, "Title"->"Enter new name", "String"-> Last[splitted]|>];
+      EventFire[modals, "TextBox", <|"Promise"->promise, "title"->"Enter new name", "default"-> Last[splitted]|>];
     ];
   ];
 ];
@@ -124,25 +119,20 @@ With[{
 
   EventHandler[Button2Id, Function[Null,
     With[{request = CreateUUID[]},
-      With[{},
-        EventHandler[request, {
-          "Success" -> Function[name,
-            EventRemove[request];
+      With[{promise = Promise[]},
+        Then[promise, Function[name,
+          If[StringQ[name],
             If[StringLength[StringTrim[name]] =!= 0,
               With[{path = If[DirectoryQ[Path], Path, DirectoryName[Path]]},
                 CreateDirectory[FileNameJoin[{path, StringTrim[name]}]];
               ];
               EventFire[SidebarId, "Refresh", <|"Client"->$Client|>]; 
             ];
-          ],
+          ];
 
-          _ -> Function[Null,
-            Echo["Cancelled or did not managed to perform"];
-            EventRemove[request];
-          ]
-        }];
+        ]];
 
-        EventFire[modals, "TextField", <|"Client"->$Client, "Callback"->request, "Title"->"Enter new name", "String"-> ""|>];
+        EventFire[modals, "TextBox", <|"Promise"->promise, "title"->"Enter new name", "default"->RandomWord[]|>];
       ];
     ];
   ]];

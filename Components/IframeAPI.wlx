@@ -85,15 +85,6 @@
     window.parent.postMessage({'type':'action', 'method':'blockWindow', 'state':state, 'message': message}, "*");
   },
 
-  requestFileWindow: (params, cbk) => {
-    const uuid = uuidv4();
-    promisesTable[uuid] = cbk;
-    console.warn('legacy method call!');
-
-    console.log('iframe >> send a post message to parent window');
-    window.parent.postMessage({'type':'request', 'method':'requestFileWindow', 'params':params, 'promise':uuid}, "*");
-  },
-
   showOpenDialog: () => {
     const uuid = uuidv4();
     promisesTable[uuid] = cbk;
@@ -126,17 +117,9 @@
     window.parent.postMessage({'type':'request', 'method':'showErrorBox', 'params':params, 'promise':uuid}, "*");
   },  
 
-  requestOpenFileWindow: (params, cbk) => {
-    VOID()
-  },  
-
   requestScreenshot: (params, cbk) => {
     VOID()
   },  
-
-  requestFolderWindow: (params, cbk) => {
-    VOID()
-  },
 
   windowExpand: (path) => {
     VOID()

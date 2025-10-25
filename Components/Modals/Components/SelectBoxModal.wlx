@@ -142,13 +142,13 @@ Component[OptionsPattern[]] := With[{
                 |>];
               
 
-               Then[p, Function[res,
+                Then[p, Function[res,
                  If[res["response"] ===  Length[data["list"]],
                      EventFire[data["Promise"], Resolve, False];
                  ,
                      EventFire[data["Promise"], Resolve, res["response"] + 1];
                  ]
-               ]];
+                ]];
               ];
             ]
         }]; ""

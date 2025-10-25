@@ -302,13 +302,11 @@ checkEvaluationCells[currentCell_, notebook_, secret_, log_, kernels_, client_, 
     Echo[">> Found initialization cells!"];
 
     With[{
-        request = CreateUUID[],
+        rpromise = Promise[],
         promise = Promise[]
     },
-        EventHandler[request, {
-            "Success" -> Function[Null,
-                EventRemove[request];
-                
+        Then[rpromise, Function[result,
+            If[TrueQ[result] || result["response"] === 0,
                 ApplySync[Then, evaluateCell, {
                         #, notebook, secret, log, kernels, client, modals, parameters, extensions
                     } &/@ Select[notebook["Cells"], TrueQ[#["Props"]["InitGroup"]]&], Function[Null,
@@ -319,17 +317,19 @@ checkEvaluationCells[currentCell_, notebook_, secret_, log_, kernels_, client_, 
                     ,
                         EventFire[promise, Resolve, True];
                     ];
-                ]];
-
-                
-            ],
-
-            "Cancelled" -> Function[Null,
-                EventRemove[request];
+                ]];            
+            ,
                 EventFire[promise, Resolve, True];
-            ]
-        }];
-        EventFire[modals, "InitCellsQ", <|"Client"->client, "Callback"->request|>];
+            ];
+        ]];
+
+        EventFire[modals, "MessageBox", <|
+            "title"->"Initialization cells",
+            "message"->"Evaluate initialization cells?",
+            "type"->"question",
+            "buttons"->{"Evaluate", "Cancel"},
+            "Promise"->rpromise
+        |>];
 
         promise
     ]
@@ -864,30 +864,23 @@ Component[OptionsPattern[]] := With[{
 
         "Vanish" -> Function[uid,
             If[!TrueQ[cell`HashMap[uid]["Invisible"](*`*)],
-                With[{request = CreateUUID[]},
-                    EventHandler[request, {
-                        "Success" -> Function[Null, 
-                            EventRemove[request];
+                With[{promise = Promise[]},
+                    Then[promise, Function[result, 
+                        If[TrueQ[result] || (result["response"] === 0),
 
                             With[{cell = cell`HashMap[uid](*`*)},
                                 cell["Invisible"] = !TrueQ[cell["Invisible"]];
                                 WebUISubmit[UINotebook["ToggleInvisible", uid, TrueQ[cell["Invisible"]]], $Client];
-                            ]                        
-                        ],
+                            ];
+                        ];
+                    ]];
 
-                        _ -> Function[Null,
-                            EventRemove[request]
-                        ]
-                    }];
-
-                    EventFire[modals, "GenericAskTemplate", <|
-                        "Callback" -> request, 
-                        "Client" -> $Client,
-                        "Title" -> "Do you want to make it invisible?", 
-                        "Content" -> "Invisible cell can only be changed in Expert mode",
-                        "SVGIcon" -> With[{},
-                            <svg class="mr-2 h-4 w-4 text-gray-500" viewBox="0 0 32 32" ><path  fill="currentColor" d="M27,12h-5.435C22.185,10.572,23,8.428,23,7c0-2.206-1.794-4-4-4c-1.2,0-2.266,0.542-3,1.382 C15.266,3.542,14.2,3,13,3c-2.206,0-4,1.794-4,4c0,1.413,0.818,3.566,1.439,5H5v2h2.882L7,29h18l-0.882-15H27V12z M19,5 c1.103,0,2,0.897,2,2c0,1.241-1.01,3.672-1.629,5h-0.742C17.912,10.455,17,8.121,17,7C17,5.897,17.897,5,19,5z M16.439,12h-0.874 c0.14-0.323,0.289-0.679,0.438-1.059C16.151,11.321,16.299,11.677,16.439,12z M11,7c0-1.103,0.897-2,2-2s2,0.897,2,2 c0,1.241-1.01,3.672-1.629,5h-0.742C11.912,10.455,11,8.121,11,7z M9.121,27l0.529-9h12.699l0.529,9H9.121z M22.232,16H9.768 l0.118-2h12.228L22.232,16z"/></svg>
-                        ]
+                    EventFire[modals, "MessageBox", <|
+                        "Promise" -> promise, 
+                        "title" -> "Make cell invisible", 
+                        "message" -> "Invisible cell can only be changed in Expert mode",
+                        "type" -> "question",
+                        "buttons" -> {"Make", "Cancel"}
                     |>];
 
                 ];

@@ -34,7 +34,7 @@ Component[OptionsPattern[]] := With[{
             core['<ModalController/>'] = async (args, env) => {
                 const opts = await interpretate(args[0], env);
                 let name = 'filename';
-                if (opts?.filters[0]) {name = name + '.' + pts.filters[0].extensions}
+                if (opts?.filters[0]) {name = name + '.' + opts.filters[0].extensions}
                 const res = window.prompt(opts.title, name);
                 return res;
             }

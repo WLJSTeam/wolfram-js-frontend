@@ -102,40 +102,42 @@ recreateNotebook[modals_] := With[{n = nb`NotebookObj[]},
             cli = $Client
           }, 
 
-            With[{request = CreateUUID[]},
-              EventHandler[request, {
-                  "Success" -> Function[Null, 
+            With[{promise = Promise[]},
+              Then[promise, Function[result, Module[{},
+                If[TrueQ[result], 
+                  EventRemove[cloned];
+                  n["AskedToExtend"] = True;
+                  n["ShowToolbox"] = True;
+                  EventRemove[request];
+                  transformNotebook[n, cli];
+                  Return[];
+                ];
+
+                Switch[result["response"],
+                  0,
                       EventRemove[cloned];
                       n["AskedToExtend"] = True;
                       n["ShowToolbox"] = True;
                       EventRemove[request];
                       transformNotebook[n, cli];
                       
-                  ],
+                  ,
                 
-                  _ -> Function[Null,
+                  _,
                       EventRemove[cloned];
                       EventRemove[request];
                       Echo["Cannecled"];
                       n["AskedToExtend"] = True;
                       n["ShowToolbox"] = True;
-                  ]
-              }];
+                ];
+              ] ] ];
             
-              EventFire[modals, "GenericAskTemplate", <|
-                  "Callback" -> request, 
-                  "Client" -> cli,
-                  "Title" -> "Create a proper notebook?", 
-                  "Content" -> "It will be transformed into a quick note",
-                  "SVGIcon" -> With[{},
-                      <svg class="mr-2 h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" >
-                        <rect width="24" height="24" fill="none"/>
-                        <path d="M13.8284 13.8284L20.8995 20.8995M20.8995 20.8995L20.7816 15.1248M20.8995 20.8995L15.1248 20.7816" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M9.89948 13.8284L2.82841 20.8995M2.82841 20.8995L8.60312 20.7816M2.82841 20.8995L2.94626 15.1248" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M13.8284 9.8995L20.8995 2.82843M20.8995 2.82843L15.1248 2.94629M20.8995 2.82843L20.7816 8.60314" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M9.89947 9.89951L2.8284 2.82844M2.8284 2.82844L2.94626 8.60315M2.8284 2.82844L8.60311 2.94629" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    ]
+              EventFire[modals, "MessageBox", <|
+                  "Promise" -> promise, 
+                  "title" -> "Transform to a notebook", 
+                  "message" -> "This form can be transformed to a notebook",
+                  "type" -> "question",
+                  "buttons" -> {"Transform", "Cancel"}
               |>];
 
             ];          
@@ -214,7 +216,6 @@ App[request_] := Module[{localExtensions}, With[{
     EventHandler[OnLoad, Function[Null,
       cachedClient = $Client;
       EventRemove[OnLoad];
-      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->Null, "Env"->env, "Controls"->GlobalControls, "PromptWindowQ"->True|>];
 
       With[{socket = EventClone[$Client]},
         EventHandler[socket, {"Closed" -> Function[Null,

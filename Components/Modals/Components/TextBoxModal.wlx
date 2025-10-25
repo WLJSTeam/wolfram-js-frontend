@@ -6,7 +6,7 @@ Window[OptionsPattern[]] := With[{promise = OptionValue["Data"]["Promise"], Titl
       EventHandler[Uid, {
         "Success" -> Function[text,
             EventFire[loader, "Remove", <|"Client" -> client|>];
-            EventFire[promise, Resolve, text];
+            EventFire[promise, Resolve, URLDecode[text]];
         ],
         
         "Cancelled" -> Function[Null,
@@ -49,7 +49,7 @@ Window[OptionsPattern[]] := With[{promise = OptionValue["Data"]["Promise"], Titl
                         document.addEventListener('keydown', keyListener);
                         const submit = (el) => {
                             document.removeEventListener('keydown', keyListener);
-                            server.io.fire('<Uid/>', text.value.trim(), 'Success');
+                            server.io.fire('<Uid/>', encodeURIComponent(text.value.trim()), 'Success');
                         };
 
                         const close = () => {
@@ -103,9 +103,7 @@ Component[OptionsPattern[]] := With[{
         <script type="module">
             core['<ModalController/>'] = async (args, env) => {
                 const assoc = await interpretate(args[0], env);
-                const title = await interpretate(assoc.title, {});
-                const default = await interpretate(assoc.default, {});
-                const res = window.prompt(title, default);
+                const res = window.prompt(assoc.title, assoc['default']);
                 return res;
             }
         </script>    

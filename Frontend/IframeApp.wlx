@@ -103,15 +103,20 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
       With[{
           p = Promise[]
       },
-          EventFire[ModalController, "RequestPathToSave", <|
+          EventFire[ModalController, "SaveDialog", <|
               "Promise"->p,
-              "Title"->"Notebook",
-              "Ext"->"wln",
-              "Client"->client
+              "title"->"Save notebook",
+              "properties"->{"createDirectory", "dontAddToRecent"},
+              "filters"->{<|"extensions"->"wln", "name"->"WLJS Notebook"|>}
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = StringJoin[result, ".wln"]},
+              Module[{filename = If[StringQ[result], result, result["filePath"]] },
+                  If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
+                    Echo["Cancelled saving"]; Echo[result];
+                    Return[];
+                  ];
+
                   If[filename === ".wln", filename = StringJoin[name, filename] ];
                   If[DirectoryName[filename] === "", filename = FileNameJoin[{path, filename}] ];
    

@@ -183,15 +183,19 @@ printPDF[client_, ModalController_, log_] := Module[{spinner = Notifications`Spi
       With[{
           p = Promise[]
       },
-          EventFire[ModalController, "RequestPathToSave", <|
+          EventFire[ModalController, "SaveDialog", <|
               "Promise"->p,
-              "Title"->"Printed notebook",
-              "Ext"->"pdf",
-              "Client"->client
+              "title"->"Save PDF",
+              "properties"->{"createDirectory", "dontAddToRecent"},
+              "filters"->{<|"extensions"->"pdf", "name"->"PDF Document"|>}
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = result, file},
+              Module[{filename = If[StringQ[result], result, result["filePath"]], file},
+                  If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
+                    Return[];
+                  ];
+
                   If[!StringMatchQ[filename, __~~".pdf"],  filename = StringJoin[filename, ".pdf"]];
                   If[filename === ".pdf", filename = StringJoin[name, filename] ];
                   file = OpenWrite[filename, BinaryFormat->True];
