@@ -228,7 +228,7 @@ EventHandler[Secret, {"Load" -> Function[Null,
             </div> 
 
             <StringRiffle>
-                <Checkbox Label={"Expert mode"} Event={controller} Topic={"ExpertMode"} Description={"Shows invisible cells"} Checked={settings["ExpertMode"]}/>
+                <Checkbox Label={"Expert mode"} Event={controller} Topic={"ExpertMode"} Description={"Shows invisible cells and inspect button"} Checked={settings["ExpertMode"]}/>
             </StringRiffle>
 
             <StringRiffle>

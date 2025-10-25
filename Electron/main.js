@@ -1832,8 +1832,7 @@ function create_window(opts, cbk = () => {}) {
                     actions.cut(),
                     actions.copy(),
                     actions.paste(),
-                    actions.separator(),
-                    actions.inspect()
+                    ...(server.frontend.ExpertMode ? [actions.separator(), actions.inspect()] : [])
                 ]
             });
         }
