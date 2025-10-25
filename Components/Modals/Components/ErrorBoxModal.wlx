@@ -1,3 +1,5 @@
+ModalController = Unique["modalControllerBox"];
+
 Component[OptionsPattern[]] := With[{
     Port = OptionValue["Port"],
     Controller1 = CreateUUID[],
@@ -7,30 +9,27 @@ Component[OptionsPattern[]] := With[{
 }, Module[{},
     EventHandler[Port, {
         "ErrorBox" -> Function[data,
-            EventFire[Controller1, "Request", <|
-                "Client"->If[SymbolQ[cli], Global`$Client, cli], "Options"->KeyDrop[data, {"Promise"}]
-            |>];
+            WebUISubmit[ModalController[KeyDrop[data, {"Promise"}]], If[SymbolQ[cli], Global`$Client, cli]];
         ]
     }];
 
 
     If[electronQ,
-        <WebUIJSBind Event={Controller1}>
-            this.on('Request', async (payload) => {
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
                 const api = window.electronAPI || window.iframeAPI;
-                const args = await interpretate(data, {hold:true});
-                const opts = await interpretate(args.Options, {});
+                const opts = await interpretate(args[0], env);
                 api.showErrorBox(opts, ()=>{})
-            })
-        </WebUIJSBind>
+            }
+        </script>
     ,
-        <WebUIJSBind Event={Controller1}>
-            this.on('Request', async (payload, env) => {
-                const args = await interpretate(data, {hold:true});
-                const opts = await interpretate(args.Options, {});
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const api = window.electronAPI || window.iframeAPI;
+                const opts = await interpretate(args[0], env);
                 if (opts.content) alert(opts.title + ': ' + opts.content); else alert(opts.title);
-            })
-        </WebUIJSBind>
+            }            
+        </script>
     ]
 ]];
 

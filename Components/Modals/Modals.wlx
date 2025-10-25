@@ -4,22 +4,13 @@ OpenDialogModal        = ImportComponent["Components/OpenDialogModal.wlx"];
 MessageBoxModal        = ImportComponent["Components/MessageBoxModal.wlx"];
 ErrorBoxModal          = ImportComponent["Components/ErrorBoxModal.wlx"];
 TextBoxModal           = ImportComponent["Components/TextBoxModal.wlx"];
-SaveDialogModal        = ImportComponent["Components/SaveDialogModal.wlx"];
-SaveDialogModal        = ImportComponent["Components/SaveDialogModal.wlx"];
+SelectBoxModal         = ImportComponent["Components/SelectBoxModal.wlx"];
 
 Component[OptionsPattern[]] := With[{
     electronQ = OptionValue["ElectronQ"], port = OptionValue["ModalsPort"], 
     cli = OptionValue["CachedClient"]
 },
 
-    (*With[{socket = EventClone[cli]},
-        EventHandler[socket, {"Closed" -> Function[Null,
-            EventRemove[socket];
-            ReleaseHold /@ instances;
-            ClearAll[instances];
-            Echo["Modals >> Destroyed"];
-        ]}];
-    ];*)
 
     EventHandler[port, {"ElectronQ" -> (electronQ)&}];
 

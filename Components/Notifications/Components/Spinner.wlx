@@ -1,6 +1,6 @@
 If[DownValues[Notifications`Spinner(*`*)] === {}, CreateType[Notifications`Spinner(*`*), init, {"Topic"->"Title", "Promise"->Null, "Body"->"Message", "DOM"->Null}] ];
 
-(*/* Might be an issue since this component it imported multiple times, could rewrite definitions */*)
+(*/* Might be an issue since this component it imported multiple times (just dont do that!!!), could rewrite definitions */*)
 
 Echo["Notifications >> Created spinner notifications type"];
 

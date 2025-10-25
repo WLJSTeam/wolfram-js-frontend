@@ -198,34 +198,32 @@ checkWSLink[notebook_, client_, event_String, log_String, p_:Null] := With[{
 
 requestKernel[notebook_, kernels_, modals_, client_, Success_] := With[{},
     Print["requesting modal...."];
-    With[{request = CreateUUID[]},
-        EventHandler[request, {
-            "Success" -> Function[data,
-                notebook["Evaluator"] = data["Container"];
-
-                If[TrueQ[data["ContainerReadyQ"]],
+    With[{promise = Promise[]},
+        Then[promise, Function[result, 
+          Echo[StringJoin["Picked kernel >> ", ToString[result]]];
+          Switch[result,
+            n_Integer, 
+             With[{k = ReleaseHold[kernels][[n]]},
+                
+                If[TrueQ[k["ContainerReadyQ"]],
+                    notebook["Evaluator"] = k["Container"];
                     EventFire[notebook, "AquairedKernel", True];
                     Success[Null];
                 ,
                     WebUISubmit[Alert["Initialization is not complete"], client];
                 ];
-                
-                EventRemove[request];
-            ],
+             ];
+            ,
             
-            "Error" -> Function[error,
-                        WebUISubmit[Alert[error], client];
-                        EventRemove[request];
-            ],
-            
-            _ -> Function[Null,
-                        Print["Cancelled"];
-                        EventRemove[request];
-            ]
-        }];
+            _,
+                Print["Cancelled"]; 
+        ] ] ];
         
         Print["fire!"];
-        EventFire[modals, "SuggestKernel", <|"Client"->client, "Callback"->request, "Notebook"->notebook, "Kernels"->kernels|>];
+        EventFire[modals, "SelectBox", <|
+            "Promise"->promise, "message"->"Choose an evaluation kernel to be assigned", 
+            "title"->"Kernel list", "list"->Map[Function[k, k["Name"]], ReleaseHold[kernels]]
+        |>];
     ];
 ];
 

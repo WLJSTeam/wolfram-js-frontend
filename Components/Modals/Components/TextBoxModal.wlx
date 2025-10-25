@@ -69,6 +69,8 @@ Window[OptionsPattern[]] := With[{promise = OptionValue["Data"]["Promise"], Titl
 
 Options[Window] = {"Channel" -> "", "Data" -> <| |>};
 
+ModalController = Unique["modalControllerBox"];
+
 Component[OptionsPattern[]] := With[{
     Port = OptionValue["Port"], Channel = CreateUUID[], LazyLoad = CreateUUID[],
     electronQ = OptionValue["ElectronQ"],
@@ -87,27 +89,24 @@ Component[OptionsPattern[]] := With[{
             <Window Channel={Channel} Data={WebUILazyLoadDataProvided}/>
         </WebUILazyLoad>    
     ,
-      With[{Controller1 = CreateUUID[]},
+      With[{},
         EventHandler[Port, {
-            "TextBox" -> Function[data, With[{Controller2 = CreateUUID[]},
-                EventHandler[Controller2, Function[text,
-                    EventRemove[Controller2];
-                    EventFire[data["Promise"], Resolve, text];
-                ]];
-                EventFire[Controller1, "Request", Join[KeyDrop[data, {"Promise"}], <|"Controller" -> Controller2, "Client" -> If[SymbolQ[cli], Global`$Client, cli]|>]];
+            "TextBox" -> Function[data, With[{},
+                Then[WebUIFetch[ModalController[KeyDrop[data, {"Promise"}]], If[SymbolQ[cli], Global`$Client, cli], "Format"->"JSON"], Function[result,
+                    EventFire[data["Promise"], Resolve, result];
+                ]];                
             ] ]
         }];
 
-        <WebUIJSBind Event={Controller1}>
-            this.on('Request', async (payload, env) => {
-                const args = await interpretate(data, {hold:true});
-                const title = await interpretate(args.title, {});
-                const default = await interpretate(args.default, {});
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const assoc = await interpretate(args[0], env);
+                const title = await interpretate(assoc.title, {});
+                const default = await interpretate(assoc.default, {});
                 const res = window.prompt(title, default);
-                const ctl = await interpretate(args.Controller, {});
-                server.io.fire(ctl, res);
-            })
-        </WebUIJSBind>    
+                return res;
+            }
+        </script>    
       ]
     ]
 ]];
