@@ -238,7 +238,7 @@ ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
 
 defaultHomeFolder = If[KeyExistsQ[$Env, "folder"], $Env["folder"], Join[<|"Home"->AppExtensions`DefaultDocumentsDir (*`*)|>, settings]["Home"] ];
 
-ExtensionMenuItems = <|"file"->{}, "misc"->{}, "view"->{}, "edit"->{}|>;
+ExtensionMenuItems = <|"file"->{}, "misc"->{}, "kernel"->{}, "view"->{}, "edit"->{}|>;
 
 Map[Function[item, 
   If[KeyExistsQ[item, "section"], 

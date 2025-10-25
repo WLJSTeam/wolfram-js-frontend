@@ -1,6 +1,6 @@
 
 Component[OptionsPattern[]] := With[{
-  Plugins = Join[<|"view"->{}, "misc"->{}, "edit"->{}, "file"->{}|>, OptionValue["Plugins"]],
+  Plugins = Join[<|"view"->{}, "misc"->{}, "edit"->{}, "kernel"->{}, "file"->{}|>, OptionValue["Plugins"]],
   Controls = OptionValue["Controls"],
   Class = OptionValue["Class"],
   Style = OptionValue["Style"]
@@ -102,8 +102,8 @@ LayoutMisc =
           const exts = [['file', <LayoutFile/>], ['view', <LayoutView/>], ['evaluation', <LayoutEvaluation/>], ['misc', <LayoutMisc/>]];
           for (const ext of exts) {
                const hamburger = document.getElementById('fake-menu-'+ext[0]);
-               hamburger.addEventListener('click', () => {
-                 const res = await api.createMenu(ext[1].map((el, i) => {
+               hamburger.addEventListener('click', async () => {
+                 const res = await window.electronAPI.createMenu(ext[1].map((el, i) => {
                   if (el.type == 'separator') return {type: 'separator'};
                   return {label: el.label, ref: String(i)}
                  }));
