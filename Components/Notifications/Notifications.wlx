@@ -39,7 +39,8 @@ Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
     JSBinds = CreateUUID[],
     listController = CreateUUID[],
     client = OptionValue["CachedClient"],
-    evCloned = EventClone[OptionValue["MessagePort"]]
+    evCloned = EventClone[OptionValue["MessagePort"]],
+    electronQ = OptionValue["ElectronQ"]
 },
     EventHandler[EventClone[globalControls], {"ShowMessages" -> Function[Null,
         With[{},
@@ -64,8 +65,6 @@ Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
             ]
         ], 
 
-
-
         _Notifications`Rumble (*`*) -> Function[Null,
             With[{},
                 WebUISubmit[Hold[HapticFeedback], client]
@@ -88,10 +87,14 @@ Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
         ],
 
         any_?Filter   :> Function[data,
-            With[{g = GenericTemplate[any, data]},
-                EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Generic"|>, g] ];
-                buffer = Append[buffer, <|"Type"->any, "Message" -> data, "Date"->Now|>];
-                If[lastClient === Null, assignClient[lastClient, client, buffer, evCloned]];      
+            If[electronQ && any === "Error",
+                EventFire[Controller, "ErrorBox", <|"Client"->client, "Data"->data|> ];
+            ,
+                With[{g = GenericTemplate[any, data]},
+                    EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Generic"|>, g] ];
+                    buffer = Append[buffer, <|"Type"->any, "Message" -> data, "Date"->Now|>];
+                    If[lastClient === Null, assignClient[lastClient, client, buffer, evCloned]];      
+                ]
             ]
         ]
     }];

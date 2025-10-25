@@ -98,45 +98,7 @@ App[request_] := With[{
         AppClass = If[ElectronQ[request], "", "dark:bg-gray-800"],
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
         
-        Transparency = If[KeyExistsQ[settings, "Transparency"], If[settings["Transparency"], "true", "false"], "false"],
-
-        FakeMenu = 
-          Switch[If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
-            "Browser",
-              With[{middleware = CreateUUID[]},
-                EventHandler[middleware, {
-                  "NewNotebook" -> Function[Null,
-                    EventFire[GlobalControls, "NewNotebook", True]
-                  ],
-
-                  "LocateExamples" -> Function[Null,
-                    WebUILocation[StringJoin["/folder/", URLEncode[AppExtensions`DemosDir (*`*)]], $Client, "Target"->_];
-                  ],
-
-                  "Acknowledgments" -> Function[Null,
-                    WebUILocation[StringJoin["/acknowledgments", ""], $Client, "Target"->_];
-                  ],
-
-                  "Exit" -> Function[Null,
-                    Exit[0];
-                  ],
-
-                  any_String :> (EventFire[GlobalControls, any, #]&)
-                }];
-              
-
-                BrowserMenu["Event" -> middleware, "Plugins"->ExtensionMenuItems, "Navigator"->(If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"])]
-              ]
-            ,
-
-            "OSX",
-              ""
-            ,
-
-            _,
-              FakeMenu["Plugins" -> ExtensionMenuItems, "Controls"-> GlobalControls,  "Class"->"ml-1", "Style"->""]
-
-          ]
+        Transparency = If[KeyExistsQ[settings, "Transparency"], If[settings["Transparency"], "true", "false"], "false"]   
     },
 
     (* /* collect any runtime changes  */ *)
@@ -144,7 +106,6 @@ App[request_] := With[{
 
     EventHandler[OnLoad, Function[Null,
       cachedClient = $Client;
-      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env|>];
 
       With[{socket = EventClone[$Client]},
         EventHandler[socket, {"Closed" -> Function[Null,
@@ -158,16 +119,6 @@ App[request_] := With[{
           EventFire[AppEvent, "AppUIDestroy", True];
         ]}]
       ];
-
-      If[settings["FirstLaunch"] =!= False,
-        settings = Join[settings, <|"FirstLaunch" -> False|>];
-        storeSettings[settings];              
-      ];
-
-      If[env["AppJSON", "version"] =!= settings["CurrentVersion"], With[{version = env["AppJSON", "version"]},
-        settings = Join[settings, <|"CurrentVersion" -> version|>];
-        storeSettings[settings];
-      ] ];
 
       With[{msg = ImportString[Protocol, "RawJSON"]},
         Echo[msg];
