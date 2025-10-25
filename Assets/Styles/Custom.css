@@ -126,7 +126,7 @@ input::selection {
 
 @media (min-width: 768px) {
   .md\:-ml-70 {
-    margin-left: -16rem !important;
+    margin-left: calc(-1 * var(--system-main-padding-left)) !important;
   }
 
 }

@@ -232,7 +232,7 @@ Component[OptionsPattern[]] := With[{
     ]
 ]
 
-Options[Component] = {"Parameters"->Null, "Window"->"", "AppEvents"->"blacksheep", "Kernels"->{}, "Modals"->"", "Controls" ->"", "ControlsPort"->"", "Notebook"->Null, "Event"->"blackhole", "Messager"->"blackout", "Secret" :> CreateUUID[], "ExtensionTemplateWrapper"-> sequenceIdentity, "ExtensionTemplateInjection" -> emptyStringFunction, "ExternalEventHandlers" -> Null}
+Options[Component] = {"Parameters"->Null, "ElectronQ" -> False, "Window"->"", "AppEvents"->"blacksheep", "Kernels"->{}, "Modals"->"", "Controls" ->"", "ControlsPort"->"", "Notebook"->Null, "Event"->"blackhole", "Messager"->"blackout", "Secret" :> CreateUUID[], "ExtensionTemplateWrapper"-> sequenceIdentity, "ExtensionTemplateInjection" -> emptyStringFunction, "ExternalEventHandlers" -> Null}
 Options[Script] = {"ExtensionTemplateInjection" -> emptyStringFunction}
 
 emptyStringFunction[x__] := ""

@@ -66,47 +66,6 @@ timedSaveButton[client_, localController_, controls_, parameters_] := With[{clon
   ]
 ]
 
-(* /*
-rename[cli_, path_, modals_, Controls_] := (
-  With[{request = CreateUUID[]},
-    With[{splitted = FileNameSplit[path], decoded = path},
-      EventHandler[request, {
-        "Success" -> Function[name,
-          EventRemove[request];
-          If[Length[splitted] == 1,
-            If[DirectoryQ[decoded],
-              RenameDirectory[decoded, name];
-            ,
-              RenameFile[decoded, name];
-              Then[EventFire[Controls, "RenameFile", {decoded, name}], Function[Null,
-                WebUISubmit[UILocation[URLEncode[name] ], cli];
-              ]];
-            ];
-          ,
-            If[DirectoryQ[decoded],
-              RenameDirectory[decoded, FileNameJoin[Flatten @ {Drop[splitted,-1], name} ]];
-            ,
-              RenameFile[decoded, FileNameJoin[Flatten @ {Drop[splitted,-1], name} ]];
-
-              Then[EventFire[Controls, "RenameFile", {decoded, FileNameJoin[Flatten @ {Drop[splitted,-1], name} ]}], Function[Null,
-                WebUISubmit[UILocation[URLEncode[ FileNameJoin[Flatten @ {Drop[splitted,-1], name} ] ]], cli];
-              ]];
-            ];       
-          ];
-        ],
-
-        _ -> Function[Null,
-          Echo["Cancelled or did not managed to perform"];
-          EventRemove[request];
-        ]
-      }];
-
-      EventFire[modals, "TextField", <|"Client"->cli, "Callback"->request, "Title"->"Enter new name", "String"-> Last[splitted]|>];
-    ];
-  ];
-);
-
-*/ *)
 
 Component[OptionsPattern[]] := With[{
   Path = OptionValue["Path"], 

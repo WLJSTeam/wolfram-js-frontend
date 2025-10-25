@@ -1,0 +1,56 @@
+ModalController = Unique["modalControllerBox"];
+
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
+Component[OptionsPattern[]] := With[{
+    Port = OptionValue["Port"],
+    electronQ = OptionValue["ElectronQ"],
+    destructor = OptionValue["Destructor"],
+    cli = OptionValue["Client"]
+}, Module[{},
+    EventHandler[Port, {
+        "MessageBox" -> Function[data, With[{},
+            Then[WebUIFetch[ModalController[KeyDrop[data, {"Promise", "Client"}]], If[SymbolQ[cli], Global`$Client, cli], "Format"->"RawJSON"], Function[result,
+                EventFire[data["Promise"], Resolve, result];
+            ]];
+        ] ]
+    }];
+
+
+    If[electronQ,
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const api = window.electronAPI || window.iframeAPI;
+                const opts = await interpretate(args[0], env);
+                const p = new Deferred();
+                if (opts.contextq && window.electronAPI) {
+                    const res = await api.createMenu(opts.buttons.map((el, index)=>{
+                        return {label: el, ref: String(index)}
+                    }));
+                    if (res) {
+                        p.resolve({response: parseInt(res)})
+                    } else {
+                        p.resolve({response: opts.cancelId})
+                    }
+                } else {
+                    api.showMessageBox(opts, (result) => {
+                        p.resolve(result);
+                    });
+                }
+                return await p.promise;
+            }
+        </script>
+    ,
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const opts = await interpretate(args[0], env);
+                const res = window.confirm(opts.confirmMessage || opts.message);
+                return res;
+            }
+        </script>
+    ]
+]];
+
+Options[Component] = {"Port" -> "", "Client" -> "", "ElectronQ" -> "", "Destructor"->Null}
+
+Component

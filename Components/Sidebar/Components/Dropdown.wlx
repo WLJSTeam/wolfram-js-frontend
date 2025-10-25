@@ -1,4 +1,5 @@
 Component[OptionsPattern[]] := With[{Filename = URLEncode[OptionValue["Filename"]], Parameters = OptionValue["Parameters"], Color = (If[StringQ[#], #, "teal"]&) @ (OptionValue["Parameters"]["AccentColor"]), Uid = CreateUUID[], Port = OptionValue["Port"]},
+
   With[{Layout = 
     If[!DirectoryQ[OptionValue["Filename"]],
           {
