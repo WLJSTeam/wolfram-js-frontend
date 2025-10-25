@@ -144,6 +144,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
       cbk(result);
     });
   },
+
+  createMenu: async (params) => {
+    return await ipcRenderer.invoke('createMenu', params);
+  },
   
   
   searchText: (searchText, direction) => ipcRenderer.send('search-text', { searchText, direction }),

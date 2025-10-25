@@ -569,6 +569,8 @@ Component[OptionsPattern[]] := With[{
     log = OptionValue["Messanger"],
     kernels = OptionValue["Kernels"],
 
+    electronQ = And[OptionValue["ElectronQ"], !OptionValue["IframeQ"]],
+
     appEvents = OptionValue["AppEvents"],
 
     ExtensionTemplateWrapper = OptionValue["ExtensionTemplateWrapper"],  
@@ -961,7 +963,7 @@ Component[OptionsPattern[]] := With[{
             </ExtensionTemplateWrapper>
             <ExtensionTemplateInjection Template={"Notebook-Epilog"} Notebook={notebook} Event={secret} />
 
-            <CellDropdown Parameters={parameters} Messager={log} Event={secret} ExtesionInjector={ExtensionTemplateInjection}/>
+            <CellDropdown ElectronQ={electronQ} Parameters={parameters} Messager={log} Event={secret} ExtesionInjector={ExtensionTemplateInjection}/>
             <ElectronBinds Event={secret} Controls={controller}/>
 
             <ExtensionTemplateInjection Template={"Footer"} Modals={modals} Messager={log} Notebook={notebook} Event={secret} Controls={controller}/>

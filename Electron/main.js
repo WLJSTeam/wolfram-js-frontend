@@ -37,6 +37,18 @@ const { IS_WINDOWS_11, WIN10 } = require('mica-electron');
 const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
 
+class Deferred {
+  promise = {}
+  reject = {}
+  resolve = {}          
+
+  constructor() {
+    this.promise = new Promise((resolve, reject)=> {
+      this.reject = reject;
+      this.resolve = resolve;
+    });
+  }
+} 
 
 let trackpadUtils = {
     onForceClick: () => {},
@@ -2284,6 +2296,33 @@ app.whenReady().then(() => {
 
         return promiseBuf
     });
+
+
+    ipcMain.handle('createMenu', async (e, args) => {
+        //const w = BrowserWindow.fromWebContents(e.sender);
+        const p = new Deferred();
+        let closedQ = false;
+
+        const menu = Menu.buildFromTemplate(args.map((assoc) => {
+            const ref = assoc.ref;
+            if (!ref) {
+                return assoc;
+            }
+            return {
+                ...assoc,
+                click: () => {
+                    p.resolve(ref);
+                    closedQ = true;
+                }
+            }
+        }));
+        
+        menu.popup({callback: () => {
+            if (!closedQ) p.resolve(false);
+        }});
+
+        return await p.promise;
+    })
 
     ipcMain.on('install-cli', () => {
         //trackpadUtils.triggerFeedback();
