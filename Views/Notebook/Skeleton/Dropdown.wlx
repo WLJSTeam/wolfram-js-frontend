@@ -42,7 +42,6 @@ Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color 
                 </svg>
                   Project to a window
                 </button>
-                <ExtesionInjector Template={"CellDropdown-Section-1"} Messager={Messager} Event={Event}/>
             </div>
             ,
               <div class="py-0 px-2" role="none">
@@ -53,7 +52,6 @@ Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color 
                 </svg>
                   Make initialization cell
                 </button>
-                <ExtesionInjector Template={"CellDropdown-Section-2"} Messager={Messager} Event={Event}/>
               </div>
     ,          
             <div class="py-0 px-2" role="none">

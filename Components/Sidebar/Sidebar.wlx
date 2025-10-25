@@ -1,17 +1,20 @@
 Sidebar = ImportComponent["Body.wlx"];
+ElectronMenuComponent = ImportComponent["Components/ElectronMenuComponent.wlx"];
 
-Controller["Delete", sidebarId_, ___] := Function[name,
+Controller["Delete", sidebarId_, __, Secret_] := Function[name,
   With[{p = URLDecode[name]},
     If[DirectoryQ[p], DeleteDirectory[p, DeleteContents->True], DeleteFile[p]];
   ];
   EventFire[sidebarId, "Refresh", <|"Client"->$Client|>];
+  EventFire[Secret, "Change", <|"Client"->$Client|>];
 ];
 
-Controller["Duplicate", sidebarId_, ___] := Function[name,
+Controller["Duplicate", sidebarId_, __, Secret_] := Function[name,
   With[{decoded = URLDecode[name]},
     CopyFile[decoded, FileNameJoin[{DirectoryName[decoded], StringJoin[FileBaseName[decoded], "-dup", ".", FileExtension[decoded]]}]];
   ];
   EventFire[sidebarId, "Refresh", <|"Client"->$Client|>];
+  EventFire[Secret, "Change", <|"Client"->$Client|>];
 ];
 
 Controller["Reveal", __] := Function[name,
@@ -22,7 +25,7 @@ Controller["Download", __] := Function[name,
   WebUISubmit[Global`UIOpenDownloadWindow[name, FileNameTake[name // URLDecode]] (*`*), $Client];
 ];
 
-Controller["Rename", sidebarId_, modals_, path_, Controls_] := Function[dname,
+Controller["Rename", sidebarId_, modals_, path_, Controls_, Secret_] := Function[dname,
   With[{decoded = URLDecode[dname]},
     With[{splitted = FileNameSplit[decoded], promise = Promise[]},
       Then[promise, Function[name,
@@ -53,7 +56,8 @@ Controller["Rename", sidebarId_, modals_, path_, Controls_] := Function[dname,
                 ];
               ]];
             ];
-            EventFire[sidebarId, "Refresh", <|"Client"->$Client|>];        
+            EventFire[sidebarId, "Refresh", <|"Client"->$Client|>];   
+            EventFire[Secret, "Change", <|"Client"->$Client|>];     
           ];
         ]
       ]];
@@ -74,7 +78,9 @@ Component[OptionsPattern[]] :=  Module[{timer, cached},
 With[{
     SidebarId = CreateUUID[], 
     Secret = OptionValue["Secret"], 
+    electronQ = OptionValue["ElectronQ"], 
     Path = OptionValue["Path"], 
+    navId = CreateUUID[],
     Controls = OptionValue["Controls"],
     Icons     = OptionValue["Icons"],
     RawPath   = OptionValue["RawPath"],
@@ -106,11 +112,12 @@ With[{
             cached = files;
             Echo["Refresh sidebar!"];
             EventFire[SidebarId, "Refresh", <|"Client"->$Client|>]; 
+            EventFire[Secret, "Change", <|"Client"->$Client|>];
           ]
         ]
       ];
     ],
-    FileOperate[any_] :> Controller[any, SidebarId, modals, Path, Controls]
+    FileOperate[any_] :> Controller[any, SidebarId, modals, Path, Controls, Secret]
   }];
 
   EventHandler[Button1Id, Function[Null,
@@ -127,6 +134,7 @@ With[{
                 CreateDirectory[FileNameJoin[{path, StringTrim[name]}]];
               ];
               EventFire[SidebarId, "Refresh", <|"Client"->$Client|>]; 
+              EventFire[Secret, "Change", <|"Client"->$Client|>];
             ];
           ];
 
@@ -165,11 +173,17 @@ With[{
     <WebUIEventListener Type={"click"} Id={Button2Id} Event={Button2Id} />
   ,
     <WebUIRefresh Event={SidebarId} Class={"flex grow flex-col gap-y-5 overflow-y-auto px-4 sc-b"}>
-      <Sidebar Port={Secret} RawPath={RawPath} Icons={Icons} Parameters={Parameters} Secret={"blackhole"} Path={Path} />
+      <Sidebar Id={navId} ElectronQ={electronQ} Port={Secret} RawPath={RawPath} Icons={Icons} Parameters={Parameters} Secret={"blackhole"} Path={Path} />
     </WebUIRefresh>
 
   ,
-    <ExtensionTemplates Template={"AppSidebarBottom"} Path={Path} Controls={Controls} Modals={modals} AppEvents={AppEvent} MessagePort={Messanger}/>
+    <ExtensionTemplates Template={"AppSidebarBottom"} Path={Path} Controls={Controls} Modals={modals} AppEvents={AppEvent} MessagePort={Messanger}/> 
+  ,  
+    If[electronQ,
+      <ElectronMenuComponent NavID={navId} Port={Secret}/>
+    ,
+      ""
+    ]
   ,
     <script type="module">
       core.UIOpenExplorer = async (args, env) => {
@@ -205,6 +219,6 @@ With[{
   } // Flatten // StringRiffle
 ] ]
 
-Options[Component] = {"RawPath"->"", "Icons"->"", "Messanger"->"", "ExtensionTemplates" -> {}, "AppEvents"->"", "Secret"->"", "Path"->"", "Controls"->"", "Parameters"->"", "Modals"->""}
+Options[Component] = {"ElectronQ"->False, "RawPath"->"", "Icons"->"", "Messanger"->"", "ExtensionTemplates" -> {}, "AppEvents"->"", "Secret"->"", "Path"->"", "Controls"->"", "Parameters"->"", "Modals"->""}
 
 Component
