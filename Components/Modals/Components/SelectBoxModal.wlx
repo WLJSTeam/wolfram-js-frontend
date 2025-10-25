@@ -138,7 +138,8 @@ Component[OptionsPattern[]] := With[{
                     "buttons" -> Join[data["list"], {"Cancel"}],
                     "type" -> Lookup[data, "type", "question"],
                     "noLink" -> False,
-                    "cancelId" -> Length[data["list"]]
+                    "cancelId" -> Length[data["list"]],
+                    "contextq" -> Lookup[data, "contextMenu", False]
                 |>];
               
 

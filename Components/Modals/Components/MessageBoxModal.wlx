@@ -23,9 +23,20 @@ Component[OptionsPattern[]] := With[{
                 const api = window.electronAPI || window.iframeAPI;
                 const opts = await interpretate(args[0], env);
                 const p = new Deferred();
-                api.showMessageBox(opts, (result) => {
-                    p.resolve(result);
-                });
+                if (opts.contextq && window.electronAPI) {
+                    const res = await api.createMenu(opts.buttons.map((el, index)=>{
+                        return {label: el, ref: String(index)}
+                    }));
+                    if (res) {
+                        p.resolve({response: parseInt(res)})
+                    } else {
+                        p.resolve({response: opts.cancelId})
+                    }
+                } else {
+                    api.showMessageBox(opts, (result) => {
+                        p.resolve(result);
+                    });
+                }
                 return await p.promise;
             }
         </script>
