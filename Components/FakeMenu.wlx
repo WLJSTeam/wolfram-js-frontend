@@ -50,8 +50,8 @@ LayoutView = ExportString[{
     <|"label"->"Reload page", "name"->"reload"|>,
     <|"label"->"Always on top", "name"->"OnTop"|>,
     <|"type"->"separator"|>,
-    <|"label"->"Show/Hide cell", "name"->"togglecells"|>,
-    <|"label"->"Clear outputs", "name"->"clearoutputs"|>,
+    <|"label"->"Show/Hide cell", "name"->"togglecells", "a"->"Alt+2"|>,
+    <|"label"->"Clear outputs", "name"->"clearoutputs", "a"->"Alt+u"|>,
     <|"type"->"separator"|>,
     <|"label"->"Zoom in", "name"->"zoomIn"|>,
     <|"label"->"Zoom out", "name"->"zoomOut"|>
@@ -61,8 +61,8 @@ LayoutView = ExportString[{
 ,
 LayoutEvaluation = ExportString[{
   {
-    <|"label"->"Abort", "name"->"abort"|>,
-    <|"label"->"Evaluate initialization cells", "name"->"evalInit"|>,
+    <|"label"->"Abort", "name"->"abort", "a"->"Alt+."|>,
+    <|"label"->"Evaluate initialization cells", "name"->"evalInit", "a"->"Alt+i"|>,
     <|"type"->"separator"|>,
     <|"label"->"New Kernel", "name"->"evalInit"|>,
     <|"label"->"Restart Kernel", "name"->"restartkernels"|>,
