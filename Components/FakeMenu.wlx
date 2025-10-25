@@ -7,11 +7,11 @@ Component[OptionsPattern[]] := With[{
 },
   With[{LayoutFile = ExportString[{
     {
-    <|"label"->"New notebook", "name"->"newshort"|>,
-    <|"label"->"Open File", "name"->"openFile"|>,
+    <|"label"->"New notebook", "name"->"newshort", "a"->"Ctrl+N"|>,
+    <|"label"->"Open File", "name"->"openFile", "a"->"Ctrl+O"|>,
     <|"type"->"separator"|>,
-    <|"label"->"New note in folder", "name"->"new"|>,
-    <|"label"->"Prompt", "name"->"prompt"|>,
+    <|"label"->"New note in folder", "name"->"new", "a"->"Ctrl+Shift+N"|>,
+    <|"label"->"Prompt", "name"->"prompt", "a"->"Shift+Alt+Space"|>,
     <|"label"->"Open Folder", "name"->"openFolder"|>,
     <|"type"->"separator"|>,
     <|"label"->"Zoom in", "name"->"zoomIn"|>,
@@ -20,13 +20,17 @@ Component[OptionsPattern[]] := With[{
    }
  ,
     Table[ With[{event = Vi["event"], Label = Vi["label"]},
-       <|"name"->event, "label"->Label, "ctl"->True|>         
+       If[StringQ[Vi["accelerator"][[2]]], 
+        <|"name"->event, "label"->Label, "ctl"->True, "a"->Vi["accelerator"][[2]]|> 
+       , 
+        <|"name"->event, "label"->Label, "ctl"->True|> 
+       ]       
     ], {Vi, Plugins["file"]}]
   ,
     <|"type"->"separator"|>
   ,
     {
-    <|"label"->"Save", "name"->"Save"|>,
+    <|"label"->"Save", "name"->"Save", "a"->"Ctrl+S"|>,
     <|"label"->"Save As", "name"->"SaveAs"|>,
     <|"type"->"separator"|>,
     <|"label"->"Locate Examples", "name"->"locateExamples"|>,
@@ -66,14 +70,22 @@ LayoutEvaluation = ExportString[{
     <|"type"->"separator"|>
   },
   Table[ With[{event = Vi["event"], Label = Vi["label"]},
-    <|"name"->event, "label"->Label, "ctl"->True|>       
+       If[StringQ[Vi["accelerator"][[2]]], 
+        <|"name"->event, "label"->Label, "ctl"->True, "a"->Vi["accelerator"][[2]]|> 
+       , 
+        <|"name"->event, "label"->Label, "ctl"->True|> 
+       ]        
   ], {Vi, Join[Plugins["kernel"], {}]}]  
 } // Flatten, "JSON"]
 ,
 LayoutMisc = 
   ExportString[{
       Table[ With[{event = Vi["event"], Label = Vi["label"]},
-        <|"name"->event, "label"->Label, "ctl"->True|>       
+       If[StringQ[Vi["accelerator"][[2]]], 
+        <|"name"->event, "label"->Label, "ctl"->True, "a"->Vi["accelerator"][[2]]|> 
+       , 
+        <|"name"->event, "label"->Label, "ctl"->True|> 
+       ]       
       ], {Vi, Join[Plugins["misc"], {}]}]
   } // Flatten, "JSON"]
 },
@@ -105,6 +117,7 @@ LayoutMisc =
                hamburger.addEventListener('click', async () => {
                  const res = await window.electronAPI.createMenu(ext[1].map((el, i) => {
                   if (el.type == 'separator') return {type: 'separator'};
+                  if (el.a) return {label: el.label, ref: String(i), accelerator: el.a, registerAccelerator:false}
                   return {label: el.label, ref: String(i)}
                  }));
                  if (res) {
