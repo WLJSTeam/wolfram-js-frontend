@@ -221,7 +221,7 @@ requestKernel[notebook_, kernels_, modals_, client_, Success_] := With[{},
         
         Print["fire!"];
         EventFire[modals, "SelectBox", <|
-            "Promise"->promise, "message"->"Choose an evaluation kernel to be assigned", 
+            "Promise"->promise, "message"->"Choose an evaluation kernel", 
             "title"->"Kernel list", "list"->Map[Function[k, k["Name"]], ReleaseHold[kernels]]
         |>];
     ];

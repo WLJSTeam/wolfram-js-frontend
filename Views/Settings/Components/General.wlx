@@ -135,7 +135,7 @@ EventHandler[Secret, {"Load" -> Function[Null,
         ],
 
         "FrontEndCustomCSS" -> Function[value,
-            settings = Join[settings, <|"FrontEndCustomCSS"-> value|>];
+            settings = Join[settings, <|"FrontEndCustomCSS"-> URLDecode[value]|>];
             onSave[settings];
             EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];            
         ]
