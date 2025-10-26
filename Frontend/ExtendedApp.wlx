@@ -191,7 +191,7 @@ printPDF[client_, ModalController_, log_] := Module[{spinner = Notifications`Spi
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = If[StringQ[result], result, result["filePath"]], file},
+              Module[{filename = If[StringQ[result], URLDecode @ result, URLDecode @ result["filePath"]], file},
                   If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
                     Return[];
                   ];

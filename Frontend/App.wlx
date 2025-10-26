@@ -105,7 +105,7 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = If[StringQ[result], result, result["filePath"]]},
+              Module[{filename = If[StringQ[result], URLDecode @ result, URLDecode @ result["filePath"]]},
                   If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
                     Echo["Cancelled saving"]; Echo[result];
                     EventFire[GlobalMessanger, "Notebook:Saving:Finished", True]; 
@@ -211,7 +211,7 @@ Then[WebUIFetch[UIPrintPDF[
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = If[StringQ[result], result, result["filePath"]], file},
+              Module[{filename = If[StringQ[result], URLDecode @ result, URLDecode @ result["filePath"]], file},
                   If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
                     Return[];
                   ];

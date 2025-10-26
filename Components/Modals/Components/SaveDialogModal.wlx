@@ -24,6 +24,7 @@ Component[OptionsPattern[]] := With[{
                 const opts = await interpretate(args[0], env);
                 const p = new Deferred();
                 api.showSaveDialog(opts, (result) => {
+                    if (result.filePath) result.filePath = encodeURIComponent(result.filePath);
                     p.resolve(result);
                 });
                 return await p.promise;
@@ -35,7 +36,8 @@ Component[OptionsPattern[]] := With[{
                 const opts = await interpretate(args[0], env);
                 let name = 'filename';
                 if (opts?.filters[0]) {name = name + '.' + opts.filters[0].extensions}
-                const res = window.prompt(opts.title, name);
+                let res = window.prompt(opts.title, name);
+                if (typeof res == 'string') res = encodeURIComponent(res);
                 return res;
             }
         </script>

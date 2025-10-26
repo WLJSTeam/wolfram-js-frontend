@@ -111,7 +111,7 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = If[StringQ[result], result, result["filePath"]] },
+              Module[{filename = If[StringQ[result], URLDecode @ result, URLDecode @ result["filePath"]] },
                   If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
                     Echo["Cancelled saving"]; Echo[result];
                     Return[];
