@@ -308,6 +308,8 @@ start[k_LocalKernelObject] := Module[{link},
         LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`Events`"] ];
         LinkWrite[link, EnterTextPacket["<<LetWL`"] ];
         LinkWrite[link, EnterTextPacket["Off[Most::argx]"] ];
+        LinkWrite[link, EnterTextPacket["$Inspector = Dialog[]&;"] ];
+        
         
 
         (* unknown bug, doesn't work in initialization ... *)
