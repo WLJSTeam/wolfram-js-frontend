@@ -78,7 +78,8 @@ Component[OptionsPattern[]] := With[{
   parameters = OptionValue["Parameters"],
   cloned = EventClone[OptionValue["Controls"]],
   messages = OptionValue["Messanger"],
-  Menu = OptionValue["Menu"]
+  Menu = OptionValue["Menu"],
+  cachedClient = OptionValue["CachedClient"]
 },
 
   EventHandler[localState, Function[Null,
@@ -101,7 +102,7 @@ Component[OptionsPattern[]] := With[{
         </div>   
         <div class="grow h-full" style="-webkit-app-region: drag; max-width:300px"></div> 
 
-        <ExtensionTemplates Template={"AppTopBar"} Type={"App"} Path={Path} Parameters={parameters} Modals={modals} AppEvent={AppEvent} Controls={Controls} Messanger={messages}/>
+        <ExtensionTemplates CachedClient={cachedClient} Template={"AppTopBar"} Type={"App"} Path={Path} Parameters={parameters} Modals={modals} AppEvent={AppEvent} Controls={Controls} Messanger={messages}/>
 
         <div class="grow h-full" style="-webkit-app-region: drag; max-width:300px"></div>  
         <div class="my-auto ml-auto lg:border-l flex border-gray-300 dark:border-gray-500 pl-1 h-full osx:h-fit overflow-hidden win:barfix owin:barfix">
@@ -235,6 +236,6 @@ Component[OptionsPattern[]] := With[{
     </div>
 ];
 
-Options[Component] = {"Controls" -> "", "Path" -> "", "Title"->"", "Modals"->"", "Menu" -> Null};
+Options[Component] = {"CachedClient"->"", "Controls" -> "", "Path" -> "", "Title"->"", "Modals"->"", "Menu" -> Null};
 
 Component
