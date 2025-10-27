@@ -45,7 +45,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 
 
-  openPath: (path) => {
+  openPath: (path, opts) => {
     console.log(path);
     ipcRenderer.send('system-open-path',  path);
   },
@@ -56,7 +56,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   beep: () => {
     ipcRenderer.send('system-beep');
   },  
-  openFolder: (path) => {
+  openFolder: (path, opts) => {
     ipcRenderer.send('system-show-folder', path);
   },    
 

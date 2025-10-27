@@ -411,3 +411,8 @@ input::selection {
     display:inline-block
   }
 }
+
+.native {
+  all: revert;
+  appearance: auto;
+}

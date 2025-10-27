@@ -2584,17 +2584,28 @@ app.whenReady().then(() => {
 
     ipcMain.on('system-open-external', (e, p) => {
         const url = p;
+        console.log('Open url: ', p);
         shell.openExternal(url);
     });
 
     ipcMain.on('system-open-path', (e, p) => {
-        const url = p;
-        shell.openPath(url);
+        const url = path.join(...p);
+        console.log('Open path: ', url);
+        if (!fs.existsSync(url)) {
+            shell.openPath('/'+url);
+        } else {
+            shell.openPath(url);
+        }
     });
 
     ipcMain.on('system-show-folder', (e, p) => {
-        const url = p;
-        shell.showItemInFolder(url);
+        const url = path.join(...p);
+        console.log('Open dir: ', url);
+        if (!fs.existsSync(url)) {
+            shell.showItemInFolder('/'+url);
+        } else {
+            shell.showItemInFolder(url);
+        }        
     });
 
     
