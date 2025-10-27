@@ -1523,7 +1523,7 @@ function create_window(opts, cbk = () => {}) {
 
         if ((new RegExp(/settings/)).exec(options.url)) {
             options.linuxMenuBar = false;
-            options.contextMenu = false;
+            options.contextMenu = true;
             options.override.maximizable = false;
         }
         
