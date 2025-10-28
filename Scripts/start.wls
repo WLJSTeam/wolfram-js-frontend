@@ -103,7 +103,9 @@ $Env = Join[<|
   "ws2"  -> 20563,
 
   "wsprefix" -> False,
-  "ws2prefix" -> False
+  "ws2prefix" -> False,
+
+  "AccentColor" -> "#0AC7BB"
   (*,"docs" -> 20540*)
 |>, If[AssociationQ[$Env], $Env, <||> ] ];
 
