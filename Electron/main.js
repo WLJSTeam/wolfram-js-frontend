@@ -1,5 +1,5 @@
 //@ts-check
-const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme } = require('electron')
+const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme, systemPreferences } = require('electron')
 const { screen, globalShortcut} = require('electron/main')
 
 const path = require('path')
@@ -2659,7 +2659,11 @@ function start_server (window) {
     }
 
     windows.log.info('Starting server');
-    server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+'|>;');
+    let accentColor = systemPreferences.getAccentColor();
+    if (!accentColor) accentColor = 'rgb(13 148 136)';  else accentColor = '#'+accentColor;
+
+
+    server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+', "AccentColor"->"'+accentColor+'"|>;');
     server.wolfram.process.stdin.write(`Get[URLDecode["${encodeURIComponent(runPath)}"]]\n`);
 
     const PACError = new RegExp(/Execution of PAC script at/);
