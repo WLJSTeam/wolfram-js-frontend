@@ -2365,13 +2365,13 @@ app.whenReady().then(() => {
                         console.log(rect);
 
                         const img = await e.sender.capturePage(rect);
-                        capturedBuffer[windowId].push(img);
+                        capturedBuffer[windowId].push(img.toDataURL());
                     }
                     return 'captured';
 
                 case 'Pop': {
                     const item = capturedBuffer[windowId].shift();
-                    if (item) return item.toDataURL();                
+                    if (item) return item;                
                     return false;
                 }
 

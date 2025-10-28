@@ -40,7 +40,7 @@ timedSaveButton[client_, localController_, controls_, parameters_] := With[{clon
       If[MatchQ[task, _TaskObject], TaskRemove[task]];
       task = SetTimeout[(
         Echo["Boom!"];
-        EventFire[localController, "Color", <|"Client"->client, "Color"->(If[StringQ[#],#,"teal"]&) @ parameters["AccentColor"] |> ];
+        EventFire[localController, "Color", <|"Client"->client |> ];
         EventFire[controls, "Backup", <|"Client"->client|>];
         If[alive, reset];
       ),  parameters["BackupTimeout"]];
@@ -157,7 +157,7 @@ Component[OptionsPattern[]] := With[{
                 <WebUIJSBind Event={localController}>
                   const saveBtn = document.getElementById('sidebar-save');
                   const link = document.getElementById('sidebar-kernel').firstChild;
-                  let name;
+                  let name = 'text-sys';
 
                   const api = window.electronAPI || window.iframeAPI;
 
@@ -170,8 +170,6 @@ Component[OptionsPattern[]] := With[{
 
                   this.on('Color', async (data) => {
                     const args = await interpretate(data, {hold:true});
-                    const color = await interpretate(args.Color, {});
-                    name = 'text-' + color +'-500';
                     saveBtn.classList.remove('text-gray-500');
                     saveBtn.classList.add(name);
                   }); 
