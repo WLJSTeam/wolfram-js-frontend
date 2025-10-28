@@ -35,7 +35,7 @@ Component[OptionsPattern[]] := With[{
     <|"type"->"separator"|>,
     <|"label"->"Locate Examples", "name"->"locateExamples"|>,
     <|"type"->"separator"|>,
-    <|"label"->"Settings", "name"->"OpenSettings"|>,
+    <|"label"->"Settings", "name"->"OpenSettings", "ctl"->True|>,
     <|"label"->"Acknowledgments", "name"->"acknowledgments"|>,
     <|"type"->"separator"|>,
     <|"label"->"Open as quick note", "name"->"quickmode"|>,
