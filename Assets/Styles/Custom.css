@@ -416,3 +416,17 @@ input::selection {
   all: revert;
   appearance: auto;
 }
+
+
+.bg-sys {
+  background: rgb(13 148 136);
+}
+
+.text-sys {
+  color: rgb(13 148 136);
+}
+
+.focus\:ring-sys:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(13 148 136);
+}
