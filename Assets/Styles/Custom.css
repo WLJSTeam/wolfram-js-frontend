@@ -422,11 +422,23 @@ input::selection {
   background: var(--system-accent-color);
 }
 
+.hover\:bg-sys:hover {
+  background: var(--system-accent-color);
+}
+
 .text-sys {
   color: var(--system-accent-color);
+}
+
+.fill-sys {
+  fill: var(--system-accent-color);
 }
 
 .focus\:ring-sys:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: var(--system-accent-color);
+}
+
+.focus\:bg-sys-25:focus {
+  background-color: var(--system-accent-color-25);
 }

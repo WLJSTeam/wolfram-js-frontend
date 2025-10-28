@@ -1,8 +1,20 @@
-Component[Children__, OptionsPattern[]] := With[{AccentColor = Lookup[System`$Env, "AccentColor", "rgb(13 148 136)"], Title = OptionValue["Title"], Merged = ToStringRiffle[{Children}]},
+hexColor = (IntegerDigits[
+  ToExpression@StringReplace[#, "#" -> "16^^"], 256, If[StringLength[#] > 7, 4, 3]]) &;
+
+Component[Children__, OptionsPattern[]] := With[{
+    AccentColor = OptionValue["AccentColor"], 
+    Title = OptionValue["Title"], Merged = ToStringRiffle[{Children}],
+    EditorTintColor = With[{h = hexColor[ OptionValue["AccentColor"] ]}, 
+        StringTemplate["rgb(`` `` `` / 5%)"][h[[1]], h[[2]], h[[3]]]
+    ],
+    AccentColor25 = With[{h = hexColor[ OptionValue["AccentColor"] ]}, 
+        StringTemplate["rgb(`` `` `` / 25%)"][h[[1]], h[[2]], h[[3]]]
+    ]
+},
     <head>
             <title><Title/></title>
             <style>
-                :root{--system-accent-color: <AccentColor/>}
+                :root{--system-accent-color: <AccentColor/>; --system-accent-color-25: <AccentColor25/>;  accent-color: <AccentColor/>; --editor-selected-tint: <EditorTintColor/>;}
             </style>
             <link rel="stylesheet" href="/Styles/Custom.css"/>
             <link rel="stylesheet" href="/Styles/Optimized.css"/> 
@@ -10,6 +22,6 @@ Component[Children__, OptionsPattern[]] := With[{AccentColor = Lookup[System`$En
     </head>
 ];
 
-Options[Component] = {"Title"->""};
+Options[Component] = {"Title"->"", "AccentColor" -> "#008855"};
 
 Component

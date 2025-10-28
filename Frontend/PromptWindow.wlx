@@ -181,6 +181,7 @@ App[request_] := Module[{localExtensions}, With[{
         
         SidebarId = CreateUUID[],
         ModalController = CreateUUID[],
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
         GlobalMessanger = CreateUUID[],
         kernels = Hold[AppExtensions`KernelList] (*`*),
         GlobalParameters = Join[<|"Navigator"->(If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]), "ElectronQ" -> ElectronQ[request], "AccentColor"->"teal", "BackupTimeout" -> (3 60 1000)|>, settings],
@@ -268,7 +269,7 @@ App[request_] := Module[{localExtensions}, With[{
   ,
 
     <html class="h-full {AppClass}" os="{NavigatorOS}" transparency="{Transparency}" > 
-        <Head Title={FileNameTake[Path]} Settings={settings}>
+        <Head Title={FileNameTake[Path]} AccentColor={accentColor} Settings={settings}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={True} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     

@@ -273,6 +273,9 @@ App[request_] := With[{
         cachedClient = Unique["cachedClient"],
         SidebarId = CreateUUID[],
         OnLoad    = CreateUUID[],
+
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
+
         kernels = Hold[AppExtensions`KernelList] (*`*),
 
         isElectron = ElectronQ[request],
@@ -396,7 +399,7 @@ App[request_] := With[{
   ,
 
     <html class="h-full {AppClass}" os="{NavigatorOS}" transparency="{Transparency}" > 
-        <Head Title={FileNameTake[Path]} Settings={settings}>
+        <Head Title={FileNameTake[Path]} Settings={settings} AccentColor={accentColor}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={True} Port={$Env["ws"]} PrefixMode={$Env["wsprefix"]}/>     

@@ -2,6 +2,8 @@ Checkbox = ImportComponent["UI/Checkbox.wlx"];
 Knob     = ImportComponent["UI/Button.wlx"];
 Radio     = ImportComponent["UI/Radio.wlx"];
 
+ColorPicker     = ImportComponent["UI/ColorPicker.wlx"];
+
 Secret = $Options["Secret"] // EventClone;
 
 Messager = $Options["Messager"];
@@ -27,6 +29,9 @@ defaultTheme = If[KeyExistsQ[settings, "Theme"], settings["Theme"], "System"]
 
 defaultTray = If[KeyExistsQ[settings, "RunInTray"], settings["RunInTray"], False]
 defaultMaterial = If[KeyExistsQ[settings, "WindowsBackgroundMaterial"], settings["WindowsBackgroundMaterial"], "tabbed"]
+
+defaultColor = If[KeyExistsQ[settings, "AccentColor"], settings["AccentColor"], "System"];
+defaultColorChoice = If[defaultColor === "System", "System", "User"];
 
 FrontEndCustomCSS = If[KeyExistsQ[settings, "FrontEndCustomCSS"], settings["FrontEndCustomCSS"], ""];
 
@@ -64,6 +69,28 @@ EventHandler[Secret, {"Load" -> Function[Null,
             onSave[settings];
             EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Restart to see an effect"];
         ],  
+
+        "Color" -> Function[state,
+            Echo[state];
+            defaultColor = state;
+            If[defaultColorChoice =!= "System",
+                settings = Join[settings, <|"AccentColor"->defaultColor|>];
+                onSave[settings];
+                EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Restart to see an effect"];
+            ];
+        ],
+
+        "ColorChoice" -> Function[state,
+            defaultColorChoice = state;
+            If[state === "User",
+                settings = Join[settings, <|"AccentColor"->defaultColor|>];
+            ,
+                settings = Join[settings, <|"AccentColor"->"System"|>];
+            ];
+            
+            onSave[settings];
+            EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Restart to see an effect"];        
+        ],
         
         "Material" -> Function[state,
             If[$OperatingSystem =!= "Windows", 
@@ -242,7 +269,11 @@ EventHandler[Secret, {"Load" -> Function[Null,
 
 
             <Radio Label={"UI Theme"} List={ {{"System", "System"}, {"Light", "Light"}, {"Dark", "Dark"}} } Selected={defaultTheme} Pattern={"Theme"} Event={controller} />
-            
+
+            <Radio Label={"UI Color"} List={ {{"System", "System"}, {"User", "User"}} } Selected={defaultColorChoice} Pattern={"ColorChoice"} Event={controller} />
+
+            <ColorPicker Label={"Accent color"} Default={defaultColor} Pattern={"Color"} Event={controller}/>
+
             <Radio Label={"Background Material"} List={ {{"Mica", "mica"}, {"Acrylic", "acrylic"}, {"Tabbed", "tabbed"}, {"Auto", "auto"}} } Selected={defaultMaterial} Pattern={"Material"} Event={controller} />
         
             <p class="mt-1 max-w-2xl text-sm  text-gray-500 dark:text-gray-500">Custom CSS</p>

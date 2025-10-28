@@ -16,6 +16,12 @@ ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
+settings = <||>;
+
+{loadSettings, storeSettings}        = ImportComponent["Settings.wl"];
+
+
+loadSettings[settings];
 
 App[request_] := With[{
         Secret = CreateUUID[], 
@@ -25,6 +31,7 @@ App[request_] := With[{
         cachedClient = Unique["cachedClient"],
         GlobalMessanger = CreateUUID[],
         OnLoad = CreateUUID[],
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>
     },
@@ -57,7 +64,7 @@ App[request_] := With[{
     }]; 
 
     <html class="h-full" os="{NavigatorOS}"> 
-        <Head Title={"Settings"}>
+        <Head AccentColor={accentColor} Title={"Settings"}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={False} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     

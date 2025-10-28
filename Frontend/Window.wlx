@@ -37,6 +37,7 @@ App[request_] := With[{
         cachedClient = Unique["cachedClient"],
         GlobalMessanger = CreateUUID[],
         OnLoad = CreateUUID[],
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>,
         window        = win`HashMap[request["Query", "id"]] (*`*),
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]
@@ -74,7 +75,7 @@ App[request_] := With[{
       "<!DOCTYPE html>"
     ,
     <html class="h-full" os="{NavigatorOS}"> 
-        <Head Title={"Projector"} Settings={settings}>
+        <Head AccentColor={accentColor} Title={"Projector"} Settings={settings}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={True} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     

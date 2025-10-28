@@ -2,10 +2,5 @@ id = $Options["Window"]["Notebook"]["Hash"];
 Color = If[StringQ[#], #, "teal"]& @ ($Options["Parameters"]["AccentColor"]);
 
 <div class="h-full overflow-hidden" id="container-{id}">
-    <style>
-        :root {
-            --editor-selected-tint: #0088550d;
-        }
-    </style>
     <$Children/>
 </div>
