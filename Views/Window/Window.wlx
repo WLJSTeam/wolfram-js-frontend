@@ -162,6 +162,8 @@ Component[OptionsPattern[]] := With[{
             window["WebSocketQ"] = False; 
             window["Opened"] = True;
             window["Socket"] = $Client;
+            window["ModalsChannel"] = modals;
+            window["MessagerChannel"] = log;
 
             (* /* Destructor */ *)
             With[{socket = EventClone[Global`$Client(*`*)]},
