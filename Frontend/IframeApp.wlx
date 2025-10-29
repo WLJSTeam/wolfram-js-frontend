@@ -281,7 +281,7 @@ App[request_] := With[{
       "DumpSave" -> (dumpNotebook[#, GlobalMessanger, ModalController, $Client]&),
       "DumpSaveAs" -> (dumpNotebookAs[#, GlobalMessanger, ModalController, $Client]&),
       "DumpSaveTemporal" -> (backupNotebook[#, GlobalMessanger, $Client]&),
-      "IFrameQ" -> (True)&
+      "IFrameQ" -> (True &)
     }];
   {
     "<!DOCTYPE html>"
