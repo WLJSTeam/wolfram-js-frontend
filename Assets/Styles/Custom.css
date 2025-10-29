@@ -422,6 +422,10 @@ input::selection {
   background: var(--system-accent-color);
 }
 
+.bg-sys-25 {
+  background-color: var(--system-accent-color-25);
+}
+
 .hover\:bg-sys:hover {
   background: var(--system-accent-color);
 }
