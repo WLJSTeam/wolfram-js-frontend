@@ -102,6 +102,15 @@
   },
   
   showMessageBox: (params, cbk) => {
+    if (params?.buttons?.length == 2) {
+      const res = confirm(params.message);
+      if (res) {
+        cbk({response: 0})
+      } else {
+        cbk({response: 1})
+      }
+      return;
+    }
     const uuid = uuidv4();
     promisesTable[uuid] = cbk;
 
