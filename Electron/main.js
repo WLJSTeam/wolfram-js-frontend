@@ -788,16 +788,7 @@ buildMenu = (opts) => {
 
                 { type: 'separator' },
 
-                ...(options.plugins.misc.sort((a, b)=> (a.priority - b.priority))),
-                {
-                    role: 'help',
-                    label: 'Acknowledgments',
-                    click: async() => {
-                        //const { shell } = require('electron')
-                        windows.focused.call('acknowledgments', true);
-                        //create_window({url: server.url.default('local') + `/sponsors`, title: 'Acknowledgments'});
-                    }
-                }                
+                ...(options.plugins.misc.sort((a, b)=> (a.priority - b.priority)))               
             ]
         }
     ];
