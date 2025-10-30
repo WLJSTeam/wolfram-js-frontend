@@ -33,11 +33,13 @@ The notebook combines live code in WL, JS, Mermaid and many more, GUI blocks for
     You don’t need Mathematica installed to use WLJS Notebook. <b>No subscription required</b>—just a one-time registration at <em>wolfram.com</em> for personal use.
   </p>
   <p>
-    See the <a href="https://www.wolfram.com/legal/terms/wolfram-engine.html">license agreement</a> for commercial use.
+    See the <a href="https://www.wolfram.com/legal/terms/wolfram-engine.html">license agreement</a> for a commercial use.
   </p>
 </div>
 
 [![DOI](https://zenodo.org/badge/588982265.svg)](https://doi.org/10.5281/zenodo.15538087)
+
+**This project is not affiliated with, endorsed by, or sponsored by Wolfram Research**
 
 ## Resources
 
@@ -259,4 +261,9 @@ This program / code-base will not transfer any information to other networked sy
 ---
 
 ## **License**
-WLJS Notebooks (including all extensions, graphics and sound libraries, frontend and backend) are licensed under GPLv3 👩🏼‍⚖️. The algorithms, functions, and other components of the Wolfram Language provided by the freeware distribution of Wolfram Engine are the intellectual property of Wolfram Research, Inc. See the [license agreement](https://www.wolfram.com/legal/terms/wolfram-engine.html) if you use it in commerce.
+WLJS Notebooks (including all extensions, graphics and sound libraries, frontend and backend) are licensed under GPLv3 👩🏼‍⚖️. 
+
+The algorithms, functions, and other components of the Wolfram Language provided by the freeware distribution of Wolfram Engine are the intellectual property of Wolfram Research, Inc. 
+
+See more at [LICENSE.md](./LICENSE)
+

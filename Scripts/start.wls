@@ -1,5 +1,18 @@
 #!/usr/bin/env wolframscript
 
+"WLJS Notebooks
+Copyright (c) 2025 Coffee liqueur
+Licensed under the GNU GPL v3.0. See <AppDir>/LICENSE.md.
+
+This product bundles third-party FOSS. Full license texts are included in <AppDir>/licenses/.
+Wolfram Engine is proprietary and distributed separately by Wolfram Research, Inc.
+
+This project is not affiliated with, endorsed by, or sponsored by Wolfram Research, Inc. Wolfram and Wolfram Language are trademarks of Wolfram Research, Inc.
+" // Print;
+
+
+"WLJS Notebook does not collect or transmit your data unless you explicitly choose a feature that needs the network." // Print;
+
 PacletDirectoryUnload /@ PacletDirectoryLoad[]; (* FIXME WL autoloads some crap *)
 
 ParentDirectory[DirectoryName[$InputFileName]] // SetDirectory;
