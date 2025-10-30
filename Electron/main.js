@@ -2853,7 +2853,14 @@ function load_configuration() {
 function check_wl (configuration, cbk, window) {
     if (configuration) server.wolfram = {...server.wolfram, ...configuration.wolfram};
 
-    windows.log.print("");
+    windows.log.print(`WLJS Notebooks
+Copyright (c) 2025 Coffee liqueur
+Licensed under the GNU GPL v3.0. See /LICENSE.md.
+
+This product bundles third-party FOSS. 
+Wolfram Engine is proprietary and distributed by Wolfram Research.
+
+`);
     windows.log.info("Starting wolframscript");
     windows.log.print("Starting wolframscript by path: " + server.wolfram.path);
     let program;
@@ -3014,7 +3021,7 @@ function check_wl (configuration, cbk, window) {
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
-            windows.log.clear();
+            //windows.log.clear();
             cbk();
         },
         () => {
@@ -3059,7 +3066,7 @@ function check_wl (configuration, cbk, window) {
         if (default_error_handling(()=>{
             //If managed
             //Wolframscript started
-            windows.log.clear();
+            //windows.log.clear();
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
@@ -3087,7 +3094,7 @@ function check_wl (configuration, cbk, window) {
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
-            windows.log.clear();
+            //windows.log.clear();
             cbk();
             return;
         }
