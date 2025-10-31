@@ -169,7 +169,9 @@
       "./PacletInfo.wl",
       "./wl_packages_lock.wl",
       "./.wl_timestamp",
-      "./dependencies.wl"
+      "./dependencies.wl",
+      "./LICENSE",
+      "./licenses/**"
     ],
     "asar": false
   },
