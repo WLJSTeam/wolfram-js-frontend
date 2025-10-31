@@ -5,7 +5,7 @@ Component[OptionsPattern[]] := With[{Event = OptionValue["Event"], Topic = ToStr
               <input id="{Uid}" type="checkbox" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 dark:text-gray-400 text-sys"/>
             </div>
             <div class="ml-3 text-sm leading-6">
-              <label for="comments" class="font-medium text-gray-900 dark:text-gray-300"><Label/></label>
+              <label for="comments" class="text-gray-900 dark:text-gray-300"><Label/></label>
               <p class="text-gray-500"><Description/></p>
             </div>
         </div>
