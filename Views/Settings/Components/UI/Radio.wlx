@@ -10,11 +10,11 @@ Component[OptionsPattern[]] := With[{
         OptionsList = Table[With[{Name = OptionValue["List"][[index, 1]], Val = OptionValue["List"][[index, 2]], UId = UIDList[[index]]},
             If[selected === Val,
                 <div class="flex items-center">
-                    <input id="{UId}" name="{NameUID}" value="{Val}" checked="true" type="radio" class="h-4 w-4 border-gray-300 dark:border-gray-600 dark:text-gray-400 text-teal-600 focus:ring-teal-600" /><label for="{UId}" class="ml-3 block text-sm dark:text-gray-400 font-medium leading-6 text-gray-900"><Name/></label>
+                    <input id="{UId}" name="{NameUID}" value="{Val}" checked="true" type="radio" class="h-4 w-4 border-gray-300 dark:border-gray-600 dark:text-gray-400 text-sys" /><label for="{UId}" class="ml-3 block text-sm dark:text-gray-400 font-medium leading-6 text-gray-900"><Name/></label>
                 </div>
             ,
                 <div class="flex items-center">
-                    <input id="{UId}" name="{NameUID}" value="{Val}" type="radio" class="h-4 w-4 border-gray-300 text-teal-600 dark:border-gray-600 dark:text-gray-400 focus:ring-teal-600" /><label for="{UId}" class="ml-3 block text-sm font-medium dark:text-gray-400 leading-6 text-gray-900"><Name/></label>
+                    <input id="{UId}" name="{NameUID}" value="{Val}" type="radio" class="h-4 w-4 border-gray-300 text-sys dark:border-gray-600 dark:text-gray-400" /><label for="{UId}" class="ml-3 block text-sm font-medium dark:text-gray-400 leading-6 text-gray-900"><Name/></label>
                 </div>    
             ]
         ], {index, 1, Length @ OptionValue["List"]}]

@@ -9,6 +9,7 @@ Component[OptionsPattern[]] := With[{
   Icons = OptionValue["Icons"],
 
   Parameters = OptionValue["Parameters"],
+  electronQ = OptionValue["ElectronQ"],
 
   Port  = OptionValue["Port"],
 
@@ -38,8 +39,10 @@ Component[OptionsPattern[]] := With[{
       Switch[State,
         "Empty",
           State = "Open";
+          
           With[{client = $Client},
               EventFire[Controller, "Load", <|"Client"->client|>];
+              EventFire[Port, "Change", <|"Client"->client|>];
           ],
         
         "Open",
@@ -56,9 +59,15 @@ Component[OptionsPattern[]] := With[{
       ];
   ]];
 
-
+With[{
+  KindaDropDown = If[!electronQ,
+    <Dropdown Parameters={Parameters} Filename={File} Port={Port}/>
+  ,
+    ""
+  ]
+},
   <div style="position:relative">
-      <div class="rounded-md">
+      <div class="rounded-md" data-type="dir" data-path="{URLEncode[File]}">
         <button id="{ButtonId}" type="button" class="{Selected} flex items-center w-full text-left rounded-md pb-0.5 pt-0.5 pl-1 gap-x-1 text-sm text-gray-700 dark:text-gray-400" aria-controls="sub-menu-1" aria-expanded="false">
 
           <svg id="svg-{ButtonId}" class="text-gray-800 dark:text-gray-400 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -71,7 +80,7 @@ Component[OptionsPattern[]] := With[{
 
         </button>
 
-        <Dropdown Parameters={Parameters} Filename={File} Port={Port}/>
+        <KindaDropDown/>
       </div>
 
       <WebUIEventListener Type={"click"} Id={ButtonId} Event={ButtonId} />
@@ -92,12 +101,12 @@ Component[OptionsPattern[]] := With[{
       </WebUIJSBind>
 
       <WebUILazyLoad Event={Controller}>
-          <ItemList Port={Port} Icons={Icons} Parameters={Parameters} Level={Level} Class={"mt-0"} Path={File} />
+          <ItemList ElectronQ={electronQ} Port={Port} Icons={Icons} Parameters={Parameters} Level={Level} Class={"mt-0"} Path={File} />
       </WebUILazyLoad>
   </div>
-
+]
 ] ]
 
-Options[Component] = {"Selected"->False, "File"->"", "Level"->0, "Icons"->"", "Parameters"-><||>, "Port"->"", "ListComponent"->Null};
+Options[Component] = {"ElectronQ"->False, "Selected"->False, "File"->"", "Level"->0, "Icons"->"", "Parameters"-><||>, "Port"->"", "ListComponent"->Null};
 
 Component

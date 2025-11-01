@@ -1,5 +1,16 @@
 #!/usr/bin/env wolframscript
 
+If[$Env["ElectronCode"] =!= 1,
+"WLJS Notebooks
+Copyright (c) 2025 Coffee liqueur
+Licensed under the GNU GPL v3.0. See <AppDir>/LICENSE.md.
+
+This product bundles third-party FOSS. Full license texts are included in <AppDir>/licenses/.
+Wolfram Engine is proprietary and distributed separately by Wolfram Research, Inc.
+" // Print];
+
+"This project is not affiliated with, endorsed by, or sponsored by Wolfram Research, Inc. Wolfram and Wolfram Language are trademarks of Wolfram Research, Inc." // Print;
+
 PacletDirectoryUnload /@ PacletDirectoryLoad[]; (* FIXME WL autoloads some crap *)
 
 ParentDirectory[DirectoryName[$InputFileName]] // SetDirectory;
@@ -33,6 +44,7 @@ With[{deps = Get[FileNameJoin[{Directory[], "dependencies.wl"}] ]},
   ];
 ];
 
+"WLJS Notebook does not collect or transmit your data unless you explicitly choose a feature that needs the network." // Print;
 
 (* web-server *)
 Needs["KirillBelov`CSockets`"]
@@ -103,7 +115,9 @@ $Env = Join[<|
   "ws2"  -> 20563,
 
   "wsprefix" -> False,
-  "ws2prefix" -> False
+  "ws2prefix" -> False,
+
+  "AccentColor" -> "#0AC7BB"
   (*,"docs" -> 20540*)
 |>, If[AssociationQ[$Env], $Env, <||> ] ];
 
@@ -264,7 +278,6 @@ AppExtensions`KernelList = {};
 
 
 (* Entrypoint of an app *)
-Sponsors       := ImportComponent["Frontend/Sponsors.wlx"];
 ServerError       := ImportComponent["Frontend/ServerError.wlx"];
 Protocol          := ImportComponent["Frontend/Protocol.wlx"];
 ExtendedApp               := ImportComponent["Frontend/ExtendedApp.wlx"];
@@ -366,10 +379,11 @@ SetAttributes[Offload, HoldFirst];
 
 middleware[app_][request_] := app[request]
 
+
+
 (* hook all routes handlers *)
 AutoTest["HTTPHandler"->http];
 Downloader["HTTPHandler"->http];
-Sponsors["HTTPHandler"->http];
 Protocol["HTTPHandler"->http, "AppProtocol" -> AppExtensions`AppProtocol, "Middleware"->Identity, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 Settings["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates]
 Window["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates];

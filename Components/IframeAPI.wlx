@@ -85,25 +85,63 @@
     window.parent.postMessage({'type':'action', 'method':'blockWindow', 'state':state, 'message': message}, "*");
   },
 
-  requestFileWindow: (params, cbk) => {
+  showOpenDialog: (params, cbk) => {
     const uuid = uuidv4();
     promisesTable[uuid] = cbk;
 
     console.log('iframe >> send a post message to parent window');
-    window.parent.postMessage({'type':'request', 'method':'requestFileWindow', 'params':params, 'promise':uuid}, "*");
+    window.parent.postMessage({'type':'request', 'method':'showOpenDialog', 'params':params, 'promise':uuid}, "*");
   },
 
-  requestOpenFileWindow: (params, cbk) => {
-    VOID()
+  showSaveDialog: (params, cbk) => {
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showSaveDialog', 'params':params, 'promise':uuid}, "*");
+  },
+  
+  showMessageBox: (params, cbk) => {
+    if (params?.buttons?.length == 2) {
+      const res = confirm(params.message);
+      if (res) {
+        cbk({response: 0})
+      } else {
+        cbk({response: 1})
+      }
+      return;
+    }
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showMessageBox', 'params':params, 'promise':uuid}, "*");
+  },
+  
+  showErrorBox: (params, cbk) => {
+    const uuid = uuidv4();
+    promisesTable[uuid] = cbk;
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'showErrorBox', 'params':params, 'promise':uuid}, "*");
   },  
+
+  createMenu: async (params) => {
+    const uuid = uuidv4();
+    const p = new Deferred();
+    
+    promisesTable[uuid] = (args) => {
+      p.resolve(args);
+    };
+
+    console.log('iframe >> send a post message to parent window');
+    window.parent.postMessage({'type':'request', 'method':'createMenu', 'params':params, 'promise':uuid}, "*");  
+    return await p.promise;
+  },
 
   requestScreenshot: (params, cbk) => {
     VOID()
   },  
-
-  requestFolderWindow: (params, cbk) => {
-    VOID()
-  },
 
   windowExpand: (path) => {
     VOID()

@@ -1,0 +1,50 @@
+ModalController = Unique["modalControllerBox"];
+
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
+Component[OptionsPattern[]] := With[{
+    Port = OptionValue["Port"],
+    electronQ = OptionValue["ElectronQ"],
+    destructor = OptionValue["Destructor"],
+    cli = OptionValue["Client"]
+}, Module[{},
+    EventHandler[Port, {
+        "OpenDialog" -> Function[data, With[{},
+            Then[WebUIFetch[ModalController[KeyDrop[data, {"Promise", "Client"}]], If[SymbolQ[cli], Global`$Client, cli], "Format"->"RawJSON"], Function[result,
+                EventFire[data["Promise"], Resolve, result];
+            ]];
+        ] ]
+    }];
+
+
+    If[electronQ,
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const api = window.electronAPI || window.iframeAPI;
+                const opts = await interpretate(args[0], env);
+                const p = new Deferred();
+                api.showOpenDialog(opts, (result) => {
+                    if (result.filePath) result.filePath = encodeURIComponent(result.filePath);
+                    if (result.filePaths) result.filePaths = result.filePaths.map(encodeURIComponent);
+                    p.resolve(result);
+                });
+                return await p.promise;
+            }
+        </script>
+    ,
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const opts = await interpretate(args[0], env);
+                let name = 'filename';
+                if (opts?.filters[0]) {name = name + '.' + opts.filters[0].extensions}
+                let res = window.prompt(opts.title, name);
+                if (typeof res == 'string') res = encodeURIComponent(res);
+                return res;
+            }
+        </script>
+    ]
+]];
+
+Options[Component] = {"Port" -> "", "Client" -> "", "ElectronQ" -> "", "Destructor"->Null}
+
+Component

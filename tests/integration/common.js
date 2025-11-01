@@ -9,6 +9,9 @@ export const delay = (ms) => {
 }
 
 const checkIfKernelAttached = async (page) => {
+  if (!page.kernelQ) {
+    
+  }
   await delay(2000);
   let kernelSelection = page.locator('button').filter({ hasText: 'Auto' });
   if (page.kernelQ) return;
@@ -26,7 +29,29 @@ export const url = 'http://127.0.0.1:20560/iframe/'+encodeURIComponent(path.reso
 
 console.warn('Using url:'+url);
 
+class Deferred {
+  constructor() {
+    this.promise = new Promise((resolve, reject)=> {
+      this.reject = reject
+      this.resolve = resolve
+    })
+  }
+}
+
 export const evaluate = async (page, input="1+1", timeout=5000, extra=500) => {
+  if (!page.confirmDismissQ) {
+    page.confirmDismissQ = true;
+    page.on('dialog', async (dialog) => {
+      dialog.accept();
+      console.log('accepting kernel...');
+      const d = new Deferred();
+      page.kernelQ = d.promise;
+      await delay(10000);
+      d.resolve();
+      console.log('done!');
+      page.kernelQ = 9;
+    });
+  }
   const editor = page.locator('.cm-editor').first();
   // Click to focus
   await delay(200);
@@ -40,7 +65,9 @@ export const evaluate = async (page, input="1+1", timeout=5000, extra=500) => {
   const play = page.locator('.button-cplay').first();
   play.click();
 
-  await checkIfKernelAttached(page);
+  if (page.kernelQ != 9) {
+    await page.kernelQ;
+  }
   
   await page.waitForSelector('.cout', {timeout:timeout});
   await delay(3.0*extra);

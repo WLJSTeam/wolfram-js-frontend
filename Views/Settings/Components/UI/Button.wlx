@@ -7,7 +7,7 @@ Component[OptionsPattern[]] := With[{
     Style = OptionValue["Style"]
 },
     {
-        <button type="button" style="{Style}" id="{Uid}" class="rounded bg-white dark:bg-gray-600 dark:text-gray-400 px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 {Class}">
+        <button type="button" style="{Style}" id="{Uid}" class="rounded bg-white dark:bg-gray-600 dark:text-gray-400 px-2 py-1 text-xs text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 {Class}">
             <Label/>
         </button>
     ,

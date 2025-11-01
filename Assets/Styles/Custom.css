@@ -126,7 +126,7 @@ input::selection {
 
 @media (min-width: 768px) {
   .md\:-ml-70 {
-    margin-left: -16rem !important;
+    margin-left: calc(-1 * var(--system-main-padding-left)) !important;
   }
 
 }
@@ -396,6 +396,10 @@ input::selection {
   display:none
 }
 
+[os="Unix"] .linux\:autohide {
+  display:none
+}
+
 [os="Windows"] .win\:barfix {
   padding-top:0 !important;
   margin-top: 0.25rem !important;
@@ -410,4 +414,43 @@ input::selection {
   [os="Windows"] .win\:autohide {
     display:inline-block
   }
+  
+  [os="Unix"] .linux\:autohide {
+    display:inline-block
+  }
+}
+
+.native {
+  all: revert;
+  appearance: auto;
+}
+
+
+.bg-sys {
+  background: var(--system-accent-color);
+}
+
+.bg-sys-25 {
+  background-color: var(--system-accent-color-25);
+}
+
+.hover\:bg-sys:hover {
+  background: var(--system-accent-color);
+}
+
+.text-sys {
+  color: var(--system-accent-color);
+}
+
+.fill-sys {
+  fill: var(--system-accent-color);
+}
+
+.focus\:ring-sys:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: var(--system-accent-color);
+}
+
+.focus\:bg-sys-25:focus {
+  background-color: var(--system-accent-color-25);
 }
