@@ -308,10 +308,6 @@ App[request_] := With[{
               ""
             ,
 
-            "Unix",
-              ""
-            ,  
-
             _,
               FakeMenu["Plugins" -> ExtensionMenuItems, "Controls"-> GlobalControls, "Style"->"padding-top: 0.15rem", "Class"->"zen:ml-0 pt-1 pl-1 md:-ml-70 zen:relative relative ml-0 md:absolute"]
 
@@ -405,7 +401,7 @@ App[request_] := With[{
           <Modals CachedClient={cachedClient} ModalsPort={ModalController} ElectronQ={isElectron}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
 
-          <div id="sidebar" style="user-select: none; -webkit-app-region: drag; overflow:hidden" class="hidden pt-10 linux:pt-0 md:fixed zen:hidden md:inset-y-0 md:z-50 md:w-sidesys md:flex md:flex-col osx:border-r border-gray-300 dark:border-gray-600 filter">        
+          <div id="sidebar" style="user-select: none; -webkit-app-region: drag; overflow:hidden" class="hidden pt-10 md:fixed zen:hidden md:inset-y-0 md:z-50 md:w-sidesys md:flex md:flex-col osx:border-r border-gray-300 dark:border-gray-600 filter">        
             <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
             <Sidebar ElectronQ={isElectron} RawPath={RawPath} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Icons={ExtensionSidebarIcons} Parameters={GlobalParameters} Modals={ModalController} Secret={Secret} Path={Path} Controls={GlobalControls}/>
             <div class="osx:border-b border-gray-300 dark:border-gray-600"></div>

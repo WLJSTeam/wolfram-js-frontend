@@ -70,7 +70,7 @@ Component[OptionsPattern[]] := With[{
 
         <main class="grow flex flex-col overflow-hidden">
             <div class="divide-y divide-gray-200 overflow-hidden h-full bg-white dark:bg-gray-700 dark:divide-gray-600">
-              <div class="px-4 py-2 text-center text-sm font-semibold dark:text-gray-400 linux:hidden win:h-titlebar owin:h-titlebar" style="-webkit-app-region: drag">
+              <div class="px-4 py-2 text-center text-sm font-semibold dark:text-gray-400 linux:h-titlebar win:h-titlebar owin:h-titlebar" style="-webkit-app-region: drag">
                 Settings
               </div>
               <div class="px-4 py-0 h-full overflow-y-auto dark:text-gray-400">

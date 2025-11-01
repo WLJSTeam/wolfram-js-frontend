@@ -37,6 +37,11 @@ const { IS_WINDOWS_11, WIN10 } = require('mica-electron');
 const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
 
+
+if (!isWindows && !isMac) {
+   // app.commandLine.appendSwitch('gtk-version', '3')
+}
+
 class Deferred {
   promise = {}
   reject = {}
@@ -1264,23 +1269,27 @@ const windows = {
 
             } else {
                 win = new BrowserWindow({
-                    vibrancy: "sidebar", // in my case...
                     frame: true,
+                    autoHideMenuBar: true,
+                    transparent: false,
+                    titleBarStyle: 'hidden',
+                    titleBarOverlay: {
+                        color: 'rgba(255, 255, 255, 0.0)',
+                        symbolColor: 'rgba(128, 128, 128, 1.0)'
+                    },
                     autoHideMenuBar: true,
                     width: 600,
                     height: 400,
                     resizable: false,
-                    maximizable: false,
                     title: 'Launcher',
+                    maximizable: false,
                     contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
                         //webSecurity: false,
                         nodeIntegration: true,
                         contextMenu: true
-                    },
-
-                    icon: path.join(__dirname, "build", "512x512.png")
+                    }
                  });                
             }
 
@@ -1309,6 +1318,25 @@ const windows = {
                 win.loadFile(path.join(__dirname, 'log_padded.html'));
             }
             
+
+
+            if (!isMac && !isWindows) {
+                                const checkTheme = () => {
+                    if (!nativeTheme.shouldUseDarkColors) {
+                        win.setBackgroundColor("#fff");
+                        //titleBarOverlay
+                    } else {
+                        win.setBackgroundColor("#1b1b1b");
+                    }
+                }
+
+                nativeTheme.on("updated", checkTheme);
+                win.on('closed', () => {
+                    nativeTheme.removeListener("updated", checkTheme);
+                });
+
+                checkTheme();
+            }
 
             windows.log.win = win;
             this.aliveQ = true;
@@ -1661,23 +1689,6 @@ function create_window(opts, cbk = () => {}) {
                 //win.setRoundedCorner();
             }*/
             if (!options.overlay) {
-                if (options.disallowFullscreen) {
-                  /*  let maxed = false;
-                    win.on('maximize', (event) => {
-                        maxed = !maxed;
-                        const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-                        win.unmaximize();
-                        if (maxed) {         
-                            setTimeout(() => win.setBounds({ x: 0, y: 0, width, height }), 100);
-                        } else {
-                            setTimeout(() => win.setBounds({ x: width/4.0, y: height/4.0, width:width/2.0, height:height/2.0 }), 100);
-                        }
-                        
-                    });*/
-
-                    //win.setMaximizable(false);
-                }
-
 
                 if (!IS_WINDOWS_11 || server.frontend.WindowsLegacy) {
                 const checkTheme = () => {
@@ -1725,9 +1736,15 @@ function create_window(opts, cbk = () => {}) {
         } else {
             win = new BrowserWindow({
                 frame: true,
-                autoHideMenuBar: !(options.linuxMenuBar),
+                autoHideMenuBar: true,
+                titleBarStyle: 'hidden',
+                titleBarOverlay: {
+                  color: 'rgba(255, 255, 255, 0.0)',
+                  symbolColor: 'rgba(128, 128, 128, 1.0)'
+                },
                 width: Math.round(options.width),
                 height: Math.round(options.height),
+                
                 minWidth: Math.round(options.minWidth),
                 title: options.title,
                 //transparent:true,
@@ -1737,9 +1754,56 @@ function create_window(opts, cbk = () => {}) {
                 webPreferences: {
                     preload: path.join(__dirname, 'preload_main.js')
                 },
-                ...options.override,
-                icon: path.join(__dirname, "build", "512x512.png")
+                ...options.override
+
             });
+
+
+            if (!options.overlay) {
+
+                if (true) {
+                const checkTheme = () => {
+                    if (!nativeTheme.shouldUseDarkColors) {
+                        win.setBackgroundColor("#fff");
+                        //titleBarOverlay
+                    } else {
+                        win.setBackgroundColor("#1b1b1b");
+                    }
+                }
+
+                nativeTheme.on("updated", checkTheme);
+                win.on('closed', () => {
+                    nativeTheme.removeListener("updated", checkTheme);
+                });
+
+                checkTheme();
+                } else {
+                //a bug with maximizing the window
+                //https://github.com/electron/electron/issues/38743
+
+                /*win.once('maximize', () => {
+                    const checkTheme = () => {
+                        if (!nativeTheme.shouldUseDarkColors) {
+                            win.setBackgroundColor("#fff");
+                            //titleBarOverlay
+                        } else {
+                            win.setBackgroundColor("#000");
+                        }
+                    }
+
+                    nativeTheme.on("updated", checkTheme);
+                    win.on('closed', () => {
+                        nativeTheme.removeListener("updated", checkTheme);
+                    });
+
+                    checkTheme();
+                });*/
+
+
+
+                }
+            }
+
         }
 
         if (options.overlay) {
@@ -1748,7 +1812,7 @@ function create_window(opts, cbk = () => {}) {
             })
         }
 
-        if (options.features) {
+        if (options.features ) {
             if (options.features.top || options.features.right || options.features.left || options.features.bottom) {
                 const pos = options.parent.getPosition();
                 pos[0] = pos[0] + (options.features.right || 0) - (options.features.left || 0);
@@ -2651,7 +2715,7 @@ function start_server (window) {
 
     windows.log.info('Starting server');
     let accentColor = systemPreferences.getAccentColor();
-    if (!accentColor) accentColor = 'rgb(13 148 136)';  else accentColor = '#'+accentColor;
+    if (!accentColor) accentColor = '#008855';  else accentColor = '#'+accentColor;
 
 
     server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+', "AccentColor"->"'+accentColor+'"|>;');

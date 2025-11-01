@@ -396,6 +396,10 @@ input::selection {
   display:none
 }
 
+[os="Unix"] .linux\:autohide {
+  display:none
+}
+
 [os="Windows"] .win\:barfix {
   padding-top:0 !important;
   margin-top: 0.25rem !important;
@@ -408,6 +412,10 @@ input::selection {
 
 @media (min-width: 768px) {
   [os="Windows"] .win\:autohide {
+    display:inline-block
+  }
+  
+  [os="Unix"] .linux\:autohide {
     display:inline-block
   }
 }

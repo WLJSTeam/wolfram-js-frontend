@@ -1,6 +1,9 @@
 hexColor = (IntegerDigits[
   ToExpression@StringReplace[#, "#" -> "16^^"], 256, If[StringLength[#] > 7, 4, 3]]) &;
 
+
+
+
 Component[Children__, OptionsPattern[]] := With[{
     AccentColor = OptionValue["AccentColor"], 
     Title = OptionValue["Title"], Merged = ToStringRiffle[{Children}],
@@ -11,6 +14,7 @@ Component[Children__, OptionsPattern[]] := With[{
         StringTemplate["rgb(`` `` `` / 25%)"][h[[1]], h[[2]], h[[3]]]
     ]
 },
+
     <head>
             <title><Title/></title>
             <style>
