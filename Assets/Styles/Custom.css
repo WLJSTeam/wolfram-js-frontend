@@ -217,14 +217,17 @@ input::selection {
 
 .h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="Windows"] .win\:h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="WindowsLegacy"] .owin\:h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="Windows"] .win\:sc-b {
@@ -321,6 +324,7 @@ input::selection {
 
 [os="Unix"] .linux\:h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="Windows"] .win\:pt-fix {
