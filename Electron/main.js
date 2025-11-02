@@ -1696,7 +1696,7 @@ function create_window(opts, cbk = () => {}) {
                         win.setBackgroundColor("#fff");
                         //titleBarOverlay
                     } else {
-                        win.setBackgroundColor("#000");
+                        win.setBackgroundColor("#1b1b1b");
                     }
                 }
 
