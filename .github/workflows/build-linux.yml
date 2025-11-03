@@ -14,7 +14,6 @@ jobs:
           apt-get -y update
           apt-get -y install build-essential
           apt-get -y install libuv1-dev
-          apt-get -y install flatpak flatpak-builder
 
       - name: Install Git in container
         run: |
@@ -95,21 +94,6 @@ jobs:
             chmod +x ./.github/workflows/install_arm.sh
             WE_MODE=install bash ./.github/workflows/install_arm.sh
             sudo apt install libuv1-dev -y
-
-      - name: Prep APT & install flatpak bits (ARM)
-        run: |
-          set -euxo pipefail
-          # Clean any old lists that might point to vanished packages
-          sudo rm -rf /var/lib/apt/lists/*
-          # Update with retries to avoid transient mirror issues
-          sudo apt-get -o Acquire::Retries=5 update
-          # (Optional but helpful) ensure base system metadata is current
-          sudo apt-get -yq --no-install-recommends install ca-certificates
-          # Now install what you need
-          sudo apt-get -yq --no-install-recommends install \
-            libuv1-dev \
-            flatpak \
-            flatpak-builder
 
 
       - name: Set up Node.js
