@@ -218,12 +218,17 @@ requestKernel[notebook_, kernels_, modals_, client_, Success_] := With[{},
             _,
                 Print["Cancelled"]; 
         ] ] ];
-        
-        Print["fire!"];
-        EventFire[modals, "SelectBox", <|
-            "Promise"->promise, "message"->"Choose an evaluation kernel", 
-            "title"->"Kernel list", "list"->Map[Function[k, k["Name"]], ReleaseHold[kernels]]
-        |>];
+
+        If[Length[ReleaseHold[kernels]] == 1,
+            Echo["Autoselected 1"];
+            EventFire[promise, Resolve, 1];    
+        ,
+            Print["fire!"];
+            EventFire[modals, "SelectBox", <|
+                "Promise"->promise, "message"->"Choose an evaluation kernel", 
+                "title"->"Kernel list", "list"->Map[Function[k, k["Name"]], ReleaseHold[kernels]]
+            |>];        
+        ];
     ];
 ];
 
