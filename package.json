@@ -80,7 +80,7 @@
       "target": [
         "deb",
         "zip",
-        "snap"
+        "appimage"
       ],
       "artifactName": "wljs-notebook-${version}-${arch}-gnulinux.${ext}",
       "fileAssociations": [
