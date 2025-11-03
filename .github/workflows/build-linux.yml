@@ -14,6 +14,7 @@ jobs:
           apt-get -y update
           apt-get -y install build-essential
           apt-get -y install libuv1-dev
+          apt-get -y install flatpak flatpak-builder
 
       - name: Install Git in container
         run: |
@@ -94,6 +95,7 @@ jobs:
             chmod +x ./.github/workflows/install_arm.sh
             WE_MODE=install bash ./.github/workflows/install_arm.sh
             sudo apt install libuv1-dev -y
+            sudo apt install -y flatpak flatpak-builder
 
 
       - name: Set up Node.js
