@@ -14,6 +14,11 @@ jobs:
           apt-get -y update
           apt-get -y install build-essential
           apt-get -y install libuv1-dev
+      
+      - name: Install Snapcraft
+        run: |
+          sudo apt update
+          sudo apt install -y snapcraft
 
       - name: Install snapcraft
         run: |
@@ -92,9 +97,14 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
 
+      - name: Install Snapcraft
+        run: |
+          sudo apt update
+          sudo apt install -y snapcraft
+
       - name: Install snapcraft
         run: |
-          snap install snapcraft --classic
+          sudo snap install snapcraft --classic
 
       - name: Install WE
         run: |
