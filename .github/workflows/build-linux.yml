@@ -17,8 +17,10 @@ jobs:
       
       - name: Install Snapcraft
         run: |
+          export DEBIAN_FRONTEND=noninteractive
           apt update
           apt install -y snapcraft
+     
 
       - name: Install snapcraft
         run: |
