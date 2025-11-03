@@ -17,7 +17,7 @@ jobs:
 
       - name: Install snapcraft
         run: |
-          sudo snap install snapcraft --classic
+          snap install snapcraft --classic
 
       - name: Install Git in container
         run: |
@@ -94,7 +94,7 @@ jobs:
 
       - name: Install snapcraft
         run: |
-          sudo snap install snapcraft --classic
+          snap install snapcraft --classic
 
       - name: Install WE
         run: |
