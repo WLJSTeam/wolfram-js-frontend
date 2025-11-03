@@ -1323,7 +1323,7 @@ const windows = {
             if (!isMac && !isWindows) {
                                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
-                        win.setBackgroundColor("#fff");
+                        win.setBackgroundColor("#eeeeee");
                         //titleBarOverlay
                     } else {
                         win.setBackgroundColor("#1b1b1b");
@@ -1693,7 +1693,7 @@ function create_window(opts, cbk = () => {}) {
                 if (!IS_WINDOWS_11 || server.frontend.WindowsLegacy) {
                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
-                        win.setBackgroundColor("#fff");
+                        win.setBackgroundColor("#eeeeee");
                         //titleBarOverlay
                     } else {
                         win.setBackgroundColor("#1b1b1b");
@@ -1764,7 +1764,7 @@ function create_window(opts, cbk = () => {}) {
                 if (true) {
                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
-                        win.setBackgroundColor("#fff");
+                        win.setBackgroundColor("#eeeeee");
                         //titleBarOverlay
                     } else {
                         win.setBackgroundColor("#1b1b1b");
@@ -2715,7 +2715,17 @@ function start_server (window) {
 
     windows.log.info('Starting server');
     let accentColor = systemPreferences.getAccentColor();
-    if (!accentColor) accentColor = '#008855';  else accentColor = '#'+accentColor;
+
+    if (!accentColor) {
+        accentColor = '#008855';  
+    } else {
+        if (accentColor.charAt(0) != '#') accentColor = '#'+accentColor;
+        if (accentColor.length > 7) accentColor = accentColor.slice(0, 7);
+        
+    }
+
+
+    console.log('Accentcolor: ', accentColor);
 
 
     server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+', "AccentColor"->"'+accentColor+'"|>;');
@@ -2910,7 +2920,9 @@ function store_configuration(cbk) {
 
 function load_configuration() {
     if (!fs.existsSync(path.join(appDataFolder, 'configuration.ini'))) return undefined;
-    return JSON.parse(fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8'));
+    const content = fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8');
+    if (content.length == 0) return undefined;
+    return JSON.parse(content);
 }
 
 //checking if there is working Wolfram Kernel.

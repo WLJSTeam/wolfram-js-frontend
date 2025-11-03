@@ -324,7 +324,7 @@ input::selection {
 
 [os="Unix"] .linux\:h-titlebar {
   height: env(titlebar-area-height) !important;
-  min-height: 32px;
+  min-height: 38px;
 }
 
 [os="Windows"] .win\:pt-fix {
@@ -404,14 +404,33 @@ input::selection {
   display:none
 }
 
+[os="Unix"] .osx\:border-b {
+  border-bottom-width: 1px;
+}
+
+[os="WindowsLegacy"] .osx\:border-b {
+  border-bottom-width: 1px;
+}
+
+[os="Unix"] .osx\:border-r {
+  border-right-width: 1px;
+}
+
+[os="WindowsLegacy"] .osx\:border-r {
+  border-right-width: 1px;
+}
+
 [os="Windows"] .win\:barfix {
   padding-top:0 !important;
   margin-top: 0.25rem !important;
 }
 
+[os="Unix"] .linux\:barfix {
+  padding-top: 0.5rem !important;
+}
+
 [os="WindowsLegacy"] .owin\:barfix {
-  padding-top:0 !important;
-  margin-top: 0.25rem !important;
+  padding-top: 0.25rem !important;
 }
 
 @media (min-width: 768px) {

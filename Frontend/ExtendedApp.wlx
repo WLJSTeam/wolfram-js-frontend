@@ -391,7 +391,7 @@ App[request_] := With[{
             <ExtensionsStyles/>
             <FrontEndCustomCSS/>
         </Head>  
-        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700"> 
         <WebUIOnLoad Event={OnLoad}/>
         <style>
           :root {--system-main-padding-left: <SidebarSize/>rem}
@@ -401,10 +401,10 @@ App[request_] := With[{
           <Modals CachedClient={cachedClient} ModalsPort={ModalController} ElectronQ={isElectron}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
 
-          <div id="sidebar" style="user-select: none; -webkit-app-region: drag; overflow:hidden" class="hidden pt-10 md:fixed zen:hidden md:inset-y-0 md:z-50 md:w-sidesys md:flex md:flex-col osx:border-r border-gray-300 dark:border-gray-600 filter">        
+          <div id="sidebar" style="user-select: none; -webkit-app-region: drag; overflow:hidden" class="hidden pt-10 md:fixed zen:hidden md:inset-y-0 md:z-50 md:w-sidesys md:flex md:flex-col linux:border-r owin:border-r osx:border-r border-gray-300 dark:border-gray-600 filter">        
             <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
             <Sidebar ElectronQ={isElectron} RawPath={RawPath} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Icons={ExtensionSidebarIcons} Parameters={GlobalParameters} Modals={ModalController} Secret={Secret} Path={Path} Controls={GlobalControls}/>
-            <div class="osx:border-b border-gray-300 dark:border-gray-600"></div>
+            <div class="osx:border-b owin:border-b linux:border-b border-gray-300 dark:border-gray-600"></div>
             <div class="px-4 flex flex-row h-10 mt-auto grow-0 shrink-0 items-center" style="-webkit-app-region: drag;">
               <SettingsButton/>
             </div>
