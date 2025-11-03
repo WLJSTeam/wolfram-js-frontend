@@ -1319,8 +1319,7 @@ const windows = {
             }
             
 
-
-            if (!isMac && !isWindows) {
+            if ((!isMac && !isWindows) || (isWindows && (!IS_WINDOWS_11 || server.frontend.WindowsLegacy))) {
                                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
                         win.setBackgroundColor("#eeeeee");
