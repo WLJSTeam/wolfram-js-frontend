@@ -17,8 +17,8 @@ jobs:
       
       - name: Install Snapcraft
         run: |
-          sudo apt update
-          sudo apt install -y snapcraft
+          apt update
+          apt install -y snapcraft
 
       - name: Install snapcraft
         run: |
