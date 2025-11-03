@@ -13,7 +13,7 @@ It is the first open-source solution featuring true 2D math input combined with 
 
 <h3 align="center">
   <a href="https://wljs.io/">Overview 🚀</a> &nbsp;&nbsp; 
-  <a href="https://wljs.io/wljs-demo">Online demo 📺</a>
+  <a href="https://wljs.io/wljs-demo">Online demos 📺</a>
 </h3>
 
 The notebook combines live code in WL, JS, Mermaid and many more, GUI blocks for user input, equations, narrative text, visualizations, interactive widgets.
@@ -31,9 +31,6 @@ The notebook combines live code in WL, JS, Mermaid and many more, GUI blocks for
   </p>
   <p>
     You don’t need Mathematica installed to use WLJS Notebook. <b>No subscription required</b>—just a one-time registration at <em>wolfram.com</em> for personal use.
-  </p>
-  <p>
-    See the <a href="https://www.wolfram.com/legal/terms/wolfram-engine.html">license agreement</a> for a commercial use.
   </p>
 </div>
 
@@ -83,6 +80,11 @@ Notebooks presented as static web pages showcasing various examples demonstratin
 
 ### Feels like Mathematica and Jupyter
 WLJS Notebook is compatible with Wolfram Mathematica and has a flat and minimal notebook structure like in Jupyter Lab. All power of Wolfram Language standard library is at your hands
+
+### Crossplatform
+We carefully designed the backend and adjusted our UI to match all platforms: Windows 10/11, macOS, GNU/Linux (GNOME) and **even a web-browser**!
+
+![](./imgs/4OS.png)
 
 ### Batteries included
 More than 200 importers/exporters formats. Vast standard library of Wolfram Mathematica (Language) for every computational need, from data analysis to visualization, symbolic computation, and beyond
@@ -178,32 +180,8 @@ Use the `.exe` installer from the releases page.
 ```bash
 sudo apt install ./wljs-notebook.deb
 ```
-For Ubuntu 24.04, disable AppArmor restrictions:
-```bash
-sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
-```
-
-### **Running on a server**
-Clone this repository
-
-```bash
-git clone https://github.com/JerryI/wolfram-js-frontend
-cd wolfram-js-frontend
-wolframscript -f Scripts/start.wls
-```
-
-#### On-demand license
-If you want to try WLJS Notebook without binding the free license to your machine, you can issue [license entitlement](https://reference.wolfram.com/language/ref/CreateLicenseEntitlement.html) using Wolfram Cloud or a friend. Then
-
-```bash
-git clone https://github.com/JerryI/wolfram-js-frontend
-cd wolfram-js-frontend
-wolframscript -f Scripts/start.wls -entitlement XXX-CODE-OF-ENTITLEMENT-XXX
-```
-
-*Note: in this regime the evaluation kernel works much slower*
-
-
+#### Using `AppImage`
+Make it executable and double click to run it
 
 
 #### Docker Image
