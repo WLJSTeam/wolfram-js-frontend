@@ -79,7 +79,8 @@
     "linux": {
       "target": [
         "deb",
-        "zip"
+        "zip",
+        "flatpak"
       ],
       "artifactName": "wljs-notebook-${version}-${arch}-gnulinux.${ext}",
       "fileAssociations": [
