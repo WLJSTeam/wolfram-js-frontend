@@ -71,7 +71,7 @@ App[request_] := With[{
             <WebUIInitializationScript/>
             <ExtensionsStyles/>
         </Head>  
-        <body class="h-full owin:border owin:border-slate-400"> 
+        <body class="h-full linux:border linux:border-slate-400 owin:border owin:border-slate-400"> 
         <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div>

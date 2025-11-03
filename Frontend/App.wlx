@@ -399,7 +399,7 @@ App[request_] := With[{
             <ExtensionsStyles/>
             <FrontEndCustomCSS/>
         </Head>  
-        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:border owin:border-slate-400 linux:border linux:border-slate-400"> 
+        <body class="h-full owin:border owin:border-slate-400 linux:border linux:border-slate-400"> 
         <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full">
