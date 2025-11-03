@@ -433,6 +433,15 @@ input::selection {
   padding-top: 0.25rem !important;
 }
 
+[os="Unix"] .owin\:border {
+  border-width: 1px;
+}
+
+[os="Unix"] .owin\:border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity));
+}
+
 @media (min-width: 768px) {
   [os="Windows"] .win\:autohide {
     display:inline-block
