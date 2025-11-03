@@ -1240,8 +1240,11 @@ const windows = {
                 }
              });
             } else if (isWindows) {
+                let mica = server.frontend.WindowsBackgroundMaterial || 'tabbed';
+                if (server.frontend.WindowsLegacy) mica = false;
+
                 win = new BrowserWindow({
-                    vibrancy: "sidebar", // in my case...
+                    backgroundMaterial: mica, // in my case...
                     frame: true,
                     autoHideMenuBar: true,
                     titleBarStyle: 'hidden',
