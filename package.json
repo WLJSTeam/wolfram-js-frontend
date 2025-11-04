@@ -1,6 +1,6 @@
 {
   "name": "wljs-notebook",
-  "version": "2.8.7",
+  "version": "2.8.8",
   "recommended-client-version": "2.6.3",
   "description": "Dynamic Notebook Environment for Wolfram Language written in Javascript",
   "author": {
@@ -79,7 +79,8 @@
     "linux": {
       "target": [
         "deb",
-        "zip"
+        "zip",
+        "appimage"
       ],
       "artifactName": "wljs-notebook-${version}-${arch}-gnulinux.${ext}",
       "fileAssociations": [
@@ -169,7 +170,9 @@
       "./PacletInfo.wl",
       "./wl_packages_lock.wl",
       "./.wl_timestamp",
-      "./dependencies.wl"
+      "./dependencies.wl",
+      "./LICENSE",
+      "./licenses/**"
     ],
     "asar": false
   },
@@ -187,8 +190,8 @@
     "@playwright/test": "^1.51.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@types/node": "^22.13.10",
-    "electron": "38.3.0",
-    "electron-builder": "^25.1.8",
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.12",
     "rollup": "^3.29.3",
     "rollup-plugin-combine": "^2.1.1",
     "serve-static": "^1.14.1",

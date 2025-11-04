@@ -1,5 +1,5 @@
 //@ts-check
-const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme } = require('electron')
+const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme, systemPreferences } = require('electron')
 const { screen, globalShortcut} = require('electron/main')
 
 const path = require('path')
@@ -37,6 +37,23 @@ const { IS_WINDOWS_11, WIN10 } = require('mica-electron');
 const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
 
+
+if (!isWindows && !isMac) {
+   // app.commandLine.appendSwitch('gtk-version', '3')
+}
+
+class Deferred {
+  promise = {}
+  reject = {}
+  resolve = {}          
+
+  constructor() {
+    this.promise = new Promise((resolve, reject)=> {
+      this.reject = reject;
+      this.resolve = resolve;
+    });
+  }
+} 
 
 let trackpadUtils = {
     onForceClick: () => {},
@@ -776,16 +793,7 @@ buildMenu = (opts) => {
 
                 { type: 'separator' },
 
-                ...(options.plugins.misc.sort((a, b)=> (a.priority - b.priority))),
-                {
-                    role: 'help',
-                    label: 'Acknowledgments',
-                    click: async() => {
-                        //const { shell } = require('electron')
-                        windows.focused.call('acknowledgments', true);
-                        //create_window({url: server.url.default('local') + `/sponsors`, title: 'Acknowledgments'});
-                    }
-                }                
+                ...(options.plugins.misc.sort((a, b)=> (a.priority - b.priority)))               
             ]
         }
     ];
@@ -1232,8 +1240,11 @@ const windows = {
                 }
              });
             } else if (isWindows) {
+                let mica = server.frontend.WindowsBackgroundMaterial || 'tabbed';
+                if (server.frontend.WindowsLegacy) mica = false;
+
                 win = new BrowserWindow({
-                    vibrancy: "sidebar", // in my case...
+                    backgroundMaterial: mica, // in my case...
                     frame: true,
                     autoHideMenuBar: true,
                     titleBarStyle: 'hidden',
@@ -1261,23 +1272,27 @@ const windows = {
 
             } else {
                 win = new BrowserWindow({
-                    vibrancy: "sidebar", // in my case...
                     frame: true,
+                    autoHideMenuBar: true,
+                    transparent: false,
+                    titleBarStyle: 'hidden',
+                    titleBarOverlay: {
+                        color: 'rgba(255, 255, 255, 0.0)',
+                        symbolColor: 'rgba(128, 128, 128, 1.0)'
+                    },
                     autoHideMenuBar: true,
                     width: 600,
                     height: 400,
                     resizable: false,
-                    maximizable: false,
                     title: 'Launcher',
+                    maximizable: false,
                     contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
                         //webSecurity: false,
                         nodeIntegration: true,
                         contextMenu: true
-                    },
-
-                    icon: path.join(__dirname, "build", "512x512.png")
+                    }
                  });                
             }
 
@@ -1306,6 +1321,24 @@ const windows = {
                 win.loadFile(path.join(__dirname, 'log_padded.html'));
             }
             
+
+            if ((!isMac && !isWindows) || (isWindows && (!IS_WINDOWS_11 || server.frontend.WindowsLegacy))) {
+                                const checkTheme = () => {
+                    if (!nativeTheme.shouldUseDarkColors) {
+                        win.setBackgroundColor("#eeeeee");
+                        //titleBarOverlay
+                    } else {
+                        win.setBackgroundColor("#212731");
+                    }
+                }
+
+                nativeTheme.on("updated", checkTheme);
+                win.on('closed', () => {
+                    nativeTheme.removeListener("updated", checkTheme);
+                });
+
+                checkTheme();
+            }
 
             windows.log.win = win;
             this.aliveQ = true;
@@ -1371,16 +1404,6 @@ const windows = {
         }
     }
 };
-
-const exportImageBuffer = async (buffer, format, pp, frames) => {
-    const len = Math.min(buffer.length, frames);
-    for (let i=0; i<len; ++i) {
-        const frame = buffer.pop();
-        const p = path.join(pp, String(frame[0]) + "." + format);
-        fs.writeFileSync(p, frame[1], {flag:'w'});
-        console.log(p);
-    }
-}
 
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);
@@ -1521,7 +1544,7 @@ function create_window(opts, cbk = () => {}) {
 
         if ((new RegExp(/settings/)).exec(options.url)) {
             options.linuxMenuBar = false;
-            options.contextMenu = false;
+            options.contextMenu = true;
             options.override.maximizable = false;
         }
         
@@ -1668,31 +1691,14 @@ function create_window(opts, cbk = () => {}) {
                 //win.setRoundedCorner();
             }*/
             if (!options.overlay) {
-                if (options.disallowFullscreen) {
-                  /*  let maxed = false;
-                    win.on('maximize', (event) => {
-                        maxed = !maxed;
-                        const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-                        win.unmaximize();
-                        if (maxed) {         
-                            setTimeout(() => win.setBounds({ x: 0, y: 0, width, height }), 100);
-                        } else {
-                            setTimeout(() => win.setBounds({ x: width/4.0, y: height/4.0, width:width/2.0, height:height/2.0 }), 100);
-                        }
-                        
-                    });*/
-
-                    //win.setMaximizable(false);
-                }
-
 
                 if (!IS_WINDOWS_11 || server.frontend.WindowsLegacy) {
                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
-                        win.setBackgroundColor("#fff");
+                        win.setBackgroundColor("#eeeeee");
                         //titleBarOverlay
                     } else {
-                        win.setBackgroundColor("#000");
+                        win.setBackgroundColor("#212731");
                     }
                 }
 
@@ -1732,9 +1738,15 @@ function create_window(opts, cbk = () => {}) {
         } else {
             win = new BrowserWindow({
                 frame: true,
-                autoHideMenuBar: !(options.linuxMenuBar),
+                autoHideMenuBar: true,
+                titleBarStyle: 'hidden',
+                titleBarOverlay: {
+                  color: 'rgba(255, 255, 255, 0.0)',
+                  symbolColor: 'rgba(128, 128, 128, 1.0)'
+                },
                 width: Math.round(options.width),
                 height: Math.round(options.height),
+                
                 minWidth: Math.round(options.minWidth),
                 title: options.title,
                 //transparent:true,
@@ -1744,9 +1756,56 @@ function create_window(opts, cbk = () => {}) {
                 webPreferences: {
                     preload: path.join(__dirname, 'preload_main.js')
                 },
-                ...options.override,
-                icon: path.join(__dirname, "build", "512x512.png")
+                ...options.override
+
             });
+
+
+            if (!options.overlay) {
+
+                if (true) {
+                const checkTheme = () => {
+                    if (!nativeTheme.shouldUseDarkColors) {
+                        win.setBackgroundColor("#eeeeee");
+                        //titleBarOverlay
+                    } else {
+                        win.setBackgroundColor("#212731");
+                    }
+                }
+
+                nativeTheme.on("updated", checkTheme);
+                win.on('closed', () => {
+                    nativeTheme.removeListener("updated", checkTheme);
+                });
+
+                checkTheme();
+                } else {
+                //a bug with maximizing the window
+                //https://github.com/electron/electron/issues/38743
+
+                /*win.once('maximize', () => {
+                    const checkTheme = () => {
+                        if (!nativeTheme.shouldUseDarkColors) {
+                            win.setBackgroundColor("#fff");
+                            //titleBarOverlay
+                        } else {
+                            win.setBackgroundColor("#000");
+                        }
+                    }
+
+                    nativeTheme.on("updated", checkTheme);
+                    win.on('closed', () => {
+                        nativeTheme.removeListener("updated", checkTheme);
+                    });
+
+                    checkTheme();
+                });*/
+
+
+
+                }
+            }
+
         }
 
         if (options.overlay) {
@@ -1755,7 +1814,7 @@ function create_window(opts, cbk = () => {}) {
             })
         }
 
-        if (options.features) {
+        if (options.features ) {
             if (options.features.top || options.features.right || options.features.left || options.features.bottom) {
                 const pos = options.parent.getPosition();
                 pos[0] = pos[0] + (options.features.right || 0) - (options.features.left || 0);
@@ -1830,8 +1889,7 @@ function create_window(opts, cbk = () => {}) {
                     actions.cut(),
                     actions.copy(),
                     actions.paste(),
-                    actions.separator(),
-                    actions.inspect()
+                    ...(server.frontend.ExpertMode ? [actions.separator(), actions.inspect()] : [])
                 ]
             });
         }
@@ -2262,10 +2320,6 @@ app.whenReady().then(() => {
     if (!server.frontend.NoUpdates) autoUpdater.checkForUpdatesAndNotify();
 
     
-
-    //server.url.local = `http://127.0.0.1:20560`;
-    //create_window({url: 'http://127.0.0.1:20560', show: true, focus: true, cacheClear: true});
-
     ipcMain.on('system-harptic', () => {
         trackpadUtils.triggerFeedback();
     });
@@ -2299,6 +2353,33 @@ app.whenReady().then(() => {
         return promiseBuf
     });
 
+
+    ipcMain.handle('createMenu', async (e, args) => {
+        //const w = BrowserWindow.fromWebContents(e.sender);
+        const p = new Deferred();
+        let closedQ = false;
+
+        const menu = Menu.buildFromTemplate(args.map((assoc) => {
+            const ref = assoc.ref;
+            if (!ref) {
+                return assoc;
+            }
+            return {
+                ...assoc,
+                click: () => {
+                    p.resolve(ref);
+                    closedQ = true;
+                }
+            }
+        }));
+        
+        menu.popup({callback: () => {
+            if (!closedQ) p.resolve(false);
+        }});
+
+        return await p.promise;
+    })
+
     ipcMain.on('install-cli', () => {
         //trackpadUtils.triggerFeedback();
         check_cli_installed();
@@ -2309,10 +2390,11 @@ app.whenReady().then(() => {
         cli_uninstall();
     }); 
     
-    const capturePocket = {};
+    const capturedBuffer = {};
 
     ipcMain.handle('capture', async (e, area) => {
         let zoom = e.sender.zoomFactor;
+        const windowId = e.sender.id;
 
         if (area) {
             if (!area.deferred) {
@@ -2320,69 +2402,38 @@ app.whenReady().then(() => {
                     area.y = Math.round(area.y * zoom);
                     area.width = Math.round(area.width * zoom);
                     area.height = Math.round(area.height * zoom);
-                    const img = await e.sender.capturePage(area)
+                    const img = await e.sender.capturePage(area);
                     return img.toDataURL();
             }
 
-            switch(area.deferred.type) {
-                case 'Init':
-                    capturePocket[area.deferred.id] = {
-                        buffer: [], format: area.deferred.format, 
-                        quality: area.deferred.quality,
-                        path: decodeURIComponent(area.deferred.path)
-                    };
-                    
+            switch(area.deferred) {
+                case 'Flush':
+                    capturedBuffer[windowId] = [];
+                    return 'flushed';
 
-                    return;
+                case 'Capture': {
+                        console.log(area);
+                        area.x = Math.round(area.x * zoom);
+                        area.y = Math.round(area.y * zoom);
+                        area.width = Math.round(area.width * zoom);
+                        area.height = Math.round(area.height * zoom);
 
-                case 'Purge':
-                    delete capturePocket[area.deferred.id];
-                    return;
+                        const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
+                        console.log(rect);
 
-                case 'Record': {
-                    console.log(area);
-                    area.x = Math.round(area.x * zoom);
-                    area.y = Math.round(area.y * zoom);
-                    area.width = Math.round(area.width * zoom);
-                    area.height = Math.round(area.height * zoom);
-                    const l = capturePocket[area.deferred.id];
-
-                    const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
-                    console.log(rect);
-
-                    const img = await e.sender.capturePage(rect);
-                    let data;
-                    switch(l.format) {
-                        case 'JPG':
-                            data = img.toJPEG(l.quality);
-                        break;
-                        case 'JPEG':
-                            data = img.toJPEG(l.quality);
-                        break;
-                        default:
-                            data = img.toPNG();
-                        break;
+                        const img = await e.sender.capturePage(rect);
+                        capturedBuffer[windowId].push(img.toDataURL());
                     }
-                    l.buffer.push([l.buffer.length, data]);
+                    return 'captured';
 
-                    if (l.buffer > 20) {
-                        await exportImageBuffer(l.buffer, l.format, l.path, 20);
-                    }
+                case 'Pop': {
+                    const item = capturedBuffer[windowId].shift();
+                    if (item) return item;                
+                    return false;
                 }
-                    return 'Saved';
 
-                case 'Export': {
-                    const id = area.deferred.id;
-                    const l = capturePocket[id];
-
-                    await exportImageBuffer(l.buffer, l.format, l.path, Infinity);
-
-                    delete l.buffer;
-                    delete capturePocket[id];
-
-                    return 'Exported';                    
-
-                }
+                default:
+                    return false;
             }
 
         } else {
@@ -2436,8 +2487,6 @@ app.whenReady().then(() => {
         session.defaultSession.clearCache();
 
         if (senderWindow) {
-
-
             const ses = senderWindow.webContents.session;
             ses.clearCache();
         }
@@ -2525,43 +2574,29 @@ app.whenReady().then(() => {
         }
     });
 
-    ipcMain.handle('system-save-something', async (event, p) => {
-        const result = await dialog.showSaveDialog({ title: p.title, properties: ['createDirectory'], filters: p.filters || [
-            { extensions: p.extension }
-        ]});
+    ipcMain.handle('showOpenDialog', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showOpenDialog(p);
+        return result;
+    }); 
 
-        if (!result.canceled) {
-            return encodeURIComponent(result.filePath);
-        } else {
-            return false;
-        }
-    });
+    ipcMain.handle('showSaveDialog', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showSaveDialog(p);
+        return result;
+    }); 
 
-    ipcMain.handle('system-open-something', async (event, p) => {
-        const result = await dialog.showOpenDialog({ title: p.title, filters: p.filters || [
-            { extensions: p.extension }
-        ],
-            properties: p.list? ["multiSelections", "openFile"] : ["openFile"]
-        });
+    ipcMain.handle('showMessageBox', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showMessageBox(p);
+        return result;
+    });     
 
-        if (!result.canceled) {
-            if (p.list) return result.filePaths.map(encodeURIComponent);
-            return encodeURIComponent(result.filePaths[0]);
-        } else {
-            return false;
-        }
-    });    
-
-    ipcMain.handle('system-open-folder-something', async (event, p) => {
-        const result = await dialog.showOpenDialog({ title: p.title, buttonLabel:'Set', properties: ['openDirectory', 'createDirectory']});
-
-        if (!result.canceled) {
-            return encodeURIComponent(result.filePaths[0]);
-        } else {
-            return false;
-        }
-    });
-
+    ipcMain.handle('showErrorBox', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showErrorBox(p.title, p.content);
+        return result;
+    });     
 
     ipcMain.on('system-window-expand', (e, p) => {
         windows.focused.win.setBounds({ width: 800 , animate: true});
@@ -2606,17 +2641,28 @@ app.whenReady().then(() => {
 
     ipcMain.on('system-open-external', (e, p) => {
         const url = p;
+        console.log('Open url: ', p);
         shell.openExternal(url);
     });
 
     ipcMain.on('system-open-path', (e, p) => {
-        const url = p;
-        shell.openPath(url);
+        const url = path.join(...p);
+        console.log('Open path: ', url);
+        if (!fs.existsSync(url)) {
+            shell.openPath('/'+url);
+        } else {
+            shell.openPath(url);
+        }
     });
 
     ipcMain.on('system-show-folder', (e, p) => {
-        const url = p;
-        shell.showItemInFolder(url);
+        const url = path.join(...p);
+        console.log('Open dir: ', url);
+        if (!fs.existsSync(url)) {
+            shell.showItemInFolder('/'+url);
+        } else {
+            shell.showItemInFolder(url);
+        }        
     });
 
     
@@ -2670,7 +2716,21 @@ function start_server (window) {
     }
 
     windows.log.info('Starting server');
-    server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+'|>;');
+    let accentColor = systemPreferences.getAccentColor();
+
+    if (!accentColor) {
+        accentColor = '#008855';  
+    } else {
+        if (accentColor.charAt(0) != '#') accentColor = '#'+accentColor;
+        if (accentColor.length > 7) accentColor = accentColor.slice(0, 7);
+        
+    }
+
+
+    console.log('Accentcolor: ', accentColor);
+
+
+    server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+', "AccentColor"->"'+accentColor+'"|>;');
     server.wolfram.process.stdin.write(`Get[URLDecode["${encodeURIComponent(runPath)}"]]\n`);
 
     const PACError = new RegExp(/Execution of PAC script at/);
@@ -2862,14 +2922,23 @@ function store_configuration(cbk) {
 
 function load_configuration() {
     if (!fs.existsSync(path.join(appDataFolder, 'configuration.ini'))) return undefined;
-    return JSON.parse(fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8'));
+    const content = fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8');
+    if (content.length == 0) return undefined;
+    return JSON.parse(content);
 }
 
 //checking if there is working Wolfram Kernel.
 function check_wl (configuration, cbk, window) {
     if (configuration) server.wolfram = {...server.wolfram, ...configuration.wolfram};
 
-    windows.log.print("");
+    windows.log.print(`WLJS Notebooks
+Copyright (c) 2025 Coffee liqueur
+Licensed under the GNU GPL v3.0. See /LICENSE.md.
+
+This product bundles third-party FOSS. 
+Wolfram Engine is proprietary and distributed by Wolfram Research.
+
+`);
     windows.log.info("Starting wolframscript");
     windows.log.print("Starting wolframscript by path: " + server.wolfram.path);
     let program;
@@ -3030,7 +3099,7 @@ function check_wl (configuration, cbk, window) {
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
-            windows.log.clear();
+            //windows.log.clear();
             cbk();
         },
         () => {
@@ -3075,7 +3144,7 @@ function check_wl (configuration, cbk, window) {
         if (default_error_handling(()=>{
             //If managed
             //Wolframscript started
-            windows.log.clear();
+            //windows.log.clear();
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
@@ -3103,7 +3172,7 @@ function check_wl (configuration, cbk, window) {
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
-            windows.log.clear();
+            //windows.log.clear();
             cbk();
             return;
         }
@@ -3311,7 +3380,7 @@ function activate_wl(program, success, rejection, window) {
             program.stdin.write('\n');
 
             windows.log.clear();
-            windows.log.print('Waiting for the responce from wolframscript');
+            windows.log.print('Waiting for the response from wolframscript');
 
             let _nohup = false;
             let timer = setTimeout(() => {

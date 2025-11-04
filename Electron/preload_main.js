@@ -45,7 +45,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 
 
-  openPath: (path) => {
+  openPath: (path, opts) => {
     console.log(path);
     ipcRenderer.send('system-open-path',  path);
   },
@@ -56,7 +56,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   beep: () => {
     ipcRenderer.send('system-beep');
   },  
-  openFolder: (path) => {
+  openFolder: (path, opts) => {
     ipcRenderer.send('system-show-folder', path);
   },    
 
@@ -77,29 +77,35 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('system-window-enlarge-if-needed',  {});
   },
 
-  requestFileWindow: (params, cbk) => {
-    ipcRenderer.invoke('system-save-something', params).then((result) => {
+  showOpenDialog: (params, cbk) => {
+    ipcRenderer.invoke('showOpenDialog', params).then((result) => {
       cbk(result);
     });
   },
 
-  requestOpenFileWindow: (params, cbk) => {
-    ipcRenderer.invoke('system-open-something', params).then((result) => {
+  showSaveDialog: (params, cbk) => {
+    ipcRenderer.invoke('showSaveDialog', params).then((result) => {
       cbk(result);
     });
-  },  
+  },
+
+  showMessageBox: (params, cbk) => {
+    ipcRenderer.invoke('showMessageBox', params).then((result) => {
+      cbk(result);
+    });
+  },
+
+  showErrorBox: (params, cbk) => {
+    ipcRenderer.invoke('showErrorBox', params).then((result) => {
+      cbk(result);
+    });
+  }, 
 
   requestScreenshot: (params, cbk) => {
     ipcRenderer.invoke('capture', params).then((result) => {
       cbk(result);
     });
   },  
-
-  requestFolderWindow: (params, cbk) => {
-    ipcRenderer.invoke('system-open-folder-something', params).then((result) => {
-      cbk(result);
-    });
-  },
 
   windowExpand: (path) => {
     console.log(path);
@@ -137,6 +143,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.invoke('print-pdf', params).then((result) => {
       cbk(result);
     });
+  },
+
+  createMenu: async (params) => {
+    return await ipcRenderer.invoke('createMenu', params);
   },
   
   

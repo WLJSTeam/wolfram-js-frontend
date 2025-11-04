@@ -16,17 +16,42 @@ ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
+settings = <||>;
+
+{loadSettings, storeSettings}        = ImportComponent["Settings.wl"];
+
+
+loadSettings[settings];
 
 App[request_] := With[{
         Secret = CreateUUID[], 
         GlobalControls  = CreateUUID[],
         ModalController = CreateUUID[],
+        isElectron = ElectronQ[request],
+        cachedClient = Unique["cachedClient"],
         GlobalMessanger = CreateUUID[],
+        OnLoad = CreateUUID[],
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>
     },
 
+    EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
+      EventRemove[OnLoad];
 
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["Settings >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+        ]}]
+      ];      
+    ]];
 
     (* /* redirect to extensions  */ *)
     EventHandler[EventClone[GlobalMessanger], {
@@ -39,22 +64,22 @@ App[request_] := With[{
     }]; 
 
     <html class="h-full" os="{NavigatorOS}"> 
-        <Head Title={"Settings"}>
+        <Head AccentColor={accentColor} Title={"Settings"}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={False} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     
             <WebUIInitializationScript/>
             <ExtensionsStyles/>
         </Head>  
-        <body class="h-full owin:border owin:border-slate-400"> 
+        <body class="h-full linux:border linux:border-slate-400 owin:border owin:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div>
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals CachedClient={cachedClient} ModalsPort={ModalController} ElectronQ={isElectron}/>
           
           <div id="frame">
             <div class="h-full flex flex-col">          
-              <Notifications MessagePort={GlobalMessanger}/>
+              <Notifications CachedClient={cachedClient} MessagePort={GlobalMessanger} ElectronQ={isElectron}/>
               <Settings Parameters={GlobalParameters} Modals={ModalController} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
             </div> 
           </div>

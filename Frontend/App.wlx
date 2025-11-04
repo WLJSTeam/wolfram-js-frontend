@@ -97,15 +97,21 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
       With[{
           p = Promise[]
       },
-          EventFire[ModalController, "RequestPathToSave", <|
+          EventFire[ModalController, "SaveDialog", <|
               "Promise"->p,
-              "Title"->"Notebook",
-              "Ext"->"wln",
-              "Client"->client
+              "title"->"Save notebook",
+              "properties"->{"createDirectory", "dontAddToRecent"},
+              "filters"->{<|"extensions"->"wln", "name"->"WLJS Notebook"|>}
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = result},
+              Module[{filename = If[StringQ[result], URLDecode @ result, URLDecode @ result["filePath"]]},
+                  If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
+                    Echo["Cancelled saving"]; Echo[result];
+                    EventFire[GlobalMessanger, "Notebook:Saving:Finished", True]; 
+                    Return[];
+                  ];
+
                   If[!StringMatchQ[filename, __~~".wln"],  filename = StringJoin[filename, ".wln"]];
                   If[filename === ".wln", filename = StringJoin[name, filename] ];
                   If[DirectoryName[filename] === "", filename = FileNameJoin[{path, filename}] ];
@@ -129,7 +135,7 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
                     ]
                   ];                  
               ];
-          ], Function[result, EventFire[GlobalMessanger, "Notebook:Saving:Finished", True]; Echo["!!!R!!"]; Echo[result] ] ];
+          ]  ];
 
       ]
     ,
@@ -197,15 +203,19 @@ Then[WebUIFetch[UIPrintPDF[
       With[{
           p = Promise[]
       },
-          EventFire[ModalController, "RequestPathToSave", <|
+          EventFire[ModalController, "SaveDialog", <|
               "Promise"->p,
-              "Title"->"Printed notebook",
-              "Ext"->"pdf",
-              "Client"->client
+              "title"->"Save PDF",
+              "properties"->{"createDirectory", "dontAddToRecent"},
+              "filters"->{<|"extensions"->"pdf", "name"->"PDF Document"|>}
           |>];
           
           Then[p, Function[result, 
-              Module[{filename = result, file},
+              Module[{filename = If[StringQ[result], URLDecode @ result, URLDecode @ result["filePath"]], file},
+                  If[!StringQ[filename] || TrueQ[result["canceled"] ] || StringLength[filename] === 0, 
+                    Return[];
+                  ];
+
                   If[!StringMatchQ[filename, __~~".pdf"],  filename = StringJoin[filename, ".pdf"]];
                   If[filename === ".pdf", filename = StringJoin[name, filename] ];
                   file = OpenWrite[filename, BinaryFormat->True];
@@ -228,7 +238,7 @@ ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
 
 defaultHomeFolder = If[KeyExistsQ[$Env, "folder"], $Env["folder"], Join[<|"Home"->AppExtensions`DefaultDocumentsDir (*`*)|>, settings]["Home"] ];
 
-ExtensionMenuItems = <|"file"->{}, "misc"->{}, "view"->{}, "edit"->{}|>;
+ExtensionMenuItems = <|"file"->{}, "misc"->{}, "kernel"->{}, "view"->{}, "edit"->{}|>;
 
 Map[Function[item, 
   If[KeyExistsQ[item, "section"], 
@@ -260,10 +270,15 @@ App[request_] := With[{
 
   
   With[{
-        
+        cachedClient = Unique["cachedClient"],
         SidebarId = CreateUUID[],
         OnLoad    = CreateUUID[],
+
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
+
         kernels = Hold[AppExtensions`KernelList] (*`*),
+
+        isElectron = ElectronQ[request],
         
         GlobalParameters = Join[<|"Navigator"->(If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]), "ElectronQ" -> ElectronQ[request], "AccentColor"->"teal", "BackupTimeout" -> (3 60 1000)|>, settings],
         AppClass = If[ElectronQ[request], "", "dark:bg-gray-800"],
@@ -295,10 +310,6 @@ App[request_] := With[{
                     WebUILocation[StringJoin["/folder/", URLEncode[AppExtensions`DemosDir (*`*)]], $Client, "Target"->_, "Features"->"top=100,right=100"];
                   ],
 
-                  "Acknowledgments" -> Function[Null,
-                    WebUILocation[StringJoin["/acknowledgments", ""], $Client, "Target"->_, "Features"->"width=600,height=400"];
-                  ],
-
                   "Exit" -> Function[Null,
                     Exit[0];
                   ],
@@ -315,10 +326,6 @@ App[request_] := With[{
               ""
             ,
 
-            "Unix",
-              ""
-            ,
-
             _,
               FakeMenu["Plugins" -> ExtensionMenuItems, "Controls"-> GlobalControls,  "Class"->"ml-1", "Style"->""]
 
@@ -329,8 +336,22 @@ App[request_] := With[{
     loadSettingsOnceMore;
 
     EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
       EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "Controls"->GlobalControls|>];
       
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["App >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+          EventFire[AppEvent, "AppUIDestroy", True];
+        ]}]
+      ];
+
       If[settings["FirstLaunch"] =!= False,
         settings = Join[settings, <|"FirstLaunch" -> False|>];
         storeSettings[settings];              
@@ -370,7 +391,7 @@ App[request_] := With[{
   ,
 
     <html class="h-full {AppClass}" os="{NavigatorOS}" transparency="{Transparency}" > 
-        <Head Title={FileNameTake[Path]} Settings={settings}>
+        <Head Title={FileNameTake[Path]} Settings={settings} AccentColor={accentColor}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={True} Port={$Env["ws"]} PrefixMode={$Env["wsprefix"]}/>     
@@ -378,19 +399,19 @@ App[request_] := With[{
             <ExtensionsStyles/>
             <FrontEndCustomCSS/>
         </Head>  
-        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+        <body class="h-full owin:border owin:border-slate-400 linux:border linux:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full">
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron} CachedClient={cachedClient}/>
           <ExtensionTemplates Template={"AppOverlay"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
           <Kernels AppEvents={AppEvent} Controls={GlobalControls} Messager={GlobalMessanger} KernelList={kernels} OnConnected={initKernel[serverParams]} OnExit={deinitKernel}/>
 
           <div class="h-full" id="frame">
-            <div class="h-full flex flex-col">
-              <TopBar Menu={FakeMenu} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
-              <Notifications Controls={GlobalControls} MessagePort={GlobalMessanger}/>
-              <Views Parameters={GlobalParameters} Modals={ModalController} Kernels={kernels} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
+            <div class="h-full flex flex-col" style="-webkit-app-region: drag">
+              <TopBar Menu={FakeMenu} CachedClient={cachedClient} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
+              <Notifications Controls={GlobalControls} CachedClient={cachedClient} MessagePort={GlobalMessanger} ElectronQ={isElectron}/>
+              <Views Parameters={GlobalParameters} ElectronQ={isElectron} Modals={ModalController} Kernels={kernels} Path={Path} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
           </div>
@@ -398,7 +419,6 @@ App[request_] := With[{
         <Script Secret={Secret}/>
         <ExtensionTemplates Template={"AppScripts"} />
         <ElectronBinds Controls={GlobalControls}/>
-        <WebUIOnLoad Event={OnLoad}/>
       </body>
     </html>
   } // StringRiffle

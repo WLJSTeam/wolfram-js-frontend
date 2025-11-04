@@ -1,25 +1,30 @@
-SuggestKernel = ImportComponent["Components/SuggestKernel.wlx"];
-TextField     = ImportComponent["Components/TextField.wlx"];
-PickAFile     = ImportComponent["Components/PickAFile.wlx"];
-Initcells     = ImportComponent["Components/Initcells.wlx"];
-Generic       = ImportComponent["Components/Generic.wlx"];
-Custom        = ImportComponent["Components/Custom.wlx"];
-Selector       = ImportComponent["Components/Select.wlx"];
-RequestPathToSave = ImportComponent["Components/RequestPathToSave.wlx"];
+HTMLDialogModal        = ImportComponent["Components/HTMLDialogModal.wlx"];
+SaveDialogModal        = ImportComponent["Components/SaveDialogModal.wlx"];
+OpenDialogModal        = ImportComponent["Components/OpenDialogModal.wlx"];
+MessageBoxModal        = ImportComponent["Components/MessageBoxModal.wlx"];
+ErrorBoxModal          = ImportComponent["Components/ErrorBoxModal.wlx"];
+TextBoxModal           = ImportComponent["Components/TextBoxModal.wlx"];
+SelectBoxModal         = ImportComponent["Components/SelectBoxModal.wlx"];
 
-Component[OptionsPattern[]] := With[{port = OptionValue["ModalsPort"]},
+Component[OptionsPattern[]] := With[{
+    electronQ = OptionValue["ElectronQ"], port = OptionValue["ModalsPort"], 
+    cli = OptionValue["CachedClient"]
+},
+
+
+    EventHandler[port, {"ElectronQ" -> (electronQ&)}];
+
     <div>
-        <SuggestKernel Events={port}/>
-        <TextField Events={port}/>
-        <PickAFile Events={port}/>
-        <Initcells Events={port}/>
-        <Generic Events={port}/>
-        <Custom Events={port}/>
-        <Selector Events={port}/>
-        <RequestPathToSave Events={port}/>
+        <HTMLDialogModal   Port={port} Client={cli} ElectronQ={electronQ}/>
+        <OpenDialogModal   Port={port} Client={cli} ElectronQ={electronQ}/>
+        <SaveDialogModal   Port={port} Client={cli} ElectronQ={electronQ}/>
+        <MessageBoxModal   Port={port} Client={cli} ElectronQ={electronQ}/>
+        <ErrorBoxModal     Port={port} Client={cli} ElectronQ={electronQ}/>
+        <TextBoxModal      Port={port} Client={cli} ElectronQ={electronQ}/>
+        <SelectBoxModal    Port={port} Client={cli} ElectronQ={electronQ}/>
     </div>
 ]
 
-Options[Component] = {"ModalsPort" -> ""}
+Options[Component] = {"ModalsPort" -> "", "ElectronQ" -> False, "CachedClient" -> False}
 
 Component

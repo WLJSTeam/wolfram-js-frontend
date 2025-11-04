@@ -1,18 +1,7 @@
-(*/*initDialog[d_] := With[{},
-    EventHandler[EventClone[d["Event"]], {
-        any_ -> Function[Null, Print["Close dialog"] ]
-    }]
-];
-
-CreateType[NotificationsDialog, initDialog, {"Message"->"Dummy", "Event"->Null}];
-*/*)
-
-ImportComponent["Components/Types.wl"];
-
-MessageList  = Once[ImportComponent["Components/MessagesList.wlx"]]; 
-{SpinnerTemplate, SpinnerScript}  = Once[ImportComponent["Components/Spinner.wlx"]]; 
-CustomTemplate                    = Once[ImportComponent["Components/Custom.wlx"]]; 
-{GenericTemplate, GenericScript}  = Once[ImportComponent["Components/Generic.wlx"]]; 
+MessageList                         = Once[ImportComponent["Components/MessagesList.wlx"]]; 
+{SpinnerTemplate, SpinnerScript}    = Once[ImportComponent["Components/Spinner.wlx"]]; 
+CustomTemplate                      = Once[ImportComponent["Components/Custom.wlx"]]; 
+{GenericTemplate, GenericScript}    = Once[ImportComponent["Components/Generic.wlx"]]; 
 
 
 Filter[_]               = False
@@ -26,143 +15,145 @@ Filter[_Notifications`NotificationMessage(*`*)]   = True
 beepTimeout = Now
 
 assignClient[target_, data_, buffer_, evCloned_] := With[{c = EventClone[data]},
-target = data;
-EventHandler[c, {
-    "Closed" -> Function[Null,
-        EventRemove[c];
-        ClearAll[buffer];
-        buffer = {};
-        ClearAll[target];
-        EventRemove[evCloned]; (*/* FIX me, why doesn't it stop even flow ? */*)
-        Echo["Purged messager buffer"];
-    ]
-}];
+    target = data;
+    EventHandler[c, {
+        "Closed" -> Function[Null,
+            EventRemove[c];
+            ClearAll[buffer];
+            buffer = {};
+            ClearAll[target];
+            EventRemove[evCloned]; (*/* FIX me, why doesn't it stop even flow ? */*)
+            Echo["Purged messager buffer"];
+        ]
+    }];
 ]
 
 SetAttributes[assignClient, HoldAll];
 
 
 Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
-Event = OptionValue["MessagePort"], 
-Controller = CreateUUID[], 
-globalControls = OptionValue["Controls"], 
-localControls = CreateUUID[], 
-JSBinds = CreateUUID[],
-listController = CreateUUID[],
-evCloned = EventClone[OptionValue["MessagePort"]]
+    Event = OptionValue["MessagePort"], 
+    Controller = CreateUUID[], 
+    globalControls = OptionValue["Controls"], 
+    localControls = CreateUUID[], 
+    JSBinds = CreateUUID[],
+    listController = CreateUUID[],
+    client = OptionValue["CachedClient"],
+    evCloned = EventClone[OptionValue["MessagePort"]],
+    electronQ = OptionValue["ElectronQ"]
 },
-EventHandler[EventClone[globalControls], {"ShowMessages" -> Function[Null,
-    With[{client = $Client},
-        EventFire[listController, "Load", <|"Client"->client|>];
-    ]
-]}];
-
-EventHandler[evCloned, {
-    (*/* dialog_Dialog :> (lazyAppend[#, DialogTemplate[dialog]]&), */*)
-
-    n_Notifications`Spinner (*`*)  :> Function[Null,
-
-        With[{client = $Client},
-            EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Spinner"|>, SpinnerTemplate[n, client, Controller]] ]
+    EventHandler[EventClone[globalControls], {"ShowMessages" -> Function[Null,
+        With[{},
+            EventFire[listController, "Load", <|"Client"->client|>];
         ]
-    ],   
+    ]}];
 
-    n_Notifications`Custom (*`*)  :> Function[Null,
+    EventHandler[evCloned, {
+        (*/* dialog_Dialog :> (lazyAppend[#, DialogTemplate[dialog]]&), */*)
 
-        With[{client = $Client},
-            EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Custom"|>, CustomTemplate[n, client, Controller]] ]
+        n_Notifications`Spinner (*`*)  :> Function[Null,
+
+            With[{},
+                EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Spinner"|>, SpinnerTemplate[n, client, Controller]] ]
+            ]
+        ],   
+
+        n_Notifications`Custom (*`*)  :> Function[Null,
+
+            With[{},
+                EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Custom"|>, CustomTemplate[n, client, Controller]] ]
+            ]
+        ], 
+
+        _Notifications`Rumble (*`*) -> Function[Null,
+            With[{},
+                WebUISubmit[Hold[HapticFeedback], client]
+            ]
+        ],
+
+        _Notifications`Beeper (*`*) -> Function[type,
+            Print["BEEE!P!"];
+            If[Now - beepTimeout > Quantity[0.2, "Seconds"], 
+                beepTimeout = Now;
+                Print["BEEEP!"];
+
+                With[{},
+                    WebUISubmit[Hold[Beep[type]], client]
+                ];
+
+            ,
+                Print["Too many. Suppressed"];
+            ]
+        ],
+
+        any_?Filter   :> Function[data,
+            If[electronQ && any === "Error",
+                EventFire[Controller, "ErrorBox", <|"Client"->client, "Data"->data|> ];
+            ,
+                With[{g = GenericTemplate[any, data]},
+                    EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Generic"|>, g] ];
+                    buffer = Append[buffer, <|"Type"->any, "Message" -> data, "Date"->Now|>];
+                    If[lastClient === Null, assignClient[lastClient, client, buffer, evCloned]];      
+                ]
+            ]
         ]
-    ], 
+    }];
 
-    
-    
-    _Notifications`Rumble (*`*) -> Function[Null,
-        With[{client = $Client},
-            WebUISubmit[Hold[HapticFeedback], client]
-        ]
-    ],
-    
-    _Notifications`Beeper (*`*) -> Function[type,
-        Print["BEEE!P!"];
-        If[Now - beepTimeout > Quantity[0.2, "Seconds"], 
-            beepTimeout = Now;
-            Print["BEEEP!"];
-
-            With[{client = $Client},
-                WebUISubmit[Hold[Beep[type]], client]
-            ];
-
-        ,
-            Print["Too many. Suppressed"];
-        ]
-    ],
-
-    any_?Filter   :> Function[data,
-        With[{client = $Client, g = GenericTemplate[any, data]},
-            EventFire[Controller, "Append", Join[<|"Client"->client, "Type"->"Generic"|>, g] ];
-            buffer = Append[buffer, <|"Type"->any, "Message" -> data, "Date"->Now|>];
-            If[lastClient === Null, assignClient[lastClient, client, buffer, evCloned]];
-
-            
-        ]
-    ]
-}];
-
-{
-    <WebUIContainer Event={Controller}>
-        <div aria-live="assertive" style="z-index:100" class="print:hide pointer-events-none fixed inset-0 flex items-start px-6 mt-12 win:px-5 owin:px-5 linux:px-5">
-            <div class="flex w-full flex-col items-center space-y-0 sm:items-end">      
-                <WebUIContainerChild/>
+    {
+        <WebUIContainer Event={Controller}>
+            <div aria-live="assertive" style="z-index:100" class="print:hide pointer-events-none fixed inset-0 flex items-start px-6 mt-12 win:px-5 owin:px-5 linux:px-5">
+                <div class="flex w-full flex-col items-center space-y-0 sm:items-end">      
+                    <WebUIContainerChild/>
+                </div>  
             </div>  
-        </div>  
-    </WebUIContainer>
-,
-    <MessageList Controller={listController} Data={Hold[buffer]}/>
-,
-    <GenericScript Controller={Controller} Port={localControls}/>
-,
-    <SpinnerScript Controller={Controller}/>
-,
-    <script type="module">
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        </WebUIContainer>
+    ,
+        <MessageList Controller={listController} Data={Hold[buffer]}/>
+    ,
+        <GenericScript Controller={Controller} Port={localControls}/>
+    ,
+        <SpinnerScript Controller={Controller}/>
+    ,
+        <script type="module">
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        core.Beep = async (args, env) => {
-            const type = await interpretate(args[0], env);
+            core.Beep = async (args, env) => {
+                const type = await interpretate(args[0], env);
 
-            if (type === "System") {
-                window.electronAPI.beep();
-                return;
+                if (type === "System") {
+                    window.electronAPI.beep();
+                    return;
+                }
+
+                const oscillator = audioCtx.createOscillator();
+                oscillator.type = "triangle";
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start(audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+                const fadeOutTime = 1;
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + fadeOutTime);
+                setTimeout(() => {
+                    oscillator.stop();
+                    oscillator.disconnect();
+                    gainNode.disconnect();
+                }, fadeOutTime * 1000);
             }
 
-            const oscillator = audioCtx.createOscillator();
-            oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
-            const gainNode = audioCtx.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.start(audioCtx.currentTime);
-            gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
-            const fadeOutTime = 1;
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + fadeOutTime);
-            setTimeout(() => {
-                oscillator.stop();
-                oscillator.disconnect();
-                gainNode.disconnect();
-            }, fadeOutTime * 1000);
-        }
-
-        core.HapticFeedback = () => {
-            if (!window.electronAPI) {
-                console.log('This is electron only feature'); 
-                return;
+            core.HapticFeedback = () => {
+                if (!window.electronAPI) {
+                    console.log('This is electron only feature'); 
+                    return;
+                }
+                //if (!window.electronAPI.harptic) {console.warn('Haptic feedback not supported in your App'); return}
+                window.electronAPI.harptic();
             }
-            //if (!window.electronAPI.harptic) {console.warn('Haptic feedback not supported in your App'); return}
-            window.electronAPI.harptic();
-        }
-    </script>
-}
+        </script>
+    }
 ] ];
 
-Options[Component] = {"Controls"->"", "MessagePort"->""}
+Options[Component] = {"Controls"->"", "MessagePort"->"", "ElectronQ" -> False, "CachedClient" -> False}
 
 Component

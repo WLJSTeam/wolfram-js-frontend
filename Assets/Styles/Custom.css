@@ -126,7 +126,7 @@ input::selection {
 
 @media (min-width: 768px) {
   .md\:-ml-70 {
-    margin-left: -16rem !important;
+    margin-left: calc(-1 * var(--system-main-padding-left)) !important;
   }
 
 }
@@ -217,14 +217,17 @@ input::selection {
 
 .h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="Windows"] .win\:h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="WindowsLegacy"] .owin\:h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 32px;
 }
 
 [os="Windows"] .win\:sc-b {
@@ -321,6 +324,7 @@ input::selection {
 
 [os="Unix"] .linux\:h-titlebar {
   height: env(titlebar-area-height) !important;
+  min-height: 38px;
 }
 
 [os="Windows"] .win\:pt-fix {
@@ -396,18 +400,89 @@ input::selection {
   display:none
 }
 
+[os="Unix"] .linux\:autohide {
+  display:none
+}
+
+[os="Unix"] .osx\:border-b {
+  border-bottom-width: 1px;
+}
+
+[os="WindowsLegacy"] .osx\:border-b {
+  border-bottom-width: 1px;
+}
+
+[os="Unix"] .osx\:border-r {
+  border-right-width: 1px;
+}
+
+[os="WindowsLegacy"] .osx\:border-r {
+  border-right-width: 1px;
+}
+
 [os="Windows"] .win\:barfix {
   padding-top:0 !important;
   margin-top: 0.25rem !important;
 }
 
+[os="Unix"] .linux\:barfix {
+  padding-top: 0.5rem !important;
+}
+
 [os="WindowsLegacy"] .owin\:barfix {
-  padding-top:0 !important;
-  margin-top: 0.25rem !important;
+  padding-top: 0.25rem !important;
+}
+
+[os="Unix"] .owin\:border {
+  border-width: 1px;
+}
+
+[os="Unix"] .owin\:border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
 
 @media (min-width: 768px) {
   [os="Windows"] .win\:autohide {
     display:inline-block
   }
+  
+  [os="Unix"] .linux\:autohide {
+    display:inline-block
+  }
+}
+
+.native {
+  all: revert;
+  appearance: auto;
+}
+
+
+.bg-sys {
+  background: var(--system-accent-color);
+}
+
+.bg-sys-25 {
+  background-color: var(--system-accent-color-25);
+}
+
+.hover\:bg-sys:hover {
+  background: var(--system-accent-color);
+}
+
+.text-sys {
+  color: var(--system-accent-color);
+}
+
+.fill-sys {
+  fill: var(--system-accent-color);
+}
+
+.focus\:ring-sys:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: var(--system-accent-color);
+}
+
+.focus\:bg-sys-25:focus {
+  background-color: var(--system-accent-color-25);
 }

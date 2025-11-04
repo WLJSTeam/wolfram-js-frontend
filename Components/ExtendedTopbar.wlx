@@ -40,7 +40,7 @@ timedSaveButton[client_, localController_, controls_, parameters_] := With[{clon
       If[MatchQ[task, _TaskObject], TaskRemove[task]];
       task = SetTimeout[(
         Echo["Boom!"];
-        EventFire[localController, "Color", <|"Client"->client, "Color"->(If[StringQ[#],#,"teal"]&) @ parameters["AccentColor"] |> ];
+        EventFire[localController, "Color", <|"Client"->client |> ];
         EventFire[controls, "Backup", <|"Client"->client|>];
         If[alive, reset];
       ),  parameters["BackupTimeout"]];
@@ -66,47 +66,6 @@ timedSaveButton[client_, localController_, controls_, parameters_] := With[{clon
   ]
 ]
 
-(* /*
-rename[cli_, path_, modals_, Controls_] := (
-  With[{request = CreateUUID[]},
-    With[{splitted = FileNameSplit[path], decoded = path},
-      EventHandler[request, {
-        "Success" -> Function[name,
-          EventRemove[request];
-          If[Length[splitted] == 1,
-            If[DirectoryQ[decoded],
-              RenameDirectory[decoded, name];
-            ,
-              RenameFile[decoded, name];
-              Then[EventFire[Controls, "RenameFile", {decoded, name}], Function[Null,
-                WebUISubmit[UILocation[URLEncode[name] ], cli];
-              ]];
-            ];
-          ,
-            If[DirectoryQ[decoded],
-              RenameDirectory[decoded, FileNameJoin[Flatten @ {Drop[splitted,-1], name} ]];
-            ,
-              RenameFile[decoded, FileNameJoin[Flatten @ {Drop[splitted,-1], name} ]];
-
-              Then[EventFire[Controls, "RenameFile", {decoded, FileNameJoin[Flatten @ {Drop[splitted,-1], name} ]}], Function[Null,
-                WebUISubmit[UILocation[URLEncode[ FileNameJoin[Flatten @ {Drop[splitted,-1], name} ] ]], cli];
-              ]];
-            ];       
-          ];
-        ],
-
-        _ -> Function[Null,
-          Echo["Cancelled or did not managed to perform"];
-          EventRemove[request];
-        ]
-      }];
-
-      EventFire[modals, "TextField", <|"Client"->cli, "Callback"->request, "Title"->"Enter new name", "String"-> Last[splitted]|>];
-    ];
-  ];
-);
-
-*/ *)
 
 Component[OptionsPattern[]] := With[{
   Path = OptionValue["Path"], 
@@ -119,7 +78,8 @@ Component[OptionsPattern[]] := With[{
   parameters = OptionValue["Parameters"],
   cloned = EventClone[OptionValue["Controls"]],
   messages = OptionValue["Messanger"],
-  Menu = OptionValue["Menu"]
+  Menu = OptionValue["Menu"],
+  cachedClient = OptionValue["CachedClient"]
 },
 
   EventHandler[localState, Function[Null,
@@ -127,16 +87,16 @@ Component[OptionsPattern[]] := With[{
     subscribeToNotebookSocketState[Global`$Client(*`*), messages, localController];
   ]];
 
-    <div style="z-index: 100;" class="atitlebar flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 osx:pl-20 md:osx:pl-2 osx-zen:pl-20 win:pl-0 owin:pl-0 md:pl-2  win-zen:pl-0 owin-zen:pl-0 linux-zen:pl-0 bro-zen:pl-0">
+    <div style="z-index: 100; -webkit-app-region: drag" class="atitlebar flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 osx:pl-20 md:osx:pl-2 osx-zen:pl-20 win:pl-0 owin:pl-0 md:pl-2  win-zen:pl-0 owin-zen:pl-0 linux-zen:pl-0 bro-zen:pl-0">
         <Menu/>
-        <div class="my-auto mr-auto lg:border-r border-gray-300 dark:border-gray-500 pr-1 pt-1 win:barfix owin:barfix bro:pt-2 osx:h-fit h-full overflow-hidden">
-          <button id="sidebar-toggle" title="Toggle sidebar" class="zen:ml-0 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6 bro:ml-0 win:ml-0 owin:ml-0 linux:ml-0">
+        <div class="my-auto mr-auto lg:border-r border-gray-300 dark:border-gray-500 pr-1 pt-1 win:barfix owin:barfix linux:barfix bro:pt-2 osx:h-fit h-full overflow-hidden">
+          <button id="sidebar-toggle" style="-webkit-app-region: no-drag" title="Toggle sidebar" class="zen:ml-0 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6 bro:ml-0 win:ml-0 owin:ml-0 linux:ml-0">
             <svg fill="currentColor" class="w-5 h-5 mr-auto ml-auto" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
               <path d="M 7.7148 49.5742 L 48.2852 49.5742 C 53.1836 49.5742 55.6446 47.1367 55.6446 42.3086 L 55.6446 13.6914 C 55.6446 8.8633 53.1836 6.4258 48.2852 6.4258 L 7.7148 6.4258 C 2.8398 6.4258 .3554 8.8398 .3554 13.6914 L .3554 42.3086 C .3554 47.1602 2.8398 49.5742 7.7148 49.5742 Z M 7.7851 45.8008 C 5.4413 45.8008 4.1288 44.5586 4.1288 42.1211 L 4.1288 13.8789 C 4.1288 11.4414 5.4413 10.1992 7.7851 10.1992 L 18.2148 10.1992 L 18.2148 45.8008 Z M 48.2147 10.1992 C 50.5350 10.1992 51.8708 11.4414 51.8708 13.8789 L 51.8708 42.1211 C 51.8708 44.5586 50.5350 45.8008 48.2147 45.8008 L 21.8944 45.8008 L 21.8944 10.1992 Z M 13.7148 18.8945 C 14.4179 18.8945 15.0507 18.2617 15.0507 17.5820 C 15.0507 16.8789 14.4179 16.2696 13.7148 16.2696 L 8.6757 16.2696 C 7.9726 16.2696 7.3632 16.8789 7.3632 17.5820 C 7.3632 18.2617 7.9726 18.8945 8.6757 18.8945 Z M 13.7148 24.9649 C 14.4179 24.9649 15.0507 24.3320 15.0507 23.6289 C 15.0507 22.9258 14.4179 22.3398 13.7148 22.3398 L 8.6757 22.3398 C 7.9726 22.3398 7.3632 22.9258 7.3632 23.6289 C 7.3632 24.3320 7.9726 24.9649 8.6757 24.9649 Z M 13.7148 31.0118 C 14.4179 31.0118 15.0507 30.4258 15.0507 29.7227 C 15.0507 29.0196 14.4179 28.4102 13.7148 28.4102 L 8.6757 28.4102 C 7.9726 28.4102 7.3632 29.0196 7.3632 29.7227 C 7.3632 30.4258 7.9726 31.0118 8.6757 31.0118 Z"/>
             </svg>  
           </button>  
           <NotebookOnly Path={Path}>
-              <button id="sidebar-save" title="Save" class="win:autohide md:ml-5 zen:ml-0 win:ml-0 owin:ml-0 linux:ml-0 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-7 h-6">
+              <button id="sidebar-save" style="-webkit-app-region: no-drag" title="Save" class="win:autohide md:ml-5 zen:ml-0 win:ml-0 owin:ml-0 linux:ml-0 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-7 h-6">
                   <svg viewBox="2 1 22 22" fill="none" class="w-6 h-5 mr-auto ml-auto"><path d="M17 20.75H7C6.27065 20.75 5.57118 20.4603 5.05546 19.9445C4.53973 19.4288 4.25 18.7293 4.25 18V6C4.25 5.27065 4.53973 4.57118 5.05546 4.05546C5.57118 3.53973 6.27065 3.25 7 3.25H14.5C14.6988 3.25018 14.8895 3.32931 15.03 3.47L19.53 8C19.6707 8.14052 19.7498 8.33115 19.75 8.53V18C19.75 18.7293 19.4603 19.4288 18.9445 19.9445C18.4288 20.4603 17.7293 20.75 17 20.75ZM7 4.75C6.66848 4.75 6.35054 4.8817 6.11612 5.11612C5.8817 5.35054 5.75 5.66848 5.75 6V18C5.75 18.3315 5.8817 18.6495 6.11612 18.8839C6.35054 19.1183 6.66848 19.25 7 19.25H17C17.3315 19.25 17.6495 19.1183 17.8839 18.8839C18.1183 18.6495 18.25 18.3315 18.25 18V8.81L14.19 4.75H7Z" fill="currentColor"></path><path d="M16.75 20H15.25V13.75H8.75V20H7.25V13.5C7.25 13.1685 7.3817 12.8505 7.61612 12.6161C7.85054 12.3817 8.16848 12.25 8.5 12.25H15.5C15.8315 12.25 16.1495 12.3817 16.3839 12.6161C16.6183 12.8505 16.75 13.1685 16.75 13.5V20Z" fill="currentColor"></path><path d="M12.47 8.75H8.53001C8.3606 8.74869 8.19311 8.71403 8.0371 8.64799C7.88109 8.58195 7.73962 8.48582 7.62076 8.36511C7.5019 8.24439 7.40798 8.10144 7.34437 7.94443C7.28075 7.78741 7.24869 7.61941 7.25001 7.45V4H8.75001V7.25H12.25V4H13.75V7.45C13.7513 7.61941 13.7193 7.78741 13.6557 7.94443C13.592 8.10144 13.4981 8.24439 13.3793 8.36511C13.2604 8.48582 13.1189 8.58195 12.9629 8.64799C12.8069 8.71403 12.6394 8.74869 12.47 8.75Z" fill="currentColor"></path></svg>
               </button>   
             
@@ -146,14 +106,14 @@ Component[OptionsPattern[]] := With[{
         </div>   
         <div class="grow h-full" style="-webkit-app-region: drag; max-width:300px"></div> 
 
-        <ExtensionTemplates Template={"AppTopBar"} Type={"ExtendedApp"} Path={Path} Parameters={parameters} Modals={modals} AppEvent={AppEvent} Controls={Controls} Messanger={messages}/>
+        <ExtensionTemplates CachedClient={cachedClient} Template={"AppTopBar"} Type={"ExtendedApp"} Path={Path} Parameters={parameters} Modals={modals} AppEvent={AppEvent} Controls={Controls} Messanger={messages}/>
 
         <div class="grow h-full" style="-webkit-app-region: drag; max-width:300px"></div>  
-        <div class="my-auto ml-auto lg:border-l flex border-gray-300 dark:border-gray-500 pl-1 bro:pt-2 h-full osx:h-fit overflow-hidden win:barfix owin:barfix">
+        <div class="my-auto ml-auto lg:border-l flex border-gray-300 dark:border-gray-500 pl-1 bro:pt-2 h-full osx:h-fit overflow-hidden win:barfix owin:barfix linux:barfix">
           <NotebookOnly Path={Path}> 
             <List> 
               <Identity>
-                <button id="sidebar-abort" title="Abort evaluation" class="text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6">
+                <button style="-webkit-app-region: no-drag" id="sidebar-abort" title="Abort evaluation" class="text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6">
                   <svg class="h-4 w-4 group mr-auto ml-auto text-gray-600 dark:text-gray-400" viewBox="0 0 48 48" fill="none" >
                     <path d="M27 14H42C43.1046 14 44 14.8954 44 16V30C44 31.1046 43.1046 32 42 32H38" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M11 14H6C4.89543 14 4 14.8954 4 16V30C4 31.1046 4.89543 32 6 32H21" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -164,11 +124,11 @@ Component[OptionsPattern[]] := With[{
                 </button> 
               </Identity>
               <Identity>
-              <button id="sidebar-messages" title="Show Messages" type="button" class="hidden md:inline-block text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6"><svg viewBox="0 0 24 24" fill="none" class="h-4 w-4 mr-auto ml-auto text-gray-600 dark:text-gray-400"><path d="M3 7C3 5.11438 3 4.17157 3.58579 3.58579C4.17157 3 5.11438 3 7 3H17C18.8856 3 19.8284 3 20.4142 3.58579C21 4.17157 21 5.11438 21 7V17C21 18.8856 21 19.8284 20.4142 20.4142C19.8284 21 18.8856 21 17 21H7C5.11438 21 4.17157 21 3.58579 20.4142C3 19.8284 3 18.8856 3 17V7Z" stroke="currentColor" stroke-width="2"></path><path d="M3 10V10C3 10.9319 3 11.3978 3.15224 11.7654C3.35523 12.2554 3.74458 12.6448 4.23463 12.8478C4.60218 13 5.06812 13 6 13H6.67544C7.25646 13 7.54696 13 7.77888 13.1338C7.83745 13.1675 7.89245 13.2072 7.94303 13.2521C8.14326 13.4298 8.23513 13.7054 8.41886 14.2566L8.54415 14.6325C8.76416 15.2925 8.87416 15.6225 9.13605 15.8112C9.39794 16 9.7458 16 10.4415 16H13.5585C14.2542 16 14.6021 16 14.864 15.8112C15.1258 15.6225 15.2358 15.2925 15.4558 14.6325L15.5811 14.2566C15.7649 13.7054 15.8567 13.4298 16.057 13.2521C16.1075 13.2072 16.1625 13.1675 16.2211 13.1338C16.453 13 16.7435 13 17.3246 13H18C18.9319 13 19.3978 13 19.7654 12.8478C20.2554 12.6448 20.6448 12.2554 20.8478 11.7654C21 11.3978 21 10.9319 21 10V10" stroke="currentColor" stroke-width="2"></path><path d="M10 16H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+              <button style="-webkit-app-region: no-drag" id="sidebar-messages" title="Show Messages" type="button" class="hidden md:inline-block text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6"><svg viewBox="0 0 24 24" fill="none" class="h-4 w-4 mr-auto ml-auto text-gray-600 dark:text-gray-400"><path d="M3 7C3 5.11438 3 4.17157 3.58579 3.58579C4.17157 3 5.11438 3 7 3H17C18.8856 3 19.8284 3 20.4142 3.58579C21 4.17157 21 5.11438 21 7V17C21 18.8856 21 19.8284 20.4142 20.4142C19.8284 21 18.8856 21 17 21H7C5.11438 21 4.17157 21 3.58579 20.4142C3 19.8284 3 18.8856 3 17V7Z" stroke="currentColor" stroke-width="2"></path><path d="M3 10V10C3 10.9319 3 11.3978 3.15224 11.7654C3.35523 12.2554 3.74458 12.6448 4.23463 12.8478C4.60218 13 5.06812 13 6 13H6.67544C7.25646 13 7.54696 13 7.77888 13.1338C7.83745 13.1675 7.89245 13.2072 7.94303 13.2521C8.14326 13.4298 8.23513 13.7054 8.41886 14.2566L8.54415 14.6325C8.76416 15.2925 8.87416 15.6225 9.13605 15.8112C9.39794 16 9.7458 16 10.4415 16H13.5585C14.2542 16 14.6021 16 14.864 15.8112C15.1258 15.6225 15.2358 15.2925 15.4558 14.6325L15.5811 14.2566C15.7649 13.7054 15.8567 13.4298 16.057 13.2521C16.1075 13.2072 16.1625 13.1675 16.2211 13.1338C16.453 13 16.7435 13 17.3246 13H18C18.9319 13 19.3978 13 19.7654 12.8478C20.2554 12.6448 20.6448 12.2554 20.8478 11.7654C21 11.3978 21 10.9319 21 10V10" stroke="currentColor" stroke-width="2"></path><path d="M10 16H14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
               </button>
               </Identity>
               <Identity>   
-                <button id="sidebar-kernel" title="Relink Kernel" class="text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6">
+                <button style="-webkit-app-region: no-drag" id="sidebar-kernel" title="Relink Kernel" class="text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md w-8 h-6">
                   <svg class="h-4 w-4 group mr-auto ml-auto text-gray-600 dark:text-gray-400" viewBox="2 2 22 22" fill="none" stroke="currentColor">
                     <g class="opacity-100 group-hover:opacity-0">
                       <path d="M9.1718 14.8288L14.8287 9.17192M7.05086 11.293L5.63664 12.7072C4.07455 14.2693 4.07409 16.8022 5.63619 18.3643C7.19829 19.9264 9.7317 19.9259 11.2938 18.3638L12.7065 16.9498M11.2929 7.05L12.7071 5.63579C14.2692 4.07369 16.8016 4.07397 18.3637 5.63607C19.9258 7.19816 19.9257 9.73085 18.3636 11.2929L16.9501 12.7071" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -197,7 +157,7 @@ Component[OptionsPattern[]] := With[{
                 <WebUIJSBind Event={localController}>
                   const saveBtn = document.getElementById('sidebar-save');
                   const link = document.getElementById('sidebar-kernel').firstChild;
-                  let name;
+                  let name = 'text-sys';
 
                   const api = window.electronAPI || window.iframeAPI;
 
@@ -210,8 +170,6 @@ Component[OptionsPattern[]] := With[{
 
                   this.on('Color', async (data) => {
                     const args = await interpretate(data, {hold:true});
-                    const color = await interpretate(args.Color, {});
-                    name = 'text-' + color +'-500';
                     saveBtn.classList.remove('text-gray-500');
                     saveBtn.classList.add(name);
                   }); 
@@ -224,7 +182,7 @@ Component[OptionsPattern[]] := With[{
 
                     timer = setTimeout(() => {
                       spinner = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                      spinner.setAttribute('class', "ml-auto mr-auto w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-teal-600");
+                      spinner.setAttribute('class', "ml-auto mr-auto w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-sys");
                       spinner.setAttribute('viewBox', "0 0 100 100");
                       spinner.innerHTML = `<path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>`;
                       saveBtn.firstChild.classList.add('hidden');
@@ -283,6 +241,6 @@ Component[OptionsPattern[]] := With[{
     </div>
 ];
 
-Options[Component] = {"Controls" -> "", "Path" -> "", "Title"->"", "Modals"->"", "Menu"->""};
+Options[Component] = {"CachedClient"->"", "Controls" -> "", "Path" -> "", "Title"->"", "Modals"->"", "Menu"->""};
 
 Component

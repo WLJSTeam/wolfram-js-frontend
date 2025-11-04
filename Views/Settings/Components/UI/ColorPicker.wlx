@@ -1,0 +1,37 @@
+Component[OptionsPattern[]] := With[{
+    selected = OptionValue["Default"],
+    OnChange = OptionValue["Event"],
+    Pattern = OptionValue["Pattern"],
+    Title = OptionValue["Label"],
+    UId = CreateUUID[]
+},
+    With[{},
+        With[{
+            
+        },
+            <fieldset>
+
+              <div class="mt-2 flex items-center gap-x-3">
+                <label for="{UId}-color" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-400">
+                  <Title/>
+                </label>
+
+                <input id="{UId}-color" type="color" value="{selected}" class="h-8 w-12 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-0 cursor-pointer"/>
+        
+              </div>
+
+              <script type="module">
+                const picker = document.getElementById("<UId/>-color");
+
+                picker.addEventListener("change", () => {
+                  server.io.fire('<OnChange/>', picker.value, '<Pattern/>');
+                });
+              </script>
+            </fieldset>
+        ]
+    ]
+]
+
+Options[Component] = {"Label"->"", "Topic"->"", "Event"->"", "Default"->""}
+
+Component

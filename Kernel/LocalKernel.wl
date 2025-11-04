@@ -260,11 +260,11 @@ start[k_LocalKernelObject] := Module[{link},
     EventFire[k, "State", k["State"] ];
 
     If[FailureQ[link], 
-        EventFire[k, "Error", "Link failed. Trying legacy methods..."]; 
+        EventFire[k, "Error", "Kernel link failed. Trying legacy methods..."]; 
         link = LinkLaunch["math -mathlink"];
 
         If[FailureQ[link], 
-            EventFire[k, "Error", "Link failed."]; 
+            EventFire[k, "Error", "Kernel link failed."]; 
         ];
 
         k["State"] = "Link failed!";
@@ -308,6 +308,8 @@ start[k_LocalKernelObject] := Module[{link},
         LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`Events`"] ];
         LinkWrite[link, EnterTextPacket["<<LetWL`"] ];
         LinkWrite[link, EnterTextPacket["Off[Most::argx]"] ];
+        LinkWrite[link, EnterTextPacket["$Inspector = Dialog[]&;"] ];
+        
         
 
         (* unknown bug, doesn't work in initialization ... *)
@@ -345,7 +347,7 @@ start[k_LocalKernelObject] := Module[{link},
 
 checkState[k_LocalKernelObject] := Module[{},
     k["State"] = "Timeout";
-    EventFire[k, "Error", "Timeout"];
+    EventFire[k, "Error", "Kernel initialization timeout"];
 ]
 
 (* [NOTE] You may easily overload the evaluation que on Windows machines *)

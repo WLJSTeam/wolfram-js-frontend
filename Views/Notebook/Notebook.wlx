@@ -198,34 +198,37 @@ checkWSLink[notebook_, client_, event_String, log_String, p_:Null] := With[{
 
 requestKernel[notebook_, kernels_, modals_, client_, Success_] := With[{},
     Print["requesting modal...."];
-    With[{request = CreateUUID[]},
-        EventHandler[request, {
-            "Success" -> Function[data,
-                notebook["Evaluator"] = data["Container"];
-
-                If[TrueQ[data["ContainerReadyQ"]],
+    With[{promise = Promise[]},
+        Then[promise, Function[result, 
+          Echo[StringJoin["Picked kernel >> ", ToString[result]]];
+          Switch[result,
+            _Integer, 
+             With[{k = ReleaseHold[kernels][[result]]},
+                
+                If[TrueQ[k["ContainerReadyQ"]],
+                    notebook["Evaluator"] = k["Container"];
                     EventFire[notebook, "AquairedKernel", True];
                     Success[Null];
                 ,
                     WebUISubmit[Alert["Initialization is not complete"], client];
                 ];
-                
-                EventRemove[request];
-            ],
+             ];
+            ,
             
-            "Error" -> Function[error,
-                        WebUISubmit[Alert[error], client];
-                        EventRemove[request];
-            ],
-            
-            _ -> Function[Null,
-                        Print["Cancelled"];
-                        EventRemove[request];
-            ]
-        }];
-        
-        Print["fire!"];
-        EventFire[modals, "SuggestKernel", <|"Client"->client, "Callback"->request, "Notebook"->notebook, "Kernels"->kernels|>];
+            _,
+                Print["Cancelled"]; 
+        ] ] ];
+
+        If[Length[ReleaseHold[kernels]] == 1,
+            Echo["Autoselected 1"];
+            EventFire[promise, Resolve, 1];    
+        ,
+            Print["fire!"];
+            EventFire[modals, "SelectBox", <|
+                "Promise"->promise, "message"->"Choose an evaluation kernel", 
+                "title"->"Kernel list", "list"->Map[Function[k, k["Name"]], ReleaseHold[kernels]]
+            |>];        
+        ];
     ];
 ];
 
@@ -304,13 +307,11 @@ checkEvaluationCells[currentCell_, notebook_, secret_, log_, kernels_, client_, 
     Echo[">> Found initialization cells!"];
 
     With[{
-        request = CreateUUID[],
+        rpromise = Promise[],
         promise = Promise[]
     },
-        EventHandler[request, {
-            "Success" -> Function[Null,
-                EventRemove[request];
-                
+        Then[rpromise, Function[result,
+            If[TrueQ[result] || result["response"] === 0,
                 ApplySync[Then, evaluateCell, {
                         #, notebook, secret, log, kernels, client, modals, parameters, extensions
                     } &/@ Select[notebook["Cells"], TrueQ[#["Props"]["InitGroup"]]&], Function[Null,
@@ -321,17 +322,19 @@ checkEvaluationCells[currentCell_, notebook_, secret_, log_, kernels_, client_, 
                     ,
                         EventFire[promise, Resolve, True];
                     ];
-                ]];
-
-                
-            ],
-
-            "Cancelled" -> Function[Null,
-                EventRemove[request];
+                ]];            
+            ,
                 EventFire[promise, Resolve, True];
-            ]
-        }];
-        EventFire[modals, "InitCellsQ", <|"Client"->client, "Callback"->request|>];
+            ];
+        ]];
+
+        EventFire[modals, "MessageBox", <|
+            "title"->"Initialization cells",
+            "message"->"Evaluate initialization cells?",
+            "type"->"question",
+            "buttons"->{"Evaluate", "Cancel"},
+            "Promise"->rpromise
+        |>];
 
         promise
     ]
@@ -570,6 +573,8 @@ Component[OptionsPattern[]] := With[{
     modals         = OptionValue["Modals"],
     log = OptionValue["Messanger"],
     kernels = OptionValue["Kernels"],
+
+    electronQ = And[OptionValue["ElectronQ"], !OptionValue["IframeQ"]],
 
     appEvents = OptionValue["AppEvents"],
 
@@ -866,30 +871,23 @@ Component[OptionsPattern[]] := With[{
 
         "Vanish" -> Function[uid,
             If[!TrueQ[cell`HashMap[uid]["Invisible"](*`*)],
-                With[{request = CreateUUID[]},
-                    EventHandler[request, {
-                        "Success" -> Function[Null, 
-                            EventRemove[request];
+                With[{promise = Promise[]},
+                    Then[promise, Function[result, 
+                        If[TrueQ[result] || (result["response"] === 0),
 
                             With[{cell = cell`HashMap[uid](*`*)},
                                 cell["Invisible"] = !TrueQ[cell["Invisible"]];
                                 WebUISubmit[UINotebook["ToggleInvisible", uid, TrueQ[cell["Invisible"]]], $Client];
-                            ]                        
-                        ],
+                            ];
+                        ];
+                    ]];
 
-                        _ -> Function[Null,
-                            EventRemove[request]
-                        ]
-                    }];
-
-                    EventFire[modals, "GenericAskTemplate", <|
-                        "Callback" -> request, 
-                        "Client" -> $Client,
-                        "Title" -> "Do you want to make it invisible?", 
-                        "Content" -> "Invisible cell can only be changed in Expert mode",
-                        "SVGIcon" -> With[{},
-                            <svg class="mr-2 h-4 w-4 text-gray-500" viewBox="0 0 32 32" ><path  fill="currentColor" d="M27,12h-5.435C22.185,10.572,23,8.428,23,7c0-2.206-1.794-4-4-4c-1.2,0-2.266,0.542-3,1.382 C15.266,3.542,14.2,3,13,3c-2.206,0-4,1.794-4,4c0,1.413,0.818,3.566,1.439,5H5v2h2.882L7,29h18l-0.882-15H27V12z M19,5 c1.103,0,2,0.897,2,2c0,1.241-1.01,3.672-1.629,5h-0.742C17.912,10.455,17,8.121,17,7C17,5.897,17.897,5,19,5z M16.439,12h-0.874 c0.14-0.323,0.289-0.679,0.438-1.059C16.151,11.321,16.299,11.677,16.439,12z M11,7c0-1.103,0.897-2,2-2s2,0.897,2,2 c0,1.241-1.01,3.672-1.629,5h-0.742C11.912,10.455,11,8.121,11,7z M9.121,27l0.529-9h12.699l0.529,9H9.121z M22.232,16H9.768 l0.118-2h12.228L22.232,16z"/></svg>
-                        ]
+                    EventFire[modals, "MessageBox", <|
+                        "Promise" -> promise, 
+                        "title" -> "Make cell invisible", 
+                        "message" -> "Invisible cell can only be changed in Expert mode",
+                        "type" -> "question",
+                        "buttons" -> {"Make", "Cancel"}
                     |>];
 
                 ];
@@ -961,7 +959,7 @@ Component[OptionsPattern[]] := With[{
 
     With[{nid = notebook["Hash"]},
 
-        <main class="grow flex flex-col overflow-hidden dark:invert dark:hue-rotate-180 dark:contrast-75 dark:brightness-5 owin:mt-2 owin:bg-white dark:win:contrast-100 dark:win:shadow-0 win:m-4 win:mt-2 win:rounded-lg win:bg-white win:shadow linux:m-4 linux:mt-2 linux:rounded-lg linux:bg-white linux:shadow bg-g-trans">
+        <main class="grow flex flex-col overflow-hidden dark:invert dark:hue-rotate-180 dark:contrast-75 dark:brightness-5 owin:bg-white dark:win:contrast-100 dark:win:shadow-0 win:m-4 win:mt-2 win:rounded-lg win:bg-white win:shadow linux:bg-white bg-g-trans" style="-webkit-app-region: no-drag">
             <KernelIndicator Notebook={notebook}/>
             <ExtensionTemplateInjection Template={"Notebook-Prolog"} Notebook={notebook} Event={secret} />
             <TopBar Notebook={notebook}/>
@@ -970,7 +968,7 @@ Component[OptionsPattern[]] := With[{
             </ExtensionTemplateWrapper>
             <ExtensionTemplateInjection Template={"Notebook-Epilog"} Notebook={notebook} Event={secret} />
 
-            <CellDropdown Parameters={parameters} Messager={log} Event={secret} ExtesionInjector={ExtensionTemplateInjection}/>
+            <CellDropdown ElectronQ={electronQ} Parameters={parameters} Messager={log} Event={secret} ExtesionInjector={ExtensionTemplateInjection}/>
             <ElectronBinds Event={secret} Controls={controller}/>
 
             <ExtensionTemplateInjection Template={"Footer"} Modals={modals} Messager={log} Notebook={notebook} Event={secret} Controls={controller}/>
@@ -984,7 +982,7 @@ Component[OptionsPattern[]] := With[{
     ]
 ]
 
-Options[Component] = {"Parameters"->Null, "IframeQ"->False, "AppEvents"->"blacksheep", "Kernels"->{}, "Modals"->"", "Controls" ->"", "ControlsPort"->"", "Notebook"->Null, "Event"->"blackhole", "Messager"->"blackout", "Secret" :> CreateUUID[], "ExtensionTemplateWrapper"-> sequenceIdentity, "ExtensionTemplateInjection" -> emptyStringFunction, "ExternalEventHandlers" -> Null}
+Options[Component] = {"Parameters"->Null, "ElectronQ" -> False, "IframeQ"->False, "AppEvents"->"blacksheep", "Kernels"->{}, "Modals"->"", "Controls" ->"", "ControlsPort"->"", "Notebook"->Null, "Event"->"blackhole", "Messager"->"blackout", "Secret" :> CreateUUID[], "ExtensionTemplateWrapper"-> sequenceIdentity, "ExtensionTemplateInjection" -> emptyStringFunction, "ExternalEventHandlers" -> Null}
 Options[Script] = {"Parameters"->Null, "ExtensionTemplateInjection" -> emptyStringFunction}
 
 emptyStringFunction[x__] := ""
