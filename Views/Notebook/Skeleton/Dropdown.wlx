@@ -1,9 +1,13 @@
-Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color = (If[StringQ[#], #, "teal"]&) @ OptionValue["Parameters"]["AccentColor"], Event = OptionValue["Event"], ExtesionInjector = OptionValue["ExtesionInjector"]},
+Component[OptionsPattern[]] := With[
+  {Messager = OptionValue["Messager"],  Color = (If[StringQ[#], #, "teal"]&) @ OptionValue["Parameters"]["AccentColor"], Event = OptionValue["Event"], ExtesionInjector = OptionValue["ExtesionInjector"]},
+  {additionalButtons = ExtesionInjector["Template"->"CellDropdown", "Messager" -> Messager, "Event"->Event]},
+
   EventHandler[Event, {
     "CallDropdown" -> ((Print["CallDropdown!"]; WebUISubmit[Global`UICellsDropdown[#], Global`$Client])&)
   }];
+
   If[OptionValue["ElectronQ"],
-      With[{},
+      With[{ExtraButtons = ExportString[If[ListQ[additionalButtons], #["Native"] &/@ additionalButtons, {}], "JSON", "Compact"->0]},
        <script type="module">
            core.UICellsDropdown = async (args, env) => {
                const uid = await interpretate(args[0], env);
@@ -13,6 +17,7 @@ Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color 
                 {type: 'separator'},
                 {label: 'Make initialization cell', ref: 'MakeInit'},
                 {type: 'separator'},
+                ...<ExtraButtons/>,
                 {label: 'Insert cell before', ref: 'AddBefore'},
                 {type: 'separator'},
                 {label: 'Hide / Show', ref: 'Hide'},
@@ -27,6 +32,9 @@ Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color 
        </script>
       ]  
   ,
+    With[{
+      ExtraButtons = If[ListQ[additionalButtons], #["HTML"] &/@ additionalButtons, ""]
+    },
       With[{Layout = 
         {
             <div class="py-0 px-2" role="none">
@@ -62,6 +70,7 @@ Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color 
               </svg>
                 Insert cell before
               </button>
+              <ExtraButtons/>
             </div>          
     ,
               <div class="py-0 px-2" role="none">
@@ -158,6 +167,7 @@ Component[OptionsPattern[]] := With[{Messager = OptionValue["Messager"],  Color 
         </div>
       ]
     ]
+  ]
 ];
 
 Options[Component] = {"Event"->"", "Messager"->"", "Parameters"->Null, "ExtesionInjector"->( "" &), "ElectronQ"->False};
