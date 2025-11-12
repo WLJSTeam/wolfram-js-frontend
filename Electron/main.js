@@ -2910,7 +2910,8 @@ class promt {
 
 function store_configuration(cbk) {
     const opts = {
-        wolfram: server.wolfram
+        wolfram: server.wolfram,
+        version: app.getVersion()
     };
 
     fs.writeFile(path.join(appDataFolder, 'configuration.ini'), JSON.stringify(opts), function(err) {
@@ -2920,11 +2921,31 @@ function store_configuration(cbk) {
     cbk();
 }
 
+function clearAllCache() {
+    session.defaultSession.clearStorageData();
+    session.defaultSession.clearCache();
+    console.log('Cache was nuked');
+}
+
 function load_configuration() {
-    if (!fs.existsSync(path.join(appDataFolder, 'configuration.ini'))) return undefined;
+    if (!fs.existsSync(path.join(appDataFolder, 'configuration.ini'))) {
+        clearAllCache();
+        return undefined;
+    }
     const content = fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8');
-    if (content.length == 0) return undefined;
-    return JSON.parse(content);
+    if (content.length == 0) {
+        clearAllCache();
+        return undefined;
+    }
+
+    const parsed = JSON.parse(content);
+    if (!parsed) return undefined;
+
+    if (parsed.version != app.getVersion()) {
+        clearAllCache();
+    }
+
+    return parsed;
 }
 
 //checking if there is working Wolfram Kernel.
