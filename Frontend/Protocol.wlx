@@ -25,7 +25,7 @@ ElectronBinds           = ImportComponent["Components/ElectronAppBinds.wlx"];
 
 BrowserMenu            = ImportComponent["Components/FakeMenuBrowser.wlx"];
 
-FakeMenu            = ImportComponent["Components/FakeMenu.wlx"];
+FakeMenu            = "";
 
 {saveNotebook, loadNotebook, renameNotebook, cloneNotebook}         = ImportComponent["Loader.wl"];
 {deinitKernel, initKernel}           = ImportComponent["KernelUtils.wl"];
@@ -162,7 +162,7 @@ App[request_] := With[{
 
           <div class="h-full" id="frame">
             <div class="h-full flex flex-col">
-              <TopBar Menu={FakeMenu} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
+              <TopBar CachedClient={cachedClient} Menu={FakeMenu} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
               <Notifications CachedClient={cachedClient} MessagePort={GlobalMessanger}/>
               <ExtensionTemplates Template={"AppFooter"} Path={Path} AppEvents={AppEvent} MessagePort={GlobalMessanger}/>
             </div> 
