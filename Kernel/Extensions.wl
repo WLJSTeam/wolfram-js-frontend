@@ -317,7 +317,7 @@ InstallPaclet[dir_String][a_Association, Rule[Github | "Github", Rule[url_String
     DeleteDirectory[FileNameJoin[{dir, "___temp"}], DeleteContents -> True];
     Print["WLJS Extensions >> finished!"];
 
-    Join[a, <|"enabled" -> True|>]
+    Join[a, <|"enabled" -> True, "branch" -> branch|>]
 ]
 
 
