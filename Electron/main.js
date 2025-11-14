@@ -2,6 +2,10 @@
 const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme, systemPreferences } = require('electron')
 const { screen, globalShortcut} = require('electron/main')
 
+
+const pdfjsLib = require("./pdfjs/pdf.mjs");
+
+
 const path = require('path')
 const { platform } = require('node:process');
 
@@ -36,6 +40,7 @@ const { IS_WINDOWS_11, WIN10 } = require('mica-electron');
 
 const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
+
 
 
 if (!isWindows && !isMac) {
@@ -84,9 +89,19 @@ trackpadUtils.onForceClick(() => {
 });
 
 
-const { Canvas, createCanvas, Image, ImageData } = require("@napi-rs/canvas")
-const pdfjsLib = require("./pdfjs/pdf");
+const { createCanvas } = require("@napi-rs/canvas")
+
+
+
+
+
+
 const { PDFDocument, breakTextIntoLines } = require('pdf-lib');
+
+
+
+
+
 //pdf-tools
 
 const NodeCanvasFactory = {
@@ -125,6 +140,9 @@ async function cropPdfBuffer(inputBuffer, margin = 10, pageNumber = 1) {
     return await pdfDoc.save();
   }
   
+  //const pdfjsLib = require("./pdfjs/pdf");
+  //const pdfjsLib = {};
+
   async function getVisualBoundingBox(pdfBuffer, pageNumber = 1, scale = 2.0) {
     pdfjsLib.GlobalWorkerOptions.workerSrc = require.resolve('./pdfjs/pdf.worker.js');
     const loadingTask = pdfjsLib.getDocument({ data: pdfBuffer });

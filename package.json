@@ -51,7 +51,7 @@
           "name": "WLJS Notebook",
           "role": "Editor",
           "icon": "./Electron/build/file/512x512.icns"
-        },        
+        },
         {
           "ext": "wlw",
           "name": "WLJS Widget",
@@ -90,7 +90,7 @@
           "name": "WLJS Notebook",
           "role": "Editor",
           "icon": "./Electron/build/file/512x512.png"
-        }, 
+        },
         {
           "mimeType": "application/wlw",
           "ext": "wlw",
@@ -123,7 +123,7 @@
           "name": "WLJS Notebook",
           "role": "Editor",
           "icon": "./Electron/build/file/512x512.ico"
-        },      
+        },
         {
           "ext": "wlw",
           "name": "WLJS Widget",
@@ -190,7 +190,7 @@
     "@playwright/test": "^1.51.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@types/node": "^22.13.10",
-    "electron": "^39.2.0",
+    "electron": "^39.0.0",
     "electron-builder": "^26.0.12",
     "rollup": "^3.29.3",
     "rollup-plugin-combine": "^2.1.1",
@@ -224,6 +224,7 @@
     "node-fetch": "^3.3.2",
     "node-stream-zip": "^1.15.0",
     "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.394",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^6.0.1",
     "random-words": "^2.0.0",
