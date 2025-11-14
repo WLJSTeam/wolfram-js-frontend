@@ -123,7 +123,7 @@ const NodeCanvasFactory = {
   };
 
 async function cropPdfBuffer(inputBuffer, margin = 10, pageNumber = 1) {
-    const bbox = await getVisualBoundingBox(inputBuffer, pageNumber);
+    const bbox = await getVisualBoundingBox(new Uint8Array(inputBuffer), pageNumber);
   
     const pdfDoc = await PDFDocument.load(inputBuffer);
     const page = pdfDoc.getPages()[pageNumber - 1];
@@ -144,7 +144,7 @@ async function cropPdfBuffer(inputBuffer, margin = 10, pageNumber = 1) {
   //const pdfjsLib = {};
 
   async function getVisualBoundingBox(pdfBuffer, pageNumber = 1, scale = 2.0) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = require.resolve('./pdfjs/pdf.worker.js');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = require.resolve('./pdfjs/pdf.worker.mjs');
     const loadingTask = pdfjsLib.getDocument({ data: pdfBuffer });
     const pdf = await loadingTask.promise;
   
