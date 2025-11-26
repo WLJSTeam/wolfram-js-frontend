@@ -1020,89 +1020,115 @@ callFakeMenu["exit"] = () => {
                     })
 }
 
-const devicesHID = {};
-
 let deviceDialogOpen = false;
+// Track callbacks we've already used so we never call the same Electron callback twice
+const usedHIDCallbacks = new WeakSet();
 
 const createHIDDialog = (deviceList, cbk) => {
-    if (deviceDialogOpen) return;
+    // If Electron passes us a callback we've already used, never touch it again.
+    if (usedHIDCallbacks.has(cbk)) {
+        console.log('HID: callback already used, ignoring this event');
+        return;
+    }
+
+    // If a dialog is already open, ignore new events and let the existing
+    // dialog eventually resolve its callback.
+    if (deviceDialogOpen) {
+        console.log('HID: dialog already open, ignoring this event');
+        return;
+    }
 
     deviceDialogOpen = true;
     let done = false;
 
-    console.log('HID Dialog!');
-
-    const win = new BrowserWindow({
-        vibrancy: "sidebar", // in my case...
-        frame: true,
-        show: false,
-        titleBarStyle: 'hiddenInset',
-        width: 400,
-        height: 300,
-        resizable: false,
-        title: 'Device selector',
-        webPreferences: {
-            preload: path.join(__dirname, 'preload_device.js'),
-            webSecurity: false,
-            //nodeIntegration: true
-        }
-    });
-
-    win.loadFile(path.join(__dirname, 'device.html'));
-
-    win.on('ready-to-show', () => {
-
-        const list = deviceList.map((e) => {
-            return {name: e.name || e.deviceName, id: e.deviceId}
-        });
-        console.log(deviceList);
-
-
-        win.webContents.send('load', {
-            list: list
-        });
-        
-        ipcMain.once('choise_hid', (e, id) => {
-            done = true;
-            cbk(id);
-            win.close();
-        });
-
-        win.show();
-    });
-
-    win.on('close', () => {
+    const finish = (id) => {
+        if (done) return; // never call the same callback more than once
+        done = true;
         deviceDialogOpen = false;
-        if (done) return;
-        cbk('');
+
+        if (!usedHIDCallbacks.has(cbk)) {
+            usedHIDCallbacks.add(cbk);
+        }
+
+        try {
+            cbk(id);
+        } catch (err) {
+            console.error('Error in HID callback:', err);
+        }
+    };
+
+    console.log('HID Dialog (dialog.showMessageBox)!');
+
+    const list = (deviceList || []).map((e) => ({
+        name: e.name || e.deviceName || 'Unknown device',
+        id: e.deviceId
+    }));
+
+    // No devices -> show info dialog, then "cancel" selection
+    if (!list.length) {
+        dialog.showMessageBox({
+            type: 'info',
+            buttons: ['OK'],
+            defaultId: 0,
+            title: 'Device selector',
+            message: 'No devices available',
+            detail: 'No HID-compatible devices are currently available. Please connect a device and try again.',
+            noLink: true,
+            normalizeAccessKeys: true
+        })
+        .finally(() => {
+            finish(''); // signal "no selection"
+        });
+
+        return;
+    }
+
+    const buttons = list.map(d => d.name);
+    buttons.push('Cancel');
+    const cancelId = buttons.length - 1;
+
+    dialog.showMessageBox({
+        type: 'question',
+        buttons,
+        cancelId,
+        defaultId: 0,
+        title: 'Device selector',
+        message: 'Select a HID device',
+        detail: 'Choose the device you want to use from the list below.',
+        noLink: true,
+        normalizeAccessKeys: true
     })
-}
+    .then(({ response }) => {
+        if (response === cancelId) {
+            finish('');
+        } else {
+            const selected = list[response];
+            finish(selected ? selected.id : '');
+        }
+    })
+    .catch((err) => {
+        console.error('Error showing HID selection dialog:', err);
+        finish('');
+    });
+};
 
 /* permissions for the main window, special headers */
 const setHID = (/** @type {BrowserWindow} */ mainWindow) => {
 
 
     mainWindow.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
-        console.log('Select HID');
-        
+        console.log('Select HID (bluetooth)');
         event.preventDefault();
-        //select bluetooth
-        console.log('select bluetooth');
         createHIDDialog(deviceList, callback);
         return false;
     });
-
+    
     mainWindow.webContents.session.on('select-hid-device', (event, details, callback) => {
-        // Add events to handle devices being added or removed before the callback on
-        // `select-hid-device` is called.
         console.log('Select HID');
-
         event.preventDefault();
-
-        console.log('select hid');
         createHIDDialog(details.deviceList, callback);
         return false;
-    })
+    });
 
     mainWindow.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
         return true
