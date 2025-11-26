@@ -980,6 +980,10 @@ callFakeMenu["zoomIn"] = () => {
     windows.focused.call('zoomIn', true);
 }
 
+callFakeMenu["devTools"] = () => {
+    windows.focused.win.webContents.openDevTools()
+}
+
 callFakeMenu["zoomOut"] = () => {
     windows.focused.call('zoomOut', true);
 }
