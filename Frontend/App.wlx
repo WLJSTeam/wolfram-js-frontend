@@ -310,6 +310,10 @@ App[request_] := With[{
                     WebUILocation[StringJoin["/folder/", URLEncode[AppExtensions`DemosDir (*`*)]], $Client, "Target"->_, "Features"->"top=100,right=100"];
                   ],
 
+                  "OpenSettings" -> Function[Null,
+                    WebUILocation["/settings", $Client, "Target"->_];
+                  ],
+
                   "Exit" -> Function[Null,
                     Exit[0];
                   ],
