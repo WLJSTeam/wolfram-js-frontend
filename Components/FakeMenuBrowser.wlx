@@ -37,6 +37,13 @@ With[{
           Locate examples
         </button>             
       </div>
+,
+      <div class="py-0 px-2" role="none">
+        <button data-name="OpenSettings" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+       
+          Settings
+        </button>             
+      </div>
     ,
       <div class="py-0 px-2" role="none">            
       <button data-name="Exit" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
