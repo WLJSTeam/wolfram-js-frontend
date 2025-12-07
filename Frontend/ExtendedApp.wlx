@@ -288,6 +288,10 @@ App[request_] := With[{
                     EventFire[GlobalControls, "NewNotebook", <|"BaseDirectory" -> If[DirectoryQ[Path], Path, DirectoryName[Path]]|>]
                   ],
 
+                  "OpenSettings" -> Function[Null,
+                    WebUILocation["/settings", $Client, "Target"->_];
+                  ],
+
                   "LocateExamples" -> Function[Null,
                     WebUILocation[StringJoin["/folder/", URLEncode[AppExtensions`DemosDir (*`*)]], $Client, "Target"->_, "Features"->"top=100,right=100"];
                   ],
