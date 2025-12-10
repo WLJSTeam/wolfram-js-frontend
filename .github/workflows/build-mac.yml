@@ -119,7 +119,7 @@ jobs:
 
 
   build-MacOSX-x64:
-    runs-on: macos-13
+    runs-on: macos-15-intel
     env:
       WOLFRAM_SYSTEM_ID: MacOSX-x64
       WOLFRAMENGINE_CACHE_KEY: WolframEngine-D
