@@ -6,6 +6,12 @@
   font-weight: normal;
   src: url("/Fonts/Hasklig-Regular.otf");
 }
+@font-face {
+  font-family: 'Hasklig';
+  font-style: normal;
+  font-weight: bold;
+  src: url("/Fonts/Hasklig-Semibold.otf");
+}
 .margin-bottom-fix {
   margin-bottom: 0.15em;
 }
