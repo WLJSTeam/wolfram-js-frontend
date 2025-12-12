@@ -82,7 +82,7 @@ HeldRemotePacket /: LinkWrite[lnk_, HeldRemotePacket[p_String] ] := With[{pp = p
 HoldRemotePacket[any_] := any // Hold // Compress // HeldRemotePacket
 SetAttributes[HoldRemotePacket, HoldFirst]
 
-tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port]},
+tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port], env = System`$Env, electronQ = (System`$Env["ElectronCode"] === 1)},
     (  
         Print["Establishing LTP link... using "<>addr];
         Internal`Kernel`Host = host;
@@ -103,6 +103,8 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
         Internal`Kernel`Type = "LocalKernel";
         Internal`Kernel`Hash = uid;
         Internal`Kernel`WLJSQ = True;
+        Internal`Kernel`$Env = env;
+        Internal`Kernel`ElectronQ = electronQ;
         System`$FrontEndWLJSQ = True; (* DEPRICATED *)
 
         Off[Unset::norep];
