@@ -730,6 +730,11 @@ Component[OptionsPattern[]] := With[{
             ApplySync[Then, evaluateCell, {#, notebook, secret, log, kernels, $Client, modals, parameters, extensions} &/@ Select[notebook["Cells"], TrueQ[#["Props"]["InitGroup"]]&], Null]
         ],
 
+        "EvaluateAllCells" -> Function[Null,
+            notebook["CellsInitialized"] = True;
+            ApplySync[Then, evaluateCell, {#, notebook, secret, log, kernels, $Client, modals, parameters, extensions} &/@ Select[notebook["Cells"], (#["Type"] === "Input" && !StringTake[#["Data"],3]===".md")& ], Null]
+        ],
+
         "Abort" -> Function[Null,
             If[Length[Select[notebook["Cells"], (#["State"] =!= "Idle") &]] == 0,
                 EventFire[log, "Warning", "No cells are under evaluation"]

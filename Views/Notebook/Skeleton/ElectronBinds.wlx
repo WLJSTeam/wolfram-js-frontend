@@ -47,6 +47,10 @@ Component[OptionsPattern[]] := With[{
         api.listener('evaluateinit', () => {
             server.emitt('<Controls/>', 'True', 'EvaluateInitCells');
         });
+
+        api.listener('evaluateall', () => {
+            server.emitt('<Controls/>', 'True', 'EvaluateAllCells');
+        });
         
     } else {
         window.addEventListener("keydown", function (e) {

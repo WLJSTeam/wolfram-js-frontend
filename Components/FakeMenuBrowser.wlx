@@ -65,7 +65,11 @@ LayoutView =
         <button data-name="EvaluateInitCells" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
 
           Evaluate initialization cells
-        </button>      
+        </button>    
+        <button data-name="EvaluateAllCells" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+
+          Evaluate all cells
+        </button>           
         <button data-name="ToggleCells" class="block w-full text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
 
           Show/Hide cell

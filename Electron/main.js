@@ -754,6 +754,13 @@ buildMenu = (opts) => {
                         windows.focused.call('evaluateinit', true);
                     }
                 },
+                {
+                    label: 'Evaluate All Cells',
+                    click: async(ev) => {
+                        console.log(ev);
+                        windows.focused.call('evaluateall', true);
+                    }
+                },                
                 { type: 'separator' },
                 {
                     label: 'Clear Output Cells',
@@ -962,6 +969,10 @@ callFakeMenu["togglecells"] = () => {
 
 callFakeMenu["evalInit"] = () => {
     windows.focused.call('evaluateinit', true);
+}
+
+callFakeMenu["evalall"] = () => {
+    windows.focused.call('evaluateall', true);
 }
 
 callFakeMenu["restartkernels"] = () => {
