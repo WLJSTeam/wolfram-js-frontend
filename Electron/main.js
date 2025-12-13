@@ -971,7 +971,7 @@ callFakeMenu["evalInit"] = () => {
     windows.focused.call('evaluateinit', true);
 }
 
-callFakeMenu["evalall"] = () => {
+callFakeMenu["evalAll"] = () => {
     windows.focused.call('evaluateall', true);
 }
 
