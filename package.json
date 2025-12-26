@@ -1,6 +1,6 @@
 {
   "name": "wljs-notebook",
-  "version": "2.9.2",
+  "version": "2.9.3",
   "recommended-client-version": "2.6.3",
   "description": "Dynamic Notebook Environment for Wolfram Language written in Javascript",
   "author": {
@@ -190,7 +190,7 @@
     "@playwright/test": "^1.51.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@types/node": "^22.13.10",
-    "electron": "^39.0.0",
+    "electron": "^39.2.7",
     "electron-builder": "^26.0.12",
     "rollup": "^3.29.3",
     "rollup-plugin-combine": "^2.1.1",
