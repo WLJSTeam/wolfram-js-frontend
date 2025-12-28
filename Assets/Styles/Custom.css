@@ -44,16 +44,16 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
     --editor-key-meta: #404740;
-    --editor-key-keyword: #708;
+    --editor-key-keyword: rgb(200, 89, 16);
     --editor-key-atom: #2332fd;
     --editor-key-literal: #164;
-    --editor-key-string: #a11;
+    --editor-key-string: rgb(170, 17, 17);
     --editor-key-escape: #e40;
     --editor-key-variable: #00f;
     --editor-local-variable: #30a;
     --editor-key-type: #085;
     --editor-key-class: #167;
-    --editor-special-variable: #256;
+    --editor-special-variable: rgb(34, 85, 102);
     --editor-key-property: #00c;
     --editor-key-comment: #940;
     --editor-key-invalid: #ff8686;
