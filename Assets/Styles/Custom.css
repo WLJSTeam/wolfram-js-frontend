@@ -47,7 +47,7 @@
     --editor-key-keyword: rgb(200, 89, 16);
     --editor-key-atom: #2c56d6;
     --editor-key-literal: #164;
-    --editor-key-string: rgb(170, 17, 17);
+    --editor-key-string: rgb(170, 0, 0);
     --editor-key-escape: #e40;
     --editor-key-variable: #00f;
     --editor-local-variable: #30a;
