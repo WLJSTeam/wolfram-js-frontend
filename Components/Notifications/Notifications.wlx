@@ -51,6 +51,10 @@ Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
     EventHandler[evCloned, {
         (*/* dialog_Dialog :> (lazyAppend[#, DialogTemplate[dialog]]&), */*)
 
+        "MessagesList" -> Function[Null,
+            buffer
+        ],
+
         n_Notifications`Spinner (*`*)  :> Function[Null,
 
             With[{},
