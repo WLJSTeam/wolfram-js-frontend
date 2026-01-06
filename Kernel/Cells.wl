@@ -24,8 +24,6 @@ Begin["`Private`"]
 NullQ[any_] := any === Null
 
 initCell[o_] := Module[{uid = CreateUUID[]},
-    Print["Init cellobj"];
-
     If[o["Hash"] === Null, 
         o["Hash"] = uid;
         HashMap[uid] = o;
