@@ -112,6 +112,9 @@ SelectCells[list_List, pattern__] := With[{seq = SequencePosition[list, List[pat
 
 CellObj /: EvaluateCellObj[o_CellObj, OptionsPattern[] ] := Module[{transaction},
     Print["Submit cellobj"];
+
+    (* [TODO] [REFACTOR] *)
+    (* Just accept options, do not check Notebook field *)
     If[!NullQ[ o["Notebook"] ],
 
         o["State"] = "Evaluation";
