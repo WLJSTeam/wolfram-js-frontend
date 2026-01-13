@@ -20,7 +20,7 @@ HashMap = <||>
 
 
 
-CreateType[WindowObj, init, {"Notebook"->Null, ImageSize->Automatic, "Display"->"codemirror", "EvaluatedQ"->False, "Hash"->Null, "Data"->"", "Ref"->""}]
+CreateType[WindowObj, init, {"Notebook"->Null, "Title"->"Application", ImageSize->Automatic, "Display"->"codemirror", "EvaluatedQ"->False, "Hash"->Null, "Data"->"", "Ref"->""}]
 
 WindowObj /: EventHandler[n_WindowObj, opts__] := EventHandler[n["Hash"], opts] 
 WindowObj /: EventFire[n_WindowObj, opts__] := EventFire[n["Hash"], opts]
