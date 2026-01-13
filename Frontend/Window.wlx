@@ -42,6 +42,9 @@ App[request_] := With[{
         window        = win`HashMap[request["Query", "id"]] (*`*),
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]
     },
+    {
+      windowTitle = If[StringQ[window["Title"]], window["Title"], "Application"]
+    },
 
     EventHandler[OnLoad, Function[Null,
       cachedClient = $Client;
@@ -75,7 +78,7 @@ App[request_] := With[{
       "<!DOCTYPE html>"
     ,
     <html class="h-full" os="{NavigatorOS}"> 
-        <Head AccentColor={accentColor} Title={"Projector"} Settings={settings}>
+        <Head AccentColor={accentColor} Title={windowTitle} Settings={settings}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={True} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     
