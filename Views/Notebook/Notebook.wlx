@@ -810,6 +810,7 @@ Component[OptionsPattern[]] := With[{
                 checkWSLink[notebook, $Client, secret, log];
     
                 (* /* Restore cells */ *)
+                If[Length[notebook["Cells"]] > 0, With[{n = notebook}, n["FocusedCell"] = n["Cells"][[1]]] ];
                 restoreCells[notebook, secret, $Client, parameters, extensions];
     
                 (*/* finish */*)
