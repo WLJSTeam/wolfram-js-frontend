@@ -2,6 +2,8 @@ node_modules
 .env
 configuration.ini
 dist
+_settings.wl
+__shared
 /test-results/
 /playwright-report/
 /blob-report/
