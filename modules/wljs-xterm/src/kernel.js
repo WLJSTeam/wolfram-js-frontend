@@ -1,10 +1,10 @@
-import { Terminal } from 'xterm';
-import { FitAddon } from 'xterm-addon-fit';
+import { Terminal } from '@xterm/xterm';
+//import { FitAddon } from 'xterm-addon-fit';
 import { SearchAddon } from '@xterm/addon-search';
-import LocalEchoController from 'local-echo';
+import { LocalEchoAddon } from '@gytx/xterm-local-echo';
 
 let terminal = {};
-const localEcho = new LocalEchoController();
+let localEcho = null;
 
 core.UIXtermPrint = async (args, env) => {
   if (!terminal.loaded) return;
@@ -78,26 +78,44 @@ core.UIXtermLoad = async (args, env) => {
   const searchAddon = new SearchAddon();
   terminal.loadAddon(searchAddon);
 
-  const fit = new FitAddon();
-  terminal.loadAddon(fit);
+  //const fit = new FitAddon();
+  //terminal.loadAddon(fit);
 
   terminal.loaded = true;
 
   const uid = await interpretate(args[0], env);
   const channel = await interpretate(args[1], env);
 
-  terminal.open(document.getElementById(uid));
+  const container = document.getElementById(uid);
+  terminal.open(container);
   const vp = document.getElementsByClassName('xterm-viewport')[0];
   if (vp) vp.style.backgroundColor = 'transparent';
 
-  fit.fit();
+  //fit.fit();
 
   terminal.writeln('This is a virtual terminal connected to Wolfram Kernel');
   terminal.writeln('Your input is directly sent to the evaluation loop');
   terminal.writeln('');
 
-  // Attach LocalEcho to the terminal
+  // Create and attach LocalEcho addon (handles multiline paste natively)
+  localEcho = new LocalEchoAddon({
+    enableIncompleteInput: false  // Disable shell-style continuation, submit on Enter
+  });
   terminal.loadAddon(localEcho);
+
+  // Completely take over paste handling to avoid double-paste
+  const xtermTextarea = container.querySelector('.xterm-helper-textarea');
+  if (xtermTextarea) {
+    xtermTextarea.addEventListener('paste', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const text = e.clipboardData.getData('text');
+      if (text) {
+        // Feed each character to the terminal's onData (which local-echo listens to)
+        terminal._core.coreService.triggerDataEvent(text, true);
+      }
+    }, true);
+  }
 
   // ---- Prompt/loop ----
   const read = (cbk) =>
