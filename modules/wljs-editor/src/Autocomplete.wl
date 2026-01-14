@@ -1,10 +1,15 @@
 BeginPackage["CoffeeLiqueur`Extensions`Autocomplete`", {
     "JerryI`Misc`Events`",
     "JerryI`Misc`Events`Promise`", 
+    "JerryI`WLX`",
+    "JerryI`WLX`Importer`",
     "JerryI`WLX`WebUI`", 
+    "JerryI`WLX`WLJS`",
+    "JerryI`Misc`WLJS`Transport`",    
     "KirillBelov`HTTPHandler`",
     "KirillBelov`HTTPHandler`Extensions`",
-    "KirillBelov`Internal`"
+    "KirillBelov`Internal`",
+    "KirillBelov`Objects`"
 }]
 
 
@@ -103,28 +108,46 @@ blackList[name_String] := MemberQ[{
 }, name];
 
 
-makePage["WR", data_] := StringTemplate["<body><div style=\"height: 2rem;width: 100%;-webkit-app-region: drag;-webkit-user-select: none;\"></div><iframe style=\"width:100%;height:calc(100% - 2rem);border: none;border-radius: 7px; background: transparent;\" src=\"``\"></iframe></body>"][data] /; (System`$Env["ElectronCode"]===1);
-makePage["WLJS", data_] := StringTemplate["<body><div style=\"height: 2rem;width: 100%;-webkit-app-region: drag;-webkit-user-select: none;\"></div><iframe style=\"width:100%;height:calc(100% - 2rem);border: none;border-radius: 7px; background: transparent;\" src=\"https://wljs.io/search?q=``\"></iframe></body>"][ data ] /; (System`$Env["ElectronCode"]===1);
-
-makePage["WR", data_] := StringTemplate["<head><meta http-equiv='refresh' content='0; URL=``'></head><body></body>"][data];
-makePage["WLJS", data_] := StringTemplate["<head><meta http-equiv='refresh' content='0; URL=https://wljs.io/search?q=``'></head><body></body>"][ data ];
-
-
-docsFinder[request_] := With[{
-    name = If[StringTake[#, -1] == "/", StringDrop[#, -1], #] &@ (StringReplace[request["Path"], ___~~"/docFind/"~~(n:__)~~EndOfString :> n])
-},
-    With[{docs = Information[name]["Documentation"]},
+makeURL[name_] := With[{docs = Information[name]["Documentation"]},
         If[AssociationQ[docs] && !blackList[name],
-            makePage["WR", docs // First]
+            docs // First
         ,
-            makePage["WLJS", URLEncode[StringTrim[name] ] ]
+           "https://wljs.io/search?q="<>URLEncode[StringTrim[name] ]
         ]
         
-    ]
 ]
 
+DocWindowHashMap = <||>;
+initWindow[o_] := With[{uid = CreateUUID[]},
+    o["UId"] = uid;
+    DocWindowHashMap[uid] = o;
+    o
+];
+
+CreateType[DocWindow, initWindow, {}];
+
+DocWindow /: DeleteObject[d_DocWindow] := With[{uid = d["UId"]},
+    DocWindowHashMap[uid] = .;
+    Delete[d];
+]
+
+findDocWindow[cli_] := SelectFirst[Values[DocWindowHashMap], Function[d, d["AssociatedSocket"] === cli] ];
+
+EventHandler["autocompleteFindDoc", Function[label, With[{cli = Global`$Client}, {w = findDocWindow[cli]},
+    If[MissingQ[w],
+        With[{doc = DocWindow["Label"->label, "URL"->makeURL[label], "AssociatedSocket"->cli]},
+            WebUILocation["/docFind/"<>doc["UId"], cli, "Target"->_];
+        ];
+    ,
+        w["URL"] = makeURL[label];
+        w["Refresh"][];
+    ]
+] ] ];
+
+docsWindow = ImportComponent[FileNameJoin[{rootDir, "templates", "Docs.wlx"}] ];
+
 With[{http = AppExtensions`HTTPHandler},
-    http["MessageHandler", "DocsFinder"] = AssocMatchQ[<|"Path" -> ("/docFind/"~~___)|>] -> docsFinder;
+    http["MessageHandler", "DocsFinder"] = AssocMatchQ[<|"Path" -> ("/docFind/"~~___)|>] -> docsWindow;
 ];
 
 

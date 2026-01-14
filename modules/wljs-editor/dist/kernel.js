@@ -21872,8 +21872,7 @@ class CompletionTooltip {
                 infoResult = parent;
                 const lnk = document.createElement('a');
                 lnk.innerText = '🔎';
-                lnk.href = '/docFind/'+label;
-                lnk.target = "blank";
+                lnk.href = `javascript:server.io.fire('autocompleteFindDoc', "${label}")`;
                 infoResult.appendChild(lnk);
             }
 
