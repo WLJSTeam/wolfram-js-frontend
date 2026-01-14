@@ -78,31 +78,6 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
-      - name: Cache/restore Wolfram Engine install
-        id: cache-restore
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}
-          key: wolframengine-${{ env.WOLFRAM_SYSTEM_ID }}-${{ env.WOLFRAMENGINE_CACHE_KEY }}
-
-      - name: Install Wolfram Engine
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        run: |
-          echo 'Installing Wolfram Engine...'
-          brew install --cask wolfram-engine
-          brew install libuv
-          echo 'Installed Wolfram Engine.'
-
-      - name: Prepare bundle
-        env:
-          WOLFRAMENGINE_EXECUTABLES_DIRECTORY: "${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}/Contents/Resources/Wolfram Player.app/Contents/MacOS"
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-          WOLFRAMSCRIPT_KERNELPATH: "${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}/Contents/MacOS/WolframKernel"
-        run: |
-          export PATH="${{ env.WOLFRAMENGINE_EXECUTABLES_DIRECTORY }}:$PATH"
-          npm run pre-dist
-
-
       - name: Build electron
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -187,33 +162,6 @@ jobs:
           security import $CERTIFICATE_PATH -P "$BUILD_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
-
-
-      - name: Cache/restore Wolfram Engine install
-        id: cache-restore
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}
-          key: wolframengine-${{ env.WOLFRAM_SYSTEM_ID }}-${{ env.WOLFRAMENGINE_CACHE_KEY }}
-
-      - name: Install Wolfram Engine
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        run: |
-          echo 'Installing Wolfram Engine...'
-          brew install --cask wolfram-engine
-          brew install libuv
-          echo 'Installed Wolfram Engine.'
-
-
-
-      - name: Bundle files
-        env:
-          WOLFRAMENGINE_EXECUTABLES_DIRECTORY: "${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}/Contents/Resources/Wolfram Player.app/Contents/MacOS"
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-          WOLFRAMSCRIPT_KERNELPATH: "${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}/Contents/MacOS/WolframKernel"
-        run: |
-          export PATH="${{ env.WOLFRAMENGINE_EXECUTABLES_DIRECTORY }}:$PATH"
-          npm run pre-dist
 
       - name: Build electron
         env:
