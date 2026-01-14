@@ -751,21 +751,21 @@ apiCall[request_, "/api/extensions/list/"] := With[{},
 pmIncludes[param_, whitelist_List] := 
 Table[ 
     Table[ 
-      Import[FileNameJoin[{WLJSPackages`Packages[i, "name"], StringSplit[j, "/"]} // Flatten], "Text", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}] // URLEncode
+      Import[FileNameJoin[{WLJSPackages`Packages[i, "name"], StringSplit[j, "/"]} // Flatten], "Text", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}] // URLEncode
     , {j, {WLJSPackages`Packages[i, "wljs-meta", param]} // Flatten} ]
 , {i, Select[WLJSPackages`Packages // Keys, (MemberQ[whitelist, #] && WLJSPackages`Packages[#, "enabled"] && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], param])&]}] // Flatten;
 
 pmIncludesNoEncode[param_, whitelist_List] := 
 Table[ 
     Table[ 
-      Import[FileNameJoin[{WLJSPackages`Packages[i, "name"], StringSplit[j, "/"]} // Flatten], "Text", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}] 
+      Import[FileNameJoin[{WLJSPackages`Packages[i, "name"], StringSplit[j, "/"]} // Flatten], "Text", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}] 
     , {j, {WLJSPackages`Packages[i, "wljs-meta", param]} // Flatten} ]
 , {i, Select[WLJSPackages`Packages // Keys, (MemberQ[whitelist, #] && WLJSPackages`Packages[#, "enabled"] && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], param])&]}] // Flatten;
 
 pmIncludesNoEncode[param_, alterparam_, whitelist_List] := 
 Table[ 
     Table[ 
-      Import[FileNameJoin[{WLJSPackages`Packages[i, "name"], StringSplit[j, "/"]} // Flatten], "Text", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}] 
+      Import[FileNameJoin[{WLJSPackages`Packages[i, "name"], StringSplit[j, "/"]} // Flatten], "Text", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}] 
     , {j, {WLJSPackages`Packages[i, "wljs-meta", alterparam]} // Flatten} ]
 , {i, Select[WLJSPackages`Packages // Keys, (MemberQ[whitelist, #] && WLJSPackages`Packages[#, "enabled"] && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], param])&]}] // Flatten;
 

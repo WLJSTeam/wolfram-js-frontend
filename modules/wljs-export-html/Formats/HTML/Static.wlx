@@ -96,7 +96,7 @@ ExtensionsJS[Rule["Settings", settings_]] := If[settings["ExportHTMLUseCDN"] ===
       , {j, {WLJSPackages`Packages[i, "wljs-meta", "js"]} // Flatten}]
   , {i, Select[WLJSPackages`Packages // Keys, (!MemberQ[existsOrEmpty[settings, "ExportHTMLExclude"], #] && WLJSPackages`Packages[#, "enabled"] && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "minjs"])&]} ]]) // ToStringRiffle
 ,
-  With[{Data = Import[#, "Text", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}]},
+  With[{Data = Import[#, "Text", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}]},
     <script type="module">
         <Data/>
     </script>
@@ -114,7 +114,7 @@ ExtensionsStyles[Rule["Settings", settings_]] := If[settings["ExportHTMLUseCDN"]
       , {j, {WLJSPackages`Packages[i, "wljs-meta", "styles"]} // Flatten}]
   , {i, Select[WLJSPackages`Packages // Keys, (!MemberQ[existsOrEmpty[settings, "ExportHTMLExclude"], #] && WLJSPackages`Packages[#, "enabled"] && !(KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "exportStyles"]) && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "styles"] && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "minjs"])&]} ]] )// ToStringRiffle
 ,
-  With[{Data = Import[#, "Text", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}]},
+  With[{Data = Import[#, "Text", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}]},
     <style>
       <Data/>
     </style> 
@@ -132,7 +132,7 @@ ExtensionsStylesAlt[Rule["Settings", settings_]] := If[settings["ExportHTMLUseCD
       , {j, {WLJSPackages`Packages[i, "wljs-meta", "exportStyles"]} // Flatten}]
   , {i, Select[WLJSPackages`Packages // Keys, (!MemberQ[existsOrEmpty[settings, "ExportHTMLExclude"], #] && WLJSPackages`Packages[#, "enabled"] && (KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "exportStyles"]) && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "styles"] && KeyExistsQ[WLJSPackages`Packages[#, "wljs-meta"], "minjs"])&]} ]] )// ToStringRiffle
 ,
-  With[{Data = Import[#, "Text", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}]},
+  With[{Data = Import[#, "Text", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}]},
     <style>
       <Data/>
     </style> 
