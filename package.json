@@ -39,11 +39,11 @@
     "artifactName": "wljs-notebook-${version}-${arch}.${ext}",
     "dmg": {
       "title": "${productName} ${version}",
-      "icon": "./Electron/build/512x512.icns",
+      "icon": "./Electron/build/icon.icns",
       "sign": false
     },
     "mac": {
-      "icon": "./Electron/build/512x512.icns",
+      "icon": "./Electron/build/icon.icns",
       "artifactName": "wljs-notebook-${version}-${arch}-macos.${ext}",
       "fileAssociations": [
         {
@@ -99,7 +99,7 @@
           "icon": "./Electron/build/file/512x512-2.png"
         }
       ],
-      "icon": "./Electron/build/512x512.png",
+      "icon": "./Electron/build/icon.png",
       "protocols": [
         {
           "name": "WLJS URL communication",
@@ -115,7 +115,7 @@
     },
     "win": {
       "target": "NSIS",
-      "icon": "./Electron/build/512x512.ico",
+      "icon": "./Electron/build/icon.ico",
       "artifactName": "wljs-notebook-${version}-${arch}-win.${ext}",
       "fileAssociations": [
         {
