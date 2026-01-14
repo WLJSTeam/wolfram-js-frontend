@@ -87,10 +87,7 @@ Component[OptionsPattern[]] := Module[{tempBuffer}, With[{
             </div>
             <div class="mt-4">   
                 <span class="dark:text-gray-400">General</span>
-                <div class="block my-2 py-2">
-                    <StringRiffle>
-                        <Checkbox Label={"Use CDN"} Event={update} Topic={"ExportHTMLUseCDN"} Description={"Do not include all packages to an exported file, but use CDN service. It reduces the file size, but makes it internet dependent."} Checked={initialValues["ExportHTMLUseCDN"]}/>
-                    </StringRiffle>            
+                <div class="block my-2 py-2">          
                     <StringRiffle>
                         <Checkbox Label={"Automatic dark mode"} Event={update} Topic={"ExportHTMLAutomaticDark"} Description={"Enables hue shift and colors inversion based on user's OS preferences"} Checked={initialValues["ExportHTMLAutomaticDark"]}/>
                     </StringRiffle> 
