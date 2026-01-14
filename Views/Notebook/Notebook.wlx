@@ -232,17 +232,24 @@ requestKernel[notebook_, kernels_, modals_, client_, Success_] := With[{},
     ];
 ];
 
-projectCell[cell_, notebook_, secret_String, log_String, kernels_, cli_, modals_, parameters_, extensions__] := With[{
+projectCellOrUpdate[cell_, notebook_, secret_String, log_String, kernels_, cli_, modals_, parameters_, extensions__] := With[{
     client = If[MatchQ[cli, _Symbol], notebook["Socket"], cli]
 },
 
     
     With[{project = Function[Null,
-        With[{win = win`WindowObj["Notebook" -> cell["Notebook"], "Data" -> cell["Data"], "Ref" -> cell["Hash"] ]},
-            Echo["project >> sending global event"];
-            EventFire[notebook, "OnWindowCreate", <|"Window"->win, "Client"->client|>];
-            WebUILocation[StringJoin["/window?id=", win["Hash"] ], client, "Target"->_];
-        ]]
+        With[{found = SelectFirst[Values[win`HashMap], Function[window, TrueQ[window["Single"] ] && window["Ref"] === cell["Hash"] && window["Opened"] === True ] ] },
+            If[MissingQ[found],
+                With[{win = win`WindowObj["Single"->True, "Notebook" -> cell["Notebook"], "Data" -> cell["Data"], "Ref"     -> cell["Hash"] ]},
+                    Echo["project >> sending global event"];
+                    EventFire[notebook, "OnWindowCreate", <|"Window"->win, "Client"->client|>];
+                    WebUILocation[StringJoin["/window?id=", win["Hash"] ], client, "Target"->_];
+                ] 
+            ,
+                found["Data"] = cell["Data"];
+                EventFire[found, "Reevaluate", True];
+            ];
+        ] ]
     },
 
         (*/* Check kernel and evaluator */*)
@@ -274,7 +281,54 @@ projectCell[cell_, notebook_, secret_String, log_String, kernels_, cli_, modals_
                                 Then[checkWSLink[notebook, client, secret, log], project];
                             ]
                 ];
-            ]];
+            ] ];
+        ];
+    ];
+] 
+
+projectCell[cell_, notebook_, secret_String, log_String, kernels_, cli_, modals_, parameters_, extensions__] := With[{
+    client = If[MatchQ[cli, _Symbol], notebook["Socket"], cli]
+},
+
+    
+    With[{project = Function[Null,
+        With[{win = win`WindowObj["Notebook" -> cell["Notebook"], "Data" -> cell["Data"], "Ref" -> cell["Hash"] ]},
+            Echo["project >> sending global event"];
+            EventFire[notebook, "OnWindowCreate", <|"Window"->win, "Client"->client|>];
+            WebUILocation[StringJoin["/window?id=", win["Hash"] ], client, "Target"->_];
+        ] ]
+    },
+
+        (*/* Check kernel and evaluator */*)
+        If[notebook["Evaluator"]["Kernel"]["State"] === "Initialized",
+            If[Length[ReleaseHold @ kernels] == 0, WebUISubmit[Alert["No Kernels are available"], client]; Return[] ];
+
+            (*/* Kernel looks conected and etc */*)
+            Print["ok!"];
+
+            (*/* the last check */*)
+            With[{},
+                If[cell["State"] != "Idle",
+                    WebUISubmit[Alert["Cell is still under evaluation"], client];
+                ,
+                    Then[checkWSLink[notebook, client, secret, log], 
+                        project
+                    ];
+                ];
+            ];
+        ,
+            If[Length[ReleaseHold @ kernels] == 0, WebUISubmit[Alert["No Kernels are available"], client]; Return[] ];
+
+            requestKernel[notebook, kernels, modals, client, Function[Null,
+                With[{},
+                            If[cell["State"] != "Idle",
+                                WebUISubmit[Alert["Cell is still under evaluation"], client];
+                            ,
+                                Echo["Success!"];
+                                Then[checkWSLink[notebook, client, secret, log], project];
+                            ]
+                ];
+            ] ];
         ];
     ];
 ] 
@@ -917,6 +971,8 @@ Component[OptionsPattern[]] := With[{
         ],
 
         "Project" -> Function[uid, projectCell[cell`HashMap[uid](*`*), notebook, secret, log, kernels, $Client, modals, parameters, extensions]],
+
+        "ProjectOrUpdate" -> Function[uid, projectCellOrUpdate[cell`HashMap[uid](*`*), notebook, secret, log, kernels, $Client, modals, parameters, extensions]],
 
         "UpdateCell" -> Function[payload,
             With[{cell = cell`HashMap[payload // First], content = payload // Last (*`*)},

@@ -617,6 +617,11 @@ compactWLEditor = (args) => {
         event.stopPropagation();
         args.evalNext();
         return false;
+      } },
+      { key: "Ctrl-Shift-Enter", mac: "Cmd-Shift-Enter", stopPropagation:true, preventDefault: true, run: function (editor, event) { 
+        event.stopPropagation();
+        args.evalToWindow();
+        return false;
       } }
     ]),    
     args.extensions || [],   
@@ -677,7 +682,12 @@ compactWLEditor.state = (args) => {
           event.stopPropagation();
           args?.evalNext();
           return false;
-        } }
+        } },
+        { key: "Ctrl-Shift-Enter", mac: "Cmd-Shift-Enter", stopPropagation:true, preventDefault: true, run: function (editor, event) { 
+        event.stopPropagation();
+        args?.evalToWindow();
+        return false;
+      } }
       ]),    
       args.extensions || [],   
       minimalSetup,
@@ -1001,7 +1011,12 @@ const EditorExtensions = [
       console.log(editor.state.doc.toString()); 
       self.origin.evalNext(editor.state.doc.toString()); 
       return false;
-    } }
+    } },
+    { key: "Ctrl-Shift-Enter", mac: "Cmd-Shift-Enter", stopPropagation:true, preventDefault: true, run: function (editor, event) { 
+        event.stopPropagation();
+        self.origin.evalToWindow(editor.state.doc.toString());
+        return false;
+      } }
     , ...defaultKeymap, ...historyKeymap, ...searchKeymap
   ]),
   

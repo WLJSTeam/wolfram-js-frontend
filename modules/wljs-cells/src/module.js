@@ -710,6 +710,12 @@ window.CellWrapper = class {
     this._event('eval', {self:this});
   }  
 
+  evalToWindow() {
+    if (this.type == "Output") console.warn('Output cell cannot be evaluated, but we will try to convert it');
+    server.emitt(this.channel, '"'+this.uid+'"', 'ProjectOrUpdate');  
+    this._event('eval', {self:this});    
+  }
+
   evalNext(content) {
     if (this.type == "Output") console.warn('Output cell cannot be evaluated, but we will try to convert it');
     //jump to the next
@@ -771,6 +777,11 @@ window.WindowWrapper = class {
     if (!this.display.editor) return;
     this.display.editor.focus();
   }
+
+  dispose() {
+    console.log('Window was disposed');
+    this?.display?.dispose();
+  }
   
   constructor(template, input, list, eventid, meta = {}) {
 
@@ -783,6 +794,10 @@ window.WindowWrapper = class {
     const self = this;
 
     const notebook = Notebook.add(input["Notebook"], {}); 
+
+    //dispose already existing cells
+    notebook.Window?.dispose();
+    notebook.Window = this;
 
     this.throttledSave = throttle((content) => {
       console.warn('editing inside window is not permitted');
