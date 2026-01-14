@@ -1,0 +1,16 @@
+ItemList = ImportComponent["Components/ItemList.wlx"];
+
+Component[OptionsPattern[]] := With[{icons = OptionValue["Icons"], path = OptionValue["Path"], channel = OptionValue["Channel"]},
+    <nav class="flex flex-1 flex-col" style="-webkit-app-region:none">
+      <ul role="list" class="flex flex-1 flex-col gap-y-7 p-0">
+        <li class="list-none">
+          <ItemList Icons={icons} Level={0} Class={"-mx-2 space-y-0"} Path={path} Current={path} Channel={channel}/>
+        </li>
+        
+      </ul>
+    </nav>
+]
+
+Options[Component] = {"Icons" -> {}, "Level" -> 0, "Path" :> NotebookDirectory[], "Current" :> NotebookDirectory[], "Channel" -> ""}
+
+Component

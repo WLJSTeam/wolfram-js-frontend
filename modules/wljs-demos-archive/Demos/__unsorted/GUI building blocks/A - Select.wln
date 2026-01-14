@@ -1,0 +1,26 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$75], 
+   "Objects" -> <||>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend-dev\
+/Examples/User input/Select.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Select angle", "Display" -> "codemirror", 
+    "Hash" -> "86aea0a6-cd3d-4d0d-836b-dd70184b04df", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "dc99b7ba-b14b-4154-a362-42adfcde85cd"|>, <|"Data" -> "## Select angle", 
+    "Display" -> "markdown", "Hash" -> 
+     "eba2440c-b7d8-4c55-90b9-d39af05141a0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "dc99b7ba-b14b-4154-a362-42adfcde85cd"|>, 
+   <|"Data" -> "angle = 45 Degree;\nEventHandler[InputSelect[{Pi/2 -> \"90\", \
+ Pi/4 -> \"45\",  0 -> \"0\"}, Pi/4], Function[value, angle = \
+value]]\n\nGraphics[{Rotate[Rectangle[{0,0}, {1,1}], angle // Offload]}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8e8fdc72-1bc1-48cf-b5fc-8c21a28b5499", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "dc99b7ba-b14b-4154-a362-42adfcde85cd"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "1af6c798-2c66-4173-ab4a-68a531ff0bff", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "dc99b7ba-b14b-4154-a362-42adfcde85cd"|>}, "serializer" -> "jsfn4"|>

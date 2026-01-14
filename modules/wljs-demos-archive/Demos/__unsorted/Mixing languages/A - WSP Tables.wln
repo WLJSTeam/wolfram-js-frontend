@@ -1,0 +1,51 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$144], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/Demos/02 - Mixing languages/WSP Tables.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Making tables of data using WSP\nGenerate a \
+table using Wolfram Language", "Display" -> "codemirror", 
+    "Hash" -> "de37fcc2-d340-4981-a3d5-1e6d4192d6e9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a6366de3-7bce-47bb-a6f0-46a1c808b061"|>, 
+   <|"Data" -> "## Making tables of data using WSP\nGenerate a table using \
+Wolfram Language", "Display" -> "markdown", 
+    "Hash" -> "057f6fcb-d4e5-49bf-95ef-b2b759445138", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a6366de3-7bce-47bb-a6f0-46a1c808b061"|>, 
+   <|"Data" -> "data = Table[RandomWord[], {i, 4}, {j, 4}];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b5e7cd8b-47e7-432f-9f11-41fcf5815102", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a6366de3-7bce-47bb-a6f0-46a1c808b061"|>, 
+   <|"Data" -> ".html\n\n<table class=\"table-auto\">\n<?wsp Table[ ?>\n  <tr \
+class=\"bg-white border-b\">\n  <?wsp Table[ ?>\n    <td class=\"px-3 \
+py-2\">\n      <?wsp Item ?>\n    </td>    \n  <?wsp , {Item, Rows}] ?>\n  \
+</tr>\n<?wsp , {Rows, data}] ?>\n</table>", "Display" -> "codemirror", 
+    "Hash" -> "5499231b-56ec-42e3-84d5-6338fc02a708", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a6366de3-7bce-47bb-a6f0-46a1c808b061"|>, 
+   <|"Data" -> "\n<table class=\"table-auto\">\n\n  <tr class=\"bg-white \
+border-b\">\n  \n    <td class=\"px-3 py-2\">\n      vitiation\n    </td>    \
+\n  \n    <td class=\"px-3 py-2\">\n      ensilage\n    </td>    \n  \n    \
+<td class=\"px-3 py-2\">\n      shredder\n    </td>    \n  \n    <td \
+class=\"px-3 py-2\">\n      awake\n    </td>    \n  \n  </tr>\n\n  <tr \
+class=\"bg-white border-b\">\n  \n    <td class=\"px-3 py-2\">\n      \
+blinder\n    </td>    \n  \n    <td class=\"px-3 py-2\">\n      unloose\n    \
+</td>    \n  \n    <td class=\"px-3 py-2\">\n      kibosh\n    </td>    \n  \
+\n    <td class=\"px-3 py-2\">\n      unerring\n    </td>    \n  \n  \
+</tr>\n\n  <tr class=\"bg-white border-b\">\n  \n    <td class=\"px-3 \
+py-2\">\n      sierra\n    </td>    \n  \n    <td class=\"px-3 py-2\">\n      \
+mattress\n    </td>    \n  \n    <td class=\"px-3 py-2\">\n      reship\n    \
+</td>    \n  \n    <td class=\"px-3 py-2\">\n      bugler\n    </td>    \n  \
+\n  </tr>\n\n  <tr class=\"bg-white border-b\">\n  \n    <td class=\"px-3 \
+py-2\">\n      stander\n    </td>    \n  \n    <td class=\"px-3 py-2\">\n     \
+ ultrasonic\n    </td>    \n  \n    <td class=\"px-3 py-2\">\n      \
+uninhibited\n    </td>    \n  \n    <td class=\"px-3 py-2\">\n      \
+propaganda\n    </td>    \n  \n  </tr>\n\n</table>", "Display" -> "html", 
+    "Hash" -> "a57d3a9d-113a-4cde-8c92-6b41af7d1834", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a6366de3-7bce-47bb-a6f0-46a1c808b061"|>}, "serializer" -> "jsfn4"|>

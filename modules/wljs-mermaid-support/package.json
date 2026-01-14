@@ -1,0 +1,30 @@
+{
+  "name": "wljs-mermaid-support",
+  "version": "0.0.5",
+  "description": "Mermaid diagrams support for WLJS Editor",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone https://github.com/JerryI/wljs-mermaid-support && mv wljs-mermaid-support/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "frontend": "src/Frontend.wl",
+    "js": "dist/kernel.js",
+    "minjs": "dist/kernel.min.js",
+    "category": "Cell types",
+    "cellExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-mermaid-support"
+  },
+  "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "mermaid": "^10.1.0",
+    "rollup": "^3.21.6",
+    "terser": "^5.31.3"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}

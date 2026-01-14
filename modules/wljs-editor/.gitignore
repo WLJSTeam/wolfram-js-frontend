@@ -1,0 +1,5 @@
+node_modules
+node_modules_copy
+package-lock.json
+.cache
+.parcel-cache

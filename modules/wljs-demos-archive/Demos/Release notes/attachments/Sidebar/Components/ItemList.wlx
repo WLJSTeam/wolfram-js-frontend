@@ -1,0 +1,31 @@
+Dir  = ImportComponent["ItemDirectory.wlx"];
+Fl   = ImportComponent["ItemFile.wlx"];
+
+Component[OptionsPattern[]] := With[{
+  Level    = OptionValue["Level"],
+  Class    = StringJoin[OptionValue["Class"], " pl-", ToString[OptionValue["Level"]]],
+  Path     = If[!DirectoryQ[OptionValue["Path"]], DirectoryName[OptionValue["Path"]], OptionValue["Path"]],
+  Current  = OptionValue["Current"],
+  Icons = OptionValue["Icons"],
+  channel = OptionValue["Channel"]
+},
+
+
+  With[{
+    Ul = Table[
+      If[DirectoryQ[i],  
+
+        <li class="list-none"><Dir ItemListComponent={Component} Icons={Icons} Channel={channel} Level={Level+1} File={i} Selected={SameQ[Current, i]}/></li>,
+        <li class="list-none"><Fl  Icons={Icons} Channel={channel} File={i} Selected={SameQ[Current, i]}/></li>
+      ]
+    , {i, Select[FileNames["*", Path], !StringMatchQ[#, ___~~".DS_Store"]&]}]
+  },
+    <ul class="p-0 {Class}">
+      <Ul/>
+    </ul>
+  ]
+]
+
+Options[Component] = {"Icons" -> {}, "Level" -> 0, "Class" -> "-mx-2 space-y-0", "Path" -> "/", "Current" -> "/", Channel -> ""}
+
+Component

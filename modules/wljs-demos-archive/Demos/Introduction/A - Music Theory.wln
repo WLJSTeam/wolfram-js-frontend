@@ -1,0 +1,121 @@
+<|"Notebook" -> <|"Controller" -> "b1f703c2-2a04-449e-9e5f-22bdcd6abc97", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1578], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "3bc2fe0b-7dc4-47b5-9385-9fb2445bff98", 
+   "Objects" -> <|"3a58b02a-2a2f-4c9b-b4f7-cdd6c9514b6d" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{1, 5, 8}]]]|>, 
+     "62808806-afcf-4535-9cf4-69481befa3af" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{3, 6, 10}]]]|>, 
+     "7cc5c8a2-0b6e-4c23-bc59-96ee307d8e44" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{5, 8, 12}]]]|>, 
+     "3647b66f-3d04-4e2f-bfa9-9966ec945eae" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{6, 10, 13}]]]|>, 
+     "00ad4dc7-81a5-49d1-b88a-8a2d6740ef57" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{8, 12, 15}]]]|>, 
+     "fb047ec8-3eda-42bc-af69-cefe770deee9" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{10, 13, 17}]]]|>, 
+     "45000ba1-642c-45a8-a974-3ee5c87b70b4" -> 
+      <|"Public" -> Hold[Sound[SoundNote[{12, 15, 18}]]]|>|>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/02 - Math and \
+Symbolics/Music Theory.wln", "Quick" -> True, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Music theory", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1576]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n# Music theory\nLet us start from basic scales", 
+    "Display" -> "codemirror", "Hash" -> 
+     "84fc7a88-fa16-4aeb-b5fa-7b24dc079cf1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "d2a77826-4b46-43a1-9320-d07b14c44bfa"|>, 
+   <|"Data" -> "# Music theory\nLet us start from basic scales", 
+    "Display" -> "markdown", "Hash" -> 
+     "ecac533f-0fdc-4ee7-ad59-11b62d5c18f0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "d2a77826-4b46-43a1-9320-d07b14c44bfa"|>, 
+   <|"Data" -> "scale[\"Major\"] = {2,2,1,2,2,2,1};\n\nmakeScale[root_, \
+scale_, pos_List] := With[{base = Accumulate[Join[{root}, scale]]},\n  \
+(base[[Mod[#-1, Length[base]-1] + 1]] + 12 Floor[# / Length[base]]) &/@ \
+pos\n]", "Display" -> "codemirror", 
+    "Hash" -> "02996488-89e2-4df6-8165-de177a11d171", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "d2a77826-4b46-43a1-9320-d07b14c44bfa"|>, 
+   <|"Data" -> "Table[\n  {SoundNote @ makeScale[1, scale[\"Major\"], Table[  \
+i + offset, {i, 1, 6, 2}] ], offset + 1}\n, {offset, \
+0,6}];\n\nLabeled[Sound[#[[1]]], RomanNumeral[#[[2]]]] &/@ % // Row ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "89438a46-2a4d-4764-9a5a-3871d6a5b555", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "d2a77826-4b46-43a1-9320-d07b14c44bfa"|>, 
+   <|"Data" -> "(*GB[*){{(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{1, 5, \
+8}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKG\
+yeaWiQZGCXqGiUapemaJFsm6SaZpJnrJqekmCVbmhqaJJmlAACLRRYs\"*)(*]VB*))(*,*)(*\"1\
+:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwIZ\
+jjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)(\
+*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRci\
+DyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*)\
+,(*||*){\"I\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQB\
+HPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]VB*)\
+}}(*]GB*)(*|*),(*|*)(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{3, 6, \
+10}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEK\
+mxlZGFhYGJjpJqYlp+mamBqb6lomp5nomlmaWBgmpaYlGiemAQB6axW0\"*)(*]VB*))(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwI\
+ZjjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)\
+(*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRc\
+iDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*\
+),(*||*){\"II\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEs\
+QBHPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]VB\
+*)}}(*]GB*)(*|*),(*|*)(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{5, 8, \
+12}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEK\
+mycnmyZbJBrpGiSZpeqaJBsZ6yYlm1rqWpqlphobmKdYpJqYAACMXxXb\"*)(*]VB*))(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwI\
+ZjjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)\
+(*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRc\
+iDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*\
+),(*||*){\"III\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcE\
+sQBHPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]V\
+B*)}}(*]GB*)(*|*),(*|*)(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{6, 10, \
+13}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEK\
+G5uZmCeZmaXpGqcYmOiapBql6SalJVrqWlqamaUmW5qYpiamAgCBahXs\"*)(*]VB*))(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwI\
+ZjjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)\
+(*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRc\
+iDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*\
+),(*||*){\"IV\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEs\
+QBHPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]VB\
+*)}}(*]GB*)(*|*),(*|*)(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{8, 12, \
+15}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEK\
+GxgkppikJJvrWhgmmuqaWKYY6iZZWCTqWiQapZiZmxikppmaAwCFuRWl\"*)(*]VB*))(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwI\
+ZjjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)\
+(*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRc\
+iDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*\
+),(*||*){\"V\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQ\
+BHPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]VB*\
+)}}(*]GB*)(*|*),(*|*)(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{10, 13, \
+17}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEK\
+pyUZmJinJlvoGqemJOqaGCUl6yammVnqJqempZqbG6SkpqZaAgCaTRcB\"*)(*]VB*))(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwI\
+ZjjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)\
+(*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRc\
+iDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*\
+),(*||*){\"VI\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEs\
+QBHPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]VB\
+*)}}(*]GB*)(*|*),(*|*)(*GB[*){{(*BB[*)((*VB[*)(Sound[SoundNote[{12, 15, \
+18}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEK\
+m5gaGBgkJRrqmpkYJeuamCZa6CZampvoGqemmiZbmCeZGySZAAB3GRU5\"*)(*]VB*))(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KWnMIB4vkAjLTC13SU3OL0osyS8KBskHJOalpjHBVAeV5qQWcwI\
+ZjjmZ6Xm5qXklCDmfzOKSYjYgwxkonFpUzAFkOiUWp+ZkYpgggCQVkF+cWZKZn4eiHgAIiyhB\"*)\
+(*]BB*)(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHPktRc\
+iDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBrMDBX0Sk1JzUlMAU+0Vnw==\"*)(*]VB*)}(*||*\
+),(*||*){\"VII\"(*VB[*)(**)(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcE\
+sQBHPktRciDyIF1Sak1osAGS4pKYlluaUOCUWpwaXVOakBvMABX0Sk1JzUlPAFADFtBeE\"*)(*]V\
+B*)}}(*]GB*)}}(*]GB*)", "Display" -> "codemirror", 
+    "Hash" -> "8fb433de-6093-41ee-b313-c46c8e6815fd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "d2a77826-4b46-43a1-9320-d07b14c44bfa"|>}, "serializer" -> "jsfn4"|>

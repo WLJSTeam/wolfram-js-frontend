@@ -1,0 +1,43 @@
+{
+  "name": "wljs-sharedlib-mk",
+  "version": "0.0.3",
+  "description": "A shared javascript library that ships Marked.js and KateX.js",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "watch": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs -w",
+    "restore": "mkdir _temp && cd _temp && git clone  https://github.com/JerryI/wljs-sharedlib-mk && mv wljs-sharedlib-mk/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "js": "dist/kernel.js",
+    "minjs": "dist/kernel.min.js",
+    "category": "Shared libraries",
+    "priority": -50,
+    "cellExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-sharedlib-mk"
+  },
+  "author": "Kirill Vasin",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/JerryI/wljs-sharedlib-mk/issues"
+  },
+  "homepage": "https://github.com/JerryI/wljs-sharedlib-mk#readme",
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "katex": "^0.16.10",
+    "marked": "^12.0.1",
+    "rollup": "^3.20.6",
+    "rollup-plugin-combine": "^2.1.1",
+    "serve-static": "^1.14.1",
+    "systemjs": "^6.14.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup-plugin-replace": "^2.2.0"
+  }
+}

@@ -1,0 +1,338 @@
+:root {
+    --editor-key-meta: #404740;
+    --editor-key-keyword: #708;
+    --editor-key-atom: #219;
+    --editor-key-literal: #164;
+    --editor-key-string: #a11;
+    --editor-key-escape: #e40;
+    --editor-key-variable: #00f;
+    --editor-local-variable: #30a;
+    --editor-key-type: #085;
+    --editor-key-class: #167;
+    --editor-special-variable: #256;
+    --editor-key-property: #00c;
+    --editor-key-comment: #940;
+    --editor-key-invalid: #f00;
+    
+    --editor-outline: #696969;
+  
+    --editor-bracket-1: #5461c8;
+    --editor-bracket-2: #c724b1;
+    --editor-bracket-3: #e4002b;
+    --editor-bracket-4: #ff6900;
+    --editor-bracket-5: #978d00;
+    --editor-bracket-6: #019e79;
+    --editor-bracket-7: #008dc1;
+  
+    --editor-bracket-1-a: #5461c8; 
+    --editor-bracket-2-a: #c724b1;
+    --editor-bracket-3-a: #e4002b;
+    --editor-bracket-4-a: #ff6900;
+    --editor-bracket-5-a: #978d00;
+    --editor-bracket-6-a: #019e79;
+    --editor-bracket-7-a: #008dc1;  
+  }
+
+  .d3-controls {
+    position: absolute;
+    right: -1rem;
+    padding: 0;
+    opacity: 0.7;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .frontend-view:hover .d3-controls {
+    opacity: 0.6;
+  }
+  
+  .graphics2d-controller {
+    position:absolute;
+    right:0;
+    opacity:0;
+  }
+  
+  .graphics2d-controller:hover {
+    opacity:1;
+  }
+  
+  .graphics3d-controller {
+    position:absolute;
+    right:0;
+    opacity:0;
+  }
+  
+  .graphics3d-controller:hover {
+    opacity:1;
+  }
+  
+  .dg.main {
+    color:#777;
+    text-shadow: none;
+    border-radius: 4px;
+    max-width:200px;
+  }
+  
+  
+  .dg.main li.cr.function {
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important;
+    
+  }
+  
+  .dg.main li.title {
+    background-color: rgb(0 0 0 / 5%) !important;
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    color: #777;
+    text-shadow: none;
+  }
+  
+  .dg.main .close-button.close-bottom {
+    background-color: rgb(0 0 0 / 5%) !important;
+    border-radius: 4px;
+    border-bottom: none;
+    font-weight: 500;
+    color: #777;
+    text-shadow: none;   
+    max-width:200px; 
+  }
+  
+  .dg.main li.cr.string {
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important; 
+    color:#777;
+    text-shadow: none;
+  }
+  
+  .dg.main li.cr.boolean {
+        border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important; 
+    color:#777;
+    text-shadow: none;
+  }
+  
+  
+  .cell-type-widget {
+    display: inline-block;
+    position: relative;
+    border-radius: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 0.75rem;
+    /* line-height: 120%; */
+    height:1.1rem;
+    background-color: rgb(236, 236, 236);
+    color: rgba(55, 53, 47, 0.5);
+    opacity: 0.7;
+  }
+  
+  
+  .sm-controls {
+      font-family: system-ui;
+      caret-color: auto;
+  }
+  
+  .cgi-ico {
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    margin-right: 0.25rem;
+    margin-top: 0.25rem;
+    right: 0;
+  }
+  
+  
+  .sc-b {
+    scrollbar-width: 2px;
+    scrollbar-color: rgba(15, 15, 15, 0.2) transparent;
+  }
+  
+  .sc-b::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+  
+  .sc-b::-webkit-scrollbar-thumb {
+    background: rgba(15, 15, 15, 0.2);
+    border-radius: 5px;
+  }
+  
+  .sc-b::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  .sc-b::-webkit-scrollbar-button {
+    background-color: transparent;
+    border-radius: 5px;
+  }
+  
+  
+  .cm-scroller::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+  
+  .cm-scroller::-webkit-scrollbar-thumb {
+    background: rgba(15, 15, 15, 0.2);
+    border-radius: 5px;
+  }
+  
+  .cm-scroller::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  .cg-fix {
+    height: auto;
+  }
+  
+  .z-inf {
+    z-index:110;
+  }
+
+  .ttint {
+    transition: height 0.2s;
+    background: #0056880f;
+  }
+  
+  .h-fade-20 {
+    mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    max-height: 4rem;
+    overflow: hidden;
+  }
+  
+  .frontend-view {
+    display: inline-flex;
+    vertical-align: sub;
+    position: relative;
+  }
+  
+  .cm-focused {
+    outline: none !important;
+    background: var(--editor-selected-tint) !important;
+    border-radius: 1px !important;
+  }
+  
+  
+  .frame-box {
+    border: 1px solid #000000;
+  }
+  
+  sup.subscript-tail {
+    line-height: normal;
+    vertical-align: super;
+    font-size: smaller;
+    top:auto;
+  }
+  
+  sub.subscript-tail {
+  line-height: normal;
+  vertical-align: sub;
+  font-size: smaller;
+  bottom:auto;
+  }
+  
+  .subscript-tail {
+    display: inline-block;
+  }
+  
+  .fraction {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+  
+  .matrix {
+    display: inline-flex;
+  }
+  
+  .fraction .container .enumenator {
+    border-bottom:solid 1px;
+  }
+  
+  .sqroot {
+    display: inline-block;
+    vertical-align: middle;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    transform: skew(-15deg);
+    transform-origin: bottom left;
+    margin: 0 10px;
+    position: relative;
+  }
+  
+  .sqroot:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 40%;
+    width: 5px;
+    left: -5px;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    transform: skew(30deg);
+    transform-origin: bottom right;
+  }
+  
+  .radicand {
+    display: inline-block;
+    padding-left: 0.5em;
+    transform: skew(15deg);
+  }
+  
+  .cell-type-js {
+    background: #ffe846;
+    color: #000000ad;
+  }
+  
+  .cell-type-html {
+    background: #b6d3ff;
+    color: #0000009c;
+  }
+  
+  .cell-type-slide {
+    background-color: hsl(191, 100%, 79%);
+    color: rgba(55, 53, 47, 0.5);
+  }
+  
+  .cell-type-slides {
+    background-color: hsl(311, 100%, 79%);
+    color: rgba(58, 28, 60, 0.5);
+  }  
+  
+  .cell-type-wlx {
+    background-color: rgb(45 255 227 / 79%);
+    color: #0000009c;
+  }
+
+  .cm-inherit {
+    font-size: inherit;
+    font-family: monospace;
+  }
+  
+  
+  .frontend-object {
+    position: relative;
+    font-size:small;
+  }
+  
+  .g3d-label {
+    font-size: x-small;
+  }
+  
+  .cell-type-slide {
+    background-color: hsl(191, 100%, 79%);
+    color: rgba(55, 53, 47, 0.5);
+  }
+  
+  .cell-type-slides {
+    background-color: hsl(311, 100%, 79%);
+    color: rgba(58, 28, 60, 0.5);
+  }  

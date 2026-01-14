@@ -1,0 +1,179 @@
+cache;
+signature;
+
+cacheLoad[path_] := With[{},
+    If[!StringQ[cache[path]],
+        cache[path] = Import[path, "Text"];
+        signature[path] = FileDate[path, "Modification"];
+        cache[path]
+    ,
+        With[{sign = FileDate[path, "Modification"]},
+            If[signature[path] =!= sign,
+                cache[path] = Import[path, "Text"];
+                signature[path] = sign;
+                cache[path]                
+            ,
+                cache[path]
+            ]
+        ]
+    ]
+]
+
+cacheUpdate[path_, content_] := cache[path] = content;
+
+save[path_String, log_String, cli_] := With[{},
+    Echo[cache[path]];
+    Export[path, cache[path], "Text"];
+    signature[path] = FileDate[path, "Modification"];
+
+    EventFire[log, "Saved", "File was updated"];
+]
+
+save[{new_String, path_String}, log_String, cli_] := With[{},
+    cache[new] = cache[path];
+
+    cache[path] = .;
+    signature[path] = .;
+
+    Export[new, cache[new], "Text"];
+    signature[new] = FileDate[new, "Modification"];
+
+    WebUILocation[ StringJoin["/", URLEncode[ new ]], cli];
+]
+
+updateContentIfModified[path_, Controls_, cli_] := With[{},
+    With[{sign = FileDate[path, "Modification"]},
+        If[sign =!= signature[path],
+            Echo["FileEditor >> External modification!"];
+            signature[path] = sign;
+
+            With[{content = Import[path, "Text"]},
+                cache[path] = content;
+                EventFire[Controls, "Update", <|"Client"->cli, "Data" -> URLEncode[ content ] |>]
+            ]
+        ];
+    ]
+]
+
+Component[path_String, OptionsPattern[]] := With[{
+    EditorContainer = CreateUUID[],
+    EventChannel = CreateUUID[],
+    Controls = CreateUUID[],
+    log = OptionValue["Messanger"]
+},
+    EventHandler[EventChannel, {
+        "Loaded" -> Function[Null, With[{cli = Global`$Client(*`*)},
+            EventFire[Controls, "Load", <|"Data" -> URLEncode[cacheLoad[path]], "Client" -> cli|>];
+            WebUISubmit[UIAutocompleteActivate[], cli];
+
+            With[{
+                socket = EventClone[cli],
+                task = SetInterval[updateContentIfModified[path, Controls, cli], 3000]
+            },
+                EventHandler[socket, {"Closed" -> Function[Null,
+                    EventRemove[socket];
+                    EventRemove[EventChannel];
+                    EventRemove[Controls];
+                    TaskRemove[task];
+                    Echo["FileEditor >> Destroyed!"];
+                ]}];
+            ];
+        ]],
+
+        "Upload" -> Function[content,
+            cacheUpdate[path, URLDecode @ content]
+        ],
+
+        "Save" -> (save[path, log, Global`$Client(*`*)]&),
+
+        "SaveAs" -> (save[{#, path}, log, Global`$Client(*`*) ]&),
+
+        any_ :> Function[Null,
+            EventFire[log, "Warning", "Operation is not possible. This is a text editor"]
+        ]
+    }];
+
+    <main style="-webkit-app-region: no-drag" class="grow flex flex-col overflow-hidden dark:invert dark:hue-rotate-180 dark:contrast-75 dark:brightness-5 owin:mt-2 owin:bg-white dark:win:contrast-100 dark:win:shadow-0 win:m-4 win:mt-2 win:rounded-lg win:bg-white win:shadow linux:m-4 linux:mt-2 linux:rounded-lg linux:bg-white linux:shadow bg-g-trans">
+        <div class="ccontainer px-3 pr-4 py-2 sm:px-2 sm:pr-3 md:px-4 md:pr-5 win:sc-b owin:sc-b overflow-y-auto grow bg-white bg-g-trans" style="padding-bottom: 25rem" id="{EditorContainer}"></div>
+        
+        <WebUIJSBind Event={Controls}>
+	        //will be executed once
+	        const doc = document.getElementById('<EditorContainer/>');
+            let blockUpdates = false;
+            let cell;
+	
+	        //binding to event patterns
+            this.on('Update', async (data) => {
+                blockUpdates = true;
+                const assoc = await interpretate(data, {hold:true});
+		        const text = await interpretate(assoc.Data, {});
+
+
+                cell.setContent(decodeURIComponent(text) );
+            });
+
+	        this.on('Load', async (data) => {
+		        const assoc = await interpretate(data, {hold:true});
+		        const text = await interpretate(assoc.Data, {});
+
+                const container = {
+                  element: doc,
+                  uid: uuidv4(),
+                  save: (content) => {
+                    if (blockUpdates) {
+                        console.warn('update was blocked!');
+                        blockUpdates = false;
+                        return;
+                    }
+                    server.emitt('<EventChannel/>', '"'+content+'"', 'Upload');
+                  },
+
+                  eval: (content) => {
+                    server.emitt('<EventChannel/>', '"'+content+'"', 'Eval');
+                  },
+
+                  focusNext: () => {},
+                  focusPrev: () => {}
+                };                
+              
+                cell = new window.SupportedCells['codemirror'].view(container, decodeURIComponent(text));
+	        });
+
+            const api = window.electronAPI || window.iframeAPI;
+            
+            if (api) {
+                api.listener('save', () => {
+                    server.emitt('<EventChannel/>', 'True', 'Save');
+                });
+        
+                api.listener('saveas', (ev, path) => {
+                    server.emitt('<EventChannel/>', `"${path}"`, 'SaveAs');
+                });
+                
+            } else {
+                window.addEventListener("keydown", function (e) {
+                    if (e.ctrlKey && e.key == "s" || e.metaKey && e.key == "s") {
+                        server.emitt('<EventChannel/>', 'True', 'Save');
+                        e.preventDefault();
+                        return false;
+                    }
+                    if (e.altKey && e.key == "." || e.metaKey && e.key == ".") {
+                        server.emitt('<EventChannel/>', 'True', 'Abort');
+                        e.preventDefault();
+                        return false;
+                    }           
+                    
+                    if (e.altKey && e.key == "2" || e.metaKey && e.key == "2") {
+                        server.emitt('<EventChannel/>', 'True', 'ToggleFocusedCell');
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }            
+        </WebUIJSBind>  
+
+        <WebUIOnLoad Event={EventChannel} Pattern={"Loaded"}/>      
+    </main>
+]
+
+Component

@@ -1,0 +1,22 @@
+memory = {};
+
+Component[OptionsPattern[]] := With[{
+    cloned = EventClone[OptionValue["actions"]]
+},
+
+    EventHandler[cloned, {any_ :> Echo}];
+
+    <li class="list-none pt-1 pb-1">
+        <h2 class="mb-1 mt-1 px-2 text-xs font-semibold text-gray-400">Recent searches</h2>
+        <ul class="p-0 text-sm text-gray-700">
+           <li class="list-none group flex cursor-default select-none items-center rounded-md px-2 py-2 text-sm">
+              <svg class="h-5 w-5 flex-none text-gray-900 text-opacity-40 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"></path>
+              </svg>
+              <span class="ml-3 flex-auto truncate text-sm dark:text-gray-400">Workflow Inc. / Website Redesign</span><span class="ml-3 hidden flex-none text-gray-500">Jump to...</span>
+           </li>
+        </ul>
+    </li>
+];
+
+Component

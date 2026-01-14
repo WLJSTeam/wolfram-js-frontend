@@ -1,0 +1,221 @@
+<|"Notebook" -> <|"Controller" -> "bc5db7c7-4c0b-4831-a1c4-97d678ddbf2e", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$620], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "0e80155f-0fa6-4188-9185-f55eab2a5795", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Slides and \
+presentation/D - Multiplayer Interactive Polls.wln", 
+   "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Interactive Multiplayer Polls", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$656]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "A Part for a Teacher", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$623]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "A Part for Students", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$633]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Interactive Multiplayer Polls\nThis \
+slideshow is integrated with polls using DataDrop. The notebook can be split \
+into two parts:\n\n- __A part for a teacher__: creates empty database, and \
+monitor the results\n- __A part for students__: contains a slideshow, polls \
+and glue Javascript code, that sends the results to the database. *NO kernel \
+is needed! Can be safely exported to a standalone HTML file and distributed*"\
+, "Display" -> "codemirror", "Hash" -> 
+     "3edfc442-14ca-4b4f-adf1-b52c32c0cd7d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "# Interactive Multiplayer Polls\nThis slideshow is integrated \
+with polls using DataDrop. The notebook can be split into two parts:\n\n- __A \
+part for a teacher__: creates empty database, and monitor the results\n- __A \
+part for students__: contains a slideshow, polls and glue Javascript code, \
+that sends the results to the database. *NO kernel is needed! Can be safely \
+exported to a standalone HTML file and distributed*", 
+    "Display" -> "markdown", "Hash" -> 
+     "2acbb049-32a3-48db-b25c-dbb8e89ba0ff", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".md\n## A Part for a Teacher\nIn this section, we will create \
+a public DataDrop database \n\n:::warning\nDue to a bug in WL, it might \
+freeze. Abort the evaluation and on the next attempt a database will be \
+created with no issues\n:::", "Display" -> "codemirror", 
+    "Hash" -> "efbdb4a7-612e-4fb9-8687-cd0499dd6dd9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "## A Part for a Teacher\nIn this section, we will create a \
+public DataDrop database \n\n:::warning\nDue to a bug in WL, it might freeze. \
+Abort the evaluation and on the next attempt a database will be created with \
+no issues\n:::", "Display" -> "markdown", 
+    "Hash" -> "023b3ae8-1752-436e-acd0-adce20da42b9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> 
+     "bin = CreateDatabin[Permissions->\"Public\"];\nbin[\"UUID\"]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8c4e71fe-0c99-4f21-979f-58e8bb719f1f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "\"DDa194acac5b8-a23b-4917-badd-757c3f5fee18\"", 
+    "Display" -> "codemirror", "Hash" -> 
+     "10d7055d-919d-46d8-a551-372d6012e9c2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".md\nMonitor the performance through the feedback collected \
+in the DataDrop system", "Display" -> "codemirror", 
+    "Hash" -> "36cc833c-13b1-44ca-acb0-13f0a5887803", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "Monitor the performance through the feedback collected in the \
+DataDrop system", "Display" -> "markdown", 
+    "Hash" -> "7f33f17f-bb6a-4892-9b95-a955e68f7963", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "Refresh[With[{\n  assoc = ImportString[ExportString[#, \
+\"Text\"], \"RawJSON\"] &/@ Values[bin][[\"JSON\"]]\n},\n  \
+TableView[assoc]\n], Quantity[5, \"Seconds\"]]", "Display" -> "codemirror", 
+    "Hash" -> "aa607e8b-bde3-4a2a-a766-b2861e9fd62d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".md\nA set of helper components for constructing polls for \
+students. It uses embeded Javascript to comminucate back to the database", 
+    "Display" -> "codemirror", "Hash" -> 
+     "23d2d698-b63f-42a1-a421-46a91b35ad11", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "A set of helper components for constructing polls for \
+students. It uses embeded Javascript to comminucate back to the database", 
+    "Display" -> "markdown", "Hash" -> 
+     "4b8f8dbf-6afe-429f-ab26-66f95890d266", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".wlx\n\nPollItem   /: ToString[c_PollItem,   WLXForm] := \
+c\n\nprocessPollItems[PollItem[content__, Rule[\"Value\", IValue_String]], \
+Name_] := With[{\n  Joined = ToStringRiffle[{content}]\n},\n  <div \
+class=\"flex flex-row gap-x-2 items-center\">\n    <input type=\"radio\" \
+name=\"{Name}\" value=\"{IValue}\"/>\n    <label \
+for=\"{IValue}\"><Joined/></label>\n  \
+</div>\n]\n\nPollForm[buttons__PollItem, OptionsPattern[]] := \
+With[\n{NameValue = OptionValue[\"Name\"]},\n{\n  FormId = CreateUUID[],\n  \
+Title = OptionValue[\"Title\"],\n  ListButtons = Table[processPollItems[i, \
+NameValue], {i, {buttons}}]\n},\n  <div>\n    <form id=\"{FormId}\" \
+style=\"text-align:left\">\n      <label \
+class=\"font-medium\"><Title/></label><br/><br/>\n      <ListButtons/>\n    \
+</form>\n    <script type=\"module\">\n      if (!window.globalPoll) \
+window.globalPoll = {handlers: [], results: {}};      \n      const form = \
+document.getElementById('<FormId/>');\n      form.addEventListener('submit', \
+event => {\n        event.preventDefault();\n      });\n      \n      \
+window.globalPoll.handlers.push(() => {\n        const form = \
+document.getElementById('<FormId/>');\n        if (!form) return;\n      \n   \
+     const selectedLanguage = form.<NameValue/>.value;\n        if \
+(!selectedLanguage) return;\n          \
+window.globalPoll.results['<NameValue/>'] = selectedLanguage;\n      });\n    \
+</script>\n  </div>\n]\n\nOptions[PollForm] = {\"Title\" -> \"Generic\", \
+\"Name\"->\"empty\"};\n\nPollFinalForm[OptionsPattern[]] := With[{\n  FormId \
+= CreateUUID[],\n  BinId = OptionValue[\"BinId\"]\n},\n  <div>\n    <form \
+id=\"{FormId}\" class=\"max-w-md text-left\">\n      <div class=\"relative \
+z-0 w-full mb-5 group\">\n      <label for=\"name\" \
+class=\"peer-focus:font-medium absolute text-sm text-gray-500 \
+dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 \
+origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 \
+rtl:peer-focus:left-auto peer-focus:text-blue-600 \
+peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 \
+peer-placeholder-shown:translate-y-0 peer-focus:scale-75 \
+peer-focus:-translate-y-6\">First name</label>\n      <input type=\"text\" \
+id=\"{FormId}-name\" name=\"name\" class=\"block py-2.5 px-0 w-full text-sm \
+text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 \
+appearance-none dark:text-white dark:border-gray-600 \
+dark:focus:border-blue-500 focus:outline-none focus:ring-0 \
+focus:border-blue-600 peer\" placeholder=\"Enter your name\"/>\n      <button \
+type=\"submit\" class=\"sm-controls rounded bg-white px-2 py-1 text-xs \
+font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 \
+\">Submit</button>\n      </div>\n    </form>\n<script type=\"module\">\n\nif \
+(!window.globalPoll) window.globalPoll = {handlers: [], results: {}};\nconst \
+formId = '<FormId/>';\nconst form = \
+document.getElementById(formId);\nform.addEventListener('submit', event => \
+{\n  event.preventDefault();\n  console.log('Submit');\n  \
+window.globalPoll.results.name = \
+document.getElementById(formId+'-name').value;\n  \
+window.globalPoll.handlers.forEach((e) => e());\n\n  form.innerHTML = \
+`<p>Thank you</p>`;\n  \n  \
+fetch('https://datadrop.wolframcloud.com/api/v1.0/Add?bin=<BinId/>&JSON='+enc\
+odeURIComponent(JSON.stringify(window.globalPoll.results)), {\n    method: \
+'GET'\n  })\n  .then(response => response.text())\n  .then(data => \
+console.log(data))\n  .catch(error => {\n    console.error('Error:', \
+error);\n    form.innerHTML = error;\n  });\n\n  \n});\n</script>\n  \
+</div>\n];\n\nOptions[PollFinalForm] = {\"BinId\"->\"\"};\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ff39178c-123c-498c-9255-742b50b85506", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".md\n## A Part for Students\nThis content can be exported to \
+HTML later, allowing it to run on students' PCs. Evaluate this cell below", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e81dfbab-8bc7-4f30-9010-fd171b5a4be5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "## A Part for Students\nThis content can be exported to HTML \
+later, allowing it to run on students' PCs. Evaluate this cell below", 
+    "Display" -> "markdown", "Hash" -> 
+     "29d9a514-2159-41cd-8585-45b0ab72bf42", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "DummyPlot = Plot3D[ (x^2 + y^2) Exp[1 - x^2 - y^2], {x, -3, \
+3}, {y, -3, 3}, \n MeshFunctions -> {#3 &}, Mesh -> 8, MeshShading -> \
+{Automatic, None},\n  PlotPoints -> 50];", "Display" -> "codemirror", 
+    "Hash" -> "e45c404e-8432-48e6-b905-7b3840f7602f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".md\nslides", "Display" -> "codemirror", 
+    "Hash" -> "3fbf3ba1-7ea2-457b-928c-def6bee4dbbb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "slides", "Display" -> "markdown", 
+    "Hash" -> "377982d5-d224-4745-b1f7-d010a7928dd5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".slide\n\n<!-- .slide: class=\"slide-standard\" -->\n\n## Try \
+out our poll\n\n<br/>\n\n<PollForm Name={\"language\"} Title={\"Your \
+favourite Language\"}>\n  <PollItem Value={\"C++\"}>C<b>++</b></PollItem>\n  \
+<PollItem Value={\"JS\"}><b>Java</b>script</PollItem>\n  <PollItem \
+Value={\"Basic\"}><b>B</b>asic</PollItem>\n  <PollItem \
+Value={\"Latex\"}>$\\\\LaTeX$</PollItem>\n</PollForm>\n\n---\n\n<!-- .slide: \
+class=\"slide-standard\" -->\n\n<DummyPlot/>\n\n---\n\n<!-- .slide: \
+class=\"slide-standard\" -->\n\nNow submit the \
+form\n\n<br/>\n\n<PollFinalForm BinId={bin[\"UUID\"]}/>\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5659f465-a28a-406e-8c5a-6008a3e15b8c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> ".md\nThen submit the results using the form on the slides. \
+The result will appear in the teacher's block (updates every 5 seconds).", 
+    "Display" -> "codemirror", "Hash" -> 
+     "16af0c46-0a05-412e-96f7-e3704c1ca7a8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>, 
+   <|"Data" -> "Then submit the results using the form on the slides. The \
+result will appear in the teacher's block (updates every 5 seconds).", 
+    "Display" -> "markdown", "Hash" -> 
+     "64fbf86c-ca83-42f4-b649-9b016d21ff34", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef88fc2c-9c17-464e-9d62-54067c90858b"|>}, 
+ "serializer" -> "jsfn4"|>

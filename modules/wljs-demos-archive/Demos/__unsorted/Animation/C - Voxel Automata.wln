@@ -1,0 +1,107 @@
+<|"Notebook" -> <|"Controller" -> "8201e22a-7ff6-4754-90c7-473470751807", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1729], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "d58a6c80-31dd-48d9-b987-6e867cdc2bf6", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Animation/C - \
+Voxel Automata.wln", "PublicFields" -> {"Properties"}, "ReadOnly" -> True, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Voxel Automaton", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1750]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Initialization cells", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1739]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Voxel Automaton\n*Example of pushing new \
+objects on existing plots*\n\n<span style=\"color: red\">Please, run \
+initialization cells first!</span>\n\nLive generation of voxel cellular \
+automaton", "Display" -> "codemirror", 
+    "Hash" -> "2e080371-86a7-4f50-8793-3fac05e65bb9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "# Voxel Automaton\n*Example of pushing new objects on \
+existing plots*\n\n<span style=\"color: red\">Please, run initialization \
+cells first!</span>\n\nLive generation of voxel cellular automaton", 
+    "Display" -> "markdown", "Hash" -> 
+     "a187a4bf-82c8-47ca-80be-51d9fcbaa1ab", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "ref = FrontInstanceReference[];", "Display" -> "codemirror", 
+    "Hash" -> "b9810762-ecae-4a11-91c6-d35b3a94640c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "Graphics3D[{Cuboid[{1,1,0}], ref}, \"Lighting\"->None, \
+\"Lightmap\"->\"https://raw.githubusercontent.com/JerryI/Mathematica-ThreeJS-\
+graphics-engine/master/assets/PureSky.hdr\", \
+\"ViewProjection\"->\"Perspective\", ImageSize->500]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "22ee83b1-2090-4320-a8e1-24062f4bd800", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, 
+      "InitGroup" -> True|>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> ".md\nEvaluate this line __after you did run an initializtion \
+cells group__", "Display" -> "codemirror", 
+    "Hash" -> "356d5037-3aa8-47ef-924a-8113ef1a702b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> 
+     "\nEvaluate this line __after you did run an initializtion cells \
+group__", "Display" -> "markdown", "Hash" -> 
+     "d33fba56-f0a2-4e9f-ae3e-5ad931fbc074", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "Do[iterate //Quiet;, {i,1,20}];", "Display" -> "codemirror", 
+    "Hash" -> "eda2aaa2-ff46-4b12-be21-7b0684f928d4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "15817530-c26b-4160-a19a-43da135b6dc8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> ".md\n### Initialization cells", "Display" -> "codemirror", 
+    "Hash" -> "85d4206e-9206-4566-9042-0311a8ce504a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "\n### Initialization cells", "Display" -> "markdown", 
+    "Hash" -> "54795e64-630d-4f92-80e4-a43cf89d188c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> ".md\nCellular Automata", "Display" -> "codemirror", 
+    "Hash" -> "7f83f981-9cfb-46f3-843e-7063ce5bae44", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "\nCellular Automata", "Display" -> "markdown", 
+    "Hash" -> "bf035c00-54d7-418b-ab26-a710cdf5d087", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "size = {10,10};\nboard = CellularAutomaton[{6, {2, 1}, {1, \
+1}}, {{{1}}, 0}, 50]//First;\nsize = board//Dimensions;\n\nz = 0;\n\niterate \
+:= (\n board = CellularAutomaton[{6, {2, 1}, {1, 1}}, board];\n\n Table[\n  \
+If[board[[i+size[[1]]/2 // Floor,j+size[[2]]/2 // Floor]] > 0, \n    \
+With[{cube = Cuboid[{i,j,z}, {i+1,j+1,z+0.8}], color = \
+{1+i/100,1+i/100,(z+10)/10}},\n      FrontSubmit[{ RGBColor@color, cube}, \
+ref];\n      Pause[0.01];\n    ]\n  ];\n , {i, -size[[1]]/2//Floor, \
+size[[1]]/2//Floor}, {j, -size[[2]]/2//Floor, size[[2]]/2//Floor}];\n z = z - \
+0.8;\n);", "Display" -> "codemirror", 
+    "Hash" -> "64493642-9af6-4fae-bb68-a05f1c3d8b94", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, "init" -> True, 
+      "InitGroup" -> True|>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>, 
+   <|"Data" -> "{101,101}", "Display" -> "codemirror", 
+    "Hash" -> "0daf2d56-9f55-4096-8638-871e6020efe4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "dc6fb01b-1ae5-4869-922b-ce8092135040"|>}, 
+ "serializer" -> "jsfn4"|>

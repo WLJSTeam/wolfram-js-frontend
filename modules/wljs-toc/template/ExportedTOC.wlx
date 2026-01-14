@@ -1,0 +1,36 @@
+normalNumber[n_] := With[{t = ToString[n, InputForm]},
+        If[StringTake[t,-1] == ".", StringJoin[t, "0"], t]
+]
+
+MakeTOC[Rule["Notebook", notebook_]] := Table[With[{Title = head[[2]], id = head[[3]]["Hash"], pad = normalNumber @ Round[head[[1]] 0.25 + 0.50, 0.05]},
+          <li style="padding-left: {pad}rem" class="list-none relative w-full cursor-default rounded-md pl-3 pr-2 text-left focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            <a href="#{id}" class="text-left"><Title/></a>
+          </li>
+], {head, Flatten @ notebook["TOC"]}]
+
+
+Component[OptionsPattern[]] := With[{notebook = OptionValue["Notebook"], length = Length[Flatten @ (OptionValue["Notebook"]["TOC"]) ]},
+    If[length > 3,
+        <div>
+            <style>
+                @media print {
+                  .toc-print { display: none; }
+                }
+            </style>
+            <div class="toc-print text-sm group items-center osx:font-semibold px-4 leading-8 text-gray-454 win:text-gray-500 owin:text-gray-500 linux:text-gray-500 flex" style="-webkit-app-region:none"> Outline</div>
+            <div class="toc-print flex grow flex-col gap-y-5 overflow-y-auto px-4 sc-b">
+                <nav class="flex flex-1 flex-col" style="-webkit-app-region:none">
+                    <ul role="list" class="flex flex-1 flex-col p-0 gap-y-1 pl-2 pb-4 text-sm text-gray-700 dark:text-gray-400">
+                        <MakeTOC Notebook={notebook}/>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    ,
+        ""
+    ]
+]
+
+Options[Component] = {"Notebook" -> ""}
+
+Component

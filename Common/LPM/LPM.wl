@@ -40,7 +40,7 @@ LPMRepositories = PacletRepositories;
 
 LPMRepositories::failure = "Error: ``"
 
-LPMLoad[OptionsPattern[] ] := With[{result = Catch[Module[{projectDir},
+LPMLoad[OptionsPattern[] ] := With[{default = OptionValue["DefaultName"]}, {result = Catch[Module[{projectDir},
   If[OptionValue["Directory"]//StringQ,
     projectDir = OptionValue["Directory"];
     If[!StringQ[projectDir], Echo["LPM >> Sorry. This is a wrong folder!"]; Message[LPMRepositories::wrongfolder]; Return[$Failed] ];
@@ -50,14 +50,14 @@ LPMLoad[OptionsPattern[] ] := With[{result = Catch[Module[{projectDir},
     If[!StringQ[projectDir], Throw["We cannot work without a project directory. Save your notebook / script first"]; ];    
   ];
 
-  If[FileExistsQ[FileNameJoin[{projectDir, "wl_packages"}] ], Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, "wl_packages"}], 
-    Throw["wl_packages does not exist"];
+  If[FileExistsQ[FileNameJoin[{projectDir, default}] ], Map[pacletDirectoryLoad] @  Map[DirectoryName] @  DeleteDuplicatesBy[FileNames["PacletInfo.wl" | "PacletInfo.m", {#}, {2}], DirectoryName]& @ FileNameJoin[{projectDir, default}], 
+    Throw["folder does not exist"];
   ];
 ] ]},
   If[StringQ[result], Message[LPMRepositories::failure, result]; $Failed, Null]
 ]
 
-Options[LPMLoad] = {"Directory"->None}
+Options[LPMLoad] = {"Directory"->None, "DefaultName"->"wl_packages"}
 
 PacletRepositories[list_List, OptionsPattern[]] := With[{deffered = OptionValue["Deffered"], preserve = OptionValue["PreserveConfiguration"]}, {result = Catch[Module[{projectDir, strictMode = OptionValue["StrictMode"], info, repos, cache, updated, removed, new, current, updatable, skipUpdates = OptionValue["Passive"], automaticUpdates = OptionValue["AutomaticUpdates"], versionControl, maxVersionDiff = OptionValue["MaxVersionDiff"]},
     (* making key-values pairs *)

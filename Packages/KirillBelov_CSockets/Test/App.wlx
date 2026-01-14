@@ -1,0 +1,26 @@
+(* /* HTML Page */ *)
+
+App[request_] := With[{},
+    <html> 
+        <head>
+            <title>WLX Template</title>
+            <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>           
+        </head>  
+        <body> 
+            <div class="min-h-full">
+                <header class="bg-white shadow">
+                    <div class="flex items-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Title</h1>
+                    </div>
+                </header>
+                <main>
+                    <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                        Local time <TextString><Now/></TextString>
+                    </div>
+                </main>
+            </div>
+        </body>
+    </html>
+]
+
+App

@@ -1,0 +1,194 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$2194], 
+   "HaveToSaveAs" -> False, "Objects" -> <||>, "Path" -> "/Users/kirill/Githu\
+b/wolfram-js-frontend/Demos/04 - Animation/Michelson interferometer.wln", 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
+      "Michelson interferometer", CellObj[JerryI`Notebook`CellObj`$1267]], 
+     Notebook`Editor`TOC`Private`heading[2, 
+      "Realtime fourier transformation & Interferogram", 
+      CellObj[JerryI`Notebook`CellObj`$2200]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Michelson interferometer\nA simple model of \
+Michelson spectrograph used in optical spectroscopy. \n\n> Light from the \
+source is split into two beams by a half-silvered mirror, one is reflected \
+off a fixed mirror and one off a movable mirror, which introduces a time \
+delay\n\nBy moving the left mirror and measuring the intensity of light on \
+the detector (represented as a disk at the bottom) we can record an \
+interoferogram, which represents the spectral content of incomming light \
+(from the left). \n\nHere we use a single frequency source for the \
+simplicity, in real-life cases it is usually a broad-band source (you can add \
+more by modifying `freqs` symbol)", "Display" -> "codemirror", 
+    "Hash" -> "93901360-8c18-4cfa-8a68-573547178a1b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "# Michelson interferometer\nA simple model of Michelson \
+spectrograph used in optical spectroscopy. \n\n> Light from the source is \
+split into two beams by a half-silvered mirror, one is reflected off a fixed \
+mirror and one off a movable mirror, which introduces a time delay\n\nBy \
+moving the left mirror and measuring the intensity of light on the detector \
+(represented as a disk at the bottom) we can record an interoferogram, which \
+represents the spectral content of incomming light (from the left). \n\nHere \
+we use a single frequency source for the simplicity, in real-life cases it is \
+usually a broad-band source (you can add more by modifying `freqs` symbol)", 
+    "Display" -> "markdown", "Hash" -> 
+     "f4d0fa89-a4dc-4372-9581-8413e3c780ee", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "getTime := AbsoluteTime[];\nrightMirror = 1;\nfreqs = \
+{7};\n\nfIn[t_, x_, c_:0.1] := \
+(*FB[*)((0.05)(*,*)/(*,*)(Length[freqs]))(*]FB*) Sum[Sin[t \\[Omega] - x \
+\\[Omega] / c], {\\[Omega], freqs}]\nfAmp[x_, c_:0.1] :=  \
+(*FB[*)((0.05)(*,*)/(*,*)(Length[freqs]))(*]FB*) Sum[{Sin[- x \\[Omega] / c], \
+Cos[- x \\[Omega] / c]}, {\\[Omega], freqs}]\n\npathIn := pathInLine = \
+With[{t=getTime}, Table[{x, fIn[t, x]}, {x, \
+-1,0,0.02}]];\npathIn;\n\npathToM1UpDown := pathToM1UpDownLine = \
+With[{t=getTime}, \n  Table[{fIn[t, x] + fIn[t, 2 - x], x}, {x,0,1,0.02}] \
+\n];\npathToM1UpDown;\n\npathToDown := pathToDownLine = With[{t=getTime}, \n  \
+Table[{fIn[t, x] + fIn[t, (x-2) + 2 rightMirror], 2-x}, {x,2,3,0.02}] \
+\n];\npathToDown;\n\npathToM2Left := pathToM2LeftLine = With[{t=getTime}, \n  \
+Table[{x, fIn[t, x] + fIn[t, 2 rightMirror - x]}, {x,0,rightMirror,0.02}] \
+\n];\npathToM2Left;\n\ninterferogram = {};\n\ndetectorBulb := With[{amp = \
+(*SpB[*)Power[Norm[fAmp[3] + fAmp[(3-2) + 2 \
+rightMirror]](*|*),(*|*)2](*]SpB*) / 0.01}, \n  interferogram = \
+Append[interferogram, {rightMirror, amp}];\n  detectorBulbColor = Blend[{Red \
+// Darker, Yellow}, Clip[amp, {0,1}]] /. {RGBColor -> \
+List};\n];\n\ndetectorBulb;\n\n\n\nEventHandler[\"FTIR\", Function[Null, \n  \
+pathIn;\n  pathToM1UpDown;\n  pathToDown;\n  \
+pathToM2Left;\n]];\n\n{\nGraphics[{\n  ColorData[97][12],\n  \n  \
+Line[pathInLine // Offload],\n  Line[pathToM1UpDownLine // Offload],\n  \
+Line[pathToDownLine // Offload],\n  Line[pathToM2LeftLine // Offload],\n\n  \
+{\n    Cyan, Opacity[0.7], \
+Polygon[(*VB[*)(Uncompress[\"1:eJxTTMoPSuNkYGAoZgESPpnFJWlMyLwiBjA4sL9oJhjs3I\
+8mv0j3eVBM6K79RdzPpdIybPajy1ek7XaS19m8v2iddlrLdva96PKMEPPti2ZBzLdHk1d/dcZWpea\
+gPVwhLv0whWjyMGNx6Yc5C+5QNHmYt+AeBQDm/Vvz\"])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESH\
+vk5KWlMIB4XkPBMzs/LrEp1yq/I7GBmYIBIgJQFleakBrMCGT6JSak5wTxAllNqYm5xQU5mSUlqEQ\
+Dn5BN3\"*)(*]VB*)]\n  },\n\n  {\n    RGBColor[detectorBulbColor // Offload], \
+Disk[{0,-1}, 0.2]\n  },\n  \n  ColorData[97][7], Rectangle[{-0.2,1-0.02}, \
+{0.2,1+0.02}], \n  \n  {\n    Gray, Opacity[0.5], Rectangle[{1-0.02, -0.2}, \
+{1+0.02, 0.2}]\n  },\n  \n  ColorData[97][7], Translate[\n    \
+Rectangle[{1-0.02, -0.2}, {1+0.02, 0.2}]\n  , {Offload[rightMirror]-1, 0}],\n \
+ \n  AnimationFrameListener[pathToM2LeftLine // Offload, \
+\"Event\"->\"FTIR\"]\n\n}, \n  PlotRange->{1.15{-1,1},1.15{-1,1}}, \n  \
+TransitionType->None, \n  ImagePadding->20\n],\n\nGraphics[{\n  \
+PointSize[0.02], Point[interferogram // Offload]\n}, Axes->True, Frame->True, \
+FrameLabel->{\"x\", \"I\"}, PlotRange->{{0.9,1.1}, {-0.1,1.1}}, \
+PlotLabel->\"Interferogram\"]\n} // Row\n", "Display" -> "codemirror", 
+    "Hash" -> "bd38da19-2b41-40f1-8012-9afbbe8ad556", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> ".md\nMirror controls", "Display" -> "codemirror", 
+    "Hash" -> "30e3e105-90d7-4bd8-a922-9faa7feb707a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, <|"Data" -> "Mirror controls", 
+    "Display" -> "markdown", "Hash" -> 
+     "446413b9-daed-4fdc-b2c6-e7f1dd4493fc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "EventHandler[InputRange[0.9,1.1,0.001,1.0], Function[sli,\n  \
+rightMirror = sli;\n  detectorBulb;\n]]", "Display" -> "codemirror", 
+    "Hash" -> "8a4524dc-1202-4c8c-b2ec-aff1c7b6303f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, <|"Data" -> ".md\n---", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4a1becb3-e0fa-4aff-9ea6-10df97d794a0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "---", "Display" -> "markdown", 
+    "Hash" -> "aafdcf3d-4b6d-4841-a1a8-0ab6170f3d07", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> ".md\n## Realtime fourier transformation & Interferogram\nHere \
+we will make our example more complicated by introducing more frequencies and \
+interferogram analysis\n\n*try to project the cell below to a new window*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "9500e590-fb3d-46d2-af58-5e081b244044", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "## Realtime fourier transformation & Interferogram\nHere we \
+will make our example more complicated by introducing more frequencies and \
+interferogram analysis\n\n*try to project the cell below to a new window*", 
+    "Display" -> "markdown", "Hash" -> 
+     "45d1057d-17b7-4d0a-8260-27a50d66c90d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "getTime := AbsoluteTime[];\nrightMirror = 1;\nfreqs = {7, \
+14};\n\nfIn[t_, x_, c_:0.1] := \
+(*FB[*)((0.05)(*,*)/(*,*)(Length[freqs]))(*]FB*) Sum[Sin[t \\[Omega] - x \
+\\[Omega] / c], {\\[Omega], freqs}]\nfAmp[x_, c_:0.1] :=  \
+(*FB[*)((0.05)(*,*)/(*,*)(Length[freqs]))(*]FB*) Sum[{Sin[- x \\[Omega] / c], \
+Cos[- x \\[Omega] / c]}, {\\[Omega], freqs}]\n\npathIn := pathInLine = \
+With[{t=getTime}, Table[{x, fIn[t, x]}, {x, \
+-1,0,0.02}]];\npathIn;\n\npathToM1UpDown := pathToM1UpDownLine = \
+With[{t=getTime}, \n  Table[{fIn[t, x] + fIn[t, 2 - x], x}, {x,0,1,0.02}] \
+\n];\npathToM1UpDown;\n\npathToDown := pathToDownLine = With[{t=getTime}, \n  \
+Table[{fIn[t, x] + fIn[t, (x-2) + 2 rightMirror], 2-x}, {x,2,3,0.02}] \
+\n];\npathToDown;\n\npathToM2Left := pathToM2LeftLine = With[{t=getTime}, \n  \
+Table[{x, fIn[t, x] + fIn[t, 2 rightMirror - x]}, {x,0,rightMirror,0.02}] \
+\n];\npathToM2Left;\n\ninterferogram = {};\nfinterferogram = {{0,0}, \
+{1,0}};\n\ndetectorBulb := With[{amp = (*SpB[*)Power[Norm[fAmp[3] + \
+fAmp[(3-2) + 2 rightMirror]](*|*),(*|*)2](*]SpB*) / 0.01}, \n  interferogram \
+= Append[interferogram, {rightMirror, amp}];\n\n  \
+If[Length[interferogram]>5,\n  finterferogram = With[{int = \
+Interpolation[interferogram//DeleteDuplicates, InterpolationOrder->1]}, \n  \
+With[{domain = int[\"Domain\"][[1]]},\n    With[{f = Fourier[Table[int[x], \
+{x, domain[[1]], domain[[2]], 0.0008}]]//Abs},\n      With[{sample = \
+Length[f] / 0.0008, nyq = Length[f] // Floor, half = Min[4, Length[f]/8 // \
+Floor], max = Max[Drop[f,1]]},\n        Drop[{Take[Table[i, {i, 0., sample - \
+sample/nyq, (sample / nyq) }], half], Take[f,half] / max} // Transpose,1]\n   \
+   ]\n    ]\n  ]\n  ]];\n  \n  detectorBulbColor = Blend[{Red // Darker, \
+Yellow}, Clip[amp, {0,1}]] /. {RGBColor -> \
+List};\n];\n\ndetectorBulb;\n\ntrigger = 0;\n\n\nEventHandler[\"FTIR\", \
+Function[Null, \n  If[Mod[trigger, 2] == 0,\n    pathIn;\n    \
+pathToM1UpDown;\n    pathToDown;\n    pathToM2Left;\n  ];\n  \n  trigger += \
+1;\n]];\n\n{\nGraphics[{\n  ColorData[97][12],\n  \n  Line[pathInLine // \
+Offload],\n  Line[pathToM1UpDownLine // Offload],\n  Line[pathToDownLine // \
+Offload],\n  Line[pathToM2LeftLine // Offload],\n\n  {\n    Cyan, \
+Opacity[0.7], \
+Polygon[(*VB[*)(Uncompress[\"1:eJxTTMoPSuNkYGAoZgESPpnFJWlMyLwiBjA4sL9oJhjs3I\
+8mv0j3eVBM6K79RdzPpdIybPajy1ek7XaS19m8v2iddlrLdva96PKMEPPti2ZBzLdHk1d/dcZWpea\
+gPVwhLv0whWjyMGNx6Yc5C+5QNHmYt+AeBQDm/Vvz\"])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESH\
+vk5KWlMIB4XkPBMzs/LrEp1yq/I7GBmYIBIgJQFleakBrMCGT6JSak5wTxAllNqYm5xQU5mSUlqEQ\
+Dn5BN3\"*)(*]VB*)]\n  },\n\n  {\n    RGBColor[detectorBulbColor // Offload], \
+Disk[{0,-1}, 0.2]\n  },\n  \n  ColorData[97][7], Rectangle[{-0.2,1-0.02}, \
+{0.2,1+0.02}], \n  \n  {\n    Gray, Opacity[0.5], Rectangle[{1-0.02, -0.2}, \
+{1+0.02, 0.2}]\n  },\n  \n  ColorData[97][7], Translate[\n    \
+Rectangle[{1-0.02, -0.2}, {1+0.02, 0.2}]\n  , {Offload[rightMirror]-1, 0}],\n \
+ \n  AnimationFrameListener[trigger // Offload, \"Event\"->\"FTIR\"]\n\n}, \n \
+ PlotRange->{1.15{-1,1},1.15{-1,1}}, \n  TransitionType->None, \n  \
+ImagePadding->20\n],\n\nGraphics[{\n  PointSize[0.02], Point[interferogram // \
+Offload]\n}, Axes->True, Frame->True, FrameLabel->{\"x\", \"I\"}, \
+PlotRange->{{0.9,1.1}, {-0.1,1.1}}, \
+PlotLabel->\"Interferogram\"],\n\n\nGraphics[{\n  \
+ColorData[97][1],AbsoluteThickness[2], Line[finterferogram // Offload]\n}, \
+Axes->True, Frame->True, FrameLabel->{\"f\", \"I\"}, \
+PlotRange->{{1250.`,57500.`}, {-0.2,1.2}}, PlotLabel->\"Spectrum\"]\n\n\n} // \
+Row\n", "Display" -> "codemirror", "Hash" -> 
+     "d701cc00-7ffe-4e81-9c4c-1f1b060042cd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> ".md\nControl panel", "Display" -> "codemirror", 
+    "Hash" -> "b439a76a-cf0c-4e2c-bc84-422372936814", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, <|"Data" -> "Control panel", 
+    "Display" -> "markdown", "Hash" -> 
+     "290f3bed-79bf-4f20-8b07-93abcdcbb62b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>, 
+   <|"Data" -> "EventHandler[InputRange[0.8,1.2,0.0005,1.0], Function[sli,\n  \
+rightMirror = sli;\n  detectorBulb;\n]]", "Display" -> "codemirror", 
+    "Hash" -> "8b36323a-ddf7-4234-b264-41e667bb9e35", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b11814f4-e5bd-4838-8800-a7101140cc25"|>}, "serializer" -> "jsfn4"|>

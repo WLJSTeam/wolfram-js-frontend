@@ -1,0 +1,111 @@
+<|"Notebook" -> <|"Controller" -> "d89504af-b718-4350-9d2b-fe467bb26934", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1175], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "4c82f0f1-84f1-48bb-b24f-39dc7f174c1d", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wljs-demos-archive/Demos/Advanced syntax \
+sugar/ViewBox manipulations.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "OuterExpression", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1174]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "InnerExpression", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1172]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n## OuterExpression\nAny graphics object is `ViewBox`", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7b248796-faad-40d4-9872-a4d700370603", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> "## OuterExpression\nAny graphics object is `ViewBox`", 
+    "Display" -> "markdown", "Hash" -> 
+     "8aec4725-5f3b-4d67-aed4-23fc1dc26f69", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> 
+     "ref = FrontInstanceReference[];\nPlot[x, {x,0,1}, Epilog->{ref}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "166c6990-d431-45d6-a709-478ab90354d4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> ".md\nThan can be trasformed using special keyword", 
+    "Display" -> "codemirror", "Hash" -> 
+     "c32cd4bb-3a07-4242-9e33-b44833c02876", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> "Than can be trasformed using special keyword", 
+    "Display" -> "markdown", "Hash" -> 
+     "c99bc082-d646-416d-adbb-20fc8d25361d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> "FrontSubmit[ViewBox`OuterExpression[\"Hello World\"], ref] ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "c0731daa-7b8f-4f7d-a14e-65cb2eeb90a9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> ".md\nwhere `MetaMarker` finds instance of a Plot on the \
+frontend and submits to it a given expression.", "Display" -> "codemirror", 
+    "Hash" -> "2a837ab2-2844-4574-b298-c47857e556db", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> "where `MetaMarker` finds instance of a Plot on the frontend \
+and submits to it a given expression.", "Display" -> "markdown", 
+    "Hash" -> "0eeec250-c065-4d1f-aa0d-81a1afe5d01f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> 
+     ".md\n## InnerExpression\nOne can change an inner expression as well", 
+    "Display" -> "codemirror", "Hash" -> 
+     "cd689dda-edaf-4720-ba64-71f1080ad20d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> 
+     "## InnerExpression\nOne can change an inner expression as well", 
+    "Display" -> "markdown", "Hash" -> 
+     "aa30aa03-3d4f-4606-a226-a31a2af019fe", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> 
+     "ref = FrontInstanceReference[];\nPlot[x, {x,0,1}, Epilog->{ref}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "12bc2d89-2410-4b54-9d77-386035bac5eb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "f7697c10-591e-43de-9be6-0dd8871cd4cc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> 
+     "FrontSubmit[ViewBox`InnerExpression[\"\\\"Hello World\\\"\"], ref] ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6ffcfc7f-b530-4d3b-aecb-ed0cabaae029", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> 
+     ".md\nNow try to evaluate an output expression with a plot above", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2a579c6e-0af6-426e-80cd-d03d6861302d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>, 
+   <|"Data" -> "Now try to evaluate an output expression with a plot above", 
+    "Display" -> "markdown", "Hash" -> 
+     "0b5ff521-87c1-455c-8a1a-247b02e68027", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b9eb84a0-adff-44bf-8696-990bca75ad0d"|>}, 
+ "serializer" -> "jsfn4"|>

@@ -1,0 +1,133 @@
+<|"Notebook" -> <|"Controller" -> "98158ebe-321f-4869-b589-fcfdb5f357c1", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2524], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "83b56e80-dc39-4e14-b6ee-88ed5f44a19e", "Objects" -> <||>, 
+   "Path" -> "/Applications/WLJS \
+Notebook.app/Contents/Resources/app/wljs_packages/wljs-snippets/library/New \
+Folder With Items/formatter.wln", "PublicFields" -> {"Properties"}, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Format code", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2517]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Format code\nSelect the code in the editor \
+for formatting or drop a cursor to the editor, where the whole content is \
+needed to be formatted", "Display" -> "codemirror", 
+    "Hash" -> "6275efeb-fa4b-4e45-9d49-ee7f749dd47e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "# Format code\nSelect the code in the editor for formatting \
+or drop a cursor to the editor, where the whole content is needed to be \
+formatted", "Display" -> "markdown", 
+    "Hash" -> "4ef71410-e047-4199-8e78-8551d479a696", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> ".md\n\n![](attachments/FormatCode%20optimizer.png)\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "060bfd31-2f64-4062-b83a-87f4842320e1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "\n![](attachments/FormatCode%20optimizer.png)\n", 
+    "Display" -> "markdown", "Hash" -> 
+     "035eca2b-e28b-45db-bfa9-c1fa1e95c8cd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> ".md\n__Source code__", "Display" -> "codemirror", 
+    "Hash" -> "ffa436f1-39a9-4a21-91f0-2dd7d47bf483", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "__Source code__", "Display" -> "markdown", 
+    "Hash" -> "d831ed24-240e-489a-9087-79afc7b5fe8b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "Needs[\"CodeFormatter`\"];\n\nCodeFormatter`$DefaultLineWidth \
+= 120;\nSetOptions[CodeFormatter`CodeFormatCST, CodeFormatter`Airiness -> \
+-0.75, CodeFormatter`BreakLinesMethod -> \
+\"LineBreakerV2\"];\n\nCodeFormatter`balancedBracesQ5[str_String] := \
+StringCount[str, \"[*)\"] === StringCount[str, \"(*]\"]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "908996d7-5bed-46cb-aa05-cc3e7ca2a38b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "Module[{string, inline, rules},\n  \
+If[FrontFetch[FrontEditorSelected[\"Type\"]] =!= \"mathematica\", \n    \
+EchoLabel[\"Warning\"][\"Only formatting of Wolfram Language is \
+supported\"];\n    Return[Null, Module];\n  ];\n  \n  inline = \
+!MatchQ[FrontFetch[FrontEditorSelected[\"Cursor\"]], {a_, a_}];\n  \n  string \
+= If[inline,\n    FrontFetch[FrontEditorSelected[\"Get\"]]\n  ,\n    \
+FrontFetch[FrontEditorSelected[\"GetDoc\"]]\n  ];\n\n  \n  {string, rules} = \
+Module[{index = 0}, With[{r = StringCases[\n    string\n    , \n    \
+d:Shortest[\n        \"(*\" ~~ (c: WordCharacter..) ~~ \"[*)\" ~~ (arg1__ /; \
+CodeFormatter`balancedBracesQ5[arg1]) ~~ \"(*]\" ~~ (c: WordCharacter..) ~~ \
+\"*)\"\n    ] :> (d -> (index++; StringTemplate[\"$UC[``]\"][index]))\n]},\n  \
+{StringReplace[string, r], r}\n]] // Quiet;\n\nstring = \
+CodeFormat[string];\n\nstring = StringReplace[string, Map[(Rule[#[[2]], \
+#[[1]]])&, rules]];\n\n  \n  If[inline,\n    \
+FrontSubmit[FrontEditorSelected[\"Set\", string]]\n  ,\n    \
+FrontSubmit[FrontEditorSelected[\"SetDoc\", string]]\n  ];\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2d8f09a8-b947-41bd-bb48-2a82a4eb8a35", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> ".md\n__icon__", "Display" -> "codemirror", 
+    "Hash" -> "c81dd6bc-33d8-45fb-8e1f-d783b1f1edac", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "__icon__", "Display" -> "markdown", 
+    "Hash" -> "92a99567-cafc-45dc-94d6-2af5f5c5bbc6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>, 
+   <|"Data" -> "icon.wlx\nComponent[OptionsPattern[]] := With[{Title = \
+OptionValue[\"Title\"], Kbd = OptionValue[\"Shortcut\"], UTag = \
+OptionValue[\"Tag\"], Btn = OptionValue[\"Button\"]},\n    <li \
+tabindex=\"-1\" tag=\"{UTag}\" class=\"nooline rounded-sm group flex \
+cursor-default select-none items-center rounded-md px-2 py-1 \
+focus:bg-sys-25\">\n              <svg class=\"h-5 w-5 flex-none \
+text-gray-900  dark:text-gray-400 text-opacity-40\" fill=\"currentColor\" \
+viewBox=\"0 0 1024 1024\"><path d=\"M899.1 869.6l-53-305.6H864c14.4 0 26-11.6 \
+26-26V346c0-14.4-11.6-26-26-26H618V138c0-14.4-11.6-26-26-26H432c-14.4 0-26 \
+11.6-26 26v182H160c-14.4 0-26 11.6-26 26v192c0 14.4 11.6 26 26 26h17.9l-53 \
+305.6c-0.3 1.5-0.4 3-0.4 4.4 0 14.4 11.6 26 26 26h723c1.5 0 3-0.1 4.4-0.4 \
+14.2-2.4 23.7-15.9 21.2-30zM204 390h272V182h72v208h272v104H204V390z m468 \
+440V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 \
+8v156H416V674c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 \
+8v156H202.8l45.1-260H776l45.1 260H672z\" fill=\"currentColor\"></path></svg> \
+\n              <span class=\"ml-3 flex-auto truncate\"><Title/></span><span \
+class=\"ml-3 flex-none text-xs font-semibold text-gray-500\">\n               \
+ <kbd class=\"font-sans\"><Kbd/></kbd>\n                <button class=\"p-0.5 \
+rounded hover:bg-gray-100 dark:hover:bg-gray-200\" btag=\"{Btn}\">\n          \
+             <svg class=\"w-4 h-4 text-gray-400\" viewBox=\"0 0 24 24\" \
+fill=\"none\">\n                    <path fill-rule=\"evenodd\" \
+clip-rule=\"evenodd\" d=\"M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 \
+17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 \
+6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 \
+1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 \
+22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 7.75 10.875 8.25368 \
+10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 \
+9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 \
+7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 13.3353 11.1354C13.1385 \
+11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 11.6246 12.75 11.7036 12.75 \
+11.75V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 \
+11.25 13V11.75C11.25 11.2441 11.4715 10.8336 11.7266 10.533C11.9786 10.236 \
+12.2929 10.0092 12.5715 9.84439C12.9044 9.64739 13.125 9.28655 13.125 \
+8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 \
+16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 \
+17 12 17Z\" fill=\"currentColor\"/>\n                  </svg>         \n      \
+          </button>\n              </span>\n    </li>    \
+\n]\n\nOptions[Component] = {\"Title\"->\"Example\", \"Shortcut\"->\"\", \
+\"Tag\"->\"generic\", \"Button\"->Null}\n\nComponent", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5d52dbc8-02d4-462f-8816-034123d1efb5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "69f442bf-504b-44b2-8094-002709cdc6f0"|>}, 
+ "serializer" -> "jsfn4"|>

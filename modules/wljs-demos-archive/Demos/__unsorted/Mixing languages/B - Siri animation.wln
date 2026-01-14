@@ -1,0 +1,366 @@
+<|"Notebook" -> <|"Controller" -> "7ea24aba-b903-4ea6-a868-b99157d84226", 
+   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$111], 
+   "HaveToSaveAs" -> True, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "bd3affbd-8bf2-4d21-9b3f-02063d85f26f", 
+   "Objects" -> <||>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend/Dem\
+os/09 - Mixing languages/Siri animation.wln", "Quick" -> True, 
+   "Symbols" -> <||>, "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
+      "Siri animation using ESM module", 
+      CellObj[JerryI`Notebook`CellObj`$108]], 
+     Notebook`Editor`TOC`Private`heading[2, "Building Javascript", 
+      CellObj[JerryI`Notebook`CellObj`$108]], 
+     Notebook`Editor`TOC`Private`heading[2, "Install NPM package", 
+      CellObj[JerryI`Notebook`CellObj`$113]], 
+     Notebook`Editor`TOC`Private`heading[2, "Bundling", 
+      CellObj[JerryI`Notebook`CellObj`$121]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Siri animation using ESM module\n## Building \
+Javascript\nHere we will use `.esm` cell types to bundle NPM package into the \
+output cell and execute it right in the notebook.\n\n*credits to npm \
+[library](https://github.com/kopiro/siriwave)*", "Display" -> "codemirror", 
+    "Hash" -> "8457feb3-fd26-4420-ab64-91cdad5c60f0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> "# Siri animation using ESM module\n## Building \
+Javascript\nHere we will use `.esm` cell types to bundle NPM package into the \
+output cell and execute it right in the notebook.\n\n*credits to npm \
+[library](https://github.com/kopiro/siriwave)*", "Display" -> "markdown", 
+    "Hash" -> "1cfae575-1144-4b2d-9348-b51c81a3f1f9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> ".md\n## Install NPM package\nRun this cell", 
+    "Display" -> "codemirror", "Hash" -> 
+     "23b4b6c4-00e1-4a45-95f0-8b066873b349", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> "## Install NPM package\nRun this cell", 
+    "Display" -> "markdown", "Hash" -> 
+     "3a23150f-25f3-450c-a8ba-7814fc315f99", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> ".sh\nnpm i siriwave --prefix .", "Display" -> "codemirror", 
+    "Hash" -> "9274b862-c5e1-4a1e-b9dd-3dc44864765b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> ".md\n\n<br/>\n\n## Bundling\nNow Javascript code", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1efece77-a74c-4b92-9c07-f5fc8fd488d4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> "<br />\n\n## Bundling\nNow Javascript code", 
+    "Display" -> "markdown", "Hash" -> 
+     "b750d07b-f82a-4e59-afe3-9eb357336e15", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> ".esm\nimport SiriWave from \"siriwave\";\n\nconst dom = \
+document.createElement('div');\nthis.return(dom);\n\nlet \
+siriWave;\n\nsiriWave = new SiriWave({\n\tcontainer: dom,\n\theight:300,\n    \
+style: \"ios9\",\n\twidth:600\n});\n\nsiriWave.start();\n\nthis.ondestroy = \
+() => {\n  siriWave.dispose();\n  console.warn('removed');\n}", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7c5757dc-af63-4ee4-a8b1-a935f571bac8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>, 
+   <|"Data" -> "var __create = Object.create;\nvar __defProp = \
+Object.defineProperty;\nvar __getOwnPropDesc = \
+Object.getOwnPropertyDescriptor;\nvar __getOwnPropNames = \
+Object.getOwnPropertyNames;\nvar __getProtoOf = Object.getPrototypeOf;\nvar \
+__hasOwnProp = Object.prototype.hasOwnProperty;\nvar __commonJS = (cb, mod) \
+=> function __require() {\n  return mod || (0, \
+cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), \
+mod.exports;\n};\nvar __copyProps = (to, from, except, desc) => {\n  if (from \
+&& typeof from === \"object\" || typeof from === \"function\") {\n    for \
+(let key of __getOwnPropNames(from))\n      if (!__hasOwnProp.call(to, key) \
+&& key !== except)\n        __defProp(to, key, { get: () => from[key], \
+enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });\n  \
+}\n  return to;\n};\nvar __toESM = (mod, isNodeMode, target) => (target = mod \
+!= null ? __create(__getProtoOf(mod)) : {}, __copyProps(\n  // If the \
+importer is in node compatibility mode or this is not an ESM\n  // file that \
+has been converted to a CommonJS file using a Babel-\n  // compatible \
+transform (i.e. \"__esModule\" has not been set), then set\n  // \"default\" \
+to the CommonJS \"module.exports\" for node compatibility.\n  isNodeMode || \
+!mod || !mod.__esModule ? __defProp(target, \"default\", { value: mod, \
+enumerable: true }) : target,\n  mod\n));\n\n// \
+node_modules/siriwave/dist/siriwave.umd.js\nvar require_siriwave_umd = \
+__commonJS({\n  \"node_modules/siriwave/dist/siriwave.umd.js\"(exports, \
+module) {\n    (function(global, factory) {\n      typeof exports === \
+\"object\" && typeof module !== \"undefined\" ? module.exports = factory() : \
+typeof define === \"function\" && define.amd ? define(factory) : (global = \
+typeof globalThis !== \"undefined\" ? globalThis : global || self, \
+global.SiriWave = factory());\n    })(g0this, function() {\n      \"use \
+strict\";\n      var __assign = function() {\n        __assign = \
+Object.assign || function __assign2(t) {\n          for (var s, i = 1, n = \
+arguments.length; i < n; i++) {\n            s = arguments[i];\n            \
+for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = \
+s[p];\n          }\n          return t;\n        };\n        return \
+__assign.apply(this, arguments);\n      };\n      function __rest(s, e) {\n   \
+     var t = {};\n        for (var p in s) if \
+(Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)\n          \
+t[p] = s[p];\n        if (s != null && typeof Object.getOwnPropertySymbols \
+=== \"function\")\n          for (var i = 0, p = \
+Object.getOwnPropertySymbols(s); i < p.length; i++) {\n            if \
+(e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, \
+p[i]))\n              t[p[i]] = s[p[i]];\n          }\n        return t;\n    \
+  }\n      var ClassicCurve = (\n        /** @class */\n        function() \
+{\n          function ClassicCurve2(ctrl, definition) {\n            \
+this.ATT_FACTOR = 4;\n            this.GRAPH_X = 2;\n            \
+this.AMPLITUDE_FACTOR = 0.6;\n            this.ctrl = ctrl;\n            \
+this.definition = definition;\n          }\n          \
+ClassicCurve2.prototype.globalAttFn = function(x) {\n            return \
+Math.pow(this.ATT_FACTOR / (this.ATT_FACTOR + Math.pow(x, this.ATT_FACTOR)), \
+this.ATT_FACTOR);\n          };\n          ClassicCurve2.prototype.xPos = \
+function(i) {\n            return this.ctrl.width * ((i + this.GRAPH_X) / \
+(this.GRAPH_X * 2));\n          };\n          ClassicCurve2.prototype.yPos = \
+function(i) {\n            return this.AMPLITUDE_FACTOR * \
+(this.globalAttFn(i) * (this.ctrl.heightMax * this.ctrl.amplitude) * (1 / \
+this.definition.attenuation) * Math.sin(this.ctrl.opt.frequency * i - \
+this.ctrl.phase));\n          };\n          ClassicCurve2.prototype.draw = \
+function() {\n            var ctx = this.ctrl.ctx;\n            ctx.moveTo(0, \
+0);\n            ctx.beginPath();\n            var finalColor = \
+this.definition.color || this.ctrl.color;\n            var colorHex = \
+finalColor.replace(/rgb\\(/g, \"\").replace(/\\)/g, \"\");\n            \
+ctx.strokeStyle = \"rgba(\".concat(colorHex, \
+\",\").concat(this.definition.opacity, \")\");\n            ctx.lineWidth = \
+this.definition.lineWidth;\n            for (var i = -this.GRAPH_X; i <= \
+this.GRAPH_X; i += this.ctrl.opt.pixelDepth) {\n              \
+ctx.lineTo(this.xPos(i), this.ctrl.heightMax + this.yPos(i));\n            \
+}\n            ctx.stroke();\n          };\n          \
+ClassicCurve2.getDefinition = function() {\n            return [\n            \
+  {\n                attenuation: -2,\n                lineWidth: 1,\n        \
+        opacity: 0.1\n              },\n              {\n                \
+attenuation: -6,\n                lineWidth: 1,\n                opacity: \
+0.2\n              },\n              {\n                attenuation: 4,\n     \
+           lineWidth: 1,\n                opacity: 0.4\n              },\n    \
+          {\n                attenuation: 2,\n                lineWidth: 1,\n \
+               opacity: 0.6\n              },\n              {\n              \
+  attenuation: 1,\n                lineWidth: 1.5,\n                opacity: \
+1\n              }\n            ];\n          };\n          return \
+ClassicCurve2;\n        }()\n      );\n      var iOS9Curve = (\n        /** \
+@class */\n        function() {\n          function iOS9Curve2(ctrl, \
+definition) {\n            this.GRAPH_X = 25;\n            \
+this.AMPLITUDE_FACTOR = 0.8;\n            this.SPEED_FACTOR = 1;\n            \
+this.DEAD_PX = 2;\n            this.ATT_FACTOR = 4;\n            \
+this.DESPAWN_FACTOR = 0.02;\n            this.DEFAULT_NOOFCURVES_RANGES = [2, \
+5];\n            this.DEFAULT_AMPLITUDE_RANGES = [0.3, 1];\n            \
+this.DEFAULT_OFFSET_RANGES = [-3, 3];\n            this.DEFAULT_WIDTH_RANGES \
+= [1, 3];\n            this.DEFAULT_SPEED_RANGES = [0.5, 1];\n            \
+this.DEFAULT_DESPAWN_TIMEOUT_RANGES = [500, 2e3];\n            this.ctrl = \
+ctrl;\n            this.definition = definition;\n            this.noOfCurves \
+= 0;\n            this.spawnAt = 0;\n            this.prevMaxY = 0;\n         \
+   this.phases = [];\n            this.offsets = [];\n            this.speeds \
+= [];\n            this.finalAmplitudes = [];\n            this.widths = \
+[];\n            this.amplitudes = [];\n            this.despawnTimeouts = \
+[];\n            this.verses = [];\n          }\n          \
+iOS9Curve2.prototype.getRandomRange = function(e) {\n            return e[0] \
++ Math.random() * (e[1] - e[0]);\n          };\n          \
+iOS9Curve2.prototype.spawnSingle = function(ci) {\n            var _a, _b, \
+_c, _d, _e, _f, _g, _h, _j, _k;\n            this.phases[ci] = 0;\n           \
+ this.amplitudes[ci] = 0;\n            this.despawnTimeouts[ci] = \
+this.getRandomRange((_b = (_a = this.ctrl.opt.ranges) === null || _a === void \
+0 ? void 0 : _a.despawnTimeout) !== null && _b !== void 0 ? _b : \
+this.DEFAULT_DESPAWN_TIMEOUT_RANGES);\n            this.offsets[ci] = \
+this.getRandomRange((_d = (_c = this.ctrl.opt.ranges) === null || _c === void \
+0 ? void 0 : _c.offset) !== null && _d !== void 0 ? _d : \
+this.DEFAULT_OFFSET_RANGES);\n            this.speeds[ci] = \
+this.getRandomRange((_f = (_e = this.ctrl.opt.ranges) === null || _e === void \
+0 ? void 0 : _e.speed) !== null && _f !== void 0 ? _f : \
+this.DEFAULT_SPEED_RANGES);\n            this.finalAmplitudes[ci] = \
+this.getRandomRange((_h = (_g = this.ctrl.opt.ranges) === null || _g === void \
+0 ? void 0 : _g.amplitude) !== null && _h !== void 0 ? _h : \
+this.DEFAULT_AMPLITUDE_RANGES);\n            this.widths[ci] = \
+this.getRandomRange((_k = (_j = this.ctrl.opt.ranges) === null || _j === void \
+0 ? void 0 : _j.width) !== null && _k !== void 0 ? _k : \
+this.DEFAULT_WIDTH_RANGES);\n            this.verses[ci] = \
+this.getRandomRange([-1, 1]);\n          };\n          \
+iOS9Curve2.prototype.getEmptyArray = function(count) {\n            return \
+new Array(count);\n          };\n          iOS9Curve2.prototype.spawn = \
+function() {\n            var _a, _b;\n            this.spawnAt = \
+Date.now();\n            this.noOfCurves = Math.floor(this.getRandomRange((_b \
+= (_a = this.ctrl.opt.ranges) === null || _a === void 0 ? void 0 : \
+_a.noOfCurves) !== null && _b !== void 0 ? _b : \
+this.DEFAULT_NOOFCURVES_RANGES));\n            this.phases = \
+this.getEmptyArray(this.noOfCurves);\n            this.offsets = \
+this.getEmptyArray(this.noOfCurves);\n            this.speeds = \
+this.getEmptyArray(this.noOfCurves);\n            this.finalAmplitudes = \
+this.getEmptyArray(this.noOfCurves);\n            this.widths = \
+this.getEmptyArray(this.noOfCurves);\n            this.amplitudes = \
+this.getEmptyArray(this.noOfCurves);\n            this.despawnTimeouts = \
+this.getEmptyArray(this.noOfCurves);\n            this.verses = \
+this.getEmptyArray(this.noOfCurves);\n            for (var ci = 0; ci < \
+this.noOfCurves; ci++) {\n              this.spawnSingle(ci);\n            \
+}\n          };\n          iOS9Curve2.prototype.globalAttFn = function(x) {\n \
+           return Math.pow(this.ATT_FACTOR / (this.ATT_FACTOR + Math.pow(x, \
+2)), this.ATT_FACTOR);\n          };\n          iOS9Curve2.prototype.sin = \
+function(x, phase) {\n            return Math.sin(x - phase);\n          };\n \
+         iOS9Curve2.prototype.yRelativePos = function(i) {\n            var y \
+= 0;\n            for (var ci = 0; ci < this.noOfCurves; ci++) {\n            \
+  var t = 4 * (-1 + ci / (this.noOfCurves - 1) * 2);\n              t += \
+this.offsets[ci];\n              var k = 1 / this.widths[ci];\n              \
+var x = i * k - t;\n              y += Math.abs(this.amplitudes[ci] * \
+this.sin(this.verses[ci] * x, this.phases[ci]) * this.globalAttFn(x));\n      \
+      }\n            return y / this.noOfCurves;\n          };\n          \
+iOS9Curve2.prototype.yPos = function(i) {\n            return \
+this.AMPLITUDE_FACTOR * this.ctrl.heightMax * this.ctrl.amplitude * \
+this.yRelativePos(i) * this.globalAttFn(i / this.GRAPH_X * 2);\n          \
+};\n          iOS9Curve2.prototype.xPos = function(i) {\n            return \
+this.ctrl.width * ((i + this.GRAPH_X) / (this.GRAPH_X * 2));\n          };\n  \
+        iOS9Curve2.prototype.drawSupportLine = function() {\n            var \
+ctx = this.ctrl.ctx;\n            var coo = [0, this.ctrl.heightMax, \
+this.ctrl.width, 1];\n            var gradient = \
+ctx.createLinearGradient.apply(ctx, coo);\n            \
+gradient.addColorStop(0, \"transparent\");\n            \
+gradient.addColorStop(0.1, \"rgba(255,255,255,.5)\");\n            \
+gradient.addColorStop(1 - 0.1 - 0.1, \"rgba(255,255,255,.5)\");\n            \
+gradient.addColorStop(1, \"transparent\");\n            ctx.fillStyle = \
+gradient;\n            ctx.fillRect.apply(ctx, coo);\n          };\n          \
+iOS9Curve2.prototype.draw = function() {\n            var ctx = \
+this.ctrl.ctx;\n            ctx.globalAlpha = 0.7;\n            \
+ctx.globalCompositeOperation = this.ctrl.opt.globalCompositeOperation;\n      \
+      if (this.spawnAt === 0) {\n              this.spawn();\n            }\n \
+           if (this.definition.supportLine) {\n              return \
+this.drawSupportLine();\n            }\n            for (var ci = 0; ci < \
+this.noOfCurves; ci++) {\n              if (this.spawnAt + \
+this.despawnTimeouts[ci] <= Date.now()) {\n                \
+this.amplitudes[ci] -= this.DESPAWN_FACTOR;\n              } else {\n         \
+       this.amplitudes[ci] += this.DESPAWN_FACTOR;\n              }\n         \
+     this.amplitudes[ci] = Math.min(Math.max(this.amplitudes[ci], 0), \
+this.finalAmplitudes[ci]);\n              this.phases[ci] = (this.phases[ci] \
++ this.ctrl.speed * this.speeds[ci] * this.SPEED_FACTOR) % (2 * Math.PI);\n   \
+         }\n            var maxY = -Infinity;\n            for (var _i = 0, \
+_a = [1, -1]; _i < _a.length; _i++) {\n              var sign = _a[_i];\n     \
+         ctx.beginPath();\n              for (var i = -this.GRAPH_X; i <= \
+this.GRAPH_X; i += this.ctrl.opt.pixelDepth) {\n                var x = \
+this.xPos(i);\n                var y = this.yPos(i);\n                \
+ctx.lineTo(x, this.ctrl.heightMax - sign * y);\n                maxY = \
+Math.max(maxY, y);\n              }\n              ctx.closePath();\n         \
+     ctx.fillStyle = \"rgba(\".concat(this.definition.color, \", 1)\");\n     \
+         ctx.strokeStyle = \"rgba(\".concat(this.definition.color, \", \
+1)\");\n              ctx.fill();\n            }\n            if (maxY < \
+this.DEAD_PX && this.prevMaxY > maxY) {\n              this.spawnAt = 0;\n    \
+        }\n            this.prevMaxY = maxY;\n            return null;\n      \
+    };\n          iOS9Curve2.getDefinition = function() {\n            return \
+[\n              {\n                color: \"255,255,255\",\n                \
+supportLine: true\n              },\n              {\n                // \
+blue\n                color: \"15, 82, 169\"\n              },\n              \
+{\n                // red\n                color: \"173, 57, 76\"\n           \
+   },\n              {\n                // green\n                color: \
+\"48, 220, 155\"\n              }\n            ];\n          };\n          \
+return iOS9Curve2;\n        }()\n      );\n      var SiriWave2 = (\n        \
+/** @class */\n        function() {\n          function SiriWave3(_a) {\n     \
+       var _this = this;\n            var container = _a.container, rest = \
+__rest(_a, [\"container\"]);\n            this.phase = 0;\n            \
+this.run = false;\n            this.curves = [];\n            var csStyle = \
+window.getComputedStyle(container);\n            this.opt = __assign({ \
+container, style: \"ios\", ratio: window.devicePixelRatio || 1, speed: 0.2, \
+amplitude: 1, frequency: 6, color: \"#fff\", cover: false, width: \
+parseInt(csStyle.width.replace(\"px\", \"\"), 10), height: \
+parseInt(csStyle.height.replace(\"px\", \"\"), 10), autostart: true, \
+pixelDepth: 0.02, lerpSpeed: 0.1, globalCompositeOperation: \"lighter\" }, \
+rest);\n            this.speed = Number(this.opt.speed);\n            \
+this.amplitude = Number(this.opt.amplitude);\n            this.width = \
+Number(this.opt.ratio * this.opt.width);\n            this.height = \
+Number(this.opt.ratio * this.opt.height);\n            this.heightMax = \
+Number(this.height / 2) - 6;\n            this.color = \
+\"rgb(\".concat(this.hex2rgb(this.opt.color), \")\");\n            \
+this.interpolation = {\n              speed: this.speed,\n              \
+amplitude: this.amplitude\n            };\n            this.canvas = \
+document.createElement(\"canvas\");\n            var ctx = \
+this.canvas.getContext(\"2d\");\n            if (ctx === null) {\n            \
+  throw new Error(\"Unable to create 2D Context\");\n            }\n          \
+  this.ctx = ctx;\n            this.canvas.width = this.width;\n            \
+this.canvas.height = this.height;\n            if (this.opt.cover === true) \
+{\n              this.canvas.style.width = this.canvas.style.height = \
+\"100%\";\n            } else {\n              this.canvas.style.width = \
+\"\".concat(this.width / this.opt.ratio, \"px\");\n              \
+this.canvas.style.height = \"\".concat(this.height / this.opt.ratio, \
+\"px\");\n            }\n            switch (this.opt.style) {\n              \
+case \"ios9\":\n                this.curves = (this.opt.curveDefinition || \
+iOS9Curve.getDefinition()).map(function(def) {\n                  return new \
+iOS9Curve(_this, def);\n                });\n                break;\n         \
+     case \"ios\":\n              default:\n                this.curves = \
+(this.opt.curveDefinition || ClassicCurve.getDefinition()).map(function(def) \
+{\n                  return new ClassicCurve(_this, def);\n                \
+});\n                break;\n            }\n            \
+this.opt.container.appendChild(this.canvas);\n            if \
+(this.opt.autostart) {\n              this.start();\n            }\n          \
+}\n          SiriWave3.prototype.hex2rgb = function(hex) {\n            var \
+shorthandRegex = /^#?([a-f\\d])([a-f\\d])([a-f\\d])$/i;\n            hex = \
+hex.replace(shorthandRegex, function(m, r, g, b) {\n              return r + \
+r + g + g + b + b;\n            });\n            var result = \
+/^#?([a-f\\d]{2})([a-f\\d]{2})([a-f\\d]{2})$/i.exec(hex);\n            return \
+result ? \"\".concat(parseInt(result[1], 16).toString(), \
+\",\").concat(parseInt(result[2], 16).toString(), \
+\",\").concat(parseInt(result[3], 16).toString()) : null;\n          };\n     \
+     SiriWave3.prototype.intLerp = function(v0, v1, t) {\n            return \
+v0 * (1 - t) + v1 * t;\n          };\n          SiriWave3.prototype.lerp = \
+function(propertyStr) {\n            var prop = \
+this.interpolation[propertyStr];\n            if (prop !== null) {\n          \
+    this[propertyStr] = this.intLerp(this[propertyStr], prop, \
+this.opt.lerpSpeed);\n              if (this[propertyStr] - prop === 0) {\n   \
+             this.interpolation[propertyStr] = null;\n              }\n       \
+     }\n            return this[propertyStr];\n          };\n          \
+SiriWave3.prototype.clear = function() {\n            \
+this.ctx.globalCompositeOperation = \"destination-out\";\n            \
+this.ctx.fillRect(0, 0, this.width, this.height);\n            \
+this.ctx.globalCompositeOperation = \"source-over\";\n          };\n          \
+SiriWave3.prototype.draw = function() {\n            \
+this.curves.forEach(function(curve) {\n              return curve.draw();\n   \
+         });\n          };\n          SiriWave3.prototype.startDrawCycle = \
+function() {\n            this.clear();\n            \
+this.lerp(\"amplitude\");\n            this.lerp(\"speed\");\n            \
+this.draw();\n            this.phase = (this.phase + Math.PI / 2 * \
+this.speed) % (2 * Math.PI);\n            if (window.requestAnimationFrame) \
+{\n              this.animationFrameId = \
+window.requestAnimationFrame(this.startDrawCycle.bind(this));\n            } \
+else {\n              this.timeoutId = \
+setTimeout(this.startDrawCycle.bind(this), 20);\n            }\n          \
+};\n          SiriWave3.prototype.start = function() {\n            if \
+(!this.canvas) {\n              throw new Error(\"This instance of SiriWave \
+has been disposed, please create a new instance\");\n            }\n          \
+  this.phase = 0;\n            if (!this.run) {\n              this.run = \
+true;\n              this.startDrawCycle();\n            }\n          };\n    \
+      SiriWave3.prototype.stop = function() {\n            this.phase = 0;\n  \
+          this.run = false;\n            if (this.animationFrameId) {\n       \
+       window.cancelAnimationFrame(this.animationFrameId);\n            }\n   \
+         if (this.timeoutId) {\n              clearTimeout(this.timeoutId);\n \
+           }\n          };\n          SiriWave3.prototype.dispose = \
+function() {\n            this.stop();\n            if (this.canvas) {\n      \
+        this.canvas.remove();\n              this.canvas = null;\n            \
+}\n          };\n          SiriWave3.prototype.set = function(propertyStr, \
+value) {\n            this.interpolation[propertyStr] = value;\n          \
+};\n          SiriWave3.prototype.setSpeed = function(value) {\n            \
+this.set(\"speed\", value);\n          };\n          \
+SiriWave3.prototype.setAmplitude = function(value) {\n            \
+this.set(\"amplitude\", value);\n          };\n          return SiriWave3;\n  \
+      }()\n      );\n      return SiriWave2;\n    });\n  }\n});\n\n// \
+<stdin>\nvar import_siriwave = __toESM(require_siriwave_umd());\nvar dom = \
+document.createElement(\"div\");\ng0this.return(dom);\nvar \
+siriWave;\nsiriWave = new import_siriwave.default({\n  container: dom,\n  \
+height: 300,\n  style: \"ios9\",\n  width: \
+600\n});\nsiriWave.start();\ng0this.ondestroy = () => {\n  \
+siriWave.dispose();\n  console.warn(\"removed\");\n};\n/*! Bundled license \
+information:\n\nsiriwave/dist/siriwave.umd.js:\n  (*! \
+*****************************************************************************\
+\n      Copyright (c) Microsoft Corporation.\n  \n      Permission to use, \
+copy, modify, and/or distribute this software for any\n      purpose with or \
+without fee is hereby granted.\n  \n      THE SOFTWARE IS PROVIDED \"AS IS\" \
+AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH\n      REGARD TO THIS SOFTWARE \
+INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY\n      AND FITNESS. IN NO \
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,\n      INDIRECT, OR \
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM\n      LOSS OF \
+USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR\n      \
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR\n      \
+PERFORMANCE OF THIS SOFTWARE.\n      \
+***************************************************************************** \
+*)\n*/\n", "Display" -> "esm", "Hash" -> 
+     "0bca174f-a9b1-47c1-a4b4-668cb77cd6a5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "c2e32091-74ed-460d-ac63-eb77a3feb858"|>}, "serializer" -> "jsfn4"|>

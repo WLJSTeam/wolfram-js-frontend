@@ -1,0 +1,28 @@
+Component[OptionsPattern[]] := Module[{
+    p = {{0.,0.}},
+    Canvas,
+    task,
+    controls = EventClone @ OptionValue["Controls"]
+},
+    EventHandler[controls, {"Destroy" -> Function[Null,
+        Echo["Destroyed!"];
+        TaskRemove[task];
+    ]}];
+
+    Canvas = Graphics[{
+        Magenta, Point[Offload[p]]
+    },  PlotRange->{{-1,1},{-1,1}}, 
+        TransitionDuration->100, 
+        TransitionType->"Linear"
+    ];
+
+    task = SetInterval[
+        p = Append[p, Last[p] + 0.1 RandomReal[{-1,1},2]];
+    , 100];
+
+    <WLJS>
+        <Canvas/>
+    </WLJS>
+]
+
+Component

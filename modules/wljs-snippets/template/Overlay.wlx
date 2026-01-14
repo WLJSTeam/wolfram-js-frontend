@@ -1,0 +1,590 @@
+search[s_String] := With[{words = StringSplit[ToLowerCase[s], " "], indices = KeyDrop[SnippetsDatabaseIndices, {"InstallPackage", "InvokeAI"}]},
+    With[{results = Flatten[Function[word, With[{str = word},
+        {
+            MapIndexed[If[Length[#1]==0, Nothing, #2[[1]]]&, StringCases[Values @ indices, str~~___]],
+            MapIndexed[If[Length[#1]==0, Nothing, #2[[1]]]&, StringCases[Values @ indices, __~~RegularExpression["[^\\w]"]~~str~~___]]
+        }
+    ]] /@ words]},
+        If[StringMatchQ[StringTrim[s], ("https://github" ~~ __) | ("https://" ~~ __ ~~ ".paclet")], 
+            {"InstallPackage"}
+        ,
+            If[StringLength[s] > 10,
+                If[StringLength[s] > 15,
+                    {"InvokeAI"}
+                ,
+                    Join[{"InvokeAI"}, (Keys @ indices)[[ Keys[Reverse[SortBy[GroupBy[results, Identity], Length]]] ]]] // DeleteDuplicates
+                ]
+
+            ,
+                If[StringLength[s] < 5,
+                    (Keys @ indices)[[ Keys[Reverse[SortBy[GroupBy[results, Identity], Length]]] ]]
+                ,
+                    Join[(Keys @ indices)[[ Keys[Reverse[SortBy[GroupBy[results, Identity], Length]]] ]], {"InvokeAI"}] // DeleteDuplicates
+                ]   
+            ]
+        ]
+    ]
+];
+
+simpleSearch[_, _] := {}
+
+simpleSearch[s_String, base_] := With[{words = StringSplit[ToLowerCase[s], " "], indices = ToLowerCase/@base},
+    With[{results = Flatten[Function[word, With[{str = word},
+        {
+            MapIndexed[If[Length[#1]==0, Nothing, #2[[1]]]&, StringCases[indices, str~~___]],
+            MapIndexed[If[Length[#1]==0, Nothing, #2[[1]]]&, StringCases[indices, __~~RegularExpression["[^\\w]"]~~str~~___]]
+        }
+    ]] /@ words]},
+        base[[ Keys[Reverse[SortBy[GroupBy[results, Identity], Length]]] ]]
+    ]
+];
+
+search[_] := {}
+
+
+selectItemTemplate[Name_String, index_] := With[{Index = index[[1]]},
+    <li tabindex="-1" tag="pcselect-{Index}" class="list-none nooline rounded-sm group flex cursor-default select-none items-center rounded-md px-2 py-1 focus:bg-sys-25">
+              <svg class="h-4 w-4 mr-1 flex-none text-gray-900  dark:text-gray-400 text-opacity-40" fill="none" viewBox="-2 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5" />
+              </svg>
+              <span class="ml-3 flex-auto truncate"><Name/></span>
+    </li>  
+];
+
+open[payload_, mode_, client_, quickTags_, ClickActions_, path_, controls_, modals_, messanger_, localControls_, typeWritter_, keyListener_, cancelListener_,emptyPanel_, aiPanel_, searchPanel_, fieldState_, PlaceholderData_, ulStyles_] := Module[{
+    lastResults = Null, typed = False, 
+    currentText = "",
+    searchState = "Hidden",
+    paneState = "Shown",
+    autocomplete = Null,
+    position = 0,
+    tagList = quickTags,
+    timer = AbsoluteTime[]
+},
+With[{
+    localTunnel = CreateUUID[]
+},
+
+With[{
+    destroy := (
+        Echo["Snippets >> removed"];
+        EventFire[localControls, "Remove", <|"Client"->client|>];
+        EventFire[cancelListener, "Stop", <|"Client"->client|>];
+        EventFire[keyListener, "Stop", <|"Client"->client|>];
+        EventRemove[cancelListener];
+        fieldState = False;
+        PlaceholderData = False;
+        ClearAll[lastResults];
+        ClearAll[typed];
+        ClearAll[currentText];
+        ClearAll[autocomplete];
+        ClearAll[tagList];
+        ClearAll[position];
+        ClearAll[searchState];
+        EventRemove[typeWritter];
+        EventRemove[searchPanel];
+        paneState = "Shown";
+    ),
+
+    creationDate = AbsoluteTime[]
+},
+
+    If[fieldState === mode || fieldState === "Select" || fieldState === "Text" , 
+        Echo["Already opened >> Return"]; Return[]
+    ];
+
+    If[fieldState =!= mode && fieldState =!= False,
+        Echo[StringJoin["Override >> switch to mode: ", mode]];
+        destroy;
+        open[payload, mode, client, quickTags, ClickActions, path, controls, modals, messanger, localControls, typeWritter, keyListener, cancelListener, emptyPanel, aiPanel, searchPanel, fieldState, PlaceholderData, ulStyles];
+        Return[];
+    ];
+
+
+    fieldState = mode;
+
+    Echo[StringJoin["Open: mode >> ", mode]];
+
+
+    Switch[mode,
+        "Palette",
+            EventHandler[ClickActions, {"Click" -> Function[data,
+                Echo[data];
+                With[{c = currentText, d = data},
+                    destroy;
+                    EventFire[SnippetsEvents, d, <|"Client"->client, "Controls"->controls, "Modals"->modals, "Messanger"->messanger, "Path"->path, "Promt"->c|>];
+                ];
+            ]}];
+
+            PlaceholderData = False;
+            ulStyles = Append[ulStyles, "divide-y"]//DeleteDuplicates;
+        
+            EventFire[localControls, "Load", <|"Client"->client|>];
+            EventFire[localControls, "Rescan", <|"Client"->client|>];
+            EventFire[keyListener, "Start", <|"Client"->client|>];
+            EventFire[localControls, "CancelListen", <|"Client"->client|>];
+        
+            EventHandler[cancelListener, {"Click" -> Function[Null, Echo["Destroy from cacnelListener"]; destroy]}];
+        
+            EventHandler[keyListener, {"Pressed" -> Function[key,
+                Switch[key,
+                    27,
+                        destroy
+                    ,    
+                    38,
+                        If[Length[tagList] == 0, Return[]];
+                        If[position > 0, position -= 1];
+                        EventFire[localControls, "Focus", <|"Position" -> position, "Client"->client|>];
+                    ,    
+                    40,
+                        If[Length[tagList] == 0, Return[]];
+                        If[position < Length[tagList], position += 1];
+                        EventFire[localControls, "Focus", <|"Position" -> position, "Client"->client|>];            
+                    ,
+                    13,
+                        If[position === 0 && StringLength[currentText] > 7, 
+                            If[!StringMatchQ[StringTrim[currentText], "https://github" ~~ ___],
+                                Echo["Send data to AI"];
+                                EventFire[SnippetsEvents, "InvokeAI", <|"Client"->client, "Controls"->controls, "Modals"->modals, "Messanger"->messanger, "Path"->path, "Promt"->currentText|>];
+                                destroy;
+                            ,
+                                Return[];
+                            ];  
+                        ,
+                            If[Length[tagList] == 0, Return[]];
+                            If[position < 1, Return[]];
+                            Echo[tagList[[position]]];
+                            With[{t = tagList[[position]], c = currentText},
+                                destroy;
+                                EventFire[SnippetsEvents, t, <|"Client"->client, "Controls"->controls, "Modals"->modals, "Messanger"->messanger, "Path"->path, "Promt"->c|>];
+                            ];
+                        ];
+                    ,
+                    _,
+                        Echo[key]
+                ];
+            ]}];
+    
+
+            EventHandler[typeWritter, {"Type" -> Function[text,
+                currentText = URLDecode[text];
+
+                If[StringLength[currentText] < 3,
+                    If[paneState === "Hidden", 
+
+                        EventFire[emptyPanel, "Show", <|"Client"->client|>];
+                        paneState = "Shown";
+                        Echo[paneState];
+                    ];
+                    EventFire[searchPanel, "Remove", <|"Client"->client|>];
+                    tagList = quickTags;
+                    position = 0;
+                    searchState = "Hidden";
+                ,
+                    If[paneState === "Shown", 
+                        EventFire[emptyPanel, "Hide", <|"Client"->client|>];
+                        paneState = "Hidden";
+                        Echo[paneState];
+                    ];
+                
+
+
+                ];
+            
+                
+            
+                Echo[currentText];
+                If[AbsoluteTime[] - timer > 0.3,
+                    timer = AbsoluteTime[];
+                    With[{
+                        results = If[StringLength[currentText] =!= 0, search[currentText], {}]
+                    },
+                            If[searchState === "Hidden",
+                                searchState = "Shown";
+                                lastResults = Null;
+                            ];
+                        
+                            If[lastResults =!= results,
+                                Echo["Update panel"];
+                                Echo[results];
+                                tagList = results;
+                                position = 0;
+                                EventFire[searchPanel, "Load", <|"Data"->Map[(SnippetsDatabase[#, "Template"]&), results], "Client"->client|>];
+                                EventFire[localControls, "Rescan", <|"Client"->client|>];
+                                lastResults = results;
+                            ];
+                    ]
+                ];
+            
+            ]}];
+        ,
+
+        "Select",
+
+            PlaceholderData = With[{Title = Lookup[payload, "title", ""], Msg = Lookup[payload, "message", ""], SpaceBar=" "},
+                <li class="pointer-events-none list-none pt-1 text-sm text-gray-500 dark:text-gray-500 px-2">
+                    <Msg/>
+                </li>
+            ];
+
+            ulStyles = Append[ulStyles, "divide-y"]//DeleteDuplicates;
+
+            EventHandler[ClickActions, {"Click" -> Function[data,
+                With[{p = ToExpression[StringDrop[data, StringLength["pcselect-"]]]},
+                    destroy;
+                    EventFire[payload["Promise"], Resolve, p];
+                ];
+                
+            ]}];
+        
+            
+            EventFire[localControls, "Load", <|"Client"->client, "NoIco"->True|>];
+            EventFire[keyListener, "Start", <|"Client"->client|>];
+            EventFire[localControls, "CancelListen", <|"Client"->client|>];
+        
+            
+            EventHandler[cancelListener, {"Click" -> Function[Null, 
+                Echo["Debounce"];         
+            ]}];     
+
+            lastResults = payload["list"];
+            tagList = payload["list"];
+
+            EventFire[searchPanel, "Load", <|"Data"->MapIndexed[selectItemTemplate, payload["list"]], "Client"->client|>];
+            EventFire[localControls, "Rescan", <|"Client"->client|>];
+
+            position = 1;
+
+            EventFire[localControls, "Focus", <|"Position" -> 1, "Client"->client|>];
+            
+            EventHandler[keyListener, {"Pressed" -> Function[key,
+                Switch[key,
+                    27,
+                        destroy;
+                        EventFire[payload["Promise"], Resolve, False];
+                        
+                    ,    
+                    38,
+                        If[Length[tagList] == 0, Return[]];
+                        If[position > 0, position -= 1];
+                        EventFire[localControls, "Focus", <|"Position" -> position, "Client"->client|>];
+                    ,    
+                    40,
+                        If[Length[tagList] == 0, Return[]];
+                        If[position < Length[tagList], position += 1];
+                        EventFire[localControls, "Focus", <|"Position" -> position, "Client"->client|>];            
+                    ,
+                    13,
+                            If[Length[tagList] == 0, Return[]];
+                            If[position < 1, Return[]];
+                            Echo[tagList[[position]]];
+                            With[{w = Position[payload["list"], tagList[[position]]][[1,1]]},
+                                destroy;
+                                EventFire[payload["Promise"], Resolve, w];
+                            ];
+
+                            
+                    ,
+                    _,
+                        Echo[key]
+                ];
+            ]}];
+
+            EventHandler[typeWritter, {"Type" -> Function[text,            
+                currentText = URLDecode[text];
+            
+                Echo[text];
+                If[AbsoluteTime[] - timer > 0.3,
+                    timer = AbsoluteTime[];
+                    With[{
+                        results = If[StringLength[text] > 1, simpleSearch[text, payload["list"]], payload["list"]]
+                    },             
+                        Echo["Found:"]; Echo[results];           
+                        If[lastResults =!= results,
+                                Echo["Update panel"];
+                                Echo[results];
+                                tagList = results;
+                                position = 0;
+                                EventFire[searchPanel, "Load", <|"Data"->MapIndexed[selectItemTemplate, tagList], "Client"->client|>];
+                                EventFire[localControls, "Rescan", <|"Client"->client|>];
+                                lastResults = results;
+                        ];
+                    ]
+                ];
+            
+            ]}];
+
+        ,
+
+        "Text",
+
+            PlaceholderData = With[{Title = Lookup[payload, "title", ""]},
+                <li class="pointer-events-none list-none pt-1 text-sm text-gray-500 dark:text-gray-500 px-2">
+                    <Title/>
+                </li>
+            ];
+        
+            ulStyles = ulStyles /. {"divide-y" -> Nothing};
+            
+            EventFire[localControls, "Load", <|"Client"->client, "Text"->Lookup[payload, "default", ""]|>];
+            currentText = Lookup[payload, "default", ""];
+
+            EventFire[keyListener, "Start", <|"Client"->client|>];
+            EventFire[localControls, "CancelListen", <|"Client"->client|>];
+        
+            
+            EventHandler[cancelListener, {"Click" -> Function[Null, 
+                Echo["Debounce"]; 
+            ]}];     
+            
+            EventHandler[keyListener, {"Pressed" -> Function[key,
+                Switch[key,
+                    27,
+                        destroy;
+                        EventFire[payload["Promise"], Resolve, False];
+                        
+                    ,    
+                    13,
+                        Echo["Done!"];
+                        Echo[currentText];
+                        With[{c = currentText},
+                            destroy;
+                            EventFire[payload["Promise"], Resolve, StringTrim[c]];
+                        ];
+                       
+                    ,
+                    _,
+                        Echo[key]
+                ];
+            ]}];
+
+            EventHandler[typeWritter, {"Type" -> Function[text,            
+                currentText = URLDecode[text];
+            ]}];
+
+    ];
+] ] ];
+
+SetAttributes[open, HoldRest];
+
+QuickActions   := ImportComponent["Components/QuickActions.wlx"];
+RecentItems     = ImportComponent["Components/Recent.wlx"];
+
+SearchResults   = ImportComponent["Components/SearchResults.wlx"];
+
+ConditionalRender[content_, OptionsPattern[]] := (
+    If[TrueQ[ReleaseHold[OptionValue["Test"]]],
+        content
+    ,
+        ""
+    ]
+);
+
+Options[ConditionalRender] = {"Test" -> "False"};
+
+Component[OptionsPattern[]] := 
+Module[{},
+With[{
+    Title = FileNameTake[OptionValue["Path"]],
+    Controls = OptionValue["Controls"],
+    Path = OptionValue["Path"],
+    Messanger = OptionValue["Messanger"],
+    Modals = OptionValue["Modals"],
+    cachedClient = OptionValue["CachedClient"],
+    quickTags = Join[{"newFile", "renameNotebook"}, Complement[(Keys @ SnippetsDatabaseIndices), {"newFile", "renameNotebook", "InvokeAI", "InstallPackage"}]],
+    LocalControls = CreateUUID[],
+    emptyPanel = CreateUUID[],
+    aiPanel = CreateUUID[],
+    MetaKey = Switch[OptionValue["Parameters"]["Navigator"],  "OSX", "&#8984;", "Windows", "^", "Linux", "Ctrl+", _, ""],
+    ClickActions   = CreateUUID[],
+    resultsPanel   = CreateUUID[],
+    typeWritter    = CreateUUID[],
+    keyListener    = CreateUUID[],
+    CancelListener = CreateUUID[],
+    searchPanel    = CreateUUID[],
+
+    PlaceholderData = Unique["cmdPalette"],
+    fieldState = Unique["cmdPalette"],
+    ulStyles = Unique["cmdPalette"]
+},
+{
+    KeyListener = keyListener
+},
+
+    ulStyles = {"p-0", "max-h-60", "scroll-py-2", "divide-y", "divide-gray-500", "divide-opacity-10", "overflow-y-auto", "sc-b"};
+    PlaceholderData = False;
+    fieldState = False;
+
+    EventHandler[Modals, {
+        "TextBox" -> (open[#, "Text", cachedClient, quickTags, ClickActions, Path, Controls, Modals, Messanger, LocalControls, typeWritter, keyListener, CancelListener, emptyPanel, aiPanel, searchPanel, fieldState, PlaceholderData, ulStyles]&),
+        "SelectBox" -> (open[#, "Select", cachedClient, quickTags, ClickActions, Path, Controls, Modals, Messanger, LocalControls, typeWritter, keyListener, CancelListener, emptyPanel, aiPanel, searchPanel, fieldState, PlaceholderData, ulStyles]&)
+    }];
+
+    EventHandler[EventClone[Controls], {"open_snippets" -> Function[Null, EventFire[LocalControls, "Open", True]]}];
+
+    EventHandler[LocalControls, {"Open" -> (open[#, "Palette", cachedClient, quickTags, ClickActions, Path, Controls, Modals, Messanger, LocalControls, typeWritter, keyListener, CancelListener, emptyPanel, aiPanel, searchPanel, fieldState, PlaceholderData, ulStyles]&)}];
+
+    <div style="-webkit-app-region: no-drag" class="relative grow rounded-md bg-gray-100 dark:bg-gray-700 win:mt-1 linux:mt-1">
+        <style>
+            #canvas-palette-back > canvas {
+                filter: blur(15px);
+            }
+        </style>
+        <div class="absolute w-full h-full rounded-md overflow-hidden" id="canvas-palette-back">
+        </div>
+        <div id="palette" class="grow relative p-1 items-center flex rounded-md 0 h-7 owin:h-6 win:h-6 linux:h-6 pl-3  pr-2 text-left text-gray-500  ring-1 ring-inset ring-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-xs sm:leading-6 dark:ring-gray-600 ">
+            <svg id="palette-ico" class="pointer-events-none h-4 w-6 text-gray-900 dark:text-gray-400 text-opacity-40" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path class="opacity-0" fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"></path>
+            </svg>
+            <input type="text" id="palette-field" class="leading-6 text-sm text-gray-400 bg-transparent w-full border-0 placeholder:text-gray-400 focus:ring-0" style="outline:unset" placeholder="{Title}"/>
+            <span id="palette-right" class="ml-3 h-5 w-4 items-center flex text-xs  text-gray-400">
+                <kbd class="font-sans"><MetaKey/>P</kbd>
+                <button class="hidden mt-auto mb-auto h-5 w-4 hover:text-green-300 text-gray-400 dark:text-gray-700">
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" color="currentColor"><polyline points="7 13 10 16 17 9"/> <circle cx="12" cy="12" r="10"/> 
+                    </svg>
+                </button>
+            </span>
+            <style>
+                .nooline {outline: unset;}
+                .noplhr::placeholder {color:transparent;}
+            </style>
+            <WebUILazyLoad Event={LocalControls}>
+                <div id="palette-list" class="absolute top-0 mt-10 right-0 left-0 w-full">
+                   <div style="-webkit-app-region: no-drag" class="mx-auto max-w-2xl transform divide-y divide-gray-500 dark:divine-gray-300 divide-opacity-10 overflow-hidden rounded-md bg-gray-100 bg-opacity-80 shadow-md  backdrop-blur backdrop-filter transition-all bg-d9 text-left text-gray-500 w-70 ring-1 ring-inset ring-gray-400 pb-1 dark:bg-gray-700">
+                      <ul id="palette-ul" class="{StringRiffle[ulStyles]}">
+                        <ConditionalRender Test={Hold[StringQ[PlaceholderData]]}>
+                            <PlaceholderData/>
+                        </ConditionalRender>   
+                        <WebUILazyLoad Event={searchPanel}>
+                            <SearchResults Data={WebUILazyLoadDataProvided}/>
+                        </WebUILazyLoad>  
+                        <ConditionalRender Test={Hold[SameQ[PlaceholderData,False]]}>           
+                            <WebUIRefresh Event={emptyPanel}>
+                                <QuickActions List={ quickTags }/>
+                            </WebUIRefresh>   
+                        </ConditionalRender>    
+                      </ul>
+                   </div>
+                </div>
+            </WebUILazyLoad>
+
+            <WebUIEventListener Type={"click"} Id={"palette"} Pattern={"Open"} Event={LocalControls} />   
+            <WebUIEventListener Type={"input"} Id={"palette-field"} Pattern={"Type"} Event={typeWritter} />  
+
+            <WebUIKeyListener Pattern={"Pressed"} Event={keyListener} />
+
+            <WebUIJSBind Event={LocalControls}>
+                const ico = document.getElementById("palette-ico");
+                const field = document.getElementById("palette-field");
+                const palette = document.getElementById('palette');
+                const right = document.getElementById('palette-right');
+
+                right.childNodes[1].addEventListener('click', (e) => {
+                    server.io.fire('<KeyListener/>', 13, 'Pressed');//emulate Enter
+                    e.preventDefault();
+                    e.stopPropagation();
+                })
+
+                //fallback for the browser
+                if (!window.electronAPI) {
+                    window.addEventListener("keydown", function (e) {
+                        if (e.ctrlKey && e.key == "p" || e.metaKey && e.key == "p") {
+                            server.emitt('<LocalControls/>', 'True', 'Open');
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                }
+
+                let storage;
+
+                this.on('Load', async (data) => {
+                    const d = await interpretate(data, {hold:true});
+                    if (d.Text) {
+                        field.value = await interpretate(d.Text, {});
+                        field.classList.add('noplhr');
+                        //ico.childNodes[1].classList.remove('opacity-0');
+                        right.childNodes[0].classList.add('hidden');
+                        right.childNodes[1].classList.remove('hidden');
+                    } else {
+                        ico.childNodes[0].classList.remove('opacity-0');
+                    } if (d.NoIco) {field.classList.add('noplhr');}
+                    field.focus();
+                });
+
+                let clickOutside;
+
+                this.on('Remove', () => {
+                    ico.childNodes[0].classList.add('opacity-0');
+                    //ico.childNodes[1].classList.add('opacity-0');
+                    right.childNodes[0].classList.remove('hidden');
+                    right.childNodes[1].classList.add('hidden');
+                    field.classList.remove('noplhr');
+                    field.value = '';
+                    field.blur();
+                    document.removeEventListener('click', clickOutside);
+                });
+
+                
+
+                clickOutside = (event) => {
+                        const withinBoundaries = event.composedPath().includes(palette)
+                        if (withinBoundaries) {
+                          console.log('Click happened inside element');
+                        } else {
+                          server.emitt('<CancelListener/>', 'True', 'Click');
+                          document.removeEventListener('click', clickOutside);
+                        }
+                };
+
+                this.on('CancelListen', () => {
+                    document.addEventListener('click', clickOutside);
+                });
+
+                this.on('DestroySelf', () => {
+                    clickOutside();
+                });
+
+                this.on('Rescan', () => {
+                    storage = palette.querySelectorAll('[tag]');
+                    const btags = palette.querySelectorAll('[btag]');
+                    for (let i=0; i<storage.length; ++i) {
+                        storage[i].addEventListener('click', (event) => {
+                            console.log(['<ClickActions/>', '"'+storage[i].getAttribute("tag")+'"', 'Click']);
+                            server.emitt('<ClickActions/>', '"'+storage[i].getAttribute("tag")+'"', 'Click');
+                            event.stopPropagation();
+                        });
+                    }
+                    //buttons ans etc
+                    for (let i=0; i<btags.length; ++i) {
+                        btags[i].addEventListener('click', (event) => {
+                            console.log(['<ClickActions/>', '"'+btags[i].getAttribute("tag")+'"', 'Click']);
+                            server.emitt('<ClickActions/>', '"'+btags[i].getAttribute("btag")+'"', 'Click');
+                            event.stopPropagation();
+                        });
+                    }
+                });
+
+                this.on('Focus', async (data) => {
+                    if (!storage) return;
+                    if (storage.length == 0) return;
+                    const assoc = await interpretate(data, {hold: true});
+                    const pos = await interpretate(assoc.Position, {});
+                    if (pos - 1 < 0) {
+                        field.focus();
+                        return;
+                    }
+                    console.log(pos);
+                    storage[pos-1].focus();
+                });
+
+            </WebUIJSBind>
+        </div>
+    </div>    
+]]
+
+Options[Component] = {"CachedClient"->"", "Path"->"", "Parameters"->"", "Modals"->"", "AppEvent"->"", "Controls"->"", "Messanger"->""}
+
+
+Component
+

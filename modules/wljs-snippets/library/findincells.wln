@@ -1,0 +1,236 @@
+<|"Notebook" -> <|"Controller" -> "d98930b9-15da-4d35-9399-38a398e08019", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$409], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "c17c8685-27f0-4618-83c8-e23f9c6641d4", "Objects" -> <||>, 
+   "Path" -> "/applications/WLJS \
+Notebook.app/Contents/Resources/app/wljs_packages/wljs-snippets/library/findi\
+ncells.wln", "PublicFields" -> {"Properties"}, "Quick" -> True, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Find in cells", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$399]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> 
+     ".md\n# Find in cells\nGlobal search over all cells in the notebook", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f5f67f53-efda-4776-8d38-a780ed030055", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> 
+     "# Find in cells\nGlobal search over all cells in the notebook", 
+    "Display" -> "markdown", "Hash" -> 
+     "f849371c-467c-464e-adab-0ba6fd8c0e35", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> ".md\n__Source code__", "Display" -> "codemirror", 
+    "Hash" -> "0158edce-c9b7-4982-aba8-9a5d41452c78", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "__Source code__", "Display" -> "markdown", 
+    "Hash" -> "37126e79-93c3-4ba5-809e-f45b1dbb02c9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "setSelection[uid_, from_, to_] := \
+FrontSubmit[StringTemplate[\"\nconst [uid, from, to] = ['``', ``, ``];\nconst \
+cells = Object.values(CellHashStorage).filter((o) => o?.uid == uid);\nconst \
+editor = cells[0].display.editor;\nconst view = editor;\nconst container = \
+document.querySelector('.ccontainer');\n\nconst coords = \
+view.coordsAtPos(from);\nif (!coords) return;\n\nconst containerRect = \
+container.getBoundingClientRect();\n\n// position of the line relative to the \
+container\[CloseCurlyQuote]s scroll content\nconst targetY =\n  coords.top \
+-\n  containerRect.top +\n  container.scrollTop -\n  containerRect.height / \
+2;\n\ncontainer.scrollTo({\n  top: Math.round(targetY),\n  behavior: \
+'instant'\n});\n\neditor.dispatch({selection: {anchor: from, \
+head:to}});\n\"][uid, from-1, to]]\n\nsetSelection[Rule[uid_, {from_, to_}]] \
+:= setSelection[uid, from, to];\n\nremoveSelection[uid_] := \
+FrontSubmit[StringTemplate[\"\nconst cells = \
+Object.values(CellHashStorage).filter((o) => o?.uid == '``');\nconst editor = \
+cells[0].display.editor;\neditor.dispatch({selection: {anchor: \
+0}});\n\"][uid]]\n\nremoveSelection[Rule[uid_, {_, _}]] := \
+removeSelection[uid];", "Display" -> "codemirror", 
+    "Hash" -> "d7836c82-7f92-4ce9-a5e5-b4e33f6bdb98", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "findInCells[string_, cells_] := SortBy[\n    Flatten[\n       \
+ (\n            Function[pos,\n                #1[\"Hash\"] -> pos\n          \
+  ] /@ StringPosition[#1[\"Data\"], string, IgnoreCase -> True]&\n        ) \
+/@ cells\n    ]\n    ,\n    First\n];\n\ngetAllCells := With[{cells = \
+Cells[]},\n  Select[MapThread[Function[{n,o},\n    <|\"Data\"->n[[1]], \
+\"Type\"->n[[2]], \"Display\"->If[StringQ[n[[3]]], n[[3]], \"codemirror\"], \
+\"Hash\"->o[[1]], \"Hidden\"->(OptionValue[n//Options, CellOpen] === \
+False)|>\n  ], {NotebookRead[cells], cells}], ((#[\"Display\"] == \
+\"codemirror\" || #[\"Type\"] == \"Input\") && !#[\"Hidden\"] && \
+#[\"Display\"] =!= \"markdown\")&]\n] // Quiet; \n\nattachListeners[uid_, \
+cell_] := With[{\n  selection = Unique[],\n  length = Unique[],\n  index = \
+Unique[],\n  list = Unique[],\n  time = Unique[],\n  goto = Unique[],\n  \
+cells = getAllCells,\n  win = CurrentWindow[]\n},\n  selection = Null;\n  \
+index = 1;\n  length = 0;\n  time = 0;\n  list = {};\n\n  EventHandler[win, \
+{\"Closed\"->Function[Null,\n    NotebookDelete[cell];\n  ]}];\n\n  goto := \
+(\n        If[selection === list[[index]], Return[]];\n      If[selection =!= \
+Null, removeSelection[selection]];\n        selection = list[[index]];\n      \
+  setSelection[selection];\n  );\n  \n  EventHandler[uid, {\n    \"Cancel\" \
+-> Function[Null,\n      If[selection =!= Null, \
+removeSelection[selection]];\n      NotebookDelete[cell];\n      \
+ClearAll[selection, index, length, list, time, goto];\n      \
+EventRemove[uid];\n    ],\n\n    \"Up\" -> Function[Null,\n      If[length < \
+2, Beep[]; Return[]];\n      index++;\n      If[index > length, index = 1];\n \
+     goto;\n    ],\n\n    \"Down\" -> Function[Null,\n      If[length < 2, \
+Beep[]; Return[]];\n      index--;\n      If[index < 1, index = length];\n    \
+  goto;\n    ],\n\n    \"Input\" -> Function[text, With[{passed = \
+AbsoluteTime[] - time},\n      If[StringLength[text] < 3, Return[]];\n      \
+If[passed > 0.2,\n        list = findInCells[StringTrim[text], cells];\n      \
+  length = Length[list];\n        If[length == 0, \n          EventFire[uid, \
+\"Red\", True];\n          If[selection =!= Null, \
+removeSelection[selection]];\n          Return[];\n        ,\n          \
+EventFire[uid, \"Reset\", length];\n        ];\n        index = 1;\n        \
+time = AbsoluteTime[];\n        goto;\n      ]; \n    ] ]\n  }]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "55cc776c-ea71-4eb1-a3f2-63e398db5d22", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> ".md\nWidget", "Display" -> "codemirror", 
+    "Hash" -> "cfd3f32f-4d3b-423e-9928-06ab737077f0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "Widget", "Display" -> "markdown", 
+    "Hash" -> "97e0780e-afc0-4739-b52d-c3bb6a920acd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> ".wlx\n\nComponent[UId_] := With[{},\n\nEventHandler[UId, \
+{\"Red\" -> Function[Null,\n  FrontSubmit[StringTemplate[\"\n    \
+document.getElementById('``-text').style.color = 'red';\n    \
+document.getElementById('``-counter').innerText = 0;\n  \"][UId, UId]];\n], \
+\"Reset\" -> Function[number,\n  FrontSubmit[StringTemplate[\"\n    \
+document.getElementById('``-text').style.color = '';\n    \
+document.getElementById('``-counter').innerText = ``;\n  \"][UId, UId, \
+number]];      \n]}];\n\n<div style=\"position: fixed; z-index:10000; right: \
+20px; top: 3rem; padding: 10px; border-radius: 5px;\">\n<span style=\"top: \
+-0.25rem\" class=\"sm-controls flex relative cursor-default rounded-md 0 h-6 \
+pl-3 pr-2 text-left text-gray-500  focus:outline-none focus:ring-2 \
+focus:ring-teal-600 sm:text-xs sm:leading-6 bg-gray-100 border-1 \
+border-gray-800\"><div class=\"relative flex flex-grow items-stretch\"><input \
+id=\"{UId}-text\" type=\"text\" class=\"text-left text-gray-500 bg-gray-100 \
+border-0 sm:text-xs\" placeholder=\"...\"/></div><div id=\"{UId}-counter\" \
+class=\"w-2 px-2 text-gray-500\" ></div><button type=\"button\" \
+id=\"{UId}-up\" class=\"relative -ml-px inline-flex items-center px-2 text-sm \
+hover:bg-gray-50\">&#8593;</button><button id=\"{UId}-down\" type=\"button\" \
+class=\"relative -ml-px inline-flex items-center px-2 text-sm \
+hover:bg-gray-50\">&#8595;</button><button id=\"{UId}-cancel\" \
+type=\"button\" class=\"relative -ml-px inline-flex items-center px-2 text-sm \
+hover:bg-gray-50\"><svg fill=\"currentColor\" stroke-width=\"1.5\" \
+class=\"w-5 h-5\" viewBox=\"0 0 24 24\"><path \
+d=\"M12,21h0a9,9,0,0,1-9-9H3a9,9,0,0,1,9-9h0a9,9,0,0,1,9,9h0A9,9,0,0,1,12,21Z\
+M8,11.5l3,3,5-5\" fill=\"none\" \
+stroke=\"currentColor\"></path></svg></button></span>\n  <script \
+type=\"module\">\n    const text = document.getElementById('<UId/>-text');\n  \
+  const up = document.getElementById('<UId/>-up');\n    const down = \
+document.getElementById('<UId/>-down');\n    const cancel = \
+document.getElementById('<UId/>-cancel');\n    const ev = '<UId/>';\n\n    \
+text.addEventListener('input', () => {server.kernel.io.fire(ev, text.value, \
+'Input')});\n    up.addEventListener('click', () => \
+{server.kernel.io.fire(ev, true, 'Up')});\n    down.addEventListener('click', \
+() => {server.kernel.io.fire(ev, true, 'Down')});\n    \
+cancel.addEventListener('click', () => {server.kernel.io.fire(ev, true, \
+'Cancel')});\n\n    setTimeout(()=>{\n      text.focus();\n    }, 300);\n  \
+</script>\n</div>\n];\n\n", "Display" -> "codemirror", 
+    "Hash" -> "1e2134d8-5820-4f49-a4af-63ec67436f8f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> ".md\nRun!", "Display" -> "codemirror", 
+    "Hash" -> "787ba603-be30-4e6f-8f9e-7ebb174de1a0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "Run!", "Display" -> "markdown", 
+    "Hash" -> "93a8ca11-992b-4601-8a30-02d0ee4f0d29", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "Module[{cell, uid = CreateUUID[]},\n  attachListeners[uid, \
+cell];\n  cell = NotebookWrite[EvaluationNotebook[], Cell[Component[uid], \
+\"Output\", \"WLX\"]];\n]", "Display" -> "codemirror", 
+    "Hash" -> "daf70e80-af5b-4d54-9c2d-d7692655c32d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> ".md\nIcon", "Display" -> "codemirror", 
+    "Hash" -> "a8095b78-9851-4f25-aad4-586b4bee4308", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "Icon", "Display" -> "markdown", 
+    "Hash" -> "9e9bb0dd-553e-460e-9797-ad4126cd015d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>, 
+   <|"Data" -> "icon.wlx\nComponent[OptionsPattern[]] := With[{Title = \
+OptionValue[\"Title\"], Kbd = OptionValue[\"Shortcut\"], UTag = \
+OptionValue[\"Tag\"], Btn = OptionValue[\"Button\"]},\n    <li \
+tabindex=\"-1\" tag=\"{UTag}\" class=\"nooline rounded-sm group flex \
+cursor-default select-none items-center rounded-md px-2 py-1 \
+focus:bg-sys-25\">\n              <svg class=\"h-5 w-5 flex-none \
+text-gray-900  dark:text-gray-400 text-opacity-40\" viewBox=\"2 2 20 20\" \
+fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path \
+fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.132 9.71395C10.139 \
+11.2496 10.3328 13.2665 11.6 14.585C12.8468 15.885 14.8527 16.0883 16.335 \
+15.065C16.6466 14.8505 16.9244 14.5906 17.159 14.294C17.3897 14.0023 17.5773 \
+13.679 17.716 13.334C18.0006 12.6253 18.0742 11.8495 17.928 11.1C17.7841 \
+10.3573 17.4268 9.67277 16.9 9.12995C16.3811 8.59347 15.7128 8.22552 14.982 \
+8.07395C14.2541 7.92522 13.4982 8.00197 12.815 8.29395C12.1254 8.58951 \
+11.5394 9.08388 11.132 9.71395Z\" stroke=\"currentColor\" \
+stroke-width=\"1.5\" stroke-linecap=\"round\" \
+stroke-linejoin=\"round\"></path><path d=\"M17.5986 13.6868C17.2639 13.4428 \
+16.7947 13.5165 16.5508 13.8513C16.3069 14.1861 16.3806 14.6552 16.7154 \
+14.8991L17.5986 13.6868ZM19.0584 16.6061C19.3931 16.85 19.8623 16.7764 \
+20.1062 16.4416C20.3501 16.1068 20.2764 15.6377 19.9416 15.3938L19.0584 \
+16.6061ZM7.5 12.7499C7.91421 12.7499 8.25 12.4142 8.25 11.9999C8.25 11.5857 \
+7.91421 11.2499 7.5 11.2499V12.7499ZM5.5 11.2499C5.08579 11.2499 4.75 11.5857 \
+4.75 11.9999C4.75 12.4142 5.08579 12.7499 5.5 12.7499V11.2499ZM7.5 \
+15.7499C7.91421 15.7499 8.25 15.4142 8.25 14.9999C8.25 14.5857 7.91421 \
+14.2499 7.5 14.2499V15.7499ZM5.5 14.2499C5.08579 14.2499 4.75 14.5857 4.75 \
+14.9999C4.75 15.4142 5.08579 15.7499 5.5 15.7499V14.2499ZM8.5 9.74994C8.91421 \
+9.74994 9.25 9.41415 9.25 8.99994C9.25 8.58573 8.91421 8.24994 8.5 \
+8.24994V9.74994ZM5.5 8.24994C5.08579 8.24994 4.75 8.58573 4.75 8.99994C4.75 \
+9.41415 5.08579 9.74994 5.5 9.74994V8.24994ZM16.7154 14.8991L19.0584 \
+16.6061L19.9416 15.3938L17.5986 13.6868L16.7154 14.8991ZM7.5 \
+11.2499H5.5V12.7499H7.5V11.2499ZM7.5 14.2499H5.5V15.7499H7.5V14.2499ZM8.5 \
+8.24994H5.5V9.74994H8.5V8.24994Z\" fill=\"currentColor\"></path></svg>\n      \
+        <span class=\"ml-3 flex-auto truncate\"><Title/></span><span \
+class=\"ml-3 flex-none text-xs font-semibold text-gray-500\">\n               \
+ <kbd class=\"font-sans\"><Kbd/></kbd>\n                <button class=\"p-0.5 \
+rounded hover:bg-gray-100 dark:hover:bg-gray-200\" btag=\"{Btn}\">\n          \
+             <svg class=\"w-4 h-4 text-gray-400\" viewBox=\"0 0 24 24\" \
+fill=\"none\">\n                    <path fill-rule=\"evenodd\" \
+clip-rule=\"evenodd\" d=\"M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 \
+17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 \
+6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 \
+1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 \
+22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 7.75 10.875 8.25368 \
+10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 \
+9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 \
+7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 13.3353 11.1354C13.1385 \
+11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 11.6246 12.75 11.7036 12.75 \
+11.75V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 \
+11.25 13V11.75C11.25 11.2441 11.4715 10.8336 11.7266 10.533C11.9786 10.236 \
+12.2929 10.0092 12.5715 9.84439C12.9044 9.64739 13.125 9.28655 13.125 \
+8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 \
+16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 \
+17 12 17Z\" fill=\"currentColor\"/>\n                  </svg>         \n      \
+          </button>\n              </span>\n    </li>    \
+\n];\n\nOptions[Component] = {\"Title\"->\"Example\", \"Shortcut\"->\"\", \
+\"Tag\"->\"generic\", \"Button\"->Null};\n\nComponent", 
+    "Display" -> "codemirror", "Hash" -> 
+     "73bbb036-355d-40d1-80e8-be5435b161e3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ef1b1fb1-1907-40f9-8f39-87af21d6605f"|>}, 
+ "serializer" -> "jsfn4"|>

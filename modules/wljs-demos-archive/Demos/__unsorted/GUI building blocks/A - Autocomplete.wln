@@ -1,0 +1,136 @@
+<|"Notebook" -> <|"Controller" -> "2b6bd087-df77-49db-bed6-762e608bd862", 
+   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$373], 
+   "HaveToSaveAs" -> True, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "2daf84f1-ab98-417b-8bcd-eea100ece3d9", 
+   "Objects" -> <|"6ff9534e-a618-481e-ae62-f99c6309f583" -> 
+      <|"Public" -> Hold[HTMLView["<div ><label class=\"block font-medium \
+text-gray-900\"></label><div class=\"relative mt-2\"><input \
+id=\"#instanceId-text\" type=\"text\" class=\"block w-full rounded-md \
+bg-white border-0 py-1 px-1 pr-10 text-gray-900 ring-1 ring-inset \
+ring-gray-300 focus:ring-2 focus:ring-teal-600\" role=\"combobox\" \
+aria-controls=\"options\" aria-expanded=\"false\"/><button \
+id=\"#instanceId-search\" class=\"absolute inset-y-0 right-0 flex \
+items-center rounded-r-md px-2 focus:outline-hidden\"><svg class=\"w-4 h-4 \
+text-gray-400\" viewBox=\"0 0 20 20\" fill=\"currentColor\" \
+aria-hidden=\"true\" data-slot=\"icon\"><path fill-rule=\"evenodd\" d=\"M9 \
+3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 \
+3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z\" \
+clip-rule=\"evenodd\"></path></svg></button></div><script type=\"module\"> \
+const inputField = document.getElementById(\"#instanceId-text\");\n    const \
+parent = inputField.parentNode;\n    const search = \
+document.getElementById(\"#instanceId-search\");\n\n    let list;\n    \n    \
+const clearOnSubmit =false;\n\n    let renderedArray = [];\n    let opened = \
+false;\n\n    const construct = () => {\n      const ul = \
+document.createElement('ul');\n      ul.classList.add(...(\"hidden absolute \
+z-10 pl-0 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 border-0 \
+text-base shadow-lg focus:outline-hidden sm:text-sm ring-1 ring-inset \
+ring-gray-300\".split(' ')));\n\n      const rect = \
+inputField.getBoundingClientRect();\n      console.warn(rect);\n      \
+ul.style.top = (rect.top+rect.height)+'px';\n      ul.style.left = \
+rect.left+'px';\n      ul.style.width = rect.width+'px';\n      \
+ul.classList.remove('hidden');\n\n      list = ul;\n      \
+document.body.append(ul);\n    }\n\n    const destruct = () => {\n      if \
+(!list) return;\n      console.warn('Destroy autocomplete');\n      \
+list.remove();\n      list = undefined;\n    }\n\n    const generate = \
+(array, enter) => {\n      if (!opened) return;\n\n      if (!list) \
+construct();\n      \n      let newArray = array.map((el, indeX) => {\n       \
+ return {name: String(el), value: indeX, index: (indeX), domId: \
+'aacbb705-7271-4189-99a0-268f1ac85e9d'+String(el)}\n      });\n      \n      \
+renderedArray.filter((x) => !newArray.some((element) => element.domId === \
+x.domId)).forEach((el) => {\n        el.dom.remove();\n      });\n\n      \
+const intersection = renderedArray.filter((x) => newArray.some((element) => \
+element.domId === x.domId));\n      console.log(intersection);\n      \n      \
+const newElements = newArray.filter((x) => !intersection.some((element) => \
+element.domId === x.domId));\n      console.log(newElements);\n\n      \
+newElements.forEach((el) => {\n        const node = \
+document.createElement('li');\n        node.classList.add('list-none', \
+'pl-3', 'nooline', 'focus:bg-teal-500/25', 'relative', 'cursor-default', \
+'py-1', 'text-gray-900', 'select-none');\n        node.tabIndex = -1;\n       \
+ \n        const span = document.createElement('span');\n        \
+span.classList.add('block', 'truncate');\n        span.innerText = el.name;\n \
+       \n        node.appendChild(span);\n        list.prepend(node);\n\n     \
+   node.addEventListener('click', () => {\n          submit(el.index);\n      \
+    close();\n        });\n        \n        \n        el.dom = node;\n      \
+});\n\n      renderedArray = [...intersection, ...newElements];\n\n      \
+renderedArray = renderedArray.sort((a, b) => a.value - b.value);\n\n      \
+renderedArray.forEach((el) => {\n        list.appendChild(el.dom);\n      \
+});\n    }\n\n    \n\n    let keyHandler;\n    let currentLI = -1;\n    \
+keyHandler = (event) => {\n      // Check for up/down key presses\n      \
+switch(event.keyCode){\n        case 38: // Up arrow    \n          if \
+(renderedArray.length == 0) {\n            currentLI = -1;\n            \
+return;\n          }\n          \n          currentLI--;\n          if \
+(currentLI < 0) {\n            currentLI = -1;\n            \
+inputField.focus();\n            event.preventDefault();\n            \
+return;\n          }\n          renderedArray[currentLI].dom.focus(); // \
+Highlight the new element\n          event.preventDefault();\n        \
+break;\n        case 40: // Down arrow\n          if (renderedArray.length == \
+0) {\n            currentLI = -1;\n            return;\n          }\n         \
+ currentLI = currentLI < renderedArray.length-1 ? ++currentLI : \
+renderedArray.length-1; // Increase counter \n          \
+renderedArray[currentLI].dom.focus();       // Highlight the new element\n    \
+      event.preventDefault();\n        break;    \n\n        case 13: \
+//Enter\n          event.preventDefault();\n          \n          if \
+(renderedArray.length == 0) currentLI = -1;\n          \n          if \
+(currentLI < 0) {\n            submit(inputField.value.trim());\n            \
+close();\n          } else {\n            \
+renderedArray[currentLI].dom.click();\n          }\n          \n        \
+break;\n\n        case 27: //Esc\n          event.preventDefault();\n         \
+ close();\n        break;\n      }\n    };\n\n    \
+search.addEventListener('click', () => {\n      \
+submit(inputField.value.trim());\n      close();\n    });\n\n    var close = \
+() => {\n      opened = false;\n      \
+document.removeEventListener(\"keydown\", keyHandler);\n      if (list) \
+list.classList.add('hidden');\n      \n      destruct();\n      renderedArray \
+= [];\n      \n      currentLI = -1;\n    }\n\n    var submit = (data) => {\n \
+     \n      if (clearOnSubmit) inputField.value = '';\n      \
+inputField.blur();\n      if (typeof data == 'string') {\n        if \
+(data.trim() == '') return;\n        \
+server.kernel.emitt('d66ad3e9-da42-4abc-bb01-3ed4e047a9b3', '\"'+data+'\"', \
+\"Entered\");\n      } else {\n        if (!clearOnSubmit) inputField.value = \
+renderedArray.find((el) => el.index === data).name;\n        \
+server.kernel.emitt('d66ad3e9-da42-4abc-bb01-3ed4e047a9b3', \
+'\"'+renderedArray[data].name+'\"', \"Selected\");\n      }\n    } \n\n    \
+let outOfFocus;\n\n    inputField.addEventListener('input', () => {\n        \
+const trimmed = inputField.value.trim();\n        if (trimmed.length >= 2) \
+{\n            \
+server.kernel.ask('xhxComplete18[\"'+encodeURIComponent(trimmed)+'\"]', \
+'callback').then(async (result) => {\n                const assoc = await \
+interpretate(result, {});\n                if (!assoc) return;\n              \
+  if (!assoc.length) return;\n\n                generate(assoc);\n            \
+})\n        } \n    })\n\n    inputField.addEventListener('focus', () => {\n  \
+    opened = true;\n      \n      document.addEventListener(\"keydown\", \
+keyHandler);\n      //list.classList.remove('hidden');\n\n      \
+window.addEventListener('click', outOfFocus);\n    });\n\n    \n    \
+outOfFocus = (ev) => {\n                            console.log(ev.target);\n \
+                           if (!parent.contains( ev.target )) {\n             \
+                   window.removeEventListener('click', outOfFocus);\n         \
+                       close();\n                            }\n\n            \
+                ev.stopPropagation();\n    };</script></div>", 
+          Prolog -> HTMLView`TemplateProcessor[Association["instanceId" -> 
+              CreateUUID[]]]]]|>|>, 
+   "Path" -> "/Users/kirill/Downloads/Autocomplete.wln", "Quick" -> True, 
+   "TOC" -> {Notebook`Editor`TOC`Private`heading[2, "Autocomplete Input", 
+      CellObj[JerryI`Notebook`CellObj`$379]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Autocomplete Input\nAn example, which \
+demonstrates the pattern of using autocomplete function on an input text \
+field. It generates speech from the entered or selected words.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "67cf38a1-41ae-445b-96c9-8512347ce106", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "42f723ee-3e3f-43e3-bdaa-73b26c147952"|>, 
+   <|"Data" -> "## Autocomplete Input\nAn example, which demonstrates the \
+pattern of using autocomplete function on an input text field. It generates \
+speech from the entered or selected words.", "Display" -> "markdown", 
+    "Hash" -> "e5b070d6-8cca-4ead-8f66-241c69819ca4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "42f723ee-3e3f-43e3-bdaa-73b26c147952"|>, 
+   <|"Data" -> "EventHandler[InputAutocomplete[Function[{data, cbk},\n  \
+cbk[DictionaryLookup[data<>\"*\", 6]];\n], \"ClearOnSubmit\"->False], \
+Function[text,\n  SpeechSynthesize[text, GeneratedAssetLocation -> None] // \
+EmitSound\n]]", "Display" -> "codemirror", 
+    "Hash" -> "562f4171-f0d7-4f9d-a81f-8cecf7bad304", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "42f723ee-3e3f-43e3-bdaa-73b26c147952"|>}, "serializer" -> "jsfn4"|>

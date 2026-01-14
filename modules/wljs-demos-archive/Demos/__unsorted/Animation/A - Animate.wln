@@ -1,0 +1,784 @@
+<|"Notebook" -> <|"Controller" -> "d8f18b2c-310b-4068-938d-07858eec5268", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1290], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "99aff4e3-1aa5-4f09-ae90-36d453df943d", 
+   "Objects" -> <|"9e18c59c-195e-469f-bb39-4113831af913" -> 
+      <|"Public" -> Hold[
+         CoffeeLiqueur`Extensions`FrontendObject`Internal`Compressed["eJzt3F2\
+vLMd1mOFr7p/BG91EB/013TOXimMYBhTEUHxnCBBtH8mEaVLhB+Dk12etIfdoalVtSq2IjI70QBDJ\
+OXP6rZrq+lirq/r9p5ePPv6bL3796/fvf/7p//rm/Tdf/upv//Pr959/9ekXn3/1q//+yeef/vabz\
+z75+v2v/v7zr99/+fknn/3qt5/8y7+//9efff7pf3zydfylj//Ly0f/9PLRRx//3Zef/PbfPv2Xr/\
+IP7n/y0cc///Srr+8fv/380cc/++evvvjsm6/f/2P8xX///P1X3/7ljz5a8p+/fP6bv/i7//o3X3z\
+2xZff/YXp3bpft/l4/XSZ9uO4vX46pttxu3aMn3/6+fvvrv/2Tz76+H/8+tefffHJv373px99/Mn9\
+Z7z/h8+++Poyzx/f//SXL9/945e/+yW/+Oaz71Af/+1vP/3si9983Bb0+jsfBZ1q0kdj/s9/++br+\
+LO3qvfdH39XRlPu7/60/PHv/rx+8dH8bvrdh+nd9Prfv3Sta13rWte61rWuda1rXeta17rWta51rW\
+td61rXuta1rnWta13rWte61rWuda1rXeta17rWta51rWtd61rXuvbP4dqXwnggCuGHqdb07nbd5/U\
+6T/NymfdpXp+/my/7fL3e1nnZbtt6OS4n0dt1Otb1iKsvy7HMz9+t03XajmNe5tuxH9P1JPp63a/z\
+sa/LdjmO6fVdjG+/2y7zNSoeRd6Oy+2yHyfR03rbbsey79u2btPy/N3lus3Tuu/7cb2stwMZGRkZG\
+RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGR\
+kZGRkZ+ccjv5QSHgUU/tsFs9V8ILaaqOjl2G7LvV2my+V7vtvOkS/XZTnmyzpt835db0v7e+ZtuU7\
+TsUQzz2cbettu0xKteGzX27zO+97ehXnZ12mft/j3cb2eQ6/TZb5cp/22zbd1X5qed1tv83G7xT2I\
+Mi7bioyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj\
+IyMjIyMjIyMjIyMjPwRXQ1dzeg7upr/l4EYVyzrdYuW2JZ5u162Bn2s12Xd9nmfp9uynELv76bliA\
+a9bdt1n9bjeP/Ttu/drts2b9Ex18t8zOupDvLTrPh6XLb9ejtuW3SDtVR8OuKr6DjHJb87yV6nGC1\
+79JIjekm2etve63I7tvgLMVhv29l6Y2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2Nj\
+Y2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2Nj/3WwX0oZjyJKCW8XTRdEF0QX1PZbuqAfderbo\
+j1iFtmPY7ks+3RrOsmxxI1c9/hNMdYv+0l0/NhpilZfbnN0s/ZWBjH6ToBvU3bE+SR6v017NPMcM8\
+l12dam1u13Z9v6yFkzfusyL9MtulszVo91jo59m67LHLPj2UpDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0N\
+DQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDf/jol1LEo4RSwNslM+4w\
+7jDutP2WcadjM+5U9P4hGneikS/Ldd2vMXrm/daO1SUa6rjGHDBtMXOdvYu3mE23JXrAdrlED7m2g\
+3UK4jxd99uyLsfZBrldrnsMudtyiXl/X452tM7XGI/bFI2yr8epAZnoaMpYYnIiik44PU1Q87s5u+\
+Qcv2eK0b5drjFcz/Y/eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh\
+4eHh4eHh4eHh4eHh4eHh4eHh4eHj4349/KcU8SimFvF06ixSLFItU229ZpDo2i1RF7yxS7RrGIjWq\
++WWPGTWGRsxW0/OtvI/Xeb1co+PHKnMN/ulmma/HJdex9RZj/tp8t9yulyVWgvUaK1zM4Gf7ySXm0\
+OgjschG5ZZbO17X6KHzul5j2Of/znbvI3pv9JFlyVF3a9mXPWbG+FnHJeof8QM2NjY2NjY2NjY2Nj\
+Y2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY29l8U+6WU8Si\
+ilPB20UxBTEFMQW2/ZQrq2ExBFc0U1KKZgoY1Zwr6MaOo/bhdjz2mijm6RIyd7/vy9FyyZzdZrluu\
+tNEby4+K1SZGe8zcW4YPZ6fAuC5nwG2KGxlBT7kZWyzAOdrXy+12krzE6psDO2Kpa6wpW+lBEbNFm\
+BIBUUyO+9laY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2\
+NjY2NjY2NjY2NjY59lv5QyHkWUEt4umieIJ4gnqO23PEEdmyeoonmCWjRP0LDmPEFd9+YJ6qfAD9I\
+TNEdgt1/zNmUfjBCvhUc/iR64b0f08u1ca8/vYp6KuCDm/ojDYubYcvCVobXG4F1iXZojWptP9cKs\
++vUWS9U6LbkaR4xaqj4dW6ym12i26Kgn46klOl5MohGhxOBvVoZEx+QaU2CsO1nAubUSGhoaGhoaG\
+hoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGvr3oF9KEY\
+8SSgFvl0zBQ8FDwdP2Wwqejk3BU9EUPC2agmdY8wsFT+3eFDz9FEjB07ApeMbobZ2ny54d4hJNG/y\
+2o2yXbLB5WpZbRONnw8DoKLEmTLfLLXr3emn7d0yvUe8MByOkOzcPxsiLG3WdYvBt++0aM1I7LJsv\
+T4aBcVU0Y0z8EbBf2s59uUTnix5+5Mp0OigGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGB\
+gYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBv6RwS+lgAe/4N8ulziGOIY4pu23xDEdmzimooljWnQuTc\
+QxXc2JY7ruTRzTT4HEMQ2bOGaMJo75sbKxa6woMRaXDDMvZZKK+XS97Lc1wstjzht5Eh0tvOXvzd6\
+3lNbISCVilWmKWSB+wblALVfh6NeRuMxHBPOX/VbGa8wAUfAaq12EmvvJwDjD6pgv9oz0ouLPfW/J\
+JT5ml+h9EbBENnh2rURHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR\
+0dHR0dHR0dHR0dHR0f/g+kvpZRHIaWMtwtnWWJZYllq+y3LUsdmWapolqUWzbI0rDnLUte9WZb6KZ\
+BlqWGzLI3RLEs1KmZZarOmD9eyFKFfRCY5j0Rati3taN0zOlwji1iu13OBcbZ3NmbEgRH6xA1rhuo\
+1GuyacU8sc1Hq2U4SIyLiqJgiIryOHKwZqhEURmOvMaPPcaNPdutLBNLTkvdqiaipqfMlcpJ1ucSc\
+F1N73BBkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ\
+OT/L+SXUsKjgMJ/u2CSG5Ibkpu235LcdGySm4omuWnRJDfDmpPcdN2b5KafAkluGjbJzRhNclOjYp\
+KbNmsiuRm0N8nN4+r9cr1u2UX2SMwipv+e706SM/WYYz2PcGOPTGNvf09EhsucwzSa6dzymE2ZQWn\
+cxj0m5K1NIpfM0iMAjFucN+LkTB2x17Gte2YIMQfV9DRiqDnCw/hL56JhYGBgYGBgYGBgYGBgYGBg\
+YGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBgYGBg4D8p+KUU8OAX/NvlUslQyVDJtP2WS\
+qZjU8lUNJVMi6aSGdacSqbr3lQy/RRIJdOwqWTGaCqZGhVTybRZE5XMoL2pZB5XU8k0t/8HepYTUW\
+NMxnF7Ig+NG9VmeXM+Y4hlJ6aR6HSnqrxEl5vWjI0ytc7Mul0X72F4LOQRKcesGJ3kbAAVFY9RvkT\
+uG0lojMc2z8u+PmWoHblTNNnZUCRCp0xNL5FdRxXXZrjc5/8IRI6IhWO8YmNjY2NjY2NjY2NjY2Nj\
+Y2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY//lsV9KGY8iSglvF00JRAlECdT2W\
+0qgjk0JVNGUQC2aEmhYc0qgrntTAvVTICVQw6YEGqMpgWpUTAnUZk2UQIP2pgR6XE0J1Nx+SqC6pH\
++YSqCIvSJ7XGPmjInoOpdOEncyx1Hkp7nQnI2zI9CI6yO5uexT3Lq2Y8eiuOQNiVh4vi5nI6g9xnJ\
+kXNETYsa/rk0/ab+7nA6zI6yLbCufQkX+0mbVcQeWfEyw5yODWH6hoaGhoaGhoaGhoaGhoaGhoaGh\
+oaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhof8i0S+liEcJpYC3S+bf4d/h32n7Lf9Ox+bfq\
+Wj+nRbNvzOsOf9O1735d/opkH+nYfPvjNH8OzUq5t9ps6aFf6dvb/6dx9X8O83t59+pSzr/Thf48e\
++U7CDa9/484ZgjSW0yvUiyI8275qOTmEWOszF2xE3LPV+KkXFtO8hyzQRyygBoiv+fjYNv07TsMWD\
+in9M2r2V5WWLmm+d7dhz9/mx7xLI4RfAUA+OIqWR7apD1Xd6ACMb2qPWWSdkfk0TCw8PDw8PDw8PD\
+w8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8P/SPiXUsyjlFLI26VTNlE2U\
+Ta1/ZayqWNTNlU0ZVNZwyibRjWnbOq6N2VTPwVSNjVsyqYxmrKpRsWUTW3WRNk0aG/KpsfVlE3N7a\
+dsqks6ZVMX+FE2leyAsqmG0T/k0+G4UzFXzBmTxRK2b2XALhEtZKYa0fDtdj7TyzExx2wR82cMwK2\
+M2GndssFv94jidD+5P4yMf14ie5lK/L7Nc9Q8cvZL/LxzoUj27pjtt7iXkdHFOrhcy4CNznfk8+GI\
+vyO8xMbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbG/rNhv5QyH\
+kWUEt4umg6IDogOqO23dEAdmw6ooumAWjQd0LDmdEBd96YD6qdAOqCGTQc0RtMB1aiYDqjNmuiABu\
+1NB/S4mg6ouf10QHVJpwPqAj86oJId0AHVMJoOaMT+MHVAe8xP0RxbZv6x4qzf9+XZ5r5ESjNFT4g\
+I/bJGEtz+qMgcIpyNafB2rPvZbpK9IKKniJL2bTtqc+dzx5jGovgjY57Tc3c25xyDLxaVmENrfpp5\
+UgZSMbTOPpJCRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkb+ayG/l\
+BIeBRT+2wWT4JDgkOC0/ZYEp2OT4FQ0CU6LJsEZ1pwEp+veJDj9FEiC07BJcMZoEpwaFZPgtFkTCc\
+6gvUlwHleT4DS3nwSnLukkOF3gR4JTsgMSnBpGk+CM2CQ43VxCgtOtONMagccWg2jJVi25b/TP6PY\
+xkUUYH6Wfgq+xWt5ukVnnA8Q97luXREYoHjc4ppqIMGLonoxL5qDHGpt9ZLvlpkKpetzMSz5Z35aI\
+As+GJhHXHDEj3SJ0jfHR5qfRWrEeRWRyu+YzCWRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZ\
+GRkZGRkZGRkZGRkZGTkD478Ukp4FFD4bxdMh0OHQ4fT9ls6nI5Nh1PRdDgtmg5nWHM6nK570+H0Uy\
+AdTsOmwxmj6XBqVEyH02ZNdDiD9qbDeVxNh9PcfjqcuqTT4XSBHx1OyQ7ocGoYTYczYtPhdHMJHU6\
+34tDh/KgbTdsUQzL6WGRGscSUBon1eTtyiyLmyOmYT4Y9MXtGajTv8xHrylIeY+RjiMh4M9mOYq9n\
+U8gllsDoe/Hv+ljn+ZvpbNoRvzEfucTg2W4xpMtEEt0iIotbPu7KR1bQ0NDQ0NDQ0NDQ0NDQ0NDQ0\
+NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQfyHol1LEo4RSwNslc/Fw8XDxtP2Wi6djc/FUNBdPi+\
+biGdaci6fr3lw8/RTIxdOwuXjGaC6eGhVz8bRZExfPoL25eB5Xc/E0t5+Lpy7pXDxd4MfFU7IDLp4\
+aRnPxjNhcPN1cwsXTrThcPKPQhIunjVs/QBdP9K4YEcf9gWuzTt5H67LE7Bg9LwZlDPqTN/G63Z8X\
+TTHpZycoOeSRD+fyifeSj7dPVvuaz0OXWwRKGadtbf/I3b7Iiu97NvHt7WzCFKFYTCNBuN134J7Y2\
+7sI0WKRi3B7ueRidj6FREdHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR/\
++zpL+UUh6FlDLeLpz4iPiI+Kjtt8RHHZv4qKKJj1o08dGw5sRHXfcmPuqnQOKjhk18NEYTH9WomPi\
+ozZqIjwbtTXz0uJr4qLn9xEd1SSc+6gI/4qOSHRAf1TCa+GjEJj7q5hLio27FIT4ahSbER23cSnzU\
+pqfERz09R3ncsCUW4hICzjmKtgjG91jnptu5+DITvT1i3/i5+36Z2zwhBnjch/tz/ks+Gzy7rXddp\
+uh4ER/Up7jTu/iTLeKsCCtj2s1Z6iR6yp2NmJEv0xFBTbNFFjlYRPDxi65bjNRzj56RkZGRkZGRkZ\
+GRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRfxDySynhUUDhv10wMw4zDjNO22+ZcTo2M05\
+FM+O0aGacYc2ZcbruzYzTT4HMOA2bGWeMZsapUTEzTps1MeMM2psZ53E1M05z+5lx6pLOjNMFfsw4\
+JTtgxqlhNDPOiM2M080lzDjdisOMMwpNmHHauJUZp01PmXF6OjNOg/7B9qr3OTrJfospIpr1aFu6/\
+e7kjJpPxCMOux457cW60P6c3CXcjmiTyC7PrWDZlnvEwZEu59QXi0LTGrm4RYgTMVZuOF9OVjp/bS\
+QBsWRPuXPS3MKIs5f76hDLQOSoZxcBZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGR\
+kZOS/LvJLKeFRQOG/XTAzDjMOM07bb5lxOjYzTkUz47RoZpxhzZlxuu7NjNNPgcw4DZsZZ4xmxqlR\
+MTNOmzUx4wzamxnncTUzTnP7mXHqks6M0wV+zDglO2DGqWE0M86IzYzTzSXMON2Kw4wzCk2Ycdq4l\
+RmnTU+ZcXo6M06DZsZ5bssP0IwzZ2q67ce98lvzFCByg+gXMbhjMl2j45wBb9HrtjXaMlalY4r4qS\
+aRuT8ePf2aK8TlXLe7zxGXy+0eVEa1s1nbeu8RfUeaFjlqhJenH2fvma9HoJT3clpLW69T4q8ZqOz\
+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\
+fkh2Q+9QwmtxneLyY3KfOJeQ+3YpD7jMKTch9ykFAcp/nkIbcZ0An92nQ5D7PbUnu8/qZ3Ge4xUnu\
+U3c4yX0Kmtxn3OLkPv2YJ/cZzN7kPuN1ntynJKnkPl04T+5T0eQ+FU3u81Qvcp+m05L7DCIScp/Bo\
+Vlyn5qtkvt0FSf3Ge3nk/sM5kFynz6lJPcZRVbkPjXuJvcZHPol96l5H7nP83gk92l7ALlPv7Z/oH\
+Kf+LHR4pHrxK+PWjd7UPcZNUKtmLSvl5NHYXI52fINkNxRuObDs/bEQIRul3xTKAZjPsM/GwRGIJb\
+h0nI/Ur20OXzz3Xr65al9zpU1X0yImfnS7r/noYyMtm/3Z+u3c69qYGNjY2NjY2P/qOyXUsajiFLC\
+20VT+1D7UPu0/Zbap08oqX26g6/UPs9oap9hzal9uu5N7dNPgdQ+DZvaZ4ym9ul2y6h9mlCM2mfQ3\
+tQ+j6upfZrbT+1Tl3Rqn35XktqnjTOofWoYTe0zPFxM7VPnEmqfbsWh9hmFJtQ+5Rggtc9zSEPtM6\
+BT+zRoap/ntqT2ef1M7TPc4qT2qTuc1D4FTe0zbnFqn37MU/sMZm9qn/E6T+1TklRqny6cp/apaGq\
+fiqb2eaoXtU/Taal9BhEJtc/g0Cy1T81WqX26ilP7jPbzqX0G8yC1T59SUvuMIitqnxp3U/sMDv1S\
++9S8j9rneTxS+7Q9gNqnX9upfbogkNqnY+fj5WiKWMO3PPjXDtiIDmPQ5nmFKfrLWfaRh8tv+dhhz\
+v349lRJxMoRNsSvyZdFltP1PvJIyTZl376/WduO2XwKM92TrEtuv55l5/3K166yC+7PL1Rc3633aH\
+7JlSJTzD8msURHR0dHR0f/A+gvpZRHIaWMtwsnASIBIgFq+y0JUJ96kgB1R2RJgJ7RJEDDmpMAdd2\
+bBKifAkmAGjYJ0BhNAtTtq5EANaEYCdCgvUmAHleTADW3nwSoLukkQP3+JQlQG2eQANUwmgRoeAyZ\
+BKjOJSRA3YpDAjQKTUiAyoFBEqDnkIYEaEAnAWrQJEDPbUkC9PqZBGi4xUkCVHc4SYAKmgRo3OIkQ\
+P2YJwEazN4kQON1ngSoJKkkQF04TwJU0SRAFU0C9FQvEqCm05IADSISEqDBoVkSoJqtkgB1FScBGu\
+3nkwAN5kESoD6lJAEaRVYkQDXuJgEaHPolAap5HwnQ83gkAWp7AAlQv7aTAHVBIAlQxyYBGuzI/aA\
+qhJik9txmylMkt30ug/a4d9E5D1pczgf0x7xFTh0JdfyGCK7Ladd7lhOzTgyw9Y8497Dv+dJQ1u7I\
+NytKYhn1jd9zWaLsmA9PJ5ZRqS33Qo4lF8sSBuaN3nNLPfcT59MvHIODg4OD/7nDX0ohjzJKEW+Xz\
+ffD98P30/Zbvp8+y+T76U7D8v08o/l+hjXn++m6N99PPwXy/TRsvp8xmu+n20Lj+2lCMb6fQXvz/T\
+yu5vtpbj/fT13S+X76rUq+nzbO4PupYTTfz/DEMd9PnUv4froVh+9nFJrw/ZSzgXw/zyEN38+Azvf\
+ToPl+ntuS7+f1M9/PcIuT76fucPL9FDTfz7jF+X76Mc/3M5i9+X7G6zzfT0lS+X66cJ7vp6L5fiqa\
+7+epXnw/Tafl+xlEJHw/g0OzfD81W+X76SrO9zPaz+f7GcyDfD99Ssn3M4qs+H5q3M33Mzj0y/dT8\
+z6+n+fxyPfT9gC+n35t5/vpgkC+n47N9zPYkeP7GfaVD9X3k2vadc+H2ku+Gn75vi/PNkqeM8mXLK\
+LR77HgXn7WNmVafFyyN507xZKNuua4iXt2PwlX0oU9Eog5OlAKCGIQnD5psk55cH7P13Pz6UxNWiN\
+PXnOXKoOUs/XGxsbG/v3sl1LGo4hSwttFE/wQ/BD8tP2W4KcPpQh+uuOvBD/PaIKfYc0JfrruTfAz\
+SIMJfp7ZBD9jNMFPt2dG8NOEYgQ/g/Ym+HlcTfDT3H6Cn7qkE/z0e5MEP22cQfBTw2iCn+ERY4Kfb\
+i+V4KeuOAQ/o9CE4KccBiT4eQ5pCH4GdIKfBk3w89yWBD+vnwl+hlucBD91h5Pgp6AJfsYtTvDTj3\
+mCn8HsTfAzXucJfkqSSvDThfMEPxVN8FPRBD9P9SL4aTotwc8gIiH4GRyaJfip2SrBT1dxgp/Rfj7\
+Bz2AeJPjpU0qCn1FkRfBT426Cn8GhX4KfmvcR/DyPR4KftgcQ/PRrO8FPFwQS/HRsgp/BjhzBz7Cv\
+EPwM5hSCn9HaE6FPTHnrvN7fnS+JZb7Qu+bozGMQJ6eVSCyjY89zVPp2y/eP+sRyyzfIc78yyj+/V\
+RnVzmewEcBf8yFgybcjK7zO99Ow15Nn0aPFlzy9M+X/r7nJXBLL7Hw5ke8ZYp19Bwwb+wNlv5QyHk\
+WUEt4umuOH44fjp+23HD99NMXx052A5fh5RnP8DGvO8dN1b46fQSbM8fPM5vgZozl+um0zjp8mFOP\
+4GbQ3x8/jao6f5vZz/NQlneOn357k+GnjDI6fGkZz/AxPGXP8dNupHD91xeH4GYUmHD/lPCDHz3NI\
+w/EzoHP8NGiOn+e25Ph5/czxM9zi5PipO5wcPwXN8TNucY6ffsxz/Axmb46f8TrP8VOSVI6fLpzn+\
+Klojp+K5vh5qhfHT9NpOX4GEQnHz+DQLMdPzVY5frqKc/yM9vM5fgbzIMdPn1Jy/IwiK46fGndz/A\
+wO/XL81LyP4+d5PHL8tD2A46df2zl+uiCQ46djc/wMduQ4foZ9heNnMKdw/IzWHo6fQZjyA/pV8lT\
+/vmRiuWfIUM50X457hTPXTyfIOXQkIPk4JyP3+f5mczt8osDI/G6XKc8xnD3meX+HO66PfHfPXfEy\
+Mp+/PHdePCuWe1f7HqlMBCL7UUbtkuKOSOCX+2HKs8f4sP9U7JdSxqOIUsLbRTP8MPww/LT9luGnj\
+6UYfrrzrww/z2iGn2HNGX667s3wM8iDGX6e2Qw/YzTDT7dpxvDThGIMP4P2Zvh5XM3w09x+hp+6pD\
+P89JuTDD9tnMHwU8Nohp/hGWOGn24zleGnrjgMP6PQhOGnnAZk+HkOaRh+BnSGnwbN8PPclgw/r58\
+ZfoZbnAw/dYeT4aegGX7GLc7w0495hp/B7M3wM17nGX5Kksrw04XzDD8VzfBT0Qw/T/Vi+Gk6LcPP\
+ICJh+BkcmmX4qdkqw09XcYaf0X4+w89gHmT46VNKhp9RZMXwU+Nuhp/BoV+Gn5r3Mfw8j0eGn7YHM\
+Pz0azvDTxcEMvx0bIafwY4cw8+wrzD8DOYUhp/R2sPwMwhTGH76A7UfpOEn5u98lyL3hI+5Jn9rvq\
+mVM21M4utlP5uO3PKp+u2WioEMxNsxu+Rx3Smj2dyPOhmAH0vu3eYTx+t93S1DNt+MisUylvrcFjx\
+7Fnid7q8rxG++RtT63CLXd/kKcqx4Rw6dcrrnpfn3a1nfvZH83cfvyv220JfHX89/3P/G/fuPf/HN\
+Z++/rdLHf/8fn/zm/f/89P989/nb65/rHD3q2/+Ixvh+1D989sXXv/jk89+8iWoq9131fzq/m2IY5\
+rx9zXXl9kgb5nfzm7/s6eJ8ez8m9sgMcjXdHhdPefYisrA8Bhw3cf1DGuNn//n+q2//8+svv3n/5l\
+/7xy8/+fyrT7/+9IvP//F///b1D3/y808/f//Jlz/5+A+47L998+Un+e9vv7hMbzfpl1989sVv+vb\
+8/T/j55/88/vPvufCl/u1+dXvWvTjn/zs80//45Ov3/9rVPVf3v/k/of39SiPu//y5Zf/F7bPt0I=\
+", {"ExpressionJSON", "ZLIB"}]]|>|>, 
+   "Path" -> 
+    "/Users/kirill/Github/wljs-demos-archive/Demos/Animation/A - Animate.wln"\
+, "PublicFields" -> {"Properties"}, "Symbols" -> 
+    <|"animatePlot511" -> 
+      CoffeeLiqueur`Extensions`FrontendObject`Tools`ExtractJSONCompressed["eJ\
+ztlMuRGzEMRBPSqvD/xKLao/NPwQ0O9+BNwSgdJHHegEB3k58Pv+j79aF3V7AWE4tzEOuL3uzBVa0\
+s1qae/oBWlKqJRZcUvP9WKrJMFu6MpHrAqijOUDHPJE6A5lwoivc6vT3yAUnbOiXCTI0EoJcxaURk\
+uXY+HIp4WsvpgNzB/Vqyw3mJJLuScZT21CtikyJKQXvo4XBmTYI20qpZOWLAYgmlYMN3Vh1QydmLo\
+o1bQ0ab1ubsRst4w00Phx+iZdjThK3cBkwtUQsOphYZMN4kiY7arII088/XUafLjA2KqXOyztBfU1\
+TTLaqzDTPqU5QSK9AgfZYeUglaByZPTD7dnj5VOg3r8Kvt1jTsDLcjU1yCegZPwTga2AYuejwg6hO\
+hW2mGImcgPIcMwBpZCeUHjKZAewzHS0yn4r9Lt0dI2pgnhIUayozXqQwhm0oYwboF0ZxLaRS055h6\
+ZoJOsmAqGWJyZ2nkywTjmTumrpNHwnOmihaVvFu3V8CHFkdcQ0ZxRh7hjRG2D80xZ0D0gnhPDiATx\
+YvfPFoxtiD4aF5w7CrU7oGMQWFkBCO8jmWsXtAXCS/QPw1wJZyFvw03a0jpckFutXBEkNA7uyNemB\
+tnChWkhzSFdKxaMHQ+V86EbJhbZKzoQ3ogVNgpHbVxgq9B2ZUBbxnzQvkhf639eB4zupTNwYJeQ2Y\
+i6fARybQ5wDdG+DspMsI4uBKGROpxzMZH9e6HE5yx8Q73RiHYNlzjqlGcdtwSyFXciksuueSSSy65\
+5JJLLrnkkksuueSSSy655JJLLrnkkksuueR/TX7/Bc97xaU="]|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Animate", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1225]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Animating plots", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1234]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Animate Any Plot", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1250]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[3, 
+      "How to export animations", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1271]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[3, 
+      "Tips for better JIT performance", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1278]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[3, 
+      "Custom Update Function", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1280]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Fallback to Mathematica's Renderer", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1283]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Low-level Approach", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1286]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Animate\nTo generate an animation of an \
+expression which depends on a single parameters:", "Display" -> "codemirror", 
+    "Hash" -> "ad8a5000-2a1a-41ec-8d76-3588151ea0f7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "# Animate\nTo generate an animation of an expression which \
+depends on a single parameters:", "Display" -> "markdown", 
+    "Hash" -> "6c876b24-f1dd-405b-ab23-426d0fc62884", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> 
+     "Animate[{x, (*SpB[*)Power[x(*|*),(*|*)2](*]SpB*)}, {x,0,10}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "98affa92-4054-4ade-ad00-05e25f0f11e9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnimate a matrix:", "Display" -> "codemirror", 
+    "Hash" -> "85ee28ad-2ef8-4633-9c44-4cf5ac011f9e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate a matrix:", "Display" -> "markdown", 
+    "Hash" -> "162fc4e3-dea2-461f-bda3-1ade20bff34f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> 
+     "Animate[MatrixForm[IdentityMatrix[i]], {i,1,5,1}, RefreshRate->2]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ad93339f-cdcf-4868-a935-898fd50abeab", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnimate a series:", "Display" -> "codemirror", 
+    "Hash" -> "2a0c5746-f155-40d5-b580-5317f2fc019b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate a series:", "Display" -> "markdown", 
+    "Hash" -> "0000325b-4392-4b2b-8306-317e45503cb6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> 
+     "Animate[Series[Sin[x], {x, 0, n}], {n, 1, 10, 2}, RefreshRate->2]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "112fbbaa-44ab-40b0-a74b-6500790f3a76", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n## Animating plots\nFor animating curves we recommend to \
+use a special expression for the performance reasons:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8fcde9a2-0971-4f0e-af92-418b6d995b63", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "## Animating plots\nFor animating curves we recommend to use \
+a special expression for the performance reasons:", "Display" -> "markdown", 
+    "Hash" -> "936f95c1-3a13-4c9b-baa9-a2f793b82b85", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> 
+     "AnimatePlot[(*SpB[*)Power[x(*|*),(*|*)y](*]SpB*), {x,0,1}, {y,0,1}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2c7dd388-cea3-4203-ae2c-da7f22206302", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "AnimatePlot[(*TB[*)Sum[(*|*)(*FB[*)((Sin[2\[Pi](2j - 1) \
+x])(*,*)/(*,*)(2j))(*]FB*)(*|*), \
+{(*|*)j(*|*),(*|*)1.0(*|*),(*|*)n(*|*)}](*|*)(*1:eJxTTMoPSmNiYGAoZgMSwaW5TvkV\
+mYwgPguQCCkqTQUAeAcHBQ==*)(*]TB*), {x, -1,1}, {n, 1,30, 1}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "01db4ed8-92c6-40e0-a0bb-d4b3eae9f7a8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n:::note\n`AnimatePlot` precalculates all curves unlike \
+`Animate`, which is performed on-fly \n:::", "Display" -> "codemirror", 
+    "Hash" -> "f87075cc-26bb-485e-a55a-77a8305f5b9a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ":::note\n`AnimatePlot` precalculates all curves unlike \
+`Animate`, which is performed on-fly \n:::", "Display" -> "markdown", 
+    "Hash" -> "7250b225-2c34-4305-a25c-cd6ff78eed24", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nParameteric curves:", "Display" -> "codemirror", 
+    "Hash" -> "279abd72-3021-4b89-bdc0-e2e4355bf974", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Parameteric curves:", "Display" -> "markdown", 
+    "Hash" -> "397d7eb9-ff01-4b9a-89ed-4b5ee159d184", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "AnimateParametricPlot[With[{u = If[t>a,a,t]},\n  \
+Exp[-u/100.0] {Cos[u], Sin[u]}\n], {t, 0, 10.0 Pi}, {a, 0, 10.0 Pi}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f3535d6f-0fb4-48f0-bd54-15b5c7b7de48", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"9e18c59c-195e-469f-bb39-4113831af913\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKW6YaW\
+iSbWibrGlqapuqamFmm6SYlGVvqmhgaGlsYGyamWRoaAwB/dBUk\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a21a80d7-ed8c-43bc-95b4-db7b328f7855", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnimate a line:", "Display" -> "codemirror", 
+    "Hash" -> "dcf9704d-e231-4def-b99d-91ef1dd78fcd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate a line:", "Display" -> "markdown", 
+    "Hash" -> "b15cf3f5-7acf-4234-93c4-1a490c524849", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[Graphics[\n   Rotate[Line[{{-1, 0}, {1, 0}}], \n    i \
+Degree], PlotRange -> {{-1.5, 1.5}, {-1.5, 1.5}}], {i, 0, 360, 10}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f98d4629-18b8-4d17-b6c2-9ad3a621a26f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnimate a __cube__", "Display" -> "codemirror", 
+    "Hash" -> "e983168a-4fc9-465f-872c-d73b00302c7a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate a __cube__", "Display" -> "markdown", 
+    "Hash" -> "dc218449-c6e2-4a19-bfdd-4758794dc28e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[Graphics3D[\n  Rotate[Cuboid[{-1,-1,-1}, {1,1,1}], \
+i/180.0 Pi, {0, 0, 1}]\n], {i, 0, 360, 10.0}]", "Display" -> "codemirror", 
+    "Hash" -> "8ce80fc6-083d-49c5-aba8-51d36f01ab51", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n## Animate Any Plot\n:::warning\nThis is a quite \
+experimental feature involving Just-In-Time transpilation of expressions to \
+optimized ones. It might not work in all cases and may fall back to full \
+reevaluation.\n:::\n\nLet us try with the simples one:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7bfc5697-d1e9-4b39-a3db-a82148c849b6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "## Animate Any Plot\n:::warning\nThis is a quite experimental \
+feature involving Just-In-Time transpilation of expressions to optimized \
+ones. It might not work in all cases and may fall back to full \
+reevaluation.\n:::\n\nLet us try with the simples one:", 
+    "Display" -> "markdown", "Hash" -> 
+     "aefd9178-bad6-4a05-a374-657913f74301", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[Plot[1.0 + Sin[w] Sin[x + w],{x,0,5Pi}, Epilog->{\n  \
+Red, Point[{8.0, 1.0 + Sin[w] Sin[8.0 + w]}]\n}], {w,0,Pi}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2436d4c3-f1db-4790-92e3-4bd98a978ad1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nParameteric plot:", "Display" -> "codemirror", 
+    "Hash" -> "b6f2034c-3887-4940-804b-7be2e0d31f12", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Parameteric plot:", "Display" -> "markdown", 
+    "Hash" -> "9ea151f7-398c-4777-a8a8-a54d151ede60", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[\n  ParametricPlot[ReIm @ Exp[-I (\\[Phi] + \\[Gamma] \
+I \\[Phi])], {\\[Phi],0,5Pi}, \n    PlotLabel->StringTemplate[\"\\[Gamma] = \
+``\"][\\[Gamma]]\n  ]\n, {\\[Gamma],0,0.5}]", "Display" -> "codemirror", 
+    "Hash" -> "65abaade-7abd-4f16-be89-65ad61e4942b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n3D plot animated", "Display" -> "codemirror", 
+    "Hash" -> "0f0c50ac-ec68-4c18-8665-9933e308d7f5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "3D plot animated", "Display" -> "markdown", 
+    "Hash" -> "4dc49531-c126-4c00-8944-df065e0957c8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "w3D[x_,y_,t_] := Total@Table[With[{kx = 1.0 \\[Omega], ky = \
+1.0 \\[Omega]}, \n  Cos[ kx x + ky y - \\[Omega] t]\n], {\\[Omega], 0, 3, \
+1.0}];\n\nAnimate[Plot3D[w3D[x,y,t], {x,-Pi,Pi}, {y,-Pi,Pi}, MaxRecursion->0, \
+Mesh->None, PlotRange->Full], {t,0,5}]", "Display" -> "codemirror", 
+    "Hash" -> "4743bbd5-685d-4001-b799-567a36edf61b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n:::note\nHere we tried to lower the computation costs by \
+reducing mesh quality, so that the animation can be played with higher \
+FPS\n:::", "Display" -> "codemirror", 
+    "Hash" -> "29f30e30-798a-4afd-a150-aee9cf8bb7e2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ":::note\nHere we tried to lower the computation costs by \
+reducing mesh quality, so that the animation can be played with higher \
+FPS\n:::", "Display" -> "markdown", 
+    "Hash" -> "ae81ae7e-72c9-474e-b2d8-064c76fc5cc5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnother example from Wolfram.com", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a60f796e-60a8-4234-96d3-906ba8649b3b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Another example from Wolfram.com", "Display" -> "markdown", 
+    "Hash" -> "368aa4ec-4ea6-402c-acb9-5377e861f7b5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[Plot[t ((*SpB[*)Power[x(*|*),(*|*)2](*]SpB*) - 1) + \
+(1 - t) (-(*SpB[*)Power[x(*|*),(*|*)2](*]SpB*)), {x, -1, 1}, Axes -> False, \
+\n  Epilog -> {Circle[{0, 1}, 3], Disk[{1, 2}, .3], Disk[{-1, 2}, .3], \n    \
+Line[{{0, 0.6}, {0, 1.6}}]}, PlotRange -> {{-3, 4}, {-3, 4}}, \n  AspectRatio \
+-> 1], {t, 0, 1}, Appearance->None]", "Display" -> "codemirror", 
+    "Hash" -> "c7783ff8-4382-4556-9505-67779a833994", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnimate shapes morphing", "Display" -> "codemirror", 
+    "Hash" -> "cc55994b-8a43-4a8b-9516-f9dc9cf7ff84", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate shapes morphing", "Display" -> "markdown", 
+    "Hash" -> "c24e1ee7-9ecb-4cef-9a01-dd3cb4a422fe", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "sphere[\\[Theta]_, \\[Phi]_] := {Cos[\\[Theta]] Sin[\\[Phi] / \
+2], Sin[\\[Theta]] Sin[\\[Phi] / 2], Cos[\\[Phi] / 2]};\n\ntorus[\\[Theta]_, \
+\\[Phi]_] := {-Sin[\\[Phi]] / 3, (2 - Cos[\\[Phi]]) Sin[\\[Theta]] / 3, (2 - \
+Cos[\\[Phi]]) Cos[\\[Theta]] / 3};", "Display" -> "codemirror", 
+    "Hash" -> "0f21a2b1-fd5e-4aea-b730-32b08aaf3df8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[ParametricPlot3D[(1 - \\[Lambda]) sphere[\\[Theta], \
+\\[Phi]] + \\[Lambda] torus[\\[Theta], \\[Phi]], {\\[Theta], 0, 2 \\[Pi]}, \
+{\\[Phi], 0,\n    2 \\[Pi]}, PlotRange -> 1, Mesh -> True], {\\[Lambda], 0, \
+1}]", "Display" -> "codemirror", "Hash" -> 
+     "3d3c146a-5677-418c-822e-2102c874127d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nAnimate a cycloid", "Display" -> "codemirror", 
+    "Hash" -> "030a1509-e204-4378-b679-59fe474f78af", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate a cycloid", "Display" -> "markdown", 
+    "Hash" -> "40e96d40-9c86-4a22-85d3-8784ab700648", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[Show[\nGraphics[Translate[Rotate[{Circle[], Thick, \
+Blue, Line[{{0, 0}, {0, -1}}], Red, \n  PointSize[.02], Point[{0, -1}]}, -t], \
+{t , 0}], \nPlotRange -> {{0, 4 Pi}, {-1, 4Pi - 1}}, ImageSize -> Medium, \
+AspectRatio->1, \nAxes -> {True, False}, AxesOrigin -> {0, -1}], \
+\nParametricPlot[{(a - Sin[a]), (-Cos[a])}, {a, 0, t}, \nPlotStyle -> \
+Directive[Thick, Orange]]], {t, Pi/2, 4 Pi}]", "Display" -> "codemirror", 
+    "Hash" -> "d7a39434-9552-4446-85da-cfb49780ebfb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n### How to export animations\nIf you want to export it \
+as GIF, render it to `AnimatedImage` first:", "Display" -> "codemirror", 
+    "Hash" -> "7c589de5-2d46-4973-a54f-4a30dd262303", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "### How to export animations\nIf you want to export it as \
+GIF, render it to `AnimatedImage` first:", "Display" -> "markdown", 
+    "Hash" -> "403d6424-aa80-4416-875e-fa10cae9a93e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "w3D[x_,y_,t_] := Total@Table[With[{kx = 1.0 \\[Omega], ky = \
+1.0 \\[Omega]}, \n  Cos[ kx x + ky y - \\[Omega] t]\n], {\\[Omega], 0, 3, \
+1.0}];\n\na = AnimatedImage @ Animate[Plot3D[w3D[x,y,t], {x,-Pi,Pi}, \
+{y,-Pi,Pi}, MaxRecursion->0, Mesh->None, PlotRange->Full], {t,0,5}];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7df3c41e-c24c-46ac-b1ed-3f4285ca830a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nNow we can export as a GIF:", "Display" -> "codemirror", 
+    "Hash" -> "c38a4749-13ca-4ff5-b16b-df0a7ffba4f5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Now we can export as a GIF:", "Display" -> "markdown", 
+    "Hash" -> "5eee8417-2466-4c45-ae36-f51bfc87ff55", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Export[\"animation.gif\", a]", "Display" -> "codemirror", 
+    "Hash" -> "8f46677a-1ea6-42ea-a875-81726dfd3bb9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "83d150e9-ad22-4bfe-b421-5b5ffcbf92d6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n### Tips for better JIT performance\nIf you still want \
+to use `Animate` on some complex expressions, there are some tricks to avoid \
+deoptimization of JIT engine\n\n:::tip\n\n- Try to keep the number of \
+curves/traces the same as well as polygons if possible. Try not to add new \
+entities to your graphs.\n\n- `PerformanceGoal->\"Speed\"` is also a good \
+option for 3D plots.\n\n- `Mesh->None might` also help.\n\n- \
+`PlotRange->Full` can help to avoid fragmentation of line segments\n\n- Avoid \
+changing colors, opacity on runtime\n\n:::\n\n:::note\nIn any case you can \
+still animate anything with a great performance using __low-level building \
+blocks__ `Offload` and `AnimationFrameListener`\n:::", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1618c7e9-4b6c-4904-be03-375ae44ec082", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "### Tips for better JIT performance\nIf you still want to use \
+`Animate` on some complex expressions, there are some tricks to avoid \
+deoptimization of JIT engine\n\n:::tip\n\n- Try to keep the number of \
+curves/traces the same as well as polygons if possible. Try not to add new \
+entities to your graphs.\n\n- `PerformanceGoal->\"Speed\"` is also a good \
+option for 3D plots.\n\n- `Mesh->None might` also help.\n\n- \
+`PlotRange->Full` can help to avoid fragmentation of line segments\n\n- Avoid \
+changing colors, opacity on runtime\n\n:::\n\n:::note\nIn any case you can \
+still animate anything with a great performance using __low-level building \
+blocks__ `Offload` and `AnimationFrameListener`\n:::", 
+    "Display" -> "markdown", "Hash" -> 
+     "7a2849b8-2710-47bf-90ad-952963b10f7a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n### Custom Update Function\nUsing `Animate` with an \
+optional `\"UpdateFunction\"` is a very powerful technique. It allows you to \
+update only the necessary parts of a plot, which improves efficiency and \
+promotes customization:", "Display" -> "codemirror", 
+    "Hash" -> "70b74d7c-3238-48cb-a28d-9e038935a1ef", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "### Custom Update Function\nUsing `Animate` with an optional \
+`\"UpdateFunction\"` is a very powerful technique. It allows you to update \
+only the necessary parts of a plot, which improves efficiency and promotes \
+customization:", "Display" -> "markdown", 
+    "Hash" -> "6ae40af7-854d-498f-9a84-bc03eeeed516", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Module[{path, r},\n  Animate[Graphics[{\n      Line[path // \
+Offload]\n    }, \n      Frame->True, Axes->True, \n      PlotRange->{{-1,1}, \
+{-1,1}},\n      TransitionType->None\n    ],\n    {t, 0, 10 Pi, 0.2},\n\n    \
+RefreshRate->30,\n\n    \"UpdateFunction\" -> Function[t,\n      r = \
+(*SpB[*)Power[Sin[t / 2.0](*|*),(*|*)2](*]SpB*);\n      path = Table[\n       \
+ (0.4 (1-r) Sin[5.0 i + t] + 0.6) \n        Exp[-(*FB[*)((5.0 \
+i)(*,*)/(*,*)(100.0))(*]FB*)] {Cos[i], Sin[i]}\n      , {i, 0, t, 0.02}];\n   \
+   False (* Prevent default update sequence *)\n    ]\n  ]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "19f8fb90-7ef3-4d8d-a251-2f6dc2ea3e99", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n## Fallback to Mathematica's Renderer\nIf you prefer the \
+canonical Mathematica look for your plots (or if, for some reason, a \
+particular feature is not available in WLJS), apply `MMAView`. In this case, \
+any expression will be rasterized and supplied as a sequence of raster \
+images:\n\n:::note\nWe consider this a workaround until the WLJS Notebook can \
+fully implement the rest of the missing features.\n:::", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e09ca90b-c326-4375-ac52-0be9175434b1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "## Fallback to Mathematica's Renderer\nIf you prefer the \
+canonical Mathematica look for your plots (or if, for some reason, a \
+particular feature is not available in WLJS), apply `MMAView`. In this case, \
+any expression will be rasterized and supplied as a sequence of raster \
+images:\n\n:::note\nWe consider this a workaround until the WLJS Notebook can \
+fully implement the rest of the missing features.\n:::", 
+    "Display" -> "markdown", "Hash" -> 
+     "c5b1d7d6-a959-4805-beab-ddfe286fd8aa", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Animate[Plot[Sin[x + a], {x, 0, 10}], {a, 0, 5}, \
+RefreshRate->7] // MMAView", "Display" -> "codemirror", 
+    "Hash" -> "a98e6087-305a-47f3-82ce-dd9eea838e14", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\n## Low-level Approach\nThis can be considered to be the \
+fastest and the most efficient way of animating things in WLJS Notebook. \
+`Animate` and related expressions are just wrappers over `Offload` and \
+`AnimationFrameListener`.\n\n:::info\nPlease, see the documentation on how to \
+animate things using low-level building blocks\n:::\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f2da48ec-a2a3-445f-b1f3-efb2cfcf9852", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "## Low-level Approach\nThis can be considered to be the \
+fastest and the most efficient way of animating things in WLJS Notebook. \
+`Animate` and related expressions are just wrappers over `Offload` and \
+`AnimationFrameListener`.\n\n:::info\nPlease, see the documentation on how to \
+animate things using low-level building blocks\n:::\n", 
+    "Display" -> "markdown", "Hash" -> 
+     "8466c9bf-4959-430e-b0e3-ede9df876825", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "With[{pts = Unique[], event = CreateUUID[], n = Unique[]},\n  \
+ n = 1;\n   \n   EventHandler[event, Function[Null,\n     pts = Table[{x, \
+Sum[Cos[2 x i]/(2i+1), {i, 1, n}]/n}, {x,0,10Pi,0.1}];\n     n = If[n>20, 1, \
+n + 0.1];\n   ]]; \n\n   EventFire[event, True];\n\n   Graphics[{\n     Blue, \
+Line[pts//Offload], Red, Point[pts//Offload],\n     \
+AnimationFrameListener[pts//Offload, \"Event\"->event]\n   }, Axes->True, \
+PlotRange->{{0,10Pi}, {-0.15,0.3}}, TransitionType->None]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "07fa6cd4-b2c1-432a-b72f-401c5df4b18d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> ".md\nHere is an example with 3D graphics:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "30009084-bdf0-4c2e-b104-d99b79f4f7d8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "Here is an example with 3D graphics:", 
+    "Display" -> "markdown", "Hash" -> 
+     "caf6dc2c-a246-461d-8d48-85ffae4c6dc0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>, 
+   <|"Data" -> "balls = RandomReal[{-1,1}, {100,3}];\nvels  = \
+RandomReal[{-1,1}, {100,3}];\n\nGraphics3D[{\n  Table[With[{i = i},\n    {\n  \
+    RGBColor[RandomReal[{0,1}, 3]],\n      Sphere[balls[[i]] // Offload, \
+0.03]\n    }\n  ], {i, Length[balls]}], \n  \
+EventHandler[AnimationFrameListener[balls // Offload], Function[Null, \n    \
+vels = Table[\n      If[Norm[balls[[i]]] < 0.01, -1, 1] vels[[i]] - 0.08 \
+balls[[i]]\n    , {i, Length[balls]}];\n  \n    balls = Table[balls[[i]] + \
+0.08 vels[[i]], {i, Length[balls]}];  \n  ]]\n}]", "Display" -> "codemirror", 
+    "Hash" -> "a1ff4bf0-3b51-4cf9-b3ed-233e1985ab69", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4fff246c-54e7-464d-8ea9-54adbb1ff591"|>}, 
+ "serializer" -> "jsfn4"|>

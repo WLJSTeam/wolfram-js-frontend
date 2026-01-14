@@ -1,0 +1,8 @@
+With[{QList = (SnippetsDatabase[#, "Template"])&/@ $Options["List"]},
+    <li class="list-none pt-1">
+        <h2 class="sr-only">Quick actions</h2>
+        <ul class="p-0 text-sm text-gray-700 dark:text-gray-400 px-1">
+           <QList/>
+        </ul>
+    </li>
+]

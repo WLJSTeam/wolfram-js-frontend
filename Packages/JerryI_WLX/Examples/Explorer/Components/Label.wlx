@@ -1,0 +1,13 @@
+(* /*
+    Text-Label
+    -- 
+    @T - any kind of data
+*/ *)
+
+Str = If[!MissingQ[$Options["T"]], $Options["T"], ""];
+
+<span>
+    <TextString>
+        <Str/>
+    </TextString>
+</span>

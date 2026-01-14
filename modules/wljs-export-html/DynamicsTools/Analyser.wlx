@@ -1,0 +1,101 @@
+makeTable[data_Association] := With[{
+    
+},
+
+    With[{
+        ListEvents = Map[Function[Item, 
+            <span><Item/></span>
+        ], data["Events"]],
+        ListCommands = Map[Function[Item, 
+            <span><Item/></span>
+        ], ToString[Shallow[#]] &/@ data["FrontSubmit"]],
+        ListSymbols = Map[Function[Item, 
+            <span><Item/></span>
+        ], data["Symbols"]]
+    },
+        <tr>
+            <td class="whitespace-nowrap truncate w-8 px-2 py-2 text-sm font-medium text-gray-500 dark:text-gray-400"><div class="flex flex-col overflow-y-scroll" style="max-height: 6rem;max-width: 4rem;">
+                <ListSymbols/>
+            </div></td>
+            <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900 dark:text-gray-400"><div class="flex flex-col overflow-y-scroll" style="max-height: 6rem;max-width: 4rem;">
+                <ListCommands/>
+            </div></td>
+            <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+                <div class="flex flex-col overflow-y-scroll" style="max-height: 6rem;max-width: 4rem;">
+                    <ListEvents/>
+                </div>
+            </td>
+        </tr>
+    ] 
+
+]
+
+MakeTable[data_] := makeTable /@ data["Data"] // StringRiffle
+
+Component[OptionsPattern[]] := With[{
+    sniffer = OptionValue["Sniffer"],
+    controller = OptionValue["Controls"],
+    controller2 = CreateUUID[],
+    cli = OptionValue["Client"]
+},
+
+EventHandler[EventClone[sniffer], {
+
+    "Message" -> Function[body,
+        EventFire[controller2, "Message", <|"Client" -> cli, "Message" -> body|>]
+    ],
+
+    "Continue" -> Function[Null,
+        EventFire[controller2, "RemoveButton", <|"Client" -> cli|>]
+    ]
+}];
+
+<div style="display: table-caption;">
+    <p class="text-sm leading-4 py-1 mt-1 text-gray-600 dark:text-gray-400">Please, drag all sliders in a full range, activate other input element or wait for animation frames.</p>
+    <span class="text-sm uppercase text-gray-500">Found groups</span>
+    <div class="inline-block min-w-full py-2 align-middle">
+        <table class="min-w-full divide-y divide-gray-300">
+            <thead>
+                <tr>
+                    <th scope="col" class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-400 sm:pl-0">Symbol</th>
+                    <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">Command</th>
+                    <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-gray-400">Events</th>
+                </tr>
+            </thead>
+            <WebUILazyLoad Event={controller} Class={"divide-y divide-gray-200"} Tag={"tbody"}>
+                <MakeTable>
+                    <WebUILazyLoadDataProvided/>
+                </MakeTable>
+            </WebUILazyLoad>
+        </table>
+    </div>
+    <div class="py-1">
+        <span class="text-red-400" id="abba-msg"></span>
+    </div>
+    <div class="flex flex-row">
+        <button id="abba-continue" class="mr-auto cursor-click rounded-md 0 h-7 px-2 text-left text-gray-500  ring-1 ring-inset ring-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-xs sm:leading-6 bg-d9 dark:bg-gray-700 dark:ring-gray-500">Continue</button>
+        <button id="abba-abort" class="cursor-click rounded-md 0 h-7 px-2 text-left text-gray-500   ring-inset ring-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-xs sm:leading-6 bg-d9 dark:bg-gray-700 dark:ring-gray-500">Abort</button>
+    </div>
+    <WebUIJSBind Event={controller2}>
+	    //will be executed once
+	    const doc = document.getElementById('abba-msg');
+	
+	    //binding to event patterns
+	    this.on('Message', async (data) => {
+		    const assoc = await interpretate(data, {hold:true});
+		    const message = await interpretate(assoc.Message, {});
+		    doc.innerText = message;
+	    });
+
+        this.on('RemoveButton', () => {
+            document.getElementById('abba-continue').remove();
+        });
+    </WebUIJSBind>
+    <WebUIEventListener Id={"abba-continue"} Event={sniffer} Pattern={"Continue"} />
+    <WebUIEventListener Id={"abba-abort"} Event={sniffer} Pattern={"Abort"} />
+</div>
+]
+
+Options[Component] = {"Controls"->"", "Notebook"->"", "Sniffer" -> "", "Client" -> "", "Log" -> ""}
+
+Component

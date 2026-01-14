@@ -1,0 +1,84 @@
+<|"Notebook" -> <|"Controller" -> "72143108-e675-4014-a9b7-4f867787be75", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1024], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "128b9c24-88e3-4689-b686-67c676b7c927", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wljs-demos-archive/Demos/Advanced syntax \
+sugar/Magic joystick.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Magic joystick symbol", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1015]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Magic joystick symbol\nA test of `Offload` \
+and `Interpretation` combo to make a dynamic symbol with a joystick as a \
+decoration", "Display" -> "codemirror", 
+    "Hash" -> "78e56e53-dc5d-4ba8-8f83-1f7cd23876bb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> "## Magic joystick symbol\nA test of `Offload` and \
+`Interpretation` combo to make a dynamic symbol with a joystick as a \
+decoration", "Display" -> "markdown", 
+    "Hash" -> "1663cd02-5e9c-4349-b10d-fa003d27abd6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> "createDynamic2DSymbol[] := Module[{symbol = {0,0}}, \
+With[{\n\teventObject = InputJoystick[],\n\thelper = \
+InputJoystick`IntegrationHelper[][Function[xy, symbol = 5.0 \
+xy]]\n},\n\tEventHandler[eventObject, helper];\n\tInterpretation[eventObject, \
+Offload[symbol]]\n]]", "Display" -> "codemirror", 
+    "Hash" -> "b1725576-310d-462f-a08e-83d85242d926", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> ".md\nNow create one and __cut it__ from the output cell", 
+    "Display" -> "codemirror", "Hash" -> 
+     "10b95bde-fe44-4286-a101-17686dc3e9f7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> "Now create one and __cut it__ from the output cell", 
+    "Display" -> "markdown", "Hash" -> 
+     "ab6ed4a9-3c7b-4ec2-932c-016335850165", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> "createDynamic2DSymbol[]", "Display" -> "codemirror", 
+    "Hash" -> "9316ac47-962f-48e1-8ecf-fa23d163cd43", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "8e34f2c2-928c-44d7-aa11-0b4253c3587f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "777195cb-d83c-4688-bd60-161e39c09d0e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> ".md\nThen __paste it to a cell belov__", 
+    "Display" -> "codemirror", "Hash" -> 
+     "aa5a4173-3677-43cc-a340-3ffbc1ea1222", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> "Then __paste it to a cell belov__", "Display" -> "markdown", 
+    "Hash" -> "321aca15-a11e-4c7e-8471-bf46374a6b1d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> "Plot[Sin[x], {x, -Pi, Pi}, Epilog->{\n  Disk[ (* paste it \
+here *), {0.1, 0.1/2}]\n}]", "Display" -> "codemirror", 
+    "Hash" -> "6f4d68c2-24c6-49d8-95fa-91ee3ff7f4aa", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "bc6cbe55-329e-4bd4-9cf4-2c5eeb575e40", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f76c1562-2427-4030-b436-56fb7b4fd0ef"|>}, 
+ "serializer" -> "jsfn4"|>

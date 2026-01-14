@@ -1,0 +1,89 @@
+Note         = $Options["Note"];
+UId          = Note["Hash"];
+
+removeButton = CreateUUID[];
+
+Controls    = $Options["Controls"];
+
+Client      = $Options["Client"];
+Controller  = CreateUUID[];
+
+clonedEvent = EventClone[Note];
+
+detector = EventClone[Client];
+EventHandler[detector, {"Closed" -> Function[Null, destoryWidget]}];
+
+destoryWidget := With[{},
+   Echo["Item >> Item.wlx >> destroyed!"];
+   EventRemove[detector];
+   EventRemove[clonedEvent];
+   EventRemove[Controller];
+];
+
+EventHandler[clonedEvent, {
+   "Checked" -> Function[data,
+      With[{client = Client},
+        If[data["Client"] === client, Return[]]; 
+        EventFire[Controller, "SetState", Join[data, <|"Client" -> client|> ]];
+      ]
+   ],
+
+   "Destroy" -> Function[data,
+        EventFire[Controller, "Remove", <|"Client" -> Client|>];
+    ]
+}];
+
+EventHandler[EventClone @ Controller, {
+    "Checked" -> Function[state,
+        With[{n = Note},
+            n["Checked"] = state === "true";
+        ];
+        EventFire[Note, "Checked", <|"Client" -> Client, "Data" -> (state === "true")|>];
+    ],
+
+    "Destroy" -> Function[Null,
+        Echo["Remove!"];
+        EventFire[Note, "Destroy", <|"Client" -> Client|>];
+    ]
+}];
+
+InputChecked = If[Note["Checked"],
+								<input class="hidden" type="checkbox" id="{UId}" checked="true"/>
+							,
+								<input class="hidden" type="checkbox" id="{UId}"/>
+				];
+
+Content      = Note["Content"];
+
+<div>
+    <InputChecked/>
+    <label class="flex items-center h-10 px-2 rounded cursor-pointer hover:bg-gray-100" for="{UId}">
+        <span class="flex items-center justify-center w-5 h-5 text-transparent border-2 border-gray-300 rounded-full">
+            <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+        </span>
+        <span class="ml-4 text-sm"><Content/></span>
+        <svg id="{removeButton}" class="ml-auto rotate-45 w-5 h-5 text-gray-400 fill-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+    </label>
+    
+    
+    <WebUIEventListener Event={Controller} Pattern={"Destroy"} Id={removeButton}/>       
+    <WebUIEventListener Event={Controller} Type={"change"} Property={"checked"} Pattern={"Checked"} Id={UId}/>
+    <WebUIJSBind Event={Controller}>
+        const el = document.getElementById('<UId/>');
+        this.on('SetState', async (data) => {
+            const assoc = await interpretate(data, {hold:true});
+            const state = await interpretate(assoc.Data, {});
+            console.log(state);
+            el.checked = state;
+        })
+
+        this.on('Remove', () => {
+            console.warn('Destroy!');
+            el.parentNode.remove();
+        })
+    </WebUIJSBind>     
+</div>

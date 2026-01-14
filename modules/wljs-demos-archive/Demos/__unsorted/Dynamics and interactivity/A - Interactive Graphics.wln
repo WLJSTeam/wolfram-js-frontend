@@ -1,0 +1,103 @@
+<|"Notebook" -> <|"Controller" -> "ffeac3f7-c56c-42bc-b0f1-5d76a75059c1", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$696], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "72469076-1572-483e-9c85-3954007a5d8d", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Dynamics and \
+interactivity/A - Interactive Graphics.wln", "PublicFields" -> 
+    {"Properties"}, "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Interactive Graphics", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$690]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Interactive Graphics\nIn the previous \
+tutorial, we tried input element slider, however, graphics primitives can \
+also act like an virtual input device.", "Display" -> "codemirror", 
+    "Hash" -> "45af7196-ea55-4d42-8c0b-9ee527d02756", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "# Interactive Graphics\nIn the previous tutorial, we tried \
+input element slider, however, graphics primitives can also act like an \
+virtual input device.", "Display" -> "markdown", 
+    "Hash" -> "85befd78-f640-412c-a155-4e0106bb3e97", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> ".md\nThere are several events we can capture, but lets focus \
+on `zoom` and `drag`", "Display" -> "codemirror", 
+    "Hash" -> "b10313c2-722a-43e2-85f5-f37091ca035f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "There are several events we can capture, but lets focus on \
+`zoom` and `drag`", "Display" -> "markdown", 
+    "Hash" -> "217a6c12-44d1-4110-afb8-e019e9509f32", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "udata = {{-1,0}, {1,0}};\n\nGraphics[{\n  Cyan, Line[udata // \
+Offload], Red, PointSize[0.05],\n  EventHandler[Point[{0,0.5}], {\n    \
+\"drag\" -> drag,\n    \"zoom\" -> zoom\n  }]\n}, PlotRange->{{-1,1}, \
+{0,1}}]", "Display" -> "codemirror", 
+    "Hash" -> "8f47a95d-a847-4950-87dc-0cca7fc9f3cd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> ".md\nOk, then lets generate the data", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ff9adf90-6eb5-414a-9da8-ff0a8ea204fd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "Ok, then lets generate the data", "Display" -> "markdown", 
+    "Hash" -> "719720fc-4df9-478a-9f2c-59640c4cff31", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "ClearAll[generate];\ngenerate[{x_, y_}, k_] := Table[{t, y \
+Exp[- (*FB[*)(((*SpB[*)Power[(x - t)(*|*),(*|*)2](*]SpB*))(*,*)/(*,*)(2 \
+k))(*]FB*)]}, {t,-1,1, 0.03}]", "Display" -> "codemirror", 
+    "Hash" -> "8eebef04-4833-4b15-ba3f-366186318e71", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> 
+     ".md\nWe should generate it everytime, when we have interact with a dot"\
+, "Display" -> "codemirror", "Hash" -> 
+     "d767a755-ac9e-4d73-9985-f59481155949", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> 
+     "We should generate it everytime, when we have interact with a dot", 
+    "Display" -> "markdown", "Hash" -> 
+     "69f4b909-f171-4457-a631-92baa5fd551c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "defaults = {{0, 0.5}, 1/20.};\n\ndrag[xy_] := (\n  \
+defaults[[1]] = xy;\n  udata = generate @@ defaults;\n)\n\nzoom[k_] := (\n  \
+defaults[[2]] = k / 20.;\n  udata = generate @@ defaults;\n)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a73a011b-6d55-474f-b733-56beb836b0fe", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> ".md\n*Now try to drag and use a mouse wheel on a point \
+above*", "Display" -> "codemirror", 
+    "Hash" -> "65d6e9ee-5f18-44f2-98c3-dce46e11d934", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> "*Now try to drag and use a mouse wheel on a point above*", 
+    "Display" -> "markdown", "Hash" -> 
+     "5fbe8f0b-41aa-40c2-aaaa-d062b91763b3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "076792d4-dcb0-44a9-a49a-7983cacbb2e6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "62fb28ea-67c1-405b-9bd3-b5b30f300645"|>}, 
+ "serializer" -> "jsfn4"|>

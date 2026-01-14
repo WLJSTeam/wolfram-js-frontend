@@ -1,0 +1,33 @@
+normalNumber[n_] := With[{t = ToString[n, InputForm]},
+        If[StringTake[t,-1] == ".", StringJoin[t, "0"], t]
+]
+
+MakeTOC[Rule["Notebook", notebook_]] := Table[With[{Title = head[[2]], id = head[[3]]["Hash"], pad = normalNumber @ Round[head[[1]] 0.25 + 0.50, 0.05]},
+          <li style="padding-left: {pad}rem" class="list-none relative w-full cursor-default rounded-md pl-3 pr-2 text-left focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            <a href="#{id}" class="text-left"><Title/></a>
+          </li>
+], {head, Flatten @ notebook["TOC"]}]
+
+Component[OptionsPattern[]] := With[{
+        data = OptionValue["Data"],
+        Local = CreateUUID[],
+        notebook = OptionValue["Data"]["Notebook"]
+},
+        EventHandler[data["Port"], Function[assoc,
+                EventFire[Local, "Refresh", <|"Client" -> assoc["Client"]|>];
+        ]];
+        {
+                <WebUIRefresh Event={Local} Class={"flex grow flex-col gap-y-5 overflow-y-auto px-4 sc-b"} Style={"max-height: 20vh"}> 
+                        <nav class="flex flex-1 flex-col" style="-webkit-app-region:none">
+                                <ul role="list" class="flex flex-1 flex-col p-0 gap-y-1 pl-2 pb-4 text-xs text-gray-700 dark:text-gray-400" id="{Local}">
+                                        <MakeTOC Notebook={notebook}/>
+                                </ul>
+                        </nav>
+                </WebUIRefresh> 
+        }
+        
+]
+
+Options[Component] = {"Data" -> ""}
+
+Component

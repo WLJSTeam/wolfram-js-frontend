@@ -1,0 +1,96 @@
+<|"Notebook" -> <|"Controller" -> "dc9ff495-e812-4dd8-924d-40e73dffdebf", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$61], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "c5ecda7f-e258-484c-a2c8-d122204ad22c", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Experimental/Basi\
+c attracting molecules.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> 
+    <|"c$144819" -> {{{0.2664346556452024, 0.3885795821425746}, 0.2}, 
+       {{0.2664346556452024, 0.3885795821425746}, 0.2}}, 
+     "pos$144819" -> {{{-0.200015894121087, 0.07729567537163451}, 0.2}, 
+       {{-0.200015894121087, 0.07729567537163451}, 0.2}}, 
+     "c$146492" -> JSObject[0.4623723664173516[0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 
+        0.8, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.24244764568811017, 0.8, 
+        0.8, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]], 
+     "pos$146492" -> JSObject[0.7625994122305803[-0.5325208399619464][
+        (-0.25606407001882103)[0.8653300721054586], (-0.2842504664917077)[
+         0.8499104103348354], 0.16223091219876445[-0.20769832276992511], 
+        (-0.46161284940295977)[-0.8539399346075774], (-0.5455553912365195)[
+         -0.6516609935300958], 0.3661372914906763[-0.28811880574910503], 
+        (-0.4674441574914551)[0.04464331898019801], (-0.6787562883699579)[
+         -0.8255049025659256], (-0.9743029768083955)[0.6170703988753898], 
+        0.13176984560554264[0.008841225019187913], 0.4783980330462156[
+         0.27428960305295413], 0.3338784789894783[-0.07314065119880378], 
+        0.3043768151452615[0.14259960211902548], 0.5069228726686792[
+         0.05767458513836633], (-0.16544462869081847)[0.6659271757869191], 
+        (-0.4836907400051658)[0.2791058441173118], (-0.6579395911832665)[
+         0.14920997710131112], 0.5405405405405406[0.05282939189189184], 
+        0.5405405405405406[0.05282939189189184], 0.5405405405405406[
+         0.05282939189189184], 0.5405405405405406[0.05282939189189184], 
+        0.5405405405405406[0.05282939189189184], 0.5405405405405406[
+         0.05282939189189184], 0.5405405405405406[0.05282939189189184], 
+        0.5405405405405406[0.05282939189189184], 0.5405405405405406[
+         0.05282939189189184], 0.5405405405405406[0.05282939189189184], 
+        0.5405405405405406[0.05282939189189184], 0.5405405405405406[
+         0.05282939189189184]]]|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Spherical attracting molecules", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$60]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Spherical attracting molecules\n*An example \
+of FrontProxy abstraction used for animating many complex primitives in \
+real-time*\n\nThis simulation models a system of interacting disks in a 2D \
+space, governed by a potential field that includes attractive and repulsive \
+forces. The disks move dynamically, with their positions and velocities \
+updated in real-time, while their colors reflect changes in velocity or \
+interaction strength. Users can click to add new disks, which immediately \
+integrate into the ongoing animation", "Display" -> "codemirror", 
+    "Hash" -> "57d86ecb-e74b-4bb1-af78-a645df02f52a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "0285d0c1-350f-4cc1-84a2-20c375ab8ab3"|>, 
+   <|"Data" -> "# Spherical attracting molecules\n*An example of FrontProxy \
+abstraction used for animating many complex primitives in real-time*\n\nThis \
+simulation models a system of interacting disks in a 2D space, governed by a \
+potential field that includes attractive and repulsive forces. The disks move \
+dynamically, with their positions and velocities updated in real-time, while \
+their colors reflect changes in velocity or interaction strength. Users can \
+click to add new disks, which immediately integrate into the ongoing \
+animation", "Display" -> "markdown", 
+    "Hash" -> "bff54a4e-f4d6-48c4-8b98-1a2c7d88dd96", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "0285d0c1-350f-4cc1-84a2-20c375ab8ab3"|>, 
+   <|"Data" -> "Needs[\"FrontProxy`\"->\"f`\"];", "Display" -> "codemirror", 
+    "Hash" -> "a0e9dff5-93d0-4ad7-b7ba-392973c5b536", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "0285d0c1-350f-4cc1-84a2-20c375ab8ab3"|>, 
+   <|"Data" -> "disk = f`Proxy[{pos, c}, {\n\tOpacity[0.2], \
+RGBColor[With[{h=c}, {h, 1-h, 0.}]],\n    Disk[pos, 0.1]\n}];\n\ndisks = \
+f`AddTo[disk, Sequence @@ Table[{RandomReal[{-1,1}, 2], 0.2}, \
+{10}]];\n\nanimation = CreateUUID[];\nscene = \
+FrontInstanceReference[];\n\ntrigger = 1;\n\npotential = Function[{a,b}, \
+With[{r = Norm[a-b]+0.001, r0 = 0.22},\n  With[{c = (*FB[*)((3.0 \
+((*SpB[*)Power[r0(*|*),(*|*)6](*]SpB*)))(*,*)/(*,*)((*SpB[*)Power[r(*|*),(*|*\
+)8](*]SpB*)))(*]FB*)-(*FB[*)((3.0 \
+((*SpB[*)Power[r0(*|*),(*|*)12](*]SpB*)))(*,*)/(*,*)((*SpB[*)Power[r(*|*),(*|\
+*)14](*]SpB*)))(*]FB*)},\n    If[Abs[c] > 100.0, {0.,0.}, (a-b) c]\n  \
+]\n]];\n\nEventHandler[animation, Function[Null,\n  With[{\n    position = \
+f`Buffer[disk, 1],\n    state    = f`Buffer[disk, 2]\n  },\n    \
+With[{velocity = Map[Total] @ Table[potential[a,b], {a, position}, {b, \
+position}]},\n      With[{\n        character = Map[Clip[5.0 Norm[#], {0.2, \
+0.8}]&, velocity]\n      },\n        f`BufferSet[disk, 1, position - 0.001 \
+velocity];\n        f`BufferSet[disk, 2, character];\n\n        \
+f`Dispatch[disk];\n      ];\n    ];\n  ];\n\n  trigger = 1;\n]];\n\nadd = \
+With[{new = f`AddTo[disk, {#, 0.2}]},\n  f`Dispatch[disk];\n  \
+FrontSubmit[f`FullForm[disk, new], scene];\n]&;\n\nGraphics[{\n  \
+f`FullForm[disk, disks], scene,\n  AnimationFrameListener[trigger // Offload, \
+\"Event\"->animation],\n  EventHandler[Null, {\"click\" -> add}]\n}, \
+PlotRange->{{-1,1}, {-1,1}}, TransitionType->None]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "81f85b29-fee6-44cf-9e85-8546e7e1d9fc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "0285d0c1-350f-4cc1-84a2-20c375ab8ab3"|>}, 
+ "serializer" -> "jsfn4"|>

@@ -1,0 +1,27 @@
+<|"Notebook" -> <|"Controller" -> "493cb081-fa7b-4096-87f2-0b8f1e3f67b9", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2499], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "a81951d0-109f-4719-94ad-cc2e66e51e68", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Data \
+visualisation/B - SVGGroup.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, "TOC" -> {}|>, 
+ "Cells" -> {<|"Data" -> "Graphics[\n\tSVGAttribute[\n\t\tSVGGroup[{\n\t\t\tR\
+ed, Disk[{0,0}, 0.5],\n\t\t\tBlue, Line[{{-1,-1}, {1,1}}]\n\t\t}]\n\t, \
+\"style\"->\"filter: blur(10px)\"]\n]", "Display" -> "codemirror", 
+    "Hash" -> "9bc4d0b7-703e-4ff9-a460-6509dae3eddf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "2169d1f4-bc36-489d-b09f-ac4a6c7d1b92"|>, 
+   <|"Data" -> "(*VB[*)(Graphics[SVGAttribute[SVGGroup[{RGBColor[1, 0, 0], \
+Disk[{0, 0}, 0.5], RGBColor[0, 0, 1], Line[{{-1, -1}, {1, 1}}]}], \"style\" \
+-> \"filter: \
+blur(10px)\"]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRAeB5BwL0osyMhMLk5jAonwAIn\
+gMHfHkpKizKTSklSEOqCoe1F+aUEaC8wcn8zikjRmmHyQu5Nzfk5+USZIRyYDjIAYC1LuklmcjeCB\
+NCNUFTGAwQN7LObBFYFNRnjDJzMvFdU8NNP/AwGYQBNnhJsFFw8qzUkNZgXxSiqBLCGQZGZOSWqRl\
+UJSTmmRhqFBQYUmAN6nQ+k=\"*)(*]VB*)", "Display" -> "codemirror", 
+    "Hash" -> "945f9bbe-acd9-47d7-aef4-3aad21d2891c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "2169d1f4-bc36-489d-b09f-ac4a6c7d1b92"|>}, 
+ "serializer" -> "jsfn4"|>

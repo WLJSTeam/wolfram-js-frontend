@@ -1,0 +1,44 @@
+{
+  "name": "wljs-sharedlib-three",
+  "version": "0.0.1",
+  "description": "A shared javascript library THREE.js used by Graphics-3D package",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "watch": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs -w",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-sharedlib-three && mv wljs-sharedlib-three/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "js": "dist/kernel.js",
+    "minjs": "dist/kernel.min.js",
+    "category": "Shared libraries",
+    "priority": -10,
+    "cellExportRequired": true,
+    "figureExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-sharedlib-three"
+  },
+  "author": "Kirill Vasin",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/JerryI/wljs-sharedlib-three/issues"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "rollup": "^3.20.6",
+    "rollup-plugin-combine": "^2.1.1",
+    "serve-static": "^1.14.1",
+    "systemjs": "^6.14.1",
+    "three": "^0.169.0",
+    "three-gpu-pathtracer": "^0.0.23",
+    "three-mesh-bvh": "^0.8.0",
+    "three-spritetext": "^1.9.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4"
+  }
+}

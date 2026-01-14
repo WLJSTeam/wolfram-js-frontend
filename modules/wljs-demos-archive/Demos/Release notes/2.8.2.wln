@@ -1,0 +1,288 @@
+<|"Notebook" -> <|"AutorunScript" -> "EventHandler[\"submit-form-281\", \
+Function[payload,\n  \
+URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
+=\"<>(\n  ExportString[\n    <|\n      \"Rating\"->payload[[1]],\n      \
+\"Feedback\"->payload[[2]],\n      \"SystemID\"->$SystemID, \n      \
+\"MachineID\"->$MachineID, \n      \"Language\"->$Language, \n      \
+\"TimeZone\"->$TimeZone, \n      \"WolframKernel\"->$VersionNumber,\n      \
+\"OperatingSystemVersion\"->SystemInformation[\"Kernel\", \
+\"OperatingSystemVersion\"],\n      \
+\"ElectronCode\"->If[AssociationQ[System`$Env], Lookup[System`$Env, \
+\"ElectronCode\", 0], \"undefined\"],\n      \
+\"Version\"->If[AssociationQ[System`$Env[\"AppJSON\"] ], \
+System`$Env[[\"AppJSON\", \"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  \
+] // URLEncode)];  \n]];", "Controller" -> 
+    "1074d48f-2e80-40b4-a77a-dde888743e0f", "FocusedCell" -> 
+    CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$395], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "1c2c7c20-ca8a-4e4b-afdf-db80a335f091", "Objects" -> <||>, 
+   "Path" -> 
+    "/Users/kirill/Github/wljs-demos-archive/Demos/Release notes/2.8.2.wln", 
+   "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Release notes *2.8.2*", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$220]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Hot Fix  \|01f41c", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$322]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "UI Update", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$322]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "More styling options", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$322]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Refresh got JIT", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$327]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "New Examples", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$406]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Release notes *2.8.2*\n<Now/>\n\nRate your \
+experience with the previous release. Your feedback is important for \
+us\n\n<style>\n    .rating { \n      display: flex;\n      flex-direction: \
+row-reverse;\n      justify-content: center;\n    }\n    .rating input {\n    \
+  display: none;\n    }\n    .rating label {\n      font-size: 2rem;\n      \
+color: #ccc;\n      cursor: pointer;\n      transition: color 0.2s;\n    }\n  \
+  .rating input:checked ~ label,\n    .rating label:hover,\n    .rating \
+label:hover ~ label {\n      color: rgb(248 113 113);\n    }\n    .feedback \
+{\n      display: block;\n      width: 100%;\n      max-width: 400px;\n      \
+margin: 1rem auto;\n      padding: 0.5rem;\n      font-size: 1rem;\n    }\n   \
+ .submit-btn {\n      display: block;\n      margin: 0.5rem auto;\n      \
+padding: 0.5rem 1rem;\n      font-size: 1rem;\n      cursor: pointer;\n    }  \
+\n</style>\n\n<form onsubmit=\"return false\" class=\"flex flex-col\" \
+id=\"rating-c\">\n    <fieldset>\n      <div class=\"rating\" \
+id=\"rating-form\">\n        <input type=\"radio\" id=\"star5\" \
+name=\"rating\" value=\"5\" />\n        <label \
+for=\"star5\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
+id=\"star4\" name=\"rating\" value=\"4\" />\n        <label \
+for=\"star4\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
+id=\"star3\" name=\"rating\" value=\"3\" />\n        <label \
+for=\"star3\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
+id=\"star2\" name=\"rating\" value=\"2\" />\n        <label \
+for=\"star2\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
+id=\"star1\" name=\"rating\" value=\"1\" />\n        <label \
+for=\"star1\">\[FivePointedStar]</label>\n      </div>\n    </fieldset>\n    \
+<input type=\"text\" id=\"feedback-form\" name=\"feedback\" \
+style=\"width:20rem\" class=\"border-1 ml-auto mr-auto align-center \
+rounded-lg text-sm text-gray-700 ring-0 text-sm py-1\" placeholder=\"one-line \
+feedback...\" maxlength=\"100\" />\n</form>\n\nTell your thoughts, what you \
+would like to see or anything else. The form will be sent automatically once \
+you have finished.", "Display" -> "codemirror", 
+    "Hash" -> "d3fc3e5d-b4ce-4f8c-b8ee-233488e5d329", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "# Release notes *2.8.2*\nTue 26 Aug 2025 09:11:25\n\nRate \
+your experience with the previous release. Your feedback is important for \
+us\n\n<style >\n    .rating { \n      display: flex;\n      flex-direction: \
+row-reverse;\n      justify-content: center;\n    }\n    .rating input {\n    \
+  display: none;\n    }\n    .rating label {\n      font-size: 2rem;\n      \
+color: #ccc;\n      cursor: pointer;\n      transition: color 0.2s;\n    }\n  \
+  .rating input:checked ~ label,\n    .rating label:hover,\n    .rating \
+label:hover ~ label {\n      color: rgb(248 113 113);\n    }\n    .feedback \
+{\n      display: block;\n      width: 100%;\n      max-width: 400px;\n      \
+margin: 1rem auto;\n      padding: 0.5rem;\n      font-size: 1rem;\n    }\n   \
+ .submit-btn {\n      display: block;\n      margin: 0.5rem auto;\n      \
+padding: 0.5rem 1rem;\n      font-size: 1rem;\n      cursor: pointer;\n    \
+}</style><form onsubmit=\"return false\" class=\"flex flex-col\" \
+id=\"rating-c\"><fieldset ><div class=\"rating\" id=\"rating-form\"><input \
+type=\"radio\" id=\"star5\" name=\"rating\" value=\"5\"/><label \
+for=\"star5\">\[FivePointedStar]</label><input type=\"radio\" id=\"star4\" \
+name=\"rating\" value=\"4\"/><label \
+for=\"star4\">\[FivePointedStar]</label><input type=\"radio\" id=\"star3\" \
+name=\"rating\" value=\"3\"/><label \
+for=\"star3\">\[FivePointedStar]</label><input type=\"radio\" id=\"star2\" \
+name=\"rating\" value=\"2\"/><label \
+for=\"star2\">\[FivePointedStar]</label><input type=\"radio\" id=\"star1\" \
+name=\"rating\" value=\"1\"/><label \
+for=\"star1\">\[FivePointedStar]</label></div></fieldset><input type=\"text\" \
+id=\"feedback-form\" name=\"feedback\" style=\"width:20rem\" class=\"border-1 \
+ml-auto mr-auto align-center rounded-lg text-sm text-gray-700 ring-0 text-sm \
+py-1\" placeholder=\"one-line feedback...\" \
+maxlength=\"100\"/></form>\n\nTell your thoughts, what you would like to see \
+or anything else. The form will be sent automatically once you have \
+finished.", "Display" -> "markdown", 
+    "Hash" -> "3e1cb2ec-cc1c-420f-98c0-8b85b6ba6c5f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> ".html\n\n<script type=\"module\">\n    const rating = [];\n   \
+ for (let i=1; i<=5; ++i) rating.push(document.getElementById(\"star\"+i));\n \
+   const feedback = document.getElementById(\"feedback-form\");\n    const \
+container = document.getElementById(\"rating-c\");\n\n    let rate = -1;\n    \
+let text = \"undefined\";\n    let timer = false;\n    let disabled = \
+false;\n\n    const submitForm = () => {\n      disabled = true;\n      let n \
+= 1;\n      let interval = setInterval(() => {\n        \
+container.style.filter = \"blur(\"+n+\"px)\";\n        n++;\n        if (n > \
+200) {\n          clearInterval(interval);\n        }\n          \n      }, \
+30);\n\n      server.io.fire('submit-form-281', [rate, text]);\n    }\n\n    \
+const setTimer = () => {\n      if (disabled) return;\n      if (timer) \
+clearTimeout(timer);\n      timer = false;\n      timer = \
+setTimeout(submitForm, 5000);\n    }\n\n    const clearTimer = () => {\n      \
+if (timer) clearTimeout(timer);\n      timer = false;\n    }\n\n    \
+rating.forEach((e) => {\n      e.addEventListener('change', (ev)=>{\n        \
+rate = ev.srcElement.value;\n        setTimer();\n      });\n    });\n\n    \
+feedback.addEventListener('input', ()=>{\n      text = feedback.value;\n      \
+clearTimer();\n    });\n\n    feedback.addEventListener('focus', ()=>{\n      \
+clearTimer();\n    });\n\n    feedback.addEventListener('blur', () => {\n     \
+ text = feedback.value;\n      setTimer();\n    })\n</script>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b1a337c2-1c1e-4b65-ac59-311b0c9ed456", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "\n<script type=\"module\">\n    const rating = [];\n    for \
+(let i=1; i<=5; ++i) rating.push(document.getElementById(\"star\"+i));\n    \
+const feedback = document.getElementById(\"feedback-form\");\n    const \
+container = document.getElementById(\"rating-c\");\n\n    let rate = -1;\n    \
+let text = \"undefined\";\n    let timer = false;\n    let disabled = \
+false;\n\n    const submitForm = () => {\n      disabled = true;\n      let n \
+= 1;\n      let interval = setInterval(() => {\n        \
+container.style.filter = \"blur(\"+n+\"px)\";\n        n++;\n        if (n > \
+200) {\n          clearInterval(interval);\n        }\n          \n      }, \
+30);\n\n      server.io.fire('submit-form-281', [rate, text]);\n    }\n\n    \
+const setTimer = () => {\n      if (disabled) return;\n      if (timer) \
+clearTimeout(timer);\n      timer = false;\n      timer = \
+setTimeout(submitForm, 5000);\n    }\n\n    const clearTimer = () => {\n      \
+if (timer) clearTimeout(timer);\n      timer = false;\n    }\n\n    \
+rating.forEach((e) => {\n      e.addEventListener('change', (ev)=>{\n        \
+rate = ev.srcElement.value;\n        setTimer();\n      });\n    });\n\n    \
+feedback.addEventListener('input', ()=>{\n      text = feedback.value;\n      \
+clearTimer();\n    });\n\n    feedback.addEventListener('focus', ()=>{\n      \
+clearTimer();\n    });\n\n    feedback.addEventListener('blur', () => {\n     \
+ text = feedback.value;\n      setTimer();\n    })\n</script>", 
+    "Display" -> "html", "Hash" -> "5c25af80-12b1-4c7d-9329-9388339b6fd1", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> ".md\n## Hot Fix  \|01f41c\nThere were some breaking changes \
+in the output forms for built-in symbols after *WL 14.3* rolled out. We fixed \
+them. In any case, please report to us using GitHub Issues if you find \
+something new.\n\n<br/>\n\n## UI Update\nWe added a highly requested visual \
+feature that helps to separate input cells and output \
+cells\n\n\n![](/attachments/Screenshot%202025-08-26%20at%2009.12.30-679.png)\
+\n\n\nIn the future, we will probably implement theme customization and give \
+users a choice at startup to pick the best one, similar to VS Code.\n\n## \
+More styling options\nWLJS Notebook is a sandbox, and you as a user can alter \
+many things. This time our CSS classes got the attention:\n\n- `main` main \
+window  \n- `.ccontainer` cells container  \n- `.cgroup` a single group of \
+cells: 1 input + outputs + tools  \n- `.cframe` a single inner group of \
+cells: 1 input + outputs  \n- `.cborder` a vertical line displayed at the \
+right side from the cell group  \n- `.cwrapper` an input/output cell wrapper  \
+\n- `.cseparator` a thin space between cells  \n- `.cinit` a class for \
+initialization cells  \n- `.cin` a class for input cells parent element  \n- \
+`.cout` a class for output cells parent element  \n- `.ttint` a class applied \
+to focused cells\n- `.cgi-ico` a class for initialization cell group icon \
+(usually a teal colored dot)\n\nThe vertical border-marker shown on the left \
+side of the input cell can be styled using the following selector with \
+pseudo-element:\n```css\n.cin > :nth-child(2)::after {\n\n}\n```\n\nSome \
+__input cell types__ can be differentiated too (a child element of one styled \
+by `.cin`):\n\n- `.clang-generic` a class for any unknown cell type / \
+language\n- `.clang-markdown` a class for input markdown cells\n- \
+`.clang-html` a class for input html cells\n- `.clang-wlx` a class for input \
+wlx cells\n- `.clang-js` a class for input js cells\n- `.clang-slide` a class \
+for input slide cells\n\nFor wolfram language input cells the class field of \
+the editor is empty.\n\nThe following classes are also available to style:\n- \
+`.cout .markdown` a class for markdown output cells\n- `.markdown h1` a set \
+of selectors to style various markdown element\n- `.markdown h2`\n- \
+...\n\n<br/>\n\n:::tip\nIf you want the changes to be permanent, copy your \
+styles to *Custom CSS* text-area in the settings menu. Any exported HTML file \
+will inherit it as well.   \n:::", "Display" -> "codemirror", 
+    "Hash" -> "e888bba1-897e-4057-852d-01a44ca05e2c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "## Hot Fix  \|01f41c\nThere were some breaking changes in the \
+output forms for built-in symbols after *WL 14.3* rolled out. We fixed them. \
+In any case, please report to us using GitHub Issues if you find something \
+new.\n\n<br />\n\n## UI Update\nWe added a highly requested visual feature \
+that helps to separate input cells and output \
+cells\n\n\n![](/attachments/Screenshot%202025-08-26%20at%2009.12.30-679.png)\
+\n\n\nIn the future, we will probably implement theme customization and give \
+users a choice at startup to pick the best one, similar to VS Code.\n\n## \
+More styling options\nWLJS Notebook is a sandbox, and you as a user can alter \
+many things. This time our CSS classes got the attention:\n\n- `main` main \
+window  \n- `.ccontainer` cells container  \n- `.cgroup` a single group of \
+cells: 1 input + outputs + tools  \n- `.cframe` a single inner group of \
+cells: 1 input + outputs  \n- `.cborder` a vertical line displayed at the \
+right side from the cell group  \n- `.cwrapper` an input/output cell wrapper  \
+\n- `.cseparator` a thin space between cells  \n- `.cinit` a class for \
+initialization cells  \n- `.cin` a class for input cells parent element  \n- \
+`.cout` a class for output cells parent element  \n- `.ttint` a class applied \
+to focused cells\n- `.cgi-ico` a class for initialization cell group icon \
+(usually a teal colored dot)\n\nThe vertical border-marker shown on the left \
+side of the input cell can be styled using the following selector with \
+pseudo-element:\n```css\n.cin > :nth-child(2)::after {\n\n}\n```\n\nSome \
+__input cell types__ can be differentiated too (a child element of one styled \
+by `.cin`):\n\n- `.clang-generic` a class for any unknown cell type / \
+language\n- `.clang-markdown` a class for input markdown cells\n- \
+`.clang-html` a class for input html cells\n- `.clang-wlx` a class for input \
+wlx cells\n- `.clang-js` a class for input js cells\n- `.clang-slide` a class \
+for input slide cells\n\nFor wolfram language input cells the class field of \
+the editor is empty.\n\nThe following classes are also available to style:\n- \
+`.cout .markdown` a class for markdown output cells\n- `.markdown h1` a set \
+of selectors to style various markdown element\n- `.markdown h2`\n- \
+...\n\n<br />\n\n:::tip\nIf you want the changes to be permanent, copy your \
+styles to *Custom CSS* text-area in the settings menu. Any exported HTML file \
+will inherit it as well.   \n:::", "Display" -> "markdown", 
+    "Hash" -> "ad697303-c4dc-469c-ba10-6b3a184c592d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> ".md\n## Refresh got JIT\nWe added JIT transpiler to `Refresh` \
+expression that works similar to `Manipulate`", "Display" -> "codemirror", 
+    "Hash" -> "3050ed68-aefd-4a16-888d-5a7933b355fd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "## Refresh got JIT\nWe added JIT transpiler to `Refresh` \
+expression that works similar to `Manipulate`", "Display" -> "markdown", 
+    "Hash" -> "b0e3dbdf-6cb5-4daa-9c6d-cb98362e1575", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "Refresh[\n  ListLinePlot[Table[Sin[x + AbsoluteTime[]] + \
+RandomReal[{-1,1} 0.1], {x,0,10Pi,0.1}]]\n, 0.2]", "Display" -> "codemirror", 
+    "Hash" -> "02aecb4f-73cd-435d-822e-66d68ba851cb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> ".md\n## New Examples\n\nHere are some highlights:\n- Arduino \
+x WLJS (accessing real hardware!)\n- Recreating a World of Goo-like game in \
+WLJS\n\n__Read in our blog page__", "Display" -> "codemirror", 
+    "Hash" -> "3236a3ab-427f-4bfb-b278-f4d571fc9a10", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "## New Examples\n\nHere are some highlights:\n- Arduino x \
+WLJS (accessing real hardware!)\n- Recreating a World of Goo-like game in \
+WLJS\n\n__Read in our blog page__", "Display" -> "markdown", 
+    "Hash" -> "03d18d63-2a6c-4da0-9781-7e9c2e538b4e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> "fautorun.wl\n\nEventHandler[\"submit-form-281\", \
+Function[payload,\n  \
+URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
+=\"<>(\n  ExportString[\n    <|\n      \"Rating\"->payload[[1]],\n      \
+\"Feedback\"->payload[[2]],\n      \"SystemID\"->$SystemID, \n      \
+\"MachineID\"->$MachineID, \n      \"Language\"->$Language, \n      \
+\"TimeZone\"->$TimeZone, \n      \"WolframKernel\"->$VersionNumber,\n      \
+\"OperatingSystemVersion\"->SystemInformation[\"Kernel\", \
+\"OperatingSystemVersion\"],\n      \
+\"ElectronCode\"->If[AssociationQ[System`$Env], Lookup[System`$Env, \
+\"ElectronCode\", 0], \"undefined\"],\n      \
+\"Version\"->If[AssociationQ[System`$Env[\"AppJSON\"] ], \
+System`$Env[[\"AppJSON\", \"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  \
+] // URLEncode)];  \n]];", "Display" -> "codemirror", 
+    "Hash" -> "ed6084f6-230f-4a2f-af64-61ee6a5a231e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>, 
+   <|"Data" -> " ", "Display" -> "shell", 
+    "Hash" -> "f3c4171c-16d8-4e83-b3c2-a08a8d0406bf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bbc93254-d85c-4afe-9aa1-2d011c6047ea"|>}, 
+ "serializer" -> "jsfn4"|>

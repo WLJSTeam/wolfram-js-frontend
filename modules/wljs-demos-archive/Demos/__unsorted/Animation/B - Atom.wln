@@ -1,0 +1,89 @@
+<|"Notebook" -> <|"Controller" -> "aa34ab9d-9ba5-4a0d-acf0-b5770f54fcb6", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1427], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "4194b976-2426-49d4-856d-e8453ed04b90", "Objects" -> <||>, 
+   "Path" -> 
+    "/Users/kirill/Github/wljs-demos-archive/Demos/Animation/B - Atom.wln", 
+   "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Atom model animation", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1418]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n# Atom model animation\n*created by Kirill Belov*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1b060723-7850-4528-8c39-c22d1b61058e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> "># Atom model animation\n*created by Kirill Belov*", 
+    "Display" -> "markdown", "Hash" -> 
+     "8fc5b5f0-481b-4ff3-abc8-424ee0794ccd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> ".md\nPrecalculate paths of electrons", 
+    "Display" -> "codemirror", "Hash" -> 
+     "bff193cc-9cff-459a-9bf0-de293e676a51", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> ">Precalculate paths of electrons", "Display" -> "markdown", 
+    "Hash" -> "7bde6ffc-ec3e-499a-8b07-d8a1f5e577b7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> "path1 = Table[{5 Sin[t], 5 Cos[t], 0}, {t, 0.0, 8Pi, \
+Pi/360.0}]; \nlight1 = path1[[1]]; \n\npath2 = \
+RotationTransform[(*FB[*)((2Pi)(*,*)/(*,*)(3))(*]FB*), {1, 0, 0}] /@ path1; \
+\nlight2 = path2[[1]]; \n\npath3 = \
+RotationTransform[(*FB[*)((4Pi)(*,*)/(*,*)(3))(*]FB*), {1, 0, 1}] /@ path1; \
+\nlight3 = path3[[1]];", "Display" -> "codemirror", 
+    "Hash" -> "4ebd1f19-5fe3-4dd8-bc12-6db68ca37f72", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> ".md\nTime variable", "Display" -> "codemirror", 
+    "Hash" -> "79bc3000-039e-42e8-a66a-97a2f7f3d849", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> "Time variable", "Display" -> "markdown", 
+    "Hash" -> "ced63ab7-e9d7-4cf9-9197-9c4613d845c0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> "t := Mod[Round[AbsoluteTime[] * 100] + 1, Length[path1]]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a4dad86a-dee7-4ea6-a685-1c5a8e281c1e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> ".md\nConstruct 3D graphics", "Display" -> "codemirror", 
+    "Hash" -> "4eaba93b-c152-4191-910c-ecf5fdc55948", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> ">Construct 3D graphics", "Display" -> "markdown", 
+    "Hash" -> "0427a008-e88c-4b8d-ad67-8a3d22a52a5f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>, 
+   <|"Data" -> "Graphics3D[{  \n  {  \n    \
+MeshMaterial[MeshPhysicalMaterial[]],   \n    Roughness[0.1],   \n    \
+Sphere[]  \n  },   \n  {  \n    PointLight[Cyan, Offload @ light1],   \n    \
+PointLight[Magenta, Offload @ light2],   \n    PointLight[Orange, Offload @ \
+light3]  \n  },   \n  {  \n    Emissive[Cyan, 5], Sphere[Offload @ light1, \
+0.1],   \n    Emissive[Magenta, 5], Sphere[Offload @ light2, 0.1],   \n    \
+Emissive[Orange, 5], Sphere[Offload @ light3, 0.1],\n    \
+EventHandler[AnimationFrameListener[Offload @ light3], Function[Null,\n      \
+light1 = path1[[t]]; \n      light2 = path2[[t]]; \n      light3 = \
+path3[[t]]; \n    ]]\n  },   \n  {  \n    LightBlue, Line[path1],   \n    \
+LightRed, Line[path2],   \n    LightGreen, Line[path3]  \n  }  \n},     \n  \
+PlotRange -> {{-10, 10}, {-10, 10}, {-10, 10}},   \n  Lighting -> None  \n] "\
+, "Display" -> "codemirror", "Hash" -> 
+     "2eb0bf20-b5b5-4c6b-a691-0ac204ba0c04", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "bd9dcb1e-bb9b-43ec-9ae1-09fec0f35608"|>}, 
+ "serializer" -> "jsfn4"|>

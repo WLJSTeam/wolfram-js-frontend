@@ -1,0 +1,26 @@
+{
+    "name": "wljs-neuralnet",
+    "version": "0.0.3",
+    "description": "A helper library for boxes and interactive output for NeuralNet standard package",
+    "scripts": {
+      "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+      "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-neuralnet && mv wljs-neuralnet/.git ../.git && cd .. && rm -rf _temp"
+    },  
+    "defaultPackage": true,
+    "wljs-meta": {
+      "kernel": "Kernel.wl",
+      "category": "Visualization",
+      "priority": 1002
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/JerryI/wljs-neuralnet"
+    },
+    "author": "Kirill Vasin",
+    "license": "GPL",
+    "bugs": {
+      "url": "https://github.com/JerryI/wljs-neuralnet/issues"
+    },
+    "homepage": "https://github.com/JerryI/wljs-neuralnet#readme"
+  }
+  

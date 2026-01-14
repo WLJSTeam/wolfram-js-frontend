@@ -1,0 +1,169 @@
+<|"Notebook" -> <|"Controller" -> "5844f27e-25ce-4d4a-8592-aa1b310e8518", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$48], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "a9919c38-fe27-4ff4-bcfd-6182bf3217cd", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Dynamics and \
+interactivity/B - Audio Generation.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Live Audio Generation \|01f508", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$83]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Waveform screen", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$69]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "GUI controls", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$98]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Live Audio Generation \|01f508\nThis code \
+sets up and plays a continuous audio waveform using a buffer and event-driven \
+playback mechanism. We create `PCMPlayer`, which accepts a raw audio data in \
+a form of `NumericArray` of singed integers (as most audio sources). The rest \
+is the supporting code for: \n\n- **Signal generator function:**  \n  \
+`samplingFunction` defines the waveform to be played. In this case, \
+it\[CloseCurlyQuote]s a sine wave of frequency 200 Hz.\n\n- **Global time \
+tracking:**  \n  A `time` variable is initialized to keep track of the \
+current position in the audio stream.\n\n- **Event handling:**  \n  An event \
+handler (`\"bufferEnds\"`) triggers when the buffer is depleted. It:\n  - \
+Computes a new set of audio samples using the sine function.\n  - Scales and \
+clips them to the `Integer16` range.\n  - Updates the buffer with the new \
+samples.\n  - Advances the `time` variable to ensure seamless \
+continuation.\n\nIn the end it generates real-time streaming of generated \
+audio using a sine wave sampled at 44.1 kHz", "Display" -> "codemirror", 
+    "Hash" -> "2af3ba3d-0906-49b0-9b38-519f9ec107dc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "# Live Audio Generation \|01f508\nThis code sets up and plays \
+a continuous audio waveform using a buffer and event-driven playback \
+mechanism. We create `PCMPlayer`, which accepts a raw audio data in a form of \
+`NumericArray` of singed integers (as most audio sources). The rest is the \
+supporting code for: \n\n- **Signal generator function:**  \n  \
+`samplingFunction` defines the waveform to be played. In this case, \
+it\[CloseCurlyQuote]s a sine wave of frequency 200 Hz.\n\n- **Global time \
+tracking:**  \n  A `time` variable is initialized to keep track of the \
+current position in the audio stream.\n\n- **Event handling:**  \n  An event \
+handler (`\"bufferEnds\"`) triggers when the buffer is depleted. It:\n  - \
+Computes a new set of audio samples using the sine function.\n  - Scales and \
+clips them to the `Integer16` range.\n  - Updates the buffer with the new \
+samples.\n  - Advances the `time` variable to ensure seamless \
+continuation.\n\nIn the end it generates real-time streaming of generated \
+audio using a sine wave sampled at 44.1 kHz", "Display" -> "markdown", 
+    "Hash" -> "b0018cef-4ccf-45e7-b714-398fa1af5a6c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "buffer = NumericArray[Table[0, {256}], \"Integer16\", \
+\"ClipAndRound\"];\nsamplingFunction = Function[t, Sin[200.0 t]];\n\ntime = \
+0;\n\nEventHandler[\"bufferEnds\", {\"More\" -> Function[Null,\n  With[{c = \
+(1.0/44100.0) (2Pi)},\n    With[{sampled = 32760 Table[samplingFunction[c (i \
++ time)], {i, 0, 4 1024 - 1}]},\n      buffer = NumericArray[sampled, \
+\"Integer16\", \"ClipAndRound\"];\n    ];\n    \n    time += 4 1024;\n  \
+];\n]}];\n\nPCMPlayer[buffer // Offload, \"SignedInteger16\", \
+\"Event\"->\"bufferEnds\"]", "Display" -> "codemirror", 
+    "Hash" -> "9f9ce09e-81e1-4842-832d-ef5289407a67", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True, "InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> ".md\nWe can change the generator function on-fly", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1b4f11c3-7572-44ba-90f3-e1b9975311ac", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "We can change the generator function on-fly", 
+    "Display" -> "markdown", "Hash" -> 
+     "42bb814c-81b2-4357-b80c-0ffdcdf4f94a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "samplingFunction = Function[t, Sin[300.0 t ]];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "40c5a6e4-8f78-4bab-8476-adf3bd6796b7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> ".md\n__Two oscillators with a decay__", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b18b318d-aa17-459c-aed5-ca189dd3d868", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "__Two oscillators with a decay__", "Display" -> "markdown", 
+    "Hash" -> "a8f38a71-7685-4302-aa55-9ea969ac6952", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "samplingFunction = Function[t, With[{mod = Mod[t, Pi]},\n  \
+Sin[300.0 t ] Sin[45.0 t ] Exp[-t mod / 200.0 ]\n]];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8842b025-b50b-4f3e-8307-2e808319ef25", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> ".md\n## Waveform screen\nLet's modify our handler function to \
+store waveform in `ilines` symbol", "Display" -> "codemirror", 
+    "Hash" -> "2027b343-6295-4b72-ac2c-052ee7445fb3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "## Waveform screen\nLet's modify our handler function to \
+store waveform in `ilines` symbol", "Display" -> "markdown", 
+    "Hash" -> "f06e249d-fdf2-496e-9315-8e93c218e78b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "EventHandler[\"bufferEnds\", {\"More\" -> Function[Null,\n  \
+With[{c = (1.0/44100.0) (2Pi)},\n    With[{sampled = 32760 \
+Table[samplingFunction[c (i + time)], {i, 0, 4 1024 - 1}]},\n      buffer = \
+NumericArray[sampled, \"Integer16\", \"ClipAndRound\"];\n      ilines = \
+NumericArray[\n        Transpose[{Range[4 1024], sampled}]\n      , \
+\"Integer16\", \"ClipAndRound\"];\n    ];\n    \n    time += 4 1024;\n  \
+];\n]}];", "Display" -> "codemirror", 
+    "Hash" -> "92cb8e94-0747-45d6-ba69-d4bfc087089b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> ".md\n\n:::tip\nProject the cell below to a window\n:::", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a934890a-8391-4254-b806-4a176fd47c31", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "\n:::tip\nProject the cell below to a window\n:::", 
+    "Display" -> "markdown", "Hash" -> 
+     "b469de6d-63ab-40da-baa3-df414aa42ede", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "Graphics[{Line[ilines // Offload]}, \"TransitionType\"->None, \
+AspectRatio->0.5, \"Controls\"->False, PlotRange->{{0, 4 1024}, {-32760, \
+32760}}]", "Display" -> "codemirror", 
+    "Hash" -> "4e8602ee-ba57-4ad3-ba5b-66f8dee416aa", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> ".md\n## GUI controls\nHere we set up a bunch of sliders to \
+control the oscillator parameters", "Display" -> "codemirror", 
+    "Hash" -> "757411e9-2851-4a86-a29e-de97e8c192ad", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "## GUI controls\nHere we set up a bunch of sliders to control \
+the oscillator parameters", "Display" -> "markdown", 
+    "Hash" -> "ef62a024-0c75-4384-a9e6-c3a337f4ab76", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>, 
+   <|"Data" -> "EventHandler[InputGroup[<|\n  \"w1\" -> InputRange[10, 800, \
+1, 455, \"Label\"->\"Osc 1\"],\n  \"w2\" -> InputRange[10, 800, 1, 455, \
+\"Label\"->\"Osc 2\"],\n  \"d\"  -> InputRange[50, 1000, 10, 300, \
+\"Label\"->\"Decay\"],\n  \"r\"  -> InputRange[0.5, 4.5, 0.1, 3.1, \
+\"Label\"->\"Period\"]\n|>, \"Layout\"->\"Horisontal\"], With[{},\n  \
+samplingFunction = Function[t, With[{mod = Mod[t, #r]},\n    Sin[#w1 t ] \
+Sin[#w2 t ] Exp[-t mod / #d ] \n  ]];\n]&]", "Display" -> "codemirror", 
+    "Hash" -> "eb4f1bf7-3264-46b0-9a2a-37d1e90746b8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True, "InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "6e31cec9-4df0-4e8d-8650-9a3e85047829"|>}, 
+ "serializer" -> "jsfn4"|>

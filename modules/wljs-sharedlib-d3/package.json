@@ -1,0 +1,44 @@
+{
+  "name": "wljs-sharedlib-d3",
+  "version": "0.0.2",
+  "description": "A shared javascript library D3.js used by Graphics-D3 package",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "watch": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs -w",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-sharedlib-d3 && mv wljs-sharedlib-d3/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "js": "dist/kernel.js",
+    "minjs": "dist/kernel.min.js",
+    "category": "Shared libraries",
+    "priority": -10,
+    "cellExportRequired": true,
+    "figureExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-sharedlib-d3"
+  },
+  "author": "Kirill Vasin",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/JerryI/wljs-sharedlib-d3/issues"
+  },
+  "homepage": "https://github.com/JerryI/wljs-graphics-d3#readme",
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "d3": "^7.8.2",
+    "d3-arrow": "^0.0.25",
+    "d3-interpolate-path": "^2.3.0",
+    "rollup": "^3.20.6",
+    "rollup-plugin-combine": "^2.1.1",
+    "serve-static": "^1.14.1",
+    "systemjs": "^6.14.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4"
+  }
+}

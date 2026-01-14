@@ -1,0 +1,83 @@
+<|"Notebook" -> <|"Controller" -> "757e4580-51c2-4b6e-a0fb-178e43c3646b", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$369], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "ba48220a-7c5b-40e1-a573-19b46b2e5502", "Objects" -> <||>, 
+   "Path" -> "/Applications/WLJS \
+Notebook.app/Contents/Resources/app/wljs_packages/wljs-snippets/library/noteb\
+ookdir.wln", "PublicFields" -> {"Properties"}, "Quick" -> True, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Notebook directory", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$367]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n# Notebook directory\nOpens notebook directory", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2c9cadc7-7eb2-4e38-976f-8fbec209c1e1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ebcedcb3-408b-4f4e-8322-ae6d7abed17c"|>, 
+   <|"Data" -> "# Notebook directory\nOpens notebook directory", 
+    "Display" -> "markdown", "Hash" -> 
+     "fbbd7ac2-71c6-49f3-b621-f325573cf9d7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ebcedcb3-408b-4f4e-8322-ae6d7abed17c"|>, 
+   <|"Data" -> "If[FailureQ[Quiet[FrontFetch[WindowScope[\"electronAPI\"]]]],\
+\n  EchoLabel[\"Warning\"][\"Can't open a directory with a system explorer, \
+since WLJS is running on a server\"];\n,\n  \
+SystemOpen[NotebookDirectory[]]\n]", "Display" -> "codemirror", 
+    "Hash" -> "6873a9f2-e6fe-4931-8dcb-cd364db7db8e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ebcedcb3-408b-4f4e-8322-ae6d7abed17c"|>, 
+   <|"Data" -> "icon.wlx\nComponent[OptionsPattern[]] := With[{Title = \
+OptionValue[\"Title\"], Kbd = OptionValue[\"Shortcut\"], UTag = \
+OptionValue[\"Tag\"], Btn = OptionValue[\"Button\"]},\n    <li \
+tabindex=\"-1\" tag=\"{UTag}\" class=\"nooline rounded-sm group flex \
+cursor-default select-none items-center rounded-md px-2 py-1 \
+focus:bg-sys-25\">\n              <svg class=\"h-5 w-5 flex-none \
+text-gray-900  dark:text-gray-400 text-opacity-40\" viewBox=\"0 0 24 24\" \
+fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M9 13H15M15 \
+13L13 11M15 13L13 15M12.0627 6.06274L11.9373 5.93726C11.5914 5.59135 11.4184 \
+5.4184 11.2166 5.29472C11.0376 5.18506 10.8425 5.10425 10.6385 \
+5.05526C10.4083 5 10.1637 5 9.67452 5H6.2C5.0799 5 4.51984 5 4.09202 \
+5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 \
+8.2V15.8C3 16.9201 3 17.4802 3.21799 17.908C3.40973 18.2843 3.71569 18.5903 \
+4.09202 18.782C4.51984 19 5.07989 19 6.2 19H17.8C18.9201 19 19.4802 19 19.908 \
+18.782C20.2843 18.5903 20.5903 18.2843 20.782 17.908C21 17.4802 21 16.9201 21 \
+15.8V10.2C21 9.0799 21 8.51984 20.782 8.09202C20.5903 7.71569 20.2843 7.40973 \
+19.908 7.21799C19.4802 7 18.9201 7 17.8 7H14.3255C13.8363 7 13.5917 7 13.3615 \
+6.94474C13.1575 6.89575 12.9624 6.81494 12.7834 6.70528C12.5816 6.5816 \
+12.4086 6.40865 12.0627 6.06274Z\" stroke=\"currentColor\" \
+stroke-width=\"1.5\" stroke-linecap=\"round\" \
+stroke-linejoin=\"round\"/>\n</svg> \n              <span class=\"ml-3 \
+flex-auto truncate\"><Title/></span><span class=\"ml-3 flex-none text-xs \
+font-semibold text-gray-500\">\n                <kbd \
+class=\"font-sans\"><Kbd/></kbd>\n                <button class=\"p-0.5 \
+rounded hover:bg-gray-100 dark:hover:bg-gray-200\" btag=\"{Btn}\">\n          \
+             <svg class=\"w-4 h-4 text-gray-400\" viewBox=\"0 0 24 24\" \
+fill=\"none\">\n                    <path fill-rule=\"evenodd\" \
+clip-rule=\"evenodd\" d=\"M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 \
+17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 \
+6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 \
+1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 \
+22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 7.75 10.875 8.25368 \
+10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 \
+9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 \
+7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 13.3353 11.1354C13.1385 \
+11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 11.6246 12.75 11.7036 12.75 \
+11.75V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 \
+11.25 13V11.75C11.25 11.2441 11.4715 10.8336 11.7266 10.533C11.9786 10.236 \
+12.2929 10.0092 12.5715 9.84439C12.9044 9.64739 13.125 9.28655 13.125 \
+8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 \
+16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 \
+17 12 17Z\" fill=\"currentColor\"/>\n                  </svg>         \n      \
+          </button>\n              </span>\n    </li>    \
+\n];\n\nOptions[Component] = {\"Title\"->\"Example\", \"Shortcut\"->\"\", \
+\"Tag\"->\"generic\", \"Button\"->Null};\n\nComponent", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7747adea-a87c-43fc-bca2-8242c52374fb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ebcedcb3-408b-4f4e-8322-ae6d7abed17c"|>}, 
+ "serializer" -> "jsfn4"|>

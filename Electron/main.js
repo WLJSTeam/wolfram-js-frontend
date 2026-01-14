@@ -397,7 +397,7 @@ pluginsMenu.fetch = () => {
             }
         }    
     }    
-    const defaultPath = path.join(rootAppFolder, 'wljs_packages');
+    const defaultPath = path.join(rootAppFolder, 'modules');
 
     if (!fs.existsSync(defaultPath)) return;
 

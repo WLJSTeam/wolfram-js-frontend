@@ -1,0 +1,23 @@
+{
+    "name": "wljs-demos-archive",
+    "version": "0.0.8",
+    "description": "Examples for WLJS Notebook",
+    "scripts": {
+      "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+      "restore": "mkdir _temp && cd _temp && git clone https://github.com/JerryI/wljs-demos-archive && mv wljs-demos-archive/.git ../.git && cd .. && rm -rf _temp"
+    },
+    "defaultPackage": true,
+    "wljs-meta": {
+      "frontend": [
+        "Frontend.wl",
+        "README.wl"
+      ],
+      "priority": 1000,
+      "category": "Misc"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/JerryI/wljs-demos-archive"
+    }
+  }
+  

@@ -1,0 +1,12 @@
+Data = Drop[Import[$FirstChild, "TSV"], 3];
+
+PlottingDevice = With[{p = ListLinePlot[Data, PlotRange->Full, ImageSize->700]},
+    Insert[p, Controls->True, {2,-1}]
+];
+
+<figure style="display: inline-block">
+    <WLJS Class={"h-auto max-w-full flex rounded-lg p-3 bg-gray-100"}>
+        <PlottingDevice/>
+    </WLJS>
+    <figcaption class="text-center gap-x-4 min-w-0 mt-1 text-xs leading-5 text-gray-500">Drag - pan, wheel - zoom</figcaption>
+</figure>

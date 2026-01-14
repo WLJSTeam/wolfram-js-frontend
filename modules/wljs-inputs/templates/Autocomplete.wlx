@@ -1,0 +1,242 @@
+AutocompleteComponent[OptionsPattern[]] := With[{
+    Event = OptionValue["Event"], 
+    HandlerSymbol = OptionValue["HandlerSymbol"],
+    UId = CreateUUID[], 
+    Label = OptionValue["Label"],
+    Default = OptionValue["Default"],
+    ClearOnSubmit = If[OptionValue["ClearOnSubmit"], "true", "false"]
+},
+
+<div>
+  <label class="ml-1 block text-gray-600 sm-controls"><Label/></label>
+  <div class="relative mt-2">
+    <input id="#instanceId-text" style="padding-left:0.5rem" value="{Default}" type="text" class="sm-controls block w-full rounded-md bg-white border-0 py-1 px-1 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-sys" role="combobox" aria-controls="options" aria-expanded="false"/>
+    <button id="#instanceId-search" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden">
+      <svg class="w-4 h-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"></path>
+      </svg>
+    </button>
+  </div>
+  <script type="module">
+    const inputField = document.getElementById("#instanceId-text");
+    const parent = inputField.parentNode;
+    const search = document.getElementById("#instanceId-search");
+
+    let list;
+    
+    const clearOnSubmit = <ClearOnSubmit/>;
+
+    let renderedArray = [];
+    let opened = false;
+
+    const construct = () => {
+      const ul = document.createElement('ul');
+      ul.classList.add(...("hidden absolute z-10 pl-0 mt-1 max-h-60 overflow-auto rounded-md dark:bg-gray-700 dark:ring-gray-500 bg-white py-1 border-0 text-base focus:outline-hidden sm:text-sm ring-1 ring-inset ring-gray-300".split(' ')));
+
+      const rect = inputField.getBoundingClientRect();
+      console.warn(rect);
+      ul.style.top = (rect.top+rect.height)+'px';
+      ul.style.left = rect.left+'px';
+      ul.style.width = rect.width+'px';
+      ul.classList.remove('hidden');
+
+      list = ul;
+      document.body.append(ul);
+    }
+
+    const destruct = () => {
+      if (!list) return;
+      console.warn('Destroy autocomplete');
+      list.remove();
+      list = undefined;
+    }
+
+    const generate = (array, enter) => {
+      if (!opened) return;
+
+      if (!list) construct();
+      
+      let newArray = array.map((el, indeX) => {
+        return {name: String(el), value: indeX, index: (indeX), domId: '<UId/>'+String(el)}
+      });
+      
+      renderedArray.filter((x) => !newArray.some((element) => element.domId === x.domId)).forEach((el) => {
+        el.dom.remove();
+      });
+
+      const intersection = [];
+      renderedArray.forEach((el) => {
+        const found = newArray.find((element) => element.domId === el.domId);
+        if (found) {
+          intersection.push(el);
+          el.value = found.value;
+          el.index = found.index;
+        }
+      });
+
+      console.log(intersection);
+      
+      const newElements = newArray.filter((x) => !intersection.some((element) => element.domId === x.domId));
+      console.log(newElements);
+
+      newElements.forEach((el) => {
+        const node = document.createElement('li');
+        node.classList.add('list-none', 'pl-3', 'nooline', 'focus:bg-sys-25', 'relative', 'dark:text-gray-400', 'cursor-default', 'py-1', 'text-gray-900', 'select-none');
+        node.tabIndex = -1;
+        
+        const span = document.createElement('span');
+        span.classList.add('block', 'truncate');
+        span.innerText = el.name;
+        
+        node.appendChild(span);
+        list.prepend(node);
+
+        node.addEventListener('click', () => {
+          submit(el.index);
+          close();
+        });
+        
+        
+        el.dom = node;
+      });
+
+      renderedArray = [...intersection, ...newElements];
+
+      renderedArray = renderedArray.sort((a, b) => a.value - b.value);
+
+      renderedArray.toReversed().forEach((el) => {
+        list.prepend(el.dom);
+      });
+    }
+
+    
+
+    let keyHandler;
+    let currentLI = -1;
+    keyHandler = (event) => {
+      // Check for up/down key presses
+      switch(event.keyCode){
+        case 38: // Up arrow    
+          if (renderedArray.length == 0) {
+            currentLI = -1;
+            return;
+          }
+          
+          currentLI--;
+          if (currentLI < 0) {
+            currentLI = -1;
+            inputField.focus();
+            event.preventDefault();
+            return;
+          }
+          renderedArray[currentLI].dom.focus(); // Highlight the new element
+          event.preventDefault();
+        break;
+        case 40: // Down arrow
+          if (renderedArray.length == 0) {
+            currentLI = -1;
+            return;
+          }
+          currentLI = currentLI < renderedArray.length-1 ? ++currentLI : renderedArray.length-1; // Increase counter 
+          renderedArray[currentLI].dom.focus();       // Highlight the new element
+          event.preventDefault();
+        break;    
+
+        case 13: //Enter
+          event.preventDefault();
+          
+          if (renderedArray.length == 0) currentLI = -1;
+          
+          if (currentLI < 0) {
+            submit(inputField.value.trim());
+            close();
+          } else {
+            renderedArray[currentLI].dom.click();
+          }
+          
+        break;
+
+        case 27: //Esc
+          event.preventDefault();
+          close();
+        break;
+      }
+    };
+
+    search.addEventListener('click', () => {
+      submit(inputField.value.trim());
+      close();
+    });
+
+    var close = () => {
+      opened = false;
+      document.removeEventListener("keydown", keyHandler);
+      if (list) list.classList.add('hidden');
+      
+      destruct();
+      renderedArray = [];
+      
+      currentLI = -1;
+    }
+
+    var submit = (data) => {
+      
+      if (clearOnSubmit) inputField.value = '';
+      inputField.blur();
+      if (typeof data == 'string') {
+        if (data.trim() == '') return;
+        server.kernel.emitt('<Event/>', '"'+data+'"', "Entered");
+      } else {
+        if (!clearOnSubmit) inputField.value = renderedArray.find((el) => el.index === data).name;
+        server.kernel.emitt('<Event/>', '"'+renderedArray[data].name+'"', "Selected");
+      }
+    } 
+
+    let outOfFocus;
+
+    inputField.addEventListener('input', () => {
+        const trimmed = inputField.value.trim();
+        if (trimmed.length >= 2) {
+            server.kernel.ask('<HandlerSymbol/>["'+encodeURIComponent(trimmed)+'"]', 'callback').then(async (result) => {
+                const assoc = await interpretate(result, {});
+                if (!assoc) return;
+                if (!assoc.length) return;
+
+                generate(assoc);
+            })
+        } 
+    })
+
+    inputField.addEventListener('focus', () => {
+      opened = true;
+      
+      document.addEventListener("keydown", keyHandler);
+      //list.classList.remove('hidden');
+
+      window.addEventListener('click', outOfFocus);
+    });
+
+    
+    outOfFocus = (ev) => {
+                            console.log(ev.target);
+                            if (!parent.contains( ev.target )) {
+                                window.removeEventListener('click', outOfFocus);
+                                close();
+                            }
+
+                            ev.stopPropagation();
+    };
+
+    
+    
+    
+
+    
+  </script>
+</div>
+
+]
+
+Options[AutocompleteComponent] = {"Default"->"", "ClearOnSubmit" -> True, "Label"->"", "Event"->"", "HandlerSymbol"->Null}
+
+AutocompleteComponent

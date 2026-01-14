@@ -1,0 +1,207 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$134], 
+   "HaveToSaveAs" -> False, "Objects" -> <||>, "Path" -> "/Users/kirill/Githu\
+b/wolfram-js-frontend-dev/Demos/Release notes/2.5.4.wln", "Quick" -> True, 
+   "Symbols" -> <||>, "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
+      "Release notes *2.5.4*", CellObj[JerryI`Notebook`CellObj`$46]], 
+     Notebook`Editor`TOC`Private`heading[2, "Outline feature", 
+      CellObj[JerryI`Notebook`CellObj`$48]], 
+     Notebook`Editor`TOC`Private`heading[2, "Find and replace", 
+      CellObj[JerryI`Notebook`CellObj`$50]], 
+     Notebook`Editor`TOC`Private`heading[2, 
+      "Links to documentation in autocomplete panel", 
+      CellObj[JerryI`Notebook`CellObj`$66]]}|>, 
+ "Cells" -> {<|"Data" -> ".html\n\n<style>\n  .balloon {\n  height: 125px;\n  \
+width: 105px;\n  border-radius: 75% 75% 70% 70%;\n  position: \
+relative;\n}\n\n.balloon:before {\n  content: \"\";\n  height: 75px;\n  \
+width: 1px;\n  padding: 1px;\n  background-color: #FDFD96;\n  display: \
+block;\n  position: absolute;\n  top: 125px;\n  left: 0;\n  right: 0;\n  \
+margin: auto;\n}\n\n.balloon:after {\n    content: \"\[FilledUpTriangle]\";\n \
+   text-align: center;\n    display: block;\n    position: absolute;\n    \
+color: inherit;\n    top: 120px;\n    left: 0;\n    right: 0;\n    margin: \
+auto;\n}\n\n@keyframes float {\n  from {transform: translateY(100vh);\n  \
+opacity: 1;}\n  to {transform: translateY(-300vh);\n  opacity: \
+0;}\n}\n#balloon-container {\n  height: 100vh;\n  top: 0;\n  \
+position:fixed;\n  bottom: 0;\n  z-index: -99;  \n  padding: 1em;\n  \
+box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  overflow: \
+hidden;\n  transition: opacity 500ms;\n}\n</style>\n\n<div \
+id=\"balloon-container\">\n</div>", "Display" -> "codemirror", 
+    "Hash" -> "94b0079d-f6b5-4346-8fa3-b59c3bd12247", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> "\n<style>\n  .balloon {\n  height: 125px;\n  width: 105px;\n  \
+border-radius: 75% 75% 70% 70%;\n  position: relative;\n}\n\n.balloon:before \
+{\n  content: \"\";\n  height: 75px;\n  width: 1px;\n  padding: 1px;\n  \
+background-color: #FDFD96;\n  display: block;\n  position: absolute;\n  top: \
+125px;\n  left: 0;\n  right: 0;\n  margin: auto;\n}\n\n.balloon:after {\n    \
+content: \"\[FilledUpTriangle]\";\n    text-align: center;\n    display: \
+block;\n    position: absolute;\n    color: inherit;\n    top: 120px;\n    \
+left: 0;\n    right: 0;\n    margin: auto;\n}\n\n@keyframes float {\n  from \
+{transform: translateY(100vh);\n  opacity: 1;}\n  to {transform: \
+translateY(-300vh);\n  opacity: 0;}\n}\n#balloon-container {\n  height: \
+100vh;\n  top: 0;\n  position:fixed;\n  bottom: 0;\n  z-index: -99;  \n  \
+padding: 1em;\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: \
+wrap;\n  overflow: hidden;\n  transition: opacity 500ms;\n}\n</style>\n\n<div \
+id=\"balloon-container\">\n</div>", "Display" -> "html", 
+    "Hash" -> "56d36f3a-eb62-4e33-a7f2-88fb4bc63cae", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".js\n\nconst balloonContainer = \
+document.getElementById(\"balloon-container\");\n\nfunction random(num) {\n  \
+return Math.floor(Math.random() * num);\n}\n\nfunction getRandomStyles() {\n  \
+var r = random(255);\n  var g = random(255);\n  var b = random(255);\n  var \
+mt = random(200);\n  var ml = random(50);\n  var dur = random(5) + 5;\n  \
+return `\n  background-color: rgba(${r},${g},${b},0.7);\n  color: \
+rgba(${r},${g},${b},0.7); \n  box-shadow: inset -7px -3px 10px rgba(${r - \
+10},${g - 10},${b - 10},0.7);\n  margin: ${mt}px 0 0 ${ml}px;\n  animation: \
+float ${dur}s ease-in infinite\n  `;\n}\n\nfunction createBalloons(num) {\n  \
+for (var i = num; i > 0; i--) {\n    var balloon = \
+document.createElement(\"div\");\n    balloon.className = \"balloon\";\n    \
+balloon.style.cssText = getRandomStyles();\n    \
+balloonContainer.append(balloon);\n  }\n}\n\nfunction removeBalloons() {\n  \
+balloonContainer.style.opacity = 0;\n  setTimeout(() => {\n    \
+balloonContainer.remove()\n  }, \
+500)\n}\n\ncreateBalloons(10);\nsetTimeout(removeBalloons, 7000);\n\nreturn \
+'';\n", "Display" -> "codemirror", "Hash" -> 
+     "70877e9c-322d-4169-ae01-72bf2bdd4fad", "Invisible" -> True, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> "\nconst balloonContainer = \
+document.getElementById(\"balloon-container\");\n\nfunction random(num) {\n  \
+return Math.floor(Math.random() * num);\n}\n\nfunction getRandomStyles() {\n  \
+var r = random(255);\n  var g = random(255);\n  var b = random(255);\n  var \
+mt = random(200);\n  var ml = random(50);\n  var dur = random(5) + 5;\n  \
+return `\n  background-color: rgba(${r},${g},${b},0.7);\n  color: \
+rgba(${r},${g},${b},0.7); \n  box-shadow: inset -7px -3px 10px rgba(${r - \
+10},${g - 10},${b - 10},0.7);\n  margin: ${mt}px 0 0 ${ml}px;\n  animation: \
+float ${dur}s ease-in infinite\n  `;\n}\n\nfunction createBalloons(num) {\n  \
+for (var i = num; i > 0; i--) {\n    var balloon = \
+document.createElement(\"div\");\n    balloon.className = \"balloon\";\n    \
+balloon.style.cssText = getRandomStyles();\n    \
+balloonContainer.append(balloon);\n  }\n}\n\nfunction removeBalloons() {\n  \
+balloonContainer.style.opacity = 0;\n  setTimeout(() => {\n    \
+balloonContainer.remove()\n  }, \
+500)\n}\n\ncreateBalloons(10);\nsetTimeout(removeBalloons, 15000);\n\nreturn \
+'';\n", "Display" -> "js", "Hash" -> "0a1a38ea-e8ac-4b22-a62a-7543f1f4226a", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".md\n# Release notes *2.5.4*\n\nPerfomance improvements \
+(mostly in WLJS Interpreter, removed a lot of logging and outdated APIs), new \
+UI features, better support of WL functions", "Display" -> "codemirror", 
+    "Hash" -> "33f3d643-8d3d-498c-ae9a-4879ea4dd3f6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> "># Release notes *2.5.4*\n\nPerfomance improvements (mostly \
+in WLJS Interpreter, removed a lot of logging and outdated APIs), new UI \
+features, better support of WL functions", "Display" -> "markdown", 
+    "Hash" -> "48935349-068e-4742-994e-82802ce7d3f7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".md\n## Outline feature\nTable of content is automatically \
+created for notebook with more than 1 headings. It scans all markdown cells \
+and extracts headings from them \
+\n\n![](/attachments/Screenshot%202024-08-14%20at%2020.54.17.png)\n\nIf you \
+click on labels it will automatically scroll into its view\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b145c553-f2b9-43a0-9193-ea30c3875cd5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ">## Outline feature\nTable of content is automatically \
+created for notebook with more than 1 headings. It scans all markdown cells \
+and extracts headings from them \
+\n\n![](/attachments/Screenshot%202024-08-14%20at%2020.54.17.png)\n\nIf you \
+click on labels it will automatically scroll into its view\n", 
+    "Display" -> "markdown", "Hash" -> 
+     "04140fcf-3967-4bac-84ac-142335180cbc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".md\n## Find and replace\nThe most basic feature you know \
+from other IDE is now implemented. The search is localized for each cell and \
+can be called using `Ctrl/Cmd+f` combination of \
+keys\n\n\n![](/attachments/Screenshot%202024-08-14%20at%2020.56.31.png)\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "55f395a9-aadb-4a99-bf96-861a4b9ba48f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ">## Find and replace\nThe most basic feature you know from \
+other IDE is now implemented. The search is localized for each cell and can \
+be called using `Ctrl/Cmd+f` combination of \
+keys\n\n\n![](/attachments/Screenshot%202024-08-14%20at%2020.56.31.png)", 
+    "Display" -> "markdown", "Hash" -> 
+     "2791a65c-a7b2-4d5a-ae69-a09ac8f66e9b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".md\n## Figures export\nThere is a way to embed individual \
+graphs from your notebook to a web. You need just a little knowledge about \
+HTML \
+technology.\n\n<br/>\n\n![](/attachments/Screenshot%202024-07-27%20at%2019.22\
+.59.png)\n\n<br/>\n\n\n![](/attachments/Screenshot%202024-07-27%20at%2019.23.\
+32.png)\n\n<br/>\n\nThen you select which plot to export and as a result you \
+get two section of HTML/JS code: *head* and *figure itself*\n\n<br/>\n\nThe \
+head contains all libraries and core scripts and can be reused for all \
+figures on the same page.\n\n<br/>\n\nRemove libraries, which are not used in \
+your plots from the head section to reduce the loading time of your website. \
+WLJS cannot guess it automatically.\n\n<br/>\n\nThe code section for the \
+figure can be embedded to any place in your HTML document. Feel free to \
+customize CSS.\n", "Display" -> "codemirror", 
+    "Hash" -> "e7a6accf-cdc3-41a6-8b16-7c35b1ac14ce", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".md\n## Links to documentation in autocomplete panel\nClick \
+to \|01f50e icon to open a documentation on a given \
+symbol\n\n\n![](/attachments/Screenshot%202024-08-15%20at%2012.50.31.png)\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "53f42f9d-cd51-4e1c-80ff-f9288692fb5a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ">## Links to documentation in autocomplete panel\nClick to \
+\|01f50e icon to open a documentation on a given \
+symbol\n\n\n![](/attachments/Screenshot%202024-08-15%20at%2012.50.31.png)", 
+    "Display" -> "markdown", "Hash" -> 
+     "3641170c-0f5e-4f69-8410-d75afa306e0f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".md\n*Ballon animation by Jemima (codepen)*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "33076cf6-f2c0-48de-b478-98df82be812f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ">*Ballon animation by Jemima (codepen)*", 
+    "Display" -> "markdown", "Hash" -> 
+     "6eab5859-99a3-464f-a8b7-d0c2915dfb4c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> ".html\n\n<style>\n  [transparency=\"false\"] .bg-g-trans {\n  \
+  background: transparent !important;\n  }\n\n  [transparency=\"true\"] \
+.bg-g-trans {\n    background: transparent !important;\n  }\n</style>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "19fcdf0b-692d-4055-a17d-a6dcbf0f00cc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> "\n<style>\n  [transparency=\"false\"] .bg-g-trans {\n    \
+background: transparent !important;\n  }\n\n  [transparency=\"true\"] \
+.bg-g-trans {\n    background: transparent !important;\n  }\n</style>", 
+    "Display" -> "html", "Hash" -> "5e9d4178-83dd-42d6-8d68-a266d8515f7e", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "67e3be9b-f2a3-435f-bd20-ecf795d302de", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "856e89f8-8e9c-4c37-844d-53a5c2485a5d"|>}, "serializer" -> "jsfn4"|>

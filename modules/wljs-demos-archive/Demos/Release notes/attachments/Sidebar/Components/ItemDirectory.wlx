@@ -1,0 +1,87 @@
+Component[OptionsPattern[]] := With[{
+  File  = OptionValue["File"],
+  Level = OptionValue["Level"] + 1,
+  ItemListComponent = OptionValue["ItemListComponent"],
+
+  Icons = OptionValue["Icons"],
+
+  (*/* uids for events */*)
+  ButtonId    = CreateUUID[],
+  Controller  = CreateUUID[],
+
+  channel = OptionValue["Channel"],
+
+  Selected = If[TrueQ[OptionValue["Selected"]], "bg-yellow-300", ""]
+
+}, LeakyModule[{State},
+
+  (*/* state of a widget */*)
+  State = "Empty";
+
+  (*/* handling clicks */*)
+  EventHandler[ButtonId, Function[Null,
+      Switch[State,
+        "Empty",
+          State = "Open";
+          With[{client = $Client},
+              EventFire[Controller, "Load", <|"Client"->client|>];
+          ],
+        
+        "Open",
+          State = "Hidden";
+          With[{client = $Client},
+            EventFire[Controller, "Hide", <|"Client"->client|>];
+          ], 
+        
+        "Hidden",
+          State = "Open";
+          With[{client = $Client},
+            EventFire[Controller, "Show", <|"Client"->client|>];
+          ]       
+      ];
+  ]];
+
+
+
+  <div style="position:relative">
+      <div class="rounded-md">
+        <button id="{ButtonId}" type="button" class="{Selected} flex items-center w-full text-left rounded-md pb-0.5 pt-0.5 pl-1 gap-x-1 text-sm text-gray-700 dark:text-gray-400" aria-controls="sub-menu-1" aria-expanded="false">
+
+          <svg id="svg-{ButtonId}" class="text-gray-800 dark:text-gray-400 h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+          </svg>
+          <svg class="h-4 w-4 shrink-0 text-gray-800 dark:text-gray-400 group-hover:text-indigo-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+                          </svg>
+          <FileBaseName><File/></FileBaseName>
+
+        </button>
+
+      </div>
+
+      <WebUIEventListener Type={"click"} Id={ButtonId} Event={ButtonId} />
+
+      <WebUIJSBind Event={Controller}>
+        const button = document.getElementById('svg-<ButtonId/>');
+        this.on('Load', (data) => {
+          button.classList.add('rotate-90', 'text-gray-500');
+        });
+
+        this.on('Show', (data) => {
+          button.classList.add('rotate-90', 'text-gray-500');
+        });        
+
+        this.on('Hide', (data) => {
+          button.classList.remove('rotate-90', 'text-gray-500');
+        });      
+      </WebUIJSBind>
+
+      <WebUILazyLoad Event={Controller}>
+          <ItemListComponent Icons={Icons} Level={Level} Channel={channel} Class={"mt-0"} Path={File} />
+      </WebUILazyLoad>
+  </div>
+]]
+
+Options[Component] = {"Icons" -> {}, "ItemListComponent" -> Null, "Level" -> 0, "File" -> "", "Selected" -> "", "Channel" -> ""}
+
+Component

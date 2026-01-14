@@ -1,0 +1,171 @@
+Component[OptionsPattern[]] := With[{Class = OptionValue["Class"], Event = OptionValue["Event"], Label = OptionValue["Label"], Descr = OptionValue["Description"]},
+ {
+    <div class="flex items-center sm-controls {Class}">
+        <label id="label-#instanceId" for="#instanceId" class="relative transition-all cursor-default rounded-md 0 pl-3 pr-2 text-left text-gray-500  ring-1 ring-inset ring-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-600 sm:text-xs sm:leading-6 bg-gray-200 hover:bg-gray-100">
+            <div id="bar-#instanceId" class="absolute bg-gray-400/30 top-0 left-0 w-0 h-full z-0 rounded-md transition-all" style="width:0%"></div>
+            <div class="flex flex-col items-center justify-center py-2">
+                <p class="text-sm text-gray-500 pr-1 flex gap-x-1 items-center z-50">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" >
+                        <path d="M17 17H17.01M15.6 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H8.4M12 15V4M12 4L15 7M12 4L9 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg><span id="text-#instanceId"><Label/></span></p>
+                <p class="text-xs text-gray-400 z-50"><Descr/></p>
+            </div>
+            <input id="#instanceId" type="file" class="hidden" />
+        </label>
+    </div> 
+ ,
+    <script type="module">
+        const element = document.getElementById('#instanceId');
+        const label   = document.getElementById('label-#instanceId');
+        const text    = document.getElementById('text-#instanceId');
+
+        const bar    = document.getElementById('bar-#instanceId');
+        const area    = document.getElementById('area-#instanceId');
+
+        const originalCaption = text.innerText;
+
+        let dragged = false;
+
+        const splitStringIntoChunks0 = (str, chunkSize) => {
+            if (!str || chunkSize <= 0) return [];
+            
+            const chunks = [];
+            for (let i = 0; i < str.length; i += chunkSize) {
+              chunks.push(str.slice(i, Math.min(i + chunkSize, str.length)));
+            }
+            return chunks;
+        }
+
+        const transferFiles = (list) => {
+            if (list.length == 0) return;
+            const id = new Date().valueOf();
+            let count = 0;
+
+            const progress = (num) => {
+                if (num == 0) {
+                    text.innerText = "Uploading...";
+                    bar.style.width = "10%";
+                    return;
+                }
+
+                if (num >= list.length) {
+                    text.innerText = "Done";
+                    bar.style.width = "100%";
+                    bar.classList.add('bg-green-300/50');
+                    setTimeout(() => {
+                        bar.style.width = "0%";
+                        text.innerText = originalCaption;
+                        bar.classList.remove('bg-green-300/50');
+                    }, 500);
+
+                    return;                    
+                }
+
+                bar.style.width =`${Math.round(100.0 * count / (list.length))}%`;
+            };
+
+            progress(0);
+            server.kernel.emitt('<Event/>', `<|"Id" -> "${id}", "Length" -> ${list.length}|>`, 'Transaction');
+            
+            for (const file of list) {
+                readFile(file, (name, result) => {
+                    if (result.length > 5 * 1024 * 1024) {
+                        const chunks = splitStringIntoChunks0(result, 5 * 1024 * 1024);
+                        chunks.forEach((chunk, index) => {
+                            server.kernel.emitt('<Event/>', `<|"Transaction" -> "${id}", "Chunk"->${index+1}, "Chunks"->${chunks.length}, "Name" -> "${name}", "Data" -> "${chunk}"|>`, 'Chunk');
+                        });                        
+                    } else {
+                        server.kernel.emitt('<Event/>', `<|"Transaction" -> "${id}", "Name" -> "${name}", "Data" -> "${result}"|>`, 'File');
+                    }
+                    count++;
+                    progress(count);
+                })
+            }
+            
+        }
+
+        function readFile(file, cbk) {
+            const reader = new FileReader();
+            reader.addEventListener('load', (event) => {
+              let compressedData = base64ArrayBuffer(event.target.result);
+              console.log(compressedData);
+              cbk(file.name, compressedData);  
+            });
+          
+            reader.addEventListener('progress', (event) => {
+              if (event.loaded && event.total) {
+                const percent = (event.loaded / event.total) * 100;
+                console.log(percent);
+              }
+            });
+    
+            reader.readAsArrayBuffer(file);
+        }
+
+        element.addEventListener('change', (event) => {
+            const fileList = event.target.files;
+            const filesArray = [];
+            for (let i=0; i<fileList.length; ++i) {
+                filesArray.push(fileList[i]);
+            };
+
+            transferFiles(filesArray);
+        });
+
+        label.addEventListener('dragover', (ev)=>{
+            console.log("Dragover");
+            ev.preventDefault();
+            if (dragged) return;
+            label.classList.add('py-5');
+            dragged = true;
+        });    
+
+        label.addEventListener('dragleave', (ev)=>{
+            console.log("File(s) out drop zone");
+            ev.preventDefault();
+            dragged = false;
+            label.classList.remove('py-5');
+        }); 
+
+        label.addEventListener('drop', (ev)=>{
+            console.log("File(s) dropped");
+            dragged = false;
+            label.classList.remove('py-5');
+
+            // Prevent default behavior (Prevent file from being opened)
+            ev.preventDefault();
+
+            const filesArray = [];
+          
+            if (ev.dataTransfer.items) {
+              // Use DataTransferItemList interface to access the file(s)
+              
+              [...ev.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                console.log('first WAY');
+                if (item.kind === "file") {
+                  const file = item.getAsFile();
+                  filesArray.push(file);
+                  //readFile(file);
+       
+                }
+              }); 
+            } else {
+              // Use DataTransfer interface to access the file(s)
+              [...ev.dataTransfer.files].forEach((file, i) => {
+                //readFile(file);
+                console.log('second WAY');
+                filesArray.push(file);
+        
+              });
+            }
+
+            transferFiles(filesArray);
+        });            
+    </script>
+ }
+]
+
+Options[Component] = {"Label"->"Click or drop to upload", "Description" -> "", "Event" -> "", "Class"->""}
+
+Component

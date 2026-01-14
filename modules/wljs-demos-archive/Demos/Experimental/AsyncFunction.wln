@@ -1,0 +1,85 @@
+<|"Notebook" -> <|"Controller" -> "eb4aa425-1913-4f2c-b473-990afc582173", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2650], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "679b7d6b-e50a-49ad-8999-963a994f3bdd", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Experimental/Asyn\
+cFunction.wln", "PublicFields" -> {"Properties"}, "Quick" -> True, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Async Functions", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2649]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "HTTP Request", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2803]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Async Functions\nHere is an async version of \
+pure function, which returns __Promise__. You can use __Await__ expression to \
+pause the execution inside", "Display" -> "codemirror", 
+    "Hash" -> "3793e0cf-ed36-4e0e-80a4-1c54c63e3b75", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> "# Async Functions\nHere is an async version of pure function, \
+which returns __Promise__. You can use __Await__ expression to pause the \
+execution inside", "Display" -> "markdown", 
+    "Hash" -> "075e100e-158e-4cca-9b44-09656cf0ddb4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> "p1 = Promise[];\np2 = Promise[];\np3 = Promise[];\n\nwin = \
+CurrentWindow[];\n\nf = AsyncFunction[Null, With[{},\n  Speak[\"Press p1\", \
+\"Window\"->win];\n  p1 // Await;\n  Speak[\"Press p2A or p2B\", \
+\"Window\"->win];\n  Module[{m = -100},\n    m = Await[p2];\n    \
+Speak[\"Pause 2 seconds\", \"Window\"->win];\n    PauseAsync[2] // Await;\n   \
+ \n    If[m > 4,\n      Speak[\"Press p3\", \"Window\"->win];\n      m = \
+Await[p3];\n    ];\n\n    StringTemplate[\"Result: ``\"][m]\n  \
+]\n]];\n\nThen[f[], Speak];", "Display" -> "codemirror", 
+    "Hash" -> "6ec18bb4-38bd-4777-8dd8-e4813b857668", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> ".md\nButtons to simulate async events", 
+    "Display" -> "codemirror", "Hash" -> 
+     "53665ee3-0265-478c-ab96-c7f4291dd3e5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> "Buttons to simulate async events", "Display" -> "markdown", 
+    "Hash" -> "9c522bfa-d4b1-4e9f-b483-e63d1c5fa00b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> "Button[\"p1\", EventFire[p1, Resolve, True]]\nButton[\"p2A\", \
+EventFire[p2, Resolve, 1]]\nButton[\"p2B\", EventFire[p2, Resolve, \
+5]]\nButton[\"p3\", EventFire[p3, Resolve, 10]]", "Display" -> "codemirror", 
+    "Hash" -> "bbf7b499-897b-47d1-b80b-d80dff9619c5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> 
+     ".md\n## HTTP Request\nHere is an example of async weather request", 
+    "Display" -> "codemirror", "Hash" -> 
+     "55811257-3d40-4972-82a4-dd6d0c308abf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> 
+     "## HTTP Request\nHere is an example of async weather request", 
+    "Display" -> "markdown", "Hash" -> 
+     "6732c93f-0053-4628-bceb-6c185c9cda89", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>, 
+   <|"Data" -> "If[Length[Kernels[]] == 0, \
+LaunchKernels[1]];\n\ngetTemperature = AsyncFunction[Null, \
+Module[{response},\n  temperature = \"Loading\";\n  response = \
+ParallelSubmitAsync[URLRead[\"https://api.open-meteo.com/v1/forecast?latitude\
+=52.52&longitude=13.41&current=temperature_2m\"]] // Await;\n  temperature = \
+ImportByteArray[response[\"BodyByteArray\"], \"RawJSON\"][\"current\", \
+\"temperature_2m\"];\n]];\n\ntemperature = \"\";\nTextView[temperature // \
+Offload, \"Label\"->\"Temperature\"]\nButton[\"Refresh\", getTemperature[]]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "57fdb888-b0b4-43c3-8654-e0fba9264fa8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4ccef74c-33c4-4c84-aca1-74f8b825feed"|>}, 
+ "serializer" -> "jsfn4"|>

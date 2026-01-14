@@ -1,0 +1,334 @@
+<|"Notebook" -> <|"Controller" -> "1ad3cd29-1431-4529-8953-f9df4829da46", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$551], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "d8f687d1-ecf4-4def-bc8e-d50feab6490d", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Dynamics and \
+interactivity/A - Manipulate.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "ManipulatePlot", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$525]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "General Manipulate expression", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$538]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[3, 
+      "Tips for better performance", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$562]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Fallback to Mathematica's Renderer", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$564]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## ManipulatePlot\nAn example of built-in \
+function for interactive plotting", "Display" -> "codemirror", 
+    "Hash" -> "f3c7095c-b01c-47d2-a031-b787ab67ca5d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "## ManipulatePlot\nAn example of built-in function for \
+interactive plotting", "Display" -> "markdown", 
+    "Hash" -> "d0d7193a-ad2b-4411-b979-f036b2b26840", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> 
+     "ManipulatePlot[Sin[w z + p], {z,0,10}, {w, 0, 15.1, 1}, {p, 0, Pi, \
+0.1}]", "Display" -> "codemirror", "Hash" -> 
+     "517884ee-188b-4345-bd1d-517586d66d4f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nExample with two curves", "Display" -> "codemirror", 
+    "Hash" -> "c41a670d-5c34-4fce-9512-62635d8ef7bc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Example with two curves", "Display" -> "markdown", 
+    "Hash" -> "5ebc8d2c-5cff-428a-b97b-b8e5c1e07f57", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "ManipulatePlot[{\n  (*TB[*)Sum[(*|*)(*FB[*)((Sin[2\[Pi](2j - \
+1) x])(*,*)/(*,*)(2j-1))(*]FB*)(*|*), \
+{(*|*)j(*|*),(*|*)1.0(*|*),(*|*)n(*|*)}](*|*)(*1:eJxTTMoPSmNiYGAoZgMSwaW5TvkV\
+mYwgPguQCCkqTQUAeAcHBQ==*)(*]TB*),\n  (*TB[*)Sum[(*|*)(*FB[*)((Cos[2\[Pi](2j \
+- 1) x])(*,*)/(*,*)(2j-1))(*]FB*)(*|*), \
+{(*|*)j(*|*),(*|*)1.0(*|*),(*|*)n(*|*)}](*|*)(*1:eJxTTMoPSmNiYGAoZgMSwaW5TvkV\
+mYwgPguQCCkqTQUAeAcHBQ==*)(*]TB*)\n  \n}, {x, -1,1}, {{n,4}, 1,7, 1}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "02647236-bc3e-4e08-8600-7fd2281b8255", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nOne can perform side effects using an optional \
+parameter", "Display" -> "codemirror", 
+    "Hash" -> "f06cb7cc-3f47-4132-97d2-e732692307cb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "One can perform side effects using an optional parameter", 
+    "Display" -> "markdown", "Hash" -> 
+     "588cfc78-c701-4dc4-bb76-48e1edd3648e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Module[{r},\n  ManipulatePlot[{\n    \
+(*TB[*)Sum[(*|*)(*FB[*)((Sin[2\[Pi](2j - 1) \
+x])(*,*)/(*,*)(2j-1))(*]FB*)(*|*), \
+{(*|*)j(*|*),(*|*)1.0(*|*),(*|*)n(*|*)}](*|*)(*1:eJxTTMoPSmNiYGAoZgMSwaW5TvkV\
+mYwgPguQCCkqTQUAeAcHBQ==*)(*]TB*),\n    \
+(*TB[*)Sum[(*|*)(*FB[*)((Cos[2\[Pi](2j - 1) \
+x])(*,*)/(*,*)(2j-1))(*]FB*)(*|*), \
+{(*|*)j(*|*),(*|*)1.0(*|*),(*|*)n(*|*)}](*|*)(*1:eJxTTMoPSmNiYGAoZgMSwaW5TvkV\
+mYwgPguQCCkqTQUAeAcHBQ==*)(*]TB*)\n  \n  }, {x, -1,1}, {{n,4}, 1,7, 1},\n  \
+Epilog -> {\n    Table[{\n      RandomColor[], Circle[RandomReal[{-1,1}, 2], \
+r // Offload]\n    }, {10}]\n  }, \"UpdateFunction\" -> Function[n,\n    r = \
+(n - 1)/5.0;\n    True\n  ]]\n]", "Display" -> "codemirror", 
+    "Hash" -> "99f10a8d-8899-41a9-a064-c019f7981b01", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\n`ManipulateParametricPlot` is another variation:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "54a8197f-bdc8-4782-8c6b-16ae4a06719d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "`ManipulateParametricPlot` is another variation:", 
+    "Display" -> "markdown", "Hash" -> 
+     "426342a7-31ea-45dd-9662-1ce4b02555bc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "ManipulateParametricPlot[Exp[-x/w]{Sin[x], Cos[x]}, \
+{x,0,4Pi}, {w,10,100}]", "Display" -> "codemirror", 
+    "Hash" -> "06bcfadc-e844-4c10-a94e-27b24010016f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "1ee94174-c107-4e2f-824c-06228ee356e9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\n## General Manipulate expression\n`Manipulate` can be \
+used on any valid Wolfram Expression. 2D/3D plots and images passed as `expr` \
+or part of it will be automatically optimized using __Just-in-Time__ (JIT) \
+transpiler if possible. This provides an __immediate mode__ for a user to \
+construct dynamic interactive widgets.\n\n:::tip\nFor frequently changing \
+data or complex visuals we still do recommend to use low-level building \
+blocks such as `Offload`, `InputRange`.\n:::\n\nHere is a basic example \
+involving symbolics:", "Display" -> "codemirror", 
+    "Hash" -> "ba6dd159-73b2-4fdc-afeb-4270b911db39", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "## General Manipulate expression\n`Manipulate` can be used on \
+any valid Wolfram Expression. 2D/3D plots and images passed as `expr` or part \
+of it will be automatically optimized using __Just-in-Time__ (JIT) transpiler \
+if possible. This provides an __immediate mode__ for a user to construct \
+dynamic interactive widgets.\n\n:::tip\nFor frequently changing data or \
+complex visuals we still do recommend to use low-level building blocks such \
+as `Offload`, `InputRange`.\n:::\n\nHere is a basic example involving \
+symbolics:", "Display" -> "markdown", 
+    "Hash" -> "fa69b1fa-8050-48fe-92a0-689b8dd5260a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[Column[{\n  Style[StringTemplate[\"`` m/s\"][x], \
+Blue],\n  Table[\"\|01f697\", {i, Floor[x/25]}]//Row \n}], {x,10,100}, \
+ContinuousAction->True]", "Display" -> "codemirror", 
+    "Hash" -> "9c4a7e8f-4514-46ac-8c90-bd77c0f258a7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nSeries expansion:", "Display" -> "codemirror", 
+    "Hash" -> "cc6bc3c7-1bf1-4531-acee-813ac43b7bcb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Series expansion:", "Display" -> "markdown", 
+    "Hash" -> "6e995347-6d2e-4b2e-b666-37b87b9c2fef", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[Series[Sin[x], {x,0,n}], {n,1,10,1}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b82bab44-492d-4038-ba13-fa6b4b67e7bc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nHere is another example with `Plot` expression:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5dae7c4f-531d-4958-9153-692e41d479a5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Here is another example with `Plot` expression:", 
+    "Display" -> "markdown", "Hash" -> 
+     "d53012ce-c45a-4247-8453-ffb286693685", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[\n Plot[Sin[a x + b], {x, 0, 6}], {{a, 2, \
+\"Multiplier\"}, 1, \n  4}, {{b, 0, \"Phase Parameter\"}, 0, 10}, \
+ContinuousAction->True]", "Display" -> "codemirror", 
+    "Hash" -> "0117a4e1-bda2-499f-92bf-7d6e644c9505", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nMore complex version:", "Display" -> "codemirror", 
+    "Hash" -> "c03d1551-70b6-454a-a8f6-d0f4449b7f39", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "More complex version:", "Display" -> "markdown", 
+    "Hash" -> "0031f0e1-15ee-4865-9263-0e21ca3aba3b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[Plot[1.0 + Sin[w] Sin[x + w],{x,0,5Pi}, \
+Epilog->{\n  Red, Point[{8.0, 1.0 + Sin[w] Sin[8.0 + w]}]\n}], {w,0,Pi}, \
+ContinuousAction->True]", "Display" -> "codemirror", 
+    "Hash" -> "b22776ba-20e5-40e9-8677-f06689786520", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nAnother example, that solves ODE on-fly:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "fe2919ca-23c6-4b12-bec8-c03450f68c78", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Another example, that solves ODE on-fly:", 
+    "Display" -> "markdown", "Hash" -> 
+     "46891fe8-867f-4332-8d39-1c5ad2f28c22", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[\n Plot[Evaluate[\n   y[t] /. First[\n     \
+NDSolve[ {y''[x] == -x y[x], y[0] == a, y'[0] == b}, \n      y, {x, 0, 4}]]], \
+{t, 0, 4}, \n  Epilog -> {Point[{4, 1/2}], Green, Arrow[{{0, a}, {1, b + \
+a}}], Red,\n     Point[{0, a}]},  PlotRange -> {{0,5}, {-6,6}}],\n {{a, 1}, \
+-3, 3},\n {{b, 0}, -3, 3}]", "Display" -> "codemirror", 
+    "Hash" -> "649d6cca-95ff-471e-baff-d690b2b15d70", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\n3D plot example:", "Display" -> "codemirror", 
+    "Hash" -> "82635320-b572-4618-ae08-458542ce83a5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "3D plot example:", "Display" -> "markdown", 
+    "Hash" -> "21ad59c8-22b6-4806-b4b6-8d582770a5df", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[Plot3D[Sin[n x] Cos[n y], {x,-1,1}, {y,-1,1}], {n, \
+1, 5, 0.3}, ContinuousAction->True]", "Display" -> "codemirror", 
+    "Hash" -> "56a40bcf-32b4-4db5-b59b-44a91865a00a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nImage manipulations:", "Display" -> "codemirror", 
+    "Hash" -> "4966c496-9904-4ea1-b0d6-69df7fb10773", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Image manipulations:", "Display" -> "markdown", 
+    "Hash" -> "41f44c06-682a-495c-a7e7-f4c32b79458e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "img = ImageResize[ExampleData[ExampleData[\"TestImage\"] // \
+Last], 350];\nManipulate[\n  ImageAdjust[img, {c,a}], \n  \n  {{c, \
+0},0,5,0.1}, \n  {{a, 0},0,5,0.1},\n  ContinuousAction->True\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "920b14f8-f798-40bf-a283-ea5a9b22d2ad", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\nHere is an example with mixed symbolics and graphics:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "36ac1549-4f7a-4495-9e8f-49e8d703c56f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Here is an example with mixed symbolics and graphics:", 
+    "Display" -> "markdown", "Hash" -> 
+     "a1a64264-d796-42cd-9da4-ee041fd89c4b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[\n  Row[{\n    \"m\", \"==\", MatrixForm[m], \n    \
+StreamPlot[Evaluate[m . {x, y}], {x, -1, 1}, {y, -1, 1}, \n      StreamScale \
+-> Large, ImageSize -> Small\n    ]\n  }], {{m, \
+((*GB[*){{1(*|*),(*|*)0}(*||*),(*||*){0(*|*),(*|*)2}}(*]GB*))}, { \
+((*GB[*){{1(*|*),(*|*)0}(*||*),(*||*){0(*|*),(*|*)2}}(*]GB*)) -> \"Nodal \
+source\",  ((*GB[*){{1(*|*),(*|*)1}(*||*),(*||*){0(*|*),(*|*)1}}(*]GB*))  -> \
+\"Degenerate source\",  \
+((*GB[*){{0(*|*),(*|*)1}(*||*),(*||*){-1(*|*),(*|*)1}}(*]GB*)) -> \"Spiral \
+source\",  ((*GB[*){{-1(*|*),(*|*)0}(*||*),(*||*){0(*|*),(*|*)-2}}(*]GB*))  \
+-> \"Nodal sink\",  \
+((*GB[*){{-1(*|*),(*|*)1}(*||*),(*||*){0(*|*),(*|*)-1}}(*]GB*)) -> \
+\"Degenerate sink\",  \
+((*GB[*){{0(*|*),(*|*)1}(*||*),(*||*){-1(*|*),(*|*)-1}}(*]GB*)) -> \"Spiral \
+sink\",  ((*GB[*){{0(*|*),(*|*)1}(*||*),(*||*){-1(*|*),(*|*)0}}(*]GB*)) -> \
+\"Center\",  ((*GB[*){{1(*|*),(*|*)0}(*||*),(*||*){0(*|*),(*|*)-2}}(*]GB*))  \
+-> \"Saddle\"}}]", "Display" -> "codemirror", 
+    "Hash" -> "c65813c2-3420-4baf-9dae-345420eefb62", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\n### Tips for better performance\nIf you still want to \
+use `Manipulate` on some complex expressions, there are some tricks to avoid \
+deoptimization of JIT engine\n\n:::tip\n- Try to keep the number of \
+curves/traces/polygons expressions the same if possible. Try not to add new \
+entities to your graphs.\n- `PerformanceGoal->\"Speed\"` is also a good \
+option for 3D plots.\n- `Mesh->None` might also help.\n- `PlotRange->Full` \
+can help to avoid fragmentation of line segments\n- Avoid changing colors, \
+opacity at runtime\n:::\n\n:::note\nIn any case you can still animate \
+anything with a great performance using __low-level building blocks__ \
+`Offload` and `AnimationFrameListener`.\n\nSee __Advanced section__ of the \
+documentation\n:::", "Display" -> "codemirror", 
+    "Hash" -> "e199655b-56f2-4437-9e7d-9770a6a20ade", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "### Tips for better performance\nIf you still want to use \
+`Manipulate` on some complex expressions, there are some tricks to avoid \
+deoptimization of JIT engine\n\n:::tip\n- Try to keep the number of \
+curves/traces/polygons expressions the same if possible. Try not to add new \
+entities to your graphs.\n- `PerformanceGoal->\"Speed\"` is also a good \
+option for 3D plots.\n- `Mesh->None` might also help.\n- `PlotRange->Full` \
+can help to avoid fragmentation of line segments\n- Avoid changing colors, \
+opacity at runtime\n:::\n\n:::note\nIn any case you can still animate \
+anything with a great performance using __low-level building blocks__ \
+`Offload` and `AnimationFrameListener`.\n\nSee __Advanced section__ of the \
+documentation\n:::", "Display" -> "markdown", 
+    "Hash" -> "15aa8ead-5524-42b4-be2d-36a54e9ec732", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> ".md\n## Fallback to Mathematica's Renderer\nTo use native \
+Wolfram Language renderer, one can wrap `Manipulate` with `MMAView`. The \
+output will be rasterized:", "Display" -> "codemirror", 
+    "Hash" -> "e124c225-6305-421d-8f9f-78a7253d660e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "## Fallback to Mathematica's Renderer\nTo use native Wolfram \
+Language renderer, one can wrap `Manipulate` with `MMAView`. The output will \
+be rasterized:", "Display" -> "markdown", 
+    "Hash" -> "806340fa-83b7-4f17-942a-5de2e87597f1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>, 
+   <|"Data" -> "Manipulate[\n  Plot3D[Sin[n x] Cos[n y], {x,-1,1}, \
+{y,-1,1}]\n, {n, 1, 5, 1}] // MMAView", "Display" -> "codemirror", 
+    "Hash" -> "cc867acd-594c-4863-81e1-887f1d44f4da", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b5cf51f6-6a8e-4346-9b06-098f53580b4c"|>}, 
+ "serializer" -> "jsfn4"|>

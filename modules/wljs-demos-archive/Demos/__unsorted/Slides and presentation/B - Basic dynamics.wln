@@ -1,0 +1,158 @@
+<|"Notebook" -> <|"Controller" -> "1df1dada-2e96-4f44-8112-f3045fa5986a", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$367], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "95aaf2b6-2dd4-46cd-9db2-1c07e64afa9a", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Slides and \
+presentation/B - Basic dynamics.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "A slide about how to animate", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$352]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Prepare our widgets", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$354]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Actual slide", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$366]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n# A slide about how to animate\nor use dynamic symbols", 
+    "Display" -> "codemirror", "Hash" -> 
+     "524f7809-b76b-409e-8bba-704d41f804ea", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "# A slide about how to animate\nor use dynamic symbols", 
+    "Display" -> "markdown", "Hash" -> 
+     "9f857a95-1048-4d1f-a267-3bae20d06994", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".md\n## Prepare our widgets\nCode syntax highlighting", 
+    "Display" -> "codemirror", "Hash" -> 
+     "85d94c29-c070-46dd-ad1d-a8cd560c4831", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "## Prepare our widgets\nCode syntax highlighting", 
+    "Display" -> "markdown", "Hash" -> 
+     "db5f0257-b943-4e4a-bf77-5f2fb2dbf6c0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".wlx\nCodeBlock[str_String] := With[{Fe = EditorView[str]},\n \
+ <div class=\"text-left text-sm\"><Fe/></div>\n]", "Display" -> "codemirror", 
+    "Hash" -> "3069c12c-efee-4774-afe2-afa4718bb604", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".md\njust in case of a bad aligment (fix)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "372f61fb-c82e-4bc1-a612-e554464c64f9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "just in case of a bad aligment (fix)", 
+    "Display" -> "markdown", "Hash" -> 
+     "d6ce2484-5970-488a-bc01-53c9fa4fc564", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".wlx\n\n<style>\n  .slide-frontend-object .cm-editor {\n    \
+text-align: left;\n  }\n</style>", "Display" -> "codemirror", 
+    "Hash" -> "c47fa8da-b0a0-4141-9bc2-f5d508eacccd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "<style > .slide-frontend-object .cm-editor {\n    text-align: \
+left;\n  }</style>", "Display" -> "wlx", 
+    "Hash" -> "e8cf3de8-3765-4956-ba92-aacb6fdee195", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".md\nNow an animation widget itself", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7381aa6d-53d2-4f8a-8703-596a1860311b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "Now an animation widget itself", "Display" -> "markdown", 
+    "Hash" -> "7f9bf791-fb8e-4041-acac-4aaeb76edcb2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".wlx\n\nAnimationWidget := LeakyModule[{\n  SliderItem = \
+InputRange[0.1, 1, 0.05, 0.1],\n  symbol = 0.1\n},\n\n  \
+EventHandler[SliderItem, Function[value, symbol = value]];\n\n  With[{\n    \
+Widget = Graphics[{\n      Green, Disk[{0,0}, symbol // Offload], Pink,\n     \
+ Rotate[Rectangle[{-1,-1}, {1,1}], 3.14 symbol // Offload]\n    }, \
+Controls->False]\n  }, \n  <div class=\"divide-y divide-gray-200 \
+overflow-hidden rounded-lg bg-white shadow\">\n    <div class=\"px-2 py-3 \
+sm:p-6\">\n      <Widget/>\n    </div>\n    <div class=\"px-2 py-2 \
+sm:px-6\">\n      <SliderItem/>\n    </div>\n  </div>\n  ]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "87ace535-1625-4221-921c-f70a477e4adf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".md\nWe use WLX here only because it gives more freedom in \
+styling the final look and layout. You can also make similar using `Row`, or \
+`Column` in pure WL.", "Display" -> "codemirror", 
+    "Hash" -> "db6cdf9f-85f3-4d67-bcc5-148ab3233e11", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "We use WLX here only because it gives more freedom in styling \
+the final look and layout. You can also make similar using `Row`, or `Column` \
+in pure WL.", "Display" -> "markdown", 
+    "Hash" -> "e5551269-6004-4715-9045-d4fe2e67eafd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".md\n## Actual slide", "Display" -> "codemirror", 
+    "Hash" -> "df18be1c-8bb7-4786-b342-76d7395d8586", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "## Actual slide", "Display" -> "markdown", 
+    "Hash" -> "dece87de-18a9-49ca-9845-87eb27487b47", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".slide\n\n# How to animate things in WLJS?\n\n---\n\n# Use \
+Offload\n\n\n<div class=\"columns-2\">\n  <div class=\"text-left \
+mt-2\">\n\nDefine own values of some symbol and assign it to graphics \
+primitives you want\n\n\n<CodeBlock><Escape>\nsymbol = 0.1;\nGraphics[{\n     \
+ (*VB[*)(RGBColor[0, 1, \
+0])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeGJAIcndyzs/JLwouTyxJzghJzS3ISSxJTWM\
+GyXMgyRcxQAGU8cEeLgIAAP0TXQ==\"*)(*]VB*), Disk[{0,0}, symbol // Offload], \
+(*VB[*)(RGBColor[1, 0.5, \
+0.5])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeGJAIcndyzs/JLwouTyxJzghJzS3ISSxJT\
+WMGyXMgyRcxgMEHeyjjAYIBABm5FZs=\"*)(*]VB*),\n      Rotate[Rectangle[{-1,-1}, \
+{1,1}], 3.14 symbol // Offload]\n}]\n</Escape></CodeBlock>\n\nthen create a \
+slider and assign handler to \
+it\n\n<CodeBlock><Escape>\nEventHandler[InputRange[0.1, 1, 0.05], (symbol = \
+#)&]\n</Escape></CodeBlock>\n  \n  </div>\n\n  <AnimationWidget/>\n\n</div>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f577c0e8-222c-468d-ad07-f31dfdb28c4f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> ".md\n*Press f on a slide to go fullscreen*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "101e37d5-cf03-4b32-957c-f8703e9d4a1f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> "*Press f on a slide to go fullscreen*", 
+    "Display" -> "markdown", "Hash" -> 
+     "51da442d-85bb-421e-a015-18f68114f008", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "03008dfb-f520-402f-ae14-ea0809a12e3f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8884338b-a9ce-4cde-bb95-c26796402aab"|>}, 
+ "serializer" -> "jsfn4"|>

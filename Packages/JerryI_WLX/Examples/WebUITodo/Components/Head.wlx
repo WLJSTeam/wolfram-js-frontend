@@ -1,0 +1,6 @@
+<head>
+    <title>WLX Template</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <$Children/>
+</head>

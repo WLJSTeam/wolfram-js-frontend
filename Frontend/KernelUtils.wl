@@ -32,7 +32,7 @@ initializeKernel[parameters_][kernel_] := With[{
   (* load kernels and provide remote path *)
   With[{
     path = ToString[URLBuild[<|"Scheme" -> "http", 	"Query"->{"path" -> URLEncode[ FileNameSplit[#][[1]] ]}, "Domain" -> (StringTemplate["``:``"][With[{h =  parameters["env", "host"]}, If[h === "0.0.0.0", "127.0.0.1", h] ], parameters["env", "http"] ]), "Path" -> "downloadFile/"|> ], InputForm],
-    p = Import[#, "String", Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}]
+    p = Import[#, "String", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}]
   },
     Echo[StringJoin["Loading into Kernel... ", #] ];
 

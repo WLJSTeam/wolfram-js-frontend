@@ -1,0 +1,367 @@
+<|"Notebook" -> <|"Controller" -> "81390af4-2207-453f-ad2d-a7c8b18bf5a4", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$406], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "7f6f8bad-6c44-4656-b464-cdd4bfec63d9", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wljs-demos-archive/Demos/Frontend \
+interpreter/A - Array plotter.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Frontend functions", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$378]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Animated array plotter", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$378]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Cleanning up method", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$386]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Update method", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$392]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Animation", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$403]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Frontend functions\n## Animated array \
+plotter\nIn this small session we will show how to write our own raw function \
+for the frontend, that allows to visualize an array of data in a unique \
+way.\n\n<br/>\n\nIt is important to note, that here it does not rely on \
+`Graphics` object or anyhting else. Just a plain HTML and Javascript coupled \
+to Wolfram Language.\n\n<br/>\n\nThis __will be the fastest way of handling \
+the data from WL to a browser's screen__. Most in-build components are made \
+in this way.", "Display" -> "codemirror", 
+    "Hash" -> "51eb94ce-c629-4423-b3a0-10998d7749a1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\n# Frontend functions\n## Animated array plotter\nIn this \
+small session we will show how to write our own raw function for the \
+frontend, that allows to visualize an array of data in a unique \
+way.\n\n<br/>\n\nIt is important to note, that here it does not rely on \
+`Graphics` object or anyhting else. Just a plain HTML and Javascript coupled \
+to Wolfram Language.\n\n<br/>\n\nThis __will be the fastest way of handling \
+the data from WL to a browser's screen__. Most in-build components are made \
+in this way.", "Display" -> "markdown", 
+    "Hash" -> "97889f77-5387-43c7-b13f-eaa3f235a57c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\nLet's sketch a plan!\n1. The size of an array is \
+determined in a runtime.\n2. It should use `canvas` element of HTML5.\n3. It \
+will be animated independently from the incomming data with a nice fading \
+effect.\n4. It should be synced to the framerate of the browser.\n\nIt sound \
+complicated, however using a modern Javascript thing are going much easier", 
+    "Display" -> "codemirror", "Hash" -> 
+     "fda1237b-a3fa-42c7-8a78-9075509af8a9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\nLet's sketch a plan!\n1. The size of an array is determined \
+in a runtime.\n2. It should use `canvas` element of HTML5.\n3. It will be \
+animated independently from the incomming data with a nice fading effect.\n4. \
+It should be synced to the framerate of the browser.\n\nIt sound complicated, \
+however using a modern Javascript thing are going much easier", 
+    "Display" -> "markdown", "Hash" -> 
+     "08ab257a-707f-4709-91ca-6799d9c64650", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".js\ncore.ArrayDraw = async (args, env) => {\n  const canvas \
+= document.createElement('canvas');\n  \n  //fixed, but one can use \
+core._getRules(args, env) to derive the ImageSize option\n  canvas.width = \
+300;\n  canvas.height = 300;\n  \n  //append our canvas to the provided DOM \
+element\n  env.element.appendChild(canvas);\n  \n  let context = \
+canvas.getContext(\"2d\");\n  \n  //use local memory to store the canvas\n  \
+env.local.ctx = context;\n\n  //get the provided data from WL\n  let array = \
+await interpretate(args[0], env);\n  if (array instanceof NumericArrayObject) \
+{\n    array = array.normal();\n  }\n\n  //copy by the reference to the \
+instance of a frontend object\n  env.local.array = array;  \n\n  //check the \
+width/height\n  const width = array.length;\n  const height = \
+array[0].length;\n\n  //some helpers to determine the sizes\n  \
+env.local.width = width;\n  env.local.height = height;\n\n  const sizex = \
+Math.floor((300/width)-1);\n  const sizey = Math.floor((300/height)-1);\n\n  \
+env.local.sizex = sizex;\n  env.local.sizey = sizey;\n\n  \
+env.local.arr2screen = {x: 300.0/width, y: 300.0/height};\n\n  //animation \
+function\n  //this will be executed asynchroniously\n\n  function random \
+(min, max) {\n    return Math.random() * (max - min) + min;\n  }\n\n  //our \
+heros\n  const particles = [];\n  \n  function animate() {\n    //randomly \
+select 60 potitions from the array\n    for (let i=0; i<60; ++i) {\n      if \
+(particles.length > 30*30*5) particles.shift();\n      \n      const ri = \
+Math.floor(random(0, env.local.width - 1));\n      const rj = \
+Math.floor(random(0, env.local.height - 1));\n      const val = \
+env.local.array[ri][rj];\n\n      //create a projectile\n      \
+particles.push({\n        r: 127+127*Math.sin(2048*val), \n        g: \
+127+127*Math.sin(1048*val), \n        b: 0,\n        lifetime: 1,\n        x: \
+ri * env.local.arr2screen.x,\n        y: rj * env.local.arr2screen.y,\n       \
+ xvel: random(-1,1),\n        yvel: random(1,-1)\n      });\n    }\n\n    \
+//clearscreen\n    context.fillStyle = \"white\";\n    context.fillRect(0, 0, \
+300, 300);\n\n\n    //draw all projectiles\n    for (let i=0; \
+i<particles.length; ++i) {\n      //age of a projectile\n      const age = \
+1/particles[i].lifetime;\n\n      //draw a projectile\n      \
+context.fillStyle = `rgba(${particles[i].r}, ${particles[i].g}, \
+${particles[i].b}, ${age}`;\n      context.fillRect(particles[i].x + sizex/2, \
+particles[i].y + sizey/2, sizex, sizey);\n      \n      //a projectile gets \
+older\n      particles[i].lifetime = particles[i].lifetime + 0.2;\n\n      \
+//move it a bit\n      particles[i].x = particles[i].x + \
+0.1*particles[i].xvel;\n      particles[i].y = particles[i].y + \
+0.1*particles[i].yvel;\n    }\n\n    //sync to the browser's frame rate\n    \
+//and store the ID of a request to cancel it later if needed\n    \
+env.local.uid = requestAnimationFrame(animate);\n  }\n\n  //kickstarter\n  \
+requestAnimationFrame(animate);\n}\n\ncore.ArrayDraw.virtual = true;", 
+    "Display" -> "codemirror", "Hash" -> 
+     "452624c4-f0d1-4bde-a3c4-b8311042b363", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "core.ArrayDraw = async (args, env) => {\n  const canvas = \
+document.createElement('canvas');\n  \n  //fixed, but one can use \
+core._getRules(args, env) to derive the ImageSize option\n  canvas.width = \
+300;\n  canvas.height = 300;\n  \n  //append our canvas to the provided DOM \
+element\n  env.element.appendChild(canvas);\n  \n  let context = \
+canvas.getContext(\"2d\");\n  \n  //use local memory to store the canvas\n  \
+env.local.ctx = context;\n\n  //get the provided data from WL\n  let array = \
+await interpretate(args[0], env);\n  if (array instanceof NumericArrayObject) \
+{\n    array = array.normal();\n  }\n\n  //copy by the reference to the \
+instance of a frontend object\n  env.local.array = array;  \n\n  //check the \
+width/height\n  const width = array.length;\n  const height = \
+array[0].length;\n\n  //some helpers to determine the sizes\n  \
+env.local.width = width;\n  env.local.height = height;\n\n  const sizex = \
+Math.floor((300/width)-1);\n  const sizey = Math.floor((300/height)-1);\n\n  \
+env.local.sizex = sizex;\n  env.local.sizey = sizey;\n\n  \
+env.local.arr2screen = {x: 300.0/width, y: 300.0/height};\n\n  //animation \
+function\n  //this will be executed asynchroniously\n\n  function random \
+(min, max) {\n    return Math.random() * (max - min) + min;\n  }\n\n  //our \
+heros\n  const particles = [];\n  \n  function animate() {\n    //randomly \
+select 60 potitions from the array\n    for (let i=0; i<60; ++i) {\n      if \
+(particles.length > 30*30*5) particles.shift();\n      \n      const ri = \
+Math.floor(random(0, env.local.width - 1));\n      const rj = \
+Math.floor(random(0, env.local.height - 1));\n      const val = \
+env.local.array[ri][rj];\n\n      //create a projectile\n      \
+particles.push({\n        r: 127+127*Math.sin(2048*val), \n        g: \
+127+127*Math.sin(1048*val), \n        b: 0,\n        lifetime: 1,\n        x: \
+ri * env.local.arr2screen.x,\n        y: rj * env.local.arr2screen.y,\n       \
+ xvel: random(-1,1),\n        yvel: random(1,-1)\n      });\n    }\n\n    \
+//clearscreen\n    context.fillStyle = \"white\";\n    context.fillRect(0, 0, \
+300, 300);\n\n\n    //draw all projectiles\n    for (let i=0; \
+i<particles.length; ++i) {\n      //age of a projectile\n      const age = \
+1/particles[i].lifetime;\n\n      //draw a projectile\n      \
+context.fillStyle = `rgba(${particles[i].r}, ${particles[i].g}, \
+${particles[i].b}, ${age}`;\n      context.fillRect(particles[i].x + sizex/2, \
+particles[i].y + sizey/2, sizex, sizey);\n      \n      //a projectile gets \
+older\n      particles[i].lifetime = particles[i].lifetime + 0.2;\n\n      \
+//move it a bit\n      particles[i].x = particles[i].x + \
+0.1*particles[i].xvel;\n      particles[i].y = particles[i].y + \
+0.1*particles[i].yvel;\n    }\n\n    //sync to the browser's frame rate\n    \
+//and store the ID of a request to cancel it later if needed\n    \
+env.local.uid = requestAnimationFrame(animate);\n  }\n\n  //kickstarter\n  \
+requestAnimationFrame(animate);\n}\n\ncore.ArrayDraw.virtual = true;", 
+    "Display" -> "js", "Hash" -> "37ffd84a-853a-49d1-885c-f11b267f5c7d", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "3a63b71c-f19f-41bf-b65d-5c0306cc1b63", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\n## Cleanning up method\nOnce you delete this widget or \
+object (i dunno how to call it), __we should take care about animation \
+loop__, otherwise it will continue to run in the background", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a1f43644-fd14-4c08-831f-8a2e00283af7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\n## Cleanning up method\nOnce you delete this widget or \
+object (i dunno how to call it), __we should take care about animation \
+loop__, otherwise it will continue to run in the background", 
+    "Display" -> "markdown", "Hash" -> 
+     "7f34457e-ee45-4100-8353-6fcb576eac67", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".js\ncore.ArrayDraw.destroy = async (args, env) => {\n  \
+//remove animation loop\n  cancelAnimationFrame(env.local.uid);\n  //make \
+shure that all other nested object will do the same\n  await \
+interpretate(args[0], env);\n}", "Display" -> "codemirror", 
+    "Hash" -> "84e4aa5d-9101-4fd0-9269-ff5756e0f919", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "core.ArrayDraw.destroy = async (args, env) => {\n  //remove \
+animation loop\n  cancelAnimationFrame(env.local.uid);\n  //make shure that \
+all other nested object will do the same\n  await interpretate(args[0], \
+env);\n}", "Display" -> "js", "Hash" -> 
+     "a0376c83-e12b-47c9-be59-50ac0e8aa7a3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\nNow the second important method", 
+    "Display" -> "codemirror", "Hash" -> 
+     "201592d4-d62f-4378-89ff-319b5993ebb7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\nNow the second important method", "Display" -> "markdown", 
+    "Hash" -> "71dda66a-b2a6-487f-aaab-f36981c5c2e2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\n## Update method\nWhen the dependent variables changes, \
+we should update the canvas without reevaluating cells", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7e779c9d-0f9e-4425-bb28-45b3ccda8543", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\n## Update method\nWhen the dependent variables changes, we \
+should update the canvas without reevaluating cells", 
+    "Display" -> "markdown", "Hash" -> 
+     "66c1fd2d-309b-4882-bed5-cc7fff525ad7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".js\ncore.ArrayDraw.update = async (args, env) => {\n  const \
+innerData = env.local.innerData;\n\n  //get the provided data from WL\n  let \
+array = await interpretate(args[0], env);\n  if (array instanceof \
+NumericArrayObject) {\n    array = array.normal();\n  }\n  if (array.length \
+!= env.local.array.length) return;\n  if (array[0].length != \
+env.local.array[0].length) return;\n  env.local.array = array;\n}", 
+    "Display" -> "codemirror", "Hash" -> 
+     "0f59b39a-c460-4e7d-bfe0-12151d606db9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "core.ArrayDraw.update = async (args, env) => {\n  const \
+innerData = env.local.innerData;\n\n  //get the provided data from WL\n  let \
+array = await interpretate(args[0], env);\n  if (array instanceof \
+NumericArrayObject) {\n    array = array.normal();\n  }\n  if (array.length \
+!= env.local.array.length) return;\n  if (array[0].length != \
+env.local.array[0].length) return;\n  env.local.array = array;\n}", 
+    "Display" -> "js", "Hash" -> "dd153c9a-e814-4deb-aa30-2714fa57af58", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\nNow all data is stored inside the `env.local` variable, \
+which is unique for each instance.\n\nThen to call it like a proper Wolfram \
+Function, we need to wrap it into", "Display" -> "codemirror", 
+    "Hash" -> "3531650d-7edd-483e-8176-8bcbc95dd139", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\nNow all data is stored inside the `env.local` variable, \
+which is unique for each instance.\n\nThen to call it like a proper Wolfram \
+Function, we need to wrap it into", "Display" -> "markdown", 
+    "Hash" -> "d30b4618-62aa-452b-8975-b29e57ef576a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> 
+     "ArrayDraw /: MakeBoxes[a_ArrayDraw, StandardForm] := ViewBox[a,a]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "0c9ce529-330a-43fe-92e5-266702ffb484", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "gameOfLife = {224, {2, {{2, 2, 2}, {2, 1, 2}, {2, 2, 2}}}, \
+{1, 1}};\nbboard = RandomInteger[1, {20, 20}];\n\nArrayDraw[\n  bboard = \
+Last[CellularAutomaton[gameOfLife, bboard, {{0, 1}}]]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "22caa501-d7ca-4673-b821-3b17bd9dc2c6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "(*VB[*)(ArrayDraw[{{0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, \
+0, 0, 0, 1, 0, 1}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, \
+1}, {0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1}, {0, 0, 1, \
+1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}, {0, 1, 1, 1, 0, 0, 0, 0, \
+0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1}, {0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, \
+0, 0, 1, 1, 1, 0, 0}, {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, \
+0, 0}, {0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1}, {1, 0, \
+1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1}, {0, 0, 0, 0, 0, 0, 1, \
+1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1}, {0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, \
+0, 1, 0, 1, 0, 1, 0, 1}, {0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, \
+0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1}, {0, \
+0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 0, \
+0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, \
+0, 0, 0, 0, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, \
+0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, \
+{0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, \
+0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, \
+1}}])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRAeJ5BwLCpKrHQpSixPE4Ep8MksLkHleYKUG\
+4BJQyQ2LhK/GuJlDXG6ghakIab9BFxBTFhgmo1pD1EmEAgL8kwl3u1QEQJhQabfSFRDSoxgiU+i45\
++Az4hyBX7bSPAzLl0kpAtcKZy8PIpCYnEFMfaQFy7ULi+ICR0SfECUKyjJr8S4kfSwICZ14M8dWEw\
+e5CU4qSFMkXoCeYQSP5Ogi0xXEF+OkusKMv1DiYvomjpxupqGpRYJYUqFsCCmNiFQswAAKaz8rw==\
+\"*)(*]VB*)", "Display" -> "codemirror", 
+    "Hash" -> "25127187-447c-4196-bbf8-c9e78fa7f365", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\nYou __can copy and paste__, since this is a proper \
+frontend object.\n\nHowever, there is much more we need to do as well. ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5c722236-ca2b-4f9e-90d1-c2250ccb891c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\nYou __can copy and paste__, since this is a proper frontend \
+object.\n\nHowever, there is much more we need to do as well. ", 
+    "Display" -> "markdown", "Hash" -> 
+     "ba657a28-1369-44f8-b0af-429d5606f584", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\n### Animation", "Display" -> "codemirror", 
+    "Hash" -> "861c3af0-b574-4772-a240-08d471d77eda", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\n### Animation", "Display" -> "markdown", 
+    "Hash" -> "60c630e3-97db-4c89-bbc7-7130ef182216", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\nNow we can check the result by rewritting the update \
+cycle in WL in a much shorter way", "Display" -> "codemirror", 
+    "Hash" -> "29d47505-2f8c-481a-97d5-3ec9469cd41a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\nNow we can check the result by rewritting the update cycle \
+in WL in a much shorter way", "Display" -> "markdown", 
+    "Hash" -> "cfbe8663-57de-4983-82d4-b4734f1dd154", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\ngameOfLife = {224, {2, {{2, 2, 2}, {2, 1, 2}, {2, 2, 2}}}, \
+{1, 1}};\nsboard = RandomInteger[1, {20, 20}];\nArrayDraw[sboard // \
+Offload]\n\nDo[\n  sboard = Last[CellularAutomaton[gameOfLife, sboard, {{0, \
+1}}]];\n  Pause[0.2];\n, {i, 1, 30}]", "Display" -> "codemirror", 
+    "Hash" -> "0dbb83a5-bb9a-410d-8cee-01f75a66a2ed", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "(*VB[*)(ArrayDraw[Offload[sboard]])(*,*)(*\"1:eJxTTMoPSmNkYGA\
+oZgESHvk5KRAeJ5BwLCpKrHQpSiyHCLEDCf+0tJz8xJRiNpBAUn5iUQoAtxMOqg==\"*)(*]VB*)"\
+, "Display" -> "codemirror", "Hash" -> 
+     "cb5feeb5-59b9-4914-b08e-5fb4a5722c45", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> ".md\nSo it just updates our variable `sboard` without \
+thinking of redrawing the canvas", "Display" -> "codemirror", 
+    "Hash" -> "67341e9a-9ba6-42af-b6b3-574b6263f3cd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> "\nSo it just updates our variable `sboard` without thinking \
+of redrawing the canvas", "Display" -> "markdown", 
+    "Hash" -> "8ab39bd8-b2ce-4999-940d-690503ec9c31", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "aea2934d-0183-48cb-ab83-b54da2122cba", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b79a2a1a-2e70-4362-b9b8-ce506d8cca6e"|>}, 
+ "serializer" -> "jsfn4"|>

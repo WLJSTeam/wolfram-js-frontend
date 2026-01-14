@@ -1,0 +1,43 @@
+<|"Notebook" -> <|"Controller" -> "6814da7f-45b2-492d-906d-5835a54dac0b", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$334], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "47153797-a36e-49db-95c3-f526ef625820", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Animation/A - \
+Basic animation.wln", "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Basic Continuous Animation", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$337]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Basic Continuous Animation\nHere we write a \
+basic animation loop with `Point` graphics primitives. Data is stored in `p` \
+and updated every frame as quickly as possible. The animation cycle continues \
+only after the change of the `p` symbol.\n\nThe points are initialized with \
+random coordinates and are animated to simulate movement based on their \
+current positions, updated using one pure function.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4d589988-20c3-4a48-a185-c6cd37b4245b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "e9a25f48-ce09-4fe7-90ae-4802b3a112b2"|>, 
+   <|"Data" -> "# Basic Continuous Animation\nHere we write a basic animation \
+loop with `Point` graphics primitives. Data is stored in `p` and updated \
+every frame as quickly as possible. The animation cycle continues only after \
+the change of the `p` symbol.\n\nThe points are initialized with random \
+coordinates and are animated to simulate movement based on their current \
+positions, updated using one pure function.", "Display" -> "markdown", 
+    "Hash" -> "b9da07ee-a1f0-4a6b-8b11-8aeedfa5fe9b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "e9a25f48-ce09-4fe7-90ae-4802b3a112b2"|>, 
+   <|"Data" -> "Module[{p=RandomReal[{-1,1}, {100,2}]}, \n  Graphics[{\n    \
+(*VB[*)(RGBColor[0.368417, 0.506779, \
+0.709798])(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNGaQPAeQ\
+CHJ3cs7PyS8qKpg26anKlOv2RYbTXk7vMH9gX3S8ZYb3qm3P7AF5kRs6\"*)(*]VB*), \
+Point[p//Offload], \n    EventHandler[AnimationFrameListener[p//Offload], \
+Function[Null,\n      p = (# + Norm[#] 0.01 {#[[2]], -#[[1]]}) &/@ p;\n    \
+]]\n  }, ImageSize->Small]\n]", "Display" -> "codemirror", 
+    "Hash" -> "4b882adc-65a0-4da4-bf49-b93268450ad0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "e9a25f48-ce09-4fe7-90ae-4802b3a112b2"|>}, 
+ "serializer" -> "jsfn4"|>

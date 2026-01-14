@@ -1,0 +1,145 @@
+<|"Notebook" -> <|"Controller" -> "04cf5374-eab5-4806-b5ba-f42509dbece8", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1718], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "2a06c814-9a36-450a-866b-6e167369f045", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wljs-demos-archive/Demos/Slides and \
+presentation/Dynamic Plot.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Dynamic plot", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2083]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Dynamic plot\nUse sliders, graphics on a \
+slide to morph one set of curves into other", "Display" -> "codemirror", 
+    "Hash" -> "182807dd-f567-4b6a-8124-fbc65c722410", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "## Dynamic plot\nUse sliders, graphics on a slide to morph \
+one set of curves into other", "Display" -> "markdown", 
+    "Hash" -> "3b3bed48-7b04-4288-8745-35469960b86b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> 
+     ".md\nDefine resampler function to keep the number of points the same", 
+    "Display" -> "codemirror", "Hash" -> 
+     "fbc5da36-4835-46a8-a0b4-a86763aabedc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> 
+     "Define resampler function to keep the number of points the same", 
+    "Display" -> "markdown", "Hash" -> 
+     "99d419c3-baa4-4232-863f-7e045c3f3f43", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "reSampler[min_,max_,step_:0.1][data_List] := With[{i = \
+Interpolation[data, InterpolationOrder->1]},\n  Table[{x,  i[x]}, {x, min, \
+max, step}]\n]", "Display" -> "codemirror", 
+    "Hash" -> "2accea2b-8312-454b-a407-47a454437bf2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> ".md\nA slider for controlling the data part", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ec87a318-0db0-4f2d-89b9-943e14a34868", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "A slider for controlling the data part", 
+    "Display" -> "markdown", "Hash" -> 
+     "217e4843-037c-41ae-bec9-60f6cb5bc8f6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "ControlSlider[OptionsPattern[]] := With[{ev = \
+OptionValue[\"Event\"]},\n  EventHandler[InputRange[1, 4, 1, 4, \
+\"Label\"->\"Part\"], Function[value,\n    EventFire[ev, \"Change\", \
+Round[value]];\n  ]]\n]\n\nOptions[ControlSlider] = {\"Event\"->\"\"}", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e89cc673-19f1-4eb2-897a-af95c7110f30", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> ".md\nMake a dynamic plot", "Display" -> "codemirror", 
+    "Hash" -> "16520f6c-fd81-4b8d-85cc-3803e2945399", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "Make a dynamic plot", "Display" -> "markdown", 
+    "Hash" -> "f0a54849-b84a-43cf-b9d9-b515b9b60630", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "DynamicPlot[OptionsPattern[]] := \n  With[{\n    colors = \
+Table[Blend[OptionValue[\"Gradient\"], i], {i,0.,1.,1./8}],\n    data = \
+(*VB[*)(Get[FileNameJoin[{\".iconized\", \
+\"iconized-1073.wl\"}]])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRAeH5DwTM7Py6xKdc\
+vMSXXKr8h8cZ6FAQDwPgww\"*)(*]VB*),\n    ev = OptionValue[\"Event\"]\n  },\n\n \
+ LeakyModule[{lines = reSampler[35, 130] /@ data[[1]]},\n    EventHandler[ev, \
+{\"Change\" -> Function[part,\n      lines = reSampler[35, 130] /@ \
+data[[part]]\n    ]}];\n    \n    Graphics[Table[With[{i = i},\n        {\n   \
+       colors[[i]], \n          Line[lines[[i]] // Offload]\n        }\n      \
+], {i, 1, Length[lines]}], \n      \n      Axes->True,\n      \
+AxesLabel->{\"wavenumber (cm^{-1})\", \"absorption\"},\n      \n      \
+Epilog->{\n        Table[Style[Text[StringTemplate[\"``T\"][i], {50, 50 + 100 \
+i}], FontSize->14], {i, 0, 7}], \n        \
+MetaMarker[OptionValue[\"Marker\"]]\n      },\n      \n      \
+PlotRange->OptionValue[\"PlotRange\"],\n      \
+ImageSize->OptionValue[\"ImageSize\"],\n      TransitionDuration->400,\n      \
+TransitionType->\"Linear\"\n    ]  \n  ]\n]\n\nOptions[DynamicPlot] = \
+{\"Gradient\"->{Blue // Lighter, Red}, \"PlotRange\"->{{30, 120}, {0,830}}, \
+\"ImageSize\"->{450, 450}, \"Marker\"->Null, \"Event\"->Null};", 
+    "Display" -> "codemirror", "Hash" -> 
+     "3ac75333-5a3e-4b37-9319-36de190a22cc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> ".md\nNow the __layout of the slide__", 
+    "Display" -> "codemirror", "Hash" -> 
+     "37ca7a2a-d409-427a-ab8b-ccbe306b0bd6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "Now the __layout of the slide__", "Display" -> "markdown", 
+    "Hash" -> "f5ca88cf-c5a0-4309-b6a0-13b8bf6d6311", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> ".md\nhelper function", "Display" -> "codemirror", 
+    "Hash" -> "ec5ce6d1-9146-4206-a921-18cd5d803f8c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "helper function", "Display" -> "markdown", 
+    "Hash" -> "367ccabf-c625-4c67-a637-fae98c2edd08", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> ".wlx\nColumns[Cols__, opts: OptionsPattern[]] := \
+Columns[List[Cols], opts]\nColumns[Cols_List, OptionsPattern[]] := With[{\n  \
+number = Length[Cols],\n  Layout = Table[<div><Item/></div>, {Item, Cols}],\n \
+ class = ToString[Length[Cols]]\n},\n    <div class=\"columns-{class}\">\n    \
+    <Layout/>\n    </div>                       \n];\n\nOptions[Columns] = \
+{\"Class\"->\"gap-4\"};", "Display" -> "codemirror", 
+    "Hash" -> "94598a61-f46d-4a39-b9fc-fbd6611e3d26", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> ".slide\n\n# Dynamic Plot\nTry to drag a slider on the \
+left\n\n<Columns>\n  <DynamicPlot Event={\"thz-dyn\"} \
+Marker={\"marked-dyn\"}/>\n  <div class=\"sm-controls text-left pt-4\">\n    \
+<ControlSlider Event={\"thz-dyn\"}/> \n  </div>\n</Columns>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "46327b60-90b2-4728-91a7-5c54b17bfc2d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>, 
+   <|"Data" -> "", "Display" -> "codemirror", 
+    "Hash" -> "cbdf9088-8db6-4a18-8961-fc3002d9087a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f1485e90-8ced-4633-919c-476b7effa976"|>}, 
+ "serializer" -> "jsfn4"|>

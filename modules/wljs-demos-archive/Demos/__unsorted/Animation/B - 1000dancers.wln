@@ -1,0 +1,109 @@
+<|"Notebook" -> <|"Controller" -> "73206fb1-d555-4fd5-88af-5ba693f3603f", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1361], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "b2c33786-acf8-43e1-ba57-2aa906bf76c0", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Animation/B - \
+1000dancers.wln", "PublicFields" -> {"Properties"}, "ReadOnly" -> True, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Dancing with friends and enemies: boids' swarm intelligence", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1350]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Dancing with friends and enemies: boids' \
+swarm intelligence\nAdapted from [Wolfram \
+Community](https://community.wolfram.com/groups/-/m/t/122095). Written by \
+*Simon Woods*", "Display" -> "codemirror", 
+    "Hash" -> "13a23f7e-373d-4da7-a712-18aa3bdccd81", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "# Dancing with friends and enemies: boids' swarm \
+intelligence\nAdapted from [Wolfram \
+Community](https://community.wolfram.com/groups/-/m/t/122095). Written by \
+*Simon Woods*", "Display" -> "markdown", 
+    "Hash" -> "69f43ff5-1402-475d-b0f9-e4531fa83b50", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> ".md\n- 1000 dancers assume random positions on the \
+dance-floor.\n- Each randomly chooses one \"friend\" and one \"enemy\".\n- At \
+each step every dancer\n  - moves 0.5% closer to the centre of the floor\n  - \
+then takes a large step towards their friend and a small step away from their \
+enemy.\n- At random intervals one dancer re-chooses their friend and \
+enemy\n\nRandomness is deliberately injected. Here is the dance...", 
+    "Display" -> "codemirror", "Hash" -> 
+     "437f1fa2-b929-4786-8792-d1f2333f9bad", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "- 1000 dancers assume random positions on the dance-floor.\n- \
+Each randomly chooses one \"friend\" and one \"enemy\".\n- At each step every \
+dancer\n  - moves 0.5% closer to the centre of the floor\n  - then takes a \
+large step towards their friend and a small step away from their enemy.\n- At \
+random intervals one dancer re-chooses their friend and enemy\n\nRandomness \
+is deliberately injected. Here is the dance...", "Display" -> "markdown", 
+    "Hash" -> "9a692fff-dc05-4b91-8e44-fec9a8b6c750", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> ".md\n<span style=\"color:red\">Evaluate initialization cells \
+first</span> or go one by one", "Display" -> "codemirror", 
+    "Hash" -> "5198d301-90c7-482e-bcf2-f40f27e4b113", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "<span style=\"color:red\">Evaluate initialization cells \
+first</span> or go one by one", "Display" -> "markdown", 
+    "Hash" -> "6abecb75-00e6-454d-92f9-f856f4bb93e4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "n = 1000;\nr := RandomInteger[{1, n}];\nf := (#/(.01 + \
+Sqrt[#.#])) & /@ (x[[#]] - x) &;\ns := With[{r1 = r}, p[[r1]] = r; q[[r1]] = \
+r];\nx = RandomReal[{-1, 1}, {n, 2}];\n{p, q} = RandomInteger[{1, n}, {2, \
+n}];", "Display" -> "codemirror", "Hash" -> 
+     "dcf53a0d-ee47-4114-b853-4e54cfcabbff", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> ".md\n__Main render function__", "Display" -> "codemirror", 
+    "Hash" -> "fc33e9b4-c8be-43b3-9fad-a9973b835f78", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "__Main render function__", "Display" -> "markdown", 
+    "Hash" -> "30b9c106-805b-475d-9412-2f0793e61f45", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "fps = 0;\nfpsLabel = \"0\";\ntime = \
+AbsoluteTime[];\n\nhandler = Function[Null,\n  x = 0.995 x + 0.02 f[p] - 0.01 \
+f[q];\n  If[r < 100, s];\n\n  (* FPS counter *)\n  fps += 1;\n  With[{diff = \
+AbsoluteTime[] - time},\n    If[diff >= 1.0,\n      fpsLabel = ToString[fps / \
+(diff)];\n      fps = 0;\n      time = AbsoluteTime[];\n    ];\n  ];\n];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f25f5859-c862-4e38-ae00-83a2704754b1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> ".md\n__Drawing function__\nEvaluate *this cell very last*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "0ff485a2-19f6-419d-9433-7afd710b2679", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "__Drawing function__\nEvaluate *this cell very last*", 
+    "Display" -> "markdown", "Hash" -> 
+     "f64a9afa-5981-4295-821f-be48f8b3147c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>, 
+   <|"Data" -> "Graphics[{\n  PointSize[0.007], Point[x // Offload],\n  \
+EventHandler[AnimationFrameListener[x // Offload], handler],\n  Text[fpsLabel \
+// Offload, {-1.8,1.8}]\n}, PlotRange -> {{-2,2}, {-2,2}}, \
+TransitionType->None]  ", "Display" -> "codemirror", 
+    "Hash" -> "d95f3410-bea6-43d8-9779-7482b9d877d7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8bb877e9-aa31-42a1-bb70-b953879814a3"|>}, 
+ "serializer" -> "jsfn4"|>

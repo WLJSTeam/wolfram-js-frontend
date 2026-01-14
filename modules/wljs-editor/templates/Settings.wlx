@@ -1,0 +1,168 @@
+
+
+
+parseInt[any_String] := ToExpression[any]
+parseInt[any_] := any 
+
+Knob = ImportComponent["Button.wlx"];
+
+Component[OptionsPattern[]] := Module[{tempBuffer}, With[{
+    update = CreateUUID[],
+    settings = OptionValue["Settings"],
+    log = OptionValue["Messager"],
+    onsave = OptionValue["OnSave"],
+    controller = CreateUUID[],
+
+    refreshAssets = CreateUUID[],
+
+    initialValues = Join[<|
+        "OutputCharactersLimit" -> 6000,
+        "FrontEndObjectSizeLimit" -> 8,
+        "SummaryBoxSizeLimit" -> 2 8 2500,
+        "EnableAutocompleteScan" -> False
+    |>, OptionValue["Settings"]],
+
+    LoadedAssets := Table[
+        <li><AssetName/></li>    
+    , {AssetName, DeleteDuplicates @ Select[Flatten[{EventFire[NotebookEditorChannel, "GetRuntimeAssetsTextNames", True]}], StringQ]}]
+},
+
+
+
+    EventHandler[controller, {
+        "Charlim" -> Function[value,
+            If[NumericQ[parseInt[value]],
+                onsave[<|"OutputCharactersLimit" -> parseInt[value]|>];
+                EventFire[log, Notifications`NotificationMessage["Info"](*`*), "Restart of a Kernel required"];
+            ,
+                EventFire[Messager, Notifications`NotificationMessage["Warning"](*`*), "Not a valid number!"];
+            ];
+        ],
+
+        "Felim" -> Function[value,
+            If[NumericQ[parseInt[value]],
+                onsave[<|"FrontEndObjectSizeLimit" -> parseInt[value]|>];
+                EventFire[log, Notifications`NotificationMessage["Info"](*`*), "Restart of a Kernel required"];
+            ,
+                EventFire[Messager, Notifications`NotificationMessage["Warning"](*`*), "Not a valid number!"];
+            ];
+        ],
+        
+        "Boxlimit" -> Function[value,
+            If[NumericQ[parseInt[value]],
+                onsave[<|"SummaryBoxSizeLimit" -> parseInt[value]|>];
+                EventFire[log, Notifications`NotificationMessage["Info"](*`*), "Restart of a Kernel required"];
+            ,
+                EventFire[Messager, Notifications`NotificationMessage["Warning"](*`*), "Not a valid number!"];
+            ];
+        ],
+
+        "Rescan" -> Function[state,
+                onsave[<|"EnableAutocompleteScan" -> (state === "true")|>];
+                EventFire[log, Notifications`NotificationMessage["Warning"](*`*), "Restart of a Kernel required"];
+        ],
+
+        "CacheInNotebook" -> Function[Null,
+            EventFire[NotebookEditorChannel, "PutRuntimeAssets", True];
+            EventFire[log, Notifications`NotificationMessage["Info"](*`*), "Done"];
+        ],
+
+        "ClearInNotebook" -> Function[Null,
+            EventFire[NotebookEditorChannel, "ClearNotebooksRuntimeAssets", True];
+            EventFire[log, Notifications`NotificationMessage["Info"](*`*), "Done"];
+        ],
+
+        "ClearSystem" -> Function[Null,
+            EventFire[NotebookEditorChannel, "ClearRuntimeAssets", True];
+            EventFire[log, Notifications`NotificationMessage["Info"](*`*), "Done"];
+            EventFire[refreshAssets, "Refresh", <|"Client"->Global`$Client (*`*)|>]
+        ]                
+    }];
+
+    With[{lim = initialValues["OutputCharactersLimit"], RescanCheckbox = If[initialValues["EnableAutocompleteScan"],
+            <input id="rescan" checked="true" type="checkbox" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 dark:text-gray-400 text-teal-600 focus:ring-teal-600"/>    
+        ,
+            <input id="rescan" type="checkbox" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 dark:text-gray-400 text-teal-600 focus:ring-teal-600"/>
+    ], flim = initialValues["FrontEndObjectSizeLimit"], boxlimit = initialValues["SummaryBoxSizeLimit"]},
+
+
+    {
+        <li class="list-none px-0 py-4 sm:px-0">
+            <div class="px-4 sm:px-0 pb-3 border-b border-gray-100">
+                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-300">Editor settings</h3>
+                <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-500"></p>
+            </div>
+            <div class="mt-4">   
+                <span class="dark:text-gray-400">Output form</span>
+                    <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
+                        <p class="text-sm text-gray-500">Sets the maximum character limit for the output before the output cell is truncated.</p>
+                        <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                            <label for="characterslimit" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Characters limit</label>
+                            <input type="number" value="{lim}" min="3000" max="50000" step="100" id="characterslimit" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
+                            <WebUIEventListener Id={"characterslimit"} Type={"blur"} Event={controller} Pattern={"Charlim"}/>
+                        </div> 
+                        <p class="text-sm text-gray-500">Sets the maximum size limit for summary boxes to be stored in the notebook in bytes</p>
+                        <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                            <label for="boxlimit" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Size limit</label>
+                            <input type="number" value="{boxlimit}" min="1000" max="100000" step="100" id="boxlimit" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
+                            <WebUIEventListener Id={"boxlimit"} Type={"blur"} Event={controller} Pattern={"Boxlimit"}/>
+                        </div> 
+                    </div>           
+            </div>  
+            <div class="mt-4">   
+                <span class="dark:text-gray-400">Frontend Objects</span>
+                    <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
+                        <p class="text-sm text-gray-500">Sets the maximum size limit for frontend object in megabytes</p>
+                        <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                            <label for="felimit" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Size limit</label>
+                            <input type="number" value="{flim}" min="1" max="100" step="1" id="felimit" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
+                            <WebUIEventListener Id={"felimit"} Type={"blur"} Event={controller} Pattern={"Felim"}/>
+                        </div> 
+                    </div>           
+            </div>      
+            <div class="mt-4">   
+                <span class="dark:text-gray-400">Autocomplete</span>
+                    <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
+                        <p class="text-sm text-gray-500">Enable active rescanning of definitions when Get or Needs called</p>
+                        <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                            <label for="rescan" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Enable</label>
+                            <RescanCheckbox/>
+                            <WebUIEventListener Id={"rescan"} Type={"change"} Property={"checked"} Event={controller} Pattern={"Rescan"}/>
+                        </div> 
+                    </div>           
+            </div>                          
+        </li>
+    ,
+        <li class="list-none px-0 py-4 sm:px-0">
+            <div class="px-4 sm:px-0 pb-3 border-b border-gray-100">
+                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-300">External Assets</h3>
+                <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-500">Javascript, CSS files loaded from the extensions of 3rd party paclets can be cached in the system or in individual notebook</p>
+            </div> 
+            <div class="mt-2 dark:text-gray-400">   
+                <p class="text-sm text-gray-500">List of loaded assets</p>
+                <WebUIRefresh Event={refreshAssets}>
+                    <ul class="text-sm text-gray-500"><LoadedAssets/></ul>
+                </WebUIRefresh>
+            </div>
+            <div class="mt-2 dark:text-gray-400">   
+                <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
+                        <p class="text-sm text-gray-500">Copy all assets to the opened notebooks</p>
+                        <StringRiffle>
+                            <Knob Label={"Cache to notebooks"} Topic={"CacheInNotebook"} Event={controller} Class={"w15"}/>
+                        </StringRiffle>
+                        <p class="text-sm text-gray-500">Clear assets in opened notebooks</p>
+                        <StringRiffle>
+                            <Knob Label={"Clear notebooks"} Topic={"ClearInNotebook"} Event={controller} Class={"w15"}/>
+                        </StringRiffle>          
+                        <p class="text-sm text-gray-500">Clear system cache</p>
+                        <StringRiffle>
+                            <Knob Label={"Clear system"} Topic={"ClearSystem"} Event={controller} Class={"w15"}/>
+                        </StringRiffle>                                       
+                </div>           
+            </div>                                      
+        </li>
+    } // ToStringRiffle
+ ]
+]]
+
+Component

@@ -1,0 +1,100 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$815], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/Demos/05 - Interaction/Quantum well.wln"|>, 
+ "Cells" -> 
+  {<|"Data" -> 
+     ".md\n# Quantum well\nSolving Schrodinger equation in real-time", 
+    "Display" -> "codemirror", "Hash" -> 
+     "bc252975-42e3-4aa4-8766-bb2e3b91c064", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> "># Quantum well\nSolving Schrodinger equation in real-time", 
+    "Display" -> "markdown", "Hash" -> 
+     "2e506104-3c78-432c-8e3a-295472a53a77", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> ".md\nInitial parameters", "Display" -> "codemirror", 
+    "Hash" -> "b53debb4-639b-4600-bd64-de69f97f70dd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> ">Initial parameters", "Display" -> "markdown", 
+    "Hash" -> "6c82b4ff-3ef8-4e21-80e6-7857d192c154", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> "v0 = 8.;\nhb = 1.;\nd  = 1.;\nm  = 1.;", 
+    "Display" -> "codemirror", "Hash" -> 
+     "49571049-db61-424e-8a49-4d3d54c41955", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> ".md\nOperator", "Display" -> "codemirror", 
+    "Hash" -> "0e2a53e8-41f6-48bb-be1f-046d20e8adc2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, <|"Data" -> ">Operator", 
+    "Display" -> "markdown", "Hash" -> 
+     "44549ab6-bb50-42f8-b6af-7d390984a692", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> "V = \
+(*TB[*)Piecewise[{{(*|*)0(*|*),(*|*)-d<=#<d(*|*)},{(*|*)v0(*|*),(*|*)True(*|*\
+)}}](*|*)(*1:eJxTTMoPSmNkYGAo5gESAZmpyanlmcWpTvkVmUxAAQBzVQdd*)(*]TB*) \
+&;\nop[u_[x_]] := - hb^2/(2 m) u''[x] + V[x] u[x];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6d0285ea-2957-4fca-ad11-c8173d32c2c1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> ".md\nControls", "Display" -> "codemirror", 
+    "Hash" -> "5d018515-b04a-4464-9786-ad6ac1cb466b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, <|"Data" -> ">Controls", 
+    "Display" -> "markdown", "Hash" -> 
+     "6b5443cc-f5ff-4041-82ef-62e8321b41a9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> "controls = EventHandler[InputGroup[<|\n  \"m\" -> \
+InputRange[0.1, 5, 0.1, 1.0, \"Label\"->\"Mass\"],\n  \"V\" -> \
+InputRange[0.1, 10, 0.1, 8.0, \"Label\"->\"V0\"],\n  \"d\" -> InputRange[0.1, \
+2, 0.1, 1.0, \"Label\"->\"d\"]\n|>], Function[values,\n      v0 = \
+values[\"V\"];\n      m = values[\"m\"];\n      d = values[\"d\"];\n  \n      \
+vplot = Table[{x,V[x]}, {x,-2,2,0.05}];\n      \n      {ev, ef} = \n        \
+NDEigensystem[{op[u[x]], DirichletCondition[u[x] == 0, True]}, u[x], {x, -2, \
+2}, 6];\n      \n      xaxis = Table[i, {i,-2,2,0.025}];\n      yaxis = \
+Table[Evaluate[ef + ev], {x, xaxis}] // Transpose;\n]];\n\ncontrols // \
+EventFire;", "Display" -> "codemirror", 
+    "Hash" -> "53e8b1b3-36d4-436d-aa5b-b865b219576d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> False|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> ".md\nGraphical output", "Display" -> "codemirror", 
+    "Hash" -> "776475a1-bcfc-4305-b63c-f8edb3c2f1a7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> ">Graphical output", "Display" -> "markdown", 
+    "Hash" -> "c3a8838b-2ced-4aad-86af-7604f67728b4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>, 
+   <|"Data" -> "Row[\n    {\n        Graphics[\n            {\n               \
+ Table[\n                    With[{i = i, color = ColorData[97][i]},\n        \
+                {color, Line[{xaxis, yaxis[[i]]} // Transpose\n               \
+             ] // Offload}\n                    ]\n                    ,\n    \
+                {i, Length[yaxis]}\n                ]\n                ,\n    \
+            AbsoluteThickness[2]\n                ,\n                \
+Line[vplot // Offload]\n            }\n            ,\n            Axes -> \
+True\n            ,\n            PlotRange -> {{-2, 2}, {0, 16}}\n            \
+,\n            ImageSize -> {350, 350}\n        ]\n        ,\n        \
+controls\n    }\n]", "Display" -> "codemirror", 
+    "Hash" -> "a72f0dea-0a54-453c-af2f-9fc96d0cd7db", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "cded744c-7873-41ce-95af-1a25a78718d1"|>}, "serializer" -> "jsfn4"|>
