@@ -142,6 +142,8 @@ NotebookWrite[RemoteNotebook[uid_], expr_List] := With[{t = Flatten[transformCel
     RemoteCellObj[#]& /@ uids
 ]
 
+transformCellExpr[ExpressionCell[expr_, "Input", CellOpen->True] ] := <|"Display"->"codemirror", "Type"->"Input", "Data"->ToString[expr, StandardForm]|>;
+transformCellExpr[ExpressionCell[expr_, "Input", CellOpen->False] ] := <|"Display"->"codemirror", "Type"->"Input", "Props"-><|"Hidden"->True|>, "Data"->ToString[expr, StandardForm]|>;
 
 transformCellExpr[ExpressionCell[expr_, _] ] := <|"Display"->"codemirror", "Type"->"Input", "Data"->ToString[expr, StandardForm]|>;
 transformCellExpr[ExpressionCell[expr_] ] := <|"Display"->"codemirror", "Type"->"Input", "Data"->ToString[expr, StandardForm]|>;
@@ -176,6 +178,8 @@ fixDisplays[d_] := StringReplace[ToLowerCase[d], {
 
 transformCellExpr[Cell[expr_String, _] ] :=  transformCellExpr[expr];
 transformCellExpr[Cell[expr_String, "Output"] ] :=  <|"Display"->"codemirror", "Type"->"Output", "Data"->expr|>;
+transformCellExpr[Cell[expr_String, "Input", CellOpen->False] ] :=  <|"Display"->"codemirror", "Type"->"Input", "Data"->expr, "Props"-><|"Hidden"->True|>|>;
+transformCellExpr[Cell[expr_String, "Input", CellOpen->True] ] :=  <|"Display"->"codemirror", "Type"->"Input", "Data"->expr|>;
 transformCellExpr[Cell[expr_String, "Input"] ] :=  <|"Display"->"codemirror", "Type"->"Input", "Data"->expr|>;
 transformCellExpr[Cell[expr_String, "Output", display_String] ] :=  <|"Display"->fixDisplays[display], "Type"->"Output", "Data"->expr|>;
 transformCellExpr[Cell[expr_String, "Input", display_String] ] :=  <|"Display"->"codemirror", "Type"->"Input", "Data"->addDisplay[display, expr]|>;
