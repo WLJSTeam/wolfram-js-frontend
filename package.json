@@ -56,7 +56,7 @@
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.icns"
+          "icon": "./Electron/build/file/File-2.icns"
         }
       ],
       "hardenedRuntime": true,
@@ -96,7 +96,7 @@
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.png"
+          "icon": "./Electron/build/file/File-2.png"
         }
       ],
       "icon": "./Electron/build/icon.png",
@@ -128,7 +128,7 @@
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.ico"
+          "icon": "./Electron/build/file/File-2.ico"
         }
       ],
       "protocols": [
