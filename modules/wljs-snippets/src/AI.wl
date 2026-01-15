@@ -607,6 +607,8 @@ toolsQue /: AppendTo[toolsQue, func_] := With[{}, Module[{},
 
 truncateIfLarge[str_String] := If[StringLength[str] > 3000, StringTake[str,3000]<>"...", str]
 
+
+
 createChat[assoc_Association] := With[{
     client = assoc["Client"],
     logger = assoc["Messanger"],
@@ -656,11 +658,17 @@ createChat[assoc_Association] := With[{
 
         removeQuotes[str_String] := If[StringTake[str, 1] === "\"", StringDrop[StringDrop[str, -1], 1], str ];
 
-        functionsHandler[a_Association, cbk_] := Module[{toolResults = {}},
+        functionsHandler[a_Association, cbk_] := Module[{toolResults = {}, callIndex = 0, totalCalls},
             Echo["AI request >>"];
             Echo[Print[a] ];
 
+            totalCalls = Length[a["tool_calls"]];
+            (* Pre-allocate toolResults with placeholders to preserve order *)
+            toolResults = Table[Null, totalCalls];
+
             Function[call,
+                (* Capture current index for this specific call *)
+                Module[{myIndex = ++callIndex},
                 With[{result = Switch[call["function", "name"],
 
                     "setSelectedText",
@@ -678,7 +686,7 @@ createChat[assoc_Association] := With[{
                                 WebUISubmit[vfx`MagicWand[ "frame-"<>focused["Hash"] ], client];
                             ] ];
 
-                            AppendTo[toolsQue, Function[Null, AppendTo[toolResults, "*Done*"] ] ];
+                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "*Done*" ] ];
                         ]                        
                     ,
 
@@ -698,14 +706,14 @@ createChat[assoc_Association] := With[{
                                
                             Then[WebUIFetch[FrontEditorSelected["Get"], client, "Format"->"JSON"], Function[result,
                                 If[!StringQ[result],
-                                    AppendTo[toolResults, "*ERROR: Nothing is selected*"];
+                                    toolResults[[myIndex]] = "*ERROR: Nothing is selected*";
                                     EventFire[promise, Resolve, True];
                                 ,
                                     If[StringLength[result] === 0,
-                                        AppendTo[toolResults, "*ERROR: Nothing is selected*"];
+                                        toolResults[[myIndex]] = "*ERROR: Nothing is selected*";
                                         EventFire[promise, Resolve, True];                                    
                                     ,
-                                        AppendTo[toolResults, result];
+                                        toolResults[[myIndex]] = result;
                                         EventFire[promise, Resolve, True];                                    
                                     ]
                                 ];
@@ -715,23 +723,23 @@ createChat[assoc_Association] := With[{
                     ,                    
 
                     "getCellList",
-                        AppendTo[toolsQue, Function[Null, AppendTo[toolResults, ExportString[Map[Function[cell, 
+                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = ExportString[Map[Function[cell, 
                             {cell["Hash"], cell["Type"], checkLanguage[ cell ], TrueQ[cell["Props"]["Hidden"] ]}
-                        ], notebook["Cells"] ], "JSON"] ] ] ];
+                        ], notebook["Cells"] ], "JSON"] ] ];
                     ,
 
                     "getLibraryList",
-                        AppendTo[toolsQue, Function[Null, AppendTo[toolResults, ExportString[Map[Function[item, 
+                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = ExportString[Map[Function[item, 
                             {item["hash"], item["title"], item["desc"]}
-                        ], Select[Values[library], Function[i, i["default"] =!= True && i["enabled"] === True ] ] ], "JSON"] ] ] ];
+                        ], Select[Values[library], Function[i, i["default"] =!= True && i["enabled"] === True ] ] ], "JSON"] ] ];
                     ,
 
                     "getFocusedCell",
-                        AppendTo[toolsQue, Function[Null, AppendTo[toolResults,
+                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
                             If[!MatchQ[focused, _cell`CellObj], "ERROR: Nothing is focused",
                                 ExportString[{focused["Hash"], focused["Type"], checkLanguage[ focused ], TrueQ[focused["Props"]["Hidden"] ]}, "JSON"]
                             ]
-                        ] ] ];
+                        ] ];
                     ,
 
                     "getCellContentById",
@@ -740,11 +748,11 @@ createChat[assoc_Association] := With[{
                                         , "RawJSON", CharacterEncoding -> "UTF-8"
 									]},
                             With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                AppendTo[toolsQue, Function[Null, AppendTo[toolResults,
+                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
                                     If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
                                         trimContent[ cell["Data"] ]
                                     ]
-                                ] ] ];
+                                ] ];
                             ] 
                         ]
                     ,
@@ -755,11 +763,11 @@ createChat[assoc_Association] := With[{
                                         , "RawJSON", CharacterEncoding -> "UTF-8"
 									]},
                             With[{item = library[ removeQuotes @ args["id"] ]},
-                                AppendTo[toolsQue, Function[Null, AppendTo[toolResults,
+                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
                                     If[!MatchQ[item, _Association], "ERROR: Not found by given id",
                                         trimContent[ item["content"] ]
                                     ]
-                                ] ] ];
+                                ] ];
                             ] 
                         ]
                     ,                    
@@ -776,13 +784,13 @@ createChat[assoc_Association] := With[{
                             ];
 
                             With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                AppendTo[toolsQue, Function[Null, AppendTo[toolResults,
+                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
                                     If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
                                         EventFire[cell, "ChangeContent", restoreLanguage[checkLanguage[ cell ], args["content"] ] ];
                                         WebUISubmit[vfx`MagicWand[ "frame-"<>cell["Hash"] ], client];
                                         "*Done*"
                                     ]
-                                ] ] ];
+                                ] ];
                             ] 
                         ]
                     ,
@@ -793,7 +801,7 @@ createChat[assoc_Association] := With[{
                                         , "RawJSON", CharacterEncoding -> "UTF-8"
 									]},
                             With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                AppendTo[toolsQue, Function[Null, AppendTo[toolResults,
+                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
                                     If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
                                         Echo["AI Delete!!!"];
 
@@ -803,7 +811,7 @@ createChat[assoc_Association] := With[{
                                     
                                         "*Done*"
                                     ]
-                                ] ] ];
+                                ] ];
                             ] 
                         ]
 
@@ -826,7 +834,7 @@ createChat[assoc_Association] := With[{
                                             ]
                                         ] ];      
 
-                                        AppendTo[toolsQue, Function[Null, AppendTo[toolResults, "*Done*"] ] ];                                  
+                                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "*Done*" ] ];                                  
                                 ]
                             ] 
                         ]
@@ -839,7 +847,7 @@ createChat[assoc_Association] := With[{
 										call["function", "arguments"]
                                     , "RawJSON", CharacterEncoding -> "UTF-8"
 									]},
-                            AppendTo[toolsQue, Function[Null, AppendTo[toolResults, wolframAlphaRequest[ args["request"] ] ] ] ];
+                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = wolframAlphaRequest[ args["request"] ] ] ];
                         ]
                     ,
 
@@ -850,7 +858,7 @@ createChat[assoc_Association] := With[{
 									]},
                             With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
                                 If[!MatchQ[cell, _cell`CellObj], 
-                                    AppendTo[toolsQue, Function[Null, AppendTo[toolResults, "ERROR: Not found by given id" ] ] ];
+                                    AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "ERROR: Not found by given id" ] ];
                                 ,
                                     Echo["AI Evaluate!!!"];
 
@@ -869,7 +877,7 @@ createChat[assoc_Association] := With[{
                                                         Echo["Generated output cells: "];
                                                         Echo[#["Data"] &/@ out];
 
-                                                        AppendTo[toolResults, ExportByteArray[<|"Messages"->generated, "Out"->(truncateIfLarge[#["Data"] ] &/@ out)|>, "JSON"] // ByteArrayToString ];
+                                                        toolResults[[myIndex]] = ExportByteArray[<|"Messages"->generated, "Out"->(truncateIfLarge[#["Data"] ] &/@ out)|>, "JSON"] // ByteArrayToString;
                                                         EventFire[p, Resolve, True];
                                                     ]
                                                 ] ];
@@ -911,7 +919,7 @@ createChat[assoc_Association] := With[{
                                             Echo["Generated output: "];
                                             Echo[result];
 
-                                            AppendTo[toolResults, ExportByteArray[<|"Messages"->generated, "Result"->(truncateIfLarge[result ])|>, "JSON"] // ByteArrayToString ];
+                                            toolResults[[myIndex]] = ExportByteArray[<|"Messages"->generated, "Result"->(truncateIfLarge[result ])|>, "JSON"] // ByteArrayToString;
                                             EventFire[p, Resolve, True];
                                         ]
                                     ] ];
@@ -946,12 +954,12 @@ createChat[assoc_Association] := With[{
                                     
                                         With[{new = cell`CellObj["Notebook"->notebook, "Type"->"Input", "Data"->restoreLanguage[args["contentType"], args["content"] ] ]},
                                             WebUISubmit[vfx`MagicWand[ "frame-"<>new["Hash"] ], client];
-                                            AppendTo[toolsQue, Function[Null, AppendTo[toolResults, new["Hash"] ] ] ];
+                                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = new["Hash"] ] ];
                                         ]                                        
                                     ,
                                         With[{new = cell`CellObj["Notebook"->notebook, "Type"->"Input", "Data"->restoreLanguage[args["contentType"], args["content"] ], "After"->cell]},
                                             WebUISubmit[vfx`MagicWand[ "frame-"<>new["Hash"] ], client];
-                                            AppendTo[toolsQue, Function[Null, AppendTo[toolResults, new["Hash"] ] ] ];
+                                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = new["Hash"] ] ];
                                         ]
                                     ]
                                 ]
@@ -961,12 +969,12 @@ createChat[assoc_Association] := With[{
                     ,                    
 
                     _,
-                        Echo["Undefined Function!"]; AppendTo[toolsQue, Function[Null, AppendTo[toolResults, "ERROR: Undefined Function!" ] ] ];
+                        Echo["Undefined Function!"]; AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "ERROR: Undefined Function!" ] ];
                 ]},
                     1+1
                     
                 ]
-            ] /@ a["tool_calls"];
+            ] ] /@ a["tool_calls"];
 
             AppendTo[toolsQue, Function[Null, 
                 Echo["AI >> Add tool calls to the chat"];
