@@ -26,7 +26,7 @@ CoffeeLiqueur`Extensions`ContextMenu`Internal`ReadSelectionInDoc;
 
 checkLink[notebook_, logs_] := With[{},
     If[!(notebook["Evaluator"]["Kernel"]["State"] === "Initialized") || !TrueQ[notebook["WebSocketQ"] ],
-        EventFire[logs, "Warning", "The kernel isn’t ready or connected to a notebook yet. Try running a cell"];
+        EventFire[logs, "Warning", "The kernel isn't ready or connected to a notebook yet. Try running a cell"];
         False
     ,
         True

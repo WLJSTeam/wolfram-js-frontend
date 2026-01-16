@@ -87,7 +87,7 @@ bookHandler[tag_String][assoc_] := With[{book = books[tag]},
               ];
           ,
               Echo["rejected"];
-              EventFire[assoc["Messanger"], "Warning", "The kernel isn’t ready or connected to a notebook yet. Try running a cell" ];
+              EventFire[assoc["Messanger"], "Warning", "The kernel isn't ready or connected to a notebook yet. Try running a cell" ];
           ];
     ];
   ]
