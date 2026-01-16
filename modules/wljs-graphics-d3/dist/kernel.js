@@ -2021,15 +2021,18 @@ async function processLabel(ref0, gX, env, textFallback, nodeFallback) {
 
       let GUIEnabled = false;
 
+
       if (options.Controls || (typeof options.Controls === 'undefined') && !tinyGraph && !mobileDetected) {
         //add pan and zoom
         if (typeof options.Controls === 'undefined') {
           GUIEnabled = true;
           addPanZoom(listenerSVG, svg, env.svg, gX, gY, gTX, gRY, gGX, gGY, xAxis, yAxis, txAxis, ryAxis, xGrid, yGrid, x, y, env);
+          
         } else {
           if (await interpretate(options.Controls, env)) {
             GUIEnabled = true;
             addPanZoom(listenerSVG, svg, env.svg, gX, gY, gTX, gRY, gGX, gGY, xAxis, yAxis, txAxis, ryAxis, xGrid, yGrid, x, y, env);
+            
           }
         }
       }
@@ -2629,6 +2632,7 @@ async function processLabel(ref0, gX, env, textFallback, nodeFallback) {
 
   const addPanZoom = (listener, raw, view, gX, gY, gTX, gRY, gGX, gGY, xAxis, yAxis, txAxis, ryAxis, xGrid, yGrid, x, y, env) => {
 
+
       console.log({listener, raw, view, gX, gY, gTX, gRY, xAxis, yAxis, txAxis, ryAxis, xGrid, yGrid, x, y, env});
       const zoom = d3.zoom().filter(filter).on("zoom", zoomed);
    
@@ -2636,7 +2640,41 @@ async function processLabel(ref0, gX, env, textFallback, nodeFallback) {
       
       env._zoom = zoom;
 
+      const resetZoom = () => {
+        const transform = d3.zoomIdentity;
+        
+        listener.call(zoom.transform, transform);
+        
+        view.attr("transform", transform);
+
+        if (gX) gX.call(xAxis.scale(x));
+        if (gY) gY.call(yAxis.scale(y));
       
+        if (gTX) gTX.call(txAxis.scale(x));
+        if (gRY) gRY.call(ryAxis.scale(y));
+
+        if (gGX) gGX.call(xGrid(x));
+        if (gGY) gGY.call(yGrid(y));
+      
+        env.onZoom.forEach((h) => h(transform));
+      };
+
+      env._resetZoom = resetZoom;
+
+      listener.node().addEventListener('contextmenu', async (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (window.electronAPI) {
+          const res = await window.electronAPI.createMenu([
+             {label:'Reset axes', ref:'reset'},
+          ]);
+          if (res === 'reset') {
+            resetZoom();
+          }
+        } else {
+          resetZoom();
+        }
+      });      
 
       function zoomed({ transform }) {
         
