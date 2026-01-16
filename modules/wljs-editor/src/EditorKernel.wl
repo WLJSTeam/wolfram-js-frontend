@@ -60,5 +60,7 @@ CellView /: MakeBoxes[e_CellView, StandardForm] := With[{o = CreateFrontEndObjec
 
 Options[CellView] = {"Display" -> "codemirror", "Class" -> "", "Style"->""}
 
+
+
 End[]
 EndPackage[]

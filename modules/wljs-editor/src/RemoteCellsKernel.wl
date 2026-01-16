@@ -1,7 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`RemoteCells`", {
     "JerryI`Misc`Events`",
     "JerryI`Misc`Events`Promise`",
-    "CoffeeLiqueur`Extensions`Communication`"
+    "CoffeeLiqueur`Extensions`Communication`",
+    "CoffeeLiqueur`Extensions`EditorView`"
 }]
 
 RemoteCellObj::usage = "Internal representation of cell object in the notebook"
@@ -189,6 +190,26 @@ transformCellExpr[TextCell[expr_String, "Title"] ] :=  transformCellExpr["# "<>e
 transformCellExpr[TextCell[expr_String, "Section"] ] :=  transformCellExpr["## "<>expr]
 transformCellExpr[TextCell[expr_String, "Subsection"] ] :=  transformCellExpr["### "<>expr]
 transformCellExpr[TextCell[expr_String, "Subsubsection"] ] :=  transformCellExpr["### "<>expr]
+
+
+EditorView[ExpressionCell[expr_, ___], opts___] := EditorView[ToString[expr, StandardForm], opts];
+EditorView[Cell[expr_String, ___], opts___] := EditorView[expr, opts];
+
+
+CellView[ExpressionCell[expr_, ___], opts___ ] :=  CellView[ToString[expr, StandardForm], opts];
+CellView[Cell[expr_String, _], opts___ ] :=  CellView[expr, opts];
+CellView[Cell[expr_String, "Output"], opts___ ] :=  CellView[expr, opts];
+CellView[Cell[expr_String, "Input", CellOpen->False], opts___ ] :=  CellView[expr, opts]; 
+CellView[Cell[expr_String, "Input", CellOpen->True], opts___ ] := CellView[expr, opts]; 
+CellView[Cell[expr_String, "Input"], opts___ ] := CellView[expr, opts]; 
+CellView[Cell[expr_String, "Output", display_String], opts___ ] := CellView[expr, "Display"->fixDisplays[display], opts]; 
+CellView[Cell[expr_String, "Input", display_String], opts___ ] := CellView[addDisplay[display, expr], "Display"->fixDisplays[display], opts];  
+CellView[TextCell[expr_String], opts___ ] :=  CellView[expr, "Display"->"markdown", opts]
+CellView[TextCell[expr_String, _], opts___ ] :=  CellView[expr, "Display"->"markdown", opts]
+CellView[TextCell[expr_String, "Title"], opts___ ] :=  CellView["# "<>expr, "Display"->"markdown", opts]
+CellView[TextCell[expr_String, "Section"], opts___] :=  CellView["## "<>expr, "Display"->"markdown", opts]
+CellView[TextCell[expr_String, "Subsection"], opts___ ] :=  CellView["### "<>expr, "Display"->"markdown", opts]
+CellView[TextCell[expr_String, "Subsubsection"], opts___ ] :=  CellView["### "<>expr, "Display"->"markdown", opts]
 
 CreateWindow[r_RemoteNotebook, opts: OptionsPattern[] ] := NotebookOpen[r, opts]
 CreateWindow[r_RemoteNotebook, opts: OptionsPattern[] ] := NotebookOpen[r, opts]
