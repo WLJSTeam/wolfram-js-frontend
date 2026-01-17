@@ -27,28 +27,21 @@ window.SupportedCells['image'] = {
 
 
 class FileOutputCell {
-    dispose() {
-      
-    }
-    
+    dispose() {}
     constructor(parent, data) {
-      const {EditorView, EditorState, defaultHighlightStyle, syntaxHighlighting, editorCustomTheme} = window.SupportedCells['codemirror'].context;
-
-    
-      const editor = new EditorView({
-        doc: data,
-        extensions: [
-          EditorState.readOnly.of(true),
-          syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-          editorCustomTheme
-        ],
-        parent: parent.element
-      }); 
+      let pre = document.createElement("pre");
+      pre.textContent = data;
+      pre.style.maxHeight = "600px";
+      pre.style.overflowY = "scroll";
+      pre.style.overflowX = "auto";
+      pre.style.maxWidth = "80vw";
+      pre.classList.add('text-sm');
+      parent.element.appendChild(pre);
       
       return this;
     }
-  }
+}
   
-  window.SupportedCells['fileprint'] = {
+window.SupportedCells['fileprint'] = {
     view: FileOutputCell
-  };
+};

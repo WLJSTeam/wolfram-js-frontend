@@ -1,39 +1,38 @@
-<|"Notebook" -> <|"Controller" -> "f203fa2c-67dd-4b9e-8a54-30f08a1e556a", 
+<|"Notebook" -> <|"Controller" -> "401f0536-98c2-4ffd-9fe9-8d8c22abc1e7", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$661], 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$428], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "f3108d46-47e4-4544-9d4e-14198a66b2af", "Objects" -> <||>, 
-   "Path" -> "/applications/WLJS \
-Notebook.app/Contents/Resources/app/modules/wljs-snippets/library/textformat.\
-wln", "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
+    "402cc038-8195-494a-816e-e66f01e0ae38", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wolfram-js-frontend/modules/wljs-snippets/\
+library/textformat.wln", "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
    "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Format text", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$653]]}|>, 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$420]]}|>, 
  "Cells" -> 
   {<|"Data" -> 
      ".md\n# Format text\nA toolbar for formatting markdown, WL and HTML", 
     "Display" -> "codemirror", "Hash" -> 
-     "690357b5-a408-45cf-96a9-25f12c6d04ee", "Invisible" -> False, 
+     "a558acca-ba8a-48d1-8c18-47ff7d473463", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> 
      "# Format text\nA toolbar for formatting markdown, WL and HTML", 
     "Display" -> "markdown", "Hash" -> 
-     "a080ebac-d54d-4d64-a7a7-20db2396508c", "Invisible" -> False, 
+     "26fb9ab1-8fe6-46a4-9555-58d026941c34", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> ".md\n__source code__", "Display" -> "codemirror", 
-    "Hash" -> "6a5c1944-e2f1-4d90-b028-ca23b7a54b17", "Invisible" -> False, 
+    "Hash" -> "6963dfbd-703f-4eed-8e48-a892ae0f2687", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> "__source code__", "Display" -> "markdown", 
-    "Hash" -> "4febc7f2-a61a-444a-a288-4c1a9402d6dc", "Invisible" -> False, 
+    "Hash" -> "2ff9cede-4fc4-4a95-9d26-9d1795041e9b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> ".wlx\n\nFormattingToolbar`Button[Child_, OptionsPattern[]] := \
 With[{\n  UId = CreateUUID[],\n  Event = OptionValue[\"Event\"],\n  Pattern = \
 OptionValue[\"Pattern\"]\n},\n  {\n    <button id=\"{UId}\" \
@@ -127,10 +126,10 @@ FormattingToolbar`makeFormattedWL[s, \
 Background->FormattingToolbar`hexToRGB[StringTrim[color]]]\n  ]},\n    \
 FrontSubmit[FrontEditorSelected[\"Set\", result], \"Window\"->win]\n  \
 ]\n]\n\nFormattingToolbar`dummy := <div></div>", "Display" -> "codemirror", 
-    "Hash" -> "64ea2e4c-281f-458c-ac14-94b117bf95e6", "Invisible" -> False, 
+    "Hash" -> "1a41ce75-f261-4378-88d0-e8f3357f0179", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> "FormattingToolbar`format[\"Markdown\", \"Bold\", _, \
 piece_String, win_] := With[{\n  s = StringJoin[\"__\", piece, \"__\"]\n},\n  \
 FrontSubmit[FrontEditorSelected[\"Set\", s], \
@@ -204,20 +203,20 @@ FormattingToolbar`format[\"Wolfram\", style, data, StringTake[text, cursor + \
 \"Topic\"->\"Warning\"],\n\n      True,\n      \
 FormattingToolbar`format[\"Wolfram\", style, data, StringTake[text, cursor + \
 {1,0}], window]\n    ];\n  ]\n]]", "Display" -> "codemirror", 
-    "Hash" -> "fcfd1671-f1cd-46ad-a109-43a8dd6b5e8a", "Invisible" -> False, 
+    "Hash" -> "622dd9a3-b05c-48c0-9944-055f6c70894b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> ".md\nActual widget", "Display" -> "codemirror", 
-    "Hash" -> "20fb3724-b7bb-4260-b3a6-90ef752da4b0", "Invisible" -> False, 
+    "Hash" -> "aa0bfd32-6d61-4e89-bc43-2688ca8f4460", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> "Actual widget", "Display" -> "markdown", 
-    "Hash" -> "6d956b1f-13cf-4781-9796-1434861f8d18", "Invisible" -> False, 
+    "Hash" -> "bff82bdc-1cfa-4a4f-869b-27285ee04c03", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> ".wlx\n\nwidget[self_] := With[{\n  FormattingToolbarButton = \
 FormattingToolbar`Button, \n  FormattingToolbarColorSelector = \
 FormattingToolbar`ColorSelector,\n  act = CreateUUID[],\n  parent = self,\n  \
@@ -295,35 +294,33 @@ d=\"M21 21L12 12M12 12L3 3M12 12L21.0001 3M12 12L3 21.0001\" \
 stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" \
 stroke-linejoin=\"round\"/>\n      </svg>\n    </FormattingToolbarButton>\n  \
 </div>\n</div>\n]\n", "Display" -> "codemirror", 
-    "Hash" -> "1e32193a-c4c7-4601-bc58-764975850eb7", "Invisible" -> False, 
+    "Hash" -> "2dced44f-92d6-4b60-9a9e-69c47c939465", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> "outputQ[c_] := c[[2]] === \"Output\";\n\nlastAfterFocused = \
 With[{\n  focused = NotebookFocusedCell[]\n},\n{\n  rawCells = \
-Cells[]\n},\n{\n  cells = NotebookRead[SequenceCases[rawCells, {focused, \
-Repeated[_, 4]}][[1]]]}, \n{\n  firstInput = FirstPosition[Drop[cells,1], \
-Cell[_, \"Input\", ___]]\n},\n  rawCells[[Position[cells, \
-SequenceCases[cells, {cells[[1]], \
-___?outputQ}][[1]][[-1]]][[1,1]]]]\n];\n\nModule[{self, f = \
+SequenceCases[Cells[], {focused, Repeated[_, 4]}][[1]]\n},\n{\n  cells = \
+NotebookRead[rawCells]}, \n  rawCells[[Position[cells, SequenceCases[cells, \
+{cells[[1]], ___?outputQ}][[1]][[-1]]][[1,1]]]]\n];\n\nModule[{self, f = \
 lastAfterFocused},\n  self = NotebookWrite[NotebookLocationSpecifier[f, \
 \"After\"], Cell[\" \", \"Input\", CellOpen->False]];\n  \
 NotebookWrite[NotebookLocationSpecifier[self, \"After\"], Cell[widget[self], \
 \"Output\", \"WLX\"]];\n];", "Display" -> "codemirror", 
-    "Hash" -> "9c414af3-6e50-48d3-948e-789a96c2b456", "Invisible" -> False, 
+    "Hash" -> "962932de-f375-4622-874e-7177460332b3", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> ".md\n__template__", "Display" -> "codemirror", 
-    "Hash" -> "fc0a8713-3c25-49c3-b948-f6d22b830c04", "Invisible" -> False, 
+    "Hash" -> "c25aa152-34f7-48b4-9e68-69aca9d4af87", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "UID" -> Null, "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> "__template__", "Display" -> "markdown", 
-    "Hash" -> "2d9f593c-b3b8-4e08-af93-47ea71a3c423", "Invisible" -> False, 
+    "Hash" -> "e5337488-5508-4f97-96e2-ec7902dca987", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> "icon.wlx\nComponent[OptionsPattern[]] := With[{Title = \
 OptionValue[\"Title\"], Kbd = OptionValue[\"Shortcut\"], UTag = \
 OptionValue[\"Tag\"], Btn = OptionValue[\"Button\"]},\n    <li \
@@ -363,13 +360,13 @@ clip-rule=\"evenodd\" d=\"M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 \
 \n]\n\nOptions[Component] = {\"Title\"->\"Example\", \"Shortcut\"->\"\", \
 \"Tag\"->\"generic\", \"Button\"->Null}\n\nComponent", 
     "Display" -> "codemirror", "Hash" -> 
-     "81ca1620-260b-4c83-8ecd-1a727c60cc72", "Invisible" -> False, 
+     "0e9d1f5c-54b2-4e0c-8d0b-eed8b5568597", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "4e057fe5-3b58-43c9-9f86-2341b89be348", "Invisible" -> False, 
+    "Hash" -> "1c04b7f2-0ffe-470a-a7c4-0662f07b25a1", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "890d83e8-e94f-4afb-8cc7-2d050ae8dcd1"|>}, 
+    "Notebook" -> "10e88c85-4f5f-4cfe-ad3d-2fcc1e66c9d3"|>}, 
  "serializer" -> "jsfn4"|>
