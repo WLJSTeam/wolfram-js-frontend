@@ -1,0 +1,1187 @@
+makeScript[_, _, _, _, _] := ""
+makeScript[Uid_, Event_String, Topic_String, Null, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'}
+
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+    </script>
+)
+
+makeScript[Uid_, Event_String, Topic_String, Controller_, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'}
+
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+    </script>
+)
+
+makeScript[Uid_, Event_String, Topic_String, {Controller_, "Debounce"}, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'}
+
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                //server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, _}, Null, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }                
+        });
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, _}, Controller_, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }                
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, _}, {Controller_, "Debounce"}, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }                
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                //server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {_, ChangeTopic_String}, Null, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+                    num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+                    });
+                 ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = ran.value;
+                        server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+                        if (harpticQ) {
+                            if (!window.electronAPI) {harpticQ = false; return}
+                            if (!window.electronAPI.harptic) {harpticQ = false; return}
+                            window.electronAPI.harptic();
+                        }   
+                    });
+    </script>
+)
+
+makeScript[Uid_, Event_String, {_, ChangeTopic_String}, Controller_, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+                    num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+                    });
+                 ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = ran.value;
+                        server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+                        if (harpticQ) {
+                            if (!window.electronAPI) {harpticQ = false; return}
+                            if (!window.electronAPI.harptic) {harpticQ = false; return}
+                            window.electronAPI.harptic();
+                        }   
+                    });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {_, ChangeTopic_String}, {Controller_, "Debounce"}, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+                    num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+                    });
+                 ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = ran.value;
+                        server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+                        if (harpticQ) {
+                            if (!window.electronAPI) {harpticQ = false; return}
+                            if (!window.electronAPI.harptic) {harpticQ = false; return}
+                            window.electronAPI.harptic();
+                        }   
+                    });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                //server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+
+makeScript[Uid_, Event_String, {InputTopic_String, ChangeTopic_String}, Null, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');      
+        });        
+
+        num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+        });
+
+        ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = ran.value;
+                        server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');      
+        });
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, ChangeTopic_String}, Controller_, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');      
+        });        
+
+        num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+        });
+
+        ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = ran.value;
+                        server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');      
+        });
+
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>'); 
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, ChangeTopic_String}, {Controller_, "Debounce"}, Automatic] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = ran.value;
+            server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');      
+        });        
+
+        num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+        });
+
+        ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = ran.value;
+                        server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');      
+        });
+
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                //server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>'); 
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, Topic_String, Null, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'}
+
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');      
+        });
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+    </script>
+)
+
+makeScript[Uid_, Event_String, Topic_String, Controller_, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'}
+
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');      
+        });
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });        
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<Topic/>');    
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+    </script>
+)
+
+makeScript[Uid_, Event_String, Topic_String, {Controller_, "Debounce"}, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'}
+
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');      
+        });
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<Topic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });           
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<Topic/>');     
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                //server.kernel.io.fire('<Event/>', Number(num.value), '<Topic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, _}, Null, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });  
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }                
+        });
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, _}, Controller_, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });         
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');    
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }                
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, _}, {Controller_, "Debounce"}, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });          
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>'); 
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }                
+        });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                //server.kernel.io.fire('<Event/>', Number(ran.value), '<InputTopic/>');  
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {_, ChangeTopic_String}, Null, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+                    num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        fine.value = 0;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+                    });
+
+        fine.addEventListener('change', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });                     
+                 ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+                        num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+                        server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');    
+                        if (harpticQ) {
+                            if (!window.electronAPI) {harpticQ = false; return}
+                            if (!window.electronAPI.harptic) {harpticQ = false; return}
+                            window.electronAPI.harptic();
+                        }   
+                    });
+    </script>
+)
+
+makeScript[Uid_, Event_String, {_, ChangeTopic_String}, Controller_, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+                    num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        fine.value = 0;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+                    });
+
+        fine.addEventListener('change', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });  
+
+                 ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');    
+                        if (harpticQ) {
+                            if (!window.electronAPI) {harpticQ = false; return}
+                            if (!window.electronAPI.harptic) {harpticQ = false; return}
+                            window.electronAPI.harptic();
+                        }   
+                    });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {_, ChangeTopic_String}, {Controller_, "Debounce"}, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        let harpticQ = true;
+
+        function isNumber(value) { return typeof value === 'number'};
+                    num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        fine.value = 0;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+                    });
+
+        fine.addEventListener('change', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        }); 
+
+                 ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+                        if (harpticQ) {
+                            if (!window.electronAPI) {harpticQ = false; return}
+                            if (!window.electronAPI.harptic) {harpticQ = false; return}
+                            window.electronAPI.harptic();
+                        }   
+                    });
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                //server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>');   
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+
+makeScript[Uid_, Event_String, {InputTopic_String, ChangeTopic_String}, Null, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');  
+  
+        }); 
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        }); 
+
+        fine.addEventListener('change', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });                        
+
+        num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        fine.value = 0;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+        });
+
+        ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');        
+        });
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, ChangeTopic_String}, Controller_, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');      
+        });  
+
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        }); 
+
+        fine.addEventListener('change', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });               
+
+        num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        fine.value = 0;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+        });
+
+        ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');    
+        });
+
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>'); 
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+makeScript[Uid_, Event_String, {InputTopic_String, ChangeTopic_String}, {Controller_, "Debounce"}, "FineTuning"] := (
+    <script type="module">
+        const num = document.getElementById('n-#instanceId');
+        const ran = document.getElementById('r-#instanceId');
+        const fine = document.getElementById('f-#instanceId');
+
+        function isNumber(value) { return typeof value === 'number'};
+        num.addEventListener('input', (event)=> {
+            if (isNaN(num.value)) return;
+            ran.value = num.value;
+            fine.value = 0;
+            server.kernel.io.fire('<Event/>', Number(num.value), '<InputTopic/>');      
+        });
+
+        ran.addEventListener('input', (event)=> {
+            if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');      
+        });  
+
+
+        fine.addEventListener('input', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<InputTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        }); 
+
+        fine.addEventListener('change', (event)=> {
+            if (isNaN(fine.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');   
+            if (harpticQ) {
+                if (!window.electronAPI) {harpticQ = false; return}
+                if (!window.electronAPI.harptic) {harpticQ = false; return}
+                window.electronAPI.harptic();
+            }               
+        });               
+
+        num.addEventListener('blur', (event)=> {
+                        if (isNaN(num.value)) return;
+                        ran.value = num.value;
+                        fine.value = 0;
+                        server.kernel.io.fire('<Event/>', Number(num.value), '<ChangeTopic/>');      
+        });
+
+        ran.addEventListener('change', (event)=> {
+                        if (isNaN(ran.value)) return;
+            num.value = Number(ran.value)*(1.0+Number(fine.value)/100.0);
+            server.kernel.io.fire('<Event/>', Number(ran.value)*(1.0+Number(fine.value)/100.0), '<ChangeTopic/>');    
+        });
+
+
+        const controller = {
+            init: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+            },
+            update: (data, env) => {
+                num.value = data;
+                ran.value = num.value;
+                fine.value = 0;
+                //server.kernel.io.fire('<Event/>', Number(ran.value), '<ChangeTopic/>'); 
+            }
+        };
+
+        core["CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalElementCallback"]['<Controller/>'] = controller;
+
+    </script>
+)
+
+
+
+Convert[n_] := With[{s = TextString[n]},
+  If[StringTake[s,1] === ".",
+    StringJoin["0", s]
+  ,
+    If[StringTake[s,-1] === ".",
+      StringJoin[s, "0"]
+    ,
+      s
+    ]
+  ]
+]
+
+Component[OptionsPattern[]] := With[{
+    Event = OptionValue["Event"], 
+    Topic = OptionValue["Topic"], 
+    Label = OptionValue["Label"], 
+    MinX = Convert[OptionValue["Min"]], 
+    MaxX = Convert[OptionValue["Max"]], 
+    Step = Convert[OptionValue["Step"]], 
+    Mode = OptionValue[Appearance],
+    Initial = Convert[OptionValue["Initial"]],
+    external = OptionValue["TrackedSymbolUId"]
+},
+    {
+        If[Mode === Automatic,
+            <div class="relative shrink-0 gap-y-3 pb-2 flex flex-col sm-controls">
+                <div class="flex gap-x-5 sm-controls">
+                    <label for="default-range" class="block mb-2 text-sm font-medium text-gray-900"><Label/></label>
+                    <input id="n-#instanceId" type="number" class="ml-auto h-2 grow max-w-60 block p-2.5 text-xs text-gray-900 bg-gray-50 rounded-md border-2-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500" min="{MinX}" max="{MaxX}" step="{Step}" value="{Initial}"></input>
+                </div>
+                <input id="r-#instanceId" type="range" min="{MinX}" max="{MaxX}" step="{Step}" value="{Initial}" class="sm-controls native"></input>
+            </div>
+        ,
+            <div class="relative shrink-0 gap-y-3 pb-2 flex flex-col sm-controls">
+                <div class="flex gap-x-5 sm-controls">
+                    <label for="default-range" class="block mb-2 text-sm font-medium text-gray-900"><Label/></label>
+                    <input id="n-#instanceId" type="number" class="ml-auto h-2 grow max-w-60 block p-2.5 text-xs text-gray-900 bg-gray-50 rounded-md border-2-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500" min="{MinX}" max="{MaxX}" step="{Step}" value="{Initial}"></input>
+                </div>
+                <input id="r-#instanceId" type="range" min="{MinX}" max="{MaxX}" step="{Step}" value="{Initial}" class="sm-controls native"></input>
+                <input min="-10" max="10" step="0.1" value="0" id="f-#instanceId" type="range" class="sm-controls native sm-frange" aria-label="Fine tune" title="Fine tune"></input>
+            </div>
+        ]
+    ,
+        makeScript[_, Event, Topic, external, Mode]
+    }
+];
+
+Options[Component] = {Appearance->Automatic, "Event"->Null, "Label"->"", "Min"->0, "Max"->1, "Step"->1, "Initial"->0, "Topic"->"Default", "TrackedSymbolUId"->Null, "TrackedExpression"->Null};
+
+Component
+

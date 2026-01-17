@@ -24,25 +24,9 @@ Off[Part::partd]; (* avoid warning messages from WLX *)
 (* WLJS Package manager *)
 Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 
-With[{deps = Get[FileNameJoin[{Directory[], "dependencies.wl"}] ]},
-  If[FailureQ[LPMLoad[ "Directory" -> Directory[] ] ], 
-    Echo["wl_packages is empty"];
+LPMLoad[ "Directory" -> Directory[], "DefaultName" -> "Packages"]
+WLJSPackages`Load[FileNameJoin[{Directory[], "modules"}] ];
 
-    DeleteDirectory[FileNameJoin[{Directory[], "wl_packages"}],   DeleteContents->True] // Quiet;
-    DeleteDirectory[FileNameJoin[{Directory[], "wljs_packages"}], DeleteContents->True] // Quiet;
-    DeleteFile[FileNameJoin[{Directory[], #}] ] &/@ {
-      "wl_packages_lock.wl"
-    } // Quiet;
-
-    Echo["Installing all..."];
-    LPMRepositories[Map[("Github"->#)&, deps["WL"] ], "Directory" -> Directory[] ];
-
-    WLJSPackages`InstallAll[Map[("Github"->#)&, deps["WLJS"] ], "Directory" -> FileNameJoin[{Directory[], "wljs_packages"}] ];
-  ,
-
-    WLJSPackages`Load[FileNameJoin[{Directory[], "wljs_packages"}] ];
-  ];
-];
 
 "WLJS Notebook does not collect or transmit your data unless you explicitly choose a feature that needs the network." // Print;
 
@@ -224,7 +208,7 @@ If[TrueQ @ Internal`$NoWRServices,
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
-WLJSPackages`SyncShared[{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
+WLJSPackages`SyncShared[{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
 
 (*EventHandler[AppExtensions`AppEvents // EventClone, {
  any_ :> (Echo[StringTemplate["App Event ``: ``"][any, #]]&)
@@ -265,7 +249,7 @@ Echo["Loading packages: FRONTEND"];
 If[FailureQ[
     Get[
       UniversalPathConverter[#],
-      Path->{FileNameJoin[{Directory[], "wljs_packages"}], AppExtensions`ExtensionsDir}
+      Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}
     ] 
   ],
   Echo["Failed to load some of the packages (see logs)"];
@@ -290,7 +274,7 @@ Downloader   = ImportComponent["Frontend/Downloader.wl"];
 
 (* Global variables *)
 
-$ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], AppExtensions`ExtensionsDir, "/", ""}
+$ExposedDirectories = {FileNameJoin[{Directory[], "modules"}], FileNameJoin[{Directory[], "Assets"}], Directory[], AppExtensions`ExtensionsDir, "/", ""}
 $ExposedRoutes = <||>;
 
 

@@ -1,0 +1,353 @@
+<|"Notebook" -> <|"Controller" -> "b8bac970-5588-4e51-ba4a-c369dc0a7096", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$5512], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "ce6e1d7f-06ac-4931-bd6f-3967e0094db3", 
+   "Objects" -> <|"59472df2-4e20-4a56-bc7c-7c6b298ddb02" -> 
+      <|"Public" -> Hold[
+         CoffeeLiqueur`Extensions`Manipulate`Internal`ManipulateHelper[
+          HTMLView["<div class=\"divide-y divide-gray-200 overflow-hidden \
+rounded-md sm-controls\"><div class=\"px-2 py-2\"></div><div class=\"px-2 \
+py-2 flex flex-col gap-y-3\" data-type=\"group\"></div><div class=\"px-2 \
+py-2\"></div></div>", Epilog -> 
+            CoffeeLiqueur`Extensions`InputsOutputs`Private`HandleGroup[
+             {FrontEndExecutable["73e69b49-8b08-473f-8992-15a161071f50"], 
+              FrontEndExecutable["dd1bc774-474c-404c-8693-1f7c3852d352"]}]], 
+          Graphics[{AbsoluteThickness[2], {Offload[{RGBColor[0.368417, 
+                0.506779, 0.709798], Line[With[
+                 {CoffeeLiqueur`Extensions`Manipulate`Internal`points = 
+                   Transpose[{{0, 0.15707963267948966, 0.3141592653589793, 
+                      0.47123889803846897, 0.6283185307179586, 
+                      0.7853981633974483, 0.9424777960769379, 
+                      1.0995574287564276, 1.2566370614359172, 
+                      1.413716694115407, 1.5707963267948966, 
+                      1.7278759594743862, 1.8849555921538759, 
+                      2.0420352248333655, 2.199114857512855, 
+                      2.356194490192345, 2.5132741228718345, 
+                      2.670353755551324, 2.827433388230814, 
+                      2.9845130209103035, 3.141592653589793, 
+                      3.2986722862692828, 3.4557519189487724, 
+                      3.612831551628262, 3.7699111843077517, 
+                      3.9269908169872414, 4.084070449666731, 
+                      4.241150082346221, 4.39822971502571, 4.5553093477052, 
+                      4.71238898038469, 4.869468613064179, 5.026548245743669, 
+                      5.183627878423159, 5.340707511102648, 
+                      5.497787143782138, 5.654866776461628, 
+                      5.811946409141117, 5.969026041820607, 
+                      6.126105674500097, 6.283185307179586, 
+                      6.440264939859076, 6.5973445725385655, 
+                      6.754424205218055, 6.911503837897545, 
+                      7.0685834705770345, 7.225663103256524, 
+                      7.382742735936014, 7.5398223686155035, 
+                      7.696902001294993, 7.853981633974483, 
+                      8.011061266653972, 8.168140899333462, 
+                      8.325220532012953, 8.482300164692441, 8.63937979737193, 
+                      8.79645943005142, 8.953539062730911, 9.1106186954104, 
+                      9.267698328089889, 9.42477796076938, 9.58185759344887, 
+                      9.738937226128359, 9.896016858807847, 
+                      10.053096491487338, 10.210176124166829, 
+                      10.367255756846317, 10.524335389525806, 
+                      10.681415022205297, 10.838494654884787, 
+                      10.995574287564276, 11.152653920243765, 
+                      11.309733552923255, 11.466813185602746, 
+                      11.623892818282235, 11.780972450961723, 
+                      11.938052083641214, 12.095131716320704, 
+                      12.252211349000193, 12.409290981679682, 
+                      12.566370614359172, 12.723450247038663, 
+                      12.880529879718152, 13.03760951239764, 
+                      13.194689145077131, 13.351768777756622, 
+                      13.50884841043611, 13.6659280431156, 13.82300767579509, 
+                      13.98008730847458, 14.137166941154069, 
+                      14.294246573833558, 14.451326206513048, 
+                      14.608405839192539, 14.765485471872028, 
+                      14.922565104551516, 15.079644737231007, 
+                      15.236724369910498, 15.393804002589986, 
+                      15.550883635269475, 15.707963267948966, 
+                      15.865042900628456, 16.022122533307943, 
+                      16.179202165987434, 16.336281798666924, 
+                      16.493361431346415, 16.650441064025905, 
+                      16.807520696705392, 16.964600329384883, 
+                      17.121679962064373, 17.27875959474386, 
+                      17.43583922742335, 17.59291886010284, 
+                      17.749998492782332, 17.907078125461823, 
+                      18.06415775814131, 18.2212373908208, 18.37831702350029, 
+                      18.535396656179778, 18.692476288859268, 
+                      18.84955592153876, 19.00663555421825, 
+                      19.16371518689774, 19.320794819577227, 
+                      19.477874452256717, 19.634954084936208, 
+                      19.792033717615695, 19.949113350295185, 
+                      20.106192982974676, 20.263272615654166, 
+                      20.420352248333657, 20.577431881013144, 
+                      20.734511513692635, 20.891591146372125, 
+                      21.048670779051612, 21.205750411731103, 
+                      21.362830044410593, 21.519909677090084, 
+                      21.676989309769574, 21.83406894244906, 
+                      21.991148575128552, 22.148228207808042, 
+                      22.30530784048753, 22.46238747316702, 
+                      22.61946710584651, 22.776546738526, 22.93362637120549, 
+                      23.09070600388498, 23.24778563656447, 
+                      23.40486526924396, 23.561944901923447, 
+                      23.719024534602937, 23.876104167282428, 
+                      24.03318379996192, 24.19026343264141, 
+                      24.347343065320896, 24.504422698000386, 
+                      24.661502330679877, 24.818581963359364, 
+                      24.975661596038854, 25.132741228718345, 
+                      25.289820861397835, 25.446900494077326, 
+                      25.603980126756813, 25.761059759436304, 
+                      25.918139392115794, 26.07521902479528, 
+                      26.23229865747477, 26.389378290154262, 
+                      26.546457922833753, 26.703537555513243, 
+                      26.86061718819273, 27.01769682087222, 
+                      27.17477645355171, 27.3318560862312, 27.48893571891069, 
+                      27.64601535159018, 27.80309498426967, 
+                      27.96017461694916, 28.117254249628648, 
+                      28.274333882308138, 28.43141351498763, 
+                      28.588493147667116, 28.745572780346606, 
+                      28.902652413026097, 29.059732045705587, 
+                      29.216811678385078, 29.373891311064565, 
+                      29.530970943744055, 29.688050576423546, 
+                      29.845130209103033, 30.002209841782523, 
+                      30.159289474462014, 30.316369107141504, 
+                      30.473448739820995, 30.630528372500482, 
+                      30.787608005179973, 30.944687637859463, 
+                      31.10176727053895, 31.25884690321844, 
+                      31.41592653589793}, CoffeeLiqueur`Extensions`Manipulate\
+`Internal`pts$1168477[[1]]}]}, 
+                 CoffeeLiqueur`Extensions`Manipulate`Internal`points]]}], 
+             Offload[{RGBColor[0.880722, 0.611041, 0.142051], Line[
+                With[{CoffeeLiqueur`Extensions`Manipulate`Internal`points = 
+                   Transpose[{{0, 0.15707963267948966, 0.3141592653589793, 
+                      0.47123889803846897, 0.6283185307179586, 
+                      0.7853981633974483, 0.9424777960769379, 
+                      1.0995574287564276, 1.2566370614359172, 
+                      1.413716694115407, 1.5707963267948966, 
+                      1.7278759594743862, 1.8849555921538759, 
+                      2.0420352248333655, 2.199114857512855, 
+                      2.356194490192345, 2.5132741228718345, 
+                      2.670353755551324, 2.827433388230814, 
+                      2.9845130209103035, 3.141592653589793, 
+                      3.2986722862692828, 3.4557519189487724, 
+                      3.612831551628262, 3.7699111843077517, 
+                      3.9269908169872414, 4.084070449666731, 
+                      4.241150082346221, 4.39822971502571, 4.5553093477052, 
+                      4.71238898038469, 4.869468613064179, 5.026548245743669, 
+                      5.183627878423159, 5.340707511102648, 
+                      5.497787143782138, 5.654866776461628, 
+                      5.811946409141117, 5.969026041820607, 
+                      6.126105674500097, 6.283185307179586, 
+                      6.440264939859076, 6.5973445725385655, 
+                      6.754424205218055, 6.911503837897545, 
+                      7.0685834705770345, 7.225663103256524, 
+                      7.382742735936014, 7.5398223686155035, 
+                      7.696902001294993, 7.853981633974483, 
+                      8.011061266653972, 8.168140899333462, 
+                      8.325220532012953, 8.482300164692441, 8.63937979737193, 
+                      8.79645943005142, 8.953539062730911, 9.1106186954104, 
+                      9.267698328089889, 9.42477796076938, 9.58185759344887, 
+                      9.738937226128359, 9.896016858807847, 
+                      10.053096491487338, 10.210176124166829, 
+                      10.367255756846317, 10.524335389525806, 
+                      10.681415022205297, 10.838494654884787, 
+                      10.995574287564276, 11.152653920243765, 
+                      11.309733552923255, 11.466813185602746, 
+                      11.623892818282235, 11.780972450961723, 
+                      11.938052083641214, 12.095131716320704, 
+                      12.252211349000193, 12.409290981679682, 
+                      12.566370614359172, 12.723450247038663, 
+                      12.880529879718152, 13.03760951239764, 
+                      13.194689145077131, 13.351768777756622, 
+                      13.50884841043611, 13.6659280431156, 13.82300767579509, 
+                      13.98008730847458, 14.137166941154069, 
+                      14.294246573833558, 14.451326206513048, 
+                      14.608405839192539, 14.765485471872028, 
+                      14.922565104551516, 15.079644737231007, 
+                      15.236724369910498, 15.393804002589986, 
+                      15.550883635269475, 15.707963267948966, 
+                      15.865042900628456, 16.022122533307943, 
+                      16.179202165987434, 16.336281798666924, 
+                      16.493361431346415, 16.650441064025905, 
+                      16.807520696705392, 16.964600329384883, 
+                      17.121679962064373, 17.27875959474386, 
+                      17.43583922742335, 17.59291886010284, 
+                      17.749998492782332, 17.907078125461823, 
+                      18.06415775814131, 18.2212373908208, 18.37831702350029, 
+                      18.535396656179778, 18.692476288859268, 
+                      18.84955592153876, 19.00663555421825, 
+                      19.16371518689774, 19.320794819577227, 
+                      19.477874452256717, 19.634954084936208, 
+                      19.792033717615695, 19.949113350295185, 
+                      20.106192982974676, 20.263272615654166, 
+                      20.420352248333657, 20.577431881013144, 
+                      20.734511513692635, 20.891591146372125, 
+                      21.048670779051612, 21.205750411731103, 
+                      21.362830044410593, 21.519909677090084, 
+                      21.676989309769574, 21.83406894244906, 
+                      21.991148575128552, 22.148228207808042, 
+                      22.30530784048753, 22.46238747316702, 
+                      22.61946710584651, 22.776546738526, 22.93362637120549, 
+                      23.09070600388498, 23.24778563656447, 
+                      23.40486526924396, 23.561944901923447, 
+                      23.719024534602937, 23.876104167282428, 
+                      24.03318379996192, 24.19026343264141, 
+                      24.347343065320896, 24.504422698000386, 
+                      24.661502330679877, 24.818581963359364, 
+                      24.975661596038854, 25.132741228718345, 
+                      25.289820861397835, 25.446900494077326, 
+                      25.603980126756813, 25.761059759436304, 
+                      25.918139392115794, 26.07521902479528, 
+                      26.23229865747477, 26.389378290154262, 
+                      26.546457922833753, 26.703537555513243, 
+                      26.86061718819273, 27.01769682087222, 
+                      27.17477645355171, 27.3318560862312, 27.48893571891069, 
+                      27.64601535159018, 27.80309498426967, 
+                      27.96017461694916, 28.117254249628648, 
+                      28.274333882308138, 28.43141351498763, 
+                      28.588493147667116, 28.745572780346606, 
+                      28.902652413026097, 29.059732045705587, 
+                      29.216811678385078, 29.373891311064565, 
+                      29.530970943744055, 29.688050576423546, 
+                      29.845130209103033, 30.002209841782523, 
+                      30.159289474462014, 30.316369107141504, 
+                      30.473448739820995, 30.630528372500482, 
+                      30.787608005179973, 30.944687637859463, 
+                      31.10176727053895, 31.25884690321844, 
+                      31.41592653589793}, CoffeeLiqueur`Extensions`Manipulate\
+`Internal`pts$1168477[[2]]}]}, 
+                 CoffeeLiqueur`Extensions`Manipulate`Internal`points]]}]}}, 
+           PlotRange -> {{-1.5707963267948948, 32.98672286269283}, 
+             {-1.8310958489322418, 1.8310958489322395}}, Appearance -> None, 
+           "TrackedExpression" -> Null, AxesLabel -> {}, Prolog -> {}, 
+           Epilog -> {}, TransitionDuration -> 50, TransitionType -> 
+            "Linear", Axes -> True, PlotRange -> Automatic, 
+           ImageSize -> {400, 300}], "ViewChange" -> 
+           "ac16ca6c-6b73-4bdb-9520-3bfd6ae8bd9b", "ControlsLayout" -> 
+           "Vertical", Appearance -> None]]|>, 
+     "73e69b49-8b08-473f-8992-15a161071f50" -> 
+      <|"Public" -> Hold[HTMLView["<div class=\"relative shrink-0 gap-y-3 \
+pb-2 flex flex-col sm-controls\"><div class=\"flex gap-x-5 \
+sm-controls\"><label for=\"default-range\" class=\"block mb-2 text-sm \
+font-medium text-gray-900\">x</label><input min=\"0.0\" max=\"2.0\" \
+step=\"0.4\" value=\"0.8\" id=\"n-#instanceId\" type=\"number\" \
+class=\"ml-auto h-2 grow max-w-60 block p-2.5 text-xs text-gray-900 \
+bg-gray-50 rounded-md border-2-gray-50 border border-gray-300 \
+focus:ring-blue-500 focus:border-blue-500\"></input></div><input min=\"0.0\" \
+max=\"2.0\" step=\"0.4\" value=\"0.8\" id=\"r-#instanceId\" type=\"range\" \
+class=\"sm-controls native\"></input></div>\n<script type=\"module\"> const \
+num = document.getElementById('n-#instanceId');\n        const ran = \
+document.getElementById('r-#instanceId');\n\n        let harpticQ = true;\n\n \
+       function isNumber(value) { return typeof value === 'number'}\n\n       \
+ num.addEventListener('input', (event)=> {\n            if (isNaN(num.value)) \
+return;\n            ran.value = num.value;\n            \
+server.kernel.io.fire('f02ee2f1-bcbb-4e34-b7e3-1bbe4711fbb3', \
+Number(num.value), 'Default');      \n        });\n\n        \
+ran.addEventListener('input', (event)=> {\n            if (isNaN(ran.value)) \
+return;\n            num.value = ran.value;\n            \
+server.kernel.io.fire('f02ee2f1-bcbb-4e34-b7e3-1bbe4711fbb3', \
+Number(ran.value), 'Default');   \n            if (harpticQ) {\n              \
+  if (!window.electronAPI) {harpticQ = false; return}\n                if \
+(!window.electronAPI.harptic) {harpticQ = false; return}\n                \
+window.electronAPI.harptic();\n            }               \n        \
+});</script>", Prolog -> 
+           CoffeeLiqueur`Extensions`InputsOutputs`Tools`TemplateProcessor[
+            Association["instanceId" -> CreateUUID[]]]]]|>, 
+     "dd1bc774-474c-404c-8693-1f7c3852d352" -> 
+      <|"Public" -> Hold[HTMLView["<div class=\"relative shrink-0 gap-y-3 \
+pb-2 flex flex-col sm-controls\"><div class=\"flex gap-x-5 \
+sm-controls\"><label for=\"default-range\" class=\"block mb-2 text-sm \
+font-medium text-gray-900\">n</label><input min=\"1.0\" max=\"15.0\" \
+step=\"1.0\" value=\"8\" id=\"n-#instanceId\" type=\"number\" class=\"ml-auto \
+h-2 grow max-w-60 block p-2.5 text-xs text-gray-900 bg-gray-50 rounded-md \
+border-2-gray-50 border border-gray-300 focus:ring-blue-500 \
+focus:border-blue-500\"></input></div><input min=\"1.0\" max=\"15.0\" \
+step=\"1.0\" value=\"8\" id=\"r-#instanceId\" type=\"range\" \
+class=\"sm-controls native\"></input></div>\n<script type=\"module\"> const \
+num = document.getElementById('n-#instanceId');\n        const ran = \
+document.getElementById('r-#instanceId');\n\n        let harpticQ = true;\n\n \
+       function isNumber(value) { return typeof value === 'number'}\n\n       \
+ num.addEventListener('input', (event)=> {\n            if (isNaN(num.value)) \
+return;\n            ran.value = num.value;\n            \
+server.kernel.io.fire('cc884723-ae49-48c3-b789-8b71e5f23abd', \
+Number(num.value), 'Default');      \n        });\n\n        \
+ran.addEventListener('input', (event)=> {\n            if (isNaN(ran.value)) \
+return;\n            num.value = ran.value;\n            \
+server.kernel.io.fire('cc884723-ae49-48c3-b789-8b71e5f23abd', \
+Number(ran.value), 'Default');   \n            if (harpticQ) {\n              \
+  if (!window.electronAPI) {harpticQ = false; return}\n                if \
+(!window.electronAPI.harptic) {harpticQ = false; return}\n                \
+window.electronAPI.harptic();\n            }               \n        \
+});</script>", Prolog -> 
+           CoffeeLiqueur`Extensions`InputsOutputs`Tools`TemplateProcessor[
+            Association["instanceId" -> CreateUUID[]]]]]|>|>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Slides and \
+presentation/A - Manipulate.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> 
+    <|"CoffeeLiqueur`Extensions`Manipulate`Internal`pts$1168477" -> 
+      CoffeeLiqueur`Extensions`FrontendObject`Tools`ExtractCompressed["eJytWE\
+tya0cI3csby7e6afq3h+wg5WEGGSf7rxxAeiWgVVK5MrLd7g9wOBy4f/764+9//v11e/wst3JV6q0\
+1aq0PboVpYI14jbXXmnXw6ryw1MaqxL3TWDymrPCqs7cxuZY6a29Y6mvO1akTbeLZKpawvfOspW/C\
+nWtiac7SayOmOftcWw4u5kZzU++FSu1ycBdehJ3EY5S6xazdcc/odRB+663L0iJak3qZv6/fexUa+\
+JsJF1Q9eFg6HPTX6y5vhLwYTKWzQ8FtORiCIwdDCGXJxxkXHuCQfQG2eqsXwUqc2bvi+t7ory94+p\
+UR3rLo74Qvshge143BRpa14IosJZyxFuKiR0P49GyIsu5LWMtaxEzWIrSv1vxZW4uAZ1t0Ldh8cO0\
+QAfUsBEo9S7zJgTfzAuz6rseyrdsXXcybduvwcPMsgxX3tFWyMiZSJvYusi+YOOQ67wqSKHksu0Jc\
+5IEDYRLgn3Bb7voRtw+l41BgxK5DGQoOSZ0Ibov1CecYw5G5Lf54QNqU6wNu+9auMdtm/DqZCc8aw\
+pnZ8CGlzdC0CS+fiN11Y0AZ+RX9tUdSyUs04ROdjLIOC2N7hPozZp/Onpht9z2bok4kuJNjdlsq5p\
+nZuuYjykAzhX6oyQF28zeAefviC3vwDqpQR/Ws7UhsVWd/IepAVhIEKxfzLNpQkuAw4pZ5ILtC+JS\
+yb0Vbue4R04M/IbZYn5A+VpeQmnLwUKnei7YYEVCWQhgw1l4oCGxmNouS1Av/RnHmBt9Gn0LtQ6FH\
+fT8pwkG0TRXfi7bR3XtsCesCs4uyIkH9QikT2Jmftuaxfa3kJ8V/x+1qrPU2owBndh/Km70RYD/Et\
+LE64oKv1wWMNHy5x/6aV2NYUOaGDHOt+0huRCKl0qiSXgH1nJgHXSLJ6MDt1L8K4glwZW3uhQMUyk\
+eHmJAjYf2zfhxaFGv4wVKgckD5OIb42BQxNWi29j2B26eGnOTRgDHf1tXhD03odWlQgxf9uCVmgPj\
+UjpvuBGbbjQnmmNZ3GvvAoAP5rCE3unvVPlBbu4r/kdl2n0f8oNtmSsD80JGPU0d+6IRsDgiwHzty\
+U/0APNb2NTdcR01vFbbQEOS/3dSNnCgLQ2BHRzAwuGF8kz6gotJPwpsCYr0G/ok9a++2GuY6LKHoN\
+4b5FfGshOSBgkzuA+8RV2rSY9ULkwEqPMPJWtG0LlkaQ3oIZGZFDOAPDjZeZQ/YSChAkHksVTQPle\
+bAKFA7RjtBCuBRXUUN1OKD/atXKiiro9nSbPB1bAk5HEZcsUQwGa0CIMF0omRFTMSc0TGmNGkvAdK\
+euxHAncg0jDDKzLJ730PIMZqWQLiN8BYQCdbDXSEmShURsrMtYKZ1BRjCoNFwEO8Ok2YYViTMGhAx\
+Av9lJBnOiPMo7sAQE1SpBY8BzbFU58tE7peG0FSUaPgma4hPHyTZiXQDhMifjp3yJ9IRszWS+sFzt\
+7nsbb1fuNY0N7x/7xydnWg0NC2dO+hkdPHZ7Tv/fXjImOjDaOLko23lyIOC2igM89jpywFi6x9cJt\
+jY6hPGDAx5hWKU0s/WfJbCvpTMuuRTXrc5ZlDRfYFAcC3xTJY8GzVQnrPIZ1yGm6VALrhcNgn0qov\
+POyuKW7wPA2h+NdmmHHUuyLHgqGwK4VAix6il4NqI/YyBzv4OKmRG5rYS+Rl46559fmijH7htqvuc\
+bfqtzCclynRM3qa9TMhynWcCHRK52fpuzy456Fk4tAgEcks/Q4h2qbCkgEDSEvQX5AYamdzAOZF7S\
+muQyH2nSXDnMUA6v1W0Q+1Tzvow3mXRhxt1M5HbDPfgWbPgIdajgds29jtuI+CJ29LvxvQz4rksXd\
+JoxGRGmiZyy7e1g+wlcsus8QG5i5Ujr8gT2C+0HvjqIn4xfLTZLO5UAroLBzq1+KzWAG8dCnp0Arn\
+/iXZHekOFEruzcOsHLkdunXA9pMrRgLxquSe33OXTyIblp2ST8TYJTtZt1kLhc9y+vXsyVP025llj\
+bnp2g5KZ3sAoyzEeqRcSByNPA1i1isY+xu+wWdqLTG+bC/37EIGDdhtpnUO/v8x57c7sLso8H0i0v\
+5ndxngHy7Te/T27bc2lglUfz+7Hd/jnxEKZjOzG45+xG71dZndWbvmQEOiDljuSm2FjYrfUmSjIU6\
+/DaIAPrgzFAazI6aN2Z+mWFc9tABm5rQ196D4yt/Ep9RCQGDelu6+dmdz6kcuRW/tVj6iWgNSyJXL\
+nrlwne89uvT4odxbuA7mXtuCOCjoaeMZoox6YpbN9ZLauOeFGcDUNZNQsGy9ukI0N3sRsWHRgtomd\
+121liDfSplbvi02UgdW29hwahCux+s7MINmfKTayK5M6c9rY4DmN4pg5fVDsTOltHbXPYD2ZNCzpt\
+QzUP9RrGRVSNz5uHWFCLCeyFbsQTEH8+/s/ueM7XQ=="]|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Simple Manipulate", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$5510]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Simple Manipulate\nFor the most widgets the \
+output form for slides as well as for WLX cells is defined", 
+    "Display" -> "codemirror", "Hash" -> 
+     "501a51b5-19da-46be-bf74-5053fe4e7455", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "e8520be0-212f-47c5-bc10-4c5cf6cf6e5a"|>, 
+   <|"Data" -> "## Simple Manipulate\nFor the most widgets the output form \
+for slides as well as for WLX cells is defined", "Display" -> "markdown", 
+    "Hash" -> "f943bfe1-4b93-47df-a957-b23e0d0a0519", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "e8520be0-212f-47c5-bc10-4c5cf6cf6e5a"|>, 
+   <|"Data" -> "Widget = ManipulatePlot[{\n  Sin[x t], \n  Sum[Sin[w x t]/w, \
+{w, 1, n}] // Re \n}, {t,0,10Pi}, {x, 0, 2, 0.4}, {n, 1, 15, 1}, \
+Appearance->None];", "Display" -> "codemirror", 
+    "Hash" -> "05308d62-c7e9-4761-9e35-c498aebff1db", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "e8520be0-212f-47c5-bc10-4c5cf6cf6e5a"|>, 
+   <|"Data" -> ".slide\n\n# Slide\n\nHere is my data\n\n<Widget/>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "87b41bac-6131-4c45-ac4b-063823387aa7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "e8520be0-212f-47c5-bc10-4c5cf6cf6e5a"|>, 
+   <|"Data" -> "<dummy >\n# Slide\n\nHere is my \
+data\n\nFrontEndExecutable[59472df2-4e20-4a56-bc7c-7c6b298ddb02]</dummy>", 
+    "Display" -> "slide", "Hash" -> "ff0026ce-efbb-435e-8dfb-39f7fbdb3665", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "e8520be0-212f-47c5-bc10-4c5cf6cf6e5a"|>}, 
+ "serializer" -> "jsfn4"|>

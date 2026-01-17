@@ -1,0 +1,695 @@
+utilsAddListeners = Null;
+utilsReset = Null;
+utilsTransition = Null;
+utilsAddBreak = Null;
+utilsRemoveBreak = Null;
+
+utilsUpdateSymbols = Null;
+
+Head        = ImportComponent["Components/Head.wlx"];
+
+Alert           = ImportComponent["Components/Alert.wlx"];
+
+ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+  <link rel="stylesheet" href="{Path}"/> 
+] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
+
+
+{loadSettings, storeSettings}        = ImportComponent["Frontend/Settings.wl"];
+
+settings = <||>;
+loadSettings[settings];
+
+generateEntry[Name_String, UId_, LocalControls_] := With[{
+
+},
+
+    With[{},
+    <tr>
+        <td class="pr-3 pl-4 py-2 text-xs whitespace-nowrap">
+          <div class="flex items-center">
+            <div class="ml-2">
+              <div class="font-normal text-gray-900 dark:text-gray-300"><Name/></div>
+            </div>
+          </div>
+        </td>
+        <td class="px-3 text-xs whitespace-nowrap text-gray-500" style="max-width: 10rem">
+          <div id="{UId}-ownvalue" class="text-gray-900 dark:invert dark:hue-rotate-180"></div>
+        </td>
+        <td class="px-3 text-xs whitespace-nowrap text-gray-500">
+          <span id="{UId}-state" class="inline-flex items-center rounded-md px-2 py-1 text-xs ring-1 bg-gray-50 ring-gray-300 text-gray-500 dark:invert dark:hue-rotate-180 ring-inset">Out of sync</span>
+        </td>
+        <td class="relative pr-4 pl-3 text-right text-xs font-normal whitespace-nowrap sm:pr-0">
+          <input id="{UId}-break" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/>
+        </td>
+
+            <WebUIJSBind Event={UId}>
+                const state = document.getElementById('<UId/>-state');
+                const breakCheckbox = document.getElementById('<UId/>-break');
+                const ownvalue = document.getElementById('<UId/>-ownvalue');
+
+                const env = {element: ownvalue};
+                const global = {stack:[]};
+                const local = {};
+                
+                env.local = local;
+                env.global = global;
+                env.local.env = {...env};
+
+                core.EditorView([['JSObject', '???'], ['Rule', "'ReadOnly'", true]], env);
+
+                breakCheckbox.addEventListener('change', () => {
+                    server.emitt('<LocalControls/>', '"'+breakCheckbox.checked+'"');
+                });
+
+                let synced = false;
+
+                this.on('State', async (data) => {
+                    const assoc = await interpretate(data, {hold:true});
+                    const text = await interpretate(assoc.State, {});
+                    switch(text) {
+                        case 'Reset':
+                            state.innerText = "Out of sync";
+                            state.style = '';
+                            synced = false;
+                        break;
+
+                        case 'Break':
+                            state.innerText = "Break";
+                            state.style = '--tw-ring-color: #ffa6a6; color: #ff6c6c;';
+                        break;
+                    }
+                });
+
+                
+
+                this.on('Update', async (data) => {
+                    const assoc = await interpretate(data, {hold:true});
+                    const text = decodeURIComponent(await interpretate(assoc.Data, {}));
+
+                    if (!synced) {
+                        state.innerText = "Synced";
+                        state.style = '--tw-ring-color: rgb(135 209 163); color: rgb(86 197 81);';
+                        synced = true;
+                    }
+
+                    local.editor.dispatch({
+                        changes: {from: 0, to: local.editor.state.doc.length, insert: ''}
+                    });
+
+                    local.editor.dispatch({
+                        changes: {from: 0, to: local.editor.state.doc.length, insert: text}
+                    });
+                });
+            </WebUIJSBind>
+    </tr>
+    ]
+]
+
+destroy[state_, ___] := With[{
+    cli = state["Client"],
+    kernel = state["Kernel"],
+    events = {
+        state["LogWindow"], 
+        state["ClonedMessanger"], 
+        state["ClonedOrigin"], 
+        state["ClonedClient"], 
+        state["AsyncStateChannel"],
+        state["Controls"],
+        state["Assert"],
+        state["SymbolsContainer"]
+    }
+},
+    Echo["Debugger >> Destroy"];
+
+    utilsRemoveBreak[kernel, "Assert"];
+    utilsRemoveBreak[kernel, {"Symbol", #}] &/@ (Keys @ state["Symbols"]);
+            
+    utilsReset[kernel];
+
+    WebUIClose[cli];
+
+    EventRemove /@ events;
+    ClearAll[state];
+]
+
+
+setThingsUp[state_] := With[{
+    kernel = state["Kernel"],
+    messanger = state["Messanger"],
+    origin = state["Origin"],
+    logWindow = state["LogWindow"],
+    cli = state["Client"],
+    controls = state["Controls"],
+    notebook = state["Notebook"]
+}, Module[{
+    
+},
+
+    state["ClonedMessanger"] = messanger // EventClone;
+    state["ClonedOrigin"] = origin // EventClone;
+    state["ClonedClient"] = cli // EventClone;
+
+    state["Interruption"] = CreateUUID[];
+    state["Symbols"] = <||>;
+    state["BreakOnSymbols"] = True;
+
+    state["AppendSymbol", name_] := With[{localControl = CreateUUID[]},
+
+        state["Symbols"] = Join[state["Symbols"], <|name -> <|"Event"->CreateUUID[], "Break"->False, "Broken"->False|>|>];
+        utilsAddBreak[kernel, {"Symbol", name, state["Interruption"]}, "Logger"->(state["Info", #]&)];
+
+        EventHandler[localControl, Function[val,
+            If[val === "true",
+                utilsAddBreak[kernel, {"Symbol", name, state["Interruption"]}, "Logger"->(state["Info", #]&), "Pause"->4];
+            ,
+                utilsAddBreak[kernel, {"Symbol", name, state["Interruption"]}, "Logger"->(state["Info", #]&)];
+            ];
+
+            state["Symbols"] = Join[state["Symbols"], <|name -> Join[state["Symbols"][name], <|"Break"->(val === "true")|>]|>]; 
+        ]];
+
+        With[{entry = URLEncode @ generateEntry[name, state["Symbols"][name]["Event"], localControl]},
+            EventFire[logWindow, "Append", <|"Client"->cli, "Data"->entry|>];
+        ]
+    ];
+
+    EventHandler[state["ClonedOrigin"], {"Closed"->Function[Null,
+        Echo["Debugger >> Origin was closed!"];
+        destroy[state];
+    ]}];
+
+    EventHandler[state["ClonedClient"], {"Closed"->Function[Null,
+        Echo["Debugger >> Client window was closed!"];
+        destroy[state];
+    ]}];    
+
+    (*/* monitor WSLink */*)
+    EventHandler[state["ClonedMessanger"], {        
+        "WebSocket:Kernel:Lost" -> Function[Null,
+            Echo["Debugger >> WSLink lost"];
+            destroy[state];
+        ],
+        
+        rest_ :> (state["Info", StringTemplate["(system log) `` >> ``"][rest, #]]&)
+    }];
+
+    With[{stream = utilsAddListeners[kernel]},
+        state["AsyncStateChannel"] = stream["AsyncStateChannel"];
+        state["AsyncStreamer"] = stream["AsyncStreamer"];
+    ];
+
+    EventHandler[state["Interruption"], {
+        "Assert" -> Function[payload,
+            If[Length[Select[notebook["Cells"], (#["State"] =!= "Idle") &]] == 0,
+                state["Warning", "No running cells found"];
+                Return[];
+            ];
+
+            utilsTransition[kernel -> "Inspect", "Logger"->(state["Info", #]&) ];
+            EventFire[logWindow, "Assert", <|"Client"->cli, "Message"->payload|>];
+        ],
+
+        any_String -> Function[value,
+            EventFire[state["Symbols"][any]["Event"], "Update", <|"Client"->cli, "Data"->URLEncode[value]|>];
+            
+            If[TrueQ[state["Symbols"][any]["Break"]] && state["BreakOnSymbols"], 
+                If[Length[Select[notebook["Cells"], (#["State"] =!= "Idle") &]] == 0,
+                    state["Warning", "No running cells found"];
+                    Return[];
+                ];
+
+                state["Info", StringTemplate["`` assigment captured"][any]];
+                EventFire[state["Symbols"][any]["Event"], "State", <|"Client"->cli, "State"->"Break"|>];
+
+                state["Symbols"] = Join[state["Symbols"], <|any -> Join[state["Symbols"][any], <|"Broken"->True|>]|>];
+
+                utilsTransition[kernel -> "Inspect", "Logger"->(state["Info", #]&) ];
+            ];
+        ]
+    }];
+
+    state["resetSymbols"] := With[{
+        syms = Select[Keys @ state["Symbols"], Function[item, TrueQ[item["Broken"]]]]
+    },
+        EventFire[state["Symbols"][#]["Event"], "State", <|"Client"->cli, "State"->"Reset"|>] &/@ syms;
+        (state["Symbols"] = Join[state["Symbols"], <|# -> Join[state["Symbols"][#], <|"Broken"->False|>]|>]) &/@ syms;
+    ];
+
+    EventHandler[state["AsyncStateChannel"], {
+        "State" -> Function[st,
+            EventFire[logWindow, "State", <|"Client"->cli, "Message"->st|>]
+        ]
+    }];
+
+    utilsTransition[notebook["Evaluator"]["Kernel"], "Logger"->(state["Info", #]&)];
+
+    state["Warning", messsage_] := (
+        Block[{Global`$Client = origin(*`*)}, EventFire[messanger, "Warning", messsage] ];
+        EventFire[logWindow, "Warning", <|"Client"->cli, "Message"->messsage|>];
+    );
+
+    state["Info", messsage_] := (
+        EventFire[logWindow, "Info", <|"Client"->cli, "Message"->messsage|>];
+    );
+
+    EventHandler[controls, {
+
+        "Abort" -> Function[Null,
+            state["resetSymbols"];
+
+            If[Length[Select[notebook["Cells"], (#["State"] =!= "Idle") &]] == 0,
+                state["Warning", "No running cells found"];
+                Return[];
+            ];
+
+            Then[utilsTransition[kernel -> "Aborted", "Logger"->(state["Info", #]&) ], Function[Null, 
+
+                Map[Function[cell,
+                    cell["State"] = "Idle";
+                    Block[{Global`$Client = origin(*`*)}, EventFire[cell, "State", "Idle"]];
+                ], Select[notebook["Cells"], (#["State"] =!= "Idle") &]];
+
+            ], Function[messsage,
+                state["Warning", messsage];
+            ]];
+        ],
+
+        "Inspect" -> Function[Null,
+            state["resetSymbols"];
+
+            If[Length[Select[notebook["Cells"], (#["State"] =!= "Idle") &]] == 0,
+                state["Warning", "No running cells found"];
+                Return[];
+            ];
+
+            Then[utilsTransition[kernel -> "Inspect", "Logger"->(state["Info", #]&) ], Function[Null, Null], Function[messsage,
+                state["Warning", messsage];
+            ]];
+        ],
+
+        "Continue" -> Function[Null,
+            state["resetSymbols"];
+
+            Then[utilsTransition[kernel -> "Normal", "Logger"->(state["Info", #]&) ], Function[Null, Null], Function[messsage,
+                state["Warning", messsage];
+            ]];
+        ],
+
+        "OnAssert" -> Function[val,
+            If[val === "true", 
+                utilsAddBreak[kernel, {"Assert", state["Interruption"]}, "Logger"->(state["Info", #]&)];
+            ,
+                utilsRemoveBreak[kernel, "Assert", "Logger"->(state["Info", #]&)];
+            ];
+        ],
+
+        "TypeSymbol" -> Function[val,
+            state["Typing"] = URLDecode[val];
+        ],
+
+        "OnSymbols" -> Function[val,
+            state["BreakOnSymbols"] = (val === "true");
+        ],
+
+        "AddSymbol" -> Function[Null,
+            If[!StringQ[state["Typing"]], 
+                state["Warning", "Nothing was entered"];
+                Return[];
+            ];
+
+            If[MemberQ[Keys @ state["Symbols"], state["Typing"]], 
+                state["Warning", "Symbol is already in the list"];
+                Return[];
+            ];
+
+            EventFire[logWindow, "CleanField", <|"Client"->cli|>];
+
+            state["AppendSymbol", state["Typing"]];
+        ],
+
+        "Refresh" -> Function[Null,
+            state["Info", "Refresh watched symbols"];
+            utilsUpdateSymbols[kernel, Keys @ state["Symbols"]];
+        ]
+    }];
+
+] ]
+
+App[request_] := Module[{
+
+}, With[{
+    AppClass = If[ElectronQ[request], "", "dark:bg-gray-800"],
+    accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c] ],
+    NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
+    Transparency = "true",
+    state = BinaryDeserialize @ BaseDecode @ URLDecode @ StringDrop[request["Path"], 
+        Switch[$OperatingSystem,
+            "Windows", 
+            StringLength["/debugger/"], 
+            "Linux",
+            StringLength["/debugger/"],
+            _,  
+            StringLength["/debugger/"] 
+        ]
+    ]
+},
+    With[{
+        notebook = state["Notebook"],
+        origin = state["Origin"],
+        secret = CreateUUID[],
+        controls = CreateUUID[],
+        GlobalMessanger = state["Messanger"],
+        logWindow = CreateUUID[]
+    },
+
+        EventHandler[secret, {
+            "Load" -> Function[Null, With[{cli = Global`$Client(*`*)},
+
+                state["ValidQ"] = True;
+                state["Client"] = cli;
+                state["Controls"] = controls;
+                state["Secret"] = secret;
+                state["LogWindow"] = logWindow;
+
+                setThingsUp[state];
+            ]]
+        }];
+    {
+         "<!DOCTYPE html>"
+    ,
+        <html class="h-full {AppClass}" os="{NavigatorOS}" transparency="{Transparency}"> 
+            <Head AccentColor={accentColor} Title={"Debugger"} Settings={settings}>
+                <meta charset="utf-8"/>
+                <WLJSHeader List={ExtensionsJS}/>  
+                <WLJSTransportScript TwoKernels={False} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>   
+                <ExtensionsStyles/>  
+                <WebUIInitializationScript/>
+            </Head>  
+            <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+            <div class="h-full">
+              <Alert/>
+              <div id="frame" class="h-full">
+                <div class="h-full flex flex-col h-full">          
+                  <main class="grow flex flex-col overflow-hidden h-full">
+                  <div class="h-full divide-y divide-gray-200 flex flex-col overflow-hidden h-full bg-transparent dark:divide-gray-600">
+                      <div class="px-4 py-2 text-center text-xs font-semibold dark:text-gray-400 linux:h-titlebar win:h-titlebar owin:h-titlebar" style="-webkit-app-region: drag">
+                        Debugger
+                      </div>
+                      <div class="flex flex-col gap-y-2">
+
+                        <div class="flex shadow-sm" role="group">
+                          <button id="continue" type="button" class="inline-flex items-center px-3 py-1 text-xs font-normal text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700">
+                            <svg class="w-5 h-5 mr-1" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M4 2H3V14H4V2ZM7.29062 2.59314L6.5 3.00001V13L7.29062 13.4069L14.2906 8.40687V7.59314L7.29062 2.59314ZM13.1398 8.00001L7.5 12.0284V3.9716L13.1398 8.00001Z"/></svg>
+                            Continue
+                          </button>
+
+                          <button id="inspect" type="button" class="inline-flex items-center px-3 py-1 text-xs font-normal text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700">
+
+                              <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="none" stroke="currentColor" stroke-width="2" d="M5.5,21 C7.98528137,21 10,18.9852814 10,16.5 C10,14.0147186 7.98528137,12 5.5,12 C3.01471863,12 1,14.0147186 1,16.5 C1,18.9852814 3.01471863,21 5.5,21 Z M1,16 L1,7 L1,6.5 C1,4.01471863 3.01471863,2 5.5,2 L6,2 M23,16 L23,7 L23,6.5 C23,4.01471863 20.9852814,2 18.5,2 L18,2 M18.5,21 C20.9852814,21 23,18.9852814 23,16.5 C23,14.0147186 20.9852814,12 18.5,12 C16.0147186,12 14,14.0147186 14,16.5 C14,18.9852814 16.0147186,21 18.5,21 Z M10,17 C10,17 10,15 12,15 C14,15 14,17 14,17"/>
+                        </svg>
+
+                            Inspect
+                          </button>  
+
+                          <button id="abort" type="button" class="inline-flex items-center px-3 py-1 text-xs font-normal text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700">
+                          <svg class="h-4 w-4 mr-2 text-red-400" viewBox="0 0 48 48" fill="none"><path d="M27 14H42C43.1046 14 44 14.8954 44 16V30C44 31.1046 43.1046 32 42 32H38" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 14H6C4.89543 14 4 14.8954 4 16V30C4 31.1046 4.89543 32 6 32H21" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 5.99998L34 40" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M32 23H36" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 23H16" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            Abort
+                            </button> 
+
+                            <button id="break" type="button" class="ml-auto inline-flex items-center px-3 py-1 text-xs font-normal text-gray-900 hover:bg-gray-100 hover:text-blue-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700">
+                          
+                            <span>Break</span>
+                            <svg class="-mr-1 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                            </svg>
+                            </button>
+
+                        <div class="inline-flex items-center px-3 py-1 text-xs text-gray-900 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                          <span class="rounded text-gray-400" id="state">Undefined</span>
+                        </div>
+                        </div>
+                     </div>
+
+                     <div class="overflow-hidden hidden border border-gray-200 dark:border-gray-700 h-full">
+	                        <div class="px-2 py-2 overflow-y-scroll text-xs h-full" id="container" style="color:#545353">
+	                            
+	                        </div>
+                    </div>
+
+                        <div class="border border-gray-200 dark:border-gray-700 px-2 py-2 text-xs h-full" id="symbols">
+                          <div class="sm-controls">
+                            <label class="block text-xs font-normal dark:text-gray-300 leading-6 text-gray-900">Watch symbols</label>
+                            <div class="mt-1 flex flex-row gap-x-1 items-center">
+                              <input id="input_symbol" type="text" class="relative border-gray-300 cursor-default min-w-0 h-6 pl-3 pr-2 text-left text-gray-500 bg-gray-10 dark:bg-gray-700 dark:text-gray-300"/>
+                              <div class="flex">
+                                <button id="add_symbol" class="inline-flex items-center rounded-sm border border-gray-300 px-1 py-0.5 h-6 font-sans text-xs text-gray-400">+</button>
+                              </div>
+                              <div class="flex ml-auto">
+                                <button id="refresh" class="inline-flex items-center rounded-sm border border-gray-300 px-1 py-0.5 h-6 font-sans text-xs text-gray-400"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12C21 16.9706 16.9706 21 12 21C9.69494 21 7.59227 20.1334 6 18.7083L3 16M3 12C3 7.02944 7.02944 3 12 3C14.3051 3 16.4077 3.86656 18 5.29168L21 8M3 21V16M3 16H8M21 3V8M21 8H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                              </div>
+                            </div>
+                            <p class="mt-1 text-xs text-gray-500"></p>
+                          </div>
+
+          
+                          
+                            <div class="inline-block w-full py-2 align-middle">
+                              <table class="w-full divide-y divide-gray-300">
+                                <thead>
+                                  <tr>
+                                    <th scope="col" class="py-3.5 pr-3 pl-4 text-left text-xs text-gray-700 dark:text-gray-300">Name</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-xs text-gray-700 dark:text-gray-300">OwnValue</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-xs text-gray-700 dark:text-gray-300">Status</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-xs text-gray-700 dark:text-gray-300">Break on</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="tbody-container" class="divide-y divide-gray-200">
+                                  
+                                </tbody>
+                              </table>
+                            </div>
+                         
+          
+                     
+</div>
+                     </div>
+
+                       
+
+
+<div id="break-float" 
+                         class="absolute right-0 z-inf mt-6 origin-top-right divide-y divide-gray-100 rounded backdrop-blur-xl bg-white/90 dark:bg-gray-700 outline outline-gray-300 outline-offset-0 outline-1 text-gray-800 hidden" 
+                         style="width:20rem" 
+                         role="menu" 
+                         tabindex="-1">
+                        <div class="px-2 py-2">                          
+                            <div class="relative flex items-start sm-controls"><div class="flex h-6 items-center"><input id="break-assert" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/></div><div class="ml-3 text-xs leading-6"><label class="font-normal text-gray-900 dark:text-gray-300">Assert</label><p class="text-gray-500 dark:text-gray-300">Listen to any Assert[False] calls</p></div></div> 
+                            <div class="relative flex items-start sm-controls"><div class="flex h-6 items-center"><input id="break-symbol" checked="true" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/></div><div class="ml-3 text-xs leading-6"><label class="font-normal text-gray-900 dark:text-gray-300">Symbols</label><p class="text-gray-500 dark:text-gray-300">Break on any symbols assigments</p></div></div> 
+                        </div>
+                    </div>
+
+                    <WebUIOnLoad Event={secret} Pattern={"Load"}/>
+                    <WebUIEventListener Id={"continue"} Event={controls} Pattern={"Continue"} />
+                    <WebUIEventListener Id={"inspect"} Event={controls} Pattern={"Inspect"} />
+                    <WebUIEventListener Id={"abort"} Event={controls} Pattern={"Abort"} />
+                    <WebUIEventListener Id={"break-assert"} Type={"change"} Property={"checked"} Event={controls} Pattern={"OnAssert"} />
+                    <WebUIEventListener Id={"break-symbol"} Type={"change"} Property={"checked"} Event={controls} Pattern={"OnSymbols"} />
+
+                    <WebUIEventListener Id={"input_symbol"} Type={"input"} Property={"value"} Event={controls} Pattern={"TypeSymbol"} />
+                    <WebUIEventListener Id={"add_symbol"} Event={controls} Pattern={"AddSymbol"} />
+                    <WebUIEventListener Id={"refresh"} Event={controls} Pattern={"Refresh"} />
+
+                    <WebUIJSBind Event={logWindow}>
+                    	const container = document.getElementById('container');
+                        const symbols = document.getElementById('symbols');
+
+                        const inputField = document.getElementById("input_symbol");
+
+                        const parent = container.parentNode;
+                        const state = document.getElementById('state');
+
+                        const bbreak = document.getElementById('break');
+                        const breakDropdown = document.getElementById("break-float");
+
+                        const inspect = document.getElementById('inspect');
+                        const abort = document.getElementById('abort');
+                        const ccontinue = document.getElementById('continue');
+
+                        const tbody = document.getElementById('tbody-container');
+
+                        let prev;
+                        let cancel;
+
+                        let shown = false;
+
+                        let closeDropdown;
+
+                        closeDropdown = (ev) => {
+                            console.log(ev.target);
+                            if (!breakDropdown.contains( ev.target ) && !bbreak.contains( ev.target )) {
+                                window.removeEventListener('click', closeDropdown);
+                                breakDropdown.classList.add('hidden');
+                            }
+
+                            ev.stopPropagation();
+                        };
+
+                        bbreak.addEventListener('click', () => {
+                            const rect = bbreak.getBoundingClientRect();
+                            //const p = breakDropdown.getBoundingClientRect();
+                            breakDropdown.style.top = `3rem`;
+                            breakDropdown.style.left = `calc(${rect.left + rect.width}px - 20rem)`;
+                            breakDropdown.classList.remove('hidden');
+                            window.addEventListener('click', closeDropdown);
+                        });
+
+                        const addEntry = async (cbk) => {
+                            if (!shown) {
+                                shown = true;
+                                parent.classList.remove('hidden');
+                            }
+
+                            const  p = document.createElement('p');
+                            await cbk(p);
+                            container.appendChild(p);
+                            p.scrollIntoView();
+                        }
+
+                    	//binding to event patterns
+                        this.on('CleanField', () => {inputField.value = ''});
+
+                    	this.on('State', async (data) => {
+                    		const assoc = await interpretate(data, {hold:true});
+                    		const text = await interpretate(assoc.Message, {});
+                            if (text != 'Normal') {
+                                state.classList.add('font-normal', 'text-teal-500')
+                            } else {
+                                state.classList.remove('font-normal', 'text-teal-500')
+                            }
+                    		state.innerText = text;
+
+                            if (prev) {
+                                prev.classList.remove(...('bg-gray-100 dark:bg-gray-700 dark:text-white'.split(' ')));
+                                prev.firstChild.classList.remove('text-teal-500');
+                                prev = false;
+                            } 
+                            
+                            if (cancel) {
+                                cancel();
+                                cancel = false;
+                            }
+
+                            addEntry(async (el) => {
+                                el.innerText = `Kernel state was changed to ${text}`;
+                            });
+
+                            switch(text) {
+                                case 'Inspect':
+                                    inspect.classList.add(...('bg-gray-100 dark:bg-gray-700 dark:text-white'.split(' ')));
+                                    inspect.firstChild.classList.add('text-teal-500');
+                                    prev = inspect;
+                                break;
+
+                                case 'In transition':
+                                    abort.style.color = "#8080808f";
+                                    inspect.style.color = "#8080808f";
+                                    ccontinue.style.color = "#8080808f";
+                                    bbreak.style.color = "#8080808f";
+                                    cancel = () => {
+                                        abort.style.color = "";
+                                        inspect.style.color = "";
+                                        ccontinue.style.color = "";  
+                                        bbreak.style.color = "";                                   
+                                    }
+                                break;
+                            }
+                    	});
+
+                        this.on('Message', async (data) => {
+                    		const assoc = await interpretate(data, {hold:true});
+                    		const text = await interpretate(assoc.Message, {});
+                            
+                            addEntry(async (el) => {
+                                el.innerText = text;
+                            });
+                            
+                    	});
+
+                        this.on('Warning', async (data) => {
+                            const assoc = await interpretate(data, {hold:true});
+                    		const text = await interpretate(assoc.Message, {});
+
+                            addEntry(async (el) => {
+                                el.innerText = text;
+                                el.classList.add('text-red-400');
+                            });
+                        });
+
+                        this.on('Info', async (data) => {
+                            const assoc = await interpretate(data, {hold:true});
+                    		const text = await interpretate(assoc.Message, {});
+
+                            addEntry(async (el) => {
+                                el.innerText = text;
+                            });
+                        });
+
+                        this.on('Append', async (data) => {
+                            const assoc = await interpretate(data, {hold:true});
+                    		const d = decodeURIComponent(await interpretate(assoc.Data, {}));
+                            
+                            
+                            tbody.insertAdjacentHTML("afterbegin", d);
+                            
+                            
+                            const scriptList = tbody.firstChild;
+                       
+                            if (scriptList.nodeType === 1) Array.from(scriptList.querySelectorAll("script")).forEach( oldScriptEl => {
+                              const newScriptEl = document.createElement("script");
+                              
+                              Array.from(oldScriptEl.attributes).forEach( attr => {
+                                newScriptEl.setAttribute(attr.name, attr.value) 
+                              });
+                              
+                              const scriptText = document.createTextNode(oldScriptEl.innerHTML);
+                              newScriptEl.appendChild(scriptText);
+                              
+                              oldScriptEl.parentNode.replaceChild(newScriptEl, oldScriptEl);
+                            });
+
+                            
+                        })
+                        
+                        this.on('Assert', async (data) => {
+                    		const assoc = await interpretate(data, {hold:true});
+                    		let text = await interpretate(assoc.Message, {});
+                            text = decodeURIComponent(text).slice(14,-2);
+                             
+                            addEntry(async (el) => {
+                                //manually craft
+                                core.EditorView([['JSObject', text], ['Rule', "'ReadOnly'", true]], {global: {}, local: {}, element: el});
+                            });
+                        });
+
+                    </WebUIJSBind>                    
+                  </main>              
+                </div> 
+              </div>
+            </div>
+            </body>
+        </html>
+    } // StringRiffle
+    ]
+] ];
+
+
+Wrapper[libUtils_] := With[{},
+    {utilsAddListeners, utilsReset, utilsTransition, utilsAddBreak, utilsRemoveBreak, utilsUpdateSymbols} = libUtils;
+    App
+];
+
+Wrapper

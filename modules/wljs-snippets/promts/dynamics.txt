@@ -1,0 +1,247 @@
+---
+title: Using Dynamics in Wolfram Language within WLJS Environment
+desc: A guide to creating sliders, manipulating expressions, dynamically plotting, and interactive graphics.
+---
+
+## Dynamic Plot Function
+
+`ManipulatePlot` works only for **real values**.  
+
+```wolfram
+ManipulatePlot[f_, {t, tmin_, tmax_}, {p1, min_, max_}, {p2, min_, max_}, ...]
+```
+
+This displays sliders for parameters (`p1`, `p2`, …) and dynamically plots `f` over the range `{tmin, tmax}`.  
+
+### Examples
+
+A function of two parameters:
+
+```wolfram
+ManipulatePlot[Sin[w z + p], {z,0,10}, {w, 0, 15.1, 1}, {p, 0, Pi, 0.1}]
+```
+
+Single parameter:
+
+```wolfram
+ManipulatePlot[Sin[w z], {z,0,10}, {w, 0, 15.1, 1}]
+```
+
+Multiple functions:
+
+```wolfram
+ManipulatePlot[{Sin[w z], Tan[w z]}, {z,0,10}, {w, 0, 15.1, 1}]
+```
+
+These will be plotted as separate curves.
+
+---
+
+## UI Elements and Event Handling
+
+UI elements (sliders, buttons, etc.) generate **EventObjects** that can be displayed in output cells and linked to handlers:
+
+```wolfram
+EventHandler[object, handler]
+```
+
+### Button
+
+```wolfram
+EventHandler[InputButton["Press me"], Function[data, Print[data]]]
+```
+
+Creates a button that fires an event (`True`) when pressed.
+
+### Slider
+
+```wolfram
+EventHandler[InputRange[0,10,1], Function[value, Print[value]]]
+```
+
+Creates a slider from 0 to 10 with step size 1. Moving the slider prints its value.  
+You can also store it in a symbol:
+
+```wolfram
+slider = InputRange[0,10,1];
+EventHandler[slider, Function[value, Print[value]]];
+slider
+```
+
+---
+
+## Dynamics Library
+
+WLJS replaces Mathematica’s native dynamics with the `Offload` wrapper:
+
+```wolfram
+Offload[expr_Symbol]
+```
+
+This binds `expr` to its parent expression, tracking changes and updating automatically.  
+
+### Supported objects
+
+- `Line`  
+- `Point`  
+- `Sphere`  
+- `Cuboid`  
+- `Disk`  
+- `Circle`  
+- `Polygon` (2D only)  
+- `Text` (inside `Graphics`)  
+- `Arrow`  
+- `Cylinder`  
+- `Rotate` (inside `Graphics` or `Graphics3D`)  
+- `Translate`  
+- `GeometricTransformation`  
+- `Tube`  
+
+---
+
+## Examples
+
+### `Line`
+
+```wolfram
+sym = {{0,0}, {1,1}};
+Graphics[Line[sym // Offload], PlotRange->{{0,1}, {0,1}}]
+```
+
+Updating `sym` in a later cell automatically updates the plot:
+
+```wolfram
+sym = {{0,0}, {0,1}}
+```
+
+---
+
+### `Point`
+
+```wolfram
+pt = {0,0};
+Graphics[Point[pt // Offload], PlotRange->{{-1,1}, {-1,1}}]
+
+EventHandler[InputRange[-1,1,0.1], Function[value, pt = {value, 0}]]
+```
+
+Slider moves the point horizontally.
+
+---
+
+### `Sphere`
+
+```wolfram
+pt = {0,0,0};
+Graphics3D[Sphere[pt // Offload]]
+
+EventHandler[InputRange[-1,1,0.1], Function[value, pt = {value, 0, 0}]]
+```
+
+Moves the sphere along the x-axis. Multiple objects can share the same offloaded variable.
+
+---
+
+### `Disk` (with radius + position control)
+
+```wolfram
+radius = 1.;
+pos = {0,0};
+
+Graphics[Disk[pos // Offload, radius // Offload], PlotRange->{{-1,1}, {-1,1}}]
+
+EventHandler[InputRange[-1,1,0.1], Function[x, pos = {x, pos[[2]]}]]
+EventHandler[InputRange[-1,1,0.1], Function[y, pos = {pos[[1]], y}]]
+EventHandler[InputRange[0,1,0.1], Function[r, radius = r]]
+```
+
+---
+
+### `Text`
+
+```wolfram
+text = "hello";
+Graphics[Text[text // Offload, {0,0}]]
+
+EventHandler[InputButton["Random word!"], Function[Null, text = RandomWord[]]]
+```
+
+---
+
+### `Rectangle` with slider
+
+```wolfram
+length = 0.;
+EventHandler[InputRange[0, 1, 0.1], Function[a, length = a]]
+
+Graphics[Rectangle[{-1,-1}, {length // Offload,1}], PlotRange->{{-1,1}, {-1,1}}]
+```
+
+---
+
+### `Rotate`
+
+```wolfram
+angle = 0.;
+EventHandler[InputRange[0, 2. Pi, 0.1], Function[a, angle = a]]
+
+Graphics[Rotate[Rectangle[{-1,-1}, {1,1}], angle // Offload], PlotRange->{{-1,1}, {-1,1}}]
+```
+
+---
+
+# Extended Interaction with Graphics Primitives
+
+Some primitives support direct user interaction:
+
+- **2D:** `Point` (single), `Rectangle`, `Disk`  
+- **3D:** `Sphere`  
+
+Event patterns:  
+
+- `"drag"` → make draggable (returns new position)  
+- `"mousemove"` → listen to cursor position (returns coordinates)  
+- `"click"` → trigger handler on click (returns click position)  
+- `"transform"` (3D) → make object draggable (returns association with `"position" -> {x,y,z}`)  
+
+### Example: Draggable Point
+
+```wolfram
+Graphics[EventHandler[Point[{0.,0.}], {"drag" -> Print}]]
+```
+
+Dragging the point prints its new position.
+
+---
+
+### Example: Canvas Click to Add Points
+
+```wolfram
+pts = {};
+
+Graphics[{
+  White, EventHandler[Rectangle[{-1,-1}, {1,1}], {
+    "click" -> Function[xy, pts = Append[pts, xy]]
+  }],
+  Blue, Point[pts // Offload]
+}]
+```
+
+Each click adds a new point to the plot.
+
+---
+
+### Example: Arrow Follows Cursor
+
+```wolfram
+coords = {1,1};
+
+Graphics[{
+  White, EventHandler[Rectangle[{-1,-1}, {1,1}], {
+    "mousemove" -> Function[xy, coords = xy]
+  }],
+  Blue, Arrow[{{0,0}, coords // Offload}]
+}]
+```
+
+---

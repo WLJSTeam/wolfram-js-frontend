@@ -1,0 +1,27 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$34], 
+   "Objects" -> <||>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend-dev\
+/Examples/User input/Text.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Text input", "Display" -> "codemirror", 
+    "Hash" -> "dd7b6dd8-1317-46bf-932e-e07c48305741", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "d15609bf-66f9-4277-b656-5ba3384267cc"|>, <|"Data" -> "## Text input", 
+    "Display" -> "markdown", "Hash" -> 
+     "8a681ccf-b735-4d32-86ea-2afb7f21209c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "d15609bf-66f9-4277-b656-5ba3384267cc"|>, 
+   <|"Data" -> "text = \"Example\";\nEventHandler[InputText[], \
+Function[value, text = value]]\n\nGraphics[Table[{\n  Hue[i/10., 1.,1.], \
+Rotate[Text[Style[text // Offload, FontSize->RandomInteger[{12,24}]], \
+RandomReal[{-1,1}, 2]], RandomChoice[{Pi, Pi/4, Pi/2, 0}]]\n}, {i, 10}]]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a774d237-edac-4495-b309-3b442ccdcecd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "d15609bf-66f9-4277-b656-5ba3384267cc"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "695cf416-81da-48e6-bef4-6ebaeb299b3a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "d15609bf-66f9-4277-b656-5ba3384267cc"|>}, "serializer" -> "jsfn4"|>

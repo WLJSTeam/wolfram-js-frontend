@@ -1,0 +1,84 @@
+Head        = ImportComponent["Components/Head.wlx"];
+
+ElectronQ[request_] := (KeyExistsQ[request["Headers"], "Electron"]);
+
+ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+  <link rel="stylesheet" href="{Path}"/> 
+] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
+
+
+Iframe[OptionsPattern[]] := With[{Url = OptionValue["Doc"]["URL"]},
+    <iframe style="width:100%;height:100%;border: none;border-radius: 7px; background: transparent;-webkit-app-region: no-drag;" src="{Url}"></iframe>
+];
+
+Options[Iframe] = {"Doc"->Null};
+
+App[request_] := Module[{client, channel, target}, With[{
+        secret = CreateUUID[], 
+        LocalControls   = CreateUUID[],
+        accentColor = "#008855",
+        isElectron = ElectronQ[request],
+        GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>,
+        UId = If[StringTake[#, -1] == "/", StringDrop[#, -1], #] &@ (StringReplace[request["Path"], ___~~"/docFind/"~~(n:__)~~EndOfString :> n]),
+        style = "height:100%"
+    },
+    {
+        doc = DocWindowHashMap[UId]
+    },
+
+    (* /* destructor */ *)
+
+
+    EventHandler[secret, {
+        "Load" -> Function[Null, With[{cli = Global`$Client(*`*)},
+            If[MissingQ[doc], 
+                WebUIClose[cli],
+                
+                (* ELSE *)
+
+                doc["Refresh"] = Function[Null,
+                    EventFire[LocalControls, "Refresh", <|"Client"->cli|>];
+                ];
+
+                With[{socket = EventClone[cli]},
+                    EventHandler[socket, {"Closed" -> Function[Null,
+                        Echo["Docs window was destroyed!"];
+                        EventRemove[socket];
+                        EventRemove[secret];
+                        DeleteObject[doc];
+                    ]}];
+                ];
+            ]; 
+          ];
+        ]
+      }
+    ];
+
+{
+    "<!DOCTYPE html>",
+    <html class="h-full"> 
+        <Head AccentColor={accentColor} Title={"Documentation"} Settings={Association[{}]}>
+            <meta charset="utf-8"/>
+            <WLJSHeader List={ExtensionsJS}/>  
+            <WLJSTransportScript PrefixMode={$Env["wsprefix"]} TwoKernels={False} Port={$Env["ws"]}/>     
+            <WebUIInitializationScript/>
+            <ExtensionsStyles/>
+        </Head>  
+        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:border owin:border-gray-500 owin:bg-blue-100/20"> 
+        <div class="h-full" style="-webkit-app-region: drag;">
+          <div id="frame" class="h-full">
+            <div class="h-full flex flex-col">          
+              <main class="grow flex flex-col overflow-hidden h-full p-2" style="margin-top:2rem">
+                <WebUIRefresh Style={style} Event={LocalControls}><Iframe Doc={doc}/></WebUIRefresh>
+                <WebUIOnLoad Event={secret} Pattern={"Load"}/>
+              </main>              
+            </div> 
+          </div>
+        </div>
+        </body>
+    </html>
+} // StringRiffle
+] ];
+
+App

@@ -1,0 +1,41 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$126], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "d36606b3-22f5-41e8-9421-21c195875817", "Objects" -> <||>, 
+   "Path" -> 
+    "/Users/kirill/Github/wolfram-js-frontend/Demos/08 - Slides/nematode.wln"\
+, "Symbols" -> <||>, "TOC" -> {Notebook`Editor`TOC`Private`heading[2, 
+      "Animated LaTeX", CellObj[JerryI`Notebook`CellObj`$125]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Animated LaTeX", "Display" -> "codemirror", 
+    "Hash" -> "d08f89b2-a9f3-459c-8c94-1de84fb55ca5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "ed8dc776-3583-4921-9cac-7693f84a5a1b"|>, 
+   <|"Data" -> "## Animated LaTeX", "Display" -> "markdown", 
+    "Hash" -> "0302707d-3f9e-4aba-b71f-0a0b071e8c1e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "ed8dc776-3583-4921-9cac-7693f84a5a1b"|>, 
+   <|"Data" -> ".slide\n\n## Animated \
+LaTeX\n\n$$\n\\\\begin{align*}\n\\\\mathbf{E}(t,x) &= \\\\sum_{\\\\omega} \
+\\\\mathbf{E}_0^{\\\\omega} ~ exp\\\\Big( i\\\\omega t - \
+\\\\frac{i\\\\hat{n}(\\\\omega) \\\\omega x}{c}\\\\Big) \\\\\\\\ &= \
+\\\\sum\\\\mathbf{E}_0^{\\\\omega} \
+\\\\colorbox{white}{$exp(-\\\\frac{\\\\alpha x}{2})$} ~exp\\\\Big(i\\\\omega \
+t - \\\\frac{i n \\\\omega x}{c}\\\\Big)\n\\\\end{align*}\n$$ <!-- .element: \
+data-eq-speed=\"0.1\" -->", "Display" -> "codemirror", 
+    "Hash" -> "f38e640a-671f-4af3-965d-0f21e3c7fc8c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "ed8dc776-3583-4921-9cac-7693f84a5a1b"|>, 
+   <|"Data" -> "<dummy >\n## Animated \
+LaTeX\n\n$$\n\\\\begin{align*}\n\\\\mathbf{E}(t,x) &= \\\\sum_{\\\\omega} \
+\\\\mathbf{E}_0^{\\\\omega} ~ exp\\\\Big( i\\\\omega t - \
+\\\\frac{i\\\\hat{n}(\\\\omega) \\\\omega x}{c}\\\\Big) \\\\\\\\ &= \
+\\\\sum\\\\mathbf{E}_0^{\\\\omega} \
+\\\\colorbox{white}{$exp(-\\\\frac{\\\\alpha x}{2})$} ~exp\\\\Big(i\\\\omega \
+t - \\\\frac{i n \\\\omega x}{c}\\\\Big)\n\\\\end{align*}\n$$ <!-- .element: \
+data-eq-speed=\"0.1\" --></dummy>", "Display" -> "slide", 
+    "Hash" -> "4a5e220b-61ec-4a5c-8f23-a6d419df8f1c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "ed8dc776-3583-4921-9cac-7693f84a5a1b"|>}, "serializer" -> "jsfn4"|>

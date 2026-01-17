@@ -1,0 +1,21 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$69], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/Examples/Dynamics/Interaction/Pink orb.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Pink orb", "Display" -> "codemirror", 
+    "Hash" -> "fd5c166e-2959-4036-916f-a24b6e246511", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "39e0ecc5-0ad1-441b-9106-2a9060254625"|>, <|"Data" -> "## Pink orb", 
+    "Display" -> "markdown", "Hash" -> 
+     "119273d9-926c-43c9-8057-ee25b600f4f9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "39e0ecc5-0ad1-441b-9106-2a9060254625"|>, 
+   <|"Data" -> "EventHandler[InputRange[0,1,0.1, \"Label\"->\"Radius\"], \
+Function[value, radius = value]]\n% // EventFire; (* just to initialize \
+`radius` *)\n\nGraphics[{LightBlue, Disk[], Pink, Disk[{0,0}, radius // \
+Offload]}]", "Display" -> "codemirror", 
+    "Hash" -> "45747611-37d6-46dc-a5ed-d373d53ad9fe", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "39e0ecc5-0ad1-441b-9106-2a9060254625"|>}, "serializer" -> "jsfn4"|>

@@ -1,0 +1,201 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$40], 
+   "HaveToSaveAs" -> False, "Objects" -> <||>, "Path" -> "/users/kirill/Githu\
+b/wolfram-js-frontend-dev/Demos/Release notes/2.5.0.wln", "Quick" -> True, 
+   "Symbols" -> <||>|>, "Cells" -> 
+  {<|"Data" -> ".html\n\n<style>\n  .balloon {\n  height: 125px;\n  width: \
+105px;\n  border-radius: 75% 75% 70% 70%;\n  position: \
+relative;\n}\n\n.balloon:before {\n  content: \"\";\n  height: 75px;\n  \
+width: 1px;\n  padding: 1px;\n  background-color: #FDFD96;\n  display: \
+block;\n  position: absolute;\n  top: 125px;\n  left: 0;\n  right: 0;\n  \
+margin: auto;\n}\n\n.balloon:after {\n    content: \"\[FilledUpTriangle]\";\n \
+   text-align: center;\n    display: block;\n    position: absolute;\n    \
+color: inherit;\n    top: 120px;\n    left: 0;\n    right: 0;\n    margin: \
+auto;\n}\n\n@keyframes float {\n  from {transform: translateY(100vh);\n  \
+opacity: 1;}\n  to {transform: translateY(-300vh);\n  opacity: \
+0;}\n}\n#balloon-container {\n  height: 100vh;\n  top: 0;\n  \
+position:fixed;\n  bottom: 0;\n  z-index: -99;  \n  padding: 1em;\n  \
+box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  overflow: \
+hidden;\n  transition: opacity 500ms;\n}\n</style>\n\n<div \
+id=\"balloon-container\">\n</div>", "Display" -> "codemirror", 
+    "Hash" -> "4d33f510-dfc3-4eb1-9853-e8444dfc98c0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> "\n<style>\n  .balloon {\n  height: 125px;\n  width: 105px;\n  \
+border-radius: 75% 75% 70% 70%;\n  position: relative;\n}\n\n.balloon:before \
+{\n  content: \"\";\n  height: 75px;\n  width: 1px;\n  padding: 1px;\n  \
+background-color: #FDFD96;\n  display: block;\n  position: absolute;\n  top: \
+125px;\n  left: 0;\n  right: 0;\n  margin: auto;\n}\n\n.balloon:after {\n    \
+content: \"\[FilledUpTriangle]\";\n    text-align: center;\n    display: \
+block;\n    position: absolute;\n    color: inherit;\n    top: 120px;\n    \
+left: 0;\n    right: 0;\n    margin: auto;\n}\n\n@keyframes float {\n  from \
+{transform: translateY(100vh);\n  opacity: 1;}\n  to {transform: \
+translateY(-300vh);\n  opacity: 0;}\n}\n#balloon-container {\n  height: \
+100vh;\n  top: 0;\n  position:fixed;\n  bottom: 0;\n  z-index: -99;  \n  \
+padding: 1em;\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: \
+wrap;\n  overflow: hidden;\n  transition: opacity 500ms;\n}\n</style>\n\n<div \
+id=\"balloon-container\">\n</div>", "Display" -> "html", 
+    "Hash" -> "8fe8ee8a-500d-454a-8e90-0712e0ab07d7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".js\n\nconst balloonContainer = \
+document.getElementById(\"balloon-container\");\n\nfunction random(num) {\n  \
+return Math.floor(Math.random() * num);\n}\n\nfunction getRandomStyles() {\n  \
+var r = random(255);\n  var g = random(255);\n  var b = random(255);\n  var \
+mt = random(200);\n  var ml = random(50);\n  var dur = random(5) + 5;\n  \
+return `\n  background-color: rgba(${r},${g},${b},0.7);\n  color: \
+rgba(${r},${g},${b},0.7); \n  box-shadow: inset -7px -3px 10px rgba(${r - \
+10},${g - 10},${b - 10},0.7);\n  margin: ${mt}px 0 0 ${ml}px;\n  animation: \
+float ${dur}s ease-in infinite\n  `;\n}\n\nfunction createBalloons(num) {\n  \
+for (var i = num; i > 0; i--) {\n    var balloon = \
+document.createElement(\"div\");\n    balloon.className = \"balloon\";\n    \
+balloon.style.cssText = getRandomStyles();\n    \
+balloonContainer.append(balloon);\n  }\n}\n\nfunction removeBalloons() {\n  \
+balloonContainer.style.opacity = 0;\n  setTimeout(() => {\n    \
+balloonContainer.remove()\n  }, \
+500)\n}\n\ncreateBalloons(10);\nsetTimeout(removeBalloons, 7000);\n\nreturn \
+'';\n", "Display" -> "codemirror", "Hash" -> 
+     "fbc8016d-aeae-4752-ac35-5ca5f0dc8de0", "Invisible" -> True, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> "\nconst balloonContainer = \
+document.getElementById(\"balloon-container\");\n\nfunction random(num) {\n  \
+return Math.floor(Math.random() * num);\n}\n\nfunction getRandomStyles() {\n  \
+var r = random(255);\n  var g = random(255);\n  var b = random(255);\n  var \
+mt = random(200);\n  var ml = random(50);\n  var dur = random(5) + 5;\n  \
+return `\n  background-color: rgba(${r},${g},${b},0.7);\n  color: \
+rgba(${r},${g},${b},0.7); \n  box-shadow: inset -7px -3px 10px rgba(${r - \
+10},${g - 10},${b - 10},0.7);\n  margin: ${mt}px 0 0 ${ml}px;\n  animation: \
+float ${dur}s ease-in infinite\n  `;\n}\n\nfunction createBalloons(num) {\n  \
+for (var i = num; i > 0; i--) {\n    var balloon = \
+document.createElement(\"div\");\n    balloon.className = \"balloon\";\n    \
+balloon.style.cssText = getRandomStyles();\n    \
+balloonContainer.append(balloon);\n  }\n}\n\nfunction removeBalloons() {\n  \
+balloonContainer.style.opacity = 0;\n  setTimeout(() => {\n    \
+balloonContainer.remove()\n  }, \
+500)\n}\n\ncreateBalloons(10);\nsetTimeout(removeBalloons, 15000);\n\nreturn \
+'';\n", "Display" -> "js", "Hash" -> "d40c8088-8d26-4ceb-8d28-3124bfc8fe9f", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".md\n# Release notes *2.5.0*\n*Breaking changes: please, \
+update your client using binaries from this release*\n\nWe reworked our main \
+application on Windows, cleaned up UI and introduced a few new modes.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "865805ac-6ee2-46ae-9b1d-50c31bbcc284", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> "># Release notes *2.5.0*\n*Breaking changes: please, update \
+your client using binaries from this release*\n\nWe reworked our main \
+application on Windows, cleaned up UI and introduced a few new modes.", 
+    "Display" -> "markdown", "Hash" -> 
+     "64d7d244-8ade-47f6-9ba0-2560e1b8a87e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".md\n## Quick notes\nThis allows to create a note without \
+making millions of files in your home directory <span style=\"font-family: \
+monospace\"class=\"text-sm p-1 bg-gray-200 \
+rounded\">Ctrl/Cmd+Shift+N</span>\n\n<br/><br/>\n\nIt stores it in the \
+temporal directory and will ask you where to save if you need this note. All \
+notebook files opened from the native file explorer will be shown in the \
+similar regime (no sidebar, no \
+distractions)\n\n<br/><br/>\n\n![](/attachments/Screenshot%202024-07-18%20at%\
+2016.27.20.png)", "Display" -> "codemirror", 
+    "Hash" -> "6b52af86-9e74-484e-aace-57aadfdccca0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ">## Quick notes\nThis allows to create a note without making \
+millions of files in your home directory <span style=\"font-family: \
+monospace\" class=\"text-sm p-1 bg-gray-200 \
+rounded\">Ctrl/Cmd+Shift+N</span><br /><br />\n\nIt stores it in the temporal \
+directory and will ask you where to save if you need this note. All notebook \
+files opened from the native file explorer will be shown in the similar \
+regime (no sidebar, no distractions)<br /><br \
+/>\n\n![](/attachments/Screenshot%202024-07-18%20at%2016.27.20.png)", 
+    "Display" -> "markdown", "Hash" -> 
+     "d04cec95-c85f-410d-9e58-43dcb12ea4a7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".md\n\n## Prompt window\nThis feature registers a global \
+shortcut <span style=\"font-family: monospace\"class=\"text-sm p-1 \
+bg-gray-200 rounded\">Cmd/Ctrl+Alt+Space</span> to call a small prompt window \
+- a floating input cell to do some quick \
+calculations.\n\n<br/>\n\n![](/attachments/Screenshot%202024-07-18%20at%2016.\
+37.51.png)\n<br/>\nThe transparency feature might not work on Linux distros. \
+We need an external help to resolve this issue.\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "de822661-1cbc-4855-a661-5eb3a2c18ab0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ">\n## Prompt window\nThis feature registers a global shortcut \
+<span style=\"font-family: monospace\" class=\"text-sm p-1 bg-gray-200 \
+rounded\">Cmd/Ctrl+Alt+Space</span> to call a small prompt window - a \
+floating input cell to do some quick calculations.\n\n<br \
+/>\n\n![](/attachments/Screenshot%202024-07-18%20at%2016.37.51.png)<br \
+/>\nThe transparency feature might not work on Linux distros. We need an \
+external help to resolve this issue.\n", "Display" -> "markdown", 
+    "Hash" -> "45887d8b-4f10-42f7-adfc-ce2108095312", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".md\n\n## Templates\nTemplates are just the same notebooks, \
+stylized using hidden Javascript or HTML cells. The default directory for \
+them is `AppData/UserTemplates/`. Call them from the command line or top-bar \
+menu\n\n<br/>\n\n![](/attachments/Screenshot%202024-07-18%20at%2016.45.40.png\
+)\n\n<br/>\n\nThere are several built-in templates for you to try. *Note that \
+`attachments` folder (if found) will also be copied, so that your template \
+can include uploaded images or other files*", "Display" -> "codemirror", 
+    "Hash" -> "e70dae8d-6548-4e6e-9916-74ca977a2cb5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ">\n## Templates\nTemplates are just the same notebooks, \
+stylized using hidden Javascript or HTML cells. The default directory for \
+them is `AppData/UserTemplates/`. Call them from the command line or top-bar \
+menu\n\n<br \
+/>\n\n![](/attachments/Screenshot%202024-07-18%20at%2016.45.40.png)<br \
+/>\n\nThere are several built-in templates for you to try. *Note that \
+`attachments` folder (if found) will also be copied, so that your template \
+can include uploaded images or other files*", "Display" -> "markdown", 
+    "Hash" -> "f0d44c02-56a1-465e-a038-bfcbf1da8e31", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".md\n\n## Code editor improvements\nWe contacted the \
+developer of CodeMirror 6 and he helped us to improve UX of typing equations. \
+Now it feels more natural, there is no need in lifting your fingers from the \
+keyboard\n\n<br/>\n\n![](/attachments/ezgif.com-math-1.gif)\n\n<br/>\n\nYou \
+can jump inside a fraction or other math decorations\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "c2a1a38b-bdf5-4381-86ed-a3c2466de37c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ">\n## Code editor improvements\nWe contacted the developer of \
+CodeMirror 6 and he helped us to improve UX of typing equations. Now it feels \
+more natural, there is no need in lifting your fingers from the \
+keyboard\n\n<br />\n\n![](/attachments/ezgif.com-math-1.gif)<br />\n\nYou can \
+jump inside a fraction or other math decorations\n", "Display" -> "markdown", 
+    "Hash" -> "558fc836-53d5-42bd-95f3-6acbd973e020", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ".md\n*Ballon animation by Jemima (codepen)*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "36f6c801-1b29-472b-a320-417314e40de9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>, 
+   <|"Data" -> ">*Ballon animation by Jemima (codepen)*", 
+    "Display" -> "markdown", "Hash" -> 
+     "98d0fa5f-e1d6-4da6-9625-1268b31791fd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "5c1e14f6-16f7-4119-8de4-42ade26e1a9c"|>}, "serializer" -> "jsfn4"|>

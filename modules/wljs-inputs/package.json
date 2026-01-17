@@ -1,0 +1,44 @@
+{
+  "name": "wljs-inputs",
+  "version": "1.5.3",
+  "description": "sliders and other inputs for WLJS",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "watch": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs -w",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-inputs && mv wljs-inputs/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "styles": [
+      "src/styles.css"
+    ],
+    "minjs": "dist/kernel.min.js",
+    "js": "dist/kernel.js",
+    "kernel": "src/Kernel.wl",
+    "category": "User's GUI",
+    "priority": 550,
+    "cellExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-inputs"
+  },
+  "author": "Kirill Vasin",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/JerryI/wljs-inputs/issues"
+  },
+  "homepage": "https://github.com/JerryI/wljs-inputs#readme",
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "handsontable": "^13.1.0",
+    "pako": "^2.1.0",
+    "rollup": "^3.20.6",
+    "rollup-plugin-combine": "^2.1.1",
+    "serve-static": "^1.14.1",
+    "systemjs": "^6.14.1"
+  }
+}

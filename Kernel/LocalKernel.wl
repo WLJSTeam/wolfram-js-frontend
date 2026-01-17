@@ -288,7 +288,7 @@ start[k_LocalKernelObject] := Module[{link},
         LinkWrite[link, Unevaluated[ SetDirectory[path] ] ] ;
         LinkWrite[link, Unevaluated[ Set[Internal`Kernel`RootDirectory, path] ] ];
         LinkWrite[link, Unevaluated[ PacletDirectoryLoad[Directory[] ] ] ];
-        LinkWrite[link, Unevaluated[ PacletDirectoryLoad[FileNameJoin[{Directory[], "wl_packages"}] ] ] ];
+        LinkWrite[link, Unevaluated[ PacletDirectoryLoad[FileNameJoin[{Directory[], "Packages"}] ] ] ];
 
         If[TrueQ @ Internal`$NoWRServices, 
              LinkWrite[link, Unevaluated[ Get[FileNameJoin[{Directory[], "Common", "Patches", "NoWR.wl"}] ] ] ];

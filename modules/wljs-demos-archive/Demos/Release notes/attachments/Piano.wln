@@ -1,0 +1,220 @@
+<|"Notebook" -> <|"Controller" -> "91f2a634-b3cc-4815-93a0-d2dd36d495ee", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$280], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "ccaf5837-fc17-4004-8114-928409a52b86", 
+   "Objects" -> <|"c625a0bb-eefe-4423-88bc-3047f8230eb4" -> 
+      <|"Public" -> Hold[Graphics[{FrontInstanceReference[
+            1968959794805570800], {GrayLevel[1], EdgeForm[GrayLevel[0.5]], 
+            {{RGBColor[1, 0.6862745098039216, 0.47843137254901963], 
+              Annotation[Rectangle[{1.5, 0}, {2.5, 1}], 0, 1]}, 
+             Annotation[Rectangle[{2.5, 0}, {3.5, 1}], 0, 3], 
+             {RGBColor[1, 0.6862745098039216, 0.47843137254901963], 
+              Annotation[Rectangle[{3.5, 0}, {4.5, 1}], 0, 5]}, 
+             Annotation[Rectangle[{4.5, 0}, {5.5, 1}], 0, 6], 
+             {RGBColor[1, 0.6862745098039216, 0.47843137254901963], 
+              Annotation[Rectangle[{5.5, 0}, {6.5, 1}], 0, 8]}, 
+             Annotation[Rectangle[{6.5, 0}, {7.5, 1}], 0, 10], 
+             Annotation[Rectangle[{7.5, 0}, {8.5, 1}], 0, 12], 
+             Annotation[Rectangle[{8.5, 0}, {9.5, 1}], 0, 13], 
+             Annotation[Rectangle[{9.5, 0}, {10.5, 1}], 0, 15], 
+             Annotation[Rectangle[{10.5, 0}, {11.5, 1}], 0, 17], 
+             Annotation[Rectangle[{11.5, 0}, {12.5, 1}], 0, 18], 
+             Annotation[Rectangle[{12.5, 0}, {13.5, 1}], 0, 20], 
+             Annotation[Rectangle[{13.5, 0}, {14.5, 1}], 0, 22], 
+             Annotation[Rectangle[{14.5, 0}, {15.5, 1}], 0, 24], 
+             Annotation[Rectangle[{15.5, 0}, {16.5, 1}], 0, 25]}, 
+            RGBColor[0.3333333333333333, 0.3333333333333333, 
+             0.3333333333333333], {Annotation[Rectangle[{2.2, 0.5}, {2.8, 
+                1}], 1, 2], Annotation[Rectangle[{3.2, 0.5}, {3.8, 1}], 1, 
+              4], Annotation[Rectangle[{5.2, 0.5}, {5.8, 1}], 1, 7], 
+             Annotation[Rectangle[{6.2, 0.5}, {6.8, 1}], 1, 9], 
+             Annotation[Rectangle[{7.2, 0.5}, {7.8, 1}], 1, 11], 
+             Annotation[Rectangle[{9.2, 0.5}, {9.8, 1}], 1, 14], 
+             Annotation[Rectangle[{10.2, 0.5}, {10.8, 1}], 1, 16], 
+             Annotation[Rectangle[{12.2, 0.5}, {12.8, 1}], 1, 19], 
+             Annotation[Rectangle[{13.2, 0.5}, {13.8, 1}], 1, 21], 
+             Annotation[Rectangle[{14.2, 0.5}, {14.8, 1}], 1, 23]}}, 
+           {RGBColor[1, 1, 0], Opacity[0.3]}, {GrayLevel[0], 
+            {Text["C", {2, 0.4}, {0, 0}], Text["E", {4, 0.4}, {0, 0}], 
+             Text["Ab", {6, 0.4}, {0, 0}]}}, EventListener[Graphics`Canvas[], 
+            {"click" -> "0fd08789-0437-4fa4-8ec7-419bcc1dbd6b"}]}, 
+          ImageSize -> {500, 200}, "Controls" -> False]]|>|>, 
+   "Path" -> "/users/kirill/Github/wljs-demos-archive/Demos/Release \
+notes/attachments/Piano.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Virtual Piano", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$274]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Export this symbol", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$290]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Virtual Piano\nA demonstration with a \
+working toy-like piano. This covers basic graphics manipulation, sound \
+emission and working with dynamic graphics groups.\n\nSome helper functions", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5692b8e6-7a29-48b8-a299-53893e06fd74", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "# Virtual Piano\nA demonstration with a working toy-like \
+piano. This covers basic graphics manipulation, sound emission and working \
+with dynamic graphics groups.\n\nSome helper functions", 
+    "Display" -> "markdown", "Hash" -> 
+     "e199e0a6-5434-4adf-a349-59f18c5b0665", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "keyLevels = {0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, \
+0};\n\nsemitone[\"C\"] = 0;\nsemitone[\"C#\"] = 1;\nsemitone[\"D\"] = \
+2;\nsemitone[\"D#\"] = 3;\nsemitone[\"Eb\"] = 3;\nsemitone[\"E\"] = \
+4;\nsemitone[\"F\"] = 5;\nsemitone[\"F#\"] = 6;\nsemitone[\"Gb\"] = \
+6;\nsemitone[\"G\"] = 7;\nsemitone[\"Ab\"] = 8;\nsemitone[\"G#\"] = \
+8;\nsemitone[\"A\"] = 9;\nsemitone[\"Bb\"] = 10;\nsemitone[\"B\"] = \
+11;\n\nconvertToSemitones[s_String] := With[{c = StringCases[s, \
+{a__~~b:DigitCharacter :> {a,ToExpression[b]}, a__ :> {a,4}}]//First},\n  \
+semitone[c[[1]]] + (c[[2]] - 4) 12\n]\nconvertToSemitones[s_] := \
+s;\n\nconvertToSemitones[l_List] := convertToSemitones /@ \
+l\n\ngenerateKeys[keyCount_] := Module[\n  {index = 1, position = 1, \
+keyWidth, keyOffset},\n  Table[\n    With[\n      {\n        cycleIndex = \
+Mod[index - 1, 12] + 1,\n        level = keyLevels[[Mod[index - 1, 12] + \
+1]]\n      },\n      keyWidth = 0.5 - 0.2 level;\n      keyOffset = 0.5 \
+level;\n      position += 1 - level;\n      index++;\n      Rectangle[\n      \
+  {position - keyWidth + keyOffset, keyOffset},\n        {position + keyWidth \
++ keyOffset, 1}\n      ]\n    ],\n    {keyCount}\n  \
+]\n];\n\nannotateKeys[keys_] := MapIndexed[\n  Annotation[#, \
+keyLevels[[Mod[#2[[1]] - 1, 12] + 1]], #2[[1]]] &,\n  \
+keys\n];\n\nhighlightNotes[skeys_, indexes_] := Map[Function[key,\n  \
+If[MemberQ[indexes, key[[3]]], \n    {(*VB[*)(RGBColor[1., \
+0.6862745098039216, \
+0.47843137254901963])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeGJAIcndyzs/JLwouT\
+yxJzghJzS3ISSxJTWMGyXMgyRcxgMEH+6JvX0HgqX3R/HkgcM8eAIGmHxI=\"*)(*]VB*)//Light\
+er, key}\n  ,\n    key\n  ]\n], skeys]\n\nseparateKeys[keys_] := Module[\n  \
+{annotatedKeys = annotateKeys[keys]},\n  {\n    Cases[annotatedKeys, \
+Annotation[_, 0, _]],\n    Cases[annotatedKeys, Annotation[_, 1, _]]\n  \
+}\n];", "Display" -> "codemirror", "Hash" -> 
+     "6477a512-33ee-43ce-8e7c-2fcd6c1e7d32", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True, "Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> ".md\nGenerate 25 keys and build the scene", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7250f24b-fcab-45b6-9d93-1551a1138c15", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "Generate 25 keys and build the scene", 
+    "Display" -> "markdown", "Hash" -> 
+     "75d772e6-006d-451c-b78b-3f1f8521225e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> ".md\nHandler to emitt notes and draw higlights", 
+    "Display" -> "codemirror", "Hash" -> 
+     "dcf3e255-4f30-4ed9-94db-6fb68e3eb2ef", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "Handler to emitt notes and draw higlights", 
+    "Display" -> "markdown", "Hash" -> 
+     "58110153-9973-4b47-8c46-d5682583aa1e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "ClearAll[clicker]\nclicker[scene_, separated_, keys_, \
+additional_:{}, notes_][xy_] := With[{\n  whiteMatch = \
+SelectFirst[separated[[1]], RegionMember[#[[1]], xy]  &],\n  blackMatch = \
+SelectFirst[separated[[2]], RegionMember[#[[1]], xy]  &],\n  group = \
+FrontInstanceGroup[]\n},\n\n  With[{\n    key = If[!MissingQ[blackMatch], \
+blackMatch[[3]], whiteMatch[[3]]]\n  },\n  \n    \
+FrontSubmit[SoundNote[Join[additional, {key-1}]//DeleteDuplicates] // \
+Sound];\n    FrontSubmit[{\n      Magenta, Text[notes[[Mod[# - 1, 12] + 1]], \
+\n      Mean[List @@ (keys[[#]])] - {0,0.2}, {0,0}] &/@ Join[(Mod[#, \
+Length[keys]-1] &/@ additional)+1, {key}], \n      Opacity[0.3], \
+keys[[Join[((Mod[#, Length[keys]-1]) &/@ additional)+1, {key}]]]\n    } // \
+group, scene];\n  \n    SetTimeout[Delete[group], 200];\n  ]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e7db429e-ca12-46f3-b77c-19ddd92a6346", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> ".md\nMake it as a generator", "Display" -> "codemirror", 
+    "Hash" -> "b589c22a-8cf0-43e0-a05e-90a6adc9a113", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "Make it as a generator", "Display" -> "markdown", 
+    "Hash" -> "ec91922f-401d-4b9b-891a-2fb6163fe6a8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "ClearAll[PianoView];\nPianoView[] := \
+PianoView[SoundNote[{}]]\nPianoView[SoundNote[rawNotes_List], \
+OptionsPattern[]] := Module[{\n  keys, separated, scene,\n  highlighted, \
+names = {\"C\", \"C#\", \"D\", \"Eb\", \"E\", \"F\", \"G\", \"Ab\", \"A\", \
+\"Bb\", \"B\", \"C\"}, annotations,\n  notes = convertToSemitones @ \
+rawNotes\n},\n  keys = generateKeys[OptionValue[\"Size\"]];\n\n  separated = \
+separateKeys[keys];\n\n  scene = FrontInstanceReference[];\n\n  highlighted = \
+Mod[#, Length[keys]] + 1 &/@ notes;\n  annotations = Text[names[[Mod[#, \
+12]+1]], Mean @ (\n    List @@ keys[[Mod[#, Length[keys]] + 1]]\n  ) + \
+{0.,-0.1}, {0,0}] &/@ notes;\n\n  notes = Switch[OptionValue[\"Mode\"],\n    \
+\"Play\",\n      notes,\n\n    \"Show\",\n      {},\n\n    _,\n      notes\n  \
+];\n\n  Graphics[{scene,\n    {White, EdgeForm[Gray], \
+highlightNotes[separated[[1]], highlighted], Black//Lighter, \
+highlightNotes[separated[[2]],highlighted]},\n    {Yellow, Opacity[0.3]}, \
+{Black, annotations},\n  EventHandler[Graphics`Canvas[], {\"click\" -> \
+clicker[scene, separated, keys, notes, names]}]\n  }, \
+ImageSize->OptionValue[ImageSize], \
+\"Controls\"->False]\n]\n\nOptions[PianoView] = {ImageSize->{500,200}, \
+\"Size\"->25, \"Mode\"->\"Play\"};", "Display" -> "codemirror", 
+    "Hash" -> "9e68f329-01ae-43dd-a09b-a50a330ced03", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> ".md\nLet us test it", "Display" -> "codemirror", 
+    "Hash" -> "205d39af-2ca0-446a-8246-015347ea0367", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "Let us test it", "Display" -> "markdown", 
+    "Hash" -> "6156ac7f-4124-4d19-8dea-840fe244c7f2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "SoundNote[{\"C\", \"E\", 7}] // PianoView ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "99be5e61-ace1-4194-994d-1b937944edb6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"c625a0bb-eefe-4423-88bc-3047f8230eb4\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKJ5sZm\
+SYaJCXppqampeqamBgZ61pYJCXrGhuYmKdZGBkbpCaZAACNUhXL\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1d251109-96c2-4541-a50d-87fde263f04b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "dd3d99d2-1325-46e4-9b7a-ae03203bc96f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> ".md\n## Export this symbol\nJust leave it in the input cell", 
+    "Display" -> "codemirror", "Hash" -> 
+     "19aeb755-151d-4f2e-bc9d-4173422a64a4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "## Export this symbol\nJust leave it in the input cell", 
+    "Display" -> "markdown", "Hash" -> 
+     "3750e457-5c1a-4b32-a69c-2494b48d37f7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>, 
+   <|"Data" -> "PianoView", "Display" -> "codemirror", 
+    "Hash" -> "ca45a3ad-19b9-4355-b98d-b90866310997", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "74cf9cbd-b4be-4f47-a429-3ac4cdbf4ef9"|>}, 
+ "serializer" -> "jsfn4"|>

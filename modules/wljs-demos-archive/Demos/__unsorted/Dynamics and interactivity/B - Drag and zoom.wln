@@ -1,0 +1,69 @@
+<|"Notebook" -> <|"Controller" -> "190f1e28-05d6-435e-b6f7-b74b150d98e2", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$97], "MessangerChannel" -> 
+    Messanger, "ModalsChannel" -> "2dc76cf5-3f97-47ca-8cfc-48cb05e8df89", 
+   "Objects" -> <||>, "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demo\
+s/Dynamics and interactivity/B - Drag and zoom.wln", 
+   "PublicFields" -> {"Properties"}, "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Interactive Plot", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$93]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Interactive Plot", 
+    "Display" -> "codemirror", "Hash" -> 
+     "bd135adc-625a-472c-b517-2514366b4eef", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> "\n# Interactive Plot", "Display" -> "markdown", 
+    "Hash" -> "e47dd116-a1d5-4e3b-9ef4-85615d8b47c8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> "getGauss[x0_, A_, width_] := (\n  Table[{x, A \
+(*SpB[*)Power[E(*|*),(*|*)-(*FB[*)(((*SpB[*)Power[(x-x0)(*|*),(*|*)2](*]SpB*)\
+)(*,*)/(*,*)(2 ((*SpB[*)Power[width(*|*),(*|*)2](*]SpB*))))(*]FB*)](*]SpB*) \
+}, {x,-1,1,0.01}] // Quiet\n);\ngetGauss[{x0_, A_}, width_] := getGauss[x0, \
+A, width];\ngetGauss[{x0_, A_, width_}] := getGauss[x0, A, width];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "cefc4e0f-a8eb-4562-9e7d-64de83a3130a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, "init" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> ".md\nNow lets define our plot with event handlers", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5baf0a54-587c-4700-b979-561b2146469a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> "\nNow lets define our plot with event handlers", 
+    "Display" -> "markdown", "Hash" -> 
+     "315dfc8b-f092-4a97-aee8-7b5d3ebacab8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> "Module[{line, initial},\n initial = {-0.2,0.8,0.1};\n line = \
+getGauss[initial];\n\n Graphics[{\n   Red, PointSize[0.1], \n   \
+EventHandler[\n     Point[initial[[1;;2]]]\n   , {\n      \
+\"drag\"->Function[c, initial[[1;;2]] = c; line = getGauss[initial]],\n      \
+\n      \"zoom\"->Function[k, initial[[3]] = k/10.0; line = \
+getGauss[initial]]\n     }],\n  \n   Cyan, Line[line // Offload]\n }, \
+PlotRange->{{-1,1},{0,1}}, \"TransitionType\"->\"Linear\", \
+\"TransitionDuration\"->30, Axes->{True, False}]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e9905871-71cc-47ae-b613-2b82e451660a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> ".md\n__Use wheel to change the linewidth__", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4fccaa8e-8a62-4068-b66f-555089f2c687", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>, 
+   <|"Data" -> "\n__Use wheel to change the linewidth__", 
+    "Display" -> "markdown", "Hash" -> 
+     "6bd99409-8b20-437c-8276-a079e6c74e68", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "f2587f4d-0aec-443c-aa35-a4235275d9dd"|>}, 
+ "serializer" -> "jsfn4"|>

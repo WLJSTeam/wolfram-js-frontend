@@ -1,0 +1,16 @@
+Component[OptionsPattern[]] := With[{
+    Data = OptionValue["Data"]["Data"]
+},
+
+    With[{
+        Results = Table[Item, {Item, Data}]
+    },
+        <ul class="p-0 max-h-96 overflow-y-auto pt-1 text-sm text-gray-700 dark:text-gray-400 px-1">
+            <Results/>
+        </ul>    
+    ]
+]
+
+Options[Component] = {"Data" -> {}, "Event" -> ""}
+
+Component

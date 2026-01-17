@@ -1,0 +1,245 @@
+(* Content-type: application/vnd.wolfram.cdf.text *)
+
+(*** Wolfram CDF File ***)
+(* http://www.wolfram.com/cdf *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*************************************************************************)
+(*                                                                       *)
+(*                                                                       *)
+(*  This file was created under the Wolfram Enterprise licensing terms.  *)
+(*                                                                       *)
+(*       For additional information concerning CDF licensing see:        *)
+(*                                                                       *)
+(*        www.wolfram.com/cdf/adopting-cdf/licensing-options.html        *)
+(*                                                                       *)
+(*                                                                       *)
+(*                                                                       *)
+(*************************************************************************)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[      1060,         20]
+NotebookDataLength[      8465,        224]
+NotebookOptionsPosition[      7624,        203]
+NotebookOutlinePosition[      8025,        219]
+CellTagsIndexPosition[      7982,        216]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"$HistoryLength", " ", "=", " ", "0"}], ";"}], " "}]], "Code",
+ CellChangeTimes->{{3.936421419237135*^9, 3.936421423053337*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"9197e10c-5edc-a54d-ad7a-050766673a01"],
+
+Cell[BoxData[
+ RowBox[{"<<", "KirillBelov`CSockets`"}]], "Code",
+ CellChangeTimes->{{3.9364214101869354`*^9, 3.936421416043337*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"a49e973f-7c30-5e43-a87b-7a2476744ca4"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"server", " ", "=", " ", 
+    RowBox[{"CSocketOpen", "[", "8000", "]"}]}], ";"}], " "}]], "Code",
+ CellChangeTimes->{{3.9364214300969887`*^9, 3.936421436681278*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"c4d228bf-4169-a143-b44f-80eb37e630cd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"handler", " ", "=", " ", 
+    RowBox[{"CSocketHandler", "[", "]"}]}], ";"}], " "}]], "Code",
+ CellChangeTimes->{{3.936422006726671*^9, 3.9364220152663403`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"4b4b26aa-9eb3-ed46-b8b8-113a9fe12ebb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"listener", " ", "=", " ", 
+    RowBox[{"SocketListen", "[", 
+     RowBox[{"server", ",", " ", "handler"}], "]"}]}], ";"}], " "}]], "Code",
+ CellChangeTimes->{{3.936421995638027*^9, 3.936422021466343*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"dbab0bda-77ab-0042-945c-9c80a76a63a0"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"data", " ", "=", " ", 
+    RowBox[{"CreateDataStructure", "[", "\"\<DynamicArray\>\"", "]"}]}], 
+   ";"}], " "}]], "Code",
+ CellChangeTimes->{{3.936422403799036*^9, 3.9364224110014153`*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"f1f2fbfd-e10d-ed41-8417-93b0baaf512d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"handler", "[", "\"\<DefaultHandler\>\"", "]"}], " ", "=", " ", 
+    RowBox[{"Function", "[", 
+     RowBox[{
+      RowBox[{"data", "[", 
+       RowBox[{"\"\<Append\>\"", ",", " ", 
+        RowBox[{"AbsoluteTime", "[", "]"}]}], "]"}], ";"}], "]"}]}], ";"}], 
+  " "}]], "Code",
+ CellChangeTimes->{{3.9364223781213074`*^9, 3.936422474217188*^9}},
+ CellLabel->"In[9]:=",ExpressionUUID->"133825e2-af3e-734e-82c4-80332d8a6690"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"client", " ", "=", " ", 
+    RowBox[{"CSocketConnect", "[", "8000", "]"}]}], ";"}], " "}]], "Code",
+ CellChangeTimes->{{3.936422438154114*^9, 3.9364224497114563`*^9}},
+ CellLabel->"In[8]:=",ExpressionUUID->"b5a731e2-9120-3e41-83ec-f70a2bb78e10"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"msgs", " ", "=", " ", 
+    RowBox[{"With", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"ba", " ", "=", " ", 
+        RowBox[{"ByteArray", "[", 
+         RowBox[{"ConstantArray", "[", 
+          RowBox[{"0", ",", " ", 
+           RowBox[{"10", " ", "*", " ", "1024", " ", "*", " ", "1024"}]}], 
+          "]"}], "]"}]}], "}"}], ",", " ", "\n", "\t", 
+      RowBox[{"ConstantArray", "[", 
+       RowBox[{"ba", ",", " ", "10"}], "]"}]}], "\n", "]"}]}], ";"}], 
+  " "}], "\n", 
+ RowBox[{"N", " ", "@", " ", 
+  RowBox[{"UnitConvert", "[", 
+   RowBox[{
+    RowBox[{"Quantity", "[", 
+     RowBox[{
+      RowBox[{"ByteCount", "[", "msgs", "]"}], ",", " ", "\"\<Bytes\>\""}], 
+     "]"}], ",", " ", "\"\<Megabytes\>\""}], "]"}]}]}], "Code",
+ CellChangeTimes->{{3.936422734359291*^9, 3.9364227929379997`*^9}, {
+  3.936423084840357*^9, 3.9364231772196903`*^9}, {3.9364309711132793`*^9, 
+  3.936430974292095*^9}},
+ CellLabel->"In[57]:=",ExpressionUUID->"745d1e9b-f5e3-bc4e-a63c-3103ece2fb11"],
+
+Cell[BoxData[
+ TemplateBox[{"104.85972`", "\"MB\"", "megabytes", "\"Megabytes\""},
+  "Quantity"]], "Output",
+ CellChangeTimes->{{3.9364231059291286`*^9, 3.9364231251420517`*^9}, {
+   3.9364231600609055`*^9, 3.9364231778367386`*^9}, 3.9364309769525394`*^9},
+ CellLabel->"Out[58]=",ExpressionUUID->"26a11cf9-fd91-514e-b707-b1d6123fa31d"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"data", "[", "\"\<DropAll\>\"", "]"}], ";"}], " "}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"BinaryWrite", "[", 
+      RowBox[{"client", ",", " ", "#"}], "]"}], "&"}], " ", "/@", " ", 
+    "msgs"}], ";"}], " "}]}], "Code",
+ CellChangeTimes->{{3.936422452560726*^9, 3.936422481491125*^9}, {
+  3.936422675998356*^9, 3.936422681617975*^9}, {3.936422981163868*^9, 
+  3.936422995246872*^9}, {3.936423066273651*^9, 3.936423076785324*^9}},
+ CellLabel->"In[59]:=",ExpressionUUID->"a7c44c24-ed7c-ba4f-9ab7-e84d021bba0e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Total", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"data", "[", "\"\<Elements\>\"", "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", " ", 
+       RowBox[{"-", "1"}]}], "}"}], "]"}], "]"}], " ", "*", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "1"}], ",", " ", "1"}], "}"}]}], "]"}]], "Code",
+ CellChangeTimes->{{3.936423009031887*^9, 3.9364230759532356`*^9}},
+ CellLabel->"In[61]:=",ExpressionUUID->"0588704d-e557-1541-9a31-c2fca88019f3"],
+
+Cell[BoxData["0.2993529`6.927728463253095"], "Output",
+ CellChangeTimes->{{3.936423013916271*^9, 3.936423103156744*^9}, {
+   3.936423165880377*^9, 3.936423182423628*^9}, 3.936430982713375*^9},
+ CellLabel->"Out[61]=",ExpressionUUID->"b8dc18c1-b79e-994f-874b-072a65290484"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  TemplateBox[{"104.878464`", "\"MB\"", "megabytes", "\"Megabytes\""},
+   "Quantity"], " ", "/", " ", 
+  RowBox[{"Quantity", "[", 
+   RowBox[{"0.2993529`6.927728463253095", ",", " ", "\"\<Seconds\>\""}], 
+   "]"}]}]], "Code",
+ CellChangeTimes->{{3.936423195721012*^9, 3.9364232075497265`*^9}, 
+   3.936430995927063*^9},
+ CellLabel->"In[63]:=",ExpressionUUID->"ed6c9dc0-03ac-2c44-a4b6-257bd232ff58"],
+
+Cell[BoxData[
+ TemplateBox[{"350.35058621446456`", 
+   RowBox[{
+    "\"MB\"", "\[InvisibleSpace]", "\"/\"", "\[InvisibleSpace]", "\"s\""}], 
+   "megabytes per second", 
+   FractionBox["\"Megabytes\"", "\"Seconds\""]},
+  "Quantity"]], "Output",
+ CellChangeTimes->{
+  3.9364232077870083`*^9, {3.9364309864271736`*^9, 3.936430996259596*^9}},
+ CellLabel->"Out[63]=",ExpressionUUID->"af486811-9eea-434b-bc5b-ff38a45ac4b3"]
+}, Open  ]]
+},
+WindowSize->{718.5, 819.75},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"7d1b1bb4-7d78-1240-a218-d25f29315c4e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[1460, 33, 252, 5, 50, "Code",ExpressionUUID->"9197e10c-5edc-a54d-ad7a-050766673a01"],
+Cell[1715, 40, 210, 3, 50, "Code",ExpressionUUID->"a49e973f-7c30-5e43-a87b-7a2476744ca4"],
+Cell[1928, 45, 289, 6, 50, "Code",ExpressionUUID->"c4d228bf-4169-a143-b44f-80eb37e630cd"],
+Cell[2220, 53, 285, 6, 50, "Code",ExpressionUUID->"4b4b26aa-9eb3-ed46-b8b8-113a9fe12ebb"],
+Cell[2508, 61, 329, 7, 50, "Code",ExpressionUUID->"dbab0bda-77ab-0042-945c-9c80a76a63a0"],
+Cell[2840, 70, 315, 7, 50, "Code",ExpressionUUID->"f1f2fbfd-e10d-ed41-8417-93b0baaf512d"],
+Cell[3158, 79, 480, 12, 50, "Code",ExpressionUUID->"133825e2-af3e-734e-82c4-80332d8a6690"],
+Cell[3641, 93, 292, 6, 50, "Code",ExpressionUUID->"b5a731e2-9120-3e41-83ec-f70a2bb78e10"],
+Cell[CellGroupData[{
+Cell[3958, 103, 1039, 26, 102, "Code",ExpressionUUID->"745d1e9b-f5e3-bc4e-a63c-3103ece2fb11"],
+Cell[5000, 131, 335, 5, 35, "Output",ExpressionUUID->"26a11cf9-fd91-514e-b707-b1d6123fa31d"]
+}, Open  ]],
+Cell[5350, 139, 585, 14, 67, "Code",ExpressionUUID->"a7c44c24-ed7c-ba4f-9ab7-e84d021bba0e"],
+Cell[CellGroupData[{
+Cell[5960, 157, 495, 13, 50, "Code",ExpressionUUID->"0588704d-e557-1541-9a31-c2fca88019f3"],
+Cell[6458, 172, 271, 3, 32, "Output",ExpressionUUID->"b8dc18c1-b79e-994f-874b-072a65290484"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6766, 180, 422, 9, 56, "Code",ExpressionUUID->"ed6c9dc0-03ac-2c44-a4b6-257bd232ff58"],
+Cell[7191, 191, 417, 9, 36, "Output",ExpressionUUID->"af486811-9eea-434b-bc5b-ff38a45ac4b3"]
+}, Open  ]]
+}
+]
+*)
+

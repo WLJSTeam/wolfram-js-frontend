@@ -1,0 +1,46 @@
+<|"Notebook" -> <|"Controller" -> "081db558-d8dd-4752-a0ad-01e6d09915c3", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$203], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "51b7ccf3-0fa3-44d3-8d6d-eab3fc2b1395", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Dynamics and \
+interactivity/B - Mouse position.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, "TOC" -> {}|>, 
+ "Cells" -> {<|"Data" -> "ClearAll[generate];\ngenerate[xy_, symbol_] := \
+With[{dir = 0.05 Normalize[xy]},\n  symbol = (Table[W[{{i,j}, {i,j} + dir / \
+((*SpB[*)Power[Norm[{i,j}-xy](*|*),(*|*)2](*]SpB*) + 0.1)}], {i, -1,1,0.2}, \
+{j, -1,1,0.2}] // Flatten) /. {W -> Identity}\n];\n\nSetAttributes[generate, \
+HoldRest]", "Display" -> "codemirror", 
+    "Hash" -> "36595f88-ca41-45aa-99bc-103fdfb2fa7b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, "init" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ad52f9ac-d428-4199-8062-eab60d37aa63"|>, 
+   <|"Data" -> ".md\nTrack mouse position using white rectangle", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f41a6e64-0d81-4fa2-ad38-79ea376cd7fd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ad52f9ac-d428-4199-8062-eab60d37aa63"|>, 
+   <|"Data" -> "Track mouse position using white rectangle", 
+    "Display" -> "markdown", "Hash" -> 
+     "3312d489-9fff-49fc-9936-dc4b16b2a405", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "ad52f9ac-d428-4199-8062-eab60d37aa63"|>, 
+   <|"Data" -> "Module[{lines}, \n  generate[{0,0}, lines];\n  \
+Graphics[{\n\tWhite,\n\tEventHandler[\n\t\tRectangle[{-2,-2}, \
+{2,2}],\n\t\t{\"mousemove\"->Function[xy, generate[xy, \
+lines]]}\n\t],\n\tBlack,\n   Line[lines // Offload]\n  }, \
+\"TransitionDuration\"->270, \"TransitionType\"->\"Linear\", \
+PlotRange->{{-1,1}, {-1,1}}]\n]", "Display" -> "codemirror", 
+    "Hash" -> "c80d747a-2222-4a23-8910-ac36858c0110", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, 
+      "projected" -> False|>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "ad52f9ac-d428-4199-8062-eab60d37aa63"|>, 
+   <|"Data" -> "", "Display" -> "codemirror", 
+    "Hash" -> "2d882b7f-7970-430d-8d48-338dbf76661a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "ad52f9ac-d428-4199-8062-eab60d37aa63"|>}, 
+ "serializer" -> "jsfn4"|>

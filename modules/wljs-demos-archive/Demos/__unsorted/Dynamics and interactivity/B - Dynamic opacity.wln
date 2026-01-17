@@ -1,0 +1,43 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$401], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/Demos/05 - Interaction/Dynamic opacity.wln"|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n## Dynamic opacity\nA small demo on `Opacity`", 
+    "Display" -> "codemirror", "Hash" -> 
+     "121076fd-ae3b-47af-ba3d-2631d49772cd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "e7b05803-8025-46c0-b138-f9ffa6a02bf9"|>, 
+   <|"Data" -> "## Dynamic opacity\nA small demo on `Opacity`", 
+    "Display" -> "markdown", "Hash" -> 
+     "4ad0b219-378a-4b64-917c-e1950ce17e97", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "e7b05803-8025-46c0-b138-f9ffa6a02bf9"|>, 
+   <|"Data" -> "opacity = 0.5;\nGraphics[{Opacity[Offload[opacity]], Red, \
+Disk[{0,0}, 1], Blue, Opacity[Offload[1.0 - opacity]], Disk[{0,0}, \
+1]}]\n\nEventHandler[InputRange[0,1,0.1], Function[value,\n\topacity = \
+value;\n]]", "Display" -> "codemirror", 
+    "Hash" -> "90b9b578-af83-425c-9a54-0314bbb78ba4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "e7b05803-8025-46c0-b138-f9ffa6a02bf9"|>, 
+   <|"Data" -> ".md\nOpacity and radius", "Display" -> "codemirror", 
+    "Hash" -> "61e20c25-a253-492e-95d4-150cb0ce09b5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "e7b05803-8025-46c0-b138-f9ffa6a02bf9"|>, 
+   <|"Data" -> "Opacity and radius", "Display" -> "markdown", 
+    "Hash" -> "1567bb3e-ab06-4057-a003-bccb8f982020", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "e7b05803-8025-46c0-b138-f9ffa6a02bf9"|>, 
+   <|"Data" -> "opacity = 0.5;\nGraphics[{Opacity[Offload[opacity]], Red, \
+Disk[{0,0}, Offload[1-opacity]], Blue, Opacity[Offload[1.0 - opacity]], \
+Disk[{0,0}, Offload[opacity]]}, \
+ImagePadding->None]\n\nEventHandler[InputRange[0,1,0.1], \
+Function[value,\n\topacity = value;\n]]", "Display" -> "codemirror", 
+    "Hash" -> "6deebbd6-f489-44d0-8362-b54c4d119cb6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "e7b05803-8025-46c0-b138-f9ffa6a02bf9"|>}, "serializer" -> "jsfn4"|>

@@ -25,7 +25,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         Echo[k];
     )
 
-    wljsPackages = FileNameJoin[{Directory[], "wljs_packages"}];
+    wljsPackages = FileNameJoin[{Directory[], "modules"}];
 
 
     handler["GET"][request_] := With[{

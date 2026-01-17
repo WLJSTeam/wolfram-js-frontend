@@ -1,0 +1,198 @@
+<|"Notebook" -> <|"Controller" -> "865c4b63-dcf1-4911-9c0b-a1f215cfe1c5", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$4279], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "3f7298f0-f0ed-4532-bd72-06971a89a825", 
+   "Objects" -> <|"7eb5fbd3-a868-4599-8329-c6db7bf331e7" -> 
+      <|"Public" -> Hold[Graphics[{RGBColor[1, 0, 0], PointSize[0.05], 
+           Point[Offload[pt]]}, PlotRange -> {{-1, 1}, {-1, 1}}]]|>, 
+     "7e6e802e-27b9-4fe8-820b-4d02281760fe" -> 
+      <|"Public" -> Hold[{HTMLView["<div class=\"flex border shadow-inner \
+rounded-md align-center justify-center\" style=\"\n       width: 3rem;\n      \
+ height: 3rem;\n       overflow: hidden;\n       position: relative;\n       \
+border: 1px solid #999;\n       box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / \
+0.05);\n       \"><div id=\"#instanceId\" class=\"relative mt-auto mb-auto \
+flex h-6 w-6 flex-none items-center justify-center\"><div class=\"h-3 w-3 \
+z-inf rounded-full hover:bg-sky-100 bg-gray-100 ring-1 \
+ring-gray-300\"></div><div class=\"mt-auto mb-auto absolute top-0 bottom-0 \
+flex w-6 justify-center\" style=\"\n             height: 5rem;\n             \
+\"><div class=\"w-px bg-gray-200\"></div></div><div class=\"mt-auto mb-auto \
+absolute top-0 bottom-0 flex w-6 justify-center\" style=\"\n             \
+width: 5rem;\n             height: 1px;\n             \"><div class=\"h-px \
+bg-gray-200\" style=\"\n                height: 1px;\n                width: \
+100%;\n                \"></div></div></div><script type=\"module\"> const \
+doc = document.getElementById('#instanceId');\n\n            const self = \
+{};\n\n\t        function makeJoystickController( stick, maxDistance, \
+deadzone ){\n\t        \t//self.id = stickID;\n\t        \t\n\n\t        \t// \
+location from which drag begins, used to calculate offsets\n\t        \
+\tself.dragStart = null;\n\n\t        \t// track touch identifier in case \
+multiple joysticks present\n\t        \tself.touchId = null;\n\n\t        \
+\tself.active = false;\n\t        \tself.value = { x: 0, y: 0 };\n\n\n\n      \
+          \tfunction handleDown(event)\n                \t{\n                \
+\t    self.active = true;\n                    \n                \t\t// all \
+drag movements are instantaneous\n                \t\tstick.style.transition \
+= '0s';\n                    \n                \t\t// touch event fired \
+before mouse event; prevent redundant mouse event from firing\n               \
+ \t\tevent.preventDefault();\n                    \n                \t    if \
+(event.changedTouches)\n                \t    \tself.dragStart = { x: \
+event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };\n      \
+          \t    else\n                \t    \tself.dragStart = { x: \
+event.clientX, y: event.clientY };\n                    \n                \
+\t\t// if this is a touch event, keep track of which one\n                \t  \
+  if (event.changedTouches)\n                \t    \tself.touchId = \
+event.changedTouches[0].identifier;\n                \t}\n\n    \t\t        \
+function handleMove(event)\n    \t\t        {\n    \t\t            if ( \
+!self.active ) return;\n                    \n    \t\t            // if this \
+is a touch event, make sure it is the right one\n    \t\t            // also \
+handle multiple simultaneous touchmove events\n    \t\t            let \
+touchmoveId = null;\n    \t\t            if (event.changedTouches)\n    \t\t  \
+          {\n    \t\t            \tfor (let i = 0; i < \
+event.changedTouches.length; i++)\n    \t\t            \t{\n    \t\t          \
+  \t\tif (self.touchId == event.changedTouches[i].identifier)\n    \t\t       \
+     \t\t{\n    \t\t            \t\t\ttouchmoveId = i;\n    \t\t            \
+\t\t\tevent.clientX = event.changedTouches[i].clientX;\n    \t\t            \
+\t\t\tevent.clientY = event.changedTouches[i].clientY;\n    \t\t            \
+\t\t}\n    \t\t            \t}\n                        \n    \t\t            \
+\tif (touchmoveId == null) return;\n    \t\t            }\n                   \
+ \n    \t\t            const xDiff = event.clientX - self.dragStart.x;\n    \
+\t\t            const yDiff = event.clientY - self.dragStart.y;\n    \t\t     \
+       const angle = Math.atan2(yDiff, xDiff);\n    \t\t        \tconst \
+distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));\n    \t\t        \
+\tconst xPosition = distance * Math.cos(angle);\n    \t\t        \tconst \
+yPosition = distance * Math.sin(angle);\n                    \n    \t\t       \
+ \t// move stick image to new position\n    \t\t            \
+stick.style.transform = `translate3d(${xPosition}px, ${yPosition}px, 0px)`;\n \
+                   \n    \t\t        \t// deadzone adjustment\n    \t\t       \
+ \tconst distance2 = (distance < deadzone) ? 0 : maxDistance / (maxDistance - \
+deadzone) * (distance - deadzone);\n    \t\t            const xPosition2 = \
+distance2 * Math.cos(angle);\n    \t\t        \tconst yPosition2 = distance2 \
+* Math.sin(angle);\n    \t\t            const xPercent = \
+parseFloat((xPosition2 / maxDistance).toFixed(4));\n    \t\t            const \
+yPercent = parseFloat((yPosition2 / maxDistance).toFixed(4));\n               \
+     \n    \t\t            self.value = { x: xPercent, y: yPercent };\n       \
+                 \
+server.kernel.io.fire('9be6a10f-e894-4bd5-b4a8-0e03cefa0048', [xPercent, \
+-yPercent]);\n    \t\t          }\n                  \n    \t\t        \
+function handleUp(event)\n    \t\t        {\n    \t\t            if ( \
+!self.active ) return;\n                    \n    \t\t            // if this \
+is a touch event, make sure it is the right one\n    \t\t            if \
+(event.changedTouches && self.touchId != event.changedTouches[0].identifier) \
+return;\n                    \n    \t\t            // transition the joystick \
+position back to center\n    \t\t            stick.style.transition = \
+'.2s';\n    \t\t            stick.style.transform = `translate3d(0px, 0px, \
+0px)`;\n                    \n    \t\t            // reset everything\n    \
+\t\t            self.value = { x: 0, y: 0 };\n                        \
+server.kernel.io.fire('9be6a10f-e894-4bd5-b4a8-0e03cefa0048', [0,0]);\n    \
+\t\t            self.touchId = null;\n    \t\t            self.active = \
+false;\n    \t\t        }\n                \n    \t\t        \
+stick.addEventListener('mousedown', handleDown);\n    \t\t        \
+stick.addEventListener('touchstart', handleDown);\n    \t\t        \
+document.addEventListener('mousemove', handleMove, {passive: false});\n    \
+\t\t        document.addEventListener('touchmove', handleMove, {passive: \
+false});\n    \t\t        document.addEventListener('mouseup', handleUp);\n   \
+ \t\t        document.addEventListener('touchend', handleUp);\n\n             \
+       core.InternalWLXDestructor['9be6a10f-e894-4bd5-b4a8-0e03cefa0048'] = \
+(env) => {\n                        document.removeEventListener('mousemove', \
+handleMove, {passive: false});\n                        \
+document.removeEventListener('touchmove', handleMove, {passive: false});\n    \
+                    document.removeEventListener('mouseup', handleUp);\n      \
+                  document.removeEventListener('touchend', handleUp);   \n    \
+                    console.warn('Joystick was removed');                     \
+\n                    };\n    \t        }    \n\n            \
+makeJoystickController(doc, 18, 3);</script></div>", Prolog -> 
+            CoffeeLiqueur`Extensions`InputsOutputs`Tools`TemplateProcessor[
+             Association["instanceId" -> CreateUUID[]]]], 
+          CoffeeLiqueur`Extensions`InputsOutputs`Private`InternalWLXDestructo\
+r["9be6a10f-e894-4bd5-b4a8-0e03cefa0048"]}]|>|>, "Path" -> "/Users/kirill/Git\
+hub/wljs-demos-archive/Demos/GUI building blocks/A - Joystick.wln", 
+   "PublicFields" -> {"Properties"}, "ReadOnly" -> True, 
+   "Symbols" -> 
+    <|"pt" -> CoffeeLiqueur`Extensions`FrontendObject`Tools`ExtractJSON[
+       "JTVCMC4wNTA3NzY5OTk5OTk5OTk5NzUlMkMwLjA3OTk4NDk5OTk5OTk5OTk5JTVE"]|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Joystick demo", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4273]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n## Joystick demo\nA demo for a new input element", 
+    "Display" -> "codemirror", "Hash" -> 
+     "411878bc-1a59-4893-a0c0-6595269b0d4b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "## Joystick demo\nA demo for a new input element", 
+    "Display" -> "markdown", "Hash" -> 
+     "c01b811d-3b56-4cb1-a0c7-50845de90b03", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> ".md\nMake joystick using helper functions", 
+    "Display" -> "codemirror", "Hash" -> 
+     "98209231-5692-4b47-9d94-7acc1c75e828", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "Make joystick using helper functions", 
+    "Display" -> "markdown", "Hash" -> 
+     "d57c04af-6d3e-4161-926d-5b9814e9d769", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "pt = {0.,0.};\n\nhandler = \
+InputJoystick`IntegrationHelper[][Function[xy, \n  pt = \
+xy\n]];\n\nEventHandler[InputJoystick[], handler]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a715a0eb-a06a-4923-a0e5-4a6c4617b3a3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "(*VB[*)(EventObject[<|\"Id\" -> \
+\"9be6a10f-e894-4bd5-b4a8-0e03cefa0048\", \"Initial\" -> {0, 0}, \"View\" -> \
+\"7e6e802e-27b9-4fe8-820b-4d02281760fe\"|>])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHv\
+k5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKm6eapVoYGKXqGpknWeqapKVa6FoYGSTpmqQYGBl\
+ZGJqbGaSlAgCAeRVN\"*)(*]VB*)", "Display" -> "codemirror", 
+    "Hash" -> "f271c82d-634c-45f1-aef7-0260a0a837b0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> ".md\ndynamic plot", "Display" -> "codemirror", 
+    "Hash" -> "d3902adf-a5a6-4821-ab74-9577ba03807f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "dynamic plot", "Display" -> "markdown", 
+    "Hash" -> "57e09408-e833-48f9-a309-b2f060352b24", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "Graphics[\n  {Red, PointSize[0.05], Point[pt // Offload]}\n  \
+, PlotRange->{{-1,1}, {-1,1}}\n]", "Display" -> "codemirror", 
+    "Hash" -> "dd6dd93c-5e8e-47db-980c-569ab6b20cff", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "(*VB[*)(Graphics[{RGBColor[1, 0, 0], PointSize[0.05], \
+Point[Offload[pt]]}, PlotRange -> {{-1, 1}, {-1, \
+1}}])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KWlMIB4HkHAvSizIyEwuTmOGyftkFpdAeCD5I\
+Hcn5/yc/KJMkP5MBhgBMY4TSATkZ+aVBGdWpRbNmgkCK+0hcqwwOQiXHUj4p6Xl5CemFIMsLyiBuA\
+FkY1BpTirErJz8kqDEvPRUhBzYNSi8zP9AAHYOLnEAGKY4GQ==\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "58c712b6-e8bc-4409-8d4c-08cbb4ab0951", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "4de81738-df89-433e-9949-8c459b90abdc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "", "Display" -> "codemirror", 
+    "Hash" -> "53b22421-de3e-4c5b-ac10-6c30d9db24c9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>, 
+   <|"Data" -> "", "Display" -> "codemirror", 
+    "Hash" -> "15d1841c-a860-4d74-ba07-1fbef7ba75b4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "80100f7b-a843-4957-a62a-194a85c53771"|>}, 
+ "serializer" -> "jsfn4"|>

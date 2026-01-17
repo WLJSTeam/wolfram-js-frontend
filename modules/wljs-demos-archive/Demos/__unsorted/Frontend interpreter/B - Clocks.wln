@@ -1,0 +1,86 @@
+<|"Notebook" -> <|"Controller" -> "09f4fff4-103d-468f-becc-6f786f80b3e4", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$349], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "40d2f0a8-98ef-4060-93f2-b8e7ea8082a2", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wljs-demos-archive/Demos/Frontend \
+interpreter/B - Clocks.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, "TOC" -> {}|>, 
+ "Cells" -> {<|"Data" -> ".js\ncore.PlaceholderClock = async (args, env) => \
+{\n\t//store the handler object in the local memory\n\tenv.local.start = new \
+Date();\n\tenv.local.clock = setInterval(()=>{\n\t\tconst d = (new Date() - \
+env.local.start);\n\t\tenv.element.innerText = d;\n\t}, 30);\n}\n//when our \
+instance is about to be destoryed - clear \
+timer\ncore.PlaceholderClock.destroy = (args, env) => \
+{\n\twindow.clearInterval(env.local.clock);\n\tconst passed = (new Date() - \
+env.local.start);\n\talert(passed+' \
+passed');\n}\n\ncore.PlaceholderClock.virtual = true ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8f6246dd-b5ad-4fde-af53-d66a958b8d99", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> "core.PlaceholderClock = async (args, env) => {\n\t//store the \
+handler object in the local memory\n\tenv.local.start = new \
+Date();\n\tenv.local.clock = setInterval(()=>{\n\t\tconst d = (new Date() - \
+env.local.start);\n\t\tenv.element.innerText = d;\n\t}, 30);\n}\n//when our \
+instance is about to be destoryed - clear \
+timer\ncore.PlaceholderClock.destroy = (args, env) => \
+{\n\twindow.clearInterval(env.local.clock);\n\tconst passed = (new Date() - \
+env.local.start);\n\talert(passed+' \
+passed');\n}\n\ncore.PlaceholderClock.virtual = true ", "Display" -> "js", 
+    "Hash" -> "3f972eef-e526-4a57-8840-d3766b036283", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> ".md\nDefine output form", "Display" -> "codemirror", 
+    "Hash" -> "b5e5b24a-fcde-4c11-a2ca-a9d2dfabbae3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> "Define output form", "Display" -> "markdown", 
+    "Hash" -> "3e5adb68-ed0f-4e42-9596-7b554a31c93d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> "PlaceholderClock /: MakeBoxes[p_PlaceholderClock, \
+StandardForm] := ViewBox[p,p]", "Display" -> "codemirror", 
+    "Hash" -> "0a22fd09-d47f-4e86-9069-ee94903c8fed", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> ".md\nCreate an instance", "Display" -> "codemirror", 
+    "Hash" -> "5b84cbc3-6e4d-4ec4-82b5-42adff373607", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> "Create an instance", "Display" -> "markdown", 
+    "Hash" -> "40cefbdd-c16e-4ecd-959f-1fb1a3c5dd35", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> "PlaceholderClock[]", "Display" -> "codemirror", 
+    "Hash" -> "ad4d0afd-0fe1-4566-abdc-67fabaf193df", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> "(*VB[*)(PlaceholderClock[])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk\
+5KWkMIJ4AkAjISUxOzQAKpRY55+QnZwMAy3MK4g==\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "983a01d6-38de-49b8-a21d-d8a817e43b42", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> ".md\nTry to copy this object from the output cell and paste \
+somewhere else!", "Display" -> "codemirror", 
+    "Hash" -> "00252a0d-260a-42f5-9761-8aec27820ab8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>, 
+   <|"Data" -> 
+     "Try to copy this object from the output cell and paste somewhere else!"\
+, "Display" -> "markdown", "Hash" -> "0fafd09a-08cd-46c5-b98d-6666f428c7fc", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "09b0233a-8ccf-44de-a41c-7693f8adc861"|>}, 
+ "serializer" -> "jsfn4"|>

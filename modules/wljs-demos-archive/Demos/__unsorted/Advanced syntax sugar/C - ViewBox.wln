@@ -1,0 +1,137 @@
+<|"Notebook" -> <|"Controller" -> "c1d05566-1281-42a1-9bb2-1595a4045557", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1249], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "8d10e7dc-543b-47d8-a997-061a8f734a56", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Advanced syntax \
+sugar/C - ViewBox.wln", "PublicFields" -> {"Properties"}, "ReadOnly" -> True, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      2, "Simple ViewBox Example", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1244]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Simple ViewBox Example\n*A low-level access \
+to the expression's representation*\n\n:::warning\nThis is a feature specific \
+to WLJS Notebooks and is not compatible with Wolfram Mathematica. Use \
+`Interpretation` or `InterpretationBox` if you want to make it compatible \
+with Mathematica.\n:::\n\nIn fact, `Interpretation` and `InterpretationBox` \
+are just wrappers over `ViewBox`. \n\nPlease consider that `ViewBox` executes \
+your display expressions directly in the frontend environment (WLJS \
+Interpreter)", "Display" -> "codemirror", 
+    "Hash" -> "0fc84a2f-afed-418b-ad26-243ad0a4a666", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "## Simple ViewBox Example\n*A low-level access to the \
+expression's representation*\n\n:::warning\nThis is a feature specific to \
+WLJS Notebooks and is not compatible with Wolfram Mathematica. Use \
+`Interpretation` or `InterpretationBox` if you want to make it compatible \
+with Mathematica.\n:::\n\nIn fact, `Interpretation` and `InterpretationBox` \
+are just wrappers over `ViewBox`. \n\nPlease consider that `ViewBox` executes \
+your display expressions directly in the frontend environment (WLJS \
+Interpreter)", "Display" -> "markdown", 
+    "Hash" -> "21a9e93a-d7be-496d-9e2c-8ec8a75fd292", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> ".wlx\n\n<style>\n@keyframes sym-rotate {\n    from { \
+transform: rotate(0deg); }\n    to { transform: rotate(360deg); \
+}\n}\n</style>", "Display" -> "codemirror", 
+    "Hash" -> "10cfd35b-454e-4227-8ba4-706f487c7c51", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "<style >@keyframes sym-rotate {\n    from { transform: \
+rotate(0deg); }\n    to { transform: rotate(360deg); }\n}</style>", 
+    "Display" -> "wlx", "Hash" -> "5ca39c05-bbb7-40f7-868e-4a8fa637a098", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> ".js\ncore.customDecorator = async (args, env) => {\n    const \
+state = await interpretate(args[0], env);\n    const element = \
+env.element;\n\n    element.classList.add('flex', 'rounded-md', 'p-2');\n    \
+element.style.border = \"1px solid #999\";\n    element.style.boxShadow = \
+\"inset 0 2px 4px 0 rgb(1 1 1 / 0.05)\";\n\n    element.style.animation = \
+'sym-rotate 2s linear infinite';\n\n    element.innerText = state;\n}", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a533d1b6-ea7f-4641-a9b6-7aafec213741", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "core.customDecorator = async (args, env) => {\n    const \
+state = await interpretate(args[0], env);\n    const element = \
+env.element;\n\n    element.classList.add('flex', 'rounded-md', 'p-2');\n    \
+element.style.border = \"1px solid #999\";\n    element.style.boxShadow = \
+\"inset 0 2px 4px 0 rgb(1 1 1 / 0.05)\";\n\n    element.style.animation = \
+'sym-rotate 2s linear infinite';\n\n    element.innerText = state;\n}", 
+    "Display" -> "js", "Hash" -> "d8af09b2-7320-4421-af95-6df04190cf2e", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> ".md\nNow it comes to our standard form", 
+    "Display" -> "codemirror", "Hash" -> 
+     "d1cb8ebd-a619-41f8-add6-6ed3be2af4c8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "Now it comes to our standard form", "Display" -> "markdown", 
+    "Hash" -> "68c1806e-940a-4b79-9376-5d925e237e0a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "boxObject /: MakeBoxes[boxObject[s_], StandardForm] := \
+With[{},\n  ViewBox[boxObject[s], customDecorator[s] ]\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "9e5c7f82-8430-4f0c-a0f3-8f32e1723c4f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> ".md\nAnd test it!", "Display" -> "codemirror", 
+    "Hash" -> "54569c9c-c3f4-4c5b-bc63-1822fa436ea2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "And test it!", "Display" -> "markdown", 
+    "Hash" -> "2ec411a7-dfb4-462a-9ff4-4051d05f0e65", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "boxObject[3] + boxObject[2]", "Display" -> "codemirror", 
+    "Hash" -> "80842f68-245b-4382-93ac-daf8f8c96262", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "(*VB[*)(boxObject[2])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRAeP\
+5BILi0uyc91SU3OL0osyS/KZAKKAQD7ygs8\"*)(*]VB*)+(*VB[*)(boxObject[3])(*,*)(*\"\
+1:eJxTTMoPSmNkYGAoZgESHvk5KRAeP5BILi0uyc91SU3OL0osyS/KZAaKAQD7zgs9\"*)(*]VB*)\
+", "Display" -> "codemirror", "Hash" -> 
+     "07be4c72-aff1-4eaf-836d-d3cbbb4481c1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> ".md\nReveal an input form", "Display" -> "codemirror", 
+    "Hash" -> "671900b8-0b17-43ac-b328-c6362160295f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "Reveal an input form", "Display" -> "markdown", 
+    "Hash" -> "261935ff-6e85-448e-b975-7f285af02ebb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "(*VB[*)(boxObject[3])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRAeP\
+5BILi0uyc91SU3OL0osyS/KZAaKAQD7zgs9\"*)(*]VB*) // InputForm ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "aefff230-8e7c-4a66-bb89-033ff095d796", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>, 
+   <|"Data" -> "(*VB[*)(InputForm[boxObject[3]])(*,*)(*\"1:eJwljs1ugkAYRUnjou\
+lb6ArGbogxISYuIIotBKnzMdjRuBhwpOOMjH8E6dv0TYu6Obn3bO7tZhrvXgzDuLy1mG7FVZ9TwWv\
+4a6uJPG+NLDPTtzjb8/y6HmwsE723CvXsEQ9uSRLpLzjMBZ25elhEUMMyjZmsTnk5xFSqPiGLHNNi\
+mgKTtr64KlzI1OHffkgOq11VBj5VwU8u1ZFMfIqJAiZOjM+cfR069hzEoEngN8SimLhR0Xzoz3Hvv\
+r/xPGQ9n3da4EpxeL0HzrZxqZqHTc4V/wfn7kME\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "75988b8d-6e73-4d25-bad4-2796b356c6d8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "b3dffecb-21a6-4ae9-82bd-73707e5ead15"|>}, 
+ "serializer" -> "jsfn4"|>

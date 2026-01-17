@@ -1,0 +1,42 @@
+{
+  "name": "d3-arrow",
+  "version": "0.0.25",
+  "description": "Attach arrowheads to SVG elements.",
+  "keywords": [
+    "d3",
+    "d3-module",
+    "arrow",
+    "arrowhead"
+  ],
+  "scripts": {
+    "pretest": "rm -rf dist && mkdir dist && rollup -c --banner \"$(preamble)\"",
+    "test": "tape 'test/**/*-test.js'",
+    "prepublish": "npm run test && uglifyjs dist/d3-arrow.js -c -m -o dist/d3-arrow.min.js",
+    "postpublish": "zip -j dist/d3-arrow.zip -- LICENSE README.md dist/d3-arrow.js dist/d3-arrow.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HarryStevens/d3-arrow.git"
+  },
+  "author": {
+    "name": "Harry Stevens",
+    "url": "http://harryjstevens.com/"
+  },
+  "main": "dist/d3-arrow.js",
+  "module": "index",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/HarryStevens/d3-arrow/issues"
+  },
+  "homepage": "https://github.com/HarryStevens/d3-arrow#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "babel": "^6.23.0",
+    "package-preamble": "^0.1.0",
+    "rollup": "^1.32.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "tape": "^4.13.3",
+    "uglify-js": "^2.8.29"
+  }
+}

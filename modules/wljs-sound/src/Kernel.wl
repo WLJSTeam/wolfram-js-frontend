@@ -1,0 +1,236 @@
+BeginPackage["CoffeeLiqueur`Extensions`Sound`", {
+    "JerryI`Misc`Language`",
+    "JerryI`Misc`Events`",
+    "JerryI`Misc`Events`Promise`",
+    "JerryI`Misc`WLJS`Transport`",
+	"CoffeeLiqueur`Extensions`Communication`",
+    "CoffeeLiqueur`Extensions`FrontendObject`",
+    "CoffeeLiqueur`Extensions`MetaMarkers`"    
+}]
+
+PCMPlayer::usage = "PCMPlayer[data_Offload, type_String, opts___] creates a streaming PCM player"
+
+System`AudioWrapperBox;
+System`AudioWrapper;
+
+Unprotect[EmitSound]
+ClearAll[EmitSound]
+
+Unprotect[Audio`AudioGUIDump`audioBoxes]
+Unprotect[Audio]
+ClearAll[Audio`AudioGUIDump`audioBoxes]
+
+
+Begin["`Internal`"]
+
+
+EmitSound[s_Sound, opts: OptionsPattern[] ] := With[{},
+    FrontSubmit[s, opts]
+]
+
+EmitSound[s_Audio, opts: OptionsPattern[] ] := With[{},
+    FrontSubmit[PCMPlayer[s, "AutoRemove"->True, "GUI"->False], opts]
+]
+
+Options[EmitSound] = {"Window" :> CurrentWindow[]}
+
+Unprotect[SoundNote]
+SoundNote[] := SoundNote[12];
+Protect[SoundNote]
+
+Unprotect[Speak]
+ClearAll[Speak]
+
+Speak[expr_, opts:OptionsPattern[] ] := EmitSound[SpeechSynthesize[SpokenString[expr], GeneratedAssetLocation -> None], opts]
+Speak[expr_String, opts:OptionsPattern[] ] := EmitSound[SpeechSynthesize[expr, GeneratedAssetLocation -> None], opts]
+
+
+Options[Speak] = Options[EmitSound]
+
+FormatValues[Audio] = {};
+
+Unprotect[Audio]
+
+Audio /: Audio`AudioGUIDump`audioBoxes[a_Audio, audioID_ , appearance_, form_] := AudioWrapperBox[a, form]
+
+
+Unprotect[Sound`soundDisplay]
+ClearAll[Sound`soundDisplay]
+Unprotect[System`Dump`soundDisplay]
+ClearAll[System`Dump`soundDisplay]
+System`Dump`soundDisplay[s_]:=$Failed 
+Sound`soundDisplay[s_] := $Failed 
+
+Unprotect[Sound]
+
+Sound /: MakeBoxes[s_Sound, form: StandardForm] := With[{
+  o = CreateFrontEndObject[s]
+},
+  If[ByteCount[s] < 1024,
+    ViewBox[s, o]
+  ,
+    MakeBoxes[o, form]
+  ]
+  
+]
+
+System`WLXForm;
+
+Unprotect[Sound]
+Sound /: MakeBoxes[s_Sound, WLXForm] := With[{o = CreateFrontEndObject[s]},
+  MakeBoxes[o, WLXForm]
+]
+
+(* force sampling *)
+Unprotect[Sound]
+Sound[SampledSoundFunction[CompiledFunction[__, f_Function, _], time_, rate_] ] := Sound[SampledSoundList[Table[f[i], {i, time}], rate] ]
+
+Unprotect[Audio]
+FormatValues[Audio] = {};
+Audio /: MakeBoxes[s_Audio, form : WLXForm | StandardForm] := With[{},
+  AudioWrapperBox[s, form]
+]
+
+
+extractChannelTyped[a_Audio, type_] := If[AudioChannels[a] > 1,
+    AudioData[AudioChannelMix[a, "Mono"], type] // First
+,
+    AudioData[a, type] // First
+]
+
+PCMPlayer[a_Audio, opts:OptionsPattern[] ] := With[{info = Information[a]},
+    If[MemberQ[{"Real32", "Real64"}, info["DataType"] ],
+        PCMPlayer[extractChannelTyped[a, "SignedInteger16"], "SignedInteger16", SampleRate -> QuantityMagnitude[ info["SampleRate"] ], opts ]
+    ,
+        PCMPlayer[extractChannelTyped[a, info["DataType"] ], info["DataType"], SampleRate -> QuantityMagnitude[ info["SampleRate"] ], opts ]
+    ]
+]
+
+PCMPlayer /: MakeBoxes[p_PCMPlayer, StandardForm] := With[{o = CreateFrontEndObject[p]},
+    MakeBoxes[o, StandardForm]
+]
+
+PCMPlayer /: MakeBoxes[p_PCMPlayer, WLXForm] := With[{o = CreateFrontEndObject[p]},
+    MakeBoxes[o, WLXForm]
+]
+
+Options[PCMPlayer] = {
+    "AutoPlay" -> True,
+    "Event" -> Null,
+    SampleRate -> 44100,
+    "GUI" -> True,
+    "TimeAhead" -> 200,
+    "AutoRemove" -> False,
+    "FullLength" -> False
+}
+
+If[!ListQ[garbage], garbage = {}];
+
+
+If[!ListQ[audioDumpTemporal], audioDumpTemporal = {}];
+
+AudioWrapperBox[a_Audio, StandardForm] := With[{
+    options = <|SampleRate -> QuantityMagnitude[ Information[a]["SampleRate"] ] |>,
+    data = extractChannelTyped[a, "SignedInteger16"],
+    uid = CreateUUID[]
+},
+
+    If[ByteCount[data] > Internal`Kernel`$FrontEndObjectSizeLimit 1024 1024 / 8.0,
+        LeakyModule[{
+            bigBuffer, index = 1, buffer, paused = False
+        },
+            AppendTo[garbage, Hold[buffer] ];
+            AppendTo[garbage, Hold[bigBuffer] ];
+
+            bigBuffer = NumericArray[data, "SignedInteger16"];
+
+            ClearAttributes[bigBuffer, Temporary];
+            ClearAttributes[buffer, Temporary];
+            
+            buffer = {};
+
+            EventHandler[uid, {
+                
+                "More" -> Function[Null, 
+                    If[paused, Return[] ];
+                
+                    With[{
+                        newIndex = Min[index + 3 1024, Length[bigBuffer] ],
+                        from = index,
+                        to = Min[Length[bigBuffer], index + 3 1024 - 1]
+                    },
+                        buffer = bigBuffer[[from ;; to]];
+                        If[index == newIndex, 
+                            paused = True;
+                            index = 1;
+                            Return[];
+                        ];
+                        index = newIndex;
+                    ]
+                ],
+            
+                "Stop" -> Function[Null,
+                    index = 1;
+                    paused = True;
+                ],
+
+                "Pause" -> Function[Null,
+                    paused = True;
+                ],
+
+                "Resume" -> Function[Null,
+                    paused = False;
+                    EventFire[uid, "More", True];
+                ],                
+
+                "Set" -> Function[position,
+                    index = Max[1, Floor[Length[bigBuffer] position ] ];
+                ]
+            }];
+
+
+            With[{o = PCMPlayer[buffer // Offload, {}, "SignedInteger16", "AutoPlay"->False, "DataOnKernel"->True, "Event"->uid, "FullLength"->Length[bigBuffer], SampleRate -> options[SampleRate] ]},
+                RowBox[{"(*VB[*)(Audio[", ToString[bigBuffer//Unevaluated, InputForm], ", \"SignedInteger16\", SampleRate->", ToString[options[SampleRate], InputForm],"])(*,*)(*", ToString[Compress[o], InputForm], "*)(*]VB*)"}]
+            ]
+        ]
+    ,
+
+        With[{},
+            Module[{},
+
+                        With[{virtualBuffer = CreateFrontEndObject[data] },
+                            With[{result = With[{o = CreateFrontEndObject[PCMPlayer[virtualBuffer, "SignedInteger16", "AutoPlay"->False, SampleRate -> options[SampleRate] ] ]},
+                                RowBox[{"(*VB[*)(Audio[FrontEndRef[", ToString[virtualBuffer//First, InputForm], "], \"SignedInteger16\", SampleRate->",ToString[options[SampleRate], InputForm ],"])(*,*)(*", ToString[Compress[Hold[o] ], InputForm], "*)(*]VB*)"}]
+                            ] },
+
+                                
+                                result
+                            ]    
+                        ]                
+                ]
+        
+        ]
+
+
+    ]
+]
+
+
+(* WL14 with no reason reloads the definitons of some symbols *)
+(* It breaks ANY FormatValues *)
+(* In this example to reproduce see issue https://github.com/WLJSTeam/wolfram-js-frontend/issues/396  *)
+
+If[Internal`Kernel`Watchdog["Enabled"],
+  With[{file = FileNameJoin[{$RemotePackageDirectory, "src", "Kernel.wl"}]},
+    Internal`Kernel`Watchdog["Assertion", "Audio",
+      FormatValues[Audio]//Hash
+    ,
+      Get[file]
+    ];
+  ]
+];
+
+
+End[]
+EndPackage[]
+

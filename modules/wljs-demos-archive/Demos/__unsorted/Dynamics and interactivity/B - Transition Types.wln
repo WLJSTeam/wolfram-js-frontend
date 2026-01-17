@@ -1,0 +1,45 @@
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$565], 
+   "Objects" -> <||>, "Path" -> 
+    "/users/kirill/Github/wolfram-js-frontend-dev/Examples/repress.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Transition types\nThe basics of animation", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ede014d7-c140-41b1-b05c-1a7149e46ece", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>, 
+   <|"Data" -> "## Transition types\nThe basics of animation", 
+    "Display" -> "markdown", "Hash" -> 
+     "e8bf1fab-5a06-45cf-872c-e0d35bc20666", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>, 
+   <|"Data" -> "object = {-1.,0.};\nGraphics[{\n\t{Directive[TransitionType \
+-> \"Linear\"], Disk[(object + {0,0.5}) // Offload, \
+0.2]},\n\t{Directive[TransitionType -> \"CubicInOut\"], Disk[(object - {0,0}) \
+// Offload, 0.2]},\n   {Directive[TransitionType -> None], Disk[(object - \
+{0,0.5}) // Offload, 0.2]}\n}, PlotRange->{{-1,1}, {-1,1.5}}, \
+\"TransitionDuration\"->500]", "Display" -> "codemirror", 
+    "Hash" -> "1feeabd2-592e-4c04-96cb-119e6543ce7a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>, 
+   <|"Data" -> ".md\nPerform the transition", "Display" -> "codemirror", 
+    "Hash" -> "e034c6e4-cc02-4d08-a723-fea5e43b6953", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>, 
+   <|"Data" -> "Perform the transition", "Display" -> "markdown", 
+    "Hash" -> "8d15e9ba-1da3-4510-bd2f-6389868099cf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>, <|"Data" -> "object = {1,0}", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2aae8b77-8f05-440f-ae87-da64abf55f23", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>, <|"Data" -> "{1,0}", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b1e0b609-08f7-40c8-9949-94ece24cb667", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "f8f20aaa-411d-434a-94f4-8ccca5b605c8"|>}, "serializer" -> "jsfn4"|>

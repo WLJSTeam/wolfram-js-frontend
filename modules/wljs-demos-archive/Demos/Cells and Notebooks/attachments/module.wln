@@ -1,0 +1,45 @@
+<|"Notebook" -> <|"Controller" -> "4ed66eca-9767-4805-b519-998335d01c26", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$789], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "451b6b1a-769e-4f50-9676-192b236153fc", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Cells and \
+Notebooks/attachments/module.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, "TOC" -> {}|>, 
+ "Cells" -> {<|"Data" -> ".md\nHere is example of module-notebook", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6202c09c-05a3-4982-8b3d-7ea039c06688", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "cfb42d5e-2b9f-49bc-8696-28ac09d54418"|>, 
+   <|"Data" -> "Here is example of module-notebook", "Display" -> "markdown", 
+    "Hash" -> "98e03df8-dc6f-4aa5-b3a5-4d78d629137b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "cfb42d5e-2b9f-49bc-8696-28ac09d54418"|>, 
+   <|"Data" -> "w3D[x_,y_,t_] := Total@Table[With[{kx = 1.0 \\[Omega], ky = \
+1.0 \\[Omega]}, \n  Cos[ kx x + ky y - \\[Omega] t]\n], {\\[Omega], 0, 3, \
+1.0}];\n\nwidget[] := Animate[Plot3D[w3D[x,y,t], {x,-Pi,Pi}, {y,-Pi,Pi}, \
+MaxRecursion->0, Mesh->None, PlotRange->Full], {t,0,5}];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "504c3cd7-6720-4364-85af-eca6861f9fed", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "cfb42d5e-2b9f-49bc-8696-28ac09d54418"|>, 
+   <|"Data" -> ".md\nThe last cell will be exported", 
+    "Display" -> "codemirror", "Hash" -> 
+     "93687cca-dd3c-4074-b949-5e27e087ce8e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "cfb42d5e-2b9f-49bc-8696-28ac09d54418"|>, 
+   <|"Data" -> "The last cell will be exported", "Display" -> "markdown", 
+    "Hash" -> "0244a1a6-4a5f-4906-a0e1-64e796ca6223", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "cfb42d5e-2b9f-49bc-8696-28ac09d54418"|>, 
+   <|"Data" -> "{widget}", "Display" -> "codemirror", 
+    "Hash" -> "60789c97-dcb0-4b1d-b3dd-86badbd79eb3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "cfb42d5e-2b9f-49bc-8696-28ac09d54418"|>}, 
+ "serializer" -> "jsfn4"|>

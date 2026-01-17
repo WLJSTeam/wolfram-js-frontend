@@ -1,0 +1,35 @@
+{
+    "name": "wljs-sound",
+    "version": "1.1.1",
+    "description": "Library implementing sound engine",
+    "scripts": {
+        "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+        "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-sound && mv wljs-sound/.git ../.git && cd .. && rm -rf _temp"
+    },
+    "defaultPackage": true,
+    "wljs-meta": {
+        "kernel": "src/Kernel.wl",
+        "minjs": "dist/kernel.min.js",
+        "js": "dist/kernel.js",
+        "priority": 800,
+        "category": "Sound",
+        "cellExportRequired": true,
+        "figureExportRequired": true
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JerryI/wljs-sound"
+    },
+    "dependencies": {
+        "@rollup/plugin-commonjs": "^26.0.1",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "rollup": "^3.21.6",
+        "tonal": "^6.0.1",
+        "tone": "^15.0.4"
+    },
+    "resolutions": {
+        "@babel/preset-env": "7.13.8"
+    }
+}

@@ -1,0 +1,100 @@
+
+append[xy_, pos_, vel_] := With[{}, 
+   If[Length[arr] > 100,
+      pos = Append[Drop[pos, 50], xy]; vel = Append[Drop[vel, 50], RandomReal[]/5.0];
+   ,
+      pos = Append[pos, xy]; vel = Append[vel, RandomReal[]/5.0];
+   ];
+]; 
+
+SetAttributes[append, HoldRest];
+
+(* /* kinda many bodies sim in real time */ *)
+manyBodySim[pos_, vels_, damphing_] := Module[{newState = pos},
+   pos = MapIndexed[With[{i = #2[[1]], y = #1[[2]]},
+      vels[[i]] = (1.0 - damphing / 10.0) vels[[i]] - Sign[y] 0.1;
+      With[{calculated = y + vels[[i]] 0.1},
+         (* /* bounce back if hit the ground */ *)
+         If[Sign[y] (calculated) < 0, 
+            vels[[i]] = - vels[[i]];
+            {#1[[1]], Sign[y] 0.001}
+         ,
+            {#1[[1]], calculated}
+         ]
+      ]
+
+
+   ]&, newState];
+];
+
+SetAttributes[manyBodySim, HoldAll]
+
+(* /**************************** Local computations *********************************/ *)
+(* /* scoped variables for each request */ *)
+
+create[globalControls_, localControls_] := Module[{
+   dots = {{0.,0.5}},
+   vels = {0.},
+   damping = 0.,
+   task = Null,
+
+   listener
+},
+ 
+   listener = {White, EventHandler[Rectangle[{-10, -10}, {10,10}], {"mousemove"->Function[xy, append[xy, dots, vels]]}]};
+
+   EventHandler[localControls, {
+      "Gravity" -> Function[switch,
+         If[switch,
+            Echo["Task started"];
+            task = SetInterval[manyBodySim[dots, vels, damping], 1000/30.];
+         ,
+            Echo["Task ended"];
+            TaskRemove[task];
+         ]
+      ],
+
+      "Damping" -> Function[value, damping = value]
+   }];
+
+   EventHandler[globalControls, {"Destroy" -> Function[Null,
+      Echo["Widget removed!"];
+      Echo["Task ended"];
+      TaskRemove[task];
+   ]}];
+
+   Graphics[{
+      listener, 
+      RGBColor[0.1764, 0.8313, 0.74901], PointSize[0.05], Point[Offload[dots]]
+   }, Controls->True, TransitionDuration->50, PlotRange->{{-1,1}, {-1,1}}]
+];
+
+
+(* /* UI components for controls of simulation */ *)
+UI := ImportComponent["Components/UI.wlx"];
+
+
+(* /****************************** HTML Layout ***************************************/ *)
+
+App[OptionsPattern[]] := With[{
+   globalControls = OptionValue["Controls"],
+   localControls  = CreateUUID[]
+},
+   With[{
+      PlottingDevice = create[globalControls, localControls]
+   },
+
+      <div class="divide-y divide-gray-200 max-w-lg overflow-hidden rounded-lg bg-white shadow">
+        <div class="px-4 py-5 sm:p-6">
+         <WLJS>
+            <PlottingDevice/> 
+         </WLJS>
+        </div>
+        <div class="px-4 py-4 sm:px-6">
+            <UI Event={localControls}/>
+        </div>
+      </div>
+   ]
+]
+
+App

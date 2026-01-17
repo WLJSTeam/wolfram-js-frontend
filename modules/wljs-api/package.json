@@ -1,0 +1,26 @@
+{
+    "name": "wljs-api",
+    "version": "1.0.9",
+    "scripts": {
+        "build-css": "npx tailwindcss build Styles/Tailwind.css -o Styles/Optimized.css",
+        "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs"
+    },
+    "description": "API for external programs",
+    "wljs-meta": {
+        "frontend": [
+            "src/Frontend.wl"
+        ],
+        "priority": 6000,
+        "category": "Notebook Extensions"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JerryI/wljs-api"
+    },
+    "dependencies": {
+        "@rollup/plugin-commonjs": "^25.0.4",
+        "@rollup/plugin-json": "^6.0.0",
+        "@rollup/plugin-node-resolve": "^15.2.1",
+        "@rollup/plugin-terser": "^0.4.4"
+    }
+}

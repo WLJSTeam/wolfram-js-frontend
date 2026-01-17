@@ -1,0 +1,33 @@
+<|"Notebook" -> <|"Controller" -> "de1f9942-ca83-4f77-b8f3-9c6d9361096d", 
+   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$177], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "7b521fbc-a34c-479c-86c2-4a3007559e99", "Path" -> "/Users/kirill/Github/w\
+olfram-js-frontend/wljs_packages/wljs-demos-archive/Demos/Release \
+notes/attachments/detect.wln", 
+   "TOC" -> {Notebook`Editor`TOC`Private`heading[2, "An external notebook", 
+      CellObj[JerryI`Notebook`CellObj`$176]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## An external notebook\nHere we will \
+construct and export some symbols", "Display" -> "codemirror", 
+    "Hash" -> "222b8c95-121e-4126-9177-974359f5f4e7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c41254c2-91fa-4f6d-a5f5-cdb1ac2242f8"|>, 
+   <|"Data" -> 
+     "## An external notebook\nHere we will construct and export some \
+symbols", "Display" -> "markdown", "Hash" -> 
+     "c89104aa-038d-485e-ad43-8e493528077c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "c41254c2-91fa-4f6d-a5f5-cdb1ac2242f8"|>, 
+   <|"Data" -> ".wlx\n\nHeader[Title_] := <h2 style=\"\n    white-space: \
+nowrap;\n    display: inline-block;\n    font-size: 400px;\"\n><Title/></h2>"\
+, "Display" -> "codemirror", "Hash" -> 
+     "45994990-a1f5-4d8f-b839-274d36a23117", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "c41254c2-91fa-4f6d-a5f5-cdb1ac2242f8"|>, 
+   <|"Data" -> "Header", "Display" -> "codemirror", 
+    "Hash" -> "0ef89e74-416c-4a9b-90d6-63c146b549e6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "c41254c2-91fa-4f6d-a5f5-cdb1ac2242f8"|>}, "serializer" -> "jsfn4"|>

@@ -1,0 +1,143 @@
+{
+  "name": "wljs-editor",
+  "version": "1.8.3",
+  "description": "WLJS Code editor",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "demo": "parcel ./playground/index.html",
+    "demo-dist": "parcel build ./playground/index.html --out-dir ./github-pages/ --public-url https://jerryi.github.io/wljs-editor/",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-editor && mv wljs-editor/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "minjs": [
+      "dist/kernel.min.js",
+      "src/boxes.js",
+      "src/objects.js",
+      "src/metamarkers.js",
+      "src/frontsubmit.js"
+    ],
+    "js": [
+      "dist/kernel.js",
+      "src/boxes.js",
+      "src/objects.js",
+      "src/autocomplete.js",
+      "src/frontsubmit.js",
+      "src/dir.js",
+      "src/metamarkers.js",
+      "src/misc.js"
+    ],
+    "frontend": [
+      "src/FrontendObject.wl",
+      "src/Editor.wl",
+      "src/Frontend.wl",
+      "src/FrontendObjectSync.wl",
+      "src/SetDirectory.wl",
+      "src/RemoteCells.wl",
+      "src/FrontSubmit.wl",
+      "src/Store.wl",
+      "src/Notifications.wl",
+      "src/Autocomplete.wl",
+      "src/ContextMenu.wl",
+      "src/FileUpload.wl",
+      "src/FrontendRuntime.wl",
+      "src/FileEditor.wl"
+    ],
+    "kernel": [
+      "src/FrontendObject.wl",
+      "src/EditorKernel.wl",
+      "src/StandardForm.wl",
+      "src/Boxes.wl",
+      "src/BoxesWorkarounds.wl",
+      "src/OffloadExtension.wl",
+      "src/SetDirectoryKernel.wl",
+      "src/FrontSubmitKernel.wl",
+      "src/RemoteCellsKernel.wl",
+      "src/FrontendObjectMissingFetch.wl",
+      "src/StoreKernel.wl",
+      "src/NotificationsKernel.wl",
+      "src/MetaMarkersKernel.wl",
+      "src/AutocompleteKernel.wl",
+      "src/System.wl",
+      "src/RasterizeKernel.wl",
+      "src/FrontendRuntimeKernel.wl"
+    ],
+    "deferred": [
+      "src/FrontProxy.wl",
+      "src/BoxesConverter.wl"
+    ],
+    "styles": "src/styles.css",
+    "priority": -10,
+    "important": true,
+    "cellExportRequired": true,
+    "category": "Editor",
+    "contextMenu": [
+      {
+        "label": "Evaluate in place",
+        "event": "evaluate_in_place",
+        "visible": "selection"
+      },
+      {
+        "label": "Iconize",
+        "event": "iconize_selected",
+        "visible": "selection"
+      },
+      {
+        "label": "Store in notebook",
+        "event": "store_selected",
+        "visible": "selection"
+      },
+      {
+        "label": "Simplify",
+        "event": "simplify_selected",
+        "visible": "selection"
+      },
+      {
+        "label": "Speak",
+        "event": "speak_selected",
+        "visible": "selection"
+      },
+      {
+        "label": "Highlight",
+        "event": "highlight_selected",
+        "visible": "selection"
+      },
+      {
+        "label": "Hidden comment",
+        "event": "comment_selected",
+        "visible": "selection"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-editor"
+  },
+  "dependencies": {
+    "@codemirror/lang-css": "^6.2.1",
+    "@codemirror/lang-html": "6.4.2",
+    "@codemirror/lang-javascript": "6.1.4",
+    "@codemirror/lang-markdown": "6.1.1",
+    "@codemirror/legacy-modes": "6.3.2",
+    "@codemirror/state": "6.2.0",
+    "@codemirror/stream-parser": "0.19.9",
+    "@codemirror/view": "6.9.6",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "codemirror": "6.0.1",
+    "crypto-js": "^4.1.1",
+    "mma-uncompress": "^1.0.1",
+    "node-balanced": "^0.0.14",
+    "parcel-bundler": "1.12.5",
+    "parsel": "^0.3.0",
+    "pdf-merger-js": "^5.1.2",
+    "priceless-mathematica": "^1.2.1",
+    "rainbowbrackets": "^2.0.2",
+    "rollup": "^3.29.5"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}

@@ -1,0 +1,21 @@
+Component[controller_] := With[{
+    UId = CreateUUID[]
+},
+
+<div style="display: table-caption;">
+    <p class="text-sm leading-4 py-1 mt-1 text-gray-600 dark:text-gray-400 flex flex-row gap-x-1">Uploaded <b id="{UId}-current">0/0</b></p>
+    <WebUIJSBind Event={controller}>
+	    //will be executed once
+	    const current = document.getElementById('<UId/>-current');
+
+	    this.on('Sync', async (data) => {
+		    const assoc = await interpretate(data, {hold:true});
+		    const t = await interpretate(assoc.Total, {});
+            const c = (await interpretate(assoc.Current, {})) - 1;
+            current.innerText = c + '/' + t;
+	    });
+    </WebUIJSBind>
+</div>
+]
+
+Component

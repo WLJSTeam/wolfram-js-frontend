@@ -1,0 +1,151 @@
+Component[OptionsPattern[]] := With[{UId = CreateUUID[], Event = OptionValue["Event"]}, 
+    <div class="flex border shadow-inner rounded-md align-center justify-center" style="
+       width: 3rem;
+       height: 3rem;
+       overflow: hidden;
+       position: relative;
+       border: 1px solid #999;
+       box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+       ">
+       <div id="#instanceId" class="relative mt-auto mb-auto flex h-6 w-6 flex-none items-center justify-center">
+          <div  class="h-3 w-3 z-inf rounded-full hover:bg-sky-100 bg-gray-100 ring-1 ring-gray-300"></div>
+          <div class="mt-auto mb-auto absolute top-0 bottom-0 flex w-6 justify-center" style="
+             height: 5rem;
+             ">
+             <div class="w-px bg-gray-200"></div>
+          </div>
+          <div class="mt-auto mb-auto absolute top-0 bottom-0 flex w-6 justify-center" style="
+             width: 5rem;
+             height: 1px;
+             ">
+             <div class="h-px bg-gray-200" style="
+                height: 1px;
+                width: 100%;
+                "></div>
+          </div>
+       </div>
+       <script type="module">
+            const doc = document.getElementById('#instanceId');
+
+            const self = {};
+
+	        function makeJoystickController( stick, maxDistance, deadzone ){
+	        	//self.id = stickID;
+	        	
+
+	        	// location from which drag begins, used to calculate offsets
+	        	self.dragStart = null;
+
+	        	// track touch identifier in case multiple joysticks present
+	        	self.touchId = null;
+
+	        	self.active = false;
+	        	self.value = { x: 0, y: 0 };
+
+
+
+                	function handleDown(event)
+                	{
+                	    self.active = true;
+                    
+                		// all drag movements are instantaneous
+                		stick.style.transition = '0s';
+                    
+                		// touch event fired before mouse event; prevent redundant mouse event from firing
+                		event.preventDefault();
+                    
+                	    if (event.changedTouches)
+                	    	self.dragStart = { x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY };
+                	    else
+                	    	self.dragStart = { x: event.clientX, y: event.clientY };
+                    
+                		// if this is a touch event, keep track of which one
+                	    if (event.changedTouches)
+                	    	self.touchId = event.changedTouches[0].identifier;
+                	}
+
+    		        function handleMove(event)
+    		        {
+    		            if ( !self.active ) return;
+                    
+    		            // if this is a touch event, make sure it is the right one
+    		            // also handle multiple simultaneous touchmove events
+    		            let touchmoveId = null;
+    		            if (event.changedTouches)
+    		            {
+    		            	for (let i = 0; i < event.changedTouches.length; i++)
+    		            	{
+    		            		if (self.touchId == event.changedTouches[i].identifier)
+    		            		{
+    		            			touchmoveId = i;
+    		            			event.clientX = event.changedTouches[i].clientX;
+    		            			event.clientY = event.changedTouches[i].clientY;
+    		            		}
+    		            	}
+                        
+    		            	if (touchmoveId == null) return;
+    		            }
+                    
+    		            const xDiff = event.clientX - self.dragStart.x;
+    		            const yDiff = event.clientY - self.dragStart.y;
+    		            const angle = Math.atan2(yDiff, xDiff);
+    		        	const distance = Math.min(maxDistance, Math.hypot(xDiff, yDiff));
+    		        	const xPosition = distance * Math.cos(angle);
+    		        	const yPosition = distance * Math.sin(angle);
+                    
+    		        	// move stick image to new position
+    		            stick.style.transform = `translate3d(${xPosition}px, ${yPosition}px, 0px)`;
+                    
+    		        	// deadzone adjustment
+    		        	const distance2 = (distance < deadzone) ? 0 : maxDistance / (maxDistance - deadzone) * (distance - deadzone);
+    		            const xPosition2 = distance2 * Math.cos(angle);
+    		        	const yPosition2 = distance2 * Math.sin(angle);
+    		            const xPercent = parseFloat((xPosition2 / maxDistance).toFixed(4));
+    		            const yPercent = parseFloat((yPosition2 / maxDistance).toFixed(4));
+                    
+    		            self.value = { x: xPercent, y: yPercent };
+                        server.kernel.io.fire('<Event/>', [xPercent, -yPercent]);
+    		          }
+                  
+    		        function handleUp(event)
+    		        {
+    		            if ( !self.active ) return;
+                    
+    		            // if this is a touch event, make sure it is the right one
+    		            if (event.changedTouches && self.touchId != event.changedTouches[0].identifier) return;
+                    
+    		            // transition the joystick position back to center
+    		            stick.style.transition = '.2s';
+    		            stick.style.transform = `translate3d(0px, 0px, 0px)`;
+                    
+    		            // reset everything
+    		            self.value = { x: 0, y: 0 };
+                        server.kernel.io.fire('<Event/>', [0,0]);
+    		            self.touchId = null;
+    		            self.active = false;
+    		        }
+                
+    		        stick.addEventListener('mousedown', handleDown);
+    		        stick.addEventListener('touchstart', handleDown);
+    		        document.addEventListener('mousemove', handleMove, {passive: false});
+    		        document.addEventListener('touchmove', handleMove, {passive: false});
+    		        document.addEventListener('mouseup', handleUp);
+    		        document.addEventListener('touchend', handleUp);
+
+                    core.InternalWLXDestructor['<Event/>'] = (env) => {
+                        document.removeEventListener('mousemove', handleMove, {passive: false});
+                        document.removeEventListener('touchmove', handleMove, {passive: false});
+                        document.removeEventListener('mouseup', handleUp);
+                        document.removeEventListener('touchend', handleUp);   
+                        console.warn('Joystick was removed');                     
+                    };
+    	        }    
+
+            makeJoystickController(doc, 18, 3);        
+       </script>
+    </div>
+]
+
+Options[Component] = {"Event"->""}
+
+Component

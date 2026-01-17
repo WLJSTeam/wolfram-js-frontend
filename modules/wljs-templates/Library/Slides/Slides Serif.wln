@@ -1,0 +1,255 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$109], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/wljs_packages/wljs-templates/Library/Slides Serif.wln", "Symbols" -> <||>|>, 
+ "Cells" -> {<|"Data" -> ".html\n\n<style>\n/**\n * A simple theme for \
+reveal.js presentations, similar\n * to the default theme. The accent color \
+is brown.\n *\n * This theme is Copyright (C) 2012-2013 Owen Versteeg, \
+http://owenversteeg.com - it is MIT licensed.\n */\n.reveal a {\n  \
+line-height: 1.3em;\n}\n\nsection.has-dark-background, \
+section.has-dark-background h1, section.has-dark-background h2, \
+section.has-dark-background h3, section.has-dark-background h4, \
+section.has-dark-background h5, section.has-dark-background h6 {\n  color: \
+#fff;\n}\n\n/*********************************************\n * GLOBAL \
+STYLES\n *********************************************/\n:root {\n  \
+--r-background-color: #F0F1EB;\n  --r-main-font: Palatino Linotype, Book \
+Antiqua, Palatino, FreeSerif, serif;\n  --r-main-font-size: 40px;\n  \
+--r-main-color: #000;\n  --r-block-margin: 20px;\n  --r-heading-margin: 0 0 \
+20px 0;\n  --r-heading-font: Palatino Linotype, Book Antiqua, Palatino, \
+FreeSerif, serif;\n  --r-heading-color: #383D3D;\n  --r-heading-line-height: \
+1.2;\n  --r-heading-letter-spacing: normal;\n  --r-heading-text-transform: \
+none;\n  --r-heading-text-shadow: none;\n  --r-heading-font-weight: normal;\n \
+ --r-heading1-text-shadow: none;\n  --r-heading1-size: 3.77em;\n  \
+--r-heading2-size: 2.11em;\n  --r-heading3-size: 1.55em;\n  \
+--r-heading4-size: 1em;\n  --r-code-font: monospace;\n  --r-link-color: \
+#51483D;\n  --r-link-color-dark: #25211c;\n  --r-link-color-hover: #8b7c69;\n \
+ --r-selection-background-color: #26351C;\n  --r-selection-color: #fff;\n  \
+--r-overlay-element-bg-color: 0, 0, 0;\n  --r-overlay-element-fg-color: 240, \
+240, 240;\n}\n\n.reveal-viewport {\n  background: #F0F1EB;\n  \
+background-color: var(--r-background-color);\n}\n\n.reveal {\n  font-family: \
+var(--r-main-font);\n  font-size: var(--r-main-font-size);\n  font-weight: \
+normal;\n  color: var(--r-main-color);\n}\n\n.reveal ::selection {\n  color: \
+var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+::-moz-selection {\n  color: var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+.slides section,\n.reveal .slides section > section {\n  line-height: 1.3;\n  \
+font-weight: inherit;\n}\n\n/*********************************************\n \
+* HEADERS\n *********************************************/\n.reveal \
+h1,\n.reveal h2,\n.reveal h3,\n.reveal h4,\n.reveal h5,\n.reveal h6 {\n  \
+margin: var(--r-heading-margin);\n  color: var(--r-heading-color);\n  \
+font-family: var(--r-heading-font);\n  font-weight: \
+var(--r-heading-font-weight);\n  line-height: var(--r-heading-line-height);\n \
+ letter-spacing: var(--r-heading-letter-spacing);\n  text-transform: \
+var(--r-heading-text-transform);\n  text-shadow: \
+var(--r-heading-text-shadow);\n  word-wrap: break-word;\n}\n\n.reveal h1 {\n  \
+font-size: var(--r-heading1-size);\n}\n\n.reveal h2 {\n  font-size: \
+var(--r-heading2-size);\n}\n\n.reveal h3 {\n  font-size: \
+var(--r-heading3-size);\n}\n\n.reveal h4 {\n  font-size: \
+var(--r-heading4-size);\n}\n\n.reveal h1 {\n  text-shadow: \
+var(--r-heading1-text-shadow);\n}\n\n/***************************************\
+******\n * OTHER\n *********************************************/\n.reveal p \
+{\n  margin: var(--r-block-margin) 0;\n  line-height: 1.3;\n}\n\n/* Remove \
+trailing margins after titles */\n.reveal h1:last-child,\n.reveal \
+h2:last-child,\n.reveal h3:last-child,\n.reveal h4:last-child,\n.reveal \
+h5:last-child,\n.reveal h6:last-child {\n  margin-bottom: 0;\n}\n\n/* Ensure \
+certain elements are never larger than the slide itself */\n.reveal \
+img,\n.reveal video,\n.reveal iframe {\n  max-width: 95%;\n  max-height: \
+95%;\n}\n\n.reveal strong,\n.reveal b {\n  font-weight: bold;\n}\n\n.reveal \
+em {\n  font-style: italic;\n}\n\n.reveal ol,\n.reveal dl,\n.reveal ul {\n  \
+display: inline-block;\n  text-align: left;\n  margin: 0 0 0 \
+1em;\n}\n\n.reveal ol {\n  list-style-type: decimal;\n}\n\n.reveal ul {\n  \
+list-style-type: disc;\n}\n\n.reveal ul ul {\n  list-style-type: \
+square;\n}\n\n.reveal ul ul ul {\n  list-style-type: circle;\n}\n\n.reveal ul \
+ul,\n.reveal ul ol,\n.reveal ol ol,\n.reveal ol ul {\n  display: block;\n  \
+margin-left: 40px;\n}\n\n.reveal dt {\n  font-weight: bold;\n}\n\n.reveal dd \
+{\n  margin-left: 40px;\n}\n\n.reveal blockquote {\n  display: block;\n  \
+position: relative;\n  width: 70%;\n  margin: var(--r-block-margin) auto;\n  \
+padding: 5px;\n  font-style: italic;\n  background: rgba(255, 255, 255, \
+0.05);\n  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);\n}\n\n.reveal \
+blockquote p:first-child,\n.reveal blockquote p:last-child {\n  display: \
+inline-block;\n}\n\n.reveal q {\n  font-style: italic;\n}\n\n.reveal pre {\n  \
+display: block;\n  position: relative;\n  width: 90%;\n  margin: \
+var(--r-block-margin) auto;\n  text-align: left;\n  font-size: 0.55em;\n  \
+font-family: var(--r-code-font);\n  line-height: 1.2em;\n  word-wrap: \
+break-word;\n  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);\n}\n\n.reveal \
+code {\n  font-family: var(--r-code-font);\n  text-transform: none;\n  \
+tab-size: 2;\n}\n\n.reveal pre code {\n  display: block;\n  padding: 5px;\n  \
+overflow: auto;\n  max-height: 400px;\n  word-wrap: normal;\n}\n\n.reveal \
+.code-wrapper {\n  white-space: normal;\n}\n\n.reveal .code-wrapper code {\n  \
+white-space: pre;\n}\n\n.reveal table {\n  margin: auto;\n  border-collapse: \
+collapse;\n  border-spacing: 0;\n}\n\n.reveal table th {\n  font-weight: \
+bold;\n}\n\n.reveal table th,\n.reveal table td {\n  text-align: left;\n  \
+padding: 0.2em 0.5em 0.2em 0.5em;\n  border-bottom: 1px solid;\n}\n\n.reveal \
+table th[align=center],\n.reveal table td[align=center] {\n  text-align: \
+center;\n}\n\n.reveal table th[align=right],\n.reveal table td[align=right] \
+{\n  text-align: right;\n}\n\n.reveal table tbody tr:last-child th,\n.reveal \
+table tbody tr:last-child td {\n  border-bottom: none;\n}\n\n.reveal sup {\n  \
+vertical-align: super;\n  font-size: smaller;\n}\n\n.reveal sub {\n  \
+vertical-align: sub;\n  font-size: smaller;\n}\n\n.reveal small {\n  display: \
+inline-block;\n  font-size: 0.6em;\n  line-height: 1.2em;\n  vertical-align: \
+top;\n}\n\n.reveal small * {\n  vertical-align: top;\n}\n\n.reveal img {\n  \
+margin: var(--r-block-margin) \
+0;\n}\n\n/*********************************************\n * LINKS\n \
+*********************************************/\n.reveal a {\n  color: \
+var(--r-link-color);\n  text-decoration: none;\n  transition: color 0.15s \
+ease;\n}\n\n.reveal a:hover {\n  color: var(--r-link-color-hover);\n  \
+text-shadow: none;\n  border: none;\n}\n\n.reveal .roll span:after {\n  \
+color: #fff;\n  background: \
+var(--r-link-color-dark);\n}\n\n/********************************************\
+*\n * Frame helper\n *********************************************/\n.reveal \
+.r-frame {\n  border: 4px solid var(--r-main-color);\n  box-shadow: 0 0 10px \
+rgba(0, 0, 0, 0.15);\n}\n\n.reveal a .r-frame {\n  transition: all 0.15s \
+linear;\n}\n\n.reveal a:hover .r-frame {\n  border-color: \
+var(--r-link-color);\n  box-shadow: 0 0 20px rgba(0, 0, 0, \
+0.55);\n}\n\n/*********************************************\n * NAVIGATION \
+CONTROLS\n *********************************************/\n.reveal .controls \
+{\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PROGRESS BAR\n *********************************************/\n.reveal \
+.progress {\n  background: rgba(0, 0, 0, 0.2);\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PRINT BACKGROUND\n *********************************************/\n@media \
+print {\n  .backgrounds {\n    background-color: var(--r-background-color);\n \
+ }\n}\n  </style>", "Display" -> "codemirror", 
+    "Hash" -> "cdf50fa2-53e1-4b89-b4d2-4e99f60d835a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "6cd5e6ef-e17c-49ef-a30a-fd7664fbc606"|>, 
+   <|"Data" -> "\n<style>\n/**\n * A simple theme for reveal.js \
+presentations, similar\n * to the default theme. The accent color is brown.\n \
+*\n * This theme is Copyright (C) 2012-2013 Owen Versteeg, \
+http://owenversteeg.com - it is MIT licensed.\n */\n.reveal a {\n  \
+line-height: 1.3em;\n}\n\nsection.has-dark-background, \
+section.has-dark-background h1, section.has-dark-background h2, \
+section.has-dark-background h3, section.has-dark-background h4, \
+section.has-dark-background h5, section.has-dark-background h6 {\n  color: \
+#fff;\n}\n\n/*********************************************\n * GLOBAL \
+STYLES\n *********************************************/\n:root {\n  \
+--r-background-color: #F0F1EB;\n  --r-main-font: Palatino Linotype, Book \
+Antiqua, Palatino, FreeSerif, serif;\n  --r-main-font-size: 40px;\n  \
+--r-main-color: #000;\n  --r-block-margin: 20px;\n  --r-heading-margin: 0 0 \
+20px 0;\n  --r-heading-font: Palatino Linotype, Book Antiqua, Palatino, \
+FreeSerif, serif;\n  --r-heading-color: #383D3D;\n  --r-heading-line-height: \
+1.2;\n  --r-heading-letter-spacing: normal;\n  --r-heading-text-transform: \
+none;\n  --r-heading-text-shadow: none;\n  --r-heading-font-weight: normal;\n \
+ --r-heading1-text-shadow: none;\n  --r-heading1-size: 3.77em;\n  \
+--r-heading2-size: 2.11em;\n  --r-heading3-size: 1.55em;\n  \
+--r-heading4-size: 1em;\n  --r-code-font: monospace;\n  --r-link-color: \
+#51483D;\n  --r-link-color-dark: #25211c;\n  --r-link-color-hover: #8b7c69;\n \
+ --r-selection-background-color: #26351C;\n  --r-selection-color: #fff;\n  \
+--r-overlay-element-bg-color: 0, 0, 0;\n  --r-overlay-element-fg-color: 240, \
+240, 240;\n}\n\n.reveal-viewport {\n  background: #F0F1EB;\n  \
+background-color: var(--r-background-color);\n}\n\n.reveal {\n  font-family: \
+var(--r-main-font);\n  font-size: var(--r-main-font-size);\n  font-weight: \
+normal;\n  color: var(--r-main-color);\n}\n\n.reveal ::selection {\n  color: \
+var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+::-moz-selection {\n  color: var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+.slides section,\n.reveal .slides section > section {\n  line-height: 1.3;\n  \
+font-weight: inherit;\n}\n\n/*********************************************\n \
+* HEADERS\n *********************************************/\n.reveal \
+h1,\n.reveal h2,\n.reveal h3,\n.reveal h4,\n.reveal h5,\n.reveal h6 {\n  \
+margin: var(--r-heading-margin);\n  color: var(--r-heading-color);\n  \
+font-family: var(--r-heading-font);\n  font-weight: \
+var(--r-heading-font-weight);\n  line-height: var(--r-heading-line-height);\n \
+ letter-spacing: var(--r-heading-letter-spacing);\n  text-transform: \
+var(--r-heading-text-transform);\n  text-shadow: \
+var(--r-heading-text-shadow);\n  word-wrap: break-word;\n}\n\n.reveal h1 {\n  \
+font-size: var(--r-heading1-size);\n}\n\n.reveal h2 {\n  font-size: \
+var(--r-heading2-size);\n}\n\n.reveal h3 {\n  font-size: \
+var(--r-heading3-size);\n}\n\n.reveal h4 {\n  font-size: \
+var(--r-heading4-size);\n}\n\n.reveal h1 {\n  text-shadow: \
+var(--r-heading1-text-shadow);\n}\n\n/***************************************\
+******\n * OTHER\n *********************************************/\n.reveal p \
+{\n  margin: var(--r-block-margin) 0;\n  line-height: 1.3;\n}\n\n/* Remove \
+trailing margins after titles */\n.reveal h1:last-child,\n.reveal \
+h2:last-child,\n.reveal h3:last-child,\n.reveal h4:last-child,\n.reveal \
+h5:last-child,\n.reveal h6:last-child {\n  margin-bottom: 0;\n}\n\n/* Ensure \
+certain elements are never larger than the slide itself */\n.reveal \
+img,\n.reveal video,\n.reveal iframe {\n  max-width: 95%;\n  max-height: \
+95%;\n}\n\n.reveal strong,\n.reveal b {\n  font-weight: bold;\n}\n\n.reveal \
+em {\n  font-style: italic;\n}\n\n.reveal ol,\n.reveal dl,\n.reveal ul {\n  \
+display: inline-block;\n  text-align: left;\n  margin: 0 0 0 \
+1em;\n}\n\n.reveal ol {\n  list-style-type: decimal;\n}\n\n.reveal ul {\n  \
+list-style-type: disc;\n}\n\n.reveal ul ul {\n  list-style-type: \
+square;\n}\n\n.reveal ul ul ul {\n  list-style-type: circle;\n}\n\n.reveal ul \
+ul,\n.reveal ul ol,\n.reveal ol ol,\n.reveal ol ul {\n  display: block;\n  \
+margin-left: 40px;\n}\n\n.reveal dt {\n  font-weight: bold;\n}\n\n.reveal dd \
+{\n  margin-left: 40px;\n}\n\n.reveal blockquote {\n  display: block;\n  \
+position: relative;\n  width: 70%;\n  margin: var(--r-block-margin) auto;\n  \
+padding: 5px;\n  font-style: italic;\n  background: rgba(255, 255, 255, \
+0.05);\n  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);\n}\n\n.reveal \
+blockquote p:first-child,\n.reveal blockquote p:last-child {\n  display: \
+inline-block;\n}\n\n.reveal q {\n  font-style: italic;\n}\n\n.reveal pre {\n  \
+display: block;\n  position: relative;\n  width: 90%;\n  margin: \
+var(--r-block-margin) auto;\n  text-align: left;\n  font-size: 0.55em;\n  \
+font-family: var(--r-code-font);\n  line-height: 1.2em;\n  word-wrap: \
+break-word;\n  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);\n}\n\n.reveal \
+code {\n  font-family: var(--r-code-font);\n  text-transform: none;\n  \
+tab-size: 2;\n}\n\n.reveal pre code {\n  display: block;\n  padding: 5px;\n  \
+overflow: auto;\n  max-height: 400px;\n  word-wrap: normal;\n}\n\n.reveal \
+.code-wrapper {\n  white-space: normal;\n}\n\n.reveal .code-wrapper code {\n  \
+white-space: pre;\n}\n\n.reveal table {\n  margin: auto;\n  border-collapse: \
+collapse;\n  border-spacing: 0;\n}\n\n.reveal table th {\n  font-weight: \
+bold;\n}\n\n.reveal table th,\n.reveal table td {\n  text-align: left;\n  \
+padding: 0.2em 0.5em 0.2em 0.5em;\n  border-bottom: 1px solid;\n}\n\n.reveal \
+table th[align=center],\n.reveal table td[align=center] {\n  text-align: \
+center;\n}\n\n.reveal table th[align=right],\n.reveal table td[align=right] \
+{\n  text-align: right;\n}\n\n.reveal table tbody tr:last-child th,\n.reveal \
+table tbody tr:last-child td {\n  border-bottom: none;\n}\n\n.reveal sup {\n  \
+vertical-align: super;\n  font-size: smaller;\n}\n\n.reveal sub {\n  \
+vertical-align: sub;\n  font-size: smaller;\n}\n\n.reveal small {\n  display: \
+inline-block;\n  font-size: 0.6em;\n  line-height: 1.2em;\n  vertical-align: \
+top;\n}\n\n.reveal small * {\n  vertical-align: top;\n}\n\n.reveal img {\n  \
+margin: var(--r-block-margin) \
+0;\n}\n\n/*********************************************\n * LINKS\n \
+*********************************************/\n.reveal a {\n  color: \
+var(--r-link-color);\n  text-decoration: none;\n  transition: color 0.15s \
+ease;\n}\n\n.reveal a:hover {\n  color: var(--r-link-color-hover);\n  \
+text-shadow: none;\n  border: none;\n}\n\n.reveal .roll span:after {\n  \
+color: #fff;\n  background: \
+var(--r-link-color-dark);\n}\n\n/********************************************\
+*\n * Frame helper\n *********************************************/\n.reveal \
+.r-frame {\n  border: 4px solid var(--r-main-color);\n  box-shadow: 0 0 10px \
+rgba(0, 0, 0, 0.15);\n}\n\n.reveal a .r-frame {\n  transition: all 0.15s \
+linear;\n}\n\n.reveal a:hover .r-frame {\n  border-color: \
+var(--r-link-color);\n  box-shadow: 0 0 20px rgba(0, 0, 0, \
+0.55);\n}\n\n/*********************************************\n * NAVIGATION \
+CONTROLS\n *********************************************/\n.reveal .controls \
+{\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PROGRESS BAR\n *********************************************/\n.reveal \
+.progress {\n  background: rgba(0, 0, 0, 0.2);\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PRINT BACKGROUND\n *********************************************/\n@media \
+print {\n  .backgrounds {\n    background-color: var(--r-background-color);\n \
+ }\n}\n  </style>", "Display" -> "html", 
+    "Hash" -> "a10821ff-169e-491d-af65-13806c48ace5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "6cd5e6ef-e17c-49ef-a30a-fd7664fbc606"|>, 
+   <|"Data" -> ".md\n\n## A simple theme for presentations\nBased on \
+reveal.js standard theme. The accent color is brown.\n\nThis theme is \
+Copyright (C) 2012-2013 Owen Versteeg", "Display" -> "codemirror", 
+    "Hash" -> "c5ccdf8c-c74b-43dd-9e69-49db3f2cd19a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "6cd5e6ef-e17c-49ef-a30a-fd7664fbc606"|>, 
+   <|"Data" -> ">\n## A simple theme for presentations\nBased on reveal.js \
+standard theme. The accent color is brown.\n\nThis theme is Copyright (C) \
+2012-2013 Owen Versteeg", "Display" -> "markdown", 
+    "Hash" -> "4966233c-32e4-4b7f-bc93-5816f881954d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "6cd5e6ef-e17c-49ef-a30a-fd7664fbc606"|>, 
+   <|"Data" -> ".slide\n\n# Heading", "Display" -> "codemirror", 
+    "Hash" -> "2008aeb3-17ad-495f-9e6d-d14e18863c45", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "6cd5e6ef-e17c-49ef-a30a-fd7664fbc606"|>, 
+   <|"Data" -> "<dummy >\n# Heading</dummy>", "Display" -> "slide", 
+    "Hash" -> "6db73971-25ff-4f5c-8c9a-15a69a7c3361", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "6cd5e6ef-e17c-49ef-a30a-fd7664fbc606"|>}, "serializer" -> "jsfn4"|>

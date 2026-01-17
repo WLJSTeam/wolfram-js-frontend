@@ -39,24 +39,24 @@
     "artifactName": "wljs-notebook-${version}-${arch}.${ext}",
     "dmg": {
       "title": "${productName} ${version}",
-      "icon": "./Electron/build/512x512.icns",
+      "icon": "./Electron/build/icon.icns",
       "sign": false
     },
     "mac": {
-      "icon": "./Electron/build/512x512.icns",
+      "icon": "./Electron/build/icon.icns",
       "artifactName": "wljs-notebook-${version}-${arch}-macos.${ext}",
       "fileAssociations": [
         {
           "ext": "wln",
           "name": "WLJS Notebook",
           "role": "Editor",
-          "icon": "./Electron/build/file/512x512.icns"
+          "icon": "./Electron/build/file/File.icns"
         },
         {
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.icns"
+          "icon": "./Electron/build/file/File-2.icns"
         }
       ],
       "hardenedRuntime": true,
@@ -89,17 +89,17 @@
           "ext": "wln",
           "name": "WLJS Notebook",
           "role": "Editor",
-          "icon": "./Electron/build/file/512x512.png"
+          "icon": "./Electron/build/file/File-512x512.png"
         },
         {
           "mimeType": "application/wlw",
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.png"
+          "icon": "./Electron/build/file/File-2.png"
         }
       ],
-      "icon": "./Electron/build/512x512.png",
+      "icon": "./Electron/build/icon.png",
       "protocols": [
         {
           "name": "WLJS URL communication",
@@ -115,20 +115,20 @@
     },
     "win": {
       "target": "NSIS",
-      "icon": "./Electron/build/512x512.ico",
+      "icon": "./Electron/build/icon.ico",
       "artifactName": "wljs-notebook-${version}-${arch}-win.${ext}",
       "fileAssociations": [
         {
           "ext": "wln",
           "name": "WLJS Notebook",
           "role": "Editor",
-          "icon": "./Electron/build/file/512x512.ico"
+          "icon": "./Electron/build/file/File.ico"
         },
         {
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.ico"
+          "icon": "./Electron/build/file/File-2.ico"
         }
       ],
       "protocols": [
@@ -164,13 +164,10 @@
       "./Kernel/**",
       "./Scripts/**",
       "./Views/**",
-      "./wl_packages/**",
-      "./wljs_packages/**",
+      "./modules/**",
+      "./Packages/**",
       "./package.json",
       "./PacletInfo.wl",
-      "./wl_packages_lock.wl",
-      "./.wl_timestamp",
-      "./dependencies.wl",
       "./LICENSE",
       "./licenses/**"
     ],

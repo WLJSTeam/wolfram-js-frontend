@@ -1,0 +1,55 @@
+Inputs  = ImportComponent["Components/Inputs.wlx"];
+Symbols = ImportComponent["Components/Symbols.wlx"];
+
+ExtensionsJS = (StringJoin["", FileNameToURLPath[#]]) &/@ WLJS`PM`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["", FileNameToURLPath[#]]},
+  <link rel="stylesheet" href="{Path}"/> 
+] &/@ WLJS`PM`Includes["styles"] // ToStringRiffle;
+
+(* /* HTML Page */ *)
+
+App[request_] := With[{
+    Session = CreateUUID[],
+    Controls = CreateUUID[]
+},
+    
+    EventHandler[Session, {"Connected" -> Function[Null,
+        Echo["Connected!"];
+        With[{socket = $Client},
+            EventHandler[socket, {"Closed" -> Function[Null,
+                EventFire[Controls, "Destroy", True];
+            ]}];
+        ]
+    ]}];
+
+    <html> 
+        <head>
+            <title>WLX Template</title>
+            <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>  
+            <WLJSHeader List={ExtensionsJS}/> 
+            <ExtensionsStyles/>  
+    		<WLJSTransportScript Port={ENV["WSPort"]} Event={Session}/>
+        </head>  
+        <body> 
+            <div class="min-h-full">
+                <header class="bg-white shadow">
+                    <div class="flex items-center mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dynamics</h1>
+                    </div>
+                </header>
+                <main>
+                    <div class="flex col mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                        <div class="mx-4 py-3 px-3 col rounded-lg bg-white shadow">
+                            <Inputs Controls={Controls} Request={request}/>
+                        </div>
+                        <div class="mx-4 py-3 px-3 col rounded-lg bg-white shadow">
+                            <Symbols Controls={Controls} Request={request}/>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </body>
+    </html>
+];
+
+App

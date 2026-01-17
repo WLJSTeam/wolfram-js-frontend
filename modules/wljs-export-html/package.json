@@ -1,0 +1,54 @@
+{
+    "name": "wljs-export-html",
+    "version": "1.4.7",
+    "scripts": {
+        "build-css": "npx tailwindcss build Styles/Tailwind.css -o Styles/Optimized.css",
+        "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+        "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-export-html && mv wljs-export-html/.git ../.git && cd .. && rm -rf _temp"
+    },
+    "description": "A plugin for exporting notebooks to HTML, Markdown, Mathematica and other formats",
+    "wljs-meta": {
+        "frontend": [
+            "Frontend.wl"
+        ],
+        "kernel": "DynamicsTools/ESP.wl",
+        "js": "src/kernel.js",
+        "priority": 5000,
+        "category": "Notebook Extensions",
+        "menu": [
+            {
+                "label": "Export",
+                "event": "export-html",
+                "spawnWindow": false,
+                "type": "button",
+                "section": "file"
+            },
+            {
+                "label": "Embed Files",
+                "event": "archive-files",
+                "spawnWindow": false,
+                "type": "button",
+                "section": "misc"                  
+            }
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JerryI/wljs-export-html"
+    },
+    "dependencies": {
+        "@rollup/plugin-commonjs": "^25.0.4",
+        "@rollup/plugin-json": "^6.0.0",
+        "@rollup/plugin-node-resolve": "^15.2.1",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/container-queries": "^0.1.1",
+        "@tailwindcss/forms": "^0.5.7",
+        "@tailwindcss/typography": "^0.5.10",
+        "crypto-es": "^2.1.0",
+        "fflate": "^0.8.2",
+        "pdf-merger-js": "^5.1.2",
+        "rollup": "^3.21.6",
+        "tailwindcss": "^3.4.1"
+    }
+}

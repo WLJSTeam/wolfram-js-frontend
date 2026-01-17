@@ -1,7 +1,7 @@
 {WindowGenerator, WindowGeneratorScript}   = ImportComponent["WindowGenerator.wlx"];
 Container := ImportComponent["Components/Container.wlx"];
 
-addListeners[window_, secret_String, client_, parameters_, extensions__] := Module[{},
+addListeners[window_, secret_String, client_, modals_, parameters_, extensions__] := Module[{},
     (* /* don't clone  event, must be one ! */ *)
     Echo["Add listeners::::"];
     Echo[window["Hash"]];
@@ -10,6 +10,12 @@ addListeners[window_, secret_String, client_, parameters_, extensions__] := Modu
             Echo["Window.wlx >> Ready to show!"];
             window["EvaluatedQ"] = True;
             WebUISubmit[Global`UIWindow["Load", WindowGenerator[window, client, parameters, extensions], win`Serialize[window] ,  secret], client]
+        ],
+
+        "Reevaluate" -> Function[Null,
+            Echo["Window >> reevalaute!"];
+            window["EvaluatedQ"] = False;
+            evaluate[window, secret, client, modals, parameters, extensions]; 
         ]
     }];
 
@@ -177,7 +183,7 @@ Component[OptionsPattern[]] := With[{
             ];
 
             (* /* Add all listeners to a **notebook** */ *)
-            addListeners[window, secret, $Client, parameters, extensions];
+            addListeners[window, secret, $Client, modals, parameters, extensions];
 
             WebUISubmit[Global`UIWindow["CreateServer"](*`*), $Client];
     

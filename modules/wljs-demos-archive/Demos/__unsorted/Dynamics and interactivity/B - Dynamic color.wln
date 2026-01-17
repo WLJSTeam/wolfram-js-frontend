@@ -1,0 +1,23 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$240], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/Demos/05 - Interaction/Dynamic color.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Dynamic color\nA demo, which shows how to \
+manipualte color parameter for all objects in the scope", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2f62fa88-d00e-4b96-b7de-9b68da855ef5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "9360aa57-2f72-4ee5-b661-5ee54ab6fa2c"|>, 
+   <|"Data" -> "# Dynamic color\nA demo, which shows how to manipualte color \
+parameter for all objects in the scope", "Display" -> "markdown", 
+    "Hash" -> "6c632847-1ec0-4483-91b3-e313afe3efa9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "9360aa57-2f72-4ee5-b661-5ee54ab6fa2c"|>, 
+   <|"Data" -> "color = {1,0,0};\nGraphics[{RGBColor[color // Offload], \
+Disk[{0,0}, 1]}]\n\nEventHandler[InputJoystick[], Function[xy,\n\tcolor = \
+Normalize[{xy[[1]], xy[[2]], 0.5}] // Abs;\n]]", "Display" -> "codemirror", 
+    "Hash" -> "1da36554-380b-46e4-9ff4-ecc3ce819d45", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "9360aa57-2f72-4ee5-b661-5ee54ab6fa2c"|>}, "serializer" -> "jsfn4"|>

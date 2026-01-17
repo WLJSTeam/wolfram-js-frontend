@@ -1,0 +1,277 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$217], 
+   "Objects" -> <|"4a0c25f3-3fe2-4e4a-8d11-8b9d45d64f60" -> 
+      <|"Public" -> Hold[Dataset[Association["Type" -> {"WL", "Compile", 
+             "C"}, "Speed up" -> {1, 7.913927023554878, 38.06949946608433}], 
+          TypeSystem`Struct[{"Type", "Speed up"}, 
+           {TypeSystem`Vector[TypeSystem`Atom[String], 3], TypeSystem`Vector[
+             TypeSystem`Atom[Real], 3]}], Association[]]]|>|>, 
+   "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev/Demos/15 - \
+Dev/LibraryLink.wln"|>, "Cells" -> 
+  {<|"Data" -> ".md\n# LibraryLink example\n*Adapted from [Kirill Belov @ \
+Habr](https://habr.com/ru/articles/817563/)* Here we will try to implement \
+the fastest __byte masking function__", "Display" -> "codemirror", 
+    "Hash" -> "1ca72194-7a61-46c7-a9a1-f0141f183a1e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "# LibraryLink example\n*Adapted from [Kirill Belov @ \
+Habr](https://habr.com/ru/articles/817563/)* Here we will try to implement \
+the fastest __byte masking function__", "Display" -> "markdown", 
+    "Hash" -> "e0f051c4-1a4b-47de-b1c1-c59f80fadbbf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\nA simple approach using WL", "Display" -> "codemirror", 
+    "Hash" -> "89a7a8f0-dcec-405f-9772-232bf442636b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "A simple approach using WL", "Display" -> "markdown", 
+    "Hash" -> "473f94a5-24b0-408f-8617-1797a11c2b7b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "mask1 = Function[{maskingKey, payload}, \n  \
+ByteArray[Table[\n    BitXor[payload[[i]], maskingKey[[Mod[i - 1, 4] + 1]]], \
+\n    {i, 1, Length[payload]}\n  ]]\n]; ", "Display" -> "codemirror", 
+    "Hash" -> "c00cc57f-1282-4ed2-815f-4122259e2897", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\nCheck the speed", "Display" -> "codemirror", 
+    "Hash" -> "d4758d3c-3940-46d6-adc5-7f6ee2a58763", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> "Check the speed", 
+    "Display" -> "markdown", "Hash" -> 
+     "013e5c11-fefc-4fe0-bd1f-b205f021562a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "maskingKey = ByteArray[{192, 168, 13, 7}];\npayload = \
+StringToByteArray[\"{\\\"type\\\": \\\"point\\\", \\\"x\\\": 1.23, \\\"y\\\": \
+4.56}\"];\n\nmask1[maskingKey, payload] // RepeatedTiming // First ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ea51ff8f-3bbe-43ab-9942-9e280dc31d2c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "0.0000377310791015625`", "Display" -> "codemirror", 
+    "Hash" -> "07dc0711-633b-48fb-bd6c-02867068fcb5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "fffb9945-bf9b-447c-8b7f-51f28a169dbb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> 
+     ".md\n## Compiled version\nOne can use a native WL byte-code converter", 
+    "Display" -> "codemirror", "Hash" -> 
+     "9771b772-5578-44ec-86f3-a5a863b0ac2b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> 
+     "## Compiled version\nOne can use a native WL byte-code converter", 
+    "Display" -> "markdown", "Hash" -> 
+     "473e3611-5492-46d0-926c-4c7a6ba0e316", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "cmask2 = Compile[{{k, _Integer, 1}, {p, _Integer, 1}}, \
+\n\tTable[\n\t\tBitXor[p[[i]], k[[Mod[i - 1, 4] + 1]]], \n\t\t{i, 1, \
+Length[p]}\n\t]\n]; \n\nmask2[maskingKey_ByteArray, payload_ByteArray] := \
+\nModule[{k = Normal[maskingKey], p = Normal[payload]}, \
+\n\tByteArray[cmask2[k, p]]\n]", "Display" -> "codemirror", 
+    "Hash" -> "5dd0f56e-eae3-41e8-8b50-0bd5bde3f18f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> ".md\ntest", 
+    "Display" -> "codemirror", "Hash" -> 
+     "38a597e5-7b9b-45da-8a1b-16ca2b8c34bf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> "test", 
+    "Display" -> "markdown", "Hash" -> 
+     "6ec65d06-d8b6-4be2-862e-c490fab2200e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "mask2[maskingKey, payload] // RepeatedTiming // First ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "da8fa34a-6733-4fd8-a202-d3535e439088", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "(*BB[*)(4.804244995117187`*^-6)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgE\
+SHvk5KRAeB5AILqnMSXXKr0hjgskHleakFnMBGU6JydnpRfmleSlpzDDlQe5Ozvk5+UVFDGDwwR6d\
+wcAAAAHdFiw=\"*)(*]BB*)", "Display" -> "codemirror", 
+    "Hash" -> "176283b3-f541-4150-9933-71e3c69fb6cc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "647929ff-a128-4405-b359-a0d7dbe9f030", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\n## LibraryLink\nOne can write and compile a C/C++ \
+library code and integrate it to Wolfram Kernel. No data transfer or other \
+IPC (Inter-process communication) is required, since its will be a dynamic \
+library", "Display" -> "codemirror", 
+    "Hash" -> "79c513a3-1524-4ff2-bea9-b66b58452e8b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "## LibraryLink\nOne can write and compile a C/C++ library \
+code and integrate it to Wolfram Kernel. No data transfer or other IPC \
+(Inter-process communication) is required, since its will be a dynamic \
+library", "Display" -> "markdown", "Hash" -> 
+     "e7bf9ed0-c4d6-463b-ad4b-ed93dbdf9f61", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\nGet standard libraries for compiling", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1f9d57c1-6151-4eb7-8d59-5fcba5d79e90", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "Get standard libraries for compiling", 
+    "Display" -> "markdown", "Hash" -> 
+     "79dbd3d9-3467-47d3-b2de-ad098012de35", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "Get[\"CCompilerDriver`\"]; \nGet[\"LibraryLink`\"];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4409bcdb-3b54-4d87-ac60-33dc988b4a56", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\nWrite a C-code directly from a cell", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4322136d-0367-4d33-87bf-1b4057ab8f83", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "Write a C-code directly from a cell", 
+    "Display" -> "markdown", "Hash" -> 
+     "d5d88a07-c8dc-498c-9ec4-77594aa4d5f5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "mask.c\n#include <stdio.h>\n#include <stdlib.h>\n#include \
+<string.h>\n\n#include \"WolframLibrary.h\"\n#include \
+\"WolframNumericArrayLibrary.h\"\n\nDLLEXPORT mint \
+WolframLibrary_getVersion() {\n    return \
+WolframLibraryVersion;\n}\n\nDLLEXPORT int \
+WolframLibrary_initialize(WolframLibraryData libData) {\n    return \
+LIBRARY_NO_ERROR;\n}\n\nDLLEXPORT void \
+WolframLibrary_uninitialize(WolframLibraryData libData) {\n    \
+return;\n}\n\nDLLEXPORT int byteMask(WolframLibraryData libData, mint Argc, \
+MArgument *Args, MArgument Res) {\n    MNumericArray nMask = \
+MArgument_getMNumericArray(Args[0]);\n    uint8_t* mask = (uint8_t \
+*)libData->numericarrayLibraryFunctions->MNumericArray_getData(nMask);\n    \
+const mint maskLen = MArgument_getInteger(Args[1]);\n    \n    MNumericArray \
+nArr = MArgument_getMNumericArray(Args[2]);\n    uint8_t* arr = (uint8_t \
+*)libData->numericarrayLibraryFunctions->MNumericArray_getData(nArr); \n    \
+const mint arrLen = MArgument_getInteger(Args[3]);\n\n    MNumericArray \
+nResult;\n    \
+libData->numericarrayLibraryFunctions->MNumericArray_new(MNumericArray_Type_U\
+Bit8, 1, &arrLen, &nResult);\n    uint8_t *result = \
+(uint8_t*)libData->numericarrayLibraryFunctions->MNumericArray_getData(nResul\
+t); \n\n    const int len = arrLen - arrLen % maskLen; \n    int k; \n\n    \
+for (size_t i = 0; i < len; i = i + maskLen) {\n        result[i] = arr[i] ^ \
+mask[i]; \n        for (size_t j = 1; j < maskLen; j++) { \n            k = i \
++ j; \n            result[k] = arr[k] ^ mask[j]; \n        }\n    }\n    \n   \
+ for (size_t i = len; i < arrLen; i++) {\n        result[i] = arr[i] ^ mask[i \
+% maskLen];\n    }\n\n    MArgument_setMNumericArray(Res, nResult);\n    \
+return LIBRARY_NO_ERROR;\n}", "Display" -> "codemirror", 
+    "Hash" -> "7d1aa296-d181-47a3-b27c-587eb55a0191", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> 
+     "/users/kirill/Github/wolfram-js-frontend-dev/Demos/15 - Dev/mask.c", 
+    "Display" -> "fileprint", "Hash" -> 
+     "75c8c596-5298-4243-a796-8a8ce2b61703", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\nNow compile it", "Display" -> "codemirror", 
+    "Hash" -> "07da4ed4-7cc8-4fad-8801-d42a5d470e6d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> "Now compile it", 
+    "Display" -> "markdown", "Hash" -> 
+     "9e80f3b2-982f-43bd-9b79-2065b3e0d014", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "lib = CreateLibrary[File[\"mask.c\"], \"internal\"]; \
+\nbyteMask = LibraryFunctionLoad[\n lib,  \"byteMask\", \n {  \"ByteArray\", \
+\n  Integer,   {LibraryDataType[\"ByteArray\"], \"Shared\"}, \n  Integer }, \
+\n \"ByteArray\"]; \n \nmask3[key_ByteArray, payload_ByteArray] := \
+\nbyteMask[key, Length[key], payload, Length[payload]]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "680411e6-6552-4a0f-9f98-27c817baeaf7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> ".md\nNow test it", "Display" -> "codemirror", 
+    "Hash" -> "a91986dc-5297-4616-9769-d6c7e02cae05", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> "Now test it", 
+    "Display" -> "markdown", "Hash" -> 
+     "3ad8d692-af80-40de-ace5-54709299d8ed", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "mask3[maskingKey, payload] // RepeatedTiming // First ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2d28f942-547a-4909-939d-f7365b866476", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "(*BB[*)(1.0005302429199218`*^-6)(*,*)(*\"1:eJxTTMoPSmNkYGAoZg\
+ESHvk5KRAeB5AILqnMSXXKr0hjgskHleakFnMBGU6JydnpRfmleSlpzDDlQe5Ozvk5+UVF8WDw3r5\
+IAAwe2BfNAYM79gBQ7x14\"*)(*]BB*)", "Display" -> "codemirror", 
+    "Hash" -> "2a63223c-8a7b-4b2c-a80b-b5d462958a6d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "22e75fb2-47fe-48d8-975f-7d2aac3a9123", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> ".md\n## Summary", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2dc37a0a-fc27-4658-b4b7-cc3829d293ab", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, <|"Data" -> "## Summary", 
+    "Display" -> "markdown", "Hash" -> 
+     "4bec77f8-a3eb-4850-9719-c827a8fbe442", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "With[{\n  results = (#[maskingKey, payload] // RepeatedTiming \
+// First ) &/@ {mask1, mask2, mask3}\n},\n  <|\"Type\" -> {\"WL\", \
+\"Compile\", \"C\"}, \"Speed up\" -> (Max[results] / results)|> // TableView \
+\n]", "Display" -> "codemirror", "Hash" -> 
+     "14e052f7-35ca-46fb-bbd7-0d659e4c4388", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"4a0c25f3-3fe2-4e4a-8d11-8b9d45d64f60\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKmyQaJ\
+BuZphnrGqelGumapJok6lqkGBrqWiRZppiYppiZpJkZAACGRhWh\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1a059f6c-9c08-447b-8b2f-12dfb5a03890", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "1ef7901d-d948-4d64-82d5-44aae6d534f9"|>}, "serializer" -> "jsfn4"|>

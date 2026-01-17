@@ -1,0 +1,88 @@
+Item := ImportComponent["Item.wlx"];
+
+appendHeld[Hold[list_], a_] := list = Append[list, a];
+removeHeld[Hold[list_], a_] := list = (list /. a -> Nothing);
+SetAttributes[appendHeld, HoldFirst];
+SetAttributes[removeHeld, HoldFirst];
+
+addListeners[note_, Database_] := Module[{},
+  EventHandler[EventClone[note], {
+    "Destroy" -> Function[Null, Echo["remove hold"]; removeHeld[Database, note] ]
+  }];
+];
+
+Component[OptionsPattern[]] := With[{
+    Database   = OptionValue["Database"], 
+    LazyLoad   = CreateUUID[],
+    controls   = CreateUUID[],
+    controller = CreateUUID[],
+
+    appEvents = OptionValue["AppEvents"],
+    clonedAppEvents = EventClone[OptionValue["AppEvents"]]
+},
+Module[{
+    typed = ""
+},
+
+  EventHandler[controls, {
+    "New" -> Function[Null, With[{
+          client = $Client,
+          note = Note["Content" -> typed]
+      },      
+          appendHeld[Database, note];
+          addListeners[note, Database];
+          EventFire[appEvents, "Append", note];
+      ]    
+    ],
+
+    "Type" -> Function[text,
+        typed = text;
+    ],
+
+    "Load" -> Function[data, With[{client = $Client},
+      EventFire[LazyLoad, "Load", data];
+      Echo["Widget Loaded!"];
+      EventHandler[clonedAppEvents, {
+        "Append" -> Function[note,
+          Echo["Append!"]
+          EventFire[controller, "Append", <|"Client"->client, "Data" -> Item["Note"->note, "Client"->client, "Controls"->controls] |> ];
+        ]
+      }];
+    ]]
+
+  }];
+
+  {
+    With[{
+      NotesList := 
+        With[{client = $Client},
+          Table[Item["Note"->note, "Client"->client, "Controls"->controls], {note, ReleaseHold[Database]} ] // Flatten // ToStringRiffle
+        ]
+    },
+  
+    <WebUIContainer Event={controller}>
+      <div class="mt-0 shrink-0 gap-y-1 flex flex-col">
+          <WebUILazyLoad Event={LazyLoad}>
+            <NotesList/>
+          </WebUILazyLoad>
+          <WebUIContainerChild/> 
+          <WebUIOnLoad Event={controls} Pattern={"Load"}/>
+      </div>  
+    </WebUIContainer>
+   ]
+  
+  ,
+    <button class="flex items-center w-full h-8 px-2 mt-2 text-sm font-medium rounded">
+        <svg id="add-button" class="w-5 h-5 text-gray-400 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        <input id="add-text" class="flex-grow h-8 ml-4 bg-transparent focus:outline-none font-medium" type="text" placeholder="add a new task"/>
+        <WebUIEventListener Id={"add-button"} Event={controls} Pattern={"New"}/>
+        <WebUIEventListener Id={"add-text"} Type={"input"} Event={controls} Pattern={"Type"}/>
+    </button>
+  }
+] ]
+
+Options[Component] = {"Database"->{}}
+
+Component

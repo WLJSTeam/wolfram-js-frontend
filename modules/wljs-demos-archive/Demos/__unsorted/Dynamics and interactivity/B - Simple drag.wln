@@ -1,0 +1,23 @@
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$1100], 
+   "Objects" -> <||>, "Path" -> "/Users/kirill/Library/Application \
+Support/wljs-notebook/Examples/Dynamics/Interaction/Simple drag.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Interactive graphics\nSimple event-listener \
+attached to a graphical object", "Display" -> "codemirror", 
+    "Hash" -> "e3827303-a61b-46df-8c20-ceda2fbbff9e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "ac8b5633-d1d8-4631-a645-0f553028d99f"|>, 
+   <|"Data" -> "\n# Interactive graphics\nSimple event-listener attached to a \
+graphical object", "Display" -> "markdown", 
+    "Hash" -> "37b25047-775d-45e4-9ab7-822f2031442e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "ac8b5633-d1d8-4631-a645-0f553028d99f"|>, 
+   <|"Data" -> "p = {0.5,0.5};\n\nGraphics[{\n  Red, PointSize[0.1], \n  \
+EventHandler[Point[{{0.5,0.5}}], { \n    \"drag\" -> Function[x, p = x] \n  \
+}],\n  Line[{{0,0}, p // Offload}]\n}, TransitionDuration->30, \
+TransitionType->\"Linear\"]", "Display" -> "codemirror", 
+    "Hash" -> "b97e4dff-b3a1-4a27-802e-e5c37543ead2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "ac8b5633-d1d8-4631-a645-0f553028d99f"|>}, "serializer" -> "jsfn4"|>

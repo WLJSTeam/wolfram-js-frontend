@@ -64,12 +64,6 @@ jobs:
       - name: Install dependencies
         run: npm install                  
 
-      - name: Bundle
-        env:
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-        run: |
-          npm run pre-dist
-
       - name: Build electron
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}       
@@ -131,13 +125,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install                  
-
-      - name: Bundle
-        env:
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-        run: |
-          /opt/Wolfram/WolframEngine/14.1/SystemFiles/Kernel/Binaries/Linux-ARM64/wolframscript -debug -verbose -script ./Scripts/bundle.wls
-
+        
       - name: Install Ruby and dependencies
         run: |
           sudo apt-get update

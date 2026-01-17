@@ -33,9 +33,6 @@ Packages /: Set[ Packages[name_String, fields__], value_ ] := With[{tag = $name2
     $packages[tag, fields] = value 
 ]
 
-VersionsStore[dir_String, repos_Association] := Export[FileNameJoin[{dir, "wljs_packages_version.wl"}], Map[Function[data, data["version"] ], repos] ]
-VersionsLoad[dir_String] := If[FileExistsQ[FileNameJoin[{dir, "wljs_packages_version.wl"}] ], Import[FileNameJoin[{dir, "wljs_packages_version.wl"}] ], None ]
-
 
 SyncShared[dirs_List, shared_] := With[{},
 

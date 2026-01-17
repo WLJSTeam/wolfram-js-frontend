@@ -1,0 +1,111 @@
+<|"Notebook" -> <|"Controller" -> "6bbacacd-cf31-4575-90f6-5243274437d3", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$209], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "5da9066f-3763-4543-aba7-24766b7c1fc0", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Slides and \
+presentation/C - Procedural background.wln", "PublicFields" -> 
+    {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Procedural Backgrounds", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$202]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Procedural Backgrounds\n\nYou can continue \
+experimenting with WL in the same spirit and create a procedural background \
+for the slides. For example, a few balls moving along orbits.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b619beb4-e4f1-4c19-aed8-e806be4fe87d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> "# Procedural Backgrounds\n\nYou can continue experimenting \
+with WL in the same spirit and create a procedural background for the slides. \
+For example, a few balls moving along orbits.", "Display" -> "markdown", 
+    "Hash" -> "50e6fbaf-5d4a-4de8-b669-949564a9dde1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> ".wlx\n\nBackImageDynamic := Module[{\n  frameEvent = \
+CreateUUID[],\n  animationEvent = CreateUUID[],\n  slideEvent = \
+CreateUUID[],\n  allowedQ = False,\n  trigger = 1\n}, With[{\n\n  Canvas = \
+Graphics[{\n    Black, Rectangle[{0,0}, {1,1}], Red,\n    \
+curveDynamicGenerator[{0.5,0.5}, 0.8, animationEvent], Blue,\n    \
+curveDynamicGenerator[{0.5,0.5}, 0.3, animationEvent],\n\n    \
+AnimationFrameListener[trigger // Offload, \"Event\"->frameEvent]\n  }, \
+\"Controls\"->False, ImagePadding->0, TransitionDuration->200, \
+ImageSize->{960,700}, PlotRange->{{0,1}, {0,1}}]\n},\n\n  \
+EventHandler[frameEvent, Function[Null,\n    If[!allowedQ, Return[]];\n    \
+If[Mod[trigger, 5] == 0, EventFire[animationEvent, True]];\n    trigger = \
+trigger + 1;\n  ]];\n\n  EventHandler[slideEvent, {\n    \"Slide\" -> \
+Function[Null,\n      allowedQ = True;\n      trigger = trigger + 1;\n      \
+Print[\"Animation started\"];\n    ],\n\n    (\"Destroy\" | \"Left\") -> \
+Function[Null,\n      allowedQ = False;\n      Print[\"Animation \
+stopped\"];\n    ]\n  }];\n\n  <div>\n    <SlideEventListener \
+Id={slideEvent}/>\n    <Canvas/>\n  </div>\n] ]", "Display" -> "codemirror", 
+    "Hash" -> "c64efebd-0bd3-4fe6-8287-6ac743e84e82", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> 
+     ".md\nwhere the curveDynamicGenerator returns a kinda a dynamic object", 
+    "Display" -> "codemirror", "Hash" -> 
+     "bf5bb227-d972-4bfe-a0d9-fbb04fcf460b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> 
+     "where the curveDynamicGenerator returns a kinda a dynamic object", 
+    "Display" -> "markdown", "Hash" -> 
+     "59c11b62-8a0f-4a9c-88f7-82f9a8e825ab", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> "curveDynamicGenerator[center_, radius_, ev_] := With[{}, \
+\nModule[{\n  pts = Table[Norm[center - radius] {Sin[i], Cos[i]} +\n         \
+center, {i, 0, 2 Pi + 0.1, 0.1}],\n         \n  disk = {10,10},\n  modulation \
+= 0.,\n  phase = 0.,\n  initial = 12. RandomInteger[{0,10}]\n},\n\n  \
+EventHandler[EventClone[ev], Function[Null,\n      pts = Table[(\n        \
+Norm[center - radius] \n        + 0.02 modulation Sin[50. i + 30 phase]\n     \
+ ) {Sin[i], Cos[i]} + center\n      , {i, 0, 2 Pi + 0.1, 0.01}];\n\n      \
+disk = With[{i = 3. phase + initial},\n        (Norm[center - radius] \n      \
+  + 0.01 modulation Sin[50. i + 30 phase]\n        ) {Sin[i], Cos[i]} + \
+center\n      ];\n\n      phase = phase + 0.02;\n      modulation = \
+Sin[phase/2];\n  ]];\n  \n  {\n    Line[pts // Offload], \n    Disk[disk // \
+Offload, 0.013]\n  }\n]]", "Display" -> "codemirror", 
+    "Hash" -> "db80d1b1-77e8-4e9f-aa0f-4d130d391dc1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> ".md\nHere, we artificially slow down the Kernel's responses \
+using the `trigger` variable by a factor of 5, so that our background doesn't \
+consume too many resources. Interpolation on the browser side with \
+`TransitionDuration->200` is usually a bit \"cheaper.\" \n\nLet's place our \
+background on the slide and ensure it doesn't take up space there using the \
+`position` property in CSS.", "Display" -> "codemirror", 
+    "Hash" -> "8cece735-6ef7-421b-9f4f-0c4d73b9b752", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> "Here, we artificially slow down the Kernel's responses using \
+the `trigger` variable by a factor of 5, so that our background doesn't \
+consume too many resources. Interpolation on the browser side with \
+`TransitionDuration->200` is usually a bit \"cheaper.\" \n\nLet's place our \
+background on the slide and ensure it doesn't take up space there using the \
+`position` property in CSS.", "Display" -> "markdown", 
+    "Hash" -> "6df800b1-cb39-4488-86d1-914b24c189b9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>, 
+   <|"Data" -> ".slide\n\n<!-- .element: data-background-color=\"black\" \
+-->\n<!-- .slide: style=\"height:100vh; color: white;\" -->\n\n<div \
+class=\"flex flex-col h-full\"> \n\n<div class=\"absolute w-full h-full\" \
+style=\"scale: 1.1; left:-30px; z-index:-100\">\n  \
+<BackImageDynamic/>\n</div>\n\n<div class=\"mt-auto mb-auto\">\n    \n  \n# \
+Procedural background\n\nIt will be animated till slide is \
+visible\n\n</div>\n</div>\n\n---\n\n<!-- .element: \
+data-background-color=\"black\" -->\n<!-- .slide: style=\"height:100vh; \
+color: white;\" -->\n\nNow the animation stops", "Display" -> "codemirror", 
+    "Hash" -> "993d7dce-64f2-4aa2-b970-8e805c72b0d5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "96fcf126-d248-4d8f-a157-e10199426b15"|>}, 
+ "serializer" -> "jsfn4"|>

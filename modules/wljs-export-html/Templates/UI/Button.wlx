@@ -1,0 +1,25 @@
+Component[OptionsPattern[]] := With[{
+    Event = OptionValue["Event"], 
+    Topic = ToString[OptionValue["Topic"], InputForm], 
+    Uid = CreateUUID[], 
+    Label = OptionValue["Label"],
+    Class = OptionValue["Class"],
+    Style = OptionValue["Style"]
+},
+    {
+        <button type="button" style="{Style}" id="{Uid}" class="rounded bg-white dark:bg-gray-600 dark:text-gray-400 px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 {Class}">
+            <Label/>
+        </button>
+    ,
+        <script type="module">
+            const el = document.getElementById('<Uid/>');
+            el.addEventListener('click', (event)=>{
+                server.kernel._emitt('<Event/>', 'True', '<Topic/>');     
+            });
+        </script>
+    }
+]
+
+Options[Component] = {"Event"->"blackhole", "Label"->"Click", "Topic"->"Default", "Class"->"", "Style"->""};
+
+Component

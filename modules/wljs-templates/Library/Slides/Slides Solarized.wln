@@ -1,0 +1,240 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$82], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/wljs_packages/wljs-templates/Library/Slides Solarized.wln", 
+   "Symbols" -> <||>|>, "Cells" -> 
+  {<|"Data" -> ".html\n\n<style>\n/**\n * Solarized Light theme for \
+reveal.js.\n * Author: Achim Staebler\n */\n@import \
+url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic)\
+;\n/**\n * Solarized colors by Ethan Schoonover\n */\n\n:root {\n  \
+--r-background-color: #fdf6e3;\n  --r-main-font: Lato, sans-serif;\n  \
+--r-main-font-size: 40px;\n  --r-main-color: #657b83;\n  --r-block-margin: \
+20px;\n  --r-heading-margin: 0 0 20px 0;\n  --r-heading-font: League Gothic, \
+sans-serif;\n  --r-heading-color: #586e75;\n  --r-heading-line-height: 1.2;\n \
+ --r-heading-letter-spacing: normal;\n  --r-heading-text-transform: \
+uppercase;\n  --r-heading-text-shadow: none;\n  --r-heading-font-weight: \
+normal;\n  --r-heading1-text-shadow: none;\n  --r-heading1-size: 3.77em;\n  \
+--r-heading2-size: 2.11em;\n  --r-heading3-size: 1.55em;\n  \
+--r-heading4-size: 1em;\n  --r-code-font: monospace;\n  --r-link-color: \
+#268bd2;\n  --r-link-color-dark: #1a6091;\n  --r-link-color-hover: #78b9e6;\n \
+ --r-selection-background-color: #d33682;\n  --r-selection-color: #fff;\n  \
+--r-overlay-element-bg-color: 0, 0, 0;\n  --r-overlay-element-fg-color: 240, \
+240, 240;\n}\n\n.reveal-viewport {\n  background: #fdf6e3;\n  \
+background-color: var(--r-background-color);\n}\n\n.reveal {\n  font-family: \
+var(--r-main-font);\n  font-size: var(--r-main-font-size);\n  font-weight: \
+normal;\n  color: var(--r-main-color);\n}\n\n.reveal ::selection {\n  color: \
+var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+::-moz-selection {\n  color: var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+.slides section,\n.reveal .slides section > section {\n  line-height: 1.3;\n  \
+font-weight: inherit;\n}\n\n.reveal h1,\n.reveal h2,\n.reveal h3,\n.reveal \
+h4,\n.reveal h5,\n.reveal h6 {\n  margin: var(--r-heading-margin);\n  color: \
+var(--r-heading-color);\n  font-family: var(--r-heading-font);\n  \
+font-weight: var(--r-heading-font-weight);\n  line-height: \
+var(--r-heading-line-height);\n  letter-spacing: \
+var(--r-heading-letter-spacing);\n  text-transform: \
+var(--r-heading-text-transform);\n  text-shadow: \
+var(--r-heading-text-shadow);\n  word-wrap: break-word;\n}\n\n.reveal h1 {\n  \
+font-size: var(--r-heading1-size);\n}\n\n.reveal h2 {\n  font-size: \
+var(--r-heading2-size);\n}\n\n.reveal h3 {\n  font-size: \
+var(--r-heading3-size);\n}\n\n.reveal h4 {\n  font-size: \
+var(--r-heading4-size);\n}\n\n.reveal h1 {\n  text-shadow: \
+var(--r-heading1-text-shadow);\n}\n\n/***************************************\
+******\n * OTHER\n *********************************************/\n.reveal p \
+{\n  margin: var(--r-block-margin) 0;\n  line-height: 1.3;\n}\n\n/* Remove \
+trailing margins after titles */\n.reveal h1:last-child,\n.reveal \
+h2:last-child,\n.reveal h3:last-child,\n.reveal h4:last-child,\n.reveal \
+h5:last-child,\n.reveal h6:last-child {\n  margin-bottom: 0;\n}\n\n/* Ensure \
+certain elements are never larger than the slide itself */\n.reveal \
+img,\n.reveal video,\n.reveal iframe {\n  max-width: 95%;\n  max-height: \
+95%;\n}\n\n.reveal strong,\n.reveal b {\n  font-weight: bold;\n}\n\n.reveal \
+em {\n  font-style: italic;\n}\n\n.reveal ol,\n.reveal dl,\n.reveal ul {\n  \
+display: inline-block;\n  text-align: left;\n  margin: 0 0 0 \
+1em;\n}\n\n.reveal ol {\n  list-style-type: decimal;\n}\n\n.reveal ul {\n  \
+list-style-type: disc;\n}\n\n.reveal ul ul {\n  list-style-type: \
+square;\n}\n\n.reveal ul ul ul {\n  list-style-type: circle;\n}\n\n.reveal ul \
+ul,\n.reveal ul ol,\n.reveal ol ol,\n.reveal ol ul {\n  display: block;\n  \
+margin-left: 40px;\n}\n\n.reveal dt {\n  font-weight: bold;\n}\n\n.reveal dd \
+{\n  margin-left: 40px;\n}\n\n.reveal blockquote {\n  display: block;\n  \
+position: relative;\n  width: 70%;\n  margin: var(--r-block-margin) auto;\n  \
+padding: 5px;\n  font-style: italic;\n  background: rgba(255, 255, 255, \
+0.05);\n  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);\n}\n\n.reveal \
+blockquote p:first-child,\n.reveal blockquote p:last-child {\n  display: \
+inline-block;\n}\n\n.reveal q {\n  font-style: italic;\n}\n\n.reveal pre {\n  \
+display: block;\n  position: relative;\n  width: 90%;\n  margin: \
+var(--r-block-margin) auto;\n  text-align: left;\n  font-size: 0.55em;\n  \
+font-family: var(--r-code-font);\n  line-height: 1.2em;\n  word-wrap: \
+break-word;\n  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);\n}\n\n.reveal \
+code {\n  font-family: var(--r-code-font);\n  text-transform: none;\n  \
+tab-size: 2;\n}\n\n.reveal pre code {\n  display: block;\n  padding: 5px;\n  \
+overflow: auto;\n  max-height: 400px;\n  word-wrap: normal;\n}\n\n.reveal \
+.code-wrapper {\n  white-space: normal;\n}\n\n.reveal .code-wrapper code {\n  \
+white-space: pre;\n}\n\n.reveal table {\n  margin: auto;\n  border-collapse: \
+collapse;\n  border-spacing: 0;\n}\n\n.reveal table th {\n  font-weight: \
+bold;\n}\n\n.reveal table th,\n.reveal table td {\n  text-align: left;\n  \
+padding: 0.2em 0.5em 0.2em 0.5em;\n  border-bottom: 1px solid;\n}\n\n.reveal \
+table th[align=center],\n.reveal table td[align=center] {\n  text-align: \
+center;\n}\n\n.reveal table th[align=right],\n.reveal table td[align=right] \
+{\n  text-align: right;\n}\n\n.reveal table tbody tr:last-child th,\n.reveal \
+table tbody tr:last-child td {\n  border-bottom: none;\n}\n\n.reveal sup {\n  \
+vertical-align: super;\n  font-size: smaller;\n}\n\n.reveal sub {\n  \
+vertical-align: sub;\n  font-size: smaller;\n}\n\n.reveal small {\n  display: \
+inline-block;\n  font-size: 0.6em;\n  line-height: 1.2em;\n  vertical-align: \
+top;\n}\n\n.reveal small * {\n  vertical-align: top;\n}\n\n.reveal img {\n  \
+margin: var(--r-block-margin) \
+0;\n}\n\n/*********************************************\n * LINKS\n \
+*********************************************/\n.reveal a {\n  color: \
+var(--r-link-color);\n  text-decoration: none;\n  transition: color 0.15s \
+ease;\n}\n\n.reveal a:hover {\n  color: var(--r-link-color-hover);\n  \
+text-shadow: none;\n  border: none;\n}\n\n.reveal .roll span:after {\n  \
+color: #fff;\n  background: \
+var(--r-link-color-dark);\n}\n\n/********************************************\
+*\n * Frame helper\n *********************************************/\n.reveal \
+.r-frame {\n  border: 4px solid var(--r-main-color);\n  box-shadow: 0 0 10px \
+rgba(0, 0, 0, 0.15);\n}\n\n.reveal a .r-frame {\n  transition: all 0.15s \
+linear;\n}\n\n.reveal a:hover .r-frame {\n  border-color: \
+var(--r-link-color);\n  box-shadow: 0 0 20px rgba(0, 0, 0, \
+0.55);\n}\n\n/*********************************************\n * NAVIGATION \
+CONTROLS\n *********************************************/\n.reveal .controls \
+{\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PROGRESS BAR\n *********************************************/\n.reveal \
+.progress {\n  background: rgba(0, 0, 0, 0.2);\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PRINT BACKGROUND\n *********************************************/\n@media \
+print {\n  .backgrounds {\n    background-color: var(--r-background-color);\n \
+ }\n}\n  </style>", "Display" -> "codemirror", 
+    "Hash" -> "84533610-5b34-44ec-8626-96086d542ebb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "10aa5d71-6cbe-419e-a4db-7da0b9d753df"|>, 
+   <|"Data" -> "\n<style>\n/**\n * Solarized Light theme for reveal.js.\n * \
+Author: Achim Staebler\n */\n@import \
+url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic)\
+;\n/**\n * Solarized colors by Ethan Schoonover\n */\n\n:root {\n  \
+--r-background-color: #fdf6e3;\n  --r-main-font: Lato, sans-serif;\n  \
+--r-main-font-size: 40px;\n  --r-main-color: #657b83;\n  --r-block-margin: \
+20px;\n  --r-heading-margin: 0 0 20px 0;\n  --r-heading-font: League Gothic, \
+sans-serif;\n  --r-heading-color: #586e75;\n  --r-heading-line-height: 1.2;\n \
+ --r-heading-letter-spacing: normal;\n  --r-heading-text-transform: \
+uppercase;\n  --r-heading-text-shadow: none;\n  --r-heading-font-weight: \
+normal;\n  --r-heading1-text-shadow: none;\n  --r-heading1-size: 3.77em;\n  \
+--r-heading2-size: 2.11em;\n  --r-heading3-size: 1.55em;\n  \
+--r-heading4-size: 1em;\n  --r-code-font: monospace;\n  --r-link-color: \
+#268bd2;\n  --r-link-color-dark: #1a6091;\n  --r-link-color-hover: #78b9e6;\n \
+ --r-selection-background-color: #d33682;\n  --r-selection-color: #fff;\n  \
+--r-overlay-element-bg-color: 0, 0, 0;\n  --r-overlay-element-fg-color: 240, \
+240, 240;\n}\n\n.reveal-viewport {\n  background: #fdf6e3;\n  \
+background-color: var(--r-background-color);\n}\n\n.reveal {\n  font-family: \
+var(--r-main-font);\n  font-size: var(--r-main-font-size);\n  font-weight: \
+normal;\n  color: var(--r-main-color);\n}\n\n.reveal ::selection {\n  color: \
+var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+::-moz-selection {\n  color: var(--r-selection-color);\n  background: \
+var(--r-selection-background-color);\n  text-shadow: none;\n}\n\n.reveal \
+.slides section,\n.reveal .slides section > section {\n  line-height: 1.3;\n  \
+font-weight: inherit;\n}\n\n.reveal h1,\n.reveal h2,\n.reveal h3,\n.reveal \
+h4,\n.reveal h5,\n.reveal h6 {\n  margin: var(--r-heading-margin);\n  color: \
+var(--r-heading-color);\n  font-family: var(--r-heading-font);\n  \
+font-weight: var(--r-heading-font-weight);\n  line-height: \
+var(--r-heading-line-height);\n  letter-spacing: \
+var(--r-heading-letter-spacing);\n  text-transform: \
+var(--r-heading-text-transform);\n  text-shadow: \
+var(--r-heading-text-shadow);\n  word-wrap: break-word;\n}\n\n.reveal h1 {\n  \
+font-size: var(--r-heading1-size);\n}\n\n.reveal h2 {\n  font-size: \
+var(--r-heading2-size);\n}\n\n.reveal h3 {\n  font-size: \
+var(--r-heading3-size);\n}\n\n.reveal h4 {\n  font-size: \
+var(--r-heading4-size);\n}\n\n.reveal h1 {\n  text-shadow: \
+var(--r-heading1-text-shadow);\n}\n\n/***************************************\
+******\n * OTHER\n *********************************************/\n.reveal p \
+{\n  margin: var(--r-block-margin) 0;\n  line-height: 1.3;\n}\n\n/* Remove \
+trailing margins after titles */\n.reveal h1:last-child,\n.reveal \
+h2:last-child,\n.reveal h3:last-child,\n.reveal h4:last-child,\n.reveal \
+h5:last-child,\n.reveal h6:last-child {\n  margin-bottom: 0;\n}\n\n/* Ensure \
+certain elements are never larger than the slide itself */\n.reveal \
+img,\n.reveal video,\n.reveal iframe {\n  max-width: 95%;\n  max-height: \
+95%;\n}\n\n.reveal strong,\n.reveal b {\n  font-weight: bold;\n}\n\n.reveal \
+em {\n  font-style: italic;\n}\n\n.reveal ol,\n.reveal dl,\n.reveal ul {\n  \
+display: inline-block;\n  text-align: left;\n  margin: 0 0 0 \
+1em;\n}\n\n.reveal ol {\n  list-style-type: decimal;\n}\n\n.reveal ul {\n  \
+list-style-type: disc;\n}\n\n.reveal ul ul {\n  list-style-type: \
+square;\n}\n\n.reveal ul ul ul {\n  list-style-type: circle;\n}\n\n.reveal ul \
+ul,\n.reveal ul ol,\n.reveal ol ol,\n.reveal ol ul {\n  display: block;\n  \
+margin-left: 40px;\n}\n\n.reveal dt {\n  font-weight: bold;\n}\n\n.reveal dd \
+{\n  margin-left: 40px;\n}\n\n.reveal blockquote {\n  display: block;\n  \
+position: relative;\n  width: 70%;\n  margin: var(--r-block-margin) auto;\n  \
+padding: 5px;\n  font-style: italic;\n  background: rgba(255, 255, 255, \
+0.05);\n  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);\n}\n\n.reveal \
+blockquote p:first-child,\n.reveal blockquote p:last-child {\n  display: \
+inline-block;\n}\n\n.reveal q {\n  font-style: italic;\n}\n\n.reveal pre {\n  \
+display: block;\n  position: relative;\n  width: 90%;\n  margin: \
+var(--r-block-margin) auto;\n  text-align: left;\n  font-size: 0.55em;\n  \
+font-family: var(--r-code-font);\n  line-height: 1.2em;\n  word-wrap: \
+break-word;\n  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);\n}\n\n.reveal \
+code {\n  font-family: var(--r-code-font);\n  text-transform: none;\n  \
+tab-size: 2;\n}\n\n.reveal pre code {\n  display: block;\n  padding: 5px;\n  \
+overflow: auto;\n  max-height: 400px;\n  word-wrap: normal;\n}\n\n.reveal \
+.code-wrapper {\n  white-space: normal;\n}\n\n.reveal .code-wrapper code {\n  \
+white-space: pre;\n}\n\n.reveal table {\n  margin: auto;\n  border-collapse: \
+collapse;\n  border-spacing: 0;\n}\n\n.reveal table th {\n  font-weight: \
+bold;\n}\n\n.reveal table th,\n.reveal table td {\n  text-align: left;\n  \
+padding: 0.2em 0.5em 0.2em 0.5em;\n  border-bottom: 1px solid;\n}\n\n.reveal \
+table th[align=center],\n.reveal table td[align=center] {\n  text-align: \
+center;\n}\n\n.reveal table th[align=right],\n.reveal table td[align=right] \
+{\n  text-align: right;\n}\n\n.reveal table tbody tr:last-child th,\n.reveal \
+table tbody tr:last-child td {\n  border-bottom: none;\n}\n\n.reveal sup {\n  \
+vertical-align: super;\n  font-size: smaller;\n}\n\n.reveal sub {\n  \
+vertical-align: sub;\n  font-size: smaller;\n}\n\n.reveal small {\n  display: \
+inline-block;\n  font-size: 0.6em;\n  line-height: 1.2em;\n  vertical-align: \
+top;\n}\n\n.reveal small * {\n  vertical-align: top;\n}\n\n.reveal img {\n  \
+margin: var(--r-block-margin) \
+0;\n}\n\n/*********************************************\n * LINKS\n \
+*********************************************/\n.reveal a {\n  color: \
+var(--r-link-color);\n  text-decoration: none;\n  transition: color 0.15s \
+ease;\n}\n\n.reveal a:hover {\n  color: var(--r-link-color-hover);\n  \
+text-shadow: none;\n  border: none;\n}\n\n.reveal .roll span:after {\n  \
+color: #fff;\n  background: \
+var(--r-link-color-dark);\n}\n\n/********************************************\
+*\n * Frame helper\n *********************************************/\n.reveal \
+.r-frame {\n  border: 4px solid var(--r-main-color);\n  box-shadow: 0 0 10px \
+rgba(0, 0, 0, 0.15);\n}\n\n.reveal a .r-frame {\n  transition: all 0.15s \
+linear;\n}\n\n.reveal a:hover .r-frame {\n  border-color: \
+var(--r-link-color);\n  box-shadow: 0 0 20px rgba(0, 0, 0, \
+0.55);\n}\n\n/*********************************************\n * NAVIGATION \
+CONTROLS\n *********************************************/\n.reveal .controls \
+{\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PROGRESS BAR\n *********************************************/\n.reveal \
+.progress {\n  background: rgba(0, 0, 0, 0.2);\n  color: \
+var(--r-link-color);\n}\n\n/*********************************************\n * \
+PRINT BACKGROUND\n *********************************************/\n@media \
+print {\n  .backgrounds {\n    background-color: var(--r-background-color);\n \
+ }\n}\n  </style>", "Display" -> "html", 
+    "Hash" -> "61f8348c-206d-4ced-a4c8-a2b7df263564", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "10aa5d71-6cbe-419e-a4db-7da0b9d753df"|>, 
+   <|"Data" -> 
+     ".md\n\n## Solarized Light theme for slides\n * Author: Achim Staebler", 
+    "Display" -> "codemirror", "Hash" -> 
+     "eb5d489e-e209-488a-8086-7f65f0911ceb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "10aa5d71-6cbe-419e-a4db-7da0b9d753df"|>, 
+   <|"Data" -> 
+     ">\n## Solarized Light theme for slides\n * Author: Achim Staebler", 
+    "Display" -> "markdown", "Hash" -> 
+     "e1e0998e-a6a6-4fb5-9b23-56215650d236", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "10aa5d71-6cbe-419e-a4db-7da0b9d753df"|>, 
+   <|"Data" -> ".slide\n\n# Heading", "Display" -> "codemirror", 
+    "Hash" -> "709bd5cc-9bd0-40ff-b0cf-b0af1afe84ec", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "10aa5d71-6cbe-419e-a4db-7da0b9d753df"|>, 
+   <|"Data" -> "<dummy >\n# Heading</dummy>", "Display" -> "slide", 
+    "Hash" -> "f59bd93d-061b-4531-ae3b-18b24b21f786", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "10aa5d71-6cbe-419e-a4db-7da0b9d753df"|>}, "serializer" -> "jsfn4"|>

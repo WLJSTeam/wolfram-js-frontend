@@ -1,0 +1,5 @@
+URL = URLBuild[<|"Path" -> FileNameSplit[$FirstChild], "Query" -> <|"file" -> True|>|>];
+
+<figure class="max-w-lg bg-gray-100">
+  <img class="h-auto max-w-full rounded-lg" src="/{URL}" alt="image description"/>
+</figure>

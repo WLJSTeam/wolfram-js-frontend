@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8">
+    <style>span .cm-scroller {
+        overflow-y: scroll;
+      }
+      span .cm-scroller::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .subscript-tail {
+        display: inline-block;
+      }
+
+      .fraction {
+        display: inline-flex;
+      }
+
+      .matrix {
+        display: inline-flex;
+      }
+
+      .fraction .container .enumenator {
+        border-bottom:solid 1px;
+      }
+
+      .sqroot {
+        display: inline-block;
+        vertical-align: middle;
+        border-top: 1px solid;
+        border-left: 1px solid;
+        transform: skew(-15deg);
+        transform-origin: bottom left;
+        margin: 0 10px;
+        position: relative;
+      }
+      
+      .sqroot:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        height: 40%;
+        width: 5px;
+        left: -5px;
+        border-top: 1px solid;
+        border-right: 1px solid;
+        transform: skew(30deg);
+        transform-origin: bottom right;
+      }
+      
+      .radicand {
+        display: inline-block;
+        padding-left: 0.5em;
+        transform: skew(15deg);
+      }</style>
+  </head>
+
+  <body>
+    <div id="editor"></div>
+
+    <script src="/priceless-mathematica.e31bb0bc.js"></script>
+  </body>
+</html>

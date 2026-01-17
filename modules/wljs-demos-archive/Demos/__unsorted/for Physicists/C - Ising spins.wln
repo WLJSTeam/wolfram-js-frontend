@@ -1,0 +1,123 @@
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$40], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Library/CloudStorage/OneDrive-\
+Personal/\:0414\:043e\:043a\:0443\:043c\:0435\:043d\:0442\:044b/\:041a\:043e\
+\:043d\:0444\:0435\:0440\:0435\:043d\:0446\:0438\:0438/DPG2023/Ising \
+spins.wln"|>, "Cells" -> {<|"Data" -> ".md\n# 1D Ising model\n`8000` spins \
+coupled via superexchange interaction\n\nEvaluate __initialization cells \
+first__!", "Display" -> "codemirror", 
+    "Hash" -> "80269204-c19b-4cc1-b506-81efa8fd9fc4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "# 1D Ising model\n`8000` spins coupled via superexchange \
+interaction\n\nEvaluate __initialization cells first__!", 
+    "Display" -> "markdown", "Hash" -> 
+     "432c2b4a-0319-424f-a7bf-d95b5bb42108", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "a6ac18db-92f1-40d7-8fe8-bf3079619cae", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> ".md\nEnergy function and local updates", 
+    "Display" -> "codemirror", "Hash" -> 
+     "cc1822e2-ea40-484c-929b-f68b4645238e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "Energy function and local updates", "Display" -> "markdown", 
+    "Hash" -> "5d7df5f0-8a34-4b59-b678-31754e344c15", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "energy[i_, h_, e_] := {1,-1} h + e {1,-1} (\n  If[i < \
+Length[spins], spins[[i+1]], 0] + If[i > 1, spins[[i-1]], 0]\n)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "024aff27-6994-4c17-bc4b-7ff7ed6a730b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "localUpdate[T_, params__] := With[{i = RandomInteger[{1, \
+Length[spins]}]},\n  spins[[i]] = First@RandomChoice[Exp[-energy[i, \
+params]/T] -> {1,-1}, 1];\n] ", "Display" -> "codemirror", 
+    "Hash" -> "5cbe18a7-cf92-4f5d-9203-465c58084eba", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> ".md\nUI elements", "Display" -> "codemirror", 
+    "Hash" -> "c7bbf5d8-4fc3-4c07-bcbd-33ac723af65d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, <|"Data" -> "UI elements", 
+    "Display" -> "markdown", "Hash" -> 
+     "0ee4f7fd-c218-46ac-9640-fe67c51a552a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "running = InputCheckbox[False, \"Label\"->\"Run\"];\nreset = \
+InputButton[\"Reset\"];\nparams = InputGroup[<|\n  \"T\"->InputRange[0.1, 2, \
+0.1, 0.1, \"Label\"->\"Temperature\"],\n  \"H\"->InputRange[-0.5,0.5,0.01,0, \
+\"Label\"->\"Field\"],\n  \"J\"->InputRange[-1,1,0.5,-1, \
+\"Label\"->\"J\"]\n|>];\n\nEventHandler[reset, Function[Null,\n  mag = {0};\n \
+ spins = RandomChoice[{-1,1}, 20 20 20] // N;\n  exposed = Take[spins, 20 \
+20];  \n]];\n\nreset // EventFire;\n\nEventHandler[params, Function[data,\n  \
+defaults = data;\n]]; \n\nparams // EventFire;\n\nEventHandler[running, \
+Function[state,\n  If[state,\n    EventHandler[\"frame\", Function[Null,\n    \
+  Do[localUpdate@@defaults, {i, 10000}];\n      exposed = Take[spins, 20 \
+20];\n      mag = Append[mag, Mean[spins]];  \n    ]];\n    \
+EventFire[\"frame\", Null];\n  ,\n    EventRemove[\"frame\"];\n  ]\n]];\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "494b4bcd-ba42-4ec5-b876-db756697f523", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> ".md\nOutput panel. __Evaluate this cell very last__", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a70233e8-0daa-45b2-a60d-ad02956d75d2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "Output panel. __Evaluate this cell very last__", 
+    "Display" -> "markdown", "Hash" -> 
+     "bcf43660-d7cf-4c84-8da2-0fad642085c1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "{Graphics[{(*VB[*)(RGBColor[0.922526, 0.385626, \
+0.209179])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeGJAIcndyzs/JLwouTyxJzghJzS3I\
+SSxJTWMGyXMgyRdd2frNLrT1rX3RHf35ayTW3bAv0nBnXJRw7JQ9AKbfHmU=\"*)(*]VB*),\n  \
+Table[With[{index = i + 20 (j-1)},\n    Disk[{i,j}, Offload[0.2 + 0.1 \
+exposed[[index]] ] ]\n  ], {i, 20}, {j, 20}],\n  \n  \
+AnimationFrameListener[exposed // Offload, \"Event\"->\"frame\"] \n}], \
+ListLinePlotly[mag // Offload] } // Row ", "Display" -> "codemirror", 
+    "Hash" -> "2fae50ac-c160-4843-a468-477399ad46a7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> ".md\nControl panel", "Display" -> "codemirror", 
+    "Hash" -> "014edc7f-d644-4533-99b2-7e5ff0ec3d4c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, <|"Data" -> "Control panel", 
+    "Display" -> "markdown", "Hash" -> 
+     "f5a6731d-cd1e-4362-9c32-4872f00a27a1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> "running\nreset \nparams ", "Display" -> "codemirror", 
+    "Hash" -> "6a3bc50d-db07-4e1e-8c96-5fe3c565cd77", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False, 
+      "InitGroup" -> True|>, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "8e57e115-0636-4adc-b592-be4c7fab0522", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "d367d523-e11d-47ce-9e8b-1a5e1c616bc0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b07d4bc6-9c62-46fd-8b95-4df6663e4307"|>}, "serializer" -> "jsfn4"|>

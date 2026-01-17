@@ -1,0 +1,30 @@
+Component[OptionsPattern[]] := With[{UId = OptionValue["UId"], Label = OptionValue["Label"], Description = OptionValue["Description"]},
+
+  If[OptionValue["Layout"] === "Vertical", 
+    <div class="divide-y divide-gray-200 overflow-hidden rounded-md sm-controls">
+      <div class="px-2 py-2">
+        <Label/>
+      </div>
+      <div class="px-2 py-2 flex flex-col gap-y-3" data-type="group">
+      </div>
+      <div class="px-2 py-2">
+        <Description/>
+      </div>
+    </div>
+  ,
+    <div class="divide-y divide-gray-200 overflow-hidden rounded-md sm-controls">
+      <div class="px-2 py-2">
+        <Label/>
+      </div>
+      <div class="px-2 py-2 flex flex-row gap-x-3" data-type="group">
+      </div>
+      <div class="px-2 py-2">
+        <Description/>
+      </div>
+    </div>
+  ]
+]
+
+Options[Component] = {"UId":>CreateUUID[], "Label"->"", "Description"->"", "Layout"->"Vertical"}
+
+Component

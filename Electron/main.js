@@ -397,7 +397,7 @@ pluginsMenu.fetch = () => {
             }
         }    
     }    
-    const defaultPath = path.join(rootAppFolder, 'wljs_packages');
+    const defaultPath = path.join(rootAppFolder, 'modules');
 
     if (!fs.existsSync(defaultPath)) return;
 
@@ -2302,9 +2302,9 @@ const os = require('node:os');
 app.whenReady().then(() => {
     if (!isMac) {
         if (!isWindows) {
-            tray = new Tray(path.join(__dirname, 'build', '512x512.png'));
+            tray = new Tray(path.join(__dirname, 'build', 'icon.png'));
         } else {
-            tray = new Tray(path.join(__dirname, 'build', '256x256_new.ico'));
+            tray = new Tray(path.join(__dirname, 'build', 'icon.ico'));
         }
         //console.log(path.join(__dirname, 'build', '256x256_new.ico'));
         tray.setToolTip('Sorry, I am buzy');

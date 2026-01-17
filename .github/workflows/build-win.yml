@@ -69,61 +69,14 @@ jobs:
         run: |
           npm install
 
-      - name: Cache/restore Wolfram Engine install
-        id: cache-restore
-        uses: actions/cache@v4
-        env:
-          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
-        with:
-          path: ${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}
-          key: wolframengine-${{ env.WOLFRAM_SYSTEM_ID }}-${{ env.WOLFRAMENGINE_CACHE_KEY }}
-
-      - name: Download and install Wolfram Engine
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        env:
-          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
-          WOLFRAMENGINE_INSTALL_MSI_PATH: '${{ runner.temp }}\WolframEngine-Install.msi'
-          WOLFRAMENGINE_INSTALL_LOG_PATH: '${{ runner.temp }}\WolframEngine-Install.log'
-        run: |
-          echo 'Downloading Wolfram Engine installer...'
-          $msiFile = '${{ env.WOLFRAMENGINE_INSTALL_MSI_PATH }}'
-          $logFile = '${{ env.WOLFRAMENGINE_INSTALL_LOG_PATH }}'
-
-          Import-Module BitsTransfer
-          Start-BitsTransfer '${{ env.WOLFRAMENGINE_INSTALL_MSI_DOWNLOAD_URL }}' $msiFile
-          echo 'Downloaded Wolfram Engine installer.'
-
-          $DataStamp = get-date -Format yyyyMMddTHHmmss
-          $MSIArguments = @(
-              "/i"
-              ('"{0}"' -f $msiFile)
-              'INSTALLLOCATION="${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}"'
-              "/qn"
-              "/norestart"
-              "/L*v"
-              $logFile
-          )
-          echo 'Installing Wolfram Engine...'
-          Start-Process "msiexec.exe" -ArgumentList $MSIArguments -Wait -NoNewWindow
-          echo 'Installed Wolfram Engine.'
-
-      - name: Bundle files
-        env:
-          WOLFRAMENGINE_INSTALLATION_DIRECTORY: '${{ runner.temp }}\${{ env.WOLFRAMENGINE_INSTALLATION_SUBDIRECTORY }}'
-          WOLFRAMINIT: "-pwfile !cloudlm.wolfram.com -entitlement ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}"
-        run: |
-          $env:Path += ';${{ env.WOLFRAMENGINE_INSTALLATION_DIRECTORY }}\'
-          wolfram -script ./Scripts/bundle.wls
-
-
       - name: Define DLL dirs 
         shell: pwsh
         run: |
           $dirs = @(
-            "wl_packages\KirillBelov_CSockets\Fallback",       
-            "wl_packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v6",  
-            "wl_packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v7",
-            "wl_packages\KirillBelov_CSockets\UV\Windows-x86-64"
+            "Packages\KirillBelov_CSockets\Fallback",       
+            "Packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v6",  
+            "Packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v7",
+            "Packages\KirillBelov_CSockets\UV\Windows-x86-64"
           )
           # Persist for later steps (semicolon-separated)
           "DLL_DIRS=$($dirs -join ';')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8

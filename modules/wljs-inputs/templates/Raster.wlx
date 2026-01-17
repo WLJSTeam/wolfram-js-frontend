@@ -1,0 +1,204 @@
+Component[OptionsPattern[]] := With[{
+    Event = OptionValue["Event"], 
+    Topic = OptionValue["Topic"], 
+    Uid = CreateUUID[], 
+    AllowUpdateWhileDrawing = If[OptionValue["AllowUpdateWhileDrawing"], "true", "false"],
+    TemporalHandler = OptionValue["Handler"],
+    ImageSizeJSON = ExportString[OptionValue[ImageSize], "JSON"],
+    OverlayMode = If[MatchQ[OptionValue["OverlayImage"], _Image], "true", "false"]
+},
+{
+  <div class="flex flex-col gap-y-1">
+  <input type="range" min="1" max="50" value="25" class="sm-controls w-full mt-3 mb-3 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer " id="#instanceId-sizeRange" />
+  <fieldset>
+        <div class="mt-2 flex-row gap-x-2 flex">
+          
+          <div class="flex items-center"><input name="#instanceId-colorRadio" value="black" checked="true" type="radio" class="h-4 w-4 border-gray-300 text-sys  focus:ring-sys"/><label class="ml-3 block text-sm font-medium  leading-6 text-gray-900">Black</label></div>
+
+                    <div class="flex items-center"><input name="#instanceId-colorRadio" value="white" type="radio" class="h-4 w-4 border-gray-300 text-sys  focus:ring-sys"/><label class="ml-3 block text-sm font-medium  leading-6 text-gray-900">White</label></div>
+
+                    <div class="flex items-center"><input name="#instanceId-colorRadio" value="red" type="radio" class="h-4 w-4 border-gray-300 text-sys  focus:ring-sys"/><label class="ml-3 block text-sm font-medium  leading-6 text-gray-900">Red</label></div>
+
+                    <div class="flex items-center"><input name="#instanceId-colorRadio" value="green" type="radio" class="h-4 w-4 border-gray-300 text-sys  focus:ring-sys"/><label class="ml-3 block text-sm font-medium  leading-6 text-gray-900">Green</label></div>
+
+                    <div class="flex items-center"><input name="#instanceId-colorRadio" value="blue" type="radio" class="h-4 w-4 border-gray-300 text-sys  focus:ring-sys"/><label class="ml-3 block text-sm font-medium  leading-6 text-gray-900">Blue</label></div>
+
+          <div class="flex items-center ml-auto"><button class="sm-controls rounded bg-white px-2 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="#instanceId-clear">Clear</button></div>
+        </div>
+      
+        
+  </fieldset>
+
+  </div>
+
+
+  ,
+
+  <script type="module">
+    core['<TemporalHandler/>'] = async (args, env) => {
+      env.element.classList.add(...(("sm-controls cursor-default rounded-md 0 py-1 px-2 bg-gray-100 text-left text-gray-500 ring-1 ring-inset ring-gray-400 gap-y-1").split(" ")));
+      env.element.style.flexDirection = "column-reverse";
+      
+      const sizeElement = document.getElementById("#instanceId-sizeRange");
+      let size = sizeElement.value;
+      sizeElement.oninput = (e) => {
+        size = e.target.value;
+      };
+
+      const colorElement = document.getElementsByName("#instanceId-colorRadio");
+      let color;
+      colorElement.forEach((c) => {
+        if (c.checked) color = c.value;
+      });
+
+      colorElement.forEach((c) => {
+        c.onclick = () => {
+          color = c.value;
+        };
+      });
+
+      const dpr = 1.0 / window.devicePixelRatio;
+
+      function drawOnImage(image = null) {
+        let canvasElement = env.element.getElementsByTagName("canvas");
+        console.warn(canvasElement);
+
+
+        if (canvasElement.length == 0) {
+          console.log("Creating canvas...");
+          canvasElement = document.createElement("canvas");
+          let imageWidth, imageHeight;
+
+          const isize = <ImageSizeJSON/>;
+        
+          if (Array.isArray(isize)) {
+            imageWidth = isize[0];
+            imageHeight = isize[1];
+          } else {
+            imageWidth = isize;
+            imageHeight = isize * 0.75;
+          }
+        
+          // rescaling the canvas element
+          canvasElement.width = imageWidth;
+          canvasElement.height = imageHeight;
+
+          canvasElement.style.width = imageWidth * dpr + "px";
+          canvasElement.style.height = imageHeight * dpr + "px";
+
+
+          env.element.appendChild(canvasElement);
+
+        } else {
+          const overlayMode = <OverlayMode/>;
+          if (overlayMode) {
+            const container = document.createElement("div");
+            container.classList.add("relative");
+            env.element.appendChild(container);
+            
+
+            canvasElement[0].classList.add("absolute", "inset-0", "pointer-events-none", "rounded-md");
+            //canvasElement[0].style.zIndex = -1;
+            canvasElement[0].style.opacity = 0.3;
+            container.appendChild(canvasElement[0]);
+
+            console.log(canvasElement[0]);
+
+            const newCanvasElement = document.createElement("canvas");
+            newCanvasElement.width = canvasElement[0].width;
+            newCanvasElement.height = canvasElement[0].height;
+            newCanvasElement.style.height = canvasElement[0].style.height;
+            newCanvasElement.style.width = canvasElement[0].style.width;
+
+            container.appendChild(newCanvasElement);
+
+
+            
+            canvasElement = newCanvasElement;
+
+
+          } else {
+            canvasElement = canvasElement[0];
+          }
+        }
+
+        canvasElement.classList.add("rounded-md", "shadow");
+        const context = canvasElement.getContext("2d");
+      
+        const uploadImage = () => {
+          canvasElement.toBlob((res) => {
+          
+            const reader = new FileReader();
+          
+      reader.readAsDataURL(res); 
+      reader.onloadend = function() {
+          const offset = 'data:image/png;base64,'.length;
+          const base64data = reader.result.slice(offset);                
+
+          server.kernel.emitt('<Event/>', '"'+base64data+'"', '<Topic/>');
+          return;
+      }
+          });
+        }
+      
+        const clearElement = document.getElementById("#instanceId-clear");
+        clearElement.onclick = () => {
+          context.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        };
+      
+        let isDrawing;
+        let didMove = false;
+      
+        canvasElement.onmousedown = (e) => {
+          isDrawing = true;
+          didMove = false;
+          context.beginPath();
+          context.lineWidth = size;
+          context.strokeStyle = color;
+          context.lineJoin = "round";
+          context.lineCap = "round";
+          context.moveTo(e.offsetX/dpr, e.offsetY/dpr);
+        };
+      
+        canvasElement.onmousemove = (e) => {
+        
+          if (isDrawing) {
+            didMove = true;
+            context.lineTo(e.offsetX/dpr, e.offsetY/dpr);
+            context.stroke();
+
+            if (<AllowUpdateWhileDrawing/>) {
+              uploadImage();
+            }
+          }
+        };
+      
+        canvasElement.onmouseup = function (e) {
+          if (!isDrawing) return;
+
+          isDrawing = false;
+
+          if (!didMove) {
+            context.arc(e.offsetX/dpr, e.offsetY/dpr, size/2, 0, 2*Math.PI);
+            context.fill();
+          }
+
+          context.closePath();
+          uploadImage();
+
+        };
+      }
+
+
+      drawOnImage();
+
+
+      delete core['<TemporalHandler/>'];
+    }
+  </script>
+}
+]
+
+Options[Component] = {"OverlayImage"->None, "AllowUpdateWhileDrawing"->False, ImageSize -> 350, "Handler" -> "RasterXYZ", Magnification -> 1, "Event" -> "blackhole", "Topic" -> "Default"};
+
+Component

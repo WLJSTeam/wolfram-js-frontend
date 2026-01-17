@@ -1,0 +1,155 @@
+<|"Notebook" -> <|"Controller" -> "4ba53521-2a44-4b2d-bd8b-e057ff31d044", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$3796], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "14c45467-ed3a-4996-8b82-dc148cfb4977", 
+   "Objects" -> <|"de07f564-3e1c-4f7b-8baf-5d0487e5f5b8" -> 
+      <|"Public" -> Hold[HTMLView["<div class=\"mt-2 flex\"><div \
+style=\"width: 7rem\" class=\"flex shrink-0 items-center rounded-l-md \
+bg-white px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 \
+outline-gray-300 sm:text-sm/6\">x</div><input type=\"number\" step=\"1\" \
+class=\"-ml-px block w-full grow rounded-r-md bg-white px-3 py-1.5 text-base \
+text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 \
+placeholder:text-gray-400 focus:outline focus:outline-2 \
+focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6\" \
+placeholder=\"0.0\"/><script type=\"module\"> core['Handler$849754'] = async \
+(args, env) => {\n        const input = \
+env.element.getElementsByTagName('input')[0];\n\n\n        const data = await \
+interpretate(args[0], env);\n        input.value = +data.toFixed(4);\n        \
+env.local.input = input;\n\n        input.addEventListener('change', () => \
+{\n          \n          console.warn(input.value);\n          env.local.skip \
+= true;\n          \
+server.kernel.io.fire('f9216cd0-8ad0-4ce8-8682-222e80b7ec98', \
+Number(input.value), 'x');\n        });        \n      }\n\n      \
+core['Handler$849754'].update = async (args, env) => {\n        if \
+(env.local.skip) {\n          env.local.skip = false;\n          return;\n    \
+    }\n        \n        console.log('Update');\n        \
+env.local.input.value = +(await interpretate(args[0], env)).toFixed(4);\n     \
+ }\n\n      core['Handler$849754'].destroy = () => {\n        delete \
+core['Handler$849754'];\n      }\n\n      core['Handler$849754'].virtual = \
+true;</script></div>", Epilog -> Handler$849754[Offload[values[[1]]]]]]|>, 
+     "d4c1682f-2be4-4bc5-b5de-a1fd9503d46a" -> 
+      <|"Public" -> Hold[HTMLView["<div class=\"mt-2 flex\"><div \
+style=\"width: 7rem\" class=\"flex shrink-0 items-center rounded-l-md \
+bg-white px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 \
+outline-gray-300 sm:text-sm/6\">x<sup>2</sup></div><input type=\"number\" \
+step=\"1\" class=\"-ml-px block w-full grow rounded-r-md bg-white px-3 py-1.5 \
+text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 \
+placeholder:text-gray-400 focus:outline focus:outline-2 \
+focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6\" \
+placeholder=\"0.0\"/><script type=\"module\"> core['Handler$849755'] = async \
+(args, env) => {\n        const input = \
+env.element.getElementsByTagName('input')[0];\n\n\n        const data = await \
+interpretate(args[0], env);\n        input.value = +data.toFixed(4);\n        \
+env.local.input = input;\n\n        input.addEventListener('change', () => \
+{\n          \n          console.warn(input.value);\n          env.local.skip \
+= true;\n          \
+server.kernel.io.fire('f9216cd0-8ad0-4ce8-8682-222e80b7ec98', \
+Number(input.value), 'x2');\n        });        \n      }\n\n      \
+core['Handler$849755'].update = async (args, env) => {\n        if \
+(env.local.skip) {\n          env.local.skip = false;\n          return;\n    \
+    }\n        \n        console.log('Update');\n        \
+env.local.input.value = +(await interpretate(args[0], env)).toFixed(4);\n     \
+ }\n\n      core['Handler$849755'].destroy = () => {\n        delete \
+core['Handler$849755'];\n      }\n\n      core['Handler$849755'].virtual = \
+true;</script></div>", Epilog -> Handler$849755[Offload[values[[2]]]]]]|>|>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/07 - User \
+input/Custom input with 2 ways binding.wln", "Quick" -> True, 
+   "Symbols" -> <|"values" -> JSObject[5[25]]|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "WLX & 2 ways binding", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$3792]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## WLX & 2 ways binding\n\nIt is also possible \
+to combine your custom input element with traditional dynamics. For instance \
+you want to create multiple input fields, which are synchronised  with each \
+other or using some equation. \n\nTherefore you need a WLJS Function with \
+`update` methods defined. One can generate those on-fly for each input \
+element within a WLX script", "Display" -> "codemirror", 
+    "Hash" -> "6df4110a-803b-47cd-a17d-e1a799eadf01", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>, 
+   <|"Data" -> "## WLX & 2 ways binding\n\nIt is also possible to combine \
+your custom input element with traditional dynamics. For instance you want to \
+create multiple input fields, which are synchronised  with each other or \
+using some equation. \n\nTherefore you need a WLJS Function with `update` \
+methods defined. One can generate those on-fly for each input element within \
+a WLX script", "Display" -> "markdown", 
+    "Hash" -> "9d86be04-9f42-47f1-a312-f8b1c4fdd710", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>, 
+   <|"Data" -> ".wlx\n\nCustomInput[sym_, OptionsPattern[]] := Module[{\n  \
+Label = OptionValue[\"Label\"],\n  Ev = OptionValue[\"Event\"],\n  Pattern = \
+OptionValue[\"Pattern\"],\n  Handler\n},\n\n  With[{Template = \n    <div \
+class=\"mt-2 flex\">\n      <div style=\"width: 7rem\" class=\"flex shrink-0 \
+items-center rounded-l-md bg-white px-3 text-base text-gray-500 outline \
+outline-1 -outline-offset-1 outline-gray-300 sm:text-sm/6\"><Label/></div>\n  \
+    <input type=\"number\" step=\"1\" class=\"-ml-px block w-full grow \
+rounded-r-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 \
+-outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline \
+focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 \
+sm:text-sm/6\" placeholder=\"0.0\"/>\n    <script type=\"module\">\n      \
+core['<Handler/>'] = async (args, env) => {\n        const input = \
+env.element.getElementsByTagName('input')[0];\n\n\n        const data = await \
+interpretate(args[0], env);\n        input.value = +data.toFixed(4);\n        \
+env.local.input = input;\n\n        input.addEventListener('change', () => \
+{\n          \n          console.warn(input.value);\n          env.local.skip \
+= true;\n          server.kernel.io.fire('<Ev/>', Number(input.value), \
+'<Pattern/>');\n        });        \n      }\n\n      \
+core['<Handler/>'].update = async (args, env) => {\n        if \
+(env.local.skip) {\n          env.local.skip = false;\n          return;\n    \
+    }\n        \n        console.log('Update');\n        \
+env.local.input.value = +(await interpretate(args[0], env)).toFixed(4);\n     \
+ }\n\n      core['<Handler/>'].destroy = () => {\n        delete \
+core['<Handler/>'];\n      }\n\n      core['<Handler/>'].virtual = true;\n    \
+</script>\n  </div>\n  },\n    HTMLView[Template, Epilog->(Handler[sym])]\n  \
+]\n]\n\nOptions[CustomInput] = {\"Label\"->\"\", \"Event\"->\"\", \
+\"Pattern\"->\"Default\"};", "Display" -> "codemirror", 
+    "Hash" -> "d71b7a80-62d6-4b19-9263-e19d325583b1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>, 
+   <|"Data" -> ".md\n\nwhat happens here:\n\n1. we define a template for our \
+custom input field\n2. we define a support script with a generated `Handler` \
+function, which reads and updates this input field\n3. we pack in into \
+`HTMLView`, which calls our `Handler` on a provided argument after this \
+component has been mounted\n\nLet's see it in action", 
+    "Display" -> "codemirror", "Hash" -> 
+     "21556f50-20ba-4881-a97a-b1d5241ad439", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>, 
+   <|"Data" -> "\nwhat happens here:\n\n1. we define a template for our \
+custom input field\n2. we define a support script with a generated `Handler` \
+function, which reads and updates this input field\n3. we pack in into \
+`HTMLView`, which calls our `Handler` on a provided argument after this \
+component has been mounted\n\nLet's see it in action", 
+    "Display" -> "markdown", "Hash" -> 
+     "9de3c756-8461-429b-82b5-c461d70f060d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>, 
+   <|"Data" -> "values = {1,1};\n\nevent = \
+CreateUUID[];\n\nEventHandler[event, {\n  \"x\" -> Function[val,\n    values \
+= {val, (*SpB[*)Power[val(*|*),(*|*)2](*]SpB*)} // N // Re;\n  ],\n\n  \"x2\" \
+-> Function[val,\n    values = {(*SqB[*)Sqrt[val](*]SqB*), val} // N // Re;\n \
+ ]\n}];\n\n{\n  CustomInput[values[[1]] // Offload, \"Event\"->event, \
+\"Pattern\"->\"x\", \"Label\"->\"x\"],\n  CustomInput[values[[2]] // Offload, \
+\"Event\"->event, \"Pattern\"->\"x2\", \"Label\"->\"x<sup>2</sup>\"]\n} // \
+Column", "Display" -> "codemirror", 
+    "Hash" -> "709b8856-3b6f-4528-a24a-a0f571dffaf0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>, 
+   <|"Data" -> "(*GB[*){{(*VB[*)(FrontEndRef[\"de07f564-3e1c-4f7b-8baf-5d0487\
+e5f5b8\"])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkN\
+VgEKp6QamKeZmpnoGqcaJuuapJkn6VokJabpmqYYmFiYp5qmmSZZAACM8xYT\"*)(*]VB*)}(*||*\
+),(*||*){(*VB[*)(FrontEndRef[\"d4c1682f-2be4-4bc5-b5de-a1fd9503d46a\"])(*,*)(\
+*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKp5gkG5pZGKXp\
+GiWlmuiaJCWb6iaZpqTqJhqmpViaGhinmJglAgCOExYs\"*)(*]VB*)}}(*]GB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "17671afc-8d72-4350-87d9-4ab2059f2c83", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "2c8e2e66-a241-4506-a567-6a956ed015eb"|>}, "serializer" -> "jsfn4"|>

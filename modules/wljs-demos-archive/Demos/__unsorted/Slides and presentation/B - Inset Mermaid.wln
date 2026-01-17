@@ -1,0 +1,63 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$121], 
+   "HaveToSaveAs" -> False, "Objects" -> 
+    <|"5e55a414-d5e8-494f-aed4-4017168d4bfc" -> 
+      <|"Public" -> Hold[CellView["\ngraph LR\n    A[Text Header 3200 byte]  \
+--> B[Binary Header 400 byte]\n    B --> C1[240 byte 1-st trace header] --> \
+T1[samples of 1-st trace]\n    B --> C2[240 byte 2-st trace header] --> \
+T2[samples of 1-st trace]\n    B --> CN[240 byte n-st trace header] --> \
+T3[samples of 1-st trace] \n", "Display" -> "mermaid", ImageSize -> 
+           900]]|>|>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend/Dem\
+os/08 - Slides/Normal way of rendering Mermaid.wln", "Quick" -> True, 
+   "Symbols" -> <||>, "TOC" -> {}|>, 
+ "Cells" -> {<|"Data" -> ".md\nMake Mermaid cells inside slides", 
+    "Display" -> "codemirror", "Hash" -> 
+     "7eb9cb9a-9a99-4794-8f5a-490a0bf49e43", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> "Make Mermaid cells inside slides", "Display" -> "markdown", 
+    "Hash" -> "41655676-761c-4e35-9117-825534e8fe78", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> "MyDiagram = CellView[\"\ngraph LR\n    A[Text Header 3200 \
+byte]  --> B[Binary Header 400 byte]\n    B --> C1[240 byte 1-st trace \
+header] --> T1[samples of 1-st trace]\n    B --> C2[240 byte 2-st trace \
+header] --> T2[samples of 1-st trace]\n    B --> CN[240 byte n-st trace \
+header] --> T3[samples of 1-st trace] \n\", \"Display\"->\"mermaid\", \
+ImageSize->900] // CreateFrontEndObject", "Display" -> "codemirror", 
+    "Hash" -> "94da2336-b1ca-4250-9759-e2ee67485a4f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"5e55a414-d5e8-494f-aed4-4017168d4bfc\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKm6aam\
+iaaGJroppimWuiaWJqk6SamppjomhgYmhuaWaSYJKUlAwCA5xWq\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "bc993e9e-056c-4779-8cd6-a48f4d77f6e0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> ".md\nTest it on a slide", "Display" -> "codemirror", 
+    "Hash" -> "54f4a88a-6658-4b6f-b740-9971d2e31a48", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> "Test it on a slide", "Display" -> "markdown", 
+    "Hash" -> "0ea9bf91-be8d-4703-99a4-156e3f7a6aa0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> ".slide\n\n# Title of my Slide\n\n<MyDiagram/>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8fba3f10-ef96-4a87-ac1a-9099aa820df5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>, 
+   <|"Data" -> "<dummy >\n# Title of my \
+Slide\n\nFrontEndExecutable[5e55a414-d5e8-494f-aed4-4017168d4bfc]</dummy>", 
+    "Display" -> "slide", "Hash" -> "6fc5dbb3-8898-4529-9292-0a20f852b835", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "0f3a60c6-cdea-4eb1-8fe4-90518b56c05e"|>}, 
+ "serializer" -> "jsfn4"|>

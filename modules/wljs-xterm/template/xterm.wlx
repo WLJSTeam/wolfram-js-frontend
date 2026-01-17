@@ -1,0 +1,148 @@
+Head        = ImportComponent["Components/Head.wlx"];
+Modals           = ImportComponent["Components/Modals/Modals.wlx"];
+
+ElectronQ[request_] := (KeyExistsQ[request["Headers"], "Electron"]);
+
+ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+  <link rel="stylesheet" href="{Path}"/> 
+] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
+
+{loadSettings, storeSettings}        = ImportComponent["Frontend/Settings.wl"];
+
+settings = <||>;
+loadSettings[settings];
+
+addListeners[cli_, chat_] := With[{socket = EventClone[cli]},
+    EventHandler[socket, {"Closed" -> Function[Null,
+        EventRemove[socket];
+    ]}];
+]
+
+evaluateInPlace[expr_String, k_, p_] := With[{promiseId = p[[1]]},
+    GenericKernel`Async[k, With[{},
+            EventFire[Internal`Kernel`Stdout[promiseId], Resolve, <|"Data"->ExportString[ToString[ToExpression[expr, InputForm], InputForm], "Text"]|> ];
+        ]
+    ];
+];
+
+
+getKernelsNames := With[{
+    locals = AppExtensions`KernelList(*`*) // ReleaseHold
+},
+    {"Server Kernel", (#["Name"]) &/@ locals} // Flatten
+]
+
+getKernelTarget[1] := Function[{data, promise}, EventFire[promise, Resolve, <|"Data"->ToString[ToExpression[data, InputForm], InputForm]|>]]
+
+getKernelTarget[i_] := With[{
+    kernel = Part[AppExtensions`KernelList(*`*) // ReleaseHold, i - 1]
+},
+    Function[{data, promise},
+        evaluateInPlace[data, kernel, promise]
+    ]
+]
+
+
+
+
+App[request_] := Module[{client, channel, target}, With[{
+        secret = CreateUUID[], 
+        GlobalControls  = CreateUUID[],
+        LocalControls   = CreateUUID[],
+        ModalController = CreateUUID[],
+        GlobalMessanger = CreateUUID[],
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
+        cachedClient = Unique["xtermModal"],
+        isElectron = ElectronQ[request],
+        GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>
+    },
+
+    (* /* destructor */ *)
+
+
+    EventHandler[secret, {
+        "Load" -> Function[Null,
+            client = Global`$Client(*`*);
+            cachedClient = client;
+            channel = CreateUUID[];
+
+            With[{socket = EventClone[client]},
+                EventHandler[socket, {"Closed" -> Function[Null,
+
+                    Echo["Xterm was destroyed!"];
+                    ClearAll[client];
+                    ClearAll[channel];
+                    ClearAll[target];
+                    ClearAll[cachedClient];
+                    EventRemove[socket];
+                    EventRemove[channel];
+                ]}]
+            ];
+
+            With[{
+                p = Promise[],
+                cli = client
+            }, 
+                EventFire[ModalController, "SelectBox", <|"Promise"->p, "message"->"", "title"->"Select a Kernel", "list"->getKernelsNames|>];
+                Then[p, Function[choise, Module[{},
+                    If[!MatchQ[choise, _Integer], Return[]];
+                    target = getKernelTarget[choise];
+
+                    WebUISubmit[UIXtermLoad["xterm-container", channel], client];
+                ]]]
+            ];
+
+                
+
+            EventHandler[channel, {"Write" -> Function[data,    
+                With[{mp = Promise[]},
+                    target[URLDecode[data], mp];
+                    Then[mp, Function[msg,
+                        WebUISubmit[UIXtermResolve[URLEncode[UIXtermColorize @ CodeFormat[msg["Data"], 	Airiness->0.5, 	"LineWidth"->50]]], client];
+                    ] ];
+                ];
+            ]}];
+        ],
+
+        "Comment" -> Function[data,
+          EventFire[chat, "Comment", data];
+        ]
+      }
+    ];
+
+{
+    "<!DOCTYPE html>",
+    <html class="h-full"> 
+        <Head AccentColor={accentColor} Title={"xTerm"} Settings={settings}>
+            <meta charset="utf-8"/>
+            <WLJSHeader List={ExtensionsJS}/>  
+            <script type="module" src="/wljs-xterm/dist/kernel.js"></script>
+            <WLJSTransportScript PrefixMode={$Env["wsprefix"]} TwoKernels={False} Port={$Env["ws"]}/>     
+            <WebUIInitializationScript/>
+            <ExtensionsStyles/>
+            <link rel="stylesheet" type="text/css" href="/wljs-xterm/src/xterm.css" />
+        </Head>  
+        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:border owin:border-gray-500 owin:bg-blue-100/20"> 
+        <div class="h-full">
+          <Modals ModalsPort={ModalController} ElectronQ={isElectron} CachedClient={cachedClient}/>
+          <div id="frame" class="h-full">
+            <div class="h-full flex flex-col">          
+              <main class="grow flex flex-col overflow-hidden h-full">
+                <div class="divide-y divide-gray-200 flex flex-col overflow-hidden h-full bg-transparent dark:divide-gray-600 w-full">
+                  <div class="px-4 py-2 text-center text-sm text-gray-500 dark:text-gray-400 linux:h-titlebar win:h-titlebar owin:h-titlebar" style="-webkit-app-region: drag">
+                    Kernel Terminal
+                  </div>
+                  <div id="xterm-container" class="dark:invert dark:hue-rotate-180 dark:contrast-75 dark:brightness-5 owin:m-4 owin:mt-2 owin:rounded-lg owin:bg-white owin:shadow win:m-4 win:mt-2 win:rounded-lg win:bg-white win:shadow linux:m-4 linux:mt-2 linux:rounded-lg linux:bg-white linux:shadow bg-g-trans xtem-size h-full"></div>
+                </div>           
+                <WebUIOnLoad Event={secret} Pattern={"Load"}/>
+              </main>              
+            </div> 
+          </div>
+        </div>
+        </body>
+    </html>
+} // StringRiffle
+] ];
+
+App

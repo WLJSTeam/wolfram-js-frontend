@@ -1,0 +1,65 @@
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$4559], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Library/Application \
+Support/wljs-notebook/Examples/02 - Dynamics/Interaction/Slider.wln"|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Event-based approach\nEach input element is \
+an event object generator", "Display" -> "codemirror", 
+    "Hash" -> "8705b119-37a1-45dc-88ae-e6822c54570e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> "\n# Event-based approach\nEach input element is an event \
+object generator", "Display" -> "markdown", 
+    "Hash" -> "71de7c77-0de4-4b00-b1e4-2184f26aba65", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> "slider = InputRange[-1,1,0.1, \"Label\"->\"Length\"]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2f78caa4-d4e7-4912-8842-8b9206bd7348", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> ".md\nBind our event to update shared variable", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4681528b-6199-4a4e-a986-d040f3d0a5dc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> "\nBind our event to update shared variable", 
+    "Display" -> "markdown", "Hash" -> 
+     "4b1cd40c-3926-4fe9-8e67-2578d00afa21", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> 
+     "EventHandler[slider, Function[l, length = l]];\nEventFire[slider];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ce045851-ddd9-4484-be59-56a24c01a1c2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> ".md\nNow we can make our dynamic rectangle", 
+    "Display" -> "codemirror", "Hash" -> 
+     "9b33f9c2-c221-48ac-8b56-4cd5131fa9a8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> "\nNow we can make our dynamic rectangle", 
+    "Display" -> "markdown", "Hash" -> 
+     "318b6c37-6567-4469-a713-f63fd84c557f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> "Graphics[{Cyan, \n  Rectangle[{-1,-1}, {length // Offload, \
+1}]\n}, PlotRange->{{-1,1},{-1,1}}, ImageSize->{400,100}, \
+\"TransitionDuration\"->30, \"TransitionType\"->\"Linear\"] ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "d8a8d670-4c7d-4680-80dc-287f823fa652", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "ec657ade-eb8d-4665-94b0-4a882971e31c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "57ad9d1e-d313-4fd9-9758-2ffc8da127ca"|>}, "serializer" -> "jsfn4"|>

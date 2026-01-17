@@ -1,0 +1,20 @@
+BeginPackage["CoffeeLiqueur`Extensions`OffloadTools`", {
+    "CoffeeLiqueur`Extensions`FrontendObject`",
+    "JerryI`Misc`Events`",
+    "JerryI`Misc`Events`Promise`",
+    "JerryI`Misc`WLJS`Transport`"
+}]
+
+Begin["`Internal`"]
+
+FromEventObject[o_EventObject] := With[{view = o[[1]]["View"], sym = Unique["OffloadGenerated"]}, 
+  EventHandler[o, Function[x, sym = x]] // EventFire;
+  Interpretation[CreateFrontEndObject[view], Offload[sym]]
+]
+
+
+End[]
+
+EndPackage[]
+
+$ContextAliases["Offload`"] = "CoffeeLiqueur`Extensions`OffloadTools`Internal`"

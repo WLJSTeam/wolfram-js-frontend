@@ -1,0 +1,48 @@
+ContentList = ImportComponent["ContentList.wlx"];
+
+Component[OptionsPattern[]] := With[{
+    controller = OptionValue["Controls"] // EventClone,
+    event = CreateUUID[],
+    port = CreateUUID[]
+},
+
+    EventHandler[controller, {
+        "NotebookShown" -> Function[assoc, With[{n = assoc["Notebook"], cli = assoc["Client"], cloned = EventClone[assoc["Notebook"]]},
+
+            If[TrueQ[Length[Flatten[n["TOC"]]] > 1],
+                Echo["TOC Load widget!"];
+                EventFire[event, "Load", <|"Client" -> cli, "Port" -> port, "TOC" -> n["TOC"], "Notebook" -> n|>];
+
+                EventHandler[cloned, {"UpdateTOC" -> Function[Null,
+                    EventFire[port, <|"Client" -> cli, "Notebook" -> n|>];
+                ]}];
+
+                With[{socket = EventClone[cli]},
+                    EventHandler[socket, {
+                        "Closed" -> Function[Null,
+                            EventRemove[socket];
+                            EventRemove[cloned];
+                            Echo["TOK Widget was destroyed"];
+                        ]
+                    }];
+                ];
+            ]
+        ]]
+    }];
+
+    <WebUILazyLoad Event={event}>
+        <div>
+            <div class="text-xs group items-center osx:font-semibold px-4 leading-8 text-gray-454 win:text-gray-500 owin:text-gray-500 linux:text-gray-500 flex" style="-webkit-app-region:none">
+                Outline
+            </div>
+            <ContentList Data={WebUILazyLoadDataProvided}/>
+        </div>
+    </WebUILazyLoad>
+
+]
+
+Options[Component] = {
+    "Controls"->""
+}
+
+Component

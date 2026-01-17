@@ -1,0 +1,33 @@
+<|"Notebook" -> <|"Controller" -> "9576b7d2-f7e3-48e4-a913-00c118b971c7", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$439], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "28dba3d6-2580-49cd-b4b9-d80d9319c1aa", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/Dynamics and \
+interactivity/A - LinearGradient Image.wln", "PublicFields" -> 
+    {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Linear Gradient Image", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$438]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Linear Gradient Image\nHere is a simple \
+example with `Image` and mouse tracking:", "Display" -> "codemirror", 
+    "Hash" -> "65876674-be1f-4113-8d08-bec28c384d59", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8ccb8017-3e1a-4a5d-a11f-f9853248436d"|>, 
+   <|"Data" -> "# Linear Gradient Image\nHere is a simple example with \
+`Image` and mouse tracking:", "Display" -> "markdown", 
+    "Hash" -> "e318c9bd-a402-4b06-9ab0-c0001d5c1b64", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8ccb8017-3e1a-4a5d-a11f-f9853248436d"|>, 
+   <|"Data" -> "With[{\n  buf = Unique[],\n  get = ImageData[\n    \
+LinearGradientImage[{{0,0}, #}->{Blue,Green}, {300,300}],\n    \"Byte\"\n  \
+]&\n},\n  buf = get[{300,300}];\n\n  EventHandler[Image[buf // Offload, \
+\"Byte\"], {\n    \"mousemove\" -> Function[xy,\n      buf = get[{0,300} - \
+{-1,1} xy];\n    ]\n  }]\n]", "Display" -> "codemirror", 
+    "Hash" -> "8a0fb91c-2075-4bad-b834-9ecaf6a30048", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8ccb8017-3e1a-4a5d-a11f-f9853248436d"|>}, 
+ "serializer" -> "jsfn4"|>

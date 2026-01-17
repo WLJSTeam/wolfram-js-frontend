@@ -1,0 +1,75 @@
+Component[OptionsPattern[]] := With[{
+    Controller1 = OptionValue["Channel"],
+    Controller2 = CreateUUID[],
+    cli = Unique[],
+    Msg = OptionValue["Message"]
+},
+
+EventHandler[Controller1, {
+    "Progress" -> Function[body,
+        EventFire[Controller2, "Progress", <|"Client" -> cli, "Message" -> body|>]
+    ],
+
+    "Message" -> Function[body,
+        EventFire[Controller2, "Message", <|"Client" -> cli, "Message" -> body|>]
+    ],
+
+    "Done" -> Function[body,
+        EventFire[Controller2, "Done", <|"Client" -> cli|>];
+        ClearAll[cli];
+    ],
+
+    "Continue" -> Function[Null,
+        EventFire[Controller2, "RemoveButton", <|"Client" -> cli|>]
+    ], 
+
+    "Connected" -> Function[Null,
+        cli = Global`$Client;
+    ]
+}];
+
+<div style="min-width:205px" class="flex flex-col" >
+    <p class="text-sm leading-4 py-1 mt-1 text-gray-600 dark:text-gray-400"><Msg/></p>
+    <span class="text-sm uppercase text-gray-500">Progress</span>
+    <div class="inline-block min-w-full py-2 align-middle">
+        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded p-1"><div id="sbba-bar" class="bg-teal-400 w-full h-3 rounded" style="width:0%"></div></div>
+        <span class="text-sm leading-4 text-gray-400" id="sbba-info"></span>
+    </div>
+    <div class="py-1">
+        <span class="text-red-400" id="sbba-msg"></span>
+    </div>
+    <WebUIJSBind Event={Controller2}>
+	    //will be executed once
+	    const doc = document.getElementById('sbba-msg');
+        const bar = document.getElementById('sbba-bar');
+        const info = document.getElementById('sbba-info');
+	
+	    //binding to event patterns
+        this.on('Done', () => {});
+
+	    this.on('Message', async (data) => {
+		    const assoc = await interpretate(data, {hold:true});
+		    const message = await interpretate(assoc.Message, {});
+		    doc.innerText = message;
+	    });
+        this.on('Progress', async (data) => {
+		    const assoc = await interpretate(data, {hold:true});
+		    const message = await interpretate(assoc.Message, {});
+            console.log(message);
+		    
+   
+            if (message.Bar) bar.style.width =  Math.round((message.Bar / message.Max) * 100) + '%';
+            if (message.Info) info.innerText = message.Info;
+            //messgae.Max
+            //message.Info
+	    });
+        this.on('RemoveButton', () => {});
+
+        server.io.fire('<Controller1/>', true, 'Connected');
+    </WebUIJSBind>
+</div>
+]
+
+Options[Component] = {"Message"->"", "Notebook"->"", "Channel" -> "", "Client" -> "", "Log" -> ""}
+
+Component

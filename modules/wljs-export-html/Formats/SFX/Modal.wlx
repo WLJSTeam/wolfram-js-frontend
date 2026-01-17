@@ -1,0 +1,80 @@
+component[files_, cbk_] := With[{
+    TList = Table[With[{i = files[[index]]}, With[{Name = FileNameTake[i], Size = If[ DirectoryQ[i], Internal`DirectoryByteCount[i]/1024//N, QuantityMagnitude[FileSize[i], "Megabytes"]]},
+      <li class="relative flex items-start"><div class="flex h-6 items-center"><input data-name="{index}" type="checkbox" class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 dark:text-gray-400 text-teal-600 focus:ring-teal-600"/></div><div class="ml-3 text-sm leading-6"><label for="comments" class="font-medium text-gray-900 dark:text-gray-300"><Name/></label><p class="text-gray-500"><Size/> Mb</p></div></li>
+    ]], {index, files//Length}],
+  
+    UId = CreateUUID[]
+  },
+  
+  EventHandler[UId, {"Ok" -> Function[map,
+        cbk[Select[Transpose[{files, map}], Last][[All,1]]];
+        EventRemove[UId];
+  ], _ -> Function[Null,
+        cbk[False];
+        EventRemove[UId];
+  ]}];
+  
+  <div class="flex flex-col gap-y-2 py-2 px-2">
+    <ul id="{UId}" class="py-2 px-0 overflow-y-scroll relative" style="max-height:50vh">
+      <TList/>
+    </ul>
+
+    <ul class="text-sm text-gray-700 flex gap-y-1 p-0 gap-x-2">
+      <li class="group w-full flex flex-start cursor-default select-none rounded-md list-none">
+        <button 
+          id="{UId}-continue"
+          type="button" 
+          class="dark:bg-gray-800 bg-gray-200 rounded focus:outline-none px-2 py-1 text-gray-900 dark:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          <span>Continue</span>
+        </button>
+      </li>
+      <li class="group w-full flex flex-start cursor-default select-none rounded-md list-none">
+        <button 
+          id="{UId}-cancel"
+          type="button" 
+          class="dark:bg-gray-800 bg-gray-200 rounded focus:outline-none px-2 py-1 text-gray-900 dark:text-gray-400 focus:ring-2 focus:ring-indigo-600">
+          <span>Cancel</span>
+        </button>
+      </li>
+    </ul>    
+
+    <script type="module">
+      const ul = document.getElementById('<UId/>');
+      const inputs = ul.getElementsByTagName('input');
+      const states = Array.from(Array(inputs.length)).map(() => false);
+      for (const i of inputs) {
+        i.addEventListener('change', () => {
+          states[Number(i.dataset.name)-1] = Boolean(i.checked);
+        })
+      }
+
+      document.getElementById('<UId/>-continue').addEventListener('click', () => {
+        server.io.fire('<UId/>', states, 'Ok');
+      });
+
+      document.getElementById('<UId/>-cancel').addEventListener('click', () => {
+        server.io.fire('<UId/>', false, 'Cancel');
+      });
+      
+    </script>
+  </div>
+]
+
+Component[OptionsPattern[]] := With[{
+    files = OptionValue["Data"]["Files"],
+    promise = OptionValue["Promise"],
+    ModalController = OptionValue["ModalController"]
+},
+    component[files, Function[result,
+        EventFire[ModalController, "Close", True];
+        If[result === False,
+            EventFire[promise, Reject, True];
+        ,
+            EventFire[promise, Resolve, result];
+        ];
+    ]]
+]
+
+Options[Component] = {"Data"-><||>}
+
+Component

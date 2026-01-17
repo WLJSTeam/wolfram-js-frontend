@@ -1,0 +1,130 @@
+<|"Notebook" -> <|"Controller" -> "daa0ed1f-0951-4b36-adaa-f8c6c07414bd", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$4182], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "df8f9d87-89a5-43bb-a114-1cf226e58479", 
+   "Objects" -> <|"9d39dd4e-4fcc-4051-b739-5440fc0efc57" -> 
+      <|"Public" -> Hold[HTMLView["<button style=\"\" class=\"sm-controls \
+rounded bg-white px-2 py-1 text-xs text-gray-900 ring-1 ring-inset \
+ring-gray-300 \" type=\"button\" id=\"#instanceId\">Click \
+Me</button>\n<script type=\"module\"> const el = \
+document.getElementById('#instanceId');\n            \
+el.addEventListener('mousedown', (event)=>{el.style.boxShadow = 'inset 0px \
+0px 3px 2px rgba(15, 15, 15, 0.2)'});\n            \
+el.addEventListener('mouseup', (event)=>{el.style.boxShadow = ''});\n         \
+   el.addEventListener('mouseleave', (event)=>{el.style.boxShadow = ''});\n   \
+         el.addEventListener('click', (event)=>{\n                \
+server.kernel.io.fire('9fac7f06-fc9f-4b11-a7d2-e2e9a4c8c61a', true, \
+'Default');     \n            });</script>", Prolog -> 
+           CoffeeLiqueur`Extensions`InputsOutputs`Tools`TemplateProcessor[
+            Association["instanceId" -> CreateUUID[]]]]]|>, 
+     "cbb2bb74-aa5e-4156-b85e-7c7e923675a5" -> 
+      <|"Public" -> Hold[HTMLView["<button style=\"\" class=\"sm-controls \
+rounded bg-white px-2 py-1 text-xs text-gray-900 ring-1 ring-inset \
+ring-gray-300 \" type=\"button\" id=\"#instanceId\">change</button>\n<script \
+type=\"module\"> const el = document.getElementById('#instanceId');\n         \
+   el.addEventListener('mousedown', (event)=>{el.style.boxShadow = 'inset 0px \
+0px 3px 2px rgba(15, 15, 15, 0.2)'});\n            \
+el.addEventListener('mouseup', (event)=>{el.style.boxShadow = ''});\n         \
+   el.addEventListener('mouseleave', (event)=>{el.style.boxShadow = ''});\n   \
+         el.addEventListener('click', (event)=>{\n                \
+server.kernel.io.fire('0ad35c49-39f3-4700-bde7-d9c495bc2fe9', true, \
+'Default');     \n            });</script>", Prolog -> 
+           CoffeeLiqueur`Extensions`InputsOutputs`Tools`TemplateProcessor[
+            Association["instanceId" -> CreateUUID[]]]]]|>|>, 
+   "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/GUI building \
+blocks/A - Button.wln", "PublicFields" -> {"Properties"}, "Quick" -> True, 
+   "Symbols" -> <|"pt$1153261" -> 
+      CoffeeLiqueur`Extensions`FrontendObject`Tools`ExtractJSON[
+       "JTVCLTAuMDI0NDU5OTgxMDY2MjQxMzY1JTJDMC42MDQ3MjYyNzE1Njg4MzQ5JTVE"], 
+     "b$1153826" -> {1, 0, 0}|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Basic button example", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4178]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> 
+     ".md\n## Basic button example\nThe smallest building block of GUI", 
+    "Display" -> "codemirror", "Hash" -> 
+     "efc695a0-e0a7-4d16-852e-3281d64b76eb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "## Basic button example\nThe smallest building block of GUI", 
+    "Display" -> "markdown", "Hash" -> 
+     "a544e332-f888-45c6-8a3d-a876ae3ce835", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "Button[\"Click to beep\", Beep[]]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ed9b1ff1-4019-443f-8f09-97e22139b162", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> 
+     ".md\nThis button changes the color of the disk each time you click it:"\
+, "Display" -> "codemirror", "Hash" -> 
+     "9c5bf004-04cb-43ea-a446-4c28f266daaf", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> 
+     "This button changes the color of the disk each time you click it:", 
+    "Display" -> "markdown", "Hash" -> 
+     "8164a278-d396-411b-896c-6e453f958a0b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "Module[{b = List @@ Red}, {Button[\"change\", \n   b = \
+RandomReal[{0, 1}, 3]],\n   Graphics[{RGBColor[Offload[b]], Disk[]}]}]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5bcf8375-dd05-4cb8-8e50-6fd9a1d4e339", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "{(*VB[*)(EventObject[<|\"Id\" -> \
+\"0ad35c49-39f3-4700-bde7-d9c495bc2fe9\", \"Initial\" -> False, \"View\" -> \
+\"cbb2bb74-aa5e-4156-b85e-7c7e923675a5\"|>])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHv\
+k5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKJyclGSUlmZvoJiaapuqaGJqa6SZZAFnmyeaplkb\
+GZuamiaYAkkgV1w==\"*)(*]VB*),(*VB[*)(Graphics[{RGBColor[Offload[b$1153826]], \
+Disk[{0, \
+0}]}])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRAeB5BwL0osyMhMLk5jgsn7ZBaXIOSD3J2c\
+83PyiyAi7EDCPy0tJz8xpZgTyE5SMTQ0NbYwMkMY75JZnI1qWCaQZgATAEE3GbI=\"*)(*]VB*)}"\
+, "Display" -> "codemirror", "Hash" -> 
+     "9848649f-3475-4f77-83cd-734bf6d05c66", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> ".md\nThis button changes position each time you click it:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "22ec42a3-81c7-4b4a-8943-759ed05e5e4e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "This button changes position each time you click it:", 
+    "Display" -> "markdown", "Hash" -> 
+     "b732d194-83ba-4431-9edd-22d942e37426", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "Module[{pt = {0, 0}}, \n Framed@Graphics[\n   \
+Inset[Button[\"Click Me\", pt = RandomReal[{-1, 1}, 2]], Offload[pt]],\n    \
+PlotRange -> {{-1,1}, {-1,1}}, Controls->False]]", "Display" -> "codemirror", 
+    "Hash" -> "a3aeab4e-c7bf-400d-9f40-01f63019d0b8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>, 
+   <|"Data" -> "(*BB[*)((*VB[*)(Graphics[Inset[FrontEndExecutable[\"9d39dd4e-\
+4fcc-4051-b739-5440fc0efc57\"], Offload[pt$1153261]], PlotRange -> {{-1, 1}, \
+{-1, 1}}, Controls -> \
+False])(*,*)(*\"1:eJyFj8sKwjAQResLH0v/QOg20NjE0rW0KghK/YI0Dy2EpDQp+Pc6sQtxZRa\
+HmTvhztxNbSs1iqLITQFHq4WahG4BOHSsfTTcqXFQZoCTcdIP39eAsrPGF0YUT8l7z2otbzHIuUhz\
+IYhERHGOSEIxqrM0R5SQRPFEKk6zwWQOuCilLRNuBXXrY4xput3hYWe4qeq1dEsortr6ipm7/M7Oj\
+fO/XfOC1wTz//rHOQTdQ4zOavfJWDLt5BtsvEOP\"*)(*]VB*))(*,*)(*\"1:eJxTTMoPSmNiYGA\
+o5gMSwSWVOakuqcn5RYkl+UUQcRYgEVSak1rMA1ZQlFngn+eZV1BaUswKFHBLzClORVUYDBYvSsxN\
+BQuFFJWmAgAQ7xjr\"*)(*]BB*)", "Display" -> "codemirror", 
+    "Hash" -> "da641a04-c3c3-4cc7-956d-8ff6ed7150b8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "3bca341c-d57e-48e1-8289-1387e7df0295"|>}, 
+ "serializer" -> "jsfn4"|>

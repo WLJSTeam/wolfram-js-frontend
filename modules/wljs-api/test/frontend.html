@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="module" src="https://cdn.skypack.dev/twind/shim"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/JerryI/wljs-api@base/assets/minimal.css">
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-interpreter@base/dist/interpreter.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-interpreter@base/src/core.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-interpreter@base/src/settings.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-cells@base/src/module.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-sharedlib-mk@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/boxes.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/objects.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/autocomplete.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/frontsubmit.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/dir.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/metamarkers.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-editor@base/src/misc.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-sharedlib-d3@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-sharedlib-three@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/Mathematica-ThreeJS-graphics-engine@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-html-support@base/src/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-js-support@base/src/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-markdown-support@base/src/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-mermaid-support@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-plotly@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-graphics-d3@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-wlx-support@base/src/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-inputs@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-sound@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-revealjs@base/dist/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-manipulate@base/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-print-redirect-fix@base/kernel.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-wxf-accelerator@base/override.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/gh/JerryI/wljs-api@base/assets/polyfill.js"></script>
+
+    <title>Textarea Template</title>
+   
+</head>
+<body>
+  <div class="max-w-2xl mx-auto p-6 space-y-4 bg-white shadow-md rounded-2xl">
+    <!-- State Display -->
+    <div class="text-gray-700 text-sm">
+      <strong class="font-semibold">State:</strong>
+      <span id="stateField" class="ml-1 text-blue-600">Waiting for wljs connection</span>
+    </div>
+  
+    <!-- Code Area -->
+    <textarea
+      id="code_area"
+      placeholder="Type your text here..."
+      class="w-full min-h-[150px] p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y text-sm font-mono"
+    >Plot[{x, x^2}, {x,0,1}, PlotLegends->Automatic]</textarea>
+  
+    <!-- Results Div -->
+    <div id="resultsDiv" class="p-4 bg-gray-100 rounded-lg min-h-[100px] text-sm"></div>
+  
+    <!-- Submit Button -->
+    <button
+      id="submit_button"
+      type="button"
+      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+    >
+      Submit
+    </button>
+  </div>
+    <script type="module">
+        const stateField = document.getElementById("stateField");
+        const submitButton = document.getElementById("submit_button");
+        const codeArea = document.getElementById("code_area");
+        const resultsDiv = document.getElementById('resultsDiv');
+
+        async function start() {
+          console.warn('Initialization complete!');
+          stateField.innerText = 'Connecting to Kernel';
+            
+          const kernel = await server.findKernel();
+          console.warn('Obtained Kernel '+kernel);
+          stateField.innerText = 'Ready!';
+            
+          submitButton.addEventListener('click', async () => {
+
+                const transaction = await server.createTransaction(kernel, codeArea.value.trim());
+                stateField.innerText = 'Evaluation...';
+                console.log(transaction);
+                
+                const results = await server.getResult(kernel, transaction);
+
+                console.warn('Ready');
+                console.log(results);
+                stateField.innerText = 'Ready!';
+                
+                results.forEach((data) => {
+                    
+                    const display = data.Display || 'codemirror';
+                    const parentelement = document.createElement('div');
+                    resultsDiv.appendChild(parentelement);
+
+                    const origin = {
+                        element: parentelement
+                    };
+
+                    const cell = new window.SupportedCells[display].view(origin, data.Data);
+                    //to remove cell use
+
+                    //cell.dispose()
+                })
+
+            })
+        }
+
+        (async () => {
+          await server.waitForConnection();
+          const list = await server.requestCDNExtensionsList();
+          console.log('Extensions loaded using CDN (see head):', list);
+          console.log('URLS:', await server.requestCDNJavascript(list));
+          console.log('URLS:', await server.requestCDNStyles(list));
+          start();
+        })();        
+    </script>
+</body>
+</html>
