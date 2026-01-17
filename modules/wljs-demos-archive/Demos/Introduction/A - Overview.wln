@@ -1,8 +1,8 @@
-<|"Notebook" -> <|"Controller" -> "aade5933-b34e-4047-8513-338badfffd97", 
+<|"Notebook" -> <|"Controller" -> "9ee6228d-ce2a-43d8-9dbb-3388317deac6", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$941], 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$528], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "ec79cce3-c1c6-4101-95a3-b4c6e6c18ecd", 
+    "bc5b9d15-bb59-40e2-8a1e-577e1293ce03", 
    "Objects" -> <|"eaf0e716-d7b5-4600-ab68-ac79e0887c15" -> 
       <|"Public" -> Hold[Graphics[{Annotation[
             {{{{}, {}, Annotation[{Directive[Opacity[1], RGBColor[0.24, 0.6, 
@@ -379,133 +379,142 @@
              Rectangle[{0.5, 17.5}, {9.5, 18.5}], GrayLevel[0], 
              Line[{{0.5, 17.5}, {9.5, 17.5}}]}, Ticks -> {Automatic, 
              Automatic}, PlotInteractivity :> $PlotInteractivity}]]|>|>, 
-   "Path" -> "/Applications/WLJS \
-Notebook.app/Contents/Resources/app/modules/wljs-demos-archive/Demos/Introduc\
-tion/A - Overview.wln", "PublicFields" -> {"Properties"}, "ReadOnly" -> True, 
-   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
-      1, "The Notebook Interface", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$1027]], 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Introduction/A - Overview.wln", "PublicFields" -> {"Properties"}, 
+   "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "The Notebook Interface", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$350]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[4, "Cells", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$1104]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$366]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[4, "Evaluation", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$1104]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$366]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[4, "Notebook", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$1104]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$366]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Text cells", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$932]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$384]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Heading 1", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$1066]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$386]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Heading 2", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$1066]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$386]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Javascript", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$944]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$398]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Mermaid", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$948]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$404]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Slides", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$952]]}|>, 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$410]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Dynamics and Interactivity", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$434]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Math typesetting", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$500]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Portability", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$530]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# The Notebook Interface\nThe notebook \
 interface (or IDE) combines live code in Wolfram, JavaScript, and other \
 languages. We provide GUI building blocks for user input/output, a subset of \
 LaTeX for equations, Markdown for narrative text, and data-driven \
 presentations", "Display" -> "codemirror", 
-    "Hash" -> "ac42b853-17d8-4120-ad30-51066ddfc4fc", "Invisible" -> False, 
+    "Hash" -> "e3abc902-ed79-4e0c-ac65-8769f24ff72c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "# The Notebook Interface\nThe notebook interface (or IDE) \
 combines live code in Wolfram, JavaScript, and other languages. We provide \
 GUI building blocks for user input/output, a subset of LaTeX for equations, \
 Markdown for narrative text, and data-driven presentations", 
     "Display" -> "markdown", "Hash" -> 
-     "20535340-c565-4acd-8d89-cd88d9201578", "Invisible" -> False, 
+     "4548a292-496a-48c8-aed5-001bc540551c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n---", "Display" -> "codemirror", 
-    "Hash" -> "cb47908e-12b9-4abb-a5b9-8d4d5b7fc9dd", "Invisible" -> False, 
+    "Hash" -> "ff489ca5-f739-443b-916c-63d9d7e6a887", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "---", "Display" -> "markdown", 
-    "Hash" -> "cdf8b869-20b7-4fad-8cec-12687b1f1a01", "Invisible" -> False, 
+    "Hash" -> "a383e681-f6c9-4df9-afd4-e3e049641e73", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n\n<img style=\"filter: saturate(1.7) contrast(0.8)\" \
 src=\"/attachments/image-59e.png\"/>\n", "Display" -> "codemirror", 
-    "Hash" -> "98d78f5d-ee70-4c32-a52e-f3b388cddccc", "Invisible" -> False, 
+    "Hash" -> "b963dc0e-3c71-406e-ac55-c825b148aa7d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "<img style=\"filter: saturate(1.7) contrast(0.8)\" \
 src=\"/attachments/image-59e.png\"/>", "Display" -> "markdown", 
-    "Hash" -> "944b6578-277c-4d93-92dc-832d70a5d438", "Invisible" -> False, 
+    "Hash" -> "58af1f6e-3d2e-4a08-b00b-be265175d7bd", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\nThe notebook consits of cells or groups of \
 *input-output* cells. Input cell gives you a superpower to switch between \
 languages or type of produced content with a single line.\n\nBy the default \
 any text in a new cell is considered to be Wolfram Language:", 
     "Display" -> "codemirror", "Hash" -> 
-     "6e21f9fc-8fbe-432a-ace1-7c34ba995814", "Invisible" -> False, 
+     "6fe3dfae-2214-4d0e-aa9c-cb0d465672cf", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "The notebook consits of cells or groups of *input-output* \
 cells. Input cell gives you a superpower to switch between languages or type \
 of produced content with a single line.\n\nBy the default any text in a new \
 cell is considered to be Wolfram Language:", "Display" -> "markdown", 
-    "Hash" -> "7ccb1322-8482-4b3e-9974-2e536f9fa937", "Invisible" -> False, 
+    "Hash" -> "43c8c748-fa4f-477b-801d-faeb48cf08be", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "1+1", "Display" -> "codemirror", 
-    "Hash" -> "132cbb6d-b9b9-4ca3-bb4f-f594dc1ded47", "Invisible" -> False, 
+    "Hash" -> "d38e54b0-92e2-4a9c-be0e-01b91907cd92", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "2", "Display" -> "codemirror", 
-    "Hash" -> "2f1a3a9a-9601-49ee-9b87-afc317376177", "Invisible" -> False, 
+    "Hash" -> "4e1d0dd1-3d1c-4006-a15f-6c615899c788", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "Plot[(*SpB[*)Power[x(*|*),(*|*)2](*]SpB*), {x,0,1}]", 
     "Display" -> "codemirror", "Hash" -> 
-     "1c7766f3-79a4-4d01-9da0-02e915cae1cd", "Invisible" -> False, 
+     "fb0d3483-ec2f-4a2e-a4b1-75df4521627a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "(*VB[*)(FrontEndRef[\"eaf0e716-d7b5-4600-ab68-ac79e0887c15\"]\
 )(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKpyamG\
 aSaG5rpppgnmeqamBkY6CYmmVnoJiabW6YaWFiYJxuaAgCLIRWo\"*)(*]VB*)", 
     "Display" -> "codemirror", "Hash" -> 
-     "5b6c6551-88d2-404c-8a50-be5ce921fc3a", "Invisible" -> False, 
+     "2c4655a4-14ac-4c43-b933-0952c2c90123", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "Now", "Display" -> "codemirror", 
-    "Hash" -> "1a15ba75-5543-4759-9a57-d00029ce5a6e", "Invisible" -> False, 
+    "Hash" -> "74bea5f2-0094-4518-8abd-5d09214b66d6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "(*VB[*)(DateObject[{2026,1,15,15,45,24.438412`8.1406479647881\
 74},\"Instant\",\"Gregorian\",1.`])(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyfl\
 FiSX5RcEsQBGXxJLUYCkgQykko1TB0FTBKzFPwcjAyAzItjIxtTIyUQIAIRoPlA==\"*)(*]VB*)"\
 , "Display" -> "codemirror", "Hash" -> 
-     "31549e19-24ca-4a33-b024-d6accf3ad9ac", "Invisible" -> False, 
+     "a5bf3175-b800-42a6-a375-fa3924351b87", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\nTo evaluate an expression press a *play* icon or \
 <kbd>Shift+Enter</kbd>\n\n<details>\n  <summary>List of all \
 shortcuts:</summary>\n\n\n<div \
@@ -529,10 +538,10 @@ cells\n\n</div>\n\n<div>\n\n#### Notebook\n\n- <kbd>Alt-2</kbd> or \
 <kbd>\[CloverLeaf]-O</kbd>: Open notebook\n- <kbd>Ctrl-P</kbd> or \
 <kbd>\[CloverLeaf]-P</kbd>: Open command palette\n\n</div>\n\n</div>\n  \
 \n</details>\n\n<br/><hr/>", "Display" -> "codemirror", 
-    "Hash" -> "1acc9597-8717-4bf8-87cc-4ebc8f4e2d78", "Invisible" -> False, 
+    "Hash" -> "702ca494-a32f-438e-b281-0a99261f1349", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "To evaluate an expression press a *play* icon or <kbd \
 >Shift+Enter</kbd><details ><summary >List of all shortcuts:</summary><div \
 style=\"display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem\
@@ -555,70 +564,70 @@ cells\n\n</div><div >\n\n#### Notebook\n\n- <kbd >Alt-2</kbd> or <kbd \
 >\[CloverLeaf]-O</kbd>: Open notebook\n- <kbd >Ctrl-P</kbd> or <kbd \
 >\[CloverLeaf]-P</kbd>: Open command palette\n\n</div></div></details><br \
 /><hr />", "Display" -> "markdown", 
-    "Hash" -> "a560eadf-ccb0-43b2-ba3e-4bb9d000476e", "Invisible" -> False, 
+    "Hash" -> "0632c9af-b9cc-484d-acdb-2b5e94ad3eb7", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> 
      ".md\nLet's write a function to generate notes in the given scale:", 
     "Display" -> "codemirror", "Hash" -> 
-     "7779cfaa-888e-40db-84b6-e07755a445d3", "Invisible" -> False, 
+     "9b64d9fa-4ff5-4da8-b585-de692216de28", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> 
      "Let's write a function to generate notes in the given scale:", 
     "Display" -> "markdown", "Hash" -> 
-     "c55382a3-326b-474e-84fa-bfb58667472f", "Invisible" -> False, 
+     "18cefd5b-add4-474d-a1f6-db0f1c414009", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "scale[\"Major\"] = {2, 2, 1, 2, 2, 2, 1};\n\nmakeScale[root_, \
 sc_, pos_] := With[\n  {b = Accumulate @ Prepend[sc, root], n = Length[sc] + \
 1},\n  b[[Mod[pos - 1, n - 1] + 1]] + 12 Quotient[pos, n]\n];", 
     "Display" -> "codemirror", "Hash" -> 
-     "6d409286-d024-45f7-a354-1e0c0807ea3e", "Invisible" -> False, 
+     "886a98e3-7b2e-492f-9e28-ad74186f6f56", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\nNow we can generate any chord progressions in a major \
 scale, for ex. **I-V-VI-IV**", "Display" -> "codemirror", 
-    "Hash" -> "5fc38c78-cb72-4527-be8d-3615f71be5c4", "Invisible" -> False, 
+    "Hash" -> "68a49766-f506-4bdc-95ad-e0f8a822429e", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "Now we can generate any chord progressions in a major scale, \
 for ex. **I-V-VI-IV**", "Display" -> "markdown", 
-    "Hash" -> "4a49de47-f84f-4864-b952-2b1239e815e4", "Invisible" -> False, 
+    "Hash" -> "59c6b739-8296-4c73-a1df-ad64744d3cbb", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "chords = makeScale[1, scale[\"Major\"], {#,2+#,4+#}] &/@ {\n  \
   1, 1, 5, 5, 6, 6, 4, 4, 1 \n};\nSoundNote /@ chords // Sound", 
     "Display" -> "codemirror", "Hash" -> 
-     "c529e57b-af30-466d-a991-00bd03e7aad5", "Invisible" -> False, 
+     "c57f3014-4357-43bb-9a03-1949c9282e53", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "(*VB[*)(FrontEndRef[\"cf5b26d3-53f2-4802-a38b-e36a8c38c367\"]\
 )(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKJ6eZJ\
 hmZpRjrmhqnGemaWBgY6SYaWyTpphqbJVokGwORmTkAhK4Vdg==\"*)(*]VB*)", 
     "Display" -> "codemirror", "Hash" -> 
-     "d40cd63c-d4cb-4ea2-a619-caaef632bff7", "Invisible" -> False, 
+     "12cffd98-9939-4877-b53f-b3ea275a997a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\nVisualize it on imaginary piano:", 
     "Display" -> "codemirror", "Hash" -> 
-     "8d707c3f-f388-4e19-a100-323f5b7f1c99", "Invisible" -> False, 
+     "42aa39f4-c8e6-4468-ae7e-bcae7e8cde69", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "Visualize it on imaginary piano:", "Display" -> "markdown", 
-    "Hash" -> "1cf69c36-176a-4e21-ae94-93b7732d4376", "Invisible" -> False, 
+    "Hash" -> "d91ac640-91c3-49e1-a235-ab65bd140de6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "blackQ[y_] := MemberQ[{2,4,7,9,11}, \
 Mod[y-1,12]+1];\nListStepPlot[(*BB[*)(Transpose[chords])(*,*)(*\"1:eJxTTMoPSm\
 NmYGAo5gcSAUX5ZZkpqSn+BSWZ+XnFaYwgCRYg4ZGfkwLh8QCJkKLEvOKC/OJUp/yKYJBoSBoTTGV\
@@ -636,39 +645,44 @@ gODd/aYDABY1RjK\"*)(*]VB*)], Rectangle[{.5,y-.5},{9.5,y+.5}], \
 (*VB[*)(GrayLevel[0])(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4\
 PCQNGaQPAeQCHJ3cs7PyS8qYoACTAYAyrgOFw==\"*)(*]VB*), \
 Line[{{.5,y-.5},{9.5,y-.5}}]}, {y, 0, 18}]]", "Display" -> "codemirror", 
-    "Hash" -> "8ddbcbc8-9301-4f90-9b23-02dd568b7547", "Invisible" -> False, 
+    "Hash" -> "f82f0811-1f1b-47cb-ae59-0e297417bb6d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "(*VB[*)(FrontEndRef[\"da77a9b9-e870-43c0-91df-bc389aa745f1\"]\
 )(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKpySam\
 ydaJlnqplqYG+iaGCcb6FoapqTpJiUbW1gmJpqbmKYZAgCK0RXf\"*)(*]VB*)", 
     "Display" -> "codemirror", "Hash" -> 
-     "d711dc13-d5f0-414d-ac13-95ed7199c688", "Invisible" -> False, 
+     "ac6c1f62-a4b6-4ca0-a617-42e824a7654d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
-   <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "d3ce2c1b-7374-49fe-9840-6743a9aab949", "Invisible" -> False, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\n<hr/>", "Display" -> "codemirror", 
+    "Hash" -> "6ce9ecb2-8089-4a80-9de3-415164b54d88", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "<hr />", "Display" -> "markdown", 
+    "Hash" -> "c51d71f7-d8cd-4fce-91c3-864c0f873b86", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n### Text cells\nFor typing regular text, embedding \
 pictures, making description we use Markdown language.\n\nTo make markdown \
 cell type __in the first line of a new cell__ `.md`, if it was an anonymous \
 file", "Display" -> "codemirror", "Hash" -> 
-     "8d528db8-a35b-4b40-a72d-69089c7b63fd", "Invisible" -> False, 
+     "5eb41fef-a163-4c67-9da7-81e960879fb4", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "### Text cells\nFor typing regular text, embedding pictures, \
 making description we use Markdown language.\n\nTo make markdown cell type \
 __in the first line of a new cell__ `.md`, if it was an anonymous file", 
     "Display" -> "markdown", "Hash" -> 
-     "328e1f75-1897-4963-b3cf-c3cd427da469", "Invisible" -> False, 
+     "af45f2f8-0a3d-417f-bf62-1cda4f9fdda3", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n\n# Heading 1\n## Heading 2\n\nHere is a regular \
 paragraph, which can __be styled__ in a *different way*. Then press \
 `Shift+Enter` to make an output cell.\n\nYou can also hide an input cell \
@@ -676,161 +690,347 @@ automatically by a shortcut <kbd>Alt-2</kbd> or \
 <kbd>\[CloverLeaf]-2</kbd>\n\n$\\\\LaTeX$ is also supported\n\nAs well as \
 plain HTML <span style=\"color:red\">language</span>", 
     "Display" -> "codemirror", "Hash" -> 
-     "456fd84a-4223-4b5f-9109-3e8b9bbee6c6", "Invisible" -> False, 
+     "da757ef6-81bb-48ee-ad9d-c33a59ac19a5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "\n# Heading 1\n## Heading 2\n\nHere is a regular paragraph, \
 which can __be styled__ in a *different way*. Then press `Shift+Enter` to \
 make an output cell.\n\nYou can also hide an input cell automatically by a \
 shortcut <kbd >Alt-2</kbd> or <kbd >\[CloverLeaf]-2</kbd>\n\n$\\\\LaTeX$ is \
 also supported\n\nAs well as plain HTML <span \
 style=\"color:red\">language</span>", "Display" -> "markdown", 
-    "Hash" -> "5b75ab47-be96-4f85-b427-ca0a10f6af90", "Invisible" -> False, 
+    "Hash" -> "98792aeb-e89a-4c7f-96f1-75a75c03b019", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n<hr/>", "Display" -> "codemirror", 
-    "Hash" -> "51b77a38-a0cd-48fa-b1e4-8189f9936df6", "Invisible" -> False, 
+    "Hash" -> "81e82f50-dae3-42ca-87d0-dfc6dfe7ee7d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "<hr />", "Display" -> "markdown", 
-    "Hash" -> "3b7487fe-5e01-4d56-817a-7a542e06da18", "Invisible" -> False, 
+    "Hash" -> "c6273274-aa8c-4f41-9a99-f10984d436e4", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\nTo embed a picture - \
 use:\n\n![alt](https://upload.wikimedia.org/wikipedia/commons/a/a0/Kilroy_was\
 _here_%28re-drawn%29.gif)", "Display" -> "codemirror", 
-    "Hash" -> "80e2ebc0-b971-4562-9aec-86dbadc2f1f5", "Invisible" -> False, 
+    "Hash" -> "66e22059-e649-47b7-bbb4-7827f73966c4", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "To embed a picture \
 type\n\n![alt](https://upload.wikimedia.org/wikipedia/commons/a/a0/Kilroy_was\
 _here_%28re-drawn%29.gif)", "Display" -> "markdown", 
-    "Hash" -> "06a421e9-1aa0-4922-8469-0f785bcedd41", "Invisible" -> False, 
+    "Hash" -> "eb22413e-ac7e-49a2-a77e-07591a80f479", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\nOr __just drag and drop__ any image file to a cell", 
     "Display" -> "codemirror", "Hash" -> 
-     "626ca616-d266-4839-ad56-4a69605904a7", "Invisible" -> False, 
+     "d5c61d59-de4e-4ad0-abe8-fed17ce7aba5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "Or __just drag and drop__ any image file to a cell", 
     "Display" -> "markdown", "Hash" -> 
-     "2cfc2c00-9a15-4600-b5ab-c9d1dd4507b2", "Invisible" -> False, 
+     "4073ec00-8097-4df3-a16b-eabd15746987", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n<hr/>", "Display" -> "codemirror", 
-    "Hash" -> "bed7c6de-9ddb-4cc8-88a2-2c66465a944f", "Invisible" -> False, 
+    "Hash" -> "67652e0d-b8bb-4c8a-9bf7-774b84878d1d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "<hr />", "Display" -> "markdown", 
-    "Hash" -> "09b0fef8-f1c3-4b68-80d1-c9778478f0c4", "Invisible" -> False, 
+    "Hash" -> "50240707-2b60-42b7-9742-b7f42019f52e", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n:::tip\nThere are many more cell types are available, \
 please, check [our documentation](https://wljs.io). \n:::\n\nFor example", 
     "Display" -> "codemirror", "Hash" -> 
-     "5fce8b7e-8dce-49f2-b6e2-4bd91d35e7b1", "Invisible" -> False, 
+     "ecfbbfc1-3ee6-4e64-b580-976c69f21b94", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ":::tip\nThere are many more cell types are available, please, \
 check [our documentation](https://wljs.io). \n:::\n\nFor example", 
     "Display" -> "markdown", "Hash" -> 
-     "1384f3a0-f547-40bc-8601-c7e100ba108b", "Invisible" -> False, 
+     "1c6a3068-b7d2-4666-a77d-eb720ca7c90f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n### Javascript", "Display" -> "codemirror", 
-    "Hash" -> "d8b3001a-9497-4a26-a4fc-146f65cbcff3", "Invisible" -> False, 
+    "Hash" -> "9b424ad0-7a50-42da-85f5-acd4ea4a30d6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "### Javascript", "Display" -> "markdown", 
-    "Hash" -> "3a52d6cf-cd6f-4fac-8018-a79cfa16806d", "Invisible" -> False, 
+    "Hash" -> "28071106-9646-46ae-a0d8-a722c32b9e28", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".js\n\nreturn 1+1;", "Display" -> "codemirror", 
-    "Hash" -> "6da0f55d-8c9d-40a5-91b9-bb83cc5bac50", "Invisible" -> False, 
+    "Hash" -> "1f53e759-245b-4bb0-bc9f-bf8b30930452", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "\nreturn 1+1;", "Display" -> "js", 
-    "Hash" -> "aa195d5f-4d45-4674-9737-bfa986896dd6", "Invisible" -> False, 
+    "Hash" -> "56ee365f-84c2-4eaa-972f-e701be6b0132", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n### Mermaid", "Display" -> "codemirror", 
-    "Hash" -> "20b8339b-a600-4d19-9a72-526589d7226c", "Invisible" -> False, 
+    "Hash" -> "ebad5c55-5935-4b79-b2b5-f5d0c9e46bce", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "### Mermaid", "Display" -> "markdown", 
-    "Hash" -> "1ef51c6f-2285-410b-bd4f-9c6a32b265cb", "Invisible" -> False, 
+    "Hash" -> "f434adc3-81e5-4c4c-ab7d-46b45ceb44c3", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".mermaid\n\ngraph LR\n    A[Square Rect] -- Link text --> \
 B((Circle))\n    A --> C(Round Rect)\n    B --> D{Rhombus}\n    C --> D", 
     "Display" -> "codemirror", "Hash" -> 
-     "1bc3b8d1-2e40-43eb-aea7-7403b1c2d941", "Invisible" -> False, 
+     "fe5b16c8-32d6-47c1-9923-817a59dc722c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "\ngraph LR\n    A[Square Rect] -- Link text --> B((Circle))\n \
    A --> C(Round Rect)\n    B --> D{Rhombus}\n    C --> D", 
-    "Display" -> "mermaid", "Hash" -> "c2d114e5-78b1-4ce9-9c00-3afd36fcfa70", 
+    "Display" -> "mermaid", "Hash" -> "3db9a2a5-c3c1-4fb1-b193-74bab3c5934c", 
     "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n### Slides", "Display" -> "codemirror", 
-    "Hash" -> "efe2c0d4-65fb-43d9-b778-f296bd5badcc", "Invisible" -> False, 
+    "Hash" -> "7ff8409d-69e8-4936-9a90-4e09172ee484", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "### Slides", "Display" -> "markdown", 
-    "Hash" -> "48c15294-4d55-489f-a0fb-a2ed6dd4699a", "Invisible" -> False, 
+    "Hash" -> "464d3dd8-280d-4137-a6f9-87026e834ebe", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".slide\n\n# Here is a title", "Display" -> "codemirror", 
-    "Hash" -> "a65d0cab-6a88-4090-adcc-1348a6e67dbd", "Invisible" -> False, 
+    "Hash" -> "9334bd76-20e7-46d6-b5af-ee701d5eb85f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "<dummy >\n# Here is a title</dummy>", "Display" -> "slide", 
-    "Hash" -> "74b8ac63-c0f9-46b0-84e2-d983eaa63a5a", "Invisible" -> False, 
+    "Hash" -> "3000794c-1033-46ae-8f01-d8b1dbf51a27", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n***and many more!***", "Display" -> "codemirror", 
-    "Hash" -> "e873c6b0-51ae-4610-87c2-da15dbbbacd6", "Invisible" -> False, 
+    "Hash" -> "937dad47-221e-4f65-a9e5-d951e14e3a62", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "***and many more!***", "Display" -> "markdown", 
-    "Hash" -> "3828e457-8933-4c73-9826-ef5d66a0626b", "Invisible" -> False, 
+    "Hash" -> "823fb8ce-cc57-40a9-931a-e532c25355eb", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> ".md\n---", "Display" -> "codemirror", 
-    "Hash" -> "6312bee1-7d2b-4f62-9de0-ecf45c744fed", "Invisible" -> False, 
+    "Hash" -> "fcd48091-3d42-47c5-b2e8-561fda68d4ca", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>, 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
    <|"Data" -> "---", "Display" -> "markdown", 
-    "Hash" -> "272a3911-7977-4f93-a84e-351a4091d806", "Invisible" -> False, 
+    "Hash" -> "bc8521c7-6e21-4960-a960-b31ac25574d4", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8a878d4e-da83-41ff-89d8-0a1e30104460"|>}, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\n\n## Dynamics and Interactivity\n\nWLJS is __more__ than \
+just a <abbr title=\"Read-Eval-Print-Loop\">REPL</abbr> or Jupyter clone \
+ducktaped on Wolfram Engine; it provides its own standard libraries, runtime, \
+UI kit and implements all manipulate features, graphics, sound from scratch:"\
+, "Display" -> "codemirror", "Hash" -> 
+     "602a9441-39a9-4d74-ab03-1b29bbd8c4ec", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "\n## Dynamics and Interactivity\n\nWLJS is __more__ than just \
+a <abbr title=\"Read-Eval-Print-Loop\">REPL</abbr> or Jupyter clone ducktaped \
+on Wolfram Engine; it provides its own standard libraries, runtime, UI kit \
+and implements all manipulate features, graphics, sound from scratch:", 
+    "Display" -> "markdown", "Hash" -> 
+     "280d9436-f570-411e-8690-6b6ea4067728", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "Manipulate[\n    ParametricPlot[{Sin[u x], Cos[u y]}, {u, 0, \
+20}, \n      Axes -> False, PlotStyle -> Thick\n    ],\n    {x, 1, 10, 1},\n  \
+  {y, 1, 10, 1},\n    ContinuousAction -> True\n]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "d13df6fe-dc1f-4b35-ac79-e3456894d652", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\nInteractive elements like `Manipulate`, `Animate`, \
+`ManipulatePlot`, and `AnimatePlot` optimize performance by using low-level, \
+fine-grained updates that avoid full re-evaluation of expressions. Here's an \
+example of this approach: ", "Display" -> "codemirror", 
+    "Hash" -> "6818c27e-66ee-435e-8555-d44e483e4a13", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "Interactive elements like `Manipulate`, `Animate`, \
+`ManipulatePlot`, and `AnimatePlot` optimize performance by using low-level, \
+fine-grained updates that avoid full re-evaluation of expressions. Here's an \
+example of this approach: ", "Display" -> "markdown", 
+    "Hash" -> "5a20ef2e-f27b-4010-9ab0-4ca3359b7ce4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "var = 1.0;\nGraphics[{\n    \
+(*VB[*)(RGBColor[0.9324328496246868, 0.4779810744981178, 0.2076180267119551, \
+1.])(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNBCjmANIBLk7Oe\
+fn5BcVvQqJzqq99ta+iOnxkXe20+/ZF329mWJrNfmUfREDGHywBwB/2B0I\"*)(*]VB*), \
+Rectangle[{0,-.1}, {Offload[var], .1}], \n    \
+(*VB[*)(RGBColor[0.5767811690402207, 0.576646915402451, 0.5765764507985959, \
+1.])(*,*)(*\"1:eJxTTMoPSmNiYGAo5gUSYZmp5S6pyflFiSX5RcEsQBHn4PCQNBCjmANIBLk7Oe\
+fn5BcVLbKzP/G35JF9keDReOsnxUDG++hfJQEgBgMYfLAHAHLqHLY=\"*)(*]VB*), \
+Text[var//Offload, {Offload[var + 0.05], 0}]\n}, AspectRatio->0.1]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f46d05d9-978b-4e14-9118-8aacf5b7133b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\nThe nearest parent symbols (`Rectangle` and `Text`) \
+become dependent on the symbol `var` wrapped with `Offload`, though this \
+doesn't apply to simple math operations. Changing `var` will trigger an \
+update of only these dependent elements:", "Display" -> "codemirror", 
+    "Hash" -> "6321ece9-b8ac-4525-8ea5-e7642e4f12dc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "The nearest parent symbols (`Rectangle` and `Text`) become \
+dependent on the symbol `var` wrapped with `Offload`, though this doesn't \
+apply to simple math operations. Changing `var` will trigger an update of \
+only these dependent elements:", "Display" -> "markdown", 
+    "Hash" -> "67adc4d7-1963-48b7-90b5-23a884da350f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "EventHandler[InputRange[0,1,0.1], Function[val, var=val]]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6ac42bed-b879-4850-bc15-95800e9dbca9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\n## Math typesetting\nTo be honest, typing mathicamtical \
+expressions in the most modern IDE for programming languages did not evolve \
+since 1964. Our goal is to change that in a similar way as Mathematica did \
+(over nearly 20 years), but in open-source.\n\nSo to style code expressions, \
+replace them, or add additional elements in between we use decorations. The \
+most common one for example:", "Display" -> "codemirror", 
+    "Hash" -> "36f41b2f-0dcb-430c-832e-48540b85f781", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "## Math typesetting\nTo be honest, typing mathicamtical \
+expressions in the most modern IDE for programming languages did not evolve \
+since 1964. Our goal is to change that in a similar way as Mathematica did \
+(over nearly 20 years), but in open-source.\n\nSo to style code expressions, \
+replace them, or add additional elements in between we use decorations. The \
+most common one for example:", "Display" -> "markdown", 
+    "Hash" -> "ac0e7b5f-6784-4c8e-b11a-8a5cfc2517d9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "(*FB[*)((1)(*,*)/(*,*)(2))(*]FB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "94c829df-0759-4ba4-8403-3b6dba82f903", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\nif you copy it to a text editor you will still see a \
+valid expression of `(1/2)`", "Display" -> "codemirror", 
+    "Hash" -> "f7694643-bbc5-4809-a33c-0bad6092c499", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "if you copy it to a text editor you will still see a valid \
+expression of `(1/2)`", "Display" -> "markdown", 
+    "Hash" -> "0a0c2ef9-2904-44b4-871c-401f48c39be6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "text.txt\n\n(*FB[*)((1)(*,*)/(*,*)(2))(*]FB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6c0d4f08-eecc-467a-85fc-8f9c8a930c1b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\nthe meta information is stored safely in comments, the \
+same works with graphical, sound or any other non-textual output. In this \
+sense __the standard output form of WLJS is decorated `InputForm`__. Here is \
+more complex example:", "Display" -> "codemirror", 
+    "Hash" -> "8647a9de-c8c4-4991-9026-b2cf95289d4d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "the meta information is stored safely in comments, the same \
+works with graphical, sound or any other non-textual output. In this sense \
+__the standard output form of WLJS is decorated `InputForm`__. Here is more \
+complex example:", "Display" -> "markdown", 
+    "Hash" -> "1544d27d-bfe4-4db3-aa85-a5ed7eb217d6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "(*TB[*)Integrate[(*|*)f[x](*|*), \
+(*|*)x(*|*)](*|*)(*1:eJxTTMoPSmNmYGAo5gUSYZmp5S6pyflFiSX5RcGcQBHPvJLUdCA3NZMR\
+pIgVSLgl5hSnAgCQTg44*)(*]TB*)", "Display" -> "codemirror", 
+    "Hash" -> "953121b8-d820-4767-ac43-807314addf1f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "text.txt\n\n(*TB[*)Integrate[(*|*)f[x](*|*), \
+(*|*)x(*|*)](*|*)(*1:eJxTTMoPSmNmYGAo5gUSYZmp5S6pyflFiSX5RcGcQBHPvJLUdCA3NZMR\
+pIgVSLgl5hSnAgCQTg44*)(*]TB*)", "Display" -> "codemirror", 
+    "Hash" -> "f5ab3771-b238-4962-b973-f956c2af5641", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\nTo assist with writing basic mathematical expressions, \
+we provide special keyboard shortcuts to insert templates or apply formatting \
+to selected text as well a command palette with many useful tools.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1452f1b1-56b9-4de5-825c-0f862f627ecb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "To assist with writing basic mathematical expressions, we \
+provide special keyboard shortcuts to insert templates or apply formatting to \
+selected text as well a command palette with many useful tools.", 
+    "Display" -> "markdown", "Hash" -> 
+     "38572aaa-bede-4134-8326-693d752f05b1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> ".md\n## Portability\nWLJS Notebook offers multiple export \
+formats that <u>preserve interactivity</u>, allowing you to share your work \
+in the way that best suits your needs.\n\n:::note\nCheck [our \
+documentation](https://wljs.io) for more information\n:::", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5f2d4a95-c74b-4bda-9f75-dd41f2056c71", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>, 
+   <|"Data" -> "## Portability\nWLJS Notebook offers multiple export formats \
+that <u >preserve interactivity</u>, allowing you to share your work in the \
+way that best suits your needs.\n\n:::note\nCheck [our \
+documentation](https://wljs.io) for more information\n:::", 
+    "Display" -> "markdown", "Hash" -> 
+     "57ea4a84-d569-43de-81ac-5a639e54ae6b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "eb157a55-8131-4626-8042-8b9d88fe59dd"|>}, 
  "serializer" -> "jsfn4"|>

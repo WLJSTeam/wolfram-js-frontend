@@ -34,7 +34,7 @@ class FileOutputCell {
       pre.style.maxHeight = "600px";
       pre.style.overflowY = "scroll";
       pre.style.overflowX = "auto";
-      pre.style.maxWidth = "80vw";
+      pre.style.maxWidth = "calc(80vw - var(--system-main-padding-left))";
       pre.classList.add('text-sm');
       parent.element.appendChild(pre);
       

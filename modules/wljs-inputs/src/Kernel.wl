@@ -39,6 +39,8 @@ Begin["`Tools`"]
 TemplateProcessor;
 SetAttributes[TemplateProcessor, HoldFirst]
 
+WLXProcessor;
+
 AnonymousJavascript;
 SetAttributes[AnonymousJavascript, HoldFirst]
 
