@@ -106,32 +106,32 @@ class EditorWidget {
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 if (i > 0) {
                   self.editors[i - 1].focus();
                 } else {
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
                 }
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
           
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } }, 
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 if (i < indexes.length - 1) {
                   self.editors[i + 1].focus();
                 } else {
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
                 }
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
                 
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+             
             } }
           ]),
 

@@ -971,36 +971,26 @@ const EditorExtensions = [
     }, shift: indentLess },
     { key: "Backspace", run: function (editor, key) { 
       if(editor.state.doc.length === 0) { self.origin.remove(); return true; }  
-    } },
-    { key: "ArrowLeft", run: function (editor, key) {  
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-    } },   
-    { key: "ArrowRight", run: function (editor, key) {  
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-    } },                      
+    } },                     
     { key: "ArrowUp", run: function (editor, key) {  
       //console.log('arrowup');
       //console.log(editor.state.selection.ranges[0]);
-      if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+      if (editor.state.selection.main.head == 0) {
         console.log('focus prev');
         self.origin.focusPrev();
-        editor.editorLastCursor = undefined;
         return;
       }
 
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
     } },
     { key: "ArrowDown", run: function (editor, key) { 
 
       //console.log(editor.state.selection.ranges[0]);
-      if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+      if  (editor.state.selection.main.head === editor.state.doc.length) {
         console.log('focus next');
         self.origin.focusNext();
-        editor.editorLastCursor = undefined;
         return;
       }
 
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
     } },
     { key: "Shift-Enter", preventDefault: true, run: function (editor, key) { 
       console.log(editor.state.doc.toString()); 
@@ -1020,7 +1010,7 @@ const EditorExtensions = [
     , ...defaultKeymap, ...historyKeymap, ...searchKeymap
   ]),
   
-  (self, initialLang) => EditorView.updateListener.of((v) => {
+  (self, initialLang) => EditorView.updateListener.of((v) => { 
     if (v.docChanged) {
       //TODO: TOO SLOW FIXME!!!
       self.origin.save(encodeURIComponent(v.state.doc.toString()));
@@ -1029,6 +1019,7 @@ const EditorExtensions = [
       //console.log('selected editor:');
       //console.log(v.view);
       selectedEditor = v.view;
+      
     }
     
   }),

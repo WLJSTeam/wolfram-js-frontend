@@ -91,45 +91,45 @@ import {
               extensions: [
                 keymap.of([
                   { key: "ArrowLeft", run: function (editor, key) {  
-                    if (editor?.editorLastCursor === editor.state.selection.ranges[0].to && !editor.stringOnly)
+                    if (editor.state.selection.main.head == 0 && !editor.stringOnly)
                       if (j - 2 >= 0) {
                         cols[j-2].editor.dispatch({selection:{anchor:cols[j-2].editor.state.doc.length}});
                         cols[j-2].editor.focus();
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       } else {
                         view.dispatch({selection: {anchor: self.visibleValue.pos}});
                         view.focus();
 
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       }
                     
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                    
                   } }, 
                   { key: "ArrowRight", run: function (editor, key) {  
-                    if (editor?.editorLastCursor === editor.state.selection.ranges[0].to && !editor.stringOnly)
+                    if (editor.state.selection.main.head == editor.state.doc.length && !editor.stringOnly)
                       if (j + 2 < cols.length) {
                         cols[j+2].editor.dispatch({selection:{anchor:0}});
                         cols[j+2].editor.focus();
-                        editor.editorLastCursor = undefined;
+                  
                         return;
                       } else {
                         //view.focus();
                         view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                         view.focus();
 
-                        editor.editorLastCursor = undefined;
+                       
                         return;
                       }
                     
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                     
                   } },             
                   { key: "ArrowUp", run: function (editor, key) {  
                     //if (editor?.editorLastCursor === editor.state.selection.ranges[0].to)
                       if (i - 2 >= 0) {
                         args[i-2].body[j].editor.focus();
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       } else {
                         //view.focus();
@@ -141,7 +141,7 @@ import {
                     //if (editor?.editorLastCursor === editor.state.selection.ranges[0].to)
                       if (i + 2 < args.length) {
                         args[i+2].body[j].editor.focus();
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       } else {
                         //view.focus();

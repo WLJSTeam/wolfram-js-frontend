@@ -30544,32 +30544,28 @@ let EditorWidget$7 = class EditorWidget {
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
-                //const range = self.placeholder.placeholder.placeholder;
-                console.log(self.visibleValue.pos);
-                //if (self.visibleValue.pos == 0) return;
+              if (editor.state.selection.main.head == 0) {
+                
   
                 view.dispatch({selection: {anchor: self.visibleValue.pos}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+                
                 return;
-              } else {
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-              }
+              } 
               
             } }, 
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 bottomEditor.dispatch({selection: {anchor: 0}});
                 bottomEditor.focus();
-                editor.editorLastCursor = undefined;
+    
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },             
             { key: "ArrowDown", run: function (editor, key) {  
               bottomEditor.focus();
-              editor.editorLastCursor = undefined; 
+              
             } }
           ]),
           EditorView.domEventHandlers({
@@ -30624,32 +30620,30 @@ let EditorWidget$7 = class EditorWidget {
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 //const range = self.placeholder.placeholder.placeholder;
                 topEditor.dispatch({selection: {anchor: topEditor.state.doc.length}});
                 topEditor.focus();
-                editor.editorLastCursor = undefined;
+        
                 return;
-              } else {
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-              }
+              } 
               
             } }, 
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 
                 view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                 view.focus();
               
   
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+             
             } },             
             { key: "ArrowUp", run: function (editor, key) {  
               topEditor.focus();
-              editor.editorLastCursor = undefined;
+              
             } }
           ]),
           EditorView.domEventHandlers({
@@ -30785,32 +30779,27 @@ let EditorWidget$7 = class EditorWidget {
           extensions: [
             keymap.of([
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
-                  //const range = self.placeholder.placeholder.placeholder;
-                  console.log(self.visibleValue.pos);
-                  //if (self.visibleValue.pos == 0) return;
-    
+                if (editor.state.selection.main.head == 0) {
+                 
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+              
                   return;
-                } else {
-                  editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-                }
+                } 
                 
               } }, 
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   self.bottomEditor.dispatch({selection: {anchor: 0}});
                   self.bottomEditor.focus();
-                  editor.editorLastCursor = undefined;
+            
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                  
               } },             
               { key: "ArrowDown", run: function (editor, key) {  
                 self.bottomEditor.focus();
-                editor.editorLastCursor = undefined; 
+               
               } }
             ])
           ]
@@ -30842,32 +30831,29 @@ let EditorWidget$7 = class EditorWidget {
           extensions: [
             keymap.of([
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   //const range = self.placeholder.placeholder.placeholder;
                   self.topEditor.dispatch({selection: {anchor: self.topEditor.state.doc.length}});
                   self.topEditor.focus();
-                  editor.editorLastCursor = undefined;
+                 
                   return;
-                } else {
-                  editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-                }
+                } 
                 
               } }, 
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
                 
     
-                  editor.editorLastCursor = undefined;
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                 
               } },             
               { key: "ArrowUp", run: function (editor, key) {  
                 self.topEditor.focus();
-                editor.editorLastCursor = undefined;
+               
               } }
             ])        
           ]  
@@ -31115,23 +31101,23 @@ var compactCMEditor$5;
         extensions: [
           keymap.of([
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                 view.focus();
 
-                editor.editorLastCursor = undefined;
+         
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } },   
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 view.dispatch({selection: {anchor: self.visibleValue.pos}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+               
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } }
           ])
 
@@ -31199,23 +31185,23 @@ var compactCMEditor$5;
           extensions: [
             keymap.of([
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
   
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                 
               } },   
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+                 
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
               } }
             ])
           ]             
@@ -31443,27 +31429,27 @@ let EditorWidget$5 = class EditorWidget {
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 view.dispatch({selection: {anchor: self.visibleValue.pos }});
                 view.focus();
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+             
             } },   
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 if (bottomEditor.passiveMode) { 
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                    
                     return;
                 }                
                 bottomEditor.dispatch({selection:{anchor: 0}});
                 bottomEditor.focus();
-                editor.editorLastCursor = undefined;
+                
               
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
             } },
 
             { key: "ArrowDown", run: function (editor, key) {  
@@ -31526,27 +31512,27 @@ let EditorWidget$5 = class EditorWidget {
         extensions: [
           keymap.of([
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+             
             } },   
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 if (topEditor.passiveMode) {
-                  editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                  
                   return;
                 }
                 topEditor.dispatch({selection:{anchor: topEditor.state.doc.length}});
                 topEditor.focus();
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
 
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } },
 
             { key: "ArrowUp", run: function (editor, key) {  
@@ -31696,28 +31682,28 @@ let EditorWidget$5 = class EditorWidget {
           extensions: [
             keymap.of([
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos }});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },   
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   if (self.bottomEditor.passiveMode) { 
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                    
                     return;
                   }
 
                   self.bottomEditor.dispatch({selection:{anchor: 0}});
                   self.bottomEditor.focus();
-                  editor.editorLastCursor = undefined;
+                  
                 
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },
     
               { key: "ArrowDown", run: function (editor, key) {  
@@ -31749,27 +31735,27 @@ let EditorWidget$5 = class EditorWidget {
           extensions: [
             keymap.of([
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+          
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },   
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   if (self.topEditor.passiveMode) {
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                    
                     return;
                   }
                   self.topEditor.dispatch({selection:{anchor: self.topEditor.state.doc.length}});
                   self.topEditor.focus();
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
                   
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },
     
               { key: "ArrowUp", run: function (editor, key) {  
@@ -32010,23 +31996,23 @@ var compactCMEditor$3;
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 
                 view.dispatch({selection: {anchor: self.visibleValue.pos}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+      
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },   
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 bottomEditor.dispatch({selection: {anchor: 0}});
                 bottomEditor.focus();
-                editor.editorLastCursor = undefined;
+               
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } },
 
             { key: "ArrowUp", run: function (editor, key) {  
@@ -32058,22 +32044,22 @@ var compactCMEditor$3;
         extensions: [
           keymap.of([
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+               
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },   
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 topEditor.dispatch({selection: {anchor: topEditor.state.doc.length}});
                 topEditor.focus();
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },
 
             { key: "ArrowDown", run: function (editor, key) {  
@@ -32180,23 +32166,23 @@ var compactCMEditor$3;
           extensions: [
             keymap.of([
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },   
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   self.bottomEditor.dispatch({selection: {anchor: 0}});
                   self.bottomEditor.focus();
                   editor.editorLastCursor = undefined;
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                  
               } },
   
               { key: "ArrowUp", run: function (editor, key) {  
@@ -32212,22 +32198,22 @@ var compactCMEditor$3;
           extensions: [
             keymap.of([
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+                 
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },   
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   self.topEditor.dispatch({selection: {anchor: self.topEditor.state.doc.length}});
                   self.topEditor.focus();
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                 
               } },
   
               { key: "ArrowDown", run: function (editor, key) {  
@@ -39701,45 +39687,45 @@ var compactCMEditor$2;
               extensions: [
                 keymap.of([
                   { key: "ArrowLeft", run: function (editor, key) {  
-                    if (editor?.editorLastCursor === editor.state.selection.ranges[0].to && !editor.stringOnly)
+                    if (editor.state.selection.main.head == 0 && !editor.stringOnly)
                       if (j - 2 >= 0) {
                         cols[j-2].editor.dispatch({selection:{anchor:cols[j-2].editor.state.doc.length}});
                         cols[j-2].editor.focus();
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       } else {
                         view.dispatch({selection: {anchor: self.visibleValue.pos}});
                         view.focus();
 
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       }
                     
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                    
                   } }, 
                   { key: "ArrowRight", run: function (editor, key) {  
-                    if (editor?.editorLastCursor === editor.state.selection.ranges[0].to && !editor.stringOnly)
+                    if (editor.state.selection.main.head == editor.state.doc.length && !editor.stringOnly)
                       if (j + 2 < cols.length) {
                         cols[j+2].editor.dispatch({selection:{anchor:0}});
                         cols[j+2].editor.focus();
-                        editor.editorLastCursor = undefined;
+                  
                         return;
                       } else {
                         //view.focus();
                         view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                         view.focus();
 
-                        editor.editorLastCursor = undefined;
+                       
                         return;
                       }
                     
-                    editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                     
                   } },             
                   { key: "ArrowUp", run: function (editor, key) {  
                     //if (editor?.editorLastCursor === editor.state.selection.ranges[0].to)
                       if (i - 2 >= 0) {
                         args[i-2].body[j].editor.focus();
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       }
                     
@@ -39749,7 +39735,7 @@ var compactCMEditor$2;
                     //if (editor?.editorLastCursor === editor.state.selection.ranges[0].to)
                       if (i + 2 < args.length) {
                         args[i+2].body[j].editor.focus();
-                        editor.editorLastCursor = undefined;
+                        
                         return;
                       }
                     
@@ -40455,31 +40441,21 @@ let EditorWidget$1 = class EditorWidget {
           extensions: [
             keymap.of([
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
-
-                  console.log(self.visibleValue.pos);
-                  //if (self.visibleValue.pos == 0) return;
-                
+                if (editor.state.selection.main.head == 0) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
-
-                  editor.editorLastCursor = undefined;
                   return;
                 }
-
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
               } }, 
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
-                  console.log(self.visibleValue.pos);
-                  //if (self.visibleValue.pos == 0) return;
-                
+                if (editor.state.selection.main.head === editor.state.doc.length) {
+              
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+
               } }
             ]),
 
@@ -40765,32 +40741,32 @@ class EditorWidget {
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 if (i > 0) {
                   self.editors[i - 1].focus();
                 } else {
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
                 }
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
           
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } }, 
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 if (i < indexes.length - 1) {
                   self.editors[i + 1].focus();
                 } else {
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
                 }
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
                 
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+             
             } }
           ]),
 
@@ -42003,36 +41979,26 @@ const EditorExtensions = [
     }, shift: indentLess },
     { key: "Backspace", run: function (editor, key) { 
       if(editor.state.doc.length === 0) { self.origin.remove(); return true; }  
-    } },
-    { key: "ArrowLeft", run: function (editor, key) {  
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-    } },   
-    { key: "ArrowRight", run: function (editor, key) {  
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
-    } },                      
+    } },                     
     { key: "ArrowUp", run: function (editor, key) {  
       //console.log('arrowup');
       //console.log(editor.state.selection.ranges[0]);
-      if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+      if (editor.state.selection.main.head == 0) {
         console.log('focus prev');
         self.origin.focusPrev();
-        editor.editorLastCursor = undefined;
         return;
       }
 
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
     } },
     { key: "ArrowDown", run: function (editor, key) { 
 
       //console.log(editor.state.selection.ranges[0]);
-      if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+      if  (editor.state.selection.main.head === editor.state.doc.length) {
         console.log('focus next');
         self.origin.focusNext();
-        editor.editorLastCursor = undefined;
         return;
       }
 
-      editor.editorLastCursor = editor.state.selection.ranges[0].to;  
     } },
     { key: "Shift-Enter", preventDefault: true, run: function (editor, key) { 
       console.log(editor.state.doc.toString()); 
@@ -42052,7 +42018,7 @@ const EditorExtensions = [
     , ...defaultKeymap, ...historyKeymap, ...searchKeymap
   ]),
   
-  (self, initialLang) => EditorView.updateListener.of((v) => {
+  (self, initialLang) => EditorView.updateListener.of((v) => { 
     if (v.docChanged) {
       //TODO: TOO SLOW FIXME!!!
       self.origin.save(encodeURIComponent(v.state.doc.toString()));
@@ -42061,6 +42027,7 @@ const EditorExtensions = [
       //console.log('selected editor:');
       //console.log(v.view);
       selectedEditor = v.view;
+      
     }
     
   }),

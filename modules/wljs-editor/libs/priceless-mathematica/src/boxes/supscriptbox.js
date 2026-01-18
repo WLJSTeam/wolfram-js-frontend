@@ -82,23 +82,23 @@ import {
         extensions: [
           keymap.of([
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 
                 view.dispatch({selection: {anchor: self.visibleValue.pos}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+      
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },   
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 bottomEditor.dispatch({selection: {anchor: 0}});
                 bottomEditor.focus();
-                editor.editorLastCursor = undefined;
+               
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+              
             } },
 
             { key: "ArrowUp", run: function (editor, key) {  
@@ -130,22 +130,22 @@ import {
         extensions: [
           keymap.of([
             { key: "ArrowRight", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == editor.state.doc.length) {
                 view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                 view.focus();
-                editor.editorLastCursor = undefined;
+               
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },   
             { key: "ArrowLeft", run: function (editor, key) {  
-              if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+              if (editor.state.selection.main.head == 0) {
                 topEditor.dispatch({selection: {anchor: topEditor.state.doc.length}});
                 topEditor.focus();
-                editor.editorLastCursor = undefined;
+                
                 return;
               }
-              editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+               
             } },
 
             { key: "ArrowDown", run: function (editor, key) {  
@@ -252,23 +252,23 @@ import {
           extensions: [
             keymap.of([
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   
                   view.dispatch({selection: {anchor: self.visibleValue.pos}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },   
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   self.bottomEditor.dispatch({selection: {anchor: 0}});
                   self.bottomEditor.focus();
                   editor.editorLastCursor = undefined;
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                  
               } },
   
               { key: "ArrowUp", run: function (editor, key) {  
@@ -284,22 +284,22 @@ import {
           extensions: [
             keymap.of([
               { key: "ArrowRight", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == editor.state.doc.length) {
                   view.dispatch({selection: {anchor: self.visibleValue.pos + self.visibleValue.length}});
                   view.focus();
-                  editor.editorLastCursor = undefined;
+                 
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                
               } },   
               { key: "ArrowLeft", run: function (editor, key) {  
-                if (editor?.editorLastCursor === editor.state.selection.ranges[0].to) {
+                if (editor.state.selection.main.head == 0) {
                   self.topEditor.dispatch({selection: {anchor: self.topEditor.state.doc.length}});
                   self.topEditor.focus();
-                  editor.editorLastCursor = undefined;
+                  
                   return;
                 }
-                editor.editorLastCursor = editor.state.selection.ranges[0].to;  
+                 
               } },
   
               { key: "ArrowDown", run: function (editor, key) {  
