@@ -1026,10 +1026,12 @@ FormatValues[BoundaryMeshRegion] = {}
 BoundaryMeshRegion /: MakeBoxes[b_BoundaryMeshRegion, StandardForm] := With[{r = If[RegionDimension[b] == 3, RegionPlot3D[b, ImageSize->200], Insert[RegionPlot[b, ImageSize->200, Axes->False, Frame->False, ImagePadding->10], "Controls"->False, {2,-1}]] // CreateFrontEndObject},
   If[ByteCount[b] > 3250,
     LeakyModule[{temporal},
-      With[{v = ViewBox[temporal, r]},
+      With[
+        {v = Interpretation[Labeled[r, Style["Data is on Kernel", Gray, 10, FontFamily->"system-ui"] ]//Panel, temporal]},
+        {box = MakeBoxes[v, StandardForm]},      
         AppendTo[Kernel`Internal`garbage, Hold[temporal] ];
         temporal = b;
-        v
+        box
       ]
     ]
     
@@ -1047,10 +1049,12 @@ FormatValues[MeshRegion] = {}
 MeshRegion /: MakeBoxes[b_MeshRegion, StandardForm] := With[{r = If[RegionDimension[b] == 3, RegionPlot3D[b, ImageSize->200], Insert[RegionPlot[b, ImageSize->200, Axes->False, Frame->False, ImagePadding->10], "Controls"->False, {2,-1}]] // CreateFrontEndObject},
   If[ByteCount[b] > 3250,
     LeakyModule[{temporal},
-      With[{v = ViewBox[temporal, r]},
-        AppendTo[Kernel`Internal`garbage, Hold[temporal]];
+      With[
+        {v = Interpretation[Labeled[r, Style["Data in on Kernel", Gray, 10, FontFamily->"system-ui"] ]//Panel, temporal]},
+        {box = MakeBoxes[v, StandardForm]},
+        AppendTo[Kernel`Internal`garbage, Hold[temporal] ];
         temporal = b;
-        v
+        box
       ]
     ]
     

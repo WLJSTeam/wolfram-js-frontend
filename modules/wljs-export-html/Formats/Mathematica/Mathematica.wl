@@ -522,8 +522,8 @@ With[{
                       #, notebook, data
                     } &/@ nb[[1]], Function[Null,
       
-                      If[Length[notebook["Cells"] ] > 65, 
-                        Echo["Notebook is too big!"];
+                      If[Length[notebook["Cells"] ] > 90, 
+                        Echo["Notebook is too long!"];
                         With[{cellList = Unique[], promiseList = Unique[], pathList = Unique[] },
                           cellList = notebook["Cells"];
                           promiseList = {}; pathList = {};
