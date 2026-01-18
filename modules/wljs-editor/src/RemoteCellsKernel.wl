@@ -172,7 +172,7 @@ addDisplay[d_, str_] := If[Length[StringCases[d, "."] ] > 0,
 fixDisplays[d_] := StringReplace[ToLowerCase[d], {
     "katex" -> "latex",
     "tex" -> "latex",
-    "markdown" -> "md",
+    "markdown" -> "markdown",
     "javascript" -> "js",
     "html" -> "html"
 }]
