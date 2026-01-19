@@ -12,7 +12,7 @@ URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
 \"Version\"->If[AssociationQ[System`$Env[\"AppJSON\"] ], \
 System`$Env[[\"AppJSON\", \"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  \
 ] // URLEncode)];  \n]];", "Controller" -> 
-    "2947c1b6-040c-4cea-ae51-347ad3787c58", 
+    "6bb5a226-ef90-44bb-ab86-0bd78f9428c2", 
    "Directory" -> 
     "/Users/kirill/Github/wljs-demos-archive/Demos/Release notes/", 
    "ExcalidrawImages" -> 
@@ -375,9 +375,9 @@ xCL9CQIQgAAE8pVA2DOTieqBkMzX1qVclY0AQrKytSj1qfQEUgnBZL9DPFb6bkEFIQABCFQ6AkFFZ\
 WzFEZGVrhtQoTwmgJDM48ahaBBIRiCdMEz3e+Ub5BpaAAIQgAAEIFARBIIIwHTXpPt9RdSDZ0CgmA\
 j8H42GVbJTAJfiAAAAAElFTkSuQmCC\",\"created\":1759315710992,\"lastRetrieved\":\
 1759315710992}"|>, "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$524], 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1487], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "d16e2fb4-6aea-44bc-8a9a-fc6fc79546b5", 
+    "997c8f2e-5c30-4dbe-abc8-c4b0e68e89fb", 
    "Objects" -> <|"563988d8-a52e-49f1-a3f4-6ab18f8bf890" -> 
       <|"Public" -> Hold[HTMLView["<div class=\"relative shrink-0 gap-y-3 \
 pb-2 flex flex-col sm-controls\"><div class=\"flex gap-x-5 \
@@ -462,28 +462,31 @@ hive/Demos/Release notes/3.0.0.wln", "PublicFields" -> {"Properties"},
    "Symbols" -> <|"var" -> 0.3|>, 
    "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
       "Release notes *3.0.0*", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$462]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1430]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Improved Math Input", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$464]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1432]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Improved cells navigation", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1492]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
       "Smarter Windows & Docs", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$533]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1444]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "InputRange extensions", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$478]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1446]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Breaking changes", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$488]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1455]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
       "Improved Boxes rendering", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$492]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1459]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[3, "Predictor, Classify", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$494]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1461]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
       "New API for Notebooks/Cells", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$497]]}|>, 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1464]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Release notes *3.0.0*\n\n<Now/>\n\nRate your \
 experience with the previous release. Your feedback is important for \
 us\n\n<style>\n    .rating { \n      display: flex;\n      flex-direction: \
@@ -515,10 +518,10 @@ rounded-lg text-sm text-gray-700 ring-0 text-sm py-1\" placeholder=\"one-line \
 feedback...\" maxlength=\"100\" />\n</form>\n\nTell your thoughts, what you \
 would like to see or anything else. The form will be sent automatically once \
 you have finished.", "Display" -> "codemirror", 
-    "Hash" -> "05a50c03-f8ae-4232-b7f3-45560a5bad08", "Invisible" -> False, 
+    "Hash" -> "ed997d1b-f255-4ac6-98a6-9b58fc981cbe", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "# Release notes *3.0.0*\n\nMon 12 Jan 2026 22:51:06\n\nRate \
 your experience with the previous release. Your feedback is important for \
 us\n\n<style >\n    .rating { \n      display: flex;\n      flex-direction: \
@@ -549,10 +552,10 @@ py-1\" placeholder=\"one-line feedback...\" \
 maxlength=\"100\"/></form>\n\nTell your thoughts, what you would like to see \
 or anything else. The form will be sent automatically once you have \
 finished.", "Display" -> "markdown", 
-    "Hash" -> "b6b82c26-b6b6-4543-8f63-feec1fc30fe0", "Invisible" -> False, 
+    "Hash" -> "be82e5a4-efcf-4dbb-a8c4-2303d9d3cab6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n## Improved Math Input\n\nWe\[CloseCurlyQuote]ve come a \
 long way toward one of Wolfram Mathematica\[CloseCurlyQuote]s signature \
 features: **2D mathematical input**. This \[OpenCurlyDoubleQuote]syntax \
@@ -562,10 +565,10 @@ code* and *presenting mathematics*.\n\nYour maintainers, Kirill Vasin and \
 Kirill Belov, are happy to announce that we\[CloseCurlyQuote]ve finally \
 reached this milestone by adding the last missing piece to the cell editor: \
 *auto-adjustable brackets/parentheses*:\n", "Display" -> "codemirror", 
-    "Hash" -> "7bd7431c-300b-4433-a665-69fe1321d7e1", "Invisible" -> False, 
+    "Hash" -> "ec9697ea-ab27-4554-801e-8f3a5f9b9e99", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "## Improved Math Input\n\nWe\[CloseCurlyQuote]ve come a long \
 way toward one of Wolfram Mathematica\[CloseCurlyQuote]s signature features: \
 **2D mathematical input**. This \[OpenCurlyDoubleQuote]syntax \
@@ -575,40 +578,40 @@ code* and *presenting mathematics*.\n\nYour maintainers, Kirill Vasin and \
 Kirill Belov, are happy to announce that we\[CloseCurlyQuote]ve finally \
 reached this milestone by adding the last missing piece to the cell editor: \
 *auto-adjustable brackets/parentheses*:\n", "Display" -> "markdown", 
-    "Hash" -> "3fe7d3a5-21f5-4ce4-a83a-27662141eafe", "Invisible" -> False, 
+    "Hash" -> "2f8c3e8e-4610-4761-a18a-7283e1eeae05", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "{(*SqB[*)Sqrt[2](*]SqB*), \
 (*SpB[*)Power[2(*|*),(*|*)1/4](*]SpB*)} - {((*FB[*)((1)(*,*)/(*,*)(2))(*]FB*) \
 - 1), 0} + {1,1}", "Display" -> "codemirror", 
-    "Hash" -> "1e709f0b-fbaf-4ec0-a2fc-63801d0cd0b1", "Invisible" -> False, 
+    "Hash" -> "d4f3e2a2-6910-484c-96a6-b119b9c84983", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "{(*FB[*)((3)(*,*)/(*,*)(2))(*]FB*)+(*SqB[*)Sqrt[2](*]SqB*),1+\
 (*SpB[*)Power[2(*|*),(*|*)1/4](*]SpB*)}", "Display" -> "codemirror", 
-    "Hash" -> "a13ca6ae-2534-42d8-b918-3031ffd67ef1", "Invisible" -> False, 
+    "Hash" -> "e46e495c-e8de-40da-8a3e-9ea07abc546c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nWe locate and match all such elements, measure the \
 height of the range they span, and then select one of four KaTeX fonts to \
 render each element. The remaining challenge has always been \
 performance\[LongDash]how to make this efficient, i.e.", 
     "Display" -> "codemirror", "Hash" -> 
-     "46e94461-9d9f-4109-8569-872168a671b3", "Invisible" -> False, 
+     "44282e17-9be6-4316-a2a3-dbdb285b57a7", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "We locate and match all such elements, measure the height of \
 the range they span, and then select one of four KaTeX fonts to render each \
 element. The remaining challenge has always been performance\[LongDash]how to \
 make this efficient, i.e.", "Display" -> "markdown", 
-    "Hash" -> "0cb6bac5-3382-4014-bc8a-4655f6d44092", "Invisible" -> False, 
+    "Hash" -> "e482d8e7-214d-4b03-86d5-8245ff65b87c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "\\[Alpha] (-(*FB[*)((g g2 \
 \\[Omega])(*,*)/(*,*)((*SpB[*)Power[\\[Alpha]L(*|*),(*|*)2](*]SpB*)+(*SpB[*)P\
 ower[\\[Omega](*|*),(*|*)2](*]SpB*)))(*]FB*)+(*FB[*)((gp kp \\[Gamma]ph \
@@ -618,53 +621,66 @@ ower[\\[Omega](*|*),(*|*)2](*]SpB*)))(*]FB*)+(*FB[*)((gp kp \\[Gamma]ph \
 ))(*|*),(*|*)2](*]SpB*))))(*]FB*)+((*SpB[*)Power[\\[Omega](*|*),(*|*)\\[Mu]](\
 *]SpB*)) Sin[((*FB[*)((1)(*,*)/(*,*)(2))(*]FB*)) \\[Pi] \\[Mu]])", 
     "Display" -> "codemirror", "Hash" -> 
-     "078055c2-8602-4767-8bcf-ee61c3207a73", "Invisible" -> False, 
+     "40499c33-24d5-44ee-9a4d-332242f30bdb", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n*The expression above* is fully \
 editable\[LongDash]unlike in Wolfram Cloud, where similar input is \
 effectively \[OpenCurlyDoubleQuote]backed\[CloseCurlyDoubleQuote] by a static \
 representation", "Display" -> "codemirror", 
-    "Hash" -> "9fb614bd-9cc7-457e-add0-70a1ddab7fa0", "Invisible" -> False, 
+    "Hash" -> "84b96ca7-1d2e-4a77-9fcc-78e423a0dfee", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "*The expression above* is fully editable\[LongDash]unlike in \
 Wolfram Cloud, where similar input is effectively \
 \[OpenCurlyDoubleQuote]backed\[CloseCurlyDoubleQuote] by a static \
 representation", "Display" -> "markdown", 
-    "Hash" -> "4c6182f6-08dc-411c-94b9-2d2a3a992223", "Invisible" -> False, 
+    "Hash" -> "3826ff73-befb-48cb-954d-2f258f3bdeaa", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "R[\[Omega]_, params__] := \
 (*SpB[*)Power[Abs[(*FB[*)((n[\[Omega], params] - 1.)(*,*)/(*,*)(n[\[Omega], \
 params] + 1.))(*]FB*)](*|*),(*|*)2](*]SpB*)", "Display" -> "codemirror", 
-    "Hash" -> "baca0a92-87c4-4f18-9538-5c0fa81bccad", "Invisible" -> False, 
+    "Hash" -> "24904fc0-c691-4a54-aee5-231ed88ae46d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nIt would be a shame if we took all the credit. \
 We\[CloseCurlyQuote]re truly grateful to **Marijn Haverbeke**\[LongDash]an \
 outstanding programmer, the author of the JavaScript bible *Eloquent \
 JavaScript*, and the creator of **CodeMirror 6**, the core component behind \
 **WLJS Notebooks**. He was also kind enough to answer our dumb questions on \
 his website\[LongDash]for free \|01f970", "Display" -> "codemirror", 
-    "Hash" -> "b1d047ec-8e54-4933-aaef-aff1cd6786b9", "Invisible" -> False, 
+    "Hash" -> "a46fddb6-9185-40fc-85a0-a1119474006d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "It would be a shame if we took all the credit. \
 We\[CloseCurlyQuote]re truly grateful to **Marijn Haverbeke**\[LongDash]an \
 outstanding programmer, the author of the JavaScript bible *Eloquent \
 JavaScript*, and the creator of **CodeMirror 6**, the core component behind \
 **WLJS Notebooks**. He was also kind enough to answer our dumb questions on \
 his website\[LongDash]for free \|01f970", "Display" -> "markdown", 
-    "Hash" -> "f2dcb5b7-0a77-4338-add9-1d06c7d73b15", "Invisible" -> False, 
+    "Hash" -> "9700658d-14cf-47a5-852f-90d786c0a29d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
+   <|"Data" -> ".md\n## Improved cells navigation\nIt no longer requires 4x \
+taps on arrow-up or -down key to move between cells.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "5a296a0f-e2f6-4b15-8538-b56221e1403b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
+   <|"Data" -> "## Improved cells navigation\nIt no longer requires 4x taps \
+on arrow-up or -down key to move between cells.", "Display" -> "markdown", 
+    "Hash" -> "b5b09a71-2688-45cc-ae4f-108db4352827", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n## Smarter Windows & Docs\nWe added a new shortcut for \
 evaluating a cell in a new window: \
 <kbd>Ctrl/\[CloverLeaf]-Shift-Enter</kbd>.\n\nIf you evaluate the same cell \
@@ -672,10 +688,10 @@ repeatedly, instead of creating a new window with each call, it will update \
 the existing one, allowing you to maintain a fixed window layout in your \
 workflow.\n\nThe same works with the documentation on a given symbol (click \
 on \|01f50e icon in the autocomplete box).", "Display" -> "codemirror", 
-    "Hash" -> "65a2dcf5-e3d3-4a22-8dfb-bc1af3020c76", "Invisible" -> False, 
+    "Hash" -> "3ca85cd1-469b-4d2f-b91f-8d01479fe3d0", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "## Smarter Windows & Docs\nWe added a new shortcut for \
 evaluating a cell in a new window: <kbd \
 >Ctrl/\[CloverLeaf]-Shift-Enter</kbd>.\n\nIf you evaluate the same cell \
@@ -683,265 +699,265 @@ repeatedly, instead of creating a new window with each call, it will update \
 the existing one, allowing you to maintain a fixed window layout in your \
 workflow.\n\nThe same works with the documentation on a given symbol (click \
 on \|01f50e icon in the autocomplete box).", "Display" -> "markdown", 
-    "Hash" -> "b16dd262-c399-49af-9f60-2a9e270977f5", "Invisible" -> False, 
+    "Hash" -> "42ceec5c-36a4-4f97-a143-8ad2f94e6c91", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n## InputRange extensions\nWe added a new `Appearance` \
 for `InputRange` element, allowing to have a fine-tuning $\\\\pm 10\\\\%$ of \
 a variable parameter", "Display" -> "codemirror", 
-    "Hash" -> "82354f96-4356-4204-9a1e-22b94f96ef74", "Invisible" -> False, 
+    "Hash" -> "0dbc64b4-d342-4125-a2ab-672dc2438211", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "## InputRange extensions\nWe added a new `Appearance` for \
 `InputRange` element, allowing to have a fine-tuning $\\\\pm 10\\\\%$ of a \
 variable parameter", "Display" -> "markdown", 
-    "Hash" -> "ad830f99-24c3-44b0-87d2-454c71024f58", "Invisible" -> False, 
+    "Hash" -> "4db9e0ff-07b6-4b3d-b44e-4d8f43fa5c63", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "InputRange[0,1,0.1, Appearance->\"FineTuning\"]", 
     "Display" -> "codemirror", "Hash" -> 
-     "6a6893b1-432d-4323-965e-93ef95aa55c0", "Invisible" -> False, 
+     "c4d1597d-de00-4654-90bd-1abe4236ee97", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "(*VB[*)(EventObject[<|\"Id\" -> \
 \"3eba0b3c-6dc2-493f-93ae-4b6b53df0f1c\", \"Initial\" -> 0.5, \"View\" -> \
 \"563988d8-a52e-49f1-a3f4-6ab18f8bf890\"|>])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHv\
 k5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKm5oZW1pYpFjoJpoapeqaWKYZ6iYap5nomiUmGVq\
 kWSSlWVgaAAB9iRWO\"*)(*]VB*)", "Display" -> "codemirror", 
-    "Hash" -> "1c216fb3-294d-497f-b157-047d3b01d94d", "Invisible" -> False, 
+    "Hash" -> "bd7170f7-ec27-43e7-a3c8-ec50716ac220", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nAnother feature is \"debouncing\" option when \
 `InputRange` is used with `\"TrackedExpression\"` allowing to prevent a loop \
 of event calls, when event generator updates its tracked expression", 
     "Display" -> "codemirror", "Hash" -> 
-     "0785a343-68e0-40a2-b3d9-f5083df33325", "Invisible" -> False, 
+     "9cef2fa2-ff6c-4f77-afe3-4169e9c52abe", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "Another feature is \"debouncing\" option when `InputRange` is \
 used with `\"TrackedExpression\"` allowing to prevent a loop of event calls, \
 when event generator updates its tracked expression", 
     "Display" -> "markdown", "Hash" -> 
-     "c0651390-5922-4d14-96c2-cec1e29a6549", "Invisible" -> False, 
+     "4b03c74f-676e-4698-9148-48db2a3aeb04", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "var = 0.3;\nEventHandler[\n  InputRange[0,10, \
 \"TrackedExpression\"->{Offload[var], \"Debounce\"}], \n  Function[v, var = \
 v]\n]", "Display" -> "codemirror", "Hash" -> 
-     "a48b895d-5566-435a-ab12-f700af2871d3", "Invisible" -> False, 
+     "fbb88072-37bd-4bf9-8ca7-6dd95efdff88", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "(*VB[*)(EventObject[<|\"Id\" -> \
 \"af54e24c-4b65-4672-a0f0-faff84500dfd\", \"Initial\" -> 5, \"View\" -> \
 \"e5c1a681-ad97-405c-a6fe-51d4916d0a1a\"|>])(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHv\
 k5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKp5omGyaaWRjqJqZYmuuaGJgm6yaapaXqmhqmmFg\
 amqUYJBomAgCH/xXJ\"*)(*]VB*)", "Display" -> "codemirror", 
-    "Hash" -> "b2249202-2a07-45bf-b325-c04f23549220", "Invisible" -> False, 
+    "Hash" -> "5eb766f4-e45d-409d-a9f1-2ba42db8a404", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "var = 4.0; (*BB[*)(*now try \
 this*)(*,*)(*\"1:eJxTTMoPSmNhYGAo5gcSAUX5ZZkpqSn+BSWZ+XnFaYwgCS4g4Zyfm5uaV+KU\
 XxEMUqxsbm6exgSSBPGCSnNSg9mAjOCSosy8dLBYSFFpKpoKkDkeqYkpEFXBILO1sCgJSczMQVYCA\
 OFrJEU=\"*)(*]BB*)", "Display" -> "codemirror", 
-    "Hash" -> "7c3208d0-8a50-42c4-b3bb-317fa4d2980a", "Invisible" -> False, 
+    "Hash" -> "7da4e0d0-33dd-4ba1-bb5f-08345d7967c5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n## Breaking changes\n`NotebookStore` no longer can be \
 used as `Association`. It introduced more harm than good. We decided to \
 change API for the first time in last 2 years. \n\nTo read and write to a \
 notebook storage, now you should use more common `NotebookRead/Write` \
 methods:", "Display" -> "codemirror", 
-    "Hash" -> "8d14e7fb-b06e-4acc-994e-c7d6674ba43a", "Invisible" -> False, 
+    "Hash" -> "1845b328-b365-43e4-bbf5-9ba8f1eb895f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "## Breaking changes\n`NotebookStore` no longer can be used as \
 `Association`. It introduced more harm than good. We decided to change API \
 for the first time in last 2 years. \n\nTo read and write to a notebook \
 storage, now you should use more common `NotebookRead/Write` methods:", 
     "Display" -> "markdown", "Hash" -> 
-     "6c1f23d2-518d-488a-9f89-cb8d34805b97", "Invisible" -> False, 
+     "b5ce1e56-9d43-4b7c-aa3a-37e0b7060cb3", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "NotebookWrite[NotebookStore[\"Key\"], \
 1+1];\nNotebookRead[NotebookStore[\"Key\"]]", "Display" -> "codemirror", 
-    "Hash" -> "e3b7be6f-e9da-40d7-a8a6-0f0d3c171221", "Invisible" -> False, 
+    "Hash" -> "ff87048a-f7e8-43e5-8862-a5f7b6d76dbd", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "2", "Display" -> "codemirror", 
-    "Hash" -> "f4c29b76-e5a7-4acb-90e3-2481d790161d", "Invisible" -> False, 
+    "Hash" -> "b740d23a-610a-4611-af3b-09de69cc9406", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n## Improved Boxes rendering\nWe went though 1500 \
 functions and check the output for each adjusting the output form. ", 
     "Display" -> "codemirror", "Hash" -> 
-     "208318a1-6e66-427a-8b03-18fa82dec1f3", "Invisible" -> False, 
+     "fcb690c4-a85a-468a-95b8-665745e1e0e2", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "## Improved Boxes rendering\nWe went though 1500 functions \
 and check the output for each adjusting the output form. ", 
     "Display" -> "markdown", "Hash" -> 
-     "3f64bed8-813a-43a7-8824-e094b75e4a40", "Invisible" -> False, 
+     "cb91517f-c4fe-4c95-b55d-2762a59fcbeb", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n### Predictor, Classify\nOutput form now is correctly \
 rendered for these ML function:", "Display" -> "codemirror", 
-    "Hash" -> "409c80fb-fdac-4a80-9f62-ac01e9723313", "Invisible" -> False, 
+    "Hash" -> "9cb676ab-4c74-46f5-9fd8-3b7e7bd76b34", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "### Predictor, Classify\nOutput form now is correctly \
 rendered for these ML function:", "Display" -> "markdown", 
-    "Hash" -> "aec16a55-b199-4016-8877-5debb129d454", "Invisible" -> False, 
+    "Hash" -> "740d2999-2cae-4e00-88c5-f5eb649de018", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "a8411de0-42cc-4cb4-a885-844fcd3f29b7", "Invisible" -> False, 
+    "Hash" -> "4ec91e06-6f00-4af8-8010-417abe6b1e1d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\n## New API for Notebooks/Cells\nWe have refactored our \
 API for generating notebooks and cells, improving compatibility with \
 Mathematica.\n\nTo add a new cell:", "Display" -> "codemirror", 
-    "Hash" -> "3cc2ddd2-0a1d-4089-8e65-a14a42f0e0b9", "Invisible" -> False, 
+    "Hash" -> "8fb66934-2e27-4eed-b44e-be6248e401ad", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "## New API for Notebooks/Cells\nWe have refactored our API \
 for generating notebooks and cells, improving compatibility with \
 Mathematica.\n\nTo add a new cell:", "Display" -> "markdown", 
-    "Hash" -> "cc3908c6-58f2-4dd7-a6f5-80fe9d481ae7", "Invisible" -> False, 
+    "Hash" -> "188585ee-0e4e-4cf1-aaef-9943fdfdc769", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "nb = EvaluationNotebook[];\nNotebookWrite[nb, x x];", 
     "Display" -> "codemirror", "Hash" -> 
-     "9203a14d-366e-4586-b485-d3bfd7804511", "Invisible" -> False, 
+     "9736528a-0ed7-4d57-8042-57f9e72aeaf2", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nTo add after a specific cell:", 
     "Display" -> "codemirror", "Hash" -> 
-     "37c55bf1-3968-4d2a-bdff-4197ed7fd874", "Invisible" -> False, 
+     "6aedcf46-dd23-4687-885f-6b047e1b2b55", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "To add after a specific cell:", "Display" -> "markdown", 
-    "Hash" -> "38eff033-b0ff-454b-bbf8-6f8d9d693694", "Invisible" -> False, 
+    "Hash" -> "fa744a70-d594-49d2-afc6-e10ecec6442a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "NotebookWrite[\n  NotebookLocationSpecifier[EvaluationCell[], \
 \"After\"], \n  x x\n];", "Display" -> "codemirror", 
-    "Hash" -> "1584c1df-dcc5-4a0e-b681-55cca6bfff08", "Invisible" -> False, 
+    "Hash" -> "97b08302-829b-4226-a53d-59bff328d0d6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nTo specify a cell type:", "Display" -> "codemirror", 
-    "Hash" -> "017c3465-267f-422f-bb20-73e46128bd80", "Invisible" -> False, 
+    "Hash" -> "772166ec-ce60-4423-b342-7df3d1ca98f9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "To specify a cell type:", "Display" -> "markdown", 
-    "Hash" -> "cbac3138-76c2-49c7-9750-e645d0d1bbb0", "Invisible" -> False, 
+    "Hash" -> "b9eab28e-6ddf-4acd-b09a-f78b37ec2cf5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "NotebookWrite[\n  NotebookLocationSpecifier[EvaluationCell[], \
 \"After\"], \n  Cell[\"x x\", \"Input\"]\n];", "Display" -> "codemirror", 
-    "Hash" -> "d814f1e1-855c-4c20-ab41-02b6c6d13078", "Invisible" -> False, 
+    "Hash" -> "c71bf774-9dcb-46b9-bc31-35b79238115c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nNon-standard cell display:", "Display" -> "codemirror", 
-    "Hash" -> "6ab6f530-a10a-40eb-bbc2-8e19d1f0920d", "Invisible" -> False, 
+    "Hash" -> "18275c35-68bd-49f8-9e5b-7a37a64b9589", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "Non-standard cell display:", "Display" -> "markdown", 
-    "Hash" -> "adbc6e4a-90ff-4394-86be-84a2760e7b00", "Invisible" -> False, 
+    "Hash" -> "68d5bbcf-bca6-456d-aa98-c9d2af50c90d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "NotebookWrite[\n  NotebookLocationSpecifier[EvaluationCell[], \
 \"After\"], \n  Cell[\"<h2>Hi</h2>\", \"Output\", \"HTML\"]\n];", 
     "Display" -> "codemirror", "Hash" -> 
-     "8799c817-4ff3-45bb-a767-9907d8f21b65", "Invisible" -> False, 
+     "c5b5d85f-14e2-427d-bc1e-56525fdd3818", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nTo create a new window with expression, use:", 
     "Display" -> "codemirror", "Hash" -> 
-     "f51a9c67-5545-43f8-b7b2-890ad49d8461", "Invisible" -> False, 
+     "cae8c977-3975-4823-8282-85a49323c7c2", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "To create a new window with expression, use:", 
     "Display" -> "markdown", "Hash" -> 
-     "2ba97e37-9e11-4687-a832-5c58275341d5", "Invisible" -> False, 
+     "638ac686-2178-49ca-9d8e-91bb6b1e5bc0", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "win = CreateWindow[Plot[x, {x,0,1}, ImageSize->{300,300}], \
 WindowSize->{400,400}];", "Display" -> "codemirror", 
-    "Hash" -> "f7d95daa-c4ef-42ae-8222-1fbe6868210a", "Invisible" -> False, 
+    "Hash" -> "3e74b84e-8c6e-4515-afad-37fda02c0e6a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nThen close it:", "Display" -> "codemirror", 
-    "Hash" -> "6f7f725b-1ab8-47ca-8f7b-263985c85ebc", "Invisible" -> False, 
+    "Hash" -> "4c702d7d-7c9c-4af0-9d3a-f1585ecf8951", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "Then close it:", "Display" -> "markdown", 
-    "Hash" -> "21369c24-a9b0-4591-a2a8-776086138dd4", "Invisible" -> False, 
+    "Hash" -> "fe5313ee-5659-4f5c-b71d-0622d74dd89c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "NotebookClose[win];", "Display" -> "codemirror", 
-    "Hash" -> "74cc2108-b022-4988-b179-4ebca0d98572", "Invisible" -> False, 
+    "Hash" -> "6c9c691a-845c-467b-a87f-c6d03904c4e2", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> ".md\nOpen a window with HTML content:", 
     "Display" -> "codemirror", "Hash" -> 
-     "5fd1f5f9-4ac6-4bd5-8096-4225276b410b", "Invisible" -> False, 
+     "a43a8e14-a10a-44f4-8fa4-bcb88fdb54f2", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "Open a window with HTML content:", "Display" -> "markdown", 
-    "Hash" -> "57731e4e-435d-4046-b098-8ac1281afcda", "Invisible" -> False, 
+    "Hash" -> "31c5a8cd-32e3-4a55-bffc-119b9fd4b7e0", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> 
      "CreateWindow[Cell[\"<mark>Marked</mark>\", \"Output\", \"HTML\"]];", 
     "Display" -> "codemirror", "Hash" -> 
-     "0205c697-cc6a-4930-921a-1cb4d0f16e09", "Invisible" -> False, 
+     "3575bb2f-17c0-4faf-9e86-e36ad928baf8", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "12b8aae5-fda3-49ce-8df1-2df2bbe25a43", "Invisible" -> False, 
+    "Hash" -> "01a83675-1581-4588-8d4d-cd8e9b937249", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> "fautorun.wl\n\nEventHandler[\"submit-form-281\", \
 Function[payload,\n  \
 URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
@@ -956,13 +972,13 @@ If[AssociationQ[System`$Env], Lookup[System`$Env, \"ElectronCode\", 0], \
 If[AssociationQ[System`$Env[\"AppJSON\"] ], System`$Env[[\"AppJSON\", \
 \"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  ] // URLEncode)];  \n]];", 
     "Display" -> "codemirror", "Hash" -> 
-     "e91dea8e-b342-4777-aacf-66c9fc3d891b", "Invisible" -> False, 
+     "b4b97484-1dec-4566-b022-b54f99e13bf1", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>, 
+    "UID" -> Null, "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>, 
    <|"Data" -> " ", "Display" -> "shell", 
-    "Hash" -> "9adfa6b6-ff53-4d71-b335-9041e809b875", "Invisible" -> False, 
+    "Hash" -> "48d2c6df-6ac4-4e3e-ba59-cbac1775286f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "8186f432-5532-4483-b5fc-508320b995f5"|>}, 
+    "Notebook" -> "e7b4f998-0039-4fed-99b8-381fdb8e67a0"|>}, 
  "serializer" -> "jsfn4"|>
