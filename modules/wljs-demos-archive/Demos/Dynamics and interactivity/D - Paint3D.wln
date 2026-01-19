@@ -35,7 +35,7 @@ well realtime calculations", "Display" -> "markdown",
     "Notebook" -> "216231a2-9602-4eb6-82cf-6be00f1e8a24"|>, 
    <|"Data" -> "LPMRepositories[{\n    \"Github\" -> \
 \"https://github.com/JerryI/wl-marching-cubes\" -> \
-\"master\"\n}]\n\n<<CoffeeLiqueur`MarchingCubes`", "Display" -> "codemirror", 
+\"master\"\n}]\n\n<<JerryI`MarchingCubes`", "Display" -> "codemirror", 
     "Hash" -> "03bccb3b-8367-4028-92eb-c082b890ff87", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
