@@ -57,6 +57,15 @@ toolCall[item_, i_, chat_, connected_:False] := With[{
   "evaluateCell",
     "evaluated a cell",
 
+  "evaluateExpression",
+    "evaluated an expression",
+
+  "batchSetCellContents",
+    "set the content of multiple cells",
+
+  "batchEvaluateCells",
+    "evaluated multiple cells",
+
   _,
     "did some magic"
  ],
