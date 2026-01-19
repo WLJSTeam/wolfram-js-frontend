@@ -114,9 +114,9 @@ defaultSysPrompt = Compress[Import[FileNameJoin[{$rootDir, "rules.default.txt"}]
 getParameter[key_] := With[{
         params = Join[<|
             "AIAssistantEndpoint" -> "https://api.openai.com", 
-            "AIAssistantModel" -> "gpt-4o-mini", 
+            "AIAssistantModel" -> "gpt-4o", 
             "AIAssistantMaxTokens" -> 70000, 
-            "AIAssistantTemperature" -> 0.7,
+            "AIAssistantTemperature" -> 0.3,
             "AIAssistantInitialPrompt" -> True,
             "AIAssistantLibraryStopList" -> {},
             "AIAssistantAutocomplit" -> False,
@@ -333,7 +333,7 @@ basisChatFunction[_] := {
     	"type" -> "function", 
     	"function" -> <|
     		"name" -> "getCellList", 
-    		"description" -> "returns a flat list of cells in the notebook in the form [uid, type, contentType, hidden]. to get actual content use getCellContentById", 
+    		"description" -> "returns an ORDERED list of cells in the notebook (top to bottom) in the form [index, uid, type, contentType, hidden, parentInputUid]. 'index' is 0-based position. 'parentInputUid' is the uid of the parent input cell for output cells (null for input cells). Output cells always immediately follow their parent input cell. To get actual content use getCellContentById. IMPORTANT: when modifying multiple cells, process them in order to avoid confusion.", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <||>
@@ -434,17 +434,17 @@ basisChatFunction[_] := {
     	"type" -> "function", 
     	"function" -> <|
     		"name" -> "setCellContentById", 
-    		"description" -> "sets the content of a given input cell by id in a form of a string. Output cells cannot be changed. Returns empty string.", 
+    		"description" -> "replaces the entire content of a given INPUT cell by uid. Output cells cannot be changed (delete and re-evaluate instead). This does NOT shift or reorder other cells. Returns empty string on success.", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <|
                     "uid" -> <|
                         "type"-> "string",
-                        "description"-> "uid of a cell"
+                        "description"-> "uid of the input cell to modify"
                     |>,
                     "content" -> <|
                         "type"-> "string",
-                        "description"-> "content"
+                        "description"-> "the complete new content for the cell (replaces existing content entirely)"
                     |>                                       
                 |>
     		|>
@@ -455,13 +455,13 @@ basisChatFunction[_] := {
     	"type" -> "function", 
     	"function" -> <|
     		"name" -> "createCell", 
-    		"description" -> "creates a new input cell after another cell specified by uid or adds it to the end of the notebook if argument \"after\" is not provided. Returns an uid of created cell", 
+    		"description" -> "creates a new input cell IMMEDIATELY after another cell specified by uid, or adds it to the end of the notebook if 'after' is not provided. Returns the uid of the created cell. IMPORTANT: when creating multiple cells in sequence, use the returned uid of the previous createCell as the 'after' parameter for the next one to maintain correct order.", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <|
                     "after" -> <|
                         "type"-> "string",
-                        "description"-> "uid of a cell after it will be added"
+                        "description"-> "uid of a cell after which the new cell will be inserted. Use the uid returned from previous createCell when adding multiple cells in sequence."
                     |>,                  
                     "content" -> <|
                         "type"-> "string",
@@ -497,13 +497,13 @@ basisChatFunction[_] := {
     	"type" -> "function", 
     	"function" -> <|
     		"name" -> "deleteCell", 
-    		"description" -> "deletes any cell (input or output) by uid in the notebook. By deleting input cell, all next output cell will also be removed. Returns empty string", 
+    		"description" -> "deletes a cell by uid. WARNING: deleting an INPUT cell also removes ALL its associated OUTPUT cells. Remaining cells shift up but keep their uids. When deleting multiple cells, delete from bottom to top to avoid uid invalidation issues. Returns empty string.", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <|
                     "uid" -> <|
                         "type"-> "string",
-                        "description"-> "uid of a cell"
+                        "description"-> "uid of the cell to delete"
                     |>                                                          
                 |>
     		|>
@@ -560,7 +560,49 @@ basisChatFunction[_] := {
                 |>
     		|>
     	|>
-    |>     
+    |>,
+
+    <|
+    	"type" -> "function", 
+    	"function" -> <|
+    		"name" -> "batchSetCellContents", 
+    		"description" -> "atomically sets content of multiple INPUT cells at once. Use this instead of multiple setCellContentById calls when modifying several cells. All changes are applied in order without intermediate state changes. Returns JSON with results for each cell.", 
+    		"parameters" -> <|
+    			"type" -> "object", 
+    			"properties" -> <|
+                    "cells" -> <|
+                        "type"-> "array",
+                        "description"-> "array of objects with uid and content fields",
+                        "items" -> <|
+                            "type" -> "object",
+                            "properties" -> <|
+                                "uid" -> <|"type" -> "string", "description" -> "cell uid"|>,
+                                "content" -> <|"type" -> "string", "description" -> "new content"|>
+                            |>
+                        |>
+                    |>                                                          
+                |>
+    		|>
+    	|>
+    |>,
+
+    <|
+    	"type" -> "function", 
+    	"function" -> <|
+    		"name" -> "batchEvaluateCells", 
+    		"description" -> "evaluates multiple INPUT cells in sequence. Use this instead of multiple evaluateCell calls. Cells are evaluated in the order provided. Returns JSON with results for each cell.", 
+    		"parameters" -> <|
+    			"type" -> "object", 
+    			"properties" -> <|
+                    "uids" -> <|
+                        "type"-> "array",
+                        "description"-> "array of cell uids to evaluate in order",
+                        "items" -> <|"type" -> "string"|>
+                    |>                                                          
+                |>
+    		|>
+    	|>
+    |>
 
 }
 
@@ -723,8 +765,14 @@ createChat[assoc_Association] := With[{
                     ,                    
 
                     "getCellList",
-                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = ExportString[Map[Function[cell, 
-                            {cell["Hash"], cell["Type"], checkLanguage[ cell ], TrueQ[cell["Props"]["Hidden"] ]}
+                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = ExportString[MapIndexed[Function[{cell, idx}, 
+                            With[{parentUid = If[cell`InputCellQ[cell], Null, 
+                                With[{parent = cell`FindCell[cell["Notebook"], Sequence[_?cell`InputCellQ, ___?cell`OutputCellQ, cell] ]},
+                                    If[MatchQ[parent, _cell`CellObj], parent["Hash"], Null]
+                                ]
+                            ]},
+                                {idx[[1]] - 1, cell["Hash"], cell["Type"], checkLanguage[ cell ], TrueQ[cell["Props"]["Hidden"] ], parentUid}
+                            ]
                         ], notebook["Cells"] ], "JSON"] ] ];
                     ,
 
@@ -964,6 +1012,90 @@ createChat[assoc_Association] := With[{
                                     ]
                                 ]
                             
+                        ]
+
+                    ,
+
+                    "batchSetCellContents",
+                        With[{args = ImportByteArray[StringToByteArray @
+										call["function", "arguments"]
+                                        , "RawJSON", CharacterEncoding -> "UTF-8"
+									]},
+
+                            If[FailureQ[args], 
+                                encodingError[call["function", "arguments"] ];
+                                Return[];
+                            ];
+
+                            AppendTo[toolsQue, Function[Null, 
+                                With[{results = Map[Function[item,
+                                    With[{cell = cell`HashMap[ removeQuotes @ item["uid"] ]},
+                                        If[!MatchQ[cell, _cell`CellObj], 
+                                            <|"uid" -> item["uid"], "status" -> "ERROR: Not found"|>
+                                        ,
+                                            EventFire[cell, "ChangeContent", restoreLanguage[checkLanguage[ cell ], item["content"] ] ];
+                                            WebUISubmit[vfx`MagicWand[ "frame-"<>cell["Hash"] ], client];
+                                            <|"uid" -> item["uid"], "status" -> "Done"|>
+                                        ]
+                                    ]
+                                ], args["cells"] ]},
+                                    toolResults[[myIndex]] = ExportString[results, "JSON"]
+                                ]
+                            ] ];
+                        ]
+
+                    ,
+
+                    "batchEvaluateCells",
+                        With[{args = ImportByteArray[StringToByteArray @
+										call["function", "arguments"]
+                                        , "RawJSON", CharacterEncoding -> "UTF-8"
+									]},
+
+                            If[FailureQ[args], 
+                                encodingError[call["function", "arguments"] ];
+                                Return[];
+                            ];
+
+                            AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+                                Module[{allResults = {}, evalNext},
+                                    evalNext[uids_List] := If[Length[uids] === 0,
+                                        toolResults[[myIndex]] = ExportString[allResults, "JSON"];
+                                        EventFire[p, Resolve, True];
+                                    ,
+                                        With[{uid = First[uids], remaining = Rest[uids]},
+                                            With[{cell = cell`HashMap[ removeQuotes @ uid ]},
+                                                If[!MatchQ[cell, _cell`CellObj],
+                                                    AppendTo[allResults, <|"uid" -> uid, "status" -> "ERROR: Not found"|>];
+                                                    evalNext[remaining];
+                                                ,
+                                                    With[{bufferLength = Length[EventFire[logger, "MessagesList", True]]},
+                                                        Block[{Global`$Client = client},
+                                                            Then[EventFire[globalControls, "NotebookCellEvaluateTemporal", cell], Function[Null,
+                                                                With[{
+                                                                    generated = Drop[EventFire[logger, "MessagesList", True], -bufferLength],
+                                                                    out = Select[cell`SelectCells[cell["Notebook"]["Cells"], Sequence[cell, __?cell`OutputCellQ] ], cell`OutputCellQ]
+                                                                },
+                                                                    AppendTo[allResults, <|
+                                                                        "uid" -> uid, 
+                                                                        "status" -> "Done",
+                                                                        "messages" -> generated,
+                                                                        "outputs" -> (truncateIfLarge[#["Data"]] &/@ out)
+                                                                    |>];
+                                                                    evalNext[remaining];
+                                                                ]
+                                                            ] ];
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ];
+                                    
+                                    evalNext[args["uids"] ];
+                                ];
+                                p
+                            ] ] ];
                         ]
 
                     ,                    

@@ -39,7 +39,7 @@ CreateType[GPTChatObject, {
 	"Temperature" -> 0.7, 
 	"User", 
 	"APIToken" :> With[{x = SystemCredential["OPENAI_API_KEY"]}, If[MissingQ[x], "", x] ], 
-	"Model" -> "gpt-4o-mini", 
+	"Model" -> "gpt-4o", 
 	"MaxTokens" -> 70000, 
 	"TotalTokens" -> 0, 
 	"Tools" -> {}, 

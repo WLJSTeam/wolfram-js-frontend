@@ -38,9 +38,9 @@ getToken := SystemCredential["WLJSAI_API_KEY"]
 getParameter[key_] := With[{
         params = Join[<|
             "AIAssistantEndpoint" -> "https://api.openai.com", 
-            "AIAssistantModel" -> "gpt-4o-mini", 
+            "AIAssistantModel" -> "gpt-4o", 
             "AIAssistantMaxTokens" -> 70000, 
-            "AIAssistantTemperature" -> 0.7,
+            "AIAssistantTemperature" -> 0.3,
             "AIAssistantInitialPrompt" -> True,
             "AIAssistantLibraryStopList" -> {},
             "AIAssistantAutocomplit" -> False,
