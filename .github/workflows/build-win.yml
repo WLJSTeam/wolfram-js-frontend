@@ -73,10 +73,10 @@ jobs:
         shell: pwsh
         run: |
           $dirs = @(
-            "Packages\KirillBelov_CSockets\Fallback",       
-            "Packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v6",  
-            "Packages\KirillBelov_CSockets\LibraryResources\Windows-x86-64-v7",
-            "Packages\KirillBelov_CSockets\UV\Windows-x86-64"
+            "Packages\CSockets\Fallback",       
+            "Packages\CSockets\LibraryResources\Windows-x86-64-v6",  
+            "Packages\CSockets\LibraryResources\Windows-x86-64-v7",
+            "Packages\CSockets\UV\Windows-x86-64"
           )
           # Persist for later steps (semicolon-separated)
           "DLL_DIRS=$($dirs -join ';')" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
