@@ -1,10 +1,10 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$126], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$126], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
     "d36606b3-22f5-41e8-9421-21c195875817", "Objects" -> <||>, 
    "Path" -> 
     "/Users/kirill/Github/wolfram-js-frontend/Demos/08 - Slides/nematode.wln"\
 , "Symbols" -> <||>, "TOC" -> {Notebook`Editor`TOC`Private`heading[2, 
-      "Animated LaTeX", CellObj[JerryI`Notebook`CellObj`$125]]}|>, 
+      "Animated LaTeX", CellObj[CoffeeLiqueur`Notebook`CellObj`$125]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n## Animated LaTeX", "Display" -> "codemirror", 
     "Hash" -> "d08f89b2-a9f3-459c-8c94-1de84fb55ca5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 

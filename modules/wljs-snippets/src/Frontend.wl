@@ -1,12 +1,12 @@
 BeginPackage["CoffeeLiqueur`Extensions`CommandPalette`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`", 
-    "KirillBelov`CSockets`EventsExtension`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`", 
+    "CoffeeLiqueur`CSockets`EventsExtension`"
 }]
 
 

@@ -2,9 +2,9 @@
 
 BeginPackage["CoffeeLiqueur`Extensions`MetaMarkers`", {
     "CoffeeLiqueur`Extensions`Communication`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`"
 }]
 
 

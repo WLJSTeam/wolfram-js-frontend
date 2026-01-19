@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$205], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$205], 
    "HaveToSaveAs" -> False, "Objects" -> 
     <|"ea164bfe-1a61-45eb-8280-f508462829eb" -> 
       <|"Public" -> Hold[CellView["\ngraph LR\n    A[Text Header 3200 byte]  \
@@ -10,24 +10,24 @@ T3[samples of 1-st trace] \n", "Display" -> "mermaid"]]|>|>,
     "/users/kirill/Github/wolfram-js-frontend/Demos/Release notes/2.5.6.wln", 
    "Quick" -> True, "Symbols" -> <||>, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[1, "Release notes *2.5.6*", 
-      CellObj[JerryI`Notebook`CellObj`$161]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$161]], 
      Notebook`Editor`TOC`Private`heading[2, "WXF Format and Compute Shaders", 
-      CellObj[JerryI`Notebook`CellObj`$163]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$163]], 
      Notebook`Editor`TOC`Private`heading[3, 
       "OpenCL as a main language for compute shaders", 
-      CellObj[JerryI`Notebook`CellObj`$168]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$168]], 
      Notebook`Editor`TOC`Private`heading[2, 
       "Better support for Mathematica notebooks format", 
-      CellObj[JerryI`Notebook`CellObj`$178]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$178]], 
      Notebook`Editor`TOC`Private`heading[2, "AI assistant Library", 
-      CellObj[JerryI`Notebook`CellObj`$180]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$180]], 
      Notebook`Editor`TOC`Private`heading[2, "More examples and tutorials!", 
-      CellObj[JerryI`Notebook`CellObj`$182]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$182]], 
      Notebook`Editor`TOC`Private`heading[2, 
       "Render cells inside other cells", 
-      CellObj[JerryI`Notebook`CellObj`$194]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$194]], 
      Notebook`Editor`TOC`Private`heading[2, "Sponsors", 
-      CellObj[JerryI`Notebook`CellObj`$185]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$185]]}|>, 
  "Cells" -> {<|"Data" -> ".html\n\n<style>\n  .balloon {\n  height: 125px;\n  \
 width: 105px;\n  border-radius: 75% 75% 70% 70%;\n  position: \
 relative;\n}\n\n.balloon:before {\n  content: \"\";\n  height: 75px;\n  \

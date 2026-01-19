@@ -8,7 +8,7 @@ PacletObject[
     "License" -> "GPL-3.0",
     "PublisherID" -> "CoffeeLiqueur",
     "Version" -> "3.0.0",
-    "WolframVersion" -> "13+",
+    "WolframVersion" -> "13.3+",
     "Extensions" -> {
       {
         "Kernel",
@@ -26,8 +26,8 @@ PacletObject[
           {"CoffeeLiqueur`Notebook`FrontendObject`", "FrontendObject.wl"},
           {"CoffeeLiqueur`Notebook`Kernel`", "Kernel.wl"},
           {"CoffeeLiqueur`Notebook`LocalKernel`", "LocalKernel.wl"},
-          {"KirillBelov`LTP`", "LTP.wl"},
-          {"KirillBelov`LTP`Events`", "LTPEvents.wl"},
+          {"CoffeeLiqueur`LTP`", "LTP.wl"},
+          {"CoffeeLiqueur`LTP`Events`", "LTPEvents.wl"},
           {"CoffeeLiqueur`Notebook`FrontendObject`", "FrontendObject.wl"},
           {"CoffeeLiqueur`Notebook`MasterKernel`", "MasterKernel.wl"},
 

@@ -1,4 +1,4 @@
-BeginPackage["CoffeeLiqueur`Extensions`SlidesTools`", {"JerryI`Misc`Events`", "CoffeeLiqueur`Extensions`Communication`"}]
+BeginPackage["CoffeeLiqueur`Extensions`SlidesTools`", {"CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`Extensions`Communication`"}]
 
 SlideEventListener::usage = "SlideEventListener[\"Id\"->\"event-uid\"] attach an event generator from slide to event-uid"
 FrontSlidesSelected::usage = "A frontend function, that gives access to current slide FrontSlidesSelected[command_, data_]"

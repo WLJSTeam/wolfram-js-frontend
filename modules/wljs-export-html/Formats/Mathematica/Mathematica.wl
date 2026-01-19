@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`ExportImport`Mathematica`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`WLX`Importer`",
-    "JerryI`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
     "CoffeeLiqueur`Notebook`Transactions`",
     "CodeParser`"
 }];

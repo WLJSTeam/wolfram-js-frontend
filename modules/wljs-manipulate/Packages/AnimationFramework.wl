@@ -1,15 +1,15 @@
 BeginPackage["AnimationFramework`", {
   "CoffeeLiqueur`Extensions`Graphics`",
-  "JerryI`Misc`Async`", 
-  "JerryI`Misc`Events`", 
-  "JerryI`Misc`Events`Promise`", 
+  "CoffeeLiqueur`Misc`Async`", 
+  "CoffeeLiqueur`Misc`Events`", 
+  "CoffeeLiqueur`Misc`Events`Promise`", 
   "CoffeeLiqueur`Extensions`Communication`", 
   "CoffeeLiqueur`Extensions`FrontendObject`", 
   "CoffeeLiqueur`Extensions`Boxes`",
-  "JerryI`Misc`WLJS`Transport`",
-  "KirillBelov`Objects`",
-  "JerryI`WLX`",
-  "JerryI`WLX`Importer`",
+  "CoffeeLiqueur`Misc`WLJS`Transport`",
+  "CoffeeLiqueur`Objects`",
+  "CoffeeLiqueur`WLX`",
+  "CoffeeLiqueur`WLX`Importer`",
   "CoffeeLiqueur`Extensions`InputsOutputs`",
   "CoffeeLiqueur`Extensions`RemoteCells`"
 }]

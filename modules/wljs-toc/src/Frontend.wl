@@ -1,10 +1,10 @@
 BeginPackage["CoffeeLiqueur`Extensions`TOC`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`",  
-    "JerryI`Misc`WLJS`Transport`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`",  
+    "CoffeeLiqueur`Misc`WLJS`Transport`"
 }]
 
 Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];

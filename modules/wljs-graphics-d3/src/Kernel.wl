@@ -1,9 +1,9 @@
 BeginPackage["CoffeeLiqueur`Extensions`Graphics`", {
-    "JerryI`Misc`Events`", 
+    "CoffeeLiqueur`Misc`Events`", 
     "CoffeeLiqueur`Extensions`Communication`", 
     "CoffeeLiqueur`Extensions`FrontendObject`", 
     "CoffeeLiqueur`Extensions`Boxes`",
-    "JerryI`Misc`WLJS`Transport`"
+    "CoffeeLiqueur`Misc`WLJS`Transport`"
 }]
 
 

@@ -1,4 +1,4 @@
-BeginPackage["KirillBelov`LTP`"]
+BeginPackage["CoffeeLiqueur`LTP`"]
 
 LTPQ::usage = ""
 LTPLength::usage = ""

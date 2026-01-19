@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Extensions`PrintRedirect`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`Async`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`Async`",
     "CoffeeLiqueur`Extensions`RemoteCells`"
 }];
 

@@ -1,16 +1,16 @@
 BeginPackage["CoffeeLiqueur`Extensions`CommandPalette`AI`Autocomplete`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`",
-    "KirillBelov`Objects`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Objects`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`"
 }]
 
 Begin["`Private`"]
 
-Needs["KirillBelov`GPTLink`", FileNameJoin[{ParentDirectory[DirectoryName[$InputFileName] ], "packages", "GPTLink.wl"}] ];
+Needs["CoffeeLiqueur`GPTLink`", FileNameJoin[{ParentDirectory[DirectoryName[$InputFileName] ], "packages", "GPTLink.wl"}] ];
 
 Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 

@@ -1,10 +1,10 @@
 BeginPackage["CoffeeLiqueur`Extensions`Notifications`", {
     "CoffeeLiqueur`Extensions`Editor`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`"
 }]
 
 

@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$4559], 
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$4559], 
    "Objects" -> <||>, "Path" -> "/users/kirill/Library/Application \
 Support/wljs-notebook/Examples/02 - Dynamics/Interaction/Slider.wln"|>, 
  "Cells" -> {<|"Data" -> ".md\n# Event-based approach\nEach input element is \

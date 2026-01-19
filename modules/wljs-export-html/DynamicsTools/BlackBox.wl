@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`ExportImport`BlackBox`", {
-    "KirillBelov`Objects`",
-    "JerryI`Misc`Events`"
+    "CoffeeLiqueur`Objects`",
+    "CoffeeLiqueur`Misc`Events`"
 }]
 
 findBest;

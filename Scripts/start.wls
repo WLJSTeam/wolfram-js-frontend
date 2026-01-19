@@ -31,15 +31,15 @@ WLJSPackages`Load[FileNameJoin[{Directory[], "modules"}] ];
 "WLJS Notebook does not collect or transmit your data unless you explicitly choose a feature that needs the network." // Print;
 
 (* web-server *)
-Needs["KirillBelov`CSockets`"]
-Needs["KirillBelov`Objects`"]
-Needs["KirillBelov`Internal`"]
-Needs["KirillBelov`TCPServer`"]
+Needs["CoffeeLiqueur`CSockets`"]
+Needs["CoffeeLiqueur`Objects`"]
+Needs["CoffeeLiqueur`Internal`"]
+Needs["CoffeeLiqueur`TCPServer`"]
 
-Needs["KirillBelov`HTTPHandler`"]
-Needs["KirillBelov`HTTPHandler`Extensions`"]
-Needs["KirillBelov`WebSocketHandler`"]
-Needs["KirillBelov`LTP`"]
+Needs["CoffeeLiqueur`HTTPHandler`"]
+Needs["CoffeeLiqueur`HTTPHandler`Extensions`"]
+Needs["CoffeeLiqueur`WebSocketHandler`"]
+Needs["CoffeeLiqueur`LTP`"]
 
 Needs["LetWL`"]
 
@@ -58,15 +58,15 @@ Needs["CoffeeLiqueur`Notebook`Windows`" -> "win`"];
 Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 
 (* WLJS transport *)
-Needs["JerryI`Misc`WLJS`Transport`"]
+Needs["CoffeeLiqueur`Misc`WLJS`Transport`"]
 
 (* event system  *)
-Needs["JerryI`Misc`Events`"]
-Needs["JerryI`Misc`Events`Promise`"]
+Needs["CoffeeLiqueur`Misc`Events`"]
+Needs["CoffeeLiqueur`Misc`Events`Promise`"]
 
-Needs["JerryI`Misc`Async`"]
+Needs["CoffeeLiqueur`Misc`Async`"]
 
-Needs["JerryI`Misc`Parallel`"]
+Needs["CoffeeLiqueur`Misc`Parallel`"]
 
 
 
@@ -74,15 +74,15 @@ Needs["CoffeeLiqueur`Notebook`LocalKernel`" -> "LocalKernel`"];
 Needs["CoffeeLiqueur`Notebook`Transactions`"]
 
 
-Needs["KirillBelov`CSockets`EventsExtension`"]
+Needs["CoffeeLiqueur`CSockets`EventsExtension`"]
 
 (* WLX template engine *)
-Needs["JerryI`WLX`"]
-Needs["JerryI`WLX`Importer`"]
-Needs["JerryI`WLX`WLJS`"]
+Needs["CoffeeLiqueur`WLX`"]
+Needs["CoffeeLiqueur`WLX`Importer`"]
+Needs["CoffeeLiqueur`WLX`WLJS`"]
 
 (* WebUI Toolkit *)
-Needs["JerryI`WLX`WebUI`"]
+Needs["CoffeeLiqueur`WLX`WebUI`"]
 
 Needs["CodeParser`"]
 
@@ -256,7 +256,7 @@ If[FailureQ[
   Exit[0]
 ] &/@ WLJSPackages`Includes["frontend"]; 
 
-JerryI`WLX`Importer`Private`CacheControl["Hour"];
+CoffeeLiqueur`WLX`Importer`Private`CacheControl["Hour"];
 
 AppExtensions`KernelList = {};
 

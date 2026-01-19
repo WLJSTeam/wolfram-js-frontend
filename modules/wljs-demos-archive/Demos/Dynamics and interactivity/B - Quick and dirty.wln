@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$523], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$523], 
    "HaveToSaveAs" -> False, "Objects" -> 
     <|"a2ef8c56-df24-46b5-ab7d-3e7035e0e810" -> 
       <|"Public" -> Hold[HTMLView["<div class=\"relative shrink-0 gap-y-3 \
@@ -65,7 +65,7 @@ am-js-frontend/Demos/05 - Interaction/Quick and dirty.wln", "Quick" -> True,
    "Symbols" -> <|"OffloadGenerated17" -> 1, "OffloadGenerated18" -> 1|>, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[2, 
       "How to quickly convert any Input element to a dynamic symbol", 
-      CellObj[JerryI`Notebook`CellObj`$519]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$519]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n## How to quickly convert any Input element to \
 a dynamic symbol\nThere is a built-in convertor function, it generates a \
 symbol and covers it with a slider (by alternating the output form). The \

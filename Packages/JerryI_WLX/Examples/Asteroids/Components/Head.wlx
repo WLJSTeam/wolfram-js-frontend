@@ -1,6 +1,0 @@
-<head>
-    <title>WLX Template</title>
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
-
-    <$Children/>
-</head>

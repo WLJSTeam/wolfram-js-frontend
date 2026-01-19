@@ -1,13 +1,13 @@
 BeginPackage["CoffeeLiqueur`Extensions`API`", {
-    "JerryI`Misc`Async`",
-    "JerryI`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`Misc`Events`",
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`",
-    "JerryI`WLX`Importer`",
-    "KirillBelov`HTTPHandler`",
-    "KirillBelov`HTTPHandler`Extensions`",
-    "KirillBelov`Internal`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`HTTPHandler`",
+    "CoffeeLiqueur`HTTPHandler`Extensions`",
+    "CoffeeLiqueur`Internal`",
     "CoffeeLiqueur`Extensions`FrontendObject`"
 }]
 

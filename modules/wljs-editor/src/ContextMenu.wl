@@ -1,10 +1,10 @@
 BeginPackage["CoffeeLiqueur`Extensions`ContextMenu`", { 
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`",
-    "JerryI`WLX`WebUI`",
-    "KirillBelov`CSockets`EventsExtension`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`WLX`WebUI`",
+    "CoffeeLiqueur`CSockets`EventsExtension`",
     "CoffeeLiqueur`Extensions`EditorViewMinimal`",
     "CodeParser`"
 }]

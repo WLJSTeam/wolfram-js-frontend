@@ -19,7 +19,7 @@ Begin["`Private`"];
 NullQ[expr_] := expr===Null;
 
 console["log", message_, args___] := Print[StringTemplate[message][args]]
-console["memory stat"] := (JerryI`WolframJSFrontend`ram = {JerryI`WolframJSFrontend`ram, Round[MemoryInUse[]/1024,1]/1024//N}//Flatten);
+console["memory stat"] := (CoffeeLiqueur`WolframJSFrontend`ram = {CoffeeLiqueur`WolframJSFrontend`ram, Round[MemoryInUse[]/1024,1]/1024//N}//Flatten);
 
 (* smart caching. credits https://github.com/KirillBelovTest *)
 ClearAll[Cached]

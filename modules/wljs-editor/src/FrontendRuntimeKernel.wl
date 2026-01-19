@@ -1,8 +1,8 @@
 
 
 BeginPackage["CoffeeLiqueur`Extensions`RuntimeTools`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`"
 }]
 
 Begin["`Internal`"]

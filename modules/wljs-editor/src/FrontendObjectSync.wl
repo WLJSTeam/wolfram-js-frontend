@@ -1,11 +1,11 @@
 BeginPackage["CoffeeLiqueur`Extensions`FrontendObject`Sync`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`", 
-    "JerryI`Misc`WLJS`Transport`",
-    "JerryI`Misc`Language`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`", 
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`Language`",
     "CoffeeLiqueur`Extensions`Editor`"
 }]
 

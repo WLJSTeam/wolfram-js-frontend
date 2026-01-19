@@ -4,7 +4,7 @@
 (*Package Header*)
 
 
-BeginPackage["KirillBelov`GPTLink`", {"KirillBelov`Objects`"}];
+BeginPackage["CoffeeLiqueur`GPTLink`", {"CoffeeLiqueur`Objects`"}];
 
 
 GPTChatComplete::usage = 

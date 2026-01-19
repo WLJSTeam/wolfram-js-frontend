@@ -1,12 +1,12 @@
 BeginPackage["CoffeeLiqueur`Extensions`FileEditor`WL`", { 
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`",
-    "JerryI`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
     "CoffeeLiqueur`Extensions`FrontendObject`",
-    "JerryI`Misc`Async`"
+    "CoffeeLiqueur`Misc`Async`"
 }]
 
 Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];

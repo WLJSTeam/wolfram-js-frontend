@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`NotebookStorage`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
     "CoffeeLiqueur`Extensions`RemoteCells`"
 }]
 

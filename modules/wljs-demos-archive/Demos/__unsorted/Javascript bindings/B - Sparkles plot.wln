@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$726], 
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$726], 
    "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
 /Examples/04 - Mixing languages/Sparkles Plot.wln"|>, 
  "Cells" -> {<|"Data" -> ".md\nLet's try something fancy", 

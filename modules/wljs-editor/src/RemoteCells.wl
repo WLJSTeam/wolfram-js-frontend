@@ -1,10 +1,10 @@
 BeginPackage["CoffeeLiqueur`Extensions`RemoteCells`", {
     "CoffeeLiqueur`Extensions`Editor`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",  
-    "JerryI`WLX`WebUI`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`"
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",  
+    "CoffeeLiqueur`WLX`WebUI`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`"
 }]
 
 Begin["`Internal`"]

@@ -1,9 +1,9 @@
 BeginPackage["CoffeeLiqueur`Extensions`MarkdownCells`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
     "CoffeeLiqueur`Extensions`FrontendObject`",
     "CoffeeLiqueur`Extensions`Communication`"
 }];
@@ -60,7 +60,7 @@ Internal`Kernel`MarkdownEvaluator = Function[t, With[{hash = CreateUUID[]},
 
 
 
-(*JerryI`WLX`Private`IdentityTransform[EventObject[assoc_]] := If[KeyExistsQ[assoc, "View"], CreateFrontEndObject[ assoc["View"]], EventObject[assoc] ]*)
+(*CoffeeLiqueur`WLX`Private`IdentityTransform[EventObject[assoc_]] := If[KeyExistsQ[assoc, "View"], CreateFrontEndObject[ assoc["View"]], EventObject[assoc] ]*)
 EventObject /: MakeBoxes[EventObject[assoc_], WLXForm] := If[KeyExistsQ[assoc, "View"],
     With[{o = CreateFrontEndObject[assoc["View"]]},
         MakeBoxes[o, WLXForm]
@@ -76,7 +76,7 @@ PageBreakAbove /: MakeBoxes[PageBreakAbove, WLXForm] := "<div class=\"print:brea
 PageBreakBelow /: MakeBoxes[PageBreakBelow, WLXForm] := "<div class=\"print:breakbelow\"> </div>"
 
 
-JerryI`WLX`Private`IdentityTransform[x_] := ToBoxes[x , WLXForm]
+CoffeeLiqueur`WLX`Private`IdentityTransform[x_] := ToBoxes[x , WLXForm]
 
 End[]
 

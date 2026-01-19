@@ -1,4 +1,4 @@
-BeginPackage["CoffeeLiqueur`Extensions`Notifications`", {"JerryI`Misc`Events`", "JerryI`Misc`Events`Promise`", "CoffeeLiqueur`Extensions`RemoteCells`"}]
+BeginPackage["CoffeeLiqueur`Extensions`Notifications`", {"CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`Misc`Events`Promise`", "CoffeeLiqueur`Extensions`RemoteCells`"}]
 
 
 HapticFeedback::usage = "HapticFeedback[] make a haptic feedback on MacOS devices (Desktop App only)"

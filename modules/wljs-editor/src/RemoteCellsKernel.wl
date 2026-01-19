@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`RemoteCells`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
     "CoffeeLiqueur`Extensions`Communication`",
     "CoffeeLiqueur`Extensions`EditorView`"
 }]

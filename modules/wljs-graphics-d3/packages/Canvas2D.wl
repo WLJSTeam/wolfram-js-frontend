@@ -1,7 +1,7 @@
 BeginPackage["Canvas2D`", {
-    "JerryI`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`",
     "CoffeeLiqueur`Extensions`Boxes`",
-    "JerryI`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
     "CoffeeLiqueur`Extensions`Graphics`",
     "CoffeeLiqueur`Extensions`FrontendObject`"
 }]

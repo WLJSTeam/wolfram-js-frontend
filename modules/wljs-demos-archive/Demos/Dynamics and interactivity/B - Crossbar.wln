@@ -1,5 +1,5 @@
 <|"Notebook" -> <|"Controller" -> "28fa68b2-fc0e-4bb8-99e1-da09f1b5a3e3", 
-   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$603], 
+   "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$603], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
     "3a10def7-4abe-4029-a7e3-309c70511254", 
    "Objects" -> <|"bcd7ed1e-c743-45f2-9a41-b3e42b6bca12" -> 
@@ -837,11 +837,11 @@
 Interaction/Crossbar.wln", "ReadOnly" -> False, 
    "Symbols" -> <|"point$165790" -> JSObject[13.5[0.5013642239225945]]|>, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[1, "Crossbar example", 
-      CellObj[JerryI`Notebook`CellObj`$595]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$595]], 
      Notebook`Editor`TOC`Private`heading[2, "Static way", 
-      CellObj[JerryI`Notebook`CellObj`$597]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$597]], 
      Notebook`Editor`TOC`Private`heading[2, "Dynamic way", 
-      CellObj[JerryI`Notebook`CellObj`$602]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$602]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Crossbar example\nA static and dynamic way \
 of appending tool onto your plot", "Display" -> "codemirror", 
     "Hash" -> "ccbb03c8-a250-4edc-9d5b-a5cc1a48dd4d", "Invisible" -> False, 

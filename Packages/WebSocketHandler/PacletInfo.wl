@@ -1,0 +1,44 @@
+(* ::Package:: *)
+
+PacletObject[
+  <|
+    "Name" -> "CoffeeLiqueur/WebSocketHandler",
+    "Description" -> "WebSocket Handler",
+    "Creator" -> "Kirill Belov",
+    "License" -> "MIT",
+    "PublisherID" -> "KirillBelov",
+    "Version" -> "2.2.15",
+    "WolframVersion" -> "13+",
+    "Extensions" -> {
+      {
+        "Kernel",
+        "Root" -> "Kernel",
+        "Context" -> {
+          {
+            "CoffeeLiqueur`WebSocketHandler`",
+            "WebSocketHandler.wl"
+          }, 
+          {
+            "CoffeeLiqueur`WebSocketHandler`Extensions`",
+            "Extensions.wl"
+          }, 
+          {
+            "CoffeeLiqueur`WebSocketHandler`RemoteParallelKernel`", 
+            "RemoteParallelKernel.wl"
+          }
+        },
+        "Symbols" -> {}
+      },
+      {"Documentation", "Language" -> "English"},
+      {"LibraryLink", "Root" -> "LibraryResources"},
+      {
+        "Asset",
+        "Assets" -> {
+          {"License", "./LICENSE"},
+          {"ReadMe", "./README.md"},
+          {"Examples", "./Examples"}
+        }
+      }
+    }
+  |>
+]

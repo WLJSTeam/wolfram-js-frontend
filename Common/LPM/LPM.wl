@@ -1,4 +1,4 @@
-BeginPackage["JerryI`LPM`"]
+BeginPackage["CoffeeLiqueur`LPM`"]
 
 PacletRepositories::usage = "depricated"
 LPMRepositories::usage = "LPMRepositories[{\"Github\" -> \"URL to the repo\", ...}] specify the wolfram packages to be synced via remote url"

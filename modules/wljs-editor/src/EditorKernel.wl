@@ -1,4 +1,4 @@
-BeginPackage["CoffeeLiqueur`Extensions`EditorView`", {"JerryI`Misc`Events`","JerryI`Misc`Events`Promise`", "JerryI`Misc`Parallel`", "CoffeeLiqueur`Extensions`FrontendObject`"}]
+BeginPackage["CoffeeLiqueur`Extensions`EditorView`", {"CoffeeLiqueur`Misc`Events`","CoffeeLiqueur`Misc`Events`Promise`", "CoffeeLiqueur`Misc`Parallel`", "CoffeeLiqueur`Extensions`FrontendObject`"}]
 
 System`EditorView; (*make it available everywhere*)
 System`CellView;

@@ -1,18 +1,18 @@
 BeginPackage["CoffeeLiqueur`Extensions`CommandPalette`Github`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`Misc`Parallel`",
-    "JerryI`Misc`Language`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`WLX`",
-    "JerryI`WLX`WLJS`",
-    "JerryI`Misc`WLJS`Transport`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`",     
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`Misc`Parallel`",
+    "CoffeeLiqueur`Misc`Language`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`WLJS`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`",     
     "CoffeeLiqueur`Extensions`CommandPalette`",
     "CoffeeLiqueur`Extensions`EditorViewMinimal`",
-    "JerryI`LPM`"
+    "CoffeeLiqueur`LPM`"
 }]
 
 Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];

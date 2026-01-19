@@ -1,12 +1,12 @@
 BeginPackage["CoffeeLiqueur`Extensions`ExportImport`BlackBox`AnimationMachine`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`WLX`",
-    "JerryI`Misc`Async`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`", 
-    "JerryI`Misc`WLJS`Transport`",
-    "KirillBelov`Objects`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`", 
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Objects`"
 }]
 
 

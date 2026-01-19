@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$162], 
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$162], 
    "Objects" -> <||>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend-dev\
 /Examples/Dynamics/Interaction/Simple rotator.wln"|>, 
  "Cells" -> {<|"Data" -> "EventHandler[InputRange[0, 2.0 Pi, 0.1], \

@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$381], 
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$381], 
    "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
 /Examples/Dynamics/Realtime data capture/Web camera.wln"|>, 
  "Cells" -> {<|"Data" -> ".md\n# Capture image from web-camera\nIn this \

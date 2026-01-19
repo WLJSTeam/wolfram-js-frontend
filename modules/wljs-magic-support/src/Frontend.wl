@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`MagicCells`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`"
+    "CoffeeLiqueur`Misc`Events`"
 }]
 
 Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];

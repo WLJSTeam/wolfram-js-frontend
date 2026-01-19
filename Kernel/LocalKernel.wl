@@ -1,4 +1,4 @@
-BeginPackage["CoffeeLiqueur`Notebook`LocalKernel`", {"JerryI`Misc`Async`", "JerryI`Misc`Events`", "JerryI`Misc`Events`Promise`", "KirillBelov`Objects`", "KirillBelov`Internal`",  "KirillBelov`LTP`", "KirillBelov`TCPServer`", "KirillBelov`CSockets`"}]
+BeginPackage["CoffeeLiqueur`Notebook`LocalKernel`", {"CoffeeLiqueur`Misc`Async`", "CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`Misc`Events`Promise`", "CoffeeLiqueur`Objects`", "CoffeeLiqueur`Internal`",  "CoffeeLiqueur`LTP`", "CoffeeLiqueur`TCPServer`", "CoffeeLiqueur`CSockets`"}]
 
 LocalKernel;
 
@@ -294,20 +294,20 @@ start[k_LocalKernelObject] := Module[{link},
              LinkWrite[link, Unevaluated[ Get[FileNameJoin[{Directory[], "Common", "Patches", "NoWR.wl"}] ] ] ];
         ];
 
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`CSockets`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`Objects`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`Internal`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`TCPServer`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Events`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Async`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Language`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Events`Promise`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Parallel`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`WebSocketHandler`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`WLJS`Transport`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`CSockets`EventsExtension`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`Events`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`CSockets`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Objects`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Internal`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`LTP`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`TCPServer`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Events`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Async`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Language`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Events`Promise`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Parallel`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`WebSocketHandler`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`WLJS`Transport`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`CSockets`EventsExtension`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`LTP`Events`"] ];
         LinkWrite[link, EnterTextPacket["<<LetWL`"] ];
         LinkWrite[link, EnterTextPacket["Off[Most::argx]"] ];
         LinkWrite[link, EnterTextPacket["$Inspector = Dialog[]&;"] ];

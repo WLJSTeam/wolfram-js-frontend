@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Extensions`MarkdownCells`", {
     "CodeParser`", 
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`"
+    "CoffeeLiqueur`Misc`Events`"
 }]
 
 

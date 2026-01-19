@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Extensions`ExportImport`WidgetAPI`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "KirillBelov`Objects`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Objects`"
 }]
 
 Begin["`Tools`"]

@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$240], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$240], 
    "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
 /Demos/05 - Interaction/Dynamic color.wln"|>, 
  "Cells" -> {<|"Data" -> ".md\n# Dynamic color\nA demo, which shows how to \

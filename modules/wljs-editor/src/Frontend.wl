@@ -1,12 +1,12 @@
 BeginPackage["CoffeeLiqueur`Extensions`Editor`", {
     "CodeParser`", 
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`",
-    "JerryI`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
     "CoffeeLiqueur`Extensions`FrontendObject`"
 }]
 

@@ -1,15 +1,15 @@
 BeginPackage["CoffeeLiqueur`Extensions`Autocomplete`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`", 
-    "JerryI`WLX`WLJS`",
-    "JerryI`Misc`WLJS`Transport`",    
-    "KirillBelov`HTTPHandler`",
-    "KirillBelov`HTTPHandler`Extensions`",
-    "KirillBelov`Internal`",
-    "KirillBelov`Objects`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`", 
+    "CoffeeLiqueur`WLX`WLJS`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",    
+    "CoffeeLiqueur`HTTPHandler`",
+    "CoffeeLiqueur`HTTPHandler`Extensions`",
+    "CoffeeLiqueur`Internal`",
+    "CoffeeLiqueur`Objects`"
 }]
 
 

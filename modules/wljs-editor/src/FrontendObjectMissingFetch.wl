@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`FrontendObject`MissingFetcher`", {
     "CoffeeLiqueur`Extensions`FrontendObject`",
     "CoffeeLiqueur`Extensions`Communication`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`"
 }]
 
 Begin["`Internal`"]

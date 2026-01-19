@@ -1,5 +1,5 @@
 <|"Notebook" -> <|"Controller" -> "90adfe93-6f2c-4fc4-b370-c787fe253c2a", 
-   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$794], 
+   "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$794], 
    "HaveToSaveAs" -> False, "MessangerChannel" -> Messanger, 
    "ModalsChannel" -> "d298fae3-a5cf-49b3-9c54-5db4195e6f12", 
    "Objects" -> <|"dcf6b86a-a8e4-4e40-91d8-a1cf2f86cf25" -> 
@@ -36,7 +36,7 @@
    "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos/05 - \
 Interaction/Virtual Piano.wln", "Quick" -> True, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[1, "Virtual Piano", 
-      CellObj[JerryI`Notebook`CellObj`$789]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$789]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Virtual Piano\nA demonstration with a \
 working toy-like piano. This covers basic graphics manipulation, sound \
 emission and working with dynamic graphics groups.\n\nSome helper functions", 

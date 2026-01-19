@@ -1,5 +1,5 @@
 BeginPackage["CoffeeLiqueur`Extensions`Plotly`", {
-	"JerryI`Misc`Events`",
+	"CoffeeLiqueur`Misc`Events`",
 	"CoffeeLiqueur`Extensions`Communication`",
     "CoffeeLiqueur`Extensions`FrontendObject`"
 }]

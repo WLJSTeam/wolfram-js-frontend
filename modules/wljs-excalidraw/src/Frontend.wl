@@ -1,9 +1,9 @@
 BeginPackage["CoffeeLiqueur`Extensions`Excalidraw`", {
-    "JerryI`Misc`Events`", 
-    "JerryI`Misc`Events`Promise`", 
+    "CoffeeLiqueur`Misc`Events`", 
+    "CoffeeLiqueur`Misc`Events`Promise`", 
     "CoffeeLiqueur`Extensions`Communication`", 
     "CoffeeLiqueur`Extensions`FrontendObject`", 
-    "JerryI`Misc`WLJS`Transport`"
+    "CoffeeLiqueur`Misc`WLJS`Transport`"
 }]
 
 Begin["`Private`"]

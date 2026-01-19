@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`Debugger`Utils`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`"
 }]
 
 Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];

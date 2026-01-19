@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Extensions`FileUploader`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
     "CoffeeLiqueur`Notebook`Transactions`",
     "CoffeeLiqueur`Extensions`EditorViewMinimal`"
 }]

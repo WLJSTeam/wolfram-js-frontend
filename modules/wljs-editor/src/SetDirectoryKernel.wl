@@ -1,5 +1,5 @@
 BeginPackage["CoffeeLiqueur`Extensions`NotebookDirectory`", {
-    "JerryI`Misc`Events`"
+    "CoffeeLiqueur`Misc`Events`"
 }]
 
 Begin["`Private`"]

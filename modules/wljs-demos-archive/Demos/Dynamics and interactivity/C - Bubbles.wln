@@ -1,12 +1,12 @@
 <|"Notebook" -> <|"Controller" -> "2ad02335-31a5-4332-8431-da14f65fe83a", 
-   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$671], 
+   "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$671], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
     "5ae01b50-c219-4cec-b768-6435914dbac3", "Objects" -> <||>, 
    "Path" -> "/Users/kirill/Github/wolfram-js-frontend/Demos/05 - \
 Interaction/Bubbles 1.wln", "ReadOnly" -> True, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
       "Dynamically generated disks PT1", 
-      CellObj[JerryI`Notebook`CellObj`$661]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$661]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n\n# Dynamically generated disks PT1\nFollow \
 the cursor and append disks!", "Display" -> "codemirror", 
     "Hash" -> "203b32d7-7877-43ab-a5d4-6fc4a020a135", "Invisible" -> False, 

@@ -1,5 +1,5 @@
 <|"Notebook" -> <|"Controller" -> "43d76a96-827c-4fa3-aed4-09902c984d6d", 
-   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$96], 
+   "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$96], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
     "11870e7b-6439-4065-bece-e4e1cf0fb349", 
    "Objects" -> <|"bcb3e485-f716-4f53-bc06-81af27eda67a" -> 
@@ -62,12 +62,12 @@
 frontend/Demos/09 - Mixing languages/Force Graph3D.wln", 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
       "Connecting external Javascript library ", 
-      CellObj[JerryI`Notebook`CellObj`$76]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$76]], 
      Notebook`Editor`TOC`Private`heading[2, 
       "How to make interactive 3D Force-Directed Graphs", 
-      CellObj[JerryI`Notebook`CellObj`$76]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$76]], 
      Notebook`Editor`TOC`Private`heading[2, "Testing", 
-      CellObj[JerryI`Notebook`CellObj`$95]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$95]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Connecting external Javascript library \n## \
 How to make interactive 3D Force-Directed Graphs\n\nThere is an amazing \
 [Javascript library](https://github.com/vasturiano/3d-force-graph) for \

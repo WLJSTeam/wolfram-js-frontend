@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`DemosArchive`", {
-    "JerryI`Misc`Events`",
-    "JerryI`WLX`WebUI`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`WLX`WebUI`"
 }];
 
 Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];

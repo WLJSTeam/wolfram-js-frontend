@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Extensions`ExportImport`Decoder`", {
-    "JerryI`Misc`Events`",
-    "JerryI`WLX`Importer`",
-    "JerryI`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
     "CoffeeLiqueur`Notebook`Transactions`"
 }];
 

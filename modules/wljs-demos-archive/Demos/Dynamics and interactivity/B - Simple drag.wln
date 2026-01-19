@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$1100], 
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$1100], 
    "Objects" -> <||>, "Path" -> "/Users/kirill/Library/Application \
 Support/wljs-notebook/Examples/Dynamics/Interaction/Simple drag.wln"|>, 
  "Cells" -> {<|"Data" -> ".md\n# Interactive graphics\nSimple event-listener \

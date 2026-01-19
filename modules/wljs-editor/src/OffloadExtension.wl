@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`OffloadTools`", {
     "CoffeeLiqueur`Extensions`FrontendObject`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`"
 }]
 
 Begin["`Internal`"]

@@ -1,15 +1,15 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$134], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$134], 
    "HaveToSaveAs" -> False, "Objects" -> <||>, "Path" -> "/Users/kirill/Githu\
 b/wolfram-js-frontend-dev/Demos/Release notes/2.5.4.wln", "Quick" -> True, 
    "Symbols" -> <||>, "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
-      "Release notes *2.5.4*", CellObj[JerryI`Notebook`CellObj`$46]], 
+      "Release notes *2.5.4*", CellObj[CoffeeLiqueur`Notebook`CellObj`$46]], 
      Notebook`Editor`TOC`Private`heading[2, "Outline feature", 
-      CellObj[JerryI`Notebook`CellObj`$48]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$48]], 
      Notebook`Editor`TOC`Private`heading[2, "Find and replace", 
-      CellObj[JerryI`Notebook`CellObj`$50]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$50]], 
      Notebook`Editor`TOC`Private`heading[2, 
       "Links to documentation in autocomplete panel", 
-      CellObj[JerryI`Notebook`CellObj`$66]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$66]]}|>, 
  "Cells" -> {<|"Data" -> ".html\n\n<style>\n  .balloon {\n  height: 125px;\n  \
 width: 105px;\n  border-radius: 75% 75% 70% 70%;\n  position: \
 relative;\n}\n\n.balloon:before {\n  content: \"\";\n  height: 75px;\n  \

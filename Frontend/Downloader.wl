@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
-    "KirillBelov`HTTPHandler`",
-    "KirillBelov`HTTPHandler`Extensions`",
-    "KirillBelov`Internal`"
+    "CoffeeLiqueur`HTTPHandler`",
+    "CoffeeLiqueur`HTTPHandler`Extensions`",
+    "CoffeeLiqueur`Internal`"
 }]
     
     Begin["`Internal`"]

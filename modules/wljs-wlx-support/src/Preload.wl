@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`WLXCells`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`WLX`",
-    "JerryI`WLX`Importer`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`Importer`",
     "CoffeeLiqueur`Extensions`FrontendObject`",
     "CoffeeLiqueur`Extensions`Communication`"
 }];
@@ -33,7 +33,7 @@ System`WLXForm;
 (* convert explicitly to WLX form string *)
 WLXForm[expr_ ] := StringTrim[ToStringRiffle[ ToBoxes[expr, WLXForm] ] ]
 
-(*JerryI`WLX`Private`IdentityTransform[EventObject[assoc_]] := If[KeyExistsQ[assoc, "View"], CreateFrontEndObject[ assoc["View"]], EventObject[assoc] ]*)
+(*CoffeeLiqueur`WLX`Private`IdentityTransform[EventObject[assoc_]] := If[KeyExistsQ[assoc, "View"], CreateFrontEndObject[ assoc["View"]], EventObject[assoc] ]*)
 EventObject /: MakeBoxes[EventObject[assoc_], WLXForm] := If[KeyExistsQ[assoc, "View"],
     With[{o = CreateFrontEndObject[assoc["View"]]},
         MakeBoxes[o, WLXForm]
@@ -48,7 +48,7 @@ Unprotect[PageBreakBelow]
 PageBreakAbove /: MakeBoxes[PageBreakAbove, WLXForm] := "<div class=\"print:breakabove\"> </div>"
 PageBreakBelow /: MakeBoxes[PageBreakBelow, WLXForm] := "<div class=\"print:breakbelow\"> </div>"
 
-JerryI`WLX`Private`IdentityTransform[x_] := ToBoxes[x , WLXForm]
+CoffeeLiqueur`WLX`Private`IdentityTransform[x_] := ToBoxes[x , WLXForm]
 
 End[]
 

@@ -1,5 +1,5 @@
 BeginPackage["CoffeeLiqueur`Extensions`Graphics3D`", {
-  "JerryI`Misc`Events`", "CoffeeLiqueur`Extensions`Communication`",
+  "CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`Extensions`Communication`",
   "CoffeeLiqueur`Extensions`FrontendObject`", 
   "CoffeeLiqueur`Extensions`Boxes`"
 }]

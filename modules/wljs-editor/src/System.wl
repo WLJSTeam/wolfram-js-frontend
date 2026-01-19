@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`System`", {
   "CoffeeLiqueur`Extensions`FrontendObject`",
-  "JerryI`Misc`Events`", 
-  "JerryI`Misc`Events`Promise`", 
-  "JerryI`Misc`Parallel`",
+  "CoffeeLiqueur`Misc`Events`", 
+  "CoffeeLiqueur`Misc`Events`Promise`", 
+  "CoffeeLiqueur`Misc`Parallel`",
   "CoffeeLiqueur`Extensions`EditorView`",
   "CoffeeLiqueur`Extensions`Communication`",
   "CoffeeLiqueur`Extensions`RemoteCells`"

@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$99], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$99], 
    "Objects" -> <|"be29971a-3db0-49a5-b6a9-215d906a043a" -> 
       <|"Public" -> Hold[Graphics[{RGBColor[Rational[19, 27], 
             Rational[19, 27], 1], Rectangle[{-1, 0}, {1, 1}], 

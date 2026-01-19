@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Notebook`Loader`", {
-    "JerryI`Misc`Events`", 
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`WLX`WebUI`"
+    "CoffeeLiqueur`Misc`Events`", 
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`WLX`WebUI`"
 }];
 
     Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];

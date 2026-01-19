@@ -1,12 +1,12 @@
-<|"Notebook" -> <|"FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$2194], 
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$2194], 
    "HaveToSaveAs" -> False, "Objects" -> <||>, "Path" -> "/Users/kirill/Githu\
 b/wolfram-js-frontend/Demos/04 - Animation/Michelson interferometer.wln", 
    "Quick" -> True, "Symbols" -> <||>, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
-      "Michelson interferometer", CellObj[JerryI`Notebook`CellObj`$1267]], 
+      "Michelson interferometer", CellObj[CoffeeLiqueur`Notebook`CellObj`$1267]], 
      Notebook`Editor`TOC`Private`heading[2, 
       "Realtime fourier transformation & Interferogram", 
-      CellObj[JerryI`Notebook`CellObj`$2200]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$2200]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Michelson interferometer\nA simple model of \
 Michelson spectrograph used in optical spectroscopy. \n\n> Light from the \
 source is split into two beams by a half-silvered mirror, one is reflected \

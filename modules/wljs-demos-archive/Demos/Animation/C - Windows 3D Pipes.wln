@@ -1,12 +1,12 @@
 <|"Notebook" -> <|"Controller" -> "5859359a-739a-4646-8208-435f59ca73c1", 
-   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$574], 
+   "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$574], 
    "HaveToSaveAs" -> True, "MessangerChannel" -> Messanger, 
    "ModalsChannel" -> "d958e486-a680-45c9-8a21-b948879c320f", 
    "Objects" -> <||>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend/Dem\
 os/04 - Animation/Windows 3D Pipes screensaver.wln", "Quick" -> True, 
    "Symbols" -> <||>, "TOC" -> {Notebook`Editor`TOC`Private`heading[1, 
       "Windows 3D Pipes screensaver", 
-      CellObj[JerryI`Notebook`CellObj`$569]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$569]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Windows 3D Pipes screensaver\nA legendary \
 screensaver recreated in Woflram Language.\n\n> Based on web port by \
 [1j01](https://github.com/1j01/pipes)", "Display" -> "codemirror", 

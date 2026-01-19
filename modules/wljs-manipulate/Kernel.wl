@@ -1,16 +1,16 @@
 BeginPackage["CoffeeLiqueur`Extensions`Manipulate`", {
     "CoffeeLiqueur`Extensions`Graphics`",
     "CoffeeLiqueur`Extensions`InputsOutputs`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`Misc`Language`",
-    "JerryI`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`Misc`Language`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
     "CoffeeLiqueur`Extensions`Boxes`",
     "CoffeeLiqueur`Extensions`Communication`",
     "CoffeeLiqueur`Extensions`RemoteCells`",
     "CoffeeLiqueur`Extensions`EditorView`",
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`Misc`Parallel`",
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`Misc`Parallel`",
     "CoffeeLiqueur`Extensions`System`"
 }]
 

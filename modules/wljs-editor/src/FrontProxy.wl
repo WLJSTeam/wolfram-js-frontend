@@ -1,6 +1,6 @@
 BeginPackage["FrontProxy`", { 
     "CoffeeLiqueur`Extensions`Communication`",
-    "JerryI`Misc`WLJS`Transport`"
+    "CoffeeLiqueur`Misc`WLJS`Transport`"
 }]
 
 Create::usage = "Create[{args}, body] creates proxy object for frontend execution"

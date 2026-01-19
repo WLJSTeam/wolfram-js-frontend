@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Extensions`PrintRedirect`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`WLX`WebUI`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`WLX`WebUI`"
 }]
 
 

@@ -1,4 +1,4 @@
-<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$142], 
+<|"Notebook" -> <|"ReadOnly"->True, "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$142], 
    "Objects" -> <||>, "Path" -> 
     "/users/kirill/Github/wolfram-js-frontend-dev/Examples/Progress bar.wln"|>\
 , "Cells" -> {<|"Data" -> ".md\n## Simple progress bar\nHere we will show a \

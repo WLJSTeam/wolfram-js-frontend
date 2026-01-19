@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Notebook`Cells`", {
-    "JerryI`Misc`Events`", 
-    "KirillBelov`Objects`", 
+    "CoffeeLiqueur`Misc`Events`", 
+    "CoffeeLiqueur`Objects`", 
     "CoffeeLiqueur`Notebook`Transactions`"
 }]
 

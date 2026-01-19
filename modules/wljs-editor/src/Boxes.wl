@@ -1,5 +1,5 @@
 BeginPackage["CoffeeLiqueur`Extensions`Boxes`", {
-  "JerryI`Misc`Events`", 
+  "CoffeeLiqueur`Misc`Events`", 
   "CoffeeLiqueur`Extensions`FrontendObject`",
   "CoffeeLiqueur`Extensions`EditorView`"
 }]

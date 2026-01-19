@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`ExportImport`DynamicAnalyzer`", {
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`"
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`"
 }]
 
 showAllConnections;

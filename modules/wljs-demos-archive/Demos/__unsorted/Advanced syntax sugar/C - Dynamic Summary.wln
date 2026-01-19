@@ -1,5 +1,5 @@
 <|"Notebook" -> <|"Controller" -> "ddc7ceb2-04df-4852-8adf-36f337d98c7e", 
-   "FocusedCell" -> CellObj[JerryI`Notebook`CellObj`$131], 
+   "FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$131], 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
     "7fca8c2d-72a8-4586-93cd-94688f0ed126", 
    "Objects" -> <|"9be2c9dd-3688-43f2-b2bc-5e12a05e3f77" -> 
@@ -8,11 +8,11 @@
 decorations/Objects instances.wln", "ReadOnly" -> True, 
    "Symbols" -> <|"state$131192" -> "10"|>, 
    "TOC" -> {Notebook`Editor`TOC`Private`heading[2, "Objects example", 
-      CellObj[JerryI`Notebook`CellObj`$114]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$114]], 
      Notebook`Editor`TOC`Private`heading[2, "Testing", 
-      CellObj[JerryI`Notebook`CellObj`$124]], 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$124]], 
      Notebook`Editor`TOC`Private`heading[3, "Adding sliders", 
-      CellObj[JerryI`Notebook`CellObj`$130]]}|>, 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$130]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n## Objects example\nHere we create our own \
 type of entity with its internal state and dynamic decorations", 
     "Display" -> "codemirror", "Hash" -> 

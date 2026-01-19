@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Extensions`RevealCells`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`"
+    "CoffeeLiqueur`Misc`Events`"
 }]
 
 

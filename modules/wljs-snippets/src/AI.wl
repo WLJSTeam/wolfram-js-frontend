@@ -1,27 +1,27 @@
 BeginPackage["CoffeeLiqueur`Extensions`CommandPalette`AI`", {
     "CoffeeLiqueur`Notebook`Transactions`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Async`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`WLX`",
-    "JerryI`WLX`WLJS`",
-    "JerryI`Misc`WLJS`Transport`",
-    "JerryI`WLX`Importer`",
-    "JerryI`WLX`WebUI`",     
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Async`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`WLX`",
+    "CoffeeLiqueur`WLX`WLJS`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`WLX`Importer`",
+    "CoffeeLiqueur`WLX`WebUI`",     
     "CoffeeLiqueur`Extensions`CommandPalette`",
     "CoffeeLiqueur`Extensions`EditorViewMinimal`",
-    "KirillBelov`HTTPHandler`",
-    "KirillBelov`HTTPHandler`Extensions`",
-    "KirillBelov`Internal`",
-    "JerryI`LPM`",
-    "KirillBelov`Objects`"
+    "CoffeeLiqueur`HTTPHandler`",
+    "CoffeeLiqueur`HTTPHandler`Extensions`",
+    "CoffeeLiqueur`Internal`",
+    "CoffeeLiqueur`LPM`",
+    "CoffeeLiqueur`Objects`"
 }]
 
 Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];
 Needs["CoffeeLiqueur`Notebook`" -> "nb`"];
 
-Needs["KirillBelov`GPTLink`", FileNameJoin[{ParentDirectory[DirectoryName[$InputFileName] ], "packages", "GPTLink.wl"}] ];
+Needs["CoffeeLiqueur`GPTLink`", FileNameJoin[{ParentDirectory[DirectoryName[$InputFileName] ], "packages", "GPTLink.wl"}] ];
 
 Needs["CoffeeLiqueur`Extensions`CommandPalette`VFX`" -> "vfx`", FileNameJoin[{DirectoryName[$InputFileName], "VFX.wl"}] ];
 

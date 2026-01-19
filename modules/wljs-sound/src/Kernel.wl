@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Extensions`Sound`", {
-    "JerryI`Misc`Language`",
-    "JerryI`Misc`Events`",
-    "JerryI`Misc`Events`Promise`",
-    "JerryI`Misc`WLJS`Transport`",
+    "CoffeeLiqueur`Misc`Language`",
+    "CoffeeLiqueur`Misc`Events`",
+    "CoffeeLiqueur`Misc`Events`Promise`",
+    "CoffeeLiqueur`Misc`WLJS`Transport`",
 	"CoffeeLiqueur`Extensions`Communication`",
     "CoffeeLiqueur`Extensions`FrontendObject`",
     "CoffeeLiqueur`Extensions`MetaMarkers`"    
