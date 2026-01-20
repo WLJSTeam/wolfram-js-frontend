@@ -31,18 +31,40 @@
 
   let Plotly = false;
 
+  plotly.DateObject = async (args, env) => {
+    const list = await interpretate(args[0], env);
+    switch(list.length) {
+      case 1:
+        return new Date(list[0]);
+      case 2:
+        return new Date(list[0], list[1]-1);
+      case 3:
+        return new Date(list[0], list[1]-1, list[2]);
+      case 4:
+        return new Date(list[0], list[1]-1, list[2], list[3]);
+      case 5:
+        return new Date(list[0], list[1]-1, list[2], list[3], list[4]);
+      case 6:
+        return new Date(list[0], list[1]-1, list[2], list[3], list[4], list[5]);
+      case 7:
+        return new Date(list[0], list[1]-1, list[2], list[3], list[4], list[5], list[6]);
+      default:
+        return new Date();
+    }
+  } 
+
   plotly["PlotlyNewPlot"] = async (args, env) => {
     if (!Plotly) Plotly = await import('plotly.js-dist-min');
 
     const options = await core._getRules(args, env);
+    const copy = {...env, context: plotly};
 
 
-
-    let data = await interpretate(args[0], env);
+    let data = await interpretate(args[0], copy);
     if (data instanceof NumericArrayObject) {
       data = data.normal();
     }
-    const layout = await interpretate(args[1], env);
+    const layout = await interpretate(args[1], copy);
     if (layout.ImageSize && !(layout.width) && !(layout.height)) {
       let imageSize = layout.ImageSize;
       delete layout.ImageSize;
@@ -82,7 +104,7 @@
 
 
   plotly["PlotlyAddTraces"] = async (args, env) => {
-    const traces = await interpretate(args[0], env);
+    const traces = await interpretate(args[0], {...env, context: plotly});
     Plotly.addTraces(env.local.instance, traces);
   }
 
@@ -92,25 +114,26 @@
   }
 
   plotly["PlotlyExtendTraces"] = async (args, env) => {
-    const traces = await interpretate(args[0], env);
-    const arr = await interpretate(args[1], env);
+    const copy = {...env, context: plotly};
+    const traces = await interpretate(args[0], copy);
+    const arr = await interpretate(args[1], copy);
     Plotly.extendTraces(env.local.instance, traces, arr);
   }
 
   plotly["PlotlyReact"] = async (args, env) => {
-
-    let data = await interpretate(args[0], env);
+    const copy = {...env, context: plotly};
+    let data = await interpretate(args[0], copy);
     if (data instanceof NumericArrayObject) {
       data = data.normal();
     }
-    const layout = await interpretate(args[1], env);
+    const layout = await interpretate(args[1], copy);
 
     Plotly.react(env.local.instance, data, layout);
   }  
 
   plotly["PlotlyRestyle"] = async (args, env) => {
-
-    let data = await interpretate(args[0], env);
+    const copy = {...env, context: plotly};
+    let data = await interpretate(args[0], copy);
     if (data instanceof NumericArrayObject) {
       data = data.normal();
     }
@@ -120,24 +143,26 @@
       return;
     }
 
-    const traces = await interpretate(args[1], env);
+    const traces = await interpretate(args[1], copy);
     Plotly.restyle(env.local.instance, data, traces); 
   }  
   
   plotly["PlotlyRelayout"] = async (args, env) => {
-    const lay = await interpretate(args[0], env);
+    const lay = await interpretate(args[0], {...env, context: plotly});
     Plotly.relayout(env.local.instance, lay); 
   }   
 
   plotly["PlotlyAnimate"] = async (args, env) => {
-    const traces = await interpretate(args[0], env);
-    const arr = await interpretate(args[1], env);
+    const copy = {...env, context: plotly};
+    const traces = await interpretate(args[0], copy);
+    const arr = await interpretate(args[1], copy);
     Plotly.animate(env.local.instance, traces, arr);
   }  
 
   plotly["PlotlyPrependTraces"] = async (args, env) => {
-    const traces = await interpretate(args[0], env);
-    const arr = await interpretate(args[1], env);
+    const copy = {...env, context: plotly};
+    const traces = await interpretate(args[0], copy);
+    const arr = await interpretate(args[1], copy);
     Plotly.prependTraces(env.local.instance, traces, arr);
   }
   

@@ -441,7 +441,7 @@ core['CoffeeLiqueur`Extensions`Manipulate`Internal`ManipulateHelper'] = man;
 core['CoffeeLiqueur`Extensions`Manipulate`Internal`noJITEntry'] = async (args, env) => {
     return await interpretate(args[0], env);
 }
-
+core.RefreshRate = () => 'RefreshRate'
 core['CoffeeLiqueur`Extensions`Manipulate`Internal`packedAnimation'] = async (args, env) => {
     return await interpretate(args[0], env);
 }
