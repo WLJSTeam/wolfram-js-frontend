@@ -257,6 +257,12 @@ core.E = () => Math.E
 core.E.update = core.E
 core.E.destroy = core.E
 
+core.Exp = async (args, env) => {
+    const v = await interpretate(args[0], env);
+    return Math.exp(v)
+}
+
+core.Exp.update = core.Exp;
 
 core.Complex = (args, env) => {
     return new Complex(interpretate(args[0], env), interpretate(args[1], env))

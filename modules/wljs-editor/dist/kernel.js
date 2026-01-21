@@ -41234,7 +41234,7 @@ class BracketWidget extends WidgetType {
 
   updateDOM(dom, view) {
     if (dom.ch != this.ch) return false;
-    console.log('update DOM');
+   // console.log('update DOM');
     //console.warn(this.cssClass);
     if (dom.cssClass != this.cssClass) {
       //check if DOM height is undefined 
@@ -41310,7 +41310,7 @@ const decorationsSeeker = ViewPlugin.fromClass(class {
   ranges;
 
   constructor(view) {
-    console.log('construct ranges');
+    //console.log('construct ranges');
     this.ranges = this.getRanges(view);
     let selected = view.state.selection.ranges[0];
     if (selected && view.hasFocus) selected = selected.from;
@@ -41332,7 +41332,7 @@ const decorationsSeeker = ViewPlugin.fromClass(class {
   }
 
   update(update) {
-    console.log('check ranges');
+    //console.log('check ranges');
     let unknownDomSizes = false;
 
     //console.log(update.docChanged || update.focusChanged || update.geometryChanged || update.heightChanged || update.selectionSet);
@@ -41352,7 +41352,7 @@ const decorationsSeeker = ViewPlugin.fromClass(class {
     }
 
     if (!update.selectionSet && !update.focusChanged && !update.geometryChanged && !update.docChanged && !unknownDomSizes) return;
-    console.log('update ranges for sure');
+    //console.log('update ranges for sure');
     let selected = update.view.state.selection.ranges[0];
     if (selected && update.view.hasFocus) selected = selected.from;
     //const time = performance.now();
