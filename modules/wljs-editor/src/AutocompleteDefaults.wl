@@ -1,6 +1,7 @@
 (* Created with the Wolfram Language : www.wolfram.com *)
 
 {
+  <|"label" -> "ProgressIndicator", "type"->"keyword", "info" -> "ProgressIndicator[val] represents a comple progress bar indicator.\nProgressIndicator[val, {min,max}] represent a progress bar, that rescales val from min to max"|>,
   <|"label" -> "Cells", "type"->"keyword", "info" -> "Cells[] returns all cells of the current notebook"|>,
   <|"label" -> "Cell", "type"->"keyword", "info" -> "Cell[expr_String] is an object that represents a complete cell in a notebook.\nCell[expr, \"Input\"] represents input cell.\nCell[expr, \"Output\", \"HTML\"] represents output HTML cell.\nCell can be used in NotebookWrite, CreateDocument, CellPrint or CreateWindow"|>,
 
