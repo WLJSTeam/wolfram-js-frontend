@@ -1,0 +1,97 @@
+<|"Notebook" -> <|"Controller" -> "cb56017c-d08a-4031-98f0-586b1b30c189", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1041], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "32728061-ca89-4657-8519-c8db86773594", 
+   "Objects" -> <|"8771ca4c-f0de-4f54-8aac-e70bc9e4585c" -> 
+      <|"Public" -> Hold[Image[Offload[board], "Bit", Magnification -> 3, 
+          Antialiasing -> False]]|>|>, "Path" -> "/Users/kirill/Github/wolfra\
+m-js-frontend/modules/wljs-demos-archive/Demos/Animation/B - Game Of \
+Life.wln", "PublicFields" -> {"Properties"}, 
+   "Symbols" -> <|"board" -> 
+      CoffeeLiqueur`Extensions`FrontendObject`Tools`ExtractCompressed["eJwVk7\
+fOpGYARd9lGxdYIqdii2HIechgWVrCx5Bzfnr/Lq9ucYqj88+v91iWAOj1vIN9+SNcGxjWehzWP+I\
+yDj+jsLIG5Nsfbxy79f9/SfNNdS3zPfbTAtYVFL/+/vUXUB8zEjuX5l/Gwb3KnKM0CGX43ugNPdiy\
+FOlcfahIg6A3dNNcMvYOmoHs+UhQ2H7g8qAzhG2c8iG01qkeC3hfmi7RYBJbVTmAVXpJBXmwSWRT4\
+UAWRqziSpEV87FtO3mfT+Goj7I5O3RJ6wytDSn2epz0RoosSQcFmU5bWnq9HV7N0OPxlhgqBlCvDF\
+4K1AF9GK4ZPJRJqfhbiz27WLW0Qu27BvRTrrt+tSapJqB5iJoJbq/bNnYd2339NGqm8l/KxL+8egy\
+ZbuKZifv+8OYKBX0Q6pWe9PBCV/je3utgYomf8QtOJRfi1SFp3B9UgWLoLpD4u7oTrzAppyEEHUeK\
+2064wHQ5JlpotRwI2cFc/h09Wdim3dFZv2Ly1sJ9NqVwb/8o+8eyQmxRL6CWPSW+ujk6GwhXacc+S\
+8GonfelaY3MtKAqeCJUDgHJd44zpDc2fUsHOQcGRcVgurW9qd0EghIvpQxGlndpOGs65nfMSjVHva\
+99xu2YzG9hc/ukPgQWQZ3Q4/DefDrpkRrxOtUUHibeVsi4lTAkfXmlCG0JrRTQdervZOIwTi1zlpT\
+gnv+BIcIDi5A90QgTznTGpUWimyuY4VXBtc4l6WyW59NahU7bey+CpVTMEXYzI/dHDt4jNGEG5Qqo\
+IP802xXqrLe+vkB/jK16fBfDuqCZ2ZlGTqqksuXi8mBensi42GGBbja7XWpDLRPjBLbCw7B/kLJaP\
+RvignTEDGJ1nIjuXnm7lRu+SeKlq6d8pVDGvrAP0syw4uEUN7bDcodR69ezd/XeJ51AkVM8DUONlg\
+/5HeHAO4c1QZt8vgNih2Rvrrdb2woo9DY56OSgoFnbiLArWGDL/1EhAOfmukBXIcOBPb8c1ZYNNL8\
+97N2tHrX96NckmXYYv+QPr9/7h7bZ3omoo6hJnyhFP6iXwnjwquajBL/Z9xtD50egy2G8ywKd2Mq5\
+cVE3Le8iMR4HLWO4ZZJzwNdGniXqCQ8czAwMzfXk7643Qxe/wTlA0cRjtaW1tlc95kOy5Mom1CMU3\
+aQPp1dMPRLQy1EbZimi1nJgel0gsJ5UPgOJ2CbecXgwOArR9BSpfguTeftW4GJtZJb2ck+6BiOig4\
+jkhaNwzZWgGsPdH9q+2/ajPRUl9Qw37mYIkqIsICaRc/Z0Hv2KTOLAaTgCGxk1S/5SyMRrcXwrW8p\
+px9noZ/xbxIBMJx4dAx+XX7H1LvJF3bpcN/W13gzH8TVUME1V9lcZAvf4vkyEiKZQDsxMeSRUR+LB\
+4mwzxpdPKNk/JYRpkgiAuHNyZrjzghQDYGUiYYBonCDqmAN0S/B5zJPIDGdpTloXTVi89nBqaF1ah\
+070ZO81Yg1xxxqjNj04U2UO/ajB0Y3b4kT++mOLK7ev4iXGypo8IEyDBp/JProTLK350CTdKpctiL\
+uad60p9FuYzUU/xE9jKSSGdEfHMGTd1P7tMcazRVJUuY+UFagS7CtAERuCyurhJzXgHicaIvvkm7N\
+wJXeZ5ztlo505RvZwbPHFHIYOoUWIvn7//uvXv/8BLkAYdA=="]|>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Game Of Life", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1035]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n# Game Of Life\nA raster animation using `Image`", 
+    "Display" -> "codemirror", "Hash" -> 
+     "1be8b561-cbce-4962-862a-e66b78ead0a1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> "# Game Of Life\nA raster animation using `Image`", 
+    "Display" -> "markdown", "Hash" -> 
+     "4db6ebc1-77dd-4aaa-86ab-8ef234825f68", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> "board = CellularAutomaton[\"GameOfLife\", \
+RandomInteger[{0,1}, {100,100}], {{1}}] // First;\nImage[board // Offload, \
+\"Bit\", Magnification -> 3, Antialiasing->False]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "8502bb5e-6af3-46af-a22b-96a1a34b7203", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"8771ca4c-f0de-4f54-8aac-e70bc9e4585c\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKW5ibG\
+yYnmiTrphmkpOqapJma6FokJibrppobJCVbppqYWpgmAwCOcBY8\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "f496246b-7b68-4005-9005-57a3aa59f33f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> ".md\nSet a task to update", "Display" -> "codemirror", 
+    "Hash" -> "b4ac1b35-bfff-4c10-b837-fb8d7aca2142", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> "Set a task to update", "Display" -> "markdown", 
+    "Hash" -> "bf154d2c-8db1-4062-aa2d-054f7f4b0cd6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> "task = Null;\n{\n  Button[\"Start\", If[task =!= Null, \
+Return[]];\n    task = SetInterval[\n      ;\n    , 50]\n  ],\n  \
+Button[\"Stop\", If[task === Null, Return[]];\n    TaskRemove[task];\n    \
+task = Null;\n  ]\n} // Row ", "Display" -> "codemirror", 
+    "Hash" -> "72020d50-c82c-49a1-8058-ae03f3aeb305", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> ".md\n:::note\nDo not forget to stop the animation before \
+closing a notebook\n:::", "Display" -> "codemirror", 
+    "Hash" -> "f4c4b038-4662-44cc-a478-3e19f2adb1bb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>, 
+   <|"Data" -> ":::note\nDo not forget to stop the animation before closing a \
+notebook\n:::", "Display" -> "markdown", 
+    "Hash" -> "bf8b4990-b4ef-44e9-a773-ab7de90d4c48", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "fff570ea-c7b5-49d0-a498-c88c29519a56"|>}, 
+ "serializer" -> "jsfn4"|>

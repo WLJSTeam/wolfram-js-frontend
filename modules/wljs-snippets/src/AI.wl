@@ -999,7 +999,7 @@ createChat[assoc_Association] := With[{
                             
                                 With[{cell = cell`HashMap[ removeQuotes @ args["after"] ]},
                                     If[!MatchQ[cell, _cell`CellObj], 
-                                    
+                                        Echo[StringTemplate["Cell `` not found! Addind to the end"][ToString[cell, InputForm] ] ];
                                         With[{new = cell`CellObj["Notebook"->notebook, "Type"->"Input", "Data"->restoreLanguage[args["contentType"], args["content"] ] ]},
                                             WebUISubmit[vfx`MagicWand[ "frame-"<>new["Hash"] ], client];
                                             AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = new["Hash"] ] ];

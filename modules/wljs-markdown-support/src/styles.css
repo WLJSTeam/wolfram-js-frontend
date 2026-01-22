@@ -1355,3 +1355,10 @@ foreignObject .katex-display{
     font-family: monospace;
     font-size: .875em;
 }
+
+.markdown code {
+    background: #eee;
+    font-size: smaller;
+    padding: 0.15rem 0.25rem;
+    border-radius: 0.25rem;
+}
