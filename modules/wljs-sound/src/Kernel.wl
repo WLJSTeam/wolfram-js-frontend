@@ -91,6 +91,13 @@ Audio /: MakeBoxes[s_Audio, form : WLXForm | StandardForm] := With[{},
   AudioWrapperBox[s, form]
 ]
 
+Audio[buffer_Offload, format_:"Real32", opts:OptionsPattern[] ] := PCMPlayer[buffer, format, opts]
+
+
+PCMPlayer /: EventHandler[PCMPlayer[args__], handler_] := With[{uid = CreateUUID[]}, 
+    EventHandler[uid, handler];
+    PCMPlayer[args, "Event"->uid] 
+]
 
 extractChannelTyped[a_Audio, type_] := If[AudioChannels[a] > 1,
     AudioData[AudioChannelMix[a, "Mono"], type] // First
