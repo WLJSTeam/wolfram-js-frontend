@@ -95,6 +95,17 @@ apiCall[request_, "/api/"] := {
 
 $promises = <||>;
 
+(* 
+   /api/promise/ - Check status of async operations
+   
+   Some API calls return a Promise ID instead of immediate results.
+   Use this endpoint to poll for the result.
+   
+   Request: {"Promise": "promise-id-string"}
+   Response (pending): {"ReadyQ": false}
+   Response (ready): {"ReadyQ": true, "Result": <actual result>}
+   Error: "Missing promise or already resolved"
+*)
 apiCall[request_, "/api/promise/"] := With[{id = request["Body"]["Promise"]},
     If[MissingQ[$promises[id] ], failure["Missing promise or already resolved"],
         If[TrueQ[$promises[id]["ReadyQ"] ] ,
@@ -121,10 +132,23 @@ wolframAlphaRequest[query_String] := With[{str = ImportString[ExportString[
   ]
 ];
 
+(* 
+   /api/alphaRequest/ - Query Wolfram Alpha for short answers
+   
+   Request: {"Query": "what is the capital of France"}
+   Response: "Paris, Île-de-France, France" (string, max 1000 chars)
+   Error: "Failed request"
+*)
 apiCall[request_, "/api/alphaRequest/"] := With[{query = request["Body"]["Query"]},
     wolframAlphaRequest[query]
 ]
 
+(* 
+   /api/ready/ - Check if the API server is ready
+   
+   Request: {} (empty body)
+   Response: {"ReadyQ": true}
+*)
 apiCall[request_, "/api/ready/"] := <|"ReadyQ" -> True|>
 
 
@@ -134,6 +158,12 @@ apiCall[request_, "/api/notebook/"] := {
     "/api/notebook/cells/"
 }
 
+(* 
+   /api/notebook/list/ - List all notebooks known to the application
+   
+   Request: {} (empty body)
+   Response: [{"Id": "notebook-hash", "Opened": true/false, "Path": "/path/to/file.wln"}, ...]
+*)
 apiCall[request_, "/api/notebook/list/"] := With[{},
     <|
         "Id"-> #["Hash"],
@@ -163,6 +193,17 @@ EventHandler[EventClone[AppExtensions`AppEvents], {
     ]
 }]
 
+(* 
+   /api/notebook/create/ - Create a new empty notebook
+   
+   Opens a new notebook window in the application.
+   Returns a Promise that resolves to the notebook ID.
+   
+   Request: {} (empty body)
+   Response: {"Promise": "promise-id"} - poll /api/promise/ for result
+   Final result: "notebook-hash-id"
+   Error: "All windows are closed"
+*)
 apiCall[request_, "/api/notebook/create/"] := Module[{},
     If[$activeControls === Null, Return[failure["All windows are closed"], Module] ];
     With[{},
@@ -197,6 +238,25 @@ apiCall[request_, "/api/notebook/cells/"] := {
 }
 
 
+(* 
+   /api/notebook/cells/list/ - List all cells in a notebook
+   
+   Returns metadata for each cell including type, display format, and line count.
+   Use this to get cell IDs for subsequent operations.
+   
+   Request: {"Notebook": "notebook-hash-id"}
+   Response: [
+     {
+       "Id": "cell-hash-id",
+       "Type": "Input" | "Output",
+       "Display": "codemirror" | "markdown" | "js" | "html" | ...,
+       "Lines": 5,
+       "FirstLine": "Plot[Sin[x], {x, 0, 2Pi}]"
+     },
+     ...
+   ]
+   Error: "Notebook is missing"
+*)
 apiCall[request_, "/api/notebook/cells/list/"] := Module[{body = request["Body"]},
     With[
         {notebook = nb`HashMap[ body["Notebook"] ]},
@@ -215,7 +275,22 @@ apiCall[request_, "/api/notebook/cells/list/"] := Module[{body = request["Body"]
 
 
 
-
+(* 
+   /api/notebook/cells/focused/ - Get the currently focused cell and selection
+   
+   Returns information about the cell that has user focus, including
+   which lines are selected (useful for targeted edits).
+   
+   Request: {"Notebook": "notebook-hash-id"}
+   Response: {
+     "Id": "cell-hash-id",
+     "Display": "codemirror",
+     "Lines": 10,
+     "FirstLine": "f[x_] := ...",
+     "SelectedLines": [3, 5] or null  // [startLine, endLine] if text selected
+   }
+   Error: "Notebook is missing" | "Nothing is focused"
+*)
 apiCall[request_, "/api/notebook/cells/focused/"] := Module[{body = request["Body"]},
     With[
         {notebook = nb`HashMap[ body["Notebook"] ]},
@@ -240,6 +315,16 @@ apiCall[request_, "/api/notebook/cells/focused/"] := Module[{body = request["Bod
     ]
 ]
 
+(* 
+   /api/notebook/cells/getlines/ - Read specific lines from a cell
+   
+   Retrieves content from a range of lines in a cell.
+   Line numbers are 1-indexed.
+   
+   Request: {"Cell": "cell-hash-id", "From": 1, "To": 5}
+   Response: "line1\nline2\nline3\nline4\nline5" (string with newlines)
+   Error: "Cell not found" | "From or To is not a number"
+*)
 apiCall[request_, "/api/notebook/cells/getlines/"] := Module[{body = request["Body"]},
     With[
         {
@@ -259,6 +344,21 @@ updateCellContent[cell_, newData_] :=  If[TrueQ[cell["Notebook"]["Opened"] ],
                 cell["Data"] = newData;
             ];
 
+(* 
+   /api/notebook/cells/setlines/ - Replace a range of lines in a cell
+   
+   Replaces lines From through To (inclusive) with new content.
+   Line numbers are 1-indexed. Content replaces the entire range.
+   
+   Request: {
+     "Cell": "cell-hash-id",
+     "From": 3,
+     "To": 5,
+     "Content": "new line 3\nnew line 4"  // can be fewer/more lines than replaced
+   }
+   Response: "Lines were set"
+   Error: "Cell not found" | "From or To is not a number" | "Cannot edit output cells"
+*)
 apiCall[request_, "/api/notebook/cells/setlines/"] := Module[{body = request["Body"]},
     With[
         {
@@ -287,8 +387,20 @@ apiCall[request_, "/api/notebook/cells/setlines/"] := Module[{body = request["Bo
     ]
 ]
 
-(* Insert lines after a specific line number *)
-(* After: 0 means insert at the beginning, After: n means insert after line n *)
+(* 
+   /api/notebook/cells/insertlines/ - Insert new lines without replacing existing content
+   
+   Inserts content after the specified line number.
+   After: 0 inserts at the beginning, After: n inserts after line n.
+   
+   Request: {
+     "Cell": "cell-hash-id",
+     "After": 5,           // insert after line 5 (0 = beginning)
+     "Content": "new line 1\nnew line 2"
+   }
+   Response: "Lines were inserted"
+   Error: "Cell not found" | "After must be a number" | "Content must be a string" | "Cannot edit output cells"
+*)
 apiCall[request_, "/api/notebook/cells/insertlines/"] := Module[{body = request["Body"]},
     With[
         {
@@ -316,9 +428,26 @@ apiCall[request_, "/api/notebook/cells/insertlines/"] := Module[{body = request[
     ]
 ]
 
-(* Batch setlines: apply multiple non-overlapping line changes in a single call *)
-(* Changes format: [{"From": n, "To": m, "Content": "..."}, ...] *)
-(* Changes are applied from bottom to top to preserve line indices *)
+(* 
+   /api/notebook/cells/setlines/batch/ - Apply multiple non-overlapping edits in one call
+   
+   Efficiently applies multiple line replacements to a single cell.
+   Changes must not have overlapping line ranges.
+   Changes are automatically sorted and applied bottom-to-top to preserve indices.
+   
+   Request: {
+     "Cell": "cell-hash-id",
+     "Changes": [
+       {"From": 10, "To": 12, "Content": "replaced lines 10-12"},
+       {"From": 5, "To": 5, "Content": "replaced line 5"},
+       {"From": 1, "To": 2, "Content": "replaced lines 1-2"}
+     ]
+   }
+   Response: {"Applied": 3, "Message": "Batch lines were set"}
+   Error: "Cell not found" | "Changes must be a list" | "Cannot edit output cells" |
+          "Each change must have numeric From, To and string Content" |
+          "Changes have overlapping line ranges"
+*)
 apiCall[request_, "/api/notebook/cells/setlines/batch/"] := Module[{body = request["Body"]},
     With[
         {
@@ -370,6 +499,16 @@ apiCall[request_, "/api/notebook/cells/setlines/batch/"] := Module[{body = reque
     ]
 ]
 
+(* 
+   /api/notebook/cells/delete/ - Delete a cell from the notebook
+   
+   Removes the specified input cell. Output cells cannot be deleted directly;
+   delete their parent input cell instead.
+   
+   Request: {"Cell": "cell-hash-id"}
+   Response: "Removed 1 cell"
+   Error: "Cell is missing" | "Cannot delete output cell. Delete parent input cell"
+*)
 apiCall[request_, "/api/notebook/cells/delete/"] := Module[{body = request["Body"]},
     With[
         {cell = cell`HashMap[ body["Cell"] ]},
@@ -381,6 +520,26 @@ apiCall[request_, "/api/notebook/cells/delete/"] := Module[{body = request["Body
 ]
 
 
+(* 
+   /api/notebook/cells/add/ - Add a new cell to the notebook
+   
+   Creates a new cell with the specified content. Position is determined by
+   After (insert after cell) or Before (insert before cell) parameters.
+   If neither specified, appends to notebook.
+   
+   Request: {
+     "Notebook": "notebook-hash-id",
+     "Content": "Plot[Sin[x], {x, 0, 2Pi}]",
+     "After": "cell-hash-id",      // optional: insert after this cell
+     "Before": "cell-hash-id",     // optional: insert before this cell
+     "Type": "Input",              // optional, default: "Input"
+     "Display": "codemirror",      // optional, default: "codemirror"
+     "Hidden": false,              // optional, default: false
+     "Id": "custom-uuid"           // optional: specify cell ID
+   }
+   Response: "created-cell-hash-id"
+   Error: "Notebook is missing"
+*)
 apiCall[request_, "/api/notebook/cells/add/"] := Module[{body = request["Body"], uuid = CreateUUID[]},
     With[
         {notebook = nb`HashMap[ body["Notebook"] ]},
@@ -415,9 +574,26 @@ apiCall[request_, "/api/notebook/cells/add/"] := Module[{body = request["Body"],
     ]
 ]
 
-(* Batch add cells: insert multiple cells sequentially after an anchor cell *)
-(* Cells format: [{"Content": "...", "Type": "Input", "Display": "codemirror"}, ...] *)
-(* Returns array of created cell IDs in order *)
+(* 
+   /api/notebook/cells/add/batch/ - Add multiple cells in sequence
+   
+   Creates multiple cells in a single call. Cells are inserted sequentially,
+   each after the previous one. Useful for adding related blocks of code.
+   
+   Request: {
+     "Notebook": "notebook-hash-id",
+     "After": "anchor-cell-id",    // optional: insert after this cell
+     "Before": "anchor-cell-id",   // optional: first cell before this, rest chain after
+     "Cells": [
+       {"Content": "cell 1 code", "Type": "Input", "Display": "codemirror"},
+       {"Content": "cell 2 code"},  // Type/Display/Hidden are optional per cell
+       {"Content": "cell 3 code", "Id": "custom-id", "Hidden": true}
+     ]
+   }
+   Response: {"Created": ["uuid-1", "uuid-2", "uuid-3"], "Count": 3}
+   Error: "Notebook is missing" | "Cells must be a list" | "Cells list is empty" |
+          "Each cell must have a string Content field"
+*)
 apiCall[request_, "/api/notebook/cells/add/batch/"] := Module[{body = request["Body"], createdIds = {}},
     With[
         {notebook = nb`HashMap[ body["Notebook"] ]},
@@ -588,6 +764,18 @@ apiCall[request_, "/api/notebook/cells/add/html/"] := Module[{body = request["Bo
     ]
 ]
 
+(* 
+   /api/notebook/cells/evaluate/ - Evaluate a cell and get output cell IDs
+   
+   Executes the specified input cell in the notebook's kernel.
+   Returns a Promise that resolves to the list of output cell IDs.
+   The notebook must be open for evaluation.
+   
+   Request: {"Cell": "input-cell-hash-id"}
+   Response: {"Promise": "promise-id"} - poll /api/promise/ for result
+   Final result: ["output-cell-id-1", "output-cell-id-2", ...]
+   Error: "Cell is missing" | "Can't evaluate cell in a closed notebook. Use /api/kernel/evaluate/ path"
+*)
 apiCall[request_, "/api/notebook/cells/evaluate/"] := Module[{body = request["Body"]},
     With[
         {cell = cell`HashMap[ body["Cell"] ]},
@@ -615,6 +803,16 @@ apiCall[request_, "/api/notebook/cells/evaluate/"] := Module[{body = request["Bo
     ]
 ]
 
+(* 
+   /api/notebook/cells/project/ - Open cell content in a separate window
+   
+   Projects the cell's content into a standalone window (useful for slides,
+   presentations, or focused viewing of graphics/content).
+   
+   Request: {"Cell": "cell-hash-id"}
+   Response: "Window was created"
+   Error: "Cell is missing" | "Output cells cannot be projected" | "Can't project cell in a closed notebook"
+*)
 apiCall[request_, "/api/notebook/cells/project/"] := Module[{body = request["Body"]},
     With[
         {cell = cell`HashMap[ body["Cell"] ]},
@@ -641,6 +839,21 @@ apiCall[request_, "/api/kernel/"] := {
     "/api/kernel/evaluate/"
 }
 
+(* 
+   /api/kernel/evaluate/ - Evaluate an expression in the kernel directly
+   
+   Evaluates a Wolfram Language expression without needing an open notebook.
+   Uses the first available ready kernel, or a specific kernel if specified.
+   Returns a Promise that resolves to the result as a string.
+   
+   Request: {
+     "Expression": "1 + 1",           // Wolfram Language expression to evaluate
+     "Kernel": "kernel-hash-id"       // optional: use specific kernel
+   }
+   Response: {"Promise": "promise-id"} - poll /api/promise/ for result
+   Final result: "2" (string representation of the result)
+   Error: "No kernel is ready for evaluation"
+*)
 apiCall[request_, "/api/kernel/evaluate/"] := Module[{body = request["Body"]},
     With[
         {k = If[StringQ[body["Kernel"] ], 
