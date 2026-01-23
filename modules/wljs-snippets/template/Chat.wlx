@@ -71,29 +71,19 @@ App[request_] := With[{
           <svg width="0" height="0" style="position:absolute">
             <defs>
               <filter id="tvNoise" x="-30%" y="-30%" width="160%" height="160%"           color-interpolation-filters="sRGB">
-          
-                <!-- BIG chunky "pixels" noise (very low frequency) -->
                 <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="1" seed="0"           result="n0">
                   <animate attributeName="seed" dur="0.06s" values="0;1;2;3;4;5;6;7;8;9;10;11;12;13"          repeatCount="indefinite"></animate>
                 </feTurbulence>
-          
-                <!-- Posterize to make blocks look pixel-like + make it strong/bright -->
                 <feComponentTransfer in="n0" result="pix">
                   <feFuncR type="discrete" tableValues="0 0.25 0.6 1"></feFuncR>
                   <feFuncG type="discrete" tableValues="0 0.25 0.6 1"></feFuncG>
                   <feFuncB type="discrete" tableValues="0 0.25 0.6 1"></feFuncB>
                   <feFuncA type="table" tableValues="0 0.95"></feFuncA>
                 </feComponentTransfer>
-          
-                <!-- Hue-cycling neon noise -->
                 <feColorMatrix in="pix" type="hueRotate" values="0" result="neon">
                   <animate attributeName="values" dur="1.2s" values="0;60;120;180;240;300;360"          repeatCount="indefinite"></animate>
                 </feColorMatrix>
-          
-                <!-- Gentle wobble so it feels alive (not blur) -->
-                <feDisplacementMap in="SourceGraphic" in2="n0" scale="6" result="wobble"></         feDisplacementMap>
-          
-                <!-- RGB split glitch -->
+                <feDisplacementMap in="SourceGraphic" in2="n0" scale="6" result="wobble"></feDisplacementMap>
                 <feColorMatrix in="wobble" type="matrix" result="R" values="1 0 0 0 0
                           0 0 0 0 0
                           0 0 0 0 0
@@ -117,10 +107,8 @@ App[request_] := With[{
                   <feMergeNode in="Bo"></feMergeNode>
                 </feMerge>
           
-                <!-- Add neon static over the image (BRIGHT) -->
                 <feBlend in="rgbSplit" in2="neon" mode="screen" result="withStatic"></feBlend>
           
-                <!-- Abstract scan-bands (bright, not dark) -->
                 <feTurbulence type="fractalNoise" baseFrequency="0 0.75" numOctaves="1" seed="7"          result="bands">
                   <animate attributeName="seed" dur="0.18s" values="0;1;2;3;4;5"          repeatCount="indefinite"></animate>
                 </feTurbulence>
@@ -129,11 +117,9 @@ App[request_] := With[{
                 </feComponentTransfer>
                 <feBlend in="withStatic" in2="bandsA" mode="screen" result="banded"></feBlend>
           
-                <!-- Glow pop -->
                 <feGaussianBlur in="banded" stdDeviation="1.2" result="glow"></feGaussianBlur>
                 <feBlend in="banded" in2="glow" mode="screen" result="glowed"></feBlend>
           
-                <!-- Final brightness punch -->
                 <feComponentTransfer in="glowed">
                   <feFuncR type="gamma" amplitude="1.25" exponent="0.85" offset="0"></feFuncR>
                   <feFuncG type="gamma" amplitude="1.25" exponent="0.85" offset="0"></feFuncG>

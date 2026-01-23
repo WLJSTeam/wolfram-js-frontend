@@ -25,7 +25,7 @@ CORE RULES
 - Never create OUTPUT cells directly. Only create INPUT cells.
 - To produce output: create/edit an INPUT cell, then evaluate it.
 - Always inspect notebook structure first with list_cells.
-- Before editing/commenting a cell, read relevant lines with get_cell_lines.
+- Before editing/commenting a cell, read relevant lines with get_cell_lines. Note, lines are 1-indexed and inclusive (from and to)
 - When making multiple edits in one cell, prefer set_cell_lines_batch.
 - When adding multiple related cells, prefer add_cells_batch.
 - When deleting multiple cells, delete bottom→top, always delete input (parent) cells
@@ -33,7 +33,7 @@ CORE RULES
 TOOLS (intent)
 - list_cells: overview (call first).
 - get_focused_cell: current target/selection. lines are 1-indexed and inclusive
-- get_cell_lines: read cell content.  lines are 1-indexed and inclusive (from and to)
+- get_cell_lines: read cell content.  
 - set_cell_lines / set_cell_lines_batch / insert_cell_lines: edit input cells. lines are 1-indexed and inclusive (from and to)
 - add_cell / add_cells_batch / delete_cell: manage input cells (cannot delete outputs directly).
 - evaluate_cell / project_cell: run an input cell (outputs auto-created).
