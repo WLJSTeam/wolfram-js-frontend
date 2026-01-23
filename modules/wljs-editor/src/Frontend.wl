@@ -179,7 +179,7 @@ init[k_] := Module[{},
                                 Internal`Kernel`TruncatedOutputLastItem = <|"Event"->ref, "Result"->string, "Cell"->hash, "Ref"->t["EvaluationContext"]["Ref"]|>;
                                 EventHandler[ref, Internal`Kernel`TruncatedOutputReveal];
 
-                                EventFire[Internal`Kernel`Stdout[ t["Hash"] ], "Result", <|"Data" -> StringTemplate[Internal`Kernel`TruncatedOutputTemplate][StringLength[string], StringTake[truncated, Min[StringLength[truncated], 5000] ], ref, ref, ref ], "Overflow"->True, "Meta"->Sequence["Hash"->hash, "Display"->"html"] |> ];
+                                EventFire[Internal`Kernel`Stdout[ t["Hash"] ], "Result", <|"Data" -> StringTemplate[Internal`Kernel`TruncatedOutputTemplate][StringLength[string], StringTake[truncated, Min[StringLength[truncated], 5000] ], ref, ref, ref ], "Overflow"->True, "Meta"->Sequence["Hash"->hash, "Display"->"html", "Overflow"->True] |> ];
                             ]
                         ]
                     ]

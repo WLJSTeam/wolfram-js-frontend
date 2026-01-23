@@ -463,8 +463,16 @@ window.CellWrapper = class {
 
     const self = this;
 
+
+
+
     this.throttledSave = throttle((content) => {
-      server.emitt(self.channel, '{"'+self.uid+'","'+(content)+'"}', "UpdateCell");
+      const editorState = self.display?.editor?.state;
+      if (editorState) {
+        server.emitt(self.channel, '{"'+self.uid+'","'+(content)+'",{'+editorState.selection.main.from+','+editorState.selection.main.to+'}}', "UpdateCell");
+      } else {
+        server.emitt(self.channel, '{"'+self.uid+'","'+(content)+', Null"}', "UpdateCell");
+      }
     }, CellWrapper.inputSaveDelay);
 
     CellWrapper.prolog.forEach((f) => f({cell: self, props: input, event: eventid}));
@@ -582,7 +590,9 @@ window.CellWrapper = class {
     if (this.type == 'Input') {
       this.element.addEventListener('focusin', ()=>{
         //call on cell focus event
-        server.emitt(self.uid, 'True', 'Focus');
+        
+        server.io.fire(self.uid, true, 'Focus');
+        
         if (!self._fade_block && self.props["Fade"]) {
 
           self.fade(true);
@@ -695,7 +705,9 @@ window.CellWrapper = class {
 
     this.element.addEventListener('focusin', ()=>{
       //call on cell focus event
-      server.emitt(self.uid, 'True', 'Focus');
+
+      server.io.fire(self.uid, true, 'Focus');
+
       currentCell = self;
     });
 
@@ -814,7 +826,7 @@ window.WindowWrapper = class {
     //if (this.type == 'Input') {
       this.element.addEventListener('focusin', ()=>{
         //call on cell focus event
-        server.emitt(self.uid, 'True', 'Focus');
+        server.io.fire(self.uid, true, 'Focus');
         currentCell = self;
       });
     //}

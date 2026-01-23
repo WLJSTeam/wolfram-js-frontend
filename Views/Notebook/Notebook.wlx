@@ -975,14 +975,17 @@ Component[OptionsPattern[]] := With[{
         "ProjectOrUpdate" -> Function[uid, projectCellOrUpdate[cell`HashMap[uid](*`*), notebook, secret, log, kernels, $Client, modals, parameters, extensions]],
 
         "UpdateCell" -> Function[payload,
-            With[{cell = cell`HashMap[payload // First], content = payload // Last (*`*)},
+            With[{cell = cell`HashMap[payload[[1]] ], content = payload[[2]] (*`*)},
                 cell["Data"] = URLDecode[content];
+                If[ListQ[ payload[[3]] ],
+                    cell["Selection"] = payload[[3]];
+                ];
                 If[cell["Type"] == "Output",
                     Echo["Morphing..."];
                     cell["Type"] = "Input";
     
                     With[{template = CellGenerator[cell, client, parameters, extensions]},
-                        WebUISubmit[UINotebook["Morph", payload // First, template, cell`Serialize[cell, "MetaOnly"->True]], $Client];
+                        WebUISubmit[UINotebook["Morph", payload[[1]], template, cell`Serialize[cell, "MetaOnly"->True]], $Client];
                     ];
                 ];                
             ];   
