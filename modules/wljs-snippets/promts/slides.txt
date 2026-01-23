@@ -13,7 +13,8 @@ You can create **slide cells** using **Reveal.js** with Markdown as the primary 
 
 #### HTML in a Slide
 
-```slide
+```
+.slide
 # Title
 
 <iframe
@@ -26,7 +27,8 @@ You can create **slide cells** using **Reveal.js** with Markdown as the primary 
 
 #### LaTeX Equations
 
-```slide
+```
+.slide
 # LaTeX Equations (use double backslashes)
 
 $$
@@ -36,7 +38,8 @@ $$
 
 #### Slide Animations (Fragments)
 
-```slide
+```
+.slide
 # Fragments Example
 
 This content is always visible.

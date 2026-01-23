@@ -110,7 +110,7 @@ ParseFrontMatter[content_String] := Module[{ frontMatter},
   ], <|"content" -> frontMatter[[1,2]]|>]
 ]
 
-defaultSysPrompt = Compress[Import[FileNameJoin[{$rootDir, "rules.default.txt"}], "Text"] ];
+defaultSysPrompt = Compress[Import[FileNameJoin[{$rootDir, "rules.default.min.txt"}], "Text"] ];
 
 getParameter[key_] := With[{
         params = Join[<|
@@ -131,15 +131,17 @@ getParameter[key_] := With[{
 ]
 
 library = <||>;
+libraryTotalItems = 0;
 With[{libItems = Table[Import[i, "Text"], {i, FileNames["*.txt", FileNameJoin[{$rootDir, "promts"}] ]}], stopList = getParameter["AIAssistantLibraryStopList"]},
     Map[
-        With[{hash = CreateUUID[], content = ParseFrontMatter[#]},
+        (libraryTotalItems++;
+        With[{hash = ToString[libraryTotalItems], content = ParseFrontMatter[#]},
             library[hash] = Join[<|
                 "hash" -> hash,
                 "words" -> ToString[WordCount[#] ],
                 "enabled" -> (!MemberQ[stopList, content["title"] ])
             |>, content ];
-        ]&    
+        ])&    
     , libItems];
 ];
 
@@ -233,12 +235,12 @@ makeAPIRequest[path_String, body_, callback_] := With[{p = Promise[]},
 
 tool = <||>;
 
-tool["get_docs_item"] = <|
+tool["consult_docs"] = <|
     "Description" ->     <|
     	"type" -> "function", 
     	"function" -> <|
-    		"name" -> "get_docs_item", 
-    		"description" -> "returns docs item content by id in a form of a string", 
+    		"name" -> "consult_docs", 
+    		"description" -> "If 'id' is provided, returns the content of the docs item by id as a string. If 'id' is not provided, returns a list of all items with their title and id fields.", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <|
@@ -252,13 +254,18 @@ tool["get_docs_item"] = <|
     |>,
     "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
         With[{},
-            With[{item = library[ removeQuotes @ args["id"] ]},
+            If[KeyExistsQ[args, "id"],
+                With[{item = library[ ToString[removeQuotes @ args["id"] ] ]},
+                    AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
+                        If[!MatchQ[item, _Association], "ERROR: Not found by given id",
+                            item["content"]
+                        ]
+                    ] ];
+                ],
                 AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                    If[!MatchQ[item, _Association], "ERROR: Not found by given id",
-                        item["content"]
-                    ]
+                       ExportString[ Map[Function[val, <|"title"->val["title"], "id"->val["hash"]|>], library ]//Values, "JSON"];
                 ] ];
-            ] 
+            ]
         ]
     , HoldRest]
 |>;
@@ -906,16 +913,7 @@ createChat[assoc_Association] := With[{
         ];
 
         initializeChat := (
-            systemPromt = Uncompress[getParameter["AIAssistantAssistantPrompt"] ] <> "\n\n";
-            If[getParameter["AIAssistantInitialPrompt"],
-                systemPromt = systemPromt <> "\nNow some additional information that you should consider while assisting the user:\n";
-                systemPromt = systemPromt <> StringRiffle[Select[Values[library], Function[i, i["default"] === True && i["enabled"] === True ] ][[All, "content"]]  ];
-
-                systemPromt = systemPromt <> "\n\n**Here is a flat list of available knowledge (docs items) in local docs about the execution enviroment and frameworks in the form [uid, title, desc]**. Note: to get actual content use getLibraryItemById.\n\n" <> ExportString[Map[Function[item, 
-                            {item["hash"], item["title"], item["desc"]}
-                        ], Select[Values[library], Function[i, i["default"] =!= True && i["enabled"] === True ] ] ], "JSON"]<>"\n **END of list**.\n";
-            ];
-
+            systemPromt = Uncompress[getParameter["AIAssistantAssistantPrompt"] ];
 
             With[{promt = systemPromt},
                 chat = GPTChatObject[promt, 

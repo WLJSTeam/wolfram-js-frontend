@@ -7,8 +7,9 @@ desc: Limitations and important features of JS cells in notebooks
 
 A JavaScript cell **must return a value**. The code is executed line by line as if it were inside an **implicit anonymous function**. No extra brackets are needed.  
 
-```js
-const i = Math.random();
+```
+.js
+const i = 3;
 return i;
 ```
 
@@ -20,15 +21,18 @@ return i;
 ## 2. DOM Manipulation
 
 **Do not use** `document.body`—it can break the notebook interface.  
+**Do not append anything to document.body or head**
+
 
 To insert a DOM element:
 
-1. Create the element locally.  
-2. Return it from the cell.  
+1. **Create the element locally.**  
+2. **Return it from the cell.**
 
 Example:
 
-```js
+```
+.js
 const element = document.createElement('span');
 element.innerText = "Hello World!";
 
@@ -43,7 +47,6 @@ return element;
 ## 3. Variable Scope
 
 - Variables defined in a JS cell are **local to that cell**.  
-- To access global variables, use the `window` object.
 
 ---
 
@@ -53,7 +56,8 @@ If using `requestAnimationFrame` or `setInterval`, **store the ID** so it can be
 
 Use the `ondestroy` property of the root context:
 
-```js
+```
+.js
 let uid;
 
 // Rendering code...
@@ -63,6 +67,8 @@ uid = requestAnimationFrame(render);
 this.ondestroy = () => {
     cancelAnimationFrame(uid);
 };
+...
+
 ```
 
 - `this.ondestroy` is automatically called if the cell is removed or re-evaluated.

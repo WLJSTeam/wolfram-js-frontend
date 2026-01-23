@@ -1,7 +1,16 @@
 ---
-title: Using Dynamics in Wolfram Language within WLJS Environment
+title: Interactive evaluation in Wolfram Language within WLJS Environment
 desc: A guide to creating sliders, manipulating expressions, dynamically plotting, and interactive graphics.
 ---
+
+Some symbols commonly available in Mathematica are **not supported** here:
+
+- `Dynamic`  
+- `DynamicModule`   
+- `Refresh`  
+- `CellPrint`   
+- `Out`  
+- `Slider`  
 
 ## Manipulate
 Offers limited features, but generally can work following these examples:
@@ -126,15 +135,9 @@ slider
 
 ---
 
-## Dynamics Library
+## Granural updates
 
-WLJS replaces Mathematica’s native dynamics with the `Offload` wrapper:
-
-```wolfram
-Offload[expr_Symbol]
-```
-
-This binds `expr` to its parent expression, tracking changes and updating automatically.  
+Use `Offload` expression with
 
 ### Supported objects
 
@@ -185,19 +188,6 @@ Slider moves the point horizontally.
 
 ---
 
-### `Sphere`
-
-```wolfram
-pt = {0,0,0};
-Graphics3D[Sphere[pt // Offload]]
-
-EventHandler[InputRange[-1,1,0.1], Function[value, pt = {value, 0, 0}]]
-```
-
-Moves the sphere along the x-axis. Multiple objects can share the same offloaded variable.
-
----
-
 ### `Disk` (with radius + position control)
 
 ```wolfram
@@ -220,28 +210,6 @@ text = "hello";
 Graphics[Text[text // Offload, {0,0}]]
 
 EventHandler[InputButton["Random word!"], Function[Null, text = RandomWord[]]]
-```
-
----
-
-### `Rectangle` with slider
-
-```wolfram
-length = 0.;
-EventHandler[InputRange[0, 1, 0.1], Function[a, length = a]]
-
-Graphics[Rectangle[{-1,-1}, {length // Offload,1}], PlotRange->{{-1,1}, {-1,1}}]
-```
-
----
-
-### `Rotate`
-
-```wolfram
-angle = 0.;
-EventHandler[InputRange[0, 2. Pi, 0.1], Function[a, angle = a]]
-
-Graphics[Rotate[Rectangle[{-1,-1}, {1,1}], angle // Offload], PlotRange->{{-1,1}, {-1,1}}]
 ```
 
 ---
@@ -275,29 +243,11 @@ Dragging the point prints its new position.
 ```wolfram
 pts = {};
 
-Graphics[{
-  White, EventHandler[Rectangle[{-1,-1}, {1,1}], {
-    "click" -> Function[xy, pts = Append[pts, xy]]
-  }],
+EventHandler[Graphics[{
   Blue, Point[pts // Offload]
+}, PlotRange->{{-1,1}, {-1,1}}], {
+    "click" -> Function[xy, pts = Append[pts, xy]]
 }]
 ```
 
 Each click adds a new point to the plot.
-
----
-
-### Example: Arrow Follows Cursor
-
-```wolfram
-coords = {1,1};
-
-Graphics[{
-  White, EventHandler[Rectangle[{-1,-1}, {1,1}], {
-    "mousemove" -> Function[xy, coords = xy]
-  }],
-  Blue, Arrow[{{0,0}, coords // Offload}]
-}]
-```
-
----

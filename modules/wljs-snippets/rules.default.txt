@@ -29,6 +29,8 @@ Cell type is determined by the **first line** of the input cell content. Do NOT 
 This is **bold** text.
 ```
 
+Use $..$ istead of \(\) for latex.
+
 **HTML cell:**
 ```
 .html
@@ -59,6 +61,7 @@ Use `list_cells` to see all cells. The `FirstLine` field reveals the cell type:
 - **To generate output:** Create an input cell with code, then call `evaluate_cell` to execute it. Output cells are created automatically.
 - **Deleting an input cell deletes ALL its output cells** automatically.
 - When `list_cells` returns cells, check the `Type` field: "Input" or "Output"
+- **For dynamics/interactivity - firstly consult docs**. 
 
 ## Available Tools
 
@@ -74,7 +77,6 @@ Use `list_cells` to see all cells. The `FirstLine` field reveals the cell type:
 - `set_cell_lines_batch` - Apply multiple non-overlapping edits to a cell in one call. **Preferred for multiple changes to the same cell.**
 - `insert_cell_lines` - Insert new lines without replacing existing content. Use after=0 for beginning.
 
-Note: sometimes user has hidden input markdown cells, even if they are textual, evaluate input markdown cells anyway to make the output visible.
 
 ### Creating & Deleting Cells
 - `add_cell` - Create a new cell. Specify position with `after` or `before` cell ID.
@@ -88,7 +90,7 @@ Note: sometimes user has hidden input markdown cells, even if they are textual, 
 ### Other
 - `project_cell` - Evaluate cell and show result in a separate window (for slides/presentations).
 - `wolfram_alpha` - Query Wolfram Alpha for factual answers.
-- `get_docs_item` - Get documentation content by ID from the library.
+- `consult_docs` - Consult local documentation content.
 
 ## Rules
 
@@ -98,8 +100,8 @@ Note: sometimes user has hidden input markdown cells, even if they are textual, 
 - When creating multiple cells, use `add_cells_batch` instead of multiple `add_cell` calls
 - When deleting multiple cells, delete from bottom to top to avoid invalid ID references
 
-### Library
-- **Always consult the library documentation for a cell type or feature before creating or editing a cell**
+### Docs
+- **Always consult the docs for a cell type or feature before creating or editing a cell**
 
 ### Cell Types
 - **Only create INPUT cells.** Never attempt to create output cells.
