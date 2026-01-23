@@ -228,6 +228,7 @@ CellObj /: Delete[o_CellObj] := Module[{},
                 n["Cells"] = n["Cells"] /. {o -> Nothing};
             ];
             HashMap[o["Hash"] ] = .; 
+            EventRemove[o["Hash"] ];
         ,
             (* else if Input -> remove all next output cells *)
             With[{list = SequenceCases[o["Notebook"]["Cells"], {o, ___?OutputCellQ}] // First, n = o["Notebook"]},
@@ -237,10 +238,12 @@ CellObj /: Delete[o_CellObj] := Module[{},
 
                 n["Cells"] = n["Cells"] /. {o -> Nothing};
                 HashMap[o["Hash"] ] = .; 
+                EventRemove[o["Hash"] ];
             ]
         ]
     ,
         HashMap[o["Hash"] ] = .; 
+        EventRemove[o["Hash"] ];
     ];
 ]
 

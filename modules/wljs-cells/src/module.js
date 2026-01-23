@@ -469,11 +469,11 @@ window.CellWrapper = class {
 
 
     this.throttledSelection = throttle((from, to) => {
-      server.io.fire(self.uid, [from, to], 'Selection');
+      server.io.fire(self.uid, [from+1, to], 'Selection');
     }, 300);
 
     this.throttledSave = throttle((content) => {
-      server.emitt(self.channel, '{"'+self.uid+'","'+(content)+', Null"}', "UpdateCell");
+      server.emitt(self.channel, '{"'+self.uid+'","'+(content)+'"}', "UpdateCell");
     }, CellWrapper.inputSaveDelay);
 
     CellWrapper.prolog.forEach((f) => f({cell: self, props: input, event: eventid}));
@@ -606,6 +606,12 @@ window.CellWrapper = class {
           self.element.addEventListener('focusout', leftFocus);  
         }
         currentCell = self;
+      });
+    } else {
+      this.element.addEventListener('focusin', ()=>{
+        //call on cell focus event
+        
+        server.io.fire(self.uid, true, 'Focus');
       });
     }
 
