@@ -42027,7 +42027,8 @@ const EditorExtensions = [
       //console.log('selected editor:');
       //console.log(v.view);
       selectedEditor = v.view;
-      
+      const selection = v.state.selection.main;
+      self.origin?.updateSelection(selection.from, selection.to);
     }
     
   }),

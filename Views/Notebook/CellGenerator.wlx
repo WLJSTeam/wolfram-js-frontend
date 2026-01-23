@@ -20,7 +20,8 @@ Component[cell_cell`CellObj, cli_, parameters_, OptionsPattern[]] := With[{
 },
     If[cell`InputCellQ @ cell,
         EventHandler[cell, {
-            "Focus" -> Function[Null, Print["Focus!"]; With[{n = cell["Notebook"]}, n["FocusedCell"] = cell] ]
+            "Focus" -> Function[Null, Print["Focus!"]; With[{n = cell["Notebook"]}, n["FocusedCell"] = cell] ],
+            "Selection" -> Function[ranges, Print["Focus!"]; With[{n = cell["Notebook"]}, n["FocusedCellSelection"] = ranges] ]
         }];
         
 

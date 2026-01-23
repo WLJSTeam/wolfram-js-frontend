@@ -432,6 +432,10 @@ window.CellWrapper = class {
     this.throttledSave(content);
     this._event('saved', {uid: this.uid, self:this});
   }
+
+  updateSelection(from, to) {
+    this.throttledSelection(from, to)
+  }
   
   constructor(template, input, list, eventid, meta = {}) {
 
@@ -464,15 +468,12 @@ window.CellWrapper = class {
     const self = this;
 
 
-
+    this.throttledSelection = throttle((from, to) => {
+      server.io.fire(self.uid, [from, to], 'Selection');
+    }, 300);
 
     this.throttledSave = throttle((content) => {
-      const editorState = self.display?.editor?.state;
-      if (editorState) {
-        server.emitt(self.channel, '{"'+self.uid+'","'+(content)+'",{'+editorState.selection.main.from+','+editorState.selection.main.to+'}}', "UpdateCell");
-      } else {
-        server.emitt(self.channel, '{"'+self.uid+'","'+(content)+', Null"}', "UpdateCell");
-      }
+      server.emitt(self.channel, '{"'+self.uid+'","'+(content)+', Null"}', "UpdateCell");
     }, CellWrapper.inputSaveDelay);
 
     CellWrapper.prolog.forEach((f) => f({cell: self, props: input, event: eventid}));

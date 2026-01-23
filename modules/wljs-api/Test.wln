@@ -1,0 +1,92 @@
+<|"Notebook" -> <|"Controller" -> "cba2a93f-479c-433f-bde6-c0f05daec1b0", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$354], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "395f8c3b-5f7c-45ab-9859-99478c488665", "Objects" -> <||>, 
+   "Path" -> 
+    "/users/kirill/Github/wolfram-js-frontend/modules/wljs-api/Test.wln", 
+   "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {}|>, "Cells" -> 
+  {<|"Data" -> "ImportString[URLRead[\"http://127.0.0.1:20560/api/\"][\"Body\
+\"], \"RawJSON\"] // TableForm ", "Display" -> "codemirror", 
+    "Hash" -> "da0a8e5b-2b2f-4b07-b115-d8b86ca3a180", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "Selection" -> {85, 85}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "(*GB[*){{\"/api/ready/\"}(*||*),(*||*){\"/api/notebook/\"}(*|\
+|*),(*||*){\"/api/kernel/\"}(*||*),(*||*){\"/api/alphaRequest/\"}(*||*),(*||*\
+){\"/api/promise/\"}}(*]GB*)", "Display" -> "codemirror", 
+    "Hash" -> "24010dfa-4a52-4681-8449-23385116da2a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "SelectFirst[ImportString[URLRead[\"http://127.0.0.1:20560/api\
+/notebook/list/\"][\"Body\"], \"RawJSON\"], #Opened&]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "66e008d5-9084-493e-ab1f-3b98a70e3a30", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "Selection" -> {106, 106}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "<|\"Id\"->\"4685f0a7-b985-4969-9e4d-d90f9eebc229\",\"Opened\"\
+->True,\"Path\"->\"/users/kirill/Github/wolfram-js-frontend/modules/wljs-api/\
+Test.wln\"|>", "Display" -> "codemirror", 
+    "Hash" -> "2c3e847f-f2b8-4a11-9bdb-392074c1af1b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> ".md\nHelper function", "Display" -> "codemirror", 
+    "Hash" -> "6f81e6d8-a4a1-4b1a-ae89-1e3c7d390c39", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "Selection" -> {19, 19}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "Helper function", "Display" -> "markdown", 
+    "Hash" -> "2e91ec1d-1449-42eb-9d77-6930cdb93372", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "request[path_, body_] := Module[{\n  response = \
+ImportString[URLRead[HTTPRequest[\"http://127.0.0.1:20560\"<>path, \
+<|\"Body\"->ExportString[body, \"JSON\"], Method->\"POST\"|>]][\"Body\"], \
+\"RawJSON\"],\n  ready = False,\n  result\n},\n  \
+If[StringQ[response[\"Promise\"]], \n    While[!ready,\n      Pause[0.5];\n   \
+   result = \
+ImportString[URLRead[HTTPRequest[\"http://127.0.0.1:20560/api/promise/\", \
+<|\"Body\"->ExportString[<|\"Promise\"->response[\"Promise\"]|>, \"JSON\"], \
+Method->\"POST\"|>]][\"Body\"], \"RawJSON\"];\n      \
+If[result[\"ReadyQ\"]//TrueQ, ready = True];\n    ];\n\n    \
+result[\"Result\"]\n  ,\n    response\n  ]\n]", "Display" -> "codemirror", 
+    "Hash" -> "158a9c59-0e15-46d1-8163-c9881d89db70", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "Selection" -> {561, 561}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "request[\"/api/kernel/evaluate/\", \
+<|\"Expression\"->\"Information[request]\"|>]", "Display" -> "codemirror", 
+    "Hash" -> "6efde434-6a48-48b8-955f-416b63357758", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "Selection" -> {69, 69}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>, 
+   <|"Data" -> "\"InformationData[<|\\\"ObjectType\\\" -> \\\"Symbol\\\", \
+\\\"Usage\\\" -> \\\"Global`request\\\", \\\"Documentation\\\" -> None, \
+\\\"OwnValues\\\" -> None, \\\"UpValues\\\" -> None, \\\"DownValues\\\" -> \
+Information`InformationValueForm[DownValues, request, {request[path_, body_] \
+:> Module[{response = \
+ImportString[URLRead[HTTPRequest[StringJoin[\\\"http://127.0.0.1:20560\\\", \
+path], Association[\\\"Body\\\" -> ExportString[body, \\\"JSON\\\"], Method \
+-> \\\"POST\\\"]]][\\\"Body\\\"], \\\"RawJSON\\\"], ready = False, result}, \
+If[StringQ[response[\\\"Promise\\\"]], While[ !ready, Pause[0.5]; result = \
+ImportString[URLRead[HTTPRequest[\\\"http://127.0.0.1:20560/api/promise/\\\", \
+Association[\\\"Body\\\" -> ExportString[Association[\\\"Promise\\\" -> \
+response[\\\"Promise\\\"]], \\\"JSON\\\"], Method -> \
+\\\"POST\\\"]]][\\\"Body\\\"], \\\"RawJSON\\\"]; \
+If[TrueQ[result[\\\"ReadyQ\\\"]], ready = True]; ]; result[\\\"Result\\\"], \
+response]]}], \\\"SubValues\\\" -> None, \\\"DefaultValues\\\" -> None, \
+\\\"NValues\\\" -> None, \\\"FormatValues\\\" -> None, \\\"Options\\\" -> \
+None, \\\"Attributes\\\" -> {}, \\\"FullName\\\" -> \
+\\\"Global`request\\\"|>]\"", "Display" -> "codemirror", 
+    "Hash" -> "28f7de16-50c4-4f6a-915c-0faa92e213ff", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4685f0a7-b985-4969-9e4d-d90f9eebc229"|>}, 
+ "serializer" -> "jsfn4"|>

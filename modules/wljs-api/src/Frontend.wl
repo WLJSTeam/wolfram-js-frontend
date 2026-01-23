@@ -25,6 +25,13 @@ Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 
 failure;
 
+
+EventHandler[AppExtensions`AppEvents// EventClone, {
+    "WLJSAPI:ApplyFunctionRequest" -> Function[handlerFunction,
+        handlerFunction[apiCall];
+    ]
+}];
+
 makeResponce[raw_] := If[MatchQ[raw, _failure],
         With[{},
             Echo["API Error >>"]; Echo[raw // First];
@@ -88,7 +95,7 @@ apiCall[request_, "/api/"] := {
 
 $promises = <||>;
 
-apiCall[request_, "/api/promise/"] := With[{id = request["Body"]["Id"]},
+apiCall[request_, "/api/promise/"] := With[{id = request["Body"]["Promise"]},
     If[MissingQ[$promises[id] ], failure["Missing promise or already resolved"],
         If[TrueQ[$promises[id]["ReadyQ"] ] ,
             With[{res = $promises[id]},
@@ -468,7 +475,7 @@ apiCall[request_, "/api/kernel/evaluate/"] := Module[{body = request["Body"]},
 
         If[MissingQ[k], Return[failure["No kernel is ready for evaluation"], Module] ];
 
-        GenericKernel`Init[k, 
+        GenericKernel`Async[k, 
             EventFire[Internal`Kernel`Stdout[ promise // First ], Resolve, ToString[ToExpression[expr, InputForm], InputForm] ];
         ];
 
