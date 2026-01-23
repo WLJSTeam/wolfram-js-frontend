@@ -25,10 +25,12 @@ Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 
 failure;
 
+failureQ[failure[message_] ] := message
+failureQ[_] := False
 
 EventHandler[AppExtensions`AppEvents// EventClone, {
     "WLJSAPI:ApplyFunctionRequest" -> Function[handlerFunction,
-        handlerFunction[apiCall];
+        handlerFunction[apiCall, failureQ];
     ]
 }];
 
@@ -82,6 +84,7 @@ HTTPAPICall[request_] := With[{type = request["Path"]},
 apiCall[request_] := With[{type = request["Path"]},
     apiCall[request, type]
 ]
+
 
 apiCall[_, _] := "Undefined API pattern"
 
@@ -280,10 +283,12 @@ apiCall[request_, "/api/notebook/cells/list/"] := Module[{body = request["Body"]
    
    Returns information about the cell that has user focus, including
    which lines are selected (useful for targeted edits).
+   Lines start from 1, not from 0.
    
    Request: {"Notebook": "notebook-hash-id"}
    Response: {
      "Id": "cell-hash-id",
+     "Type": "Input",
      "Display": "codemirror",
      "Lines": 10,
      "FirstLine": "f[x_] := ...",
@@ -298,6 +303,7 @@ apiCall[request_, "/api/notebook/cells/focused/"] := Module[{body = request["Bod
         With[{cell = notebook["FocusedCell"], ranges = notebook["FocusedCellSelection"]},
             If[MatchQ[cell, _cell`CellObj], With[{data = cell["Data"]}, <|
                 "Id"-> cell["Hash"],
+                "Type" -> cell["Type"],
                 "Display" -> cell["Display"],
                 "Lines" -> StringCount[data, "\n"]+1,
                 "FirstLine" -> StringExtract[data, "\n"->1],
@@ -320,6 +326,7 @@ apiCall[request_, "/api/notebook/cells/focused/"] := Module[{body = request["Bod
    
    Retrieves content from a range of lines in a cell.
    Line numbers are 1-indexed.
+   From and To are 1-indexed and inclusive
    
    Request: {"Cell": "cell-hash-id", "From": 1, "To": 5}
    Response: "line1\nline2\nline3\nline4\nline5" (string with newlines)
@@ -347,7 +354,7 @@ updateCellContent[cell_, newData_] :=  If[TrueQ[cell["Notebook"]["Opened"] ],
 (* 
    /api/notebook/cells/setlines/ - Replace a range of lines in a cell
    
-   Replaces lines From through To (inclusive) with new content.
+   Replaces lines From (inclusive) through To (inclusive) with new content.
    Line numbers are 1-indexed. Content replaces the entire range.
    
    Request: {
@@ -434,6 +441,7 @@ apiCall[request_, "/api/notebook/cells/insertlines/"] := Module[{body = request[
    Efficiently applies multiple line replacements to a single cell.
    Changes must not have overlapping line ranges.
    Changes are automatically sorted and applied bottom-to-top to preserve indices.
+   From and To are 1-indexed and inclusive
    
    Request: {
      "Cell": "cell-hash-id",
@@ -773,7 +781,14 @@ apiCall[request_, "/api/notebook/cells/add/html/"] := Module[{body = request["Bo
    
    Request: {"Cell": "input-cell-hash-id"}
    Response: {"Promise": "promise-id"} - poll /api/promise/ for result
-   Final result: ["output-cell-id-1", "output-cell-id-2", ...]
+   Final result: [{
+       "Id": "cell-hash-id-1",
+       "Type": "Input" | "Output",
+       "Display": "codemirror" | "markdown" | "js" | "html" | ...,
+       "Lines": 5,
+       "FirstLine": "Sin[5.3]"
+     },
+     ...]
    Error: "Cell is missing" | "Can't evaluate cell in a closed notebook. Use /api/kernel/evaluate/ path"
 *)
 apiCall[request_, "/api/notebook/cells/evaluate/"] := Module[{body = request["Body"]},
@@ -790,7 +805,15 @@ apiCall[request_, "/api/notebook/cells/evaluate/"] := Module[{body = request["Bo
                         With[{
                             out = Select[cell`SelectCells[notebook["Cells"], Sequence[cell, __?cell`OutputCellQ] ], cell`OutputCellQ]
                         },
-                            EventFire[promise, Resolve, Map[Function[c, c["Hash"] ], out] ];
+                            EventFire[promise, Resolve, Map[Function[c, <|
+                                <|
+                                    "Id"-> c["Hash"],
+                                    "Type" -> c["Type"],
+                                    "Display" -> c["Display"],
+                                    "Lines" -> StringCount[c["Data"], "\n"]+1,
+                                    "FirstLine" -> If[TrueQ[c["Overflow"] ], "[TOO LONG TO BE RENDERED]", StringExtract[c["Data"], "\n"->1] ]
+                                |> 
+                            |> ], out] ];
                         ]
                     ] ];
                     promise

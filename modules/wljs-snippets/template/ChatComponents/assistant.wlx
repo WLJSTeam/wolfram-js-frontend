@@ -1,7 +1,7 @@
 checkPos[item_, chat_] := With[{
   pos = Position[chat["Messages"], item] // Flatten // First
 },
-  Echo[pos];
+ 
 
   If[pos === 1,
     True  
@@ -17,64 +17,13 @@ replaceThinkTags[any_] := "";
 
 toolCall[item_, i_, chat_, connected_:False] := With[{
   avatar = URLEncode[StringJoin["https://i.pravatar.cc/100?u=", chat["Hash"]]],
-  Action = Switch[i[["function", "name"]],
-  "getLibraryList",
-    "checked the knowledge library",
-
-  "getLibraryItemById",
-    "read some books",    
-
-  "getCellList",
-    "checked the notebook structure",    
-
-  "getFocusedCell",
-    "get focused cell",
-
-  "setSelectedText",
-    "replaced selected text",
-
-  "getSelectedText",
-    "read selected text",
-
-  "getCellContentById",
-    "read a cell",
-  
-  "setCellContentById",
-    "edited a cell",
-
-  "createCell",
-    "created a cell",    
-
-  "deleteCell",
-    "deleted a cell",
-
-  "wolframAlphaRequest",
-    "made a request to WolframAlpha",
-
-  "toggleCell",
-    "toggled a cell",
-
-  "evaluateCell",
-    "evaluated a cell",
-
-  "evaluateExpression",
-    "evaluated an expression",
-
-  "batchSetCellContents",
-    "set the content of multiple cells",
-
-  "batchEvaluateCells",
-    "evaluated multiple cells",
-
-  _,
-    "did some magic"
- ],
+  Action = i[["function", "name"]],
 
  DateMessage = TextString[Round[Now - item["date"], 1]],
 
  decorationStyle = If[checkPos[item, chat] || connected, "-top-6", ""] 
 },
-  Echo[{item, checkPos[item, chat], decorationStyle}];
+ 
 
   <li class="pli list-none relative flex gap-x-4">
     <div class="absolute left-0 bottom-0 flex w-6 justify-center {decorationStyle}">
@@ -115,14 +64,18 @@ comment[item_, chat_, connected_:False] := With[{
   DateMessage = TextString[Round[Now - item["date"], 1]],
   decorationStyle = If[checkPos[item, chat] || connected, "top-6", ""] 
 },
-  Echo[{item, checkPos[item, chat], decorationStyle}];
+ 
 
   If[StringLength[Content] > 0, 
     <li class="pli list-none relative flex gap-x-4">
       <div class="absolute left-0 bottom-0 flex w-6 justify-center {decorationStyle}">
         <div class="w-px bg-gray-200"></div>
       </div>
-      <img src="{URLDecode[avatar]}" alt="" class="relative mt-3 h-6 w-6 flex-none rounded-full bg-gray-50"/>
+      <div class="relative mt-3 h-6 w-6 flex-none">
+        <svg width="100%" height="100%" class="rounded-full" viewBox="0 0 200 200">
+          <rect width="100%" height="100%" filter="url(#tvNoise)" />
+        </svg>
+      </div>
       <div class="flex-auto rounded-md dark:bg-gray-700 bg-gray-100 p-3 ring-1 ring-inset dark:ring-gray-500 ring-gray-200">
         <div class="flex justify-between gap-x-4">
           <div class="py-0.5 text-xs leading-5"><span class="font-medium text-gray-900 dark:text-gray-300">AI</span> commented</div>

@@ -26,6 +26,7 @@ Needs["CoffeeLiqueur`GPTLink`", FileNameJoin[{ParentDirectory[DirectoryName[$Inp
 Needs["CoffeeLiqueur`Extensions`CommandPalette`VFX`" -> "vfx`", FileNameJoin[{DirectoryName[$InputFileName], "VFX.wl"}] ];
 
 
+
 GPTChatObject /: EventHandler[o_GPTChatObject, opts_] := EventHandler[o["Hash"], opts]
 GPTChatObject /: EventFire[o_GPTChatObject, opts__] := EventFire[o["Hash"], opts]
 GPTChatObject /: EventClone[o_GPTChatObject] := EventClone[o["Hash"] ]
@@ -173,8 +174,6 @@ getNotebook[assoc_Association] := With[{result = EventFire[assoc["Controls"], "N
     Print[result];
     Echo["Getting notebook"];
     If[MatchQ[result, _nb`NotebookObj],
-            Echo["Got"];
-            Echo[result];
             result
     ,
             Echo["rejected"];
@@ -183,449 +182,637 @@ getNotebook[assoc_Association] := With[{result = EventFire[assoc["Controls"], "N
     ]
 ]
 
+removeQuotes[str_String] := If[StringTake[str, 1] === "\"", StringDrop[StringDrop[str, -1], 1], str ];
 
-parse[data_Association, notebook_nb`NotebookObj, responce_String] := With[{},
-    Echo["Parsing..."];
-    If[MatchQ[notebook["FocusedCell"], _cell`CellObj], 
-        With[{o = notebook["FocusedCell"]},
-            print[responce, o, "Notebook" -> notebook]
-        ]
-    ,
-        print[responce, Null, "Notebook" -> notebook]
-    ];
-]
+(* Routes for LLM *)
+(*
 
-print[message_String, after_, opts__] := Module[{list, last = Null, add},
-    list = StringSplit[message, StartOfLine ~~ "```"];
+    "/api/notebook/cells/list/",
+    "/api/notebook/cells/getlines/",
+    "/api/notebook/cells/setlines/",
+    "/api/notebook/cells/setlines/batch/",
+    "/api/notebook/cells/insertlines/",
+    "/api/notebook/cells/focused/",
+    "/api/notebook/cells/add/",
+    "/api/notebook/cells/add/batch/",
+    "/api/notebook/cells/evaluate/",
+    "/api/notebook/cells/project/",
+    "/api/notebook/cells/delete/"
 
-    add[rules__] := With[{},
-        If[last === Null,
-            
-            Print["Print directly..."];
-            If[after =!= Null,
-                last = cell`CellObj["After"->Sequence[after, ___?cell`OutputCellQ], rules, opts];
+    "/api/kernel/evaluate/"
+
+    "/api/alphaRequest/"
+
+*)
+
+makeAPIRequest[path_String, body_, callback_] := With[{p = Promise[]},
+    EventFire[AppExtensions`AppEvents, "WLJSAPI:ApplyFunctionRequest", Function[{requestGenerator, failureQ},
+        Echo[StringTemplate["\nUsing API: `` with ``\n"][path, body] ];
+
+        With[{result = requestGenerator[<|"Body"->body|>, path]},
+            If[PromiseQ[result],
+                Then[result, Function[promised,
+                    Echo[StringTemplate["\nUsing API: `` result: ``\n"][path, promised] ];
+
+                    If[failureQ[promised] === False,
+                        callback[promised],
+                        callback[StringTemplate["Request failed: ``"][failureQ[promised] ] ];
+                    ];                    
+                ] ];
             ,
-                last = cell`CellObj[rules, opts];
-            ];
-     
-        ,
-            Print["Print after something..."];
-            last = cell`CellObj["After"->last, rules, opts]
-           
-        ]
-    ];
+                Echo[StringTemplate["\nUsing API: `` result: ``\n"][path, result] ];
 
-    toCode[#, add, Null] &/@ list;
-
-    ClearAll[add];
-]
-
-removeFirstLine[str_String] := StringDrop[str, StringLength[First[StringSplit[str, "\n"] ] ] ] // StringTrim
-
-toCode[text_String, add_, eval_] := 
-Module[{rest = StringTrim[text]},
-
-
-	Which[
-		StringMatchQ[text, {"md", "markdown"} ~~ __, IgnoreCase -> True], 
-            add["Data"->(".md\n" <> removeFirstLine[rest]), "Display"->"codemirror", "Type"->"Input"]
-        , 
-			
-		StringMatchQ[text, {"js", "javascript"} ~~ __, IgnoreCase -> True], 
-			add["Data"->(".js\n" <> removeFirstLine[rest]), "Display"->"codemirror", "Type"->"Input"]
-        , 
-   
-  		StringMatchQ[text, {"mermaid"} ~~ __, IgnoreCase -> True], 
-			add["Data"->(".mermaid\n" <> removeFirstLine[rest]), "Display"->"codemirror", "Type"->"Input"] // eval;
-        , 
-			
-		StringMatchQ[text, {"html"} ~~ __, IgnoreCase -> True], 
-            add["Data"->(".html\n" <> removeFirstLine[rest]), "Display"->"codemirror", "Type"->"Input"] // eval;
-        , 
-			
-		StringMatchQ[text, {"wolfram", "mathematica"} ~~ __, IgnoreCase -> True], 
-			add["Data"->removeFirstLine[rest], "Display"->"codemirror", "Type"->"Input"];
-        , 
-			
-		True, 
-            With[{processed = StringReplace[StringReplace[text, {"\\"->"\\\\"}], {"\\\\[" -> "\n$$\n", "\\\\]" -> "\n$$\n", "&"->"", "\\\\begin{align*}" -> "", "\\\\end{align*}" -> "", "\\\\begin{align}" -> "", "\\\\end{align}" -> ""}]},
-			    add["Data"->(".md\n" <> processed), "Display"->"codemirror", "Type"->"Input", "Props"-><|"Hidden"->True|>];
-                add["Data"->processed, "Display"->"markdown", "Type"->"Output"];
+                If[failureQ[result] === False,
+                    callback[result],
+                    callback[StringTemplate["Request failed: ``"][failureQ[result] ] ];
+                ];
             ]
-	]
-]
-
-trimContent[str_String] := With[{splitted = If[Length[#] == 0, {str}, #] &@ StringSplit[str, "\n"]},
-    With[{content = If[StringMatchQ[splitted // First, "."~~WordCharacter..],
-        StringRiffle[Rest[splitted], "\n"]
-    ,
-        str
-    ]},
-        content
-    ]
-]
-
-checkLanguage[cell_cell`CellObj] := If[cell`InputCellQ[cell], With[{splitted = StringSplit[cell["Data"], "\n"]},
-    If[Length[splitted] === 0, "Wolfram Language",
-        If[StringMatchQ[splitted // First, "."~~WordCharacter..],
-            StringReplace[StringTrim[splitted // First], {
-                ".js" -> "Javascript",
-                ".md" -> "Markdown",
-                ".html" -> "HTML",
-                ".wlx" -> "Wolfram XML",
-                ".mermaid" -> "Mermaid",
-                ".slides" -> "Aggregation revealjs cell (do not read or edit!!!)",
-                ".slide" -> "Slide"
-            }]
-        ,
-            "Wolfram Language"
-        ] 
-    ]
-],
-    (*find parent*)
-    With[{parent = cell`FindCell[cell["Notebook"], Sequence[_?cell`InputCellQ, ___?cell`OutputCellQ, cell] ]},
-        If[MatchQ[parent, _cell`CellObj],
-            checkLanguage[parent]
-        ,
-            Echo["ERROR >> PARENT CELL NOT FOUND!!!"];
-            Echo[parent];
-            Echo[cell];
-
-            "Wolfram Language"
         ]
-    ]
+    ] ];
 ]
 
-restoreLanguage[_, _Missing] := ""
-restoreLanguage[_Missing, _] := ""
+tool = <||>;
 
-restoreLanguage[lang_, content_] := Which[
-    StringMatchQ[lang, {"Wolfram", "Mathematica"} ~~ ___, IgnoreCase -> True],
-    content,
-
-    StringMatchQ[lang, {"Aggregation revealjs cell (do not read or edit!!!)"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".slides\n", content],
-
-    StringMatchQ[lang, {"RevealJS", "Reveal", "Reveal.JS", "Reveal JS", "Slide"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".slide\n", content],
-    
-    StringMatchQ[lang, {"HTML", "XML"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".html\n", content],
-
-    StringMatchQ[lang, {"Wolfram XML"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".wlx\n", content],    
-
-    StringMatchQ[lang, {"Javascript", "JS"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".js\n", content],
-
-    StringMatchQ[lang, {"Markdown", "MD"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".md\n", content],
-
-    StringMatchQ[lang, {"Mermaid"} ~~ ___, IgnoreCase -> True],
-    StringJoin[".mermaid\n", content],
-
-    True,
-    content
-]
-
-basisChatFunction[_] := {
-    <|
+tool["get_docs_item"] = <|
+    "Description" ->     <|
     	"type" -> "function", 
     	"function" -> <|
-    		"name" -> "getCellList", 
-    		"description" -> "returns an ORDERED list of cells in the notebook (top to bottom) in the form [index, uid, type, contentType, hidden, parentInputUid]. 'index' is 0-based position. 'parentInputUid' is the uid of the parent input cell for output cells (null for input cells). Output cells always immediately follow their parent input cell. To get actual content use getCellContentById. IMPORTANT: when modifying multiple cells, process them in order to avoid confusion.", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <||>
-    		|>
-    	|>
-    |>,
-
-    (*<|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "getLibraryList", 
-    		"description" -> "returns a flat list of available knowledge (library item) in local library about the execution enviroment in the form [uid, title, desc]. to get actual content use getLibraryItemById", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <||>
-    		|>
-    	|>
-    |>,  *)  
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "getFocusedCell", 
-    		"description" -> "returns an information of a cell focused by a user in a form [uid, type, contentType, hidden]. To get actual content use getCellContentById", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <||>
-    		|>
-    	|>
-    |>, 
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "getSelectedText", 
-    		"description" -> "returns an selected code or text by a user as a string. Use setSelectedText to replace the selected content", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <||>
-    		|>
-    	|>
-    |>,   
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "setSelectedText", 
-    		"description" -> "replaces users selected text or code to a new string provided. Returns empty string", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "content" -> <|
-                        "type"-> "string",
-                        "description"-> "new content"
-                    |> 
-                |>
-    		|>
-    	|>
-    |>,  
-
-           
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "getLibraryItemById", 
-    		"description" -> "returns a library item content by id in a form of a string", 
+    		"name" -> "get_docs_item", 
+    		"description" -> "returns docs item content by id in a form of a string", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <|
                     "id" -> <|
                         "type"-> "string",
-                        "description"-> "id of library item"
+                        "description"-> "id of docs item"
                     |>
                 |>
     		|>
     	|>
-    |>, 
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        With[{},
+            With[{item = library[ removeQuotes @ args["id"] ]},
+                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
+                    If[!MatchQ[item, _Association], "ERROR: Not found by given id",
+                        item["content"]
+                    ]
+                ] ];
+            ] 
+        ]
+    , HoldRest]
+|>;
 
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "getCellContentById", 
-    		"description" -> "returns the content of a given cell by id in a form of a string", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "uid" -> <|
-                        "type"-> "string",
-                        "description"-> "uid of a cell"
+(* 
+   Tool: list_cells
+   Lists all cells in a notebook with metadata (Id, Type, Display, Lines, FirstLine)
+*)
+tool["list_cells"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "list_cells",
+            "description" -> "List all cells in a notebook. Returns array of cell metadata including Id, Type (Input/Output), Display format, line count, and first line preview. Use this to get cell IDs for subsequent operations.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <||>
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/list/", <|
+                "Notebook" -> notebook["Hash"]
+            |>, Function[result,
+                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: get_focused_cell
+   Gets the currently focused cell and selection info
+*)
+tool["get_focused_cell"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "get_focused_cell",
+            "description" -> "Get the currently focused cell in a notebook and its selection. Returns cell Id, type (Input or Output), Display format, line count, first line, and SelectedLines range [start, end] if text is selected. Useful for targeted edits based on user's cursor position.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <||>
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/focused/", <|
+                "Notebook" -> notebook["Hash"]
+            |>, Function[result,
+                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: get_cell_lines
+   Read specific lines from a cell
+*)
+tool["get_cell_lines"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "get_cell_lines",
+            "description" -> "Read specific lines from a cell. Line numbers are 1-indexed. Returns the content as a string with newlines.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell hash ID"
+                    |>,
+                    "from" -> <|
+                        "type" -> "integer",
+                        "description" -> "Starting line number (1-indexed, inclusive)"
+                    |>,
+                    "to" -> <|
+                        "type" -> "integer",
+                        "description" -> "Ending line number (1-indexed, inclusive)"
                     |>
-                |>
-    		|>
-    	|>
-    |>, 
+                |>,
+                "required" -> {"cell", "from", "to"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/getlines/", <|
+                "Cell" -> removeQuotes @ args["cell"],
+                "From" -> args["from"],
+                "To" -> args["to"]
+            |>, Function[result,
+                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
 
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "setCellContentById", 
-    		"description" -> "replaces the entire content of a given INPUT cell by uid. Output cells cannot be changed (delete and re-evaluate instead). This does NOT shift or reorder other cells. Returns empty string on success.", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "uid" -> <|
-                        "type"-> "string",
-                        "description"-> "uid of the input cell to modify"
+(* 
+   Tool: set_cell_lines
+   Replace a range of lines in a cell
+*)
+tool["set_cell_lines"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "set_cell_lines",
+            "description" -> "Replace a range of lines in a cell with new content. Lines From (inclusive, 1-indexed) through To (inclusive, 1-indexed) are replaced. The new content can have fewer or more lines than the replaced range.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell hash ID"
+                    |>,
+                    "from" -> <|
+                        "type" -> "integer",
+                        "description" -> "Starting line number to replace (1-indexed, inclusive)"
+                    |>,
+                    "to" -> <|
+                        "type" -> "integer",
+                        "description" -> "Ending line number to replace (1-indexed, inclusive)"
                     |>,
                     "content" -> <|
-                        "type"-> "string",
-                        "description"-> "the complete new content for the cell (replaces existing content entirely)"
-                    |>                                       
-                |>
-    		|>
-    	|>
-    |>,    
+                        "type" -> "string",
+                        "description" -> "New content to insert (can contain newlines)"
+                    |>
+                |>,
+                "required" -> {"cell", "from", "to", "content"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/setlines/", <|
+                "Cell" -> removeQuotes @ args["cell"],
+                "From" -> args["from"],
+                "To" -> args["to"],
+                "Content" -> args["content"]
+            |>, Function[result,
+                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                EventFire[p, Resolve, True];
+                WebUISubmit[vfx`MagicWand[removeQuotes @ args["cell"] ], socket];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
 
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "createCell", 
-    		"description" -> "creates a new input cell IMMEDIATELY after another cell specified by uid, or adds it to the end of the notebook if 'after' is not provided. Returns the uid of the created cell. IMPORTANT: when creating multiple cells in sequence, use the returned uid of the previous createCell as the 'after' parameter for the next one to maintain correct order.", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "after" -> <|
-                        "type"-> "string",
-                        "description"-> "uid of a cell after which the new cell will be inserted. Use the uid returned from previous createCell when adding multiple cells in sequence."
-                    |>,                  
-                    "content" -> <|
-                        "type"-> "string",
-                        "description"-> "content"
+(* 
+   Tool: set_cell_lines_batch
+   Apply multiple non-overlapping line edits in one call
+*)
+tool["set_cell_lines_batch"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "set_cell_lines_batch",
+            "description" -> "Apply multiple non-overlapping line replacements to a cell in one call. Changes are automatically sorted and applied bottom-to-top to preserve line indices. More efficient than multiple set_cell_lines calls.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell hash ID"
                     |>,
-                    "contentType" -> <|
-                        "type"-> "string",
-                        "description"-> "programming language or content type used"
-                    |>                                                           
-                |>
-    		|>
-    	|>
-    |>,  
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "toggleCell", 
-    		"description" -> "show or hide an input cell by uid in the notebook. Output cells cannot be changed. Returns empty string", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "uid" -> <|
-                        "type"-> "string",
-                        "description"-> "uid of a cell"
-                    |>                                                          
-                |>
-    		|>
-    	|>
-    |>,
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "deleteCell", 
-    		"description" -> "deletes a cell by uid. WARNING: deleting an INPUT cell also removes ALL its associated OUTPUT cells. Remaining cells shift up but keep their uids. When deleting multiple cells, delete from bottom to top to avoid uid invalidation issues. Returns empty string.", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "uid" -> <|
-                        "type"-> "string",
-                        "description"-> "uid of the cell to delete"
-                    |>                                                          
-                |>
-    		|>
-    	|>
-    |>,
-
-    
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "wolframAlphaRequest", 
-    		"description" -> "make textual request to WolframAlpha and returns result as a short answer", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "request" -> <|
-                        "type"-> "string",
-                        "description"-> "request text"
-                    |>                                                          
-                |>
-    		|>
-    	|>
-    |>,
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "evaluateCell", 
-    		"description" -> "evaluates an input cell by uid in the notebook. Returns JSON string of messages generated and output cells IDs. Note: (1) it may show encoded expression for large Wolfram Expressions, apply Short to see the shorten form; (2) markdown, javascript output only a user can see in the notebook, you will see the same input expression", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "uid" -> <|
-                        "type"-> "string",
-                        "description"-> "uid of a cell to be evaluated"
-                    |>                                                          
-                |>
-    		|>
-    	|>
-    |>,
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "evaluateExpression", 
-    		"description" -> "directly evaluate a single Wolfram Expression in the notebook context and return the output with generated messages", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "expression" -> <|
-                        "type"-> "string",
-                        "description"-> "input expression"
-                    |>                                                          
-                |>
-    		|>
-    	|>
-    |>,
-
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "batchSetCellContents", 
-    		"description" -> "atomically sets content of multiple INPUT cells at once. Use this instead of multiple setCellContentById calls when modifying several cells. All changes are applied in order without intermediate state changes. Returns JSON with results for each cell.", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "cells" -> <|
-                        "type"-> "array",
-                        "description"-> "array of objects with uid and content fields",
+                    "changes" -> <|
+                        "type" -> "array",
+                        "description" -> "Array of changes to apply. Each change has From, To, and Content.",
                         "items" -> <|
                             "type" -> "object",
                             "properties" -> <|
-                                "uid" -> <|"type" -> "string", "description" -> "cell uid"|>,
-                                "content" -> <|"type" -> "string", "description" -> "new content"|>
-                            |>
+                                "from" -> <|"type" -> "integer", "description" -> "Starting line (1-indexed, inclusive)"|>,
+                                "to" -> <|"type" -> "integer", "description" -> "Ending line (1-indexed, inclusive)"|>,
+                                "content" -> <|"type" -> "string", "description" -> "Replacement content"|>
+                            |>,
+                            "required" -> {"from", "to", "content"}
                         |>
-                    |>                                                          
-                |>
-    		|>
-    	|>
+                    |>
+                |>,
+                "required" -> {"cell", "changes"}
+            |>
+        |>
     |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/setlines/batch/", <|
+                "Cell" -> removeQuotes @ args["cell"],
+                "Changes" -> Map[<|"From" -> #["from"], "To" -> #["to"], "Content" -> #["content"]|> &, args["changes"]]
+            |>, Function[result,
+                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                WebUISubmit[vfx`MagicWand[removeQuotes @ args["cell"] ], socket];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
 
-    <|
-    	"type" -> "function", 
-    	"function" -> <|
-    		"name" -> "batchEvaluateCells", 
-    		"description" -> "evaluates multiple INPUT cells in sequence. Use this instead of multiple evaluateCell calls. Cells are evaluated in the order provided. Returns JSON with results for each cell.", 
-    		"parameters" -> <|
-    			"type" -> "object", 
-    			"properties" -> <|
-                    "uids" -> <|
-                        "type"-> "array",
-                        "description"-> "array of cell uids to evaluate in order",
-                        "items" -> <|"type" -> "string"|>
-                    |>                                                          
-                |>
-    		|>
-    	|>
-    |>
+(* 
+   Tool: insert_cell_lines
+   Insert new lines without replacing existing content
+*)
+tool["insert_cell_lines"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "insert_cell_lines",
+            "description" -> "Insert new lines into a cell without replacing existing content. Lines are inserted after the specified line number. Use after=0 to insert at the beginning.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell hash ID"
+                    |>,
+                    "after" -> <|
+                        "type" -> "integer",
+                        "description" -> "Insert after this line number (0 = insert at beginning)"
+                    |>,
+                    "content" -> <|
+                        "type" -> "string",
+                        "description" -> "Content to insert (can contain newlines)"
+                    |>
+                |>,
+                "required" -> {"cell", "after", "content"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/insertlines/", <|
+                "Cell" -> removeQuotes @ args["cell"],
+                "After" -> args["after"],
+                "Content" -> args["content"]
+            |>, Function[result,
+                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"] ];
+                WebUISubmit[vfx`MagicWand[removeQuotes @ args["cell"] ], socket];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
 
-}
+(* 
+   Tool: add_cell
+   Add a new cell to the notebook
+*)
+tool["add_cell"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "add_cell",
+            "description" -> "Add a new input cell to the notebook. Specify position with 'after' or 'before' cell ID. If neither specified, appends to notebook. Returns the new cell's ID.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "content" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell content (code or text)"
+                    |>,
+                    "after" -> <|
+                        "type" -> "string",
+                        "description" -> "Insert after this cell ID (optional)"
+                    |>,
+                    "before" -> <|
+                        "type" -> "string",
+                        "description" -> "Insert before this cell ID (optional)"
+                    |>,
+                    "hidden" -> <|
+                        "type" -> "boolean",
+                        "description" -> "If true, the cell is hidden from view (optional, default: false)"
+                    |>
+                |>,
+                "required" -> {"content"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            With[{body = <|
+                "Notebook" -> notebook["Hash"],
+                "Content" -> args["content"],
+                If[KeyExistsQ[args, "after"], "After" -> removeQuotes @ args["after"], Nothing],
+                If[KeyExistsQ[args, "before"], "Before" -> removeQuotes @ args["before"], Nothing],
+                If[KeyExistsQ[args, "hidden"], "Hidden" -> args["hidden"], Nothing]
+            |>},
+                makeAPIRequest["/api/notebook/cells/add/", body, Function[result,
+                    toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                    WebUISubmit[vfx`MagicWand[ result ], socket];
+                    EventFire[p, Resolve, True];
+                ] ];
+            ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: add_cells_batch
+   Add multiple cells in sequence
+*)
+tool["add_cells_batch"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "add_cells_batch",
+            "description" -> "Add multiple input cells to a notebook in sequence. Cells are inserted one after another. More efficient than multiple add_cell calls. Returns array of created cell IDs.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "after" -> <|
+                        "type" -> "string",
+                        "description" -> "Insert cells after this cell ID (optional)"
+                    |>,
+                    "before" -> <|
+                        "type" -> "string",
+                        "description" -> "Insert first cell before this ID, rest chain after (optional)"
+                    |>,
+                    "cells" -> <|
+                        "type" -> "array",
+                        "description" -> "Array of cells to create",
+                        "items" -> <|
+                            "type" -> "object",
+                            "properties" -> <|
+                                "content" -> <|"type" -> "string", "description" -> "Cell content"|>,
+                                "hidden" -> <|"type" -> "boolean", "description" -> "If true, cell is hidden (optional)"|>
+                            |>,
+                            "required" -> {"content"}
+                        |>
+                    |>
+                |>,
+                "required" -> {"cells"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            With[{body = <|
+                "Notebook" -> notebook["Hash"],
+                "Cells" -> Map[<|
+                    "Content" -> #["content"],
+                    If[KeyExistsQ[#, "hidden"], "Hidden" -> #["hidden"], Nothing]
+                |> &, args["cells"]],
+                If[KeyExistsQ[args, "after"], "After" -> removeQuotes @ args["after"], Nothing],
+                If[KeyExistsQ[args, "before"], "Before" -> removeQuotes @ args["before"], Nothing]
+            |>},
+                makeAPIRequest["/api/notebook/cells/add/batch/", body, Function[result,
+                    toolResults[[myIndex]] = ExportString[result, "JSON"];
+                    WebUISubmit[vfx`MagicWand[ # ]&/@ result, socket];
+                    EventFire[p, Resolve, True];
+                ] ];
+            ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: delete_cell
+   Delete a cell from the notebook
+*)
+tool["delete_cell"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "delete_cell",
+            "description" -> "Delete a cell from the notebook. Cannot delete output cells directly - delete their parent input cell instead.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell hash ID to delete"
+                    |>
+                |>,
+                "required" -> {"cell"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/delete/", <|
+                "Cell" -> removeQuotes @ args["cell"]
+            |>, Function[result,
+                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: evaluate_cell
+   Evaluate a cell and get output cell IDs
+*)
+tool["evaluate_cell"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "evaluate_cell",
+            "description" -> "Evaluate an input cell in the notebook's kernel. Returns array of output cell [ID, Type, Display, Lines, FirstLine] after evaluation completes. The notebook must be open.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The input cell hash ID to evaluate"
+                    |>
+                |>,
+                "required" -> {"cell"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/evaluate/", <|
+                "Cell" -> removeQuotes @ args["cell"]
+            |>, Function[result,
+                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: project_cell
+   Open cell content in a separate window
+*)
+tool["project_cell"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "project_cell",
+            "description" -> "Project a cell's content into a standalone window. Useful for presentations, slides, or focused viewing of graphics.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "cell" -> <|
+                        "type" -> "string",
+                        "description" -> "The cell hash ID to project"
+                    |>
+                |>,
+                "required" -> {"cell"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/notebook/cells/project/", <|
+                "Cell" -> removeQuotes @ args["cell"]
+            |>, Function[result,
+                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: kernel_evaluate
+   Evaluate an expression directly in the kernel
+*)
+tool["kernel_evaluate"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "kernel_evaluate",
+            "description" -> "Evaluate a Wolfram Language expression directly in the kernel without needing an open notebook or cell. Returns the result as a string.",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "expression" -> <|
+                        "type" -> "string",
+                        "description" -> "Wolfram Language expression to evaluate (e.g., '1 + 1' or 'Plot[Sin[x], {x, 0, 2Pi}]')"
+                    |>
+                |>,
+                "required" -> {"expression"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            With[{body = <|
+                "Expression" -> args["expression"]
+            |>},
+                makeAPIRequest["/api/kernel/evaluate/", body, Function[result,
+                    toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"] ];
+                    EventFire[p, Resolve, True];
+                ] ];
+            ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
+(* 
+   Tool: wolfram_alpha
+   Query Wolfram Alpha for short answers
+*)
+tool["wolfram_alpha"] = <|
+    "Description" -> <|
+        "type" -> "function",
+        "function" -> <|
+            "name" -> "wolfram_alpha",
+            "description" -> "Query Wolfram Alpha for a short answer. Good for factual questions, calculations, unit conversions, and general knowledge queries. Returns a text string (max 1000 chars).",
+            "parameters" -> <|
+                "type" -> "object",
+                "properties" -> <|
+                    "query" -> <|
+                        "type" -> "string",
+                        "description" -> "The natural language query for Wolfram Alpha (e.g., 'what is the capital of France', 'convert 5 miles to km')"
+                    |>
+                |>,
+                "required" -> {"query"}
+            |>
+        |>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/alphaRequest/", <|
+                "Query" -> args["query"]
+            |>, Function[result,
+                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"] ];
+                EventFire[p, Resolve, True];
+            ] ];        
+            p
+        ]  ] ];
+    , HoldRest]
+|>;
 
 
-wolframAlphaRequest[query_String] := With[{str = ImportString[ExportString[
- WolframAlpha[query, "ShortAnswer"], 
-  "Table",   CharacterEncoding -> "ASCII"
- ],  "String"]},
-  If[!StringQ[str], "$Failed",
-    If[StringLength[str] > 1000, 
-      StringTake[str, Min[StringLength[str], 1000] ]<>"..."
-    ,
-      str
-    ]
-  ]
-];
+basisChatFunction[_] := Values[tool][[All, "Description"]]
+
 
 toolsQue = {};
 
 toolsQueNext := With[{},
     If[Length[toolsQue] > 0 ,
         Echo["toolsQueNext >> exec >>"];
-        Echo[(toolsQue // First) // Short];
         
         With[{first = (toolsQue // First)[]},
             Then[first, Function[Null,
@@ -646,8 +833,6 @@ toolsQue /: AppendTo[toolsQue, func_] := With[{}, Module[{},
         toolsQue = Append[toolsQue, func];
     ]
 ] ]
-
-truncateIfLarge[str_String] := If[StringLength[str] > 3000, StringTake[str,3000]<>"...", str]
 
 
 
@@ -671,11 +856,7 @@ createChat[assoc_Association] := With[{
 
 
         focused := notebook["FocusedCell"];
-        Echo["Focused cell"];
-        Echo[focused];
 
-        Echo["Notebook:"];
-        Echo[notebook];
 
         encodingError[body_] := (
             chat["Messages"] = Append[chat["Messages"], <|
@@ -696,420 +877,30 @@ createChat[assoc_Association] := With[{
 
             EventFire[chat, "Update", chat["Messages"] ];
         );
-        
-
-        removeQuotes[str_String] := If[StringTake[str, 1] === "\"", StringDrop[StringDrop[str, -1], 1], str ];
 
         functionsHandler[a_Association, cbk_] := Module[{toolResults = {}, callIndex = 0, totalCalls},
             Echo["AI request >>"];
-            Echo[Print[a] ];
 
-            totalCalls = Length[a["tool_calls"]];
+            totalCalls = Length[a["tool_calls"] ];
             (* Pre-allocate toolResults with placeholders to preserve order *)
             toolResults = Table[Null, totalCalls];
 
             Function[call,
                 (* Capture current index for this specific call *)
-                Module[{myIndex = ++callIndex},
-                With[{result = Switch[call["function", "name"],
-
-                    "setSelectedText",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"], "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-
-                            If[FailureQ[args], 
-                                encodingError[call["function", "arguments"] ];
-                                Return[];
-                            ];
-
-                            AppendTo[toolsQue, Function[Null,
-                                WebUISubmit[FrontEditorSelected["Set", args["content"] ], client];
-                                WebUISubmit[vfx`MagicWand[ "frame-"<>focused["Hash"] ], client];
-                            ] ];
-
-                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "*Done*" ] ];
-                        ]                        
-                    ,
-
-                    "getSelectedText",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"], "RawJSON", CharacterEncoding -> "UTF-8"
-									],
-                              promise = Promise[] 
-                            },
-
-                            If[FailureQ[args], 
-                                encodingError[call["function", "arguments"] ];
-                                Return[];
-                            ];
-
-                            AppendTo[toolsQue, Function[Null, promise ] ];                   
-                               
-                            Then[WebUIFetch[FrontEditorSelected["Get"], client, "Format"->"JSON"], Function[result,
-                                If[!StringQ[result],
-                                    toolResults[[myIndex]] = "*ERROR: Nothing is selected*";
-                                    EventFire[promise, Resolve, True];
-                                ,
-                                    If[StringLength[result] === 0,
-                                        toolResults[[myIndex]] = "*ERROR: Nothing is selected*";
-                                        EventFire[promise, Resolve, True];                                    
-                                    ,
-                                        toolResults[[myIndex]] = result;
-                                        EventFire[promise, Resolve, True];                                    
-                                    ]
-                                ];
-                            ] ];
-
-                        ]                        
-                    ,                    
-
-                    "getCellList",
-                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = ExportString[MapIndexed[Function[{cell, idx}, 
-                            With[{parentUid = If[cell`InputCellQ[cell], Null, 
-                                With[{parent = cell`FindCell[cell["Notebook"], Sequence[_?cell`InputCellQ, ___?cell`OutputCellQ, cell] ]},
-                                    If[MatchQ[parent, _cell`CellObj], parent["Hash"], Null]
-                                ]
-                            ]},
-                                {idx[[1]] - 1, cell["Hash"], cell["Type"], checkLanguage[ cell ], TrueQ[cell["Props"]["Hidden"] ], parentUid}
-                            ]
-                        ], notebook["Cells"] ], "JSON"] ] ];
-                    ,
-
-                    "getLibraryList",
-                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = ExportString[Map[Function[item, 
-                            {item["hash"], item["title"], item["desc"]}
-                        ], Select[Values[library], Function[i, i["default"] =!= True && i["enabled"] === True ] ] ], "JSON"] ] ];
-                    ,
-
-                    "getFocusedCell",
-                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                            If[!MatchQ[focused, _cell`CellObj], "ERROR: Nothing is focused",
-                                ExportString[{focused["Hash"], focused["Type"], checkLanguage[ focused ], TrueQ[focused["Props"]["Hidden"] ]}, "JSON"]
-                            ]
-                        ] ];
-                    ,
-
-                    "getCellContentById",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                                    If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
-                                        trimContent[ cell["Data"] ]
-                                    ]
-                                ] ];
-                            ] 
-                        ]
-                    ,
-
-                    "getLibraryItemById",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            With[{item = library[ removeQuotes @ args["id"] ]},
-                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                                    If[!MatchQ[item, _Association], "ERROR: Not found by given id",
-                                        trimContent[ item["content"] ]
-                                    ]
-                                ] ];
-                            ] 
-                        ]
-                    ,                    
-
-                    "setCellContentById",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            
-                            If[FailureQ[args], 
-                                encodingError[call["function", "arguments"] ];
-                                Return[];
-                            ];
-
-                            With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                                    If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
-                                        EventFire[cell, "ChangeContent", restoreLanguage[checkLanguage[ cell ], args["content"] ] ];
-                                        WebUISubmit[vfx`MagicWand[ "frame-"<>cell["Hash"] ], client];
-                                        "*Done*"
-                                    ]
-                                ] ];
-                            ] 
-                        ]
-                    ,
-
-                    "deleteCell",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                                    If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
-                                        Echo["AI Delete!!!"];
-
-                                        Delete[cell];
-                                        
-                                    
-                                    
-                                        "*Done*"
-                                    ]
-                                ] ];
-                            ] 
-                        ]
-
-
-                    ,                    
-
-                    "toggleCell",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                    , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                If[!MatchQ[cell, _cell`CellObj], "ERROR: Not found by given id",
-                                    Echo["AI Toggle!!!"];
-
-
-                                        AppendTo[toolsQue, Function[Null,
-                                            Block[{Global`$Client = client}, 
-                                                EventFire[globalControls, "ToggleCell", cell]
-                                            ]
-                                        ] ];      
-
-                                        AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "*Done*" ] ];                                  
-                                ]
-                            ] 
-                        ]
-
-
-                    ,
-
-                    "wolframAlphaRequest",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                    , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = wolframAlphaRequest[ args["request"] ] ] ];
-                        ]
-                    ,
-
-                    "evaluateCell",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            With[{cell = cell`HashMap[ removeQuotes @ args["uid"] ]},
-                                If[!MatchQ[cell, _cell`CellObj], 
-                                    AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "ERROR: Not found by given id" ] ];
-                                ,
-                                    Echo["AI Evaluate!!!"];
-
-                                        AppendTo[toolsQue, Function[Null, With[{bufferLength = Length[
-                                            EventFire[logger, "MessagesList", True]
-                                        ], p = Promise[]},
-                                            Block[{Global`$Client = client}, 
-
-                                                Then[EventFire[globalControls, "NotebookCellEvaluateTemporal", cell], Function[Null,
-                                                    With[{
-                                                        generated = Drop[EventFire[logger, "MessagesList", True], -bufferLength],
-                                                        out = Select[cell`SelectCells[cell["Notebook"]["Cells"], Sequence[cell, __?cell`OutputCellQ] ], cell`OutputCellQ]
-                                                    },
-                                                        Echo["Generated messages: "];
-                                                        Echo[generated];
-                                                        Echo["Generated output cells: "];
-                                                        Echo[#["Data"] &/@ out];
-
-                                                        toolResults[[myIndex]] = ExportByteArray[<|"Messages"->generated, "Out"->(truncateIfLarge[#["Data"] ] &/@ out)|>, "JSON"] // ByteArrayToString;
-                                                        EventFire[p, Resolve, True];
-                                                    ]
-                                                ] ];
-
-                                                
-                                            ];
-                                            p
-                                        ] ] ];
-                                        
-                                        
-                                    
-                           
-                                ]
-                            ] 
-                        ]
-                    ,     
-
-                    "evaluateExpression", 
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-                            With[{expr = removeQuotes @ args["expression"]},
-                            AppendTo[toolsQue, Function[Null, With[{bufferLength = Length[
-                                            EventFire[logger, "MessagesList", True]
-                            ], p = Promise[], firstPromise = Promise[]},
-                                Block[{Global`$Client = client}, 
-
-                                    GenericKernel`Init[notebook["Evaluator"]["Kernel"], 
-                                        EventFire[Internal`Kernel`Stdout[ firstPromise // First ], Resolve, ToString[ToExpression[expr, InputForm], InputForm] ];
-                                    ];
-
-                                    Then[firstPromise, Function[result,
-                                        With[{
-                                            generated = Drop[EventFire[logger, "MessagesList", True], -bufferLength]
-                                        },
-                                            Echo["Generated messages: "];
-                                            Echo[generated];
-                                            Echo["Generated output: "];
-                                            Echo[result];
-
-                                            toolResults[[myIndex]] = ExportByteArray[<|"Messages"->generated, "Result"->(truncateIfLarge[result ])|>, "JSON"] // ByteArrayToString;
-                                            EventFire[p, Resolve, True];
-                                        ]
-                                    ] ];
-
-                                    
-                                ];
-                                p
-                            ] ] 
-                                        
-                                        
-                                    
-                           
-                                ]
-                            ] 
-                        ]
-                    ,                
-
-                    "createCell",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-
-                            If[FailureQ[args], 
-                                encodingError[call["function", "arguments"] ];
-                                Return[];
-                            ];
-
-                            
-                                With[{cell = cell`HashMap[ removeQuotes @ args["after"] ]},
-                                    If[!MatchQ[cell, _cell`CellObj], 
-                                        Echo[StringTemplate["Cell `` not found! Addind to the end"][ToString[cell, InputForm] ] ];
-                                        With[{new = cell`CellObj["Notebook"->notebook, "Type"->"Input", "Data"->restoreLanguage[args["contentType"], args["content"] ] ]},
-                                            WebUISubmit[vfx`MagicWand[ "frame-"<>new["Hash"] ], client];
-                                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = new["Hash"] ] ];
-                                        ]                                        
-                                    ,
-                                        With[{new = cell`CellObj["Notebook"->notebook, "Type"->"Input", "Data"->restoreLanguage[args["contentType"], args["content"] ], "After"->cell]},
-                                            WebUISubmit[vfx`MagicWand[ "frame-"<>new["Hash"] ], client];
-                                            AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = new["Hash"] ] ];
-                                        ]
-                                    ]
-                                ]
-                            
-                        ]
-
-                    ,
-
-                    "batchSetCellContents",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-
-                            If[FailureQ[args], 
-                                encodingError[call["function", "arguments"] ];
-                                Return[];
-                            ];
-
-                            AppendTo[toolsQue, Function[Null, 
-                                With[{results = Map[Function[item,
-                                    With[{cell = cell`HashMap[ removeQuotes @ item["uid"] ]},
-                                        If[!MatchQ[cell, _cell`CellObj], 
-                                            <|"uid" -> item["uid"], "status" -> "ERROR: Not found"|>
-                                        ,
-                                            EventFire[cell, "ChangeContent", restoreLanguage[checkLanguage[ cell ], item["content"] ] ];
-                                            WebUISubmit[vfx`MagicWand[ "frame-"<>cell["Hash"] ], client];
-                                            <|"uid" -> item["uid"], "status" -> "Done"|>
-                                        ]
-                                    ]
-                                ], args["cells"] ]},
-                                    toolResults[[myIndex]] = ExportString[results, "JSON"]
-                                ]
-                            ] ];
-                        ]
-
-                    ,
-
-                    "batchEvaluateCells",
-                        With[{args = ImportByteArray[StringToByteArray @
-										call["function", "arguments"]
-                                        , "RawJSON", CharacterEncoding -> "UTF-8"
-									]},
-
-                            If[FailureQ[args], 
-                                encodingError[call["function", "arguments"] ];
-                                Return[];
-                            ];
-
-                            AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
-                                Module[{allResults = {}, evalNext},
-                                    evalNext[uids_List] := If[Length[uids] === 0,
-                                        toolResults[[myIndex]] = ExportString[allResults, "JSON"];
-                                        EventFire[p, Resolve, True];
-                                    ,
-                                        With[{uid = First[uids], remaining = Rest[uids]},
-                                            With[{cell = cell`HashMap[ removeQuotes @ uid ]},
-                                                If[!MatchQ[cell, _cell`CellObj],
-                                                    AppendTo[allResults, <|"uid" -> uid, "status" -> "ERROR: Not found"|>];
-                                                    evalNext[remaining];
-                                                ,
-                                                    With[{bufferLength = Length[EventFire[logger, "MessagesList", True]]},
-                                                        Block[{Global`$Client = client},
-                                                            Then[EventFire[globalControls, "NotebookCellEvaluateTemporal", cell], Function[Null,
-                                                                With[{
-                                                                    generated = Drop[EventFire[logger, "MessagesList", True], -bufferLength],
-                                                                    out = Select[cell`SelectCells[cell["Notebook"]["Cells"], Sequence[cell, __?cell`OutputCellQ] ], cell`OutputCellQ]
-                                                                },
-                                                                    AppendTo[allResults, <|
-                                                                        "uid" -> uid, 
-                                                                        "status" -> "Done",
-                                                                        "messages" -> generated,
-                                                                        "outputs" -> (truncateIfLarge[#["Data"]] &/@ out)
-                                                                    |>];
-                                                                    evalNext[remaining];
-                                                                ]
-                                                            ] ];
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ];
-                                    
-                                    evalNext[args["uids"] ];
-                                ];
-                                p
-                            ] ] ];
-                        ]
-
-                    ,                    
-
-                    _,
-                        Echo["Undefined Function!"]; AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] = "ERROR: Undefined Function!" ] ];
-                ]},
-                    1+1
-                    
+                With[{myIndex = ++callIndex},
+                With[{
+                    args = ImportByteArray[StringToByteArray @
+						call["function", "arguments"]
+                        , "RawJSON", CharacterEncoding -> "UTF-8"
+					],
+                    name = call["function", "name"]
+                },
+                    tool[name]["Function"][myIndex, args, toolsQue, toolResults, notebook, client];
                 ]
             ] ] /@ a["tool_calls"];
 
             AppendTo[toolsQue, Function[Null, 
-                Echo["AI >> Add tool calls to the chat"];
+                Echo["AI >> Tools que is empty now"];
                 cbk[toolResults];
             ] ];
         ];
@@ -1120,7 +911,7 @@ createChat[assoc_Association] := With[{
                 systemPromt = systemPromt <> "\nNow some additional information that you should consider while assisting the user:\n";
                 systemPromt = systemPromt <> StringRiffle[Select[Values[library], Function[i, i["default"] === True && i["enabled"] === True ] ][[All, "content"]]  ];
 
-                systemPromt = systemPromt <> "\n\n**Here is a flat list of available knowledge (library items) in local library about the execution enviroment and frameworks in the form [uid, title, desc]**. Note: to get actual content use getLibraryItemById.\n\n" <> ExportString[Map[Function[item, 
+                systemPromt = systemPromt <> "\n\n**Here is a flat list of available knowledge (docs items) in local docs about the execution enviroment and frameworks in the form [uid, title, desc]**. Note: to get actual content use getLibraryItemById.\n\n" <> ExportString[Map[Function[item, 
                             {item["hash"], item["title"], item["desc"]}
                         ], Select[Values[library], Function[i, i["default"] =!= True && i["enabled"] === True ] ] ], "JSON"]<>"\n **END of list**.\n";
             ];
@@ -1193,7 +984,7 @@ createChat[assoc_Association] := With[{
                 ,
                     WebUISubmit[Siriwave["Start", "canvas-palette-back"], client ];
                     Echo["Appending to chat:"];
-                    Echo[payload];
+                   
                     Then[GPTChatCompletePromise[ chat, payload ], Function[Null,
                         WebUISubmit[Siriwave["Stop"], client ];
                     ] ]; 
@@ -1221,7 +1012,7 @@ handle[data_Association] := Module[{}, With[{
     
 },
     Echo["AI Message"];
-    Echo[chat];
+
 
     If[$VersionNumber < 14.0, 
         EventFire[data["Messanger"], "Warning", "Wolfram Engine Version 14.0 or higher is required"];
