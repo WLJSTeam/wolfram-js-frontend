@@ -1,5 +1,5 @@
 //@ts-check
-const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme, systemPreferences } = require('electron')
+const { session, nativeImage, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme, systemPreferences } = require('electron')
 const { screen, globalShortcut} = require('electron/main')
 
 
@@ -2295,7 +2295,7 @@ const powerSaver = () => {
 
 const os = require('node:os');
 
-
+const draggingIcon = nativeImage.createFromPath(path.join(__dirname, 'build', 'file', 'File-512x512.png'));
 
 /* App Ready */
 
@@ -2353,7 +2353,12 @@ app.whenReady().then(() => {
 
     powerSaver();
 
-
+    ipcMain.on('ondragstart', (event, filePath) => {
+      event.sender.startDrag({
+        file: filePath,
+        icon: draggingIcon
+      })
+    });
 
     ipcMain.on('debug', () => {
         server.debug = true;

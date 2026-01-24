@@ -56,12 +56,20 @@ Component[OptionsPattern[]] := With[{
                 if (set.has(d)) continue;
                 set.add(d); 
                 d.addEventListener('contextmenu', makeDirMenu)
+                d.addEventListener('dragstart', (event) => {
+                    event.preventDefault();
+                });
             }
             for (let i=0; i<files.length; ++i) {
                 const d = files[i];
                 if (set.has(d)) continue;
                 set.add(d); 
-                d.addEventListener('contextmenu', makeFileMenu)
+                d.addEventListener('contextmenu', makeFileMenu);
+                d.addEventListener('dragstart', (event) => {
+                  event.preventDefault();
+                  if (!window.electronAPI.startDrag) return;
+                  window.electronAPI.startDrag(decodeURIComponent(d.dataset.path));
+                });
             }
         }
         core.UISidebarRescanContext();

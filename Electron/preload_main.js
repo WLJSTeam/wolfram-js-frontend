@@ -13,7 +13,8 @@ ipcRenderer.on('zoomOut', () => {
 
 
 contextBridge.exposeInMainWorld('electronAPI', {
-
+  startDrag: (fileName) => ipcRenderer.send('ondragstart', fileName),
+  
   getFilePath: (file) => {
     const path = webUtils.getPathForFile(file)
     return path
