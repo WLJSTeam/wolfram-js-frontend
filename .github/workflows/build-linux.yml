@@ -3,11 +3,6 @@ on: workflow_dispatch
 jobs:
   build-x86:
     runs-on: ubuntu-latest
-    container:
-      image: wolframresearch/wolframengine:14.2
-      options: --user root
-    env:
-      WOLFRAM_SYSTEM_ID: Linux-x86-64-v8
     steps:
       - name: Install build tools
         run: |
@@ -72,23 +67,11 @@ jobs:
 
   build-ARM:
     runs-on: ubuntu-24.04-arm
-    env:
-      WOLFRAM_SYSTEM_ID: Linux-ARM
-      WOLFRAMENGINE_CACHE_KEY: WolframEngine-BA
-      WOLFRAMENGINE_INSTALLATION_DIRECTORY: "/Applications/Wolfram Engine.app"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
-
-      - name: Install WE
-        run: |
-            set -eux -o pipefail
-            chmod +x ./.github/workflows/install_arm.sh
-            WE_MODE=install bash ./.github/workflows/install_arm.sh
-            sudo apt install libuv1-dev -y
-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
