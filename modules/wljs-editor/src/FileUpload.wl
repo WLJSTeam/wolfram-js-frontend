@@ -194,6 +194,15 @@ pasteFileNames["md", cli_, files_] := With[{},
 ]
 
 
+pasteFilePaths[cli_, controls_, data_, modals_, messager_] := Module[{files = URLDecode /@ ImportString[URLDecode[data["JSON"] ], "RawJSON"]},
+    If[data["CellType"] =!= "wl", Return[Null, Module] ];
+    WLJSTransportSend[If[Length[files ] === 1,
+        FrontEditorSelected["Set", "Import[\""<>files[[1]]<>"\"]" ]
+    ,
+        FrontEditorSelected["Set", "Import /@ "<>ToString[ files, InputForm] ]
+    ], cli]    
+]
+
 (* drop and paste events *)
 controlsListener[OptionsPattern[]] := With[{messager = OptionValue["Messager"], secret = OptionValue["Event"], controls = OptionValue["Controls"], appEvents = OptionValue["AppEvent"], modals = OptionValue["Modals"]},
     EventHandler[EventClone[controls], {
@@ -201,7 +210,8 @@ controlsListener[OptionsPattern[]] := With[{messager = OptionValue["Messager"], 
         "CM:PasteEvent" -> Function[data, processRequest[Global`$Client, controls, data, modals, messager] ],
         "CM:PasteCellEvent" -> Function[data, pasteCells[Global`$Client, controls, data, modals, messager] ],
         "CM:PasteCrappy1Event" -> Function[data, pasteCrappyContent1[Global`$Client, controls, data, modals, messager] ],
-        "CM:PasteCrappy2Event" -> Function[data, pasteCrappyContent2[Global`$Client, controls, data, modals, messager] ]
+        "CM:PasteCrappy2Event" -> Function[data, pasteCrappyContent2[Global`$Client, controls, data, modals, messager] ],
+        "CM:DropFilePaths" -> Function[data, pasteFilePaths[Global`$Client, controls, data, modals, messager] ]
     }];
 
     ""

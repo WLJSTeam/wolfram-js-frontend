@@ -1,5 +1,5 @@
 //@ts-check
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, webUtils } = require('electron')
 
 const { webFrame } = require('electron')
 
@@ -13,6 +13,11 @@ ipcRenderer.on('zoomOut', () => {
 
 
 contextBridge.exposeInMainWorld('electronAPI', {
+
+  getFilePath: (file) => {
+    const path = webUtils.getPathForFile(file)
+    return path
+  },
 
   onfocus: (callback) =>  ipcRenderer.on('focus', callback),
   onblur: (callback) => ipcRenderer.on('blur', callback),

@@ -6,7 +6,20 @@ import {
 
 
   const transferFiles = (list, ev, view, handler) => {
+    
+
+    
+
+
     if (list.length == 0) return;
+
+    if (window.electronAPI && handler.pastePath) {
+      if (!confirm('Upload a file too?')) {
+        handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
+        return;
+      }
+    }
+
     const id = new Date().valueOf();
     let count = 0;
 

@@ -746,6 +746,14 @@ const wlDrop = {
       }
     },
 
+    pastePath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:DropFilePaths"]');
+      }
+    },
+
     file: (ev, view, id, name, result) => {
       //console.log(view.dom.ocellref);
       //console.log(result);
@@ -771,6 +779,14 @@ const wlPaste = {
       server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"wl"|>`, 'Forwarded["CM:PasteEvent"]');
     }
   },
+
+  pastePath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:DropFilePaths"]');
+      }
+  },  
 
   file: (ev, view, id, name, result) => {
     console.log(view.dom.ocellref);

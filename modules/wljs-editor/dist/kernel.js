@@ -29467,7 +29467,20 @@ wolframLanguage.reBuild = (vocabulary) => {
 };
 
 const transferFiles = (list, ev, view, handler) => {
+    
+
+    
+
+
     if (list.length == 0) return;
+
+    if (window.electronAPI && handler.pastePath) {
+      if (!confirm('Upload a file too?')) {
+        handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
+        return;
+      }
+    }
+
     const id = new Date().valueOf();
     let count = 0;
 
@@ -41758,6 +41771,14 @@ const wlDrop = {
       }
     },
 
+    pastePath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:DropFilePaths"]');
+      }
+    },
+
     file: (ev, view, id, name, result) => {
       //console.log(view.dom.ocellref);
       //console.log(result);
@@ -41783,6 +41804,14 @@ const wlPaste = {
       server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"wl"|>`, 'Forwarded["CM:PasteEvent"]');
     }
   },
+
+  pastePath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:DropFilePaths"]');
+      }
+  },  
 
   file: (ev, view, id, name, result) => {
     console.log(view.dom.ocellref);
