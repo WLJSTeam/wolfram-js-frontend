@@ -1,0 +1,144 @@
+<|"Notebook" -> <|"Controller" -> "b206ce85-2cbc-456e-8ead-44730ab6f4e7", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$347], "FocusedCellSelection" -> 
+    {243, 242}, "HaveToSaveAs" -> False, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "ca33f072-f391-44cb-9014-b2797bc52951", 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend/mod\
+ules/wljs-templates/Library/Notebooks/LabJournal.wln", 
+   "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Initial tests", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$354]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Protocol", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$357]]}|>, 
+ "Cells" -> {<|"Data" -> ".wlx\n\nClearAll[LabJournal];\n\nLabJournal[Content\
+__, opts: OptionsPattern[]] := LabJournal[ToStringRiffle[{Content}], \
+opts];\n\nLabJournal[Content_, OptionsPattern[]] := With[{\n  Title = \
+OptionValue[\"Title\"],\n  Subtitle = OptionValue[\"Subtitle\"],\n  tags = \
+OptionValue[\"Tags\"]\n},\n{\n  Footer = If[Length[tags] == 0, \"\",\n    \
+With[{Tags = Table[\n      <div class=\"thz-tag\"><Tag/></div>\n    , {Tag, \
+tags}]},\n      <div class=\"thz-footer\">\n        <Tags/>\n      </div>\n   \
+ ]\n  ]\n},\n\n <div class=\"thz-lab-journal\">\n  <div \
+class=\"thz-header\">\n    <div class=\"thz-title\"><Title/></div>\n    <div \
+class=\"thz-subtitle\"><Subtitle/></div>\n  </div>\n  <div \
+class=\"thz-grid\">\n    <Content/>\n    <div class=\"thz-item\">\n      <div \
+class=\"thz-label\">Date</div>\n      <div class=\"thz-value\"><Now/></div>\n \
+   </div>\n  </div>\n  <Footer/>\n </div>\n];\n\nOptions[LabJournal] = \
+{\"Title\"->\"Lab Journal\", \"Subtitle\"->\"\", \
+\"Tags\"->{}};\n\nClearAll[Card];\n\nCard[_]  := \"Undefined \
+pattern\";\nCard[__] := \"Undefined \
+patterns\";\n\nCard[CardLabel[LabelContent_], CardValue[ValueContent_]] := \
+With[{},\n  <div class=\"thz-item\">\n      <div \
+class=\"thz-label\"><LabelContent/></div>\n      <div \
+class=\"thz-value\"><ValueContent/></div>\n  \
+</div>\n];\n\nCard[CardLabel[LabelContent_], CardValue[ValueContent__]] := \
+Card[CardLabel[LabelContent], \
+CardValue[ToStringRiffle[{ValueContent}]]]\n\nCard[CardLabel[LabelContent__], \
+CardValue[ValueContent__]] := Card[CardLabel[ToStringRiffle[{LabelContent}]], \
+CardValue[ToStringRiffle[{ValueContent}]]]\n\nCard[CardLabel[LabelContent__], \
+CardValue[ValueContent_]] := Card[CardLabel[ToStringRiffle[{LabelContent}]], \
+CardValue[ValueContent]]\n\nCardLabel /: ToString[c_CardLabel,   WLXForm] := \
+c;\nCardValue /: ToString[c_CardValue, WLXForm] := c;\n\nSetAttributes[Card, \
+Orderless];\n\n<style>\n    .thz-lab-journal {\n      font-family: \"Segoe \
+UI\", Roboto, Helvetica, Arial, sans-serif;\n      color: #1f2933;\n      \
+border: 1px solid #d1d5db;\n      border-radius: 10px;\n      padding: 20px \
+24px;\n      max-width: 820px;\n      background: linear-gradient(180deg, \
+#f9fafb 0%, #ffffff 100%);\n    }\n\n    .thz-header {\n      display: \
+flex;\n      justify-content: space-between;\n      align-items: baseline;\n  \
+    border-bottom: 2px solid #e5e7eb;\n      padding-bottom: 10px;\n      \
+margin-bottom: 18px;\n    }\n\n    .thz-title {\n      font-size: 1.4rem;\n   \
+   font-weight: 600;\n      letter-spacing: 0.02em;\n    }\n\n    \
+.thz-subtitle {\n      font-size: 0.9rem;\n      color: #6b7280;\n    }\n\n   \
+ .thz-grid {\n      display: grid;\n      grid-template-columns: 1fr 1fr;\n   \
+   gap: 14px 24px;\n    }\n\n    .thz-item {\n      display: flex;\n      \
+flex-direction: column;\n    }\n\n    .thz-label {\n      font-size: \
+0.75rem;\n      text-transform: uppercase;\n      letter-spacing: 0.08em;\n   \
+   color: #6b7280;\n      margin-bottom: 2px;\n    }\n\n    .thz-value {\n    \
+  font-size: 1rem;\n      font-weight: 500;\n    }\n\n    .thz-footer {\n     \
+ margin-top: 18px;\n      padding-top: 12px;\n      border-top: 1px dashed \
+#e5e7eb;\n      display: flex;\n      gap: 24px;\n      flex-wrap: wrap;\n    \
+}\n\n    .thz-tag {\n      background: #eef2ff;\n      color: #3730a3;\n      \
+padding: 6px 12px;\n      border-radius: 999px;\n      font-size: 0.85rem;\n  \
+    font-weight: 500;\n    }\n</style>", "Display" -> "codemirror", 
+    "Hash" -> "990e4930-94bc-488a-9cff-f7655d715187", "Invisible" -> True, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> "<style > .thz-lab-journal {\n      font-family: \"Segoe UI\", \
+Roboto, Helvetica, Arial, sans-serif;\n      color: #1f2933;\n      border: \
+1px solid #d1d5db;\n      border-radius: 10px;\n      padding: 20px 24px;\n   \
+   max-width: 820px;\n      background: linear-gradient(180deg, #f9fafb 0%, \
+#ffffff 100%);\n    }\n\n    .thz-header {\n      display: flex;\n      \
+justify-content: space-between;\n      align-items: baseline;\n      \
+border-bottom: 2px solid #e5e7eb;\n      padding-bottom: 10px;\n      \
+margin-bottom: 18px;\n    }\n\n    .thz-title {\n      font-size: 1.4rem;\n   \
+   font-weight: 600;\n      letter-spacing: 0.02em;\n    }\n\n    \
+.thz-subtitle {\n      font-size: 0.9rem;\n      color: #6b7280;\n    }\n\n   \
+ .thz-grid {\n      display: grid;\n      grid-template-columns: 1fr 1fr;\n   \
+   gap: 14px 24px;\n    }\n\n    .thz-item {\n      display: flex;\n      \
+flex-direction: column;\n    }\n\n    .thz-label {\n      font-size: \
+0.75rem;\n      text-transform: uppercase;\n      letter-spacing: 0.08em;\n   \
+   color: #6b7280;\n      margin-bottom: 2px;\n    }\n\n    .thz-value {\n    \
+  font-size: 1rem;\n      font-weight: 500;\n    }\n\n    .thz-footer {\n     \
+ margin-top: 18px;\n      padding-top: 12px;\n      border-top: 1px dashed \
+#e5e7eb;\n      display: flex;\n      gap: 24px;\n      flex-wrap: wrap;\n    \
+}\n\n    .thz-tag {\n      background: #eef2ff;\n      color: #3730a3;\n      \
+padding: 6px 12px;\n      border-radius: 999px;\n      font-size: 0.85rem;\n  \
+    font-weight: 500;\n    }</style>", "Display" -> "wlx", 
+    "Hash" -> "8b4f9d84-0a5e-47d9-9c13-6f85d2977411", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> ".md\n\n<!-- Hide this cell using Alt-2 or Cmd-2 \
+-->\n\n<LabJournal \n  Title={\"Lab Journal\"} \n  Subtitle={\"Sample: \
+ATR370\"}\n  Tags={{\"Optics\", \"THZ\"}}\n>\n  <Card>\n    \
+<CardLabel>Resolution</CardLabel>\n    <CardValue>0.33 \
+cm<sup>2</sup></CardValue>\n  </Card>\n  <Card>\n    \
+<CardLabel>User</CardLabel>\n    <CardValue>Persephone</CardValue>\n  \
+</Card>\n</LabJournal>", "Display" -> "codemirror", 
+    "Hash" -> "64dfec14-0100-473c-944e-6bca28b9b902", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> "\n<!-- Hide this cell using Alt-2 or Cmd-2 -->\n\n<div \
+class=\"thz-lab-journal\"><div class=\"thz-header\"><div \
+class=\"thz-title\">Lab Journal</div><div class=\"thz-subtitle\">Sample: \
+ATR370</div></div><div class=\"thz-grid\"><div class=\"thz-item\"><div \
+class=\"thz-label\">Resolution</div><div class=\"thz-value\">0.33 cm\n<sup \
+>2</sup></div></div>\n<div class=\"thz-item\"><div \
+class=\"thz-label\">User</div><div \
+class=\"thz-value\">Persephone</div></div><div class=\"thz-item\"><div \
+class=\"thz-label\">Date</div><div class=\"thz-value\">Sat 24 Jan 2026 \
+13:02:00</div></div></div><div class=\"thz-footer\"><div \
+class=\"thz-tag\">Optics</div>\n<div class=\"thz-tag\">THZ</div></div></div>"\
+, "Display" -> "markdown", "Hash" -> "bd0b095d-3ed1-4df7-8129-d9c7fb29c589", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> ".md\n\n## Initial tests\n\n<Now/>\n\n- Intensity: $220$\n- \
+Polarization: $E^{\\\\omega}\\\\perp b$\n\n", "Display" -> "codemirror", 
+    "Hash" -> "2144bf3a-329e-42be-b45a-bc618d83fa1b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> "\n## Initial tests\n\nSat 24 Jan 2026 12:57:58\n\n- \
+Intensity: $220$\n- Polarization: $E^{\\\\omega}\\\\perp b$", 
+    "Display" -> "markdown", "Hash" -> 
+     "92f10e9e-e9ad-4e5b-8b93-f3b06f86fbd0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> ".md\n## Protocol\n\n1. Cooling down to $2K$\n2. Measuring", 
+    "Display" -> "codemirror", "Hash" -> 
+     "0cf80920-34fb-4d1b-9a99-d9dd152e4338", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>, 
+   <|"Data" -> "## Protocol\n\n1. Cooling down to $2K$", 
+    "Display" -> "markdown", "Hash" -> 
+     "2c1e9732-170e-4d61-9f15-c705f9996f13", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "e063fde2-9b7c-44d4-94f0-60aceaee1385"|>}, 
+ "serializer" -> "jsfn4"|>
