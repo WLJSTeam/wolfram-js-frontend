@@ -3,6 +3,10 @@ on: workflow_dispatch
 jobs:
   build-x86:
     runs-on: ubuntu-latest
+    container:
+      options: --user root
+    env:
+      WOLFRAM_SYSTEM_ID: Linux-x86-64-v8
     steps:
       - name: Install build tools
         run: |
