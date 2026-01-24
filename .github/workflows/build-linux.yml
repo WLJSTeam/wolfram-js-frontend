@@ -3,21 +3,19 @@ on: workflow_dispatch
 jobs:
   build-x86:
     runs-on: ubuntu-latest
-    container:
-      options: --user root
     env:
       WOLFRAM_SYSTEM_ID: Linux-x86-64-v8
     steps:
       - name: Install build tools
         run: |
-          apt-get -y update
-          apt-get -y install build-essential
-          apt-get -y install libuv1-dev
+          sudo apt-get -y update
+          sudo apt-get -y install build-essential
+          sudo apt-get -y install libuv1-dev
 
       - name: Install Git in container
         run: |
-          apt-get -y update
-          apt-get -y install git
+          sudo apt-get -y update
+          sudo apt-get -y install git
           # one time fix to avoid permission problems later on
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # Checks-out the repository under $GITHUB_WORKSPACE.
