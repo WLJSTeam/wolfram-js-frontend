@@ -1374,10 +1374,6 @@ InformationDataGrid /: MakeBoxes[InformationDataGrid[data_,___], StandardForm] :
 Protect[InformationData]
 
 
-Unprotect[CurrentScreenImage];
-ClearAll[CurrentScreenImage];
-
-
 
 BoxForm`TabViewBox;
 TabView;
