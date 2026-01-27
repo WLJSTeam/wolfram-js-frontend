@@ -1647,9 +1647,11 @@ Animate[f_, parameters:({_Symbol | {_Symbol, _?NumericQ | Automatic} | {_Symbol,
 
       
       If[OptionValue["TriggerEvent"] =!= Null,
-        EventHandler[OptionValue["TriggerEvent"], Function[Null,
+        EventHandler[OptionValue["TriggerEvent"]//EventClone, {"Stop" -> Function[Null,
+          FrontSubmit[AnimationHelperRun[eventId, "Stop"] ]
+        ], _ -> Function[Null,
           FrontSubmit[AnimationHelperRun[eventId] ]
-        ] ];
+        ]} ];
       ];
 
       (* update expression when any slider is dragged *)

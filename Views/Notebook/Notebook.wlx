@@ -18,6 +18,47 @@ Global`UINotebook (*`*);
 ApplySync[f_, w_, {first_, rest___}, final_] := f[w@@first, Function[Null, Echo["Async >> Next"]; ApplySync[f,w, {rest}, final]]]
 ApplySync[f_, w_, {}, final_] := final[];
 
+trashCell[notebook_, cell_] := Module[{},
+    If[!cell`InputCellQ[cell], Return[Null, Module]];
+    If[TrueQ[cell["Props"]["Locked"]], Return[Null, Module]];
+    If[TrueQ[cell["Invisible"]], Return[Null, Module]];
+    If[!TrueQ[StringLength[StringTrim[cell["Data"]]] > 0 ], Return[Null, Module]];
+    If[!ListQ[notebook["TrashedCells"]], notebook["TrashedCells"] = {}];
+    notebook["TrashedCells"] = Take[Prepend[notebook["TrashedCells"], cell["Data"]], UpTo[5]];
+];
+
+untrashCell[notebook_, log_, modals_] := Module[{},
+    If[!ListQ[notebook["TrashedCells"]] || Length[notebook["TrashedCells"]] == 0,
+        EventFire[log, "Warning", "No trashed input cells found"];
+        Return[Null, Module];
+    ]; With[{promise = Promise[]},
+
+        Then[promise, Function[result, 
+          Echo[StringJoin["Picked cell >> ", ToString[result]]];
+          Switch[result,
+            _Integer, 
+                cell`CellObj[
+                    "Notebook" -> notebook,
+                    "Data" -> notebook["TrashedCells"][[result]],
+                    "Display" -> "codemirror",
+                    "Type" -> "Input",
+                    "After" -> If[MatchQ[notebook["FocusedCell"], _cell`CellObj], notebook["FocusedCell"], notebook["Cells"][[-1]]]
+                ];
+                notebook["TrashedCells"] = ReplacePart[notebook["TrashedCells"], result -> Nothing];
+            ,
+            
+            _,
+                Print["Cancelled"]; 
+        ] ] ];
+
+        EventFire[modals, "SelectBox", <|
+                "Promise"->promise, "message"->"Choose one to restore", 
+                "title"->"Trashed cells", "list"->Map[Function[k, 
+                    StringReplace[StringTake[k, UpTo[10]], "\n"->" "] 
+                ], notebook["TrashedCells"]]
+        |>]; 
+] ];
+
 addAfterHelper[notebook_, uid_] := With[{},
     (*/* request from the client with event provided */*)
 
@@ -766,7 +807,11 @@ Component[OptionsPattern[]] := With[{
         "ClearOutputs" -> Function[Null,
             Echo["ClearOutputs"];
             Delete /@ Select[notebook["Cells"], (cell`OutputCellQ[#] && #["Display"] =!= "markdown") &];
-        ],  
+        ], 
+        
+        "UntrashCell" -> Function[Null,
+            untrashCell[notebook, log, modals];
+        ],
         
         "UnhideAllCells" -> Function[Null,
             WebUISubmit[UINotebook["UnhideAllCells", notebook["Hash"]], $Client];
@@ -785,6 +830,7 @@ Component[OptionsPattern[]] := With[{
         ],        
 
         "DeleteFocusedCell" -> Function[Null,
+            trashCell[notebook, notebook["FocusedCell"]];
             notebook["FocusedCell"] // Delete;
             If[notebook["Cells"] === {}, cell`CellObj["Notebook"->notebook, "Data"->""]];
         ],
@@ -989,6 +1035,7 @@ Component[OptionsPattern[]] := With[{
         ],
 
         "RemoveCell" -> Function[uid,
+            trashCell[notebook, cell`HashMap[uid]];
             cell`HashMap[uid] (*`*) //Delete;
             If[Select[notebook["Cells"], Function[c, !TrueQ[c["Invisible"]] && cell`InputCellQ[c]]] === {}, cell`CellObj["Notebook"->notebook, "Data"->""]];
         ],

@@ -22,9 +22,17 @@ Needs["CoffeeLiqueur`Notebook`Kernel`" -> "GenericKernel`"];
 Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 
 
+
 rootDir = $InputFileName // DirectoryName // ParentDirectory;
 
 defaults = Get[FileNameJoin[{rootDir, "src", "AutocompleteDefaults.wl"}] ];
+Export[FileNameJoin[{rootDir, "dist", "llm.txt"}], StringRiffle[StringTemplate["``\n``"][#["label"], #["info"] ] &/@ defaults, "\n\n---\n\n"], "Text"];
+
+EventHandler[AppExtensions`AppEvents// EventClone, {
+    "Autocomplete:llm.txt" -> Function[Null,
+        File[ FileNameJoin[{rootDir, "dist", "llm.txt"}] ]
+    ]
+}];
 
 defaults = Map[Function[p,
     If[KeyExistsQ[p, "info"], 

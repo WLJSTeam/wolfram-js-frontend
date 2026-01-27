@@ -255,7 +255,18 @@ const helper = async (args, env) => {
     }
 
     if (!startQ) {
-        helper[event] = () => {
+        helper[event] = (state) => {
+            if (state == 'Stop') {
+                runningQ = false;
+                repetitions = 0;
+                currentValue = ranges[0];
+                return;
+            } else if (state == 'Pause') {
+                runningQ = false;
+                repetitions = 0;  
+                return;
+            }
+
             if (runningQ) return;
             runningQ = true;
             repetitions = 0;
@@ -299,7 +310,8 @@ helper.virtual = true;
 core['CoffeeLiqueur`Extensions`Manipulate`Internal`AnimationHelper'] = helper;
 core['CoffeeLiqueur`Extensions`Manipulate`Internal`AnimationHelperRun']  = async (args, env) => {
     const event = await interpretate(args[0], env);
-    if (helper[event]) helper[event]();
+    const state = await interpretate(args[1], env);
+    if (helper[event]) helper[event](state);
 }
 
 const man = async (args, env) => {

@@ -1,6 +1,7 @@
 (* Created with the Wolfram Language : www.wolfram.com *)
 
 {
+  <|"label" -> "ListConvolve", "type"->"keyword", "info" -> "ListConvolve[list, ker] forms the convolution of the kernel ker with list."|>,
   <|"label" -> "ProgressIndicator", "type"->"keyword", "info" -> "ProgressIndicator[val] represents a comple progress bar indicator.\nProgressIndicator[val, {min,max}] represent a progress bar, that rescales val from min to max"|>,
   <|"label" -> "Cells", "type"->"keyword", "info" -> "Cells[] returns all cells of the current notebook"|>,
   <|"label" -> "Cell", "type"->"keyword", "info" -> "Cell[expr_String] is an object that represents a complete cell in a notebook.\nCell[expr, \"Input\"] represents input cell.\nCell[expr, \"Output\", \"HTML\"] represents output HTML cell.\nCell can be used in NotebookWrite, CreateDocument, CellPrint or CreateWindow"|>,
@@ -14,6 +15,7 @@
   <|"label" -> "NotebookRead", "type"->"keyword", "info" -> "NotebookRead[notebook] reads the current focused cell in a notebook.\nNotebookRead[cellObject] reads the current cellObject in a notebook and returns Cell."|>,
 
   <|"label" -> "CreateWindow", "type"->"keyword", "info" -> "CreateWindow[expr] creates a new window displaying expr.\nCreateWindow[Cell[string, \"Output\", \"HTML\"]] creates a new window displaying string as HTML output."|>,
+  <|"label" -> "WindowSize", "type"->"keyword", "info" -> "WindowSize->{width, height} is an option used in CreateWindow"|>,
 
   <|"label" -> "NotebookLocationSpecifier", "type"->"keyword", "info" -> "NotebookLocationSpecifier[cellObject, pos] specifies a location where to insert a cell, where pos can be \"After\" or \"On\" (rewrites the content).\nFor example NotebookWrite[NotebookLocationSpecifier[NotebookFocusedCell[], \"After\"], 1+1]"|>,
 

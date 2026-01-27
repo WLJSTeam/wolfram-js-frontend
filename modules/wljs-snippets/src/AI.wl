@@ -338,6 +338,43 @@ tool["manage_todo_list"] = <|
 |>;
 
 
+tool["find_symbol_docs"] = <|
+    "Description" ->     <|
+    	"type" -> "function", 
+    	"function" -> <|
+    		"name" -> "find_symbol_docs", 
+    		"description" -> "returns a list of results from wolfram documentation found for a symbol or keyword", 
+    		"parameters" -> <|
+    			"type" -> "object", 
+    			"properties" -> <|
+                    "query" -> <|
+                        "type"-> "string",
+                        "description"-> "symbol name or keyword"
+                    |>,
+
+                    "complete_word" -> <|
+                        "type" -> "boolean",
+                        "description" -> "if true - query searched for appear as a word (default is true)"
+                    |>
+                |>,
+                "required" -> {"query"}
+    		|>
+    	|>
+    |>,
+    "Function" -> Function[{myIndex, args, toolsQue, toolResults, notebook, socket},
+        AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
+            makeAPIRequest["/api/docs/find/", <|
+                "Query" -> args["query"],
+                "WordSearch" -> Lookup[args, "complete_word", True]
+            |>, Function[result,
+                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                EventFire[p, Resolve, True];
+            ] ];
+            p
+        ] ] ];
+    , HoldRest]
+|>;
+
 tool["consult_docs"] = <|
     "Description" ->     <|
     	"type" -> "function", 

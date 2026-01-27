@@ -51,6 +51,7 @@ LayoutView = ExportString[{
     <|"type"->"separator"|>,
     <|"label"->"Show/Hide cell", "name"->"togglecells", "a"->"Alt+2"|>,
     <|"label"->"Clear outputs", "name"->"clearoutputs", "a"->"Alt+u"|>,
+    <|"label"->"Trashed cells", "name"->"untrashcell"|>,
     <|"type"->"separator"|>,
     <|"label"->"Zoom in", "name"->"zoomIn"|>,
     <|"label"->"Zoom out", "name"->"zoomOut"|>,

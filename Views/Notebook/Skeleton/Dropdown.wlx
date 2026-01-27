@@ -13,14 +13,14 @@ Component[OptionsPattern[]] := With[
                const uid = await interpretate(args[0], env);
                const res = await (window.electronAPI || window.iframeAPI).createMenu([
                 {label:'Clear output', ref:'ClearOutputs'},
-                {label: 'Project to a window', ref:'ProjectOrUpdate'},
+                {label: 'Project to a window', ref:'ProjectOrUpdate', accelerator: ['Ctrl+Shift+Enter', 'Cmd+Shift+Enter'], registerAccelerator:false},
                 {type: 'separator'},
                 {label: 'Make initialization cell', ref: 'MakeInit'},
                 {type: 'separator'},
                 ...<ExtraButtons/>,
                 {label: 'Insert cell before', ref: 'AddBefore'},
                 {type: 'separator'},
-                {label: 'Hide / Show', ref: 'Hide'},
+                {label: 'Hide / Show', ref: 'Hide', accelerator: ['Alt+2', 'Cmd+2'], registerAccelerator:false},
                 {label: 'Shrink / Expand', ref: 'Fade'},
                 {label: 'Lock / Unlock', ref: 'Lock'},
                 {label: 'Vanish', ref: 'Vanish'},

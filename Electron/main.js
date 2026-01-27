@@ -770,6 +770,13 @@ buildMenu = (opts) => {
                         windows.focused.call('clearoutputs', true);
                     }
                 },
+                {
+                    label: 'Trashed Cells',
+                    click: async(ev) => {
+                        console.log(ev);
+                        windows.focused.call('untrashcell', true);
+                    }
+                },                
 
                 {
                     label: 'Change Kernel',
@@ -957,6 +964,11 @@ callFakeMenu["browser"] = async(ev) => {
 
 callFakeMenu["abort"] = () => {
     windows.focused.call('abort', true);
+}
+
+
+callFakeMenu["untrashcell"] = () => {
+    windows.focused.call('untrashcell', true);
 }
 
 callFakeMenu["clearoutputs"] = () => {
@@ -2433,8 +2445,12 @@ app.whenReady().then(() => {
             if (!ref) {
                 return assoc;
             }
+            const copy = {...assoc};
+            if (Array.isArray(copy.accelerator)) {
+                copy.accelerator = isMac ? copy.accelerator[1] : copy.accelerator[0];
+            }
             return {
-                ...assoc,
+                ...copy,
                 click: () => {
                     p.resolve(ref);
                     closedQ = true;

@@ -79,6 +79,10 @@ LayoutView =
     
           Clear outputs
         </button>
+        <button data-name="UntrashCell" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+    
+          Trashed Cells
+        </button>
       </div>
     ,
       Table[ With[{event = Vi["event"], Label = Vi["label"]},

@@ -42,7 +42,9 @@ Component[OptionsPattern[]] := With[{
             server.emitt('<Controls/>', 'True', 'DeleteFocusedCell');
         });
 
-        
+        api.listener('untrashcell', () => {
+            server.emitt('<Controls/>', 'True', 'UntrashCell');
+        });
     
         api.listener('evaluateinit', () => {
             server.emitt('<Controls/>', 'True', 'EvaluateInitCells');

@@ -34,6 +34,8 @@ EventHandler[AppExtensions`AppEvents// EventClone, {
     ]
 }];
 
+getLLMFile := SelectFirst[Flatten[{ EventFire[AppExtensions`AppEvents, "Autocomplete:llm.txt", Null] } ], MatchQ[#, _File]&]
+
 makeResponce[raw_] := If[MatchQ[raw, _failure],
         With[{},
             Echo["API Error >>"]; Echo[raw // First];
@@ -93,7 +95,8 @@ apiCall[request_, "/api/"] := {
     "/api/notebook/",
     "/api/kernel/",
     "/api/alphaRequest/",
-    "/api/promise/"
+    "/api/promise/",
+    "/api/docs/"
 }
 
 $promises = <||>;
@@ -160,6 +163,18 @@ apiCall[request_, "/api/notebook/"] := {
     "/api/notebook/create/",
     "/api/notebook/cells/"
 }
+
+apiCall[request_, "/api/docs/"] := {
+    "/api/docs/find/"
+}
+
+
+apiCall[request_, "/api/docs/find/"] := With[{
+    query = request["Body"]["Query"], 
+    wordSearch = Lookup[request["Body"], "WordSearch", True]
+},
+    FindList[getLLMFile, query, 5, WordSearch->wordSearch]
+]
 
 (* 
    /api/notebook/list/ - List all notebooks known to the application
