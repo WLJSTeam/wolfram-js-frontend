@@ -80,6 +80,16 @@ core['CoffeeLiqueur`Extensions`Rasterize`Internal`GetPDF'] = async (args, env) =
 core['CoffeeLiqueur`Extensions`ContextMenu`Internal`ReadSelectionInDoc'] = (args, env) => document.getSelection().toString()
 core['CoffeeLiqueur`Extensions`EditorView`FrontTextSelected'] = (args, env) => document.getSelection().toString() 
 
+core['CoffeeLiqueur`Extensions`Rasterize`Internal`takeScreenshot'] = async (args, env) => {
+  if (!window.electronAPI) return false;
+  const opts = await core._getRules(args, env);
+  const p = new Deferred();
+  window.electronAPI.requestScreenshot(opts, (d)=>{
+    p.resolve(d);
+  });
+  return p.promise;
+}
+
 const printingStyles = `%20%40media%20print%20%7B%0A%20%20%20%20html%2C%20body%20%7B%0A%20%20%20%20%20%20%20%20margin%3A%200%20!important%3B%0A%20%20%20%20%20%20%20%20padding%3A%200%20!important%3B%0A%20%20%20%20%20%20%20%20width%3A%20auto%20!important%3B%0A%20%20%20%20%20%20%20%20height%3A%20auto%20!important%3B%0A%20%20%20%20%20%20%20%20display%3A%20block%20!important%3B%0A%20%20%20%20%7D%0A%0Abody%20%3E%20*%3Anot(.print-only)%20%7B%0A%20%20%20%20%20%20%20%20display%3A%20none%20!important%3B%0A%20%20%20%20%7D%0A%0A%0A%20%20%20%20.print-only%20%7B%0A%20%20%20%20%20%20%20%20display%3A%20block%20!important%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20%40page%20%7B%0A%20%20%20%20%20%20%20%20size%3A%20auto%3B%0A%20%20%20%20%20%20%20%20margin%3A%200%3B%0A%20%20%20%20%7D%0A%7D`;
 
 core['CoffeeLiqueur`Extensions`Rasterize`Internal`OverlayView'].Create = async (args, env) => {

@@ -11,6 +11,22 @@ RasterizeAsync::usage = "Async version of Rasterize that returns Promise";
 
 Begin["`Internal`"]
 
+takeScreenshot;
+Unprotect[CurrentScreenImage]
+ClearAll[CurrentScreenImage]
+
+CurrentScreenImage::noelectron = "CurrentScreenImage requires desktop application"
+
+CurrentScreenImage[] := CurrentScreenImage[1]
+CurrentScreenImage[_] := With[{res = FrontFetch[ takeScreenshot[] ]},
+  If[StringQ[res],
+    ImportString[StringDrop[res, StringLength["data:image/png;base64,"] ], "Base64"]
+  ,
+    Message[CurrentScreenImage::noelectron];
+    $Failed
+  ]
+]
+
 Unprotect[Rasterize]
 ClearAll[Rasterize]
 
