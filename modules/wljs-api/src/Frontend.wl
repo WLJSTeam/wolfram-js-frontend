@@ -356,7 +356,7 @@ apiCall[request_, "/api/notebook/cells/getlines/"] := Module[{body = request["Bo
         },
         If[!MatchQ[cell, _cell`CellObj], Return[failure["Cell not found"], Module] ];
         If[!NumberQ[from] || !NumberQ[to], Return[failure["From or To is not a number"], Module] ];
-        StringRiffle[StringSplit[cell["Data"], "\n"][[from ;; to]], "\n"]
+        StringRiffle[StringSplit[cell["Data"], "\n", All][[from ;; to]], "\n"]
     ]
 ]
 
@@ -394,7 +394,7 @@ apiCall[request_, "/api/notebook/cells/setlines/"] := Module[{body = request["Bo
         If[cell["Type"] === "Output", Return[failure["Cannot edit output cells"], Module] ];
 
         
-        With[{lines = StringSplit[cell["Data"], "\n"] }, With[{
+        With[{lines = StringSplit[cell["Data"], "\n", All] }, With[{
             before = If[from-1 > 0, Take[lines, from-1], {}],
             after = If[to==Length[lines], {}, Drop[lines, to] ]
         },
