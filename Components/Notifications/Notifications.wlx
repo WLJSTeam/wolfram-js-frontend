@@ -130,7 +130,6 @@ Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
                 }
 
                 const oscillator = audioCtx.createOscillator();
-                oscillator.type = "triangle";
                 oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
                 const gainNode = audioCtx.createGain();
                 oscillator.connect(gainNode);

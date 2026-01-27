@@ -356,7 +356,7 @@ apiCall[request_, "/api/notebook/cells/getlines/"] := Module[{body = request["Bo
         },
         If[!MatchQ[cell, _cell`CellObj], Return[failure["Cell not found"], Module] ];
         If[!NumberQ[from] || !NumberQ[to], Return[failure["From or To is not a number"], Module] ];
-        StringRiffle[StringSplit[cell["Data"], "\n", All][[from ;; to]], "\n"]
+        StringRiffle[StringSplit[cell["Data"], "\n", All][[from ;; UpTo[to] ]], "\n"]
     ]
 ]
 
