@@ -35,10 +35,10 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
         LLMAssistantPromptInitial = Unique["llmAssistant"],
 
         initialValues = IfKeyExists[OptionValue["Settings"], {
-            {"AIAssistantEndpoint", "https://api.openai.com"}, 
-            {"AIAssistantModel", "gpt-4o"}, 
-            {"AIAssistantMaxTokens", 70000}, 
-            {"AIAssistantTemperature", 0.3},
+            {"AIAssistantEndpoint", "https://api.anthropic.com"}, 
+            {"AIAssistantModel", "claude-haiku-4-5-20251001"}, 
+            {"AIAssistantMaxTokens", 100000}, 
+            {"AIAssistantTemperature", 0.5},
             {"AIAssistantInitialPrompt", True},
             {"AIAssistantLibraryStopList", {}},
             {"AIAssistantAutocomplit", False},
@@ -217,7 +217,7 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
                 <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
                     <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                         <label for="MaxTokens" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Max tokens</label>
-                        <input type="number" value="{initialValues[[3]]}" min="1000" max="100000" step="1000" id="MaxTokens" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
+                        <input type="number" value="{initialValues[[3]]}" min="1000" max="500000" step="1000" id="MaxTokens" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
                         <WebUIEventListener Id={"MaxTokens"} Type={"blur"} Event={update} Pattern={"MaxTokens"}/>
                     </div> 
                 </div> 

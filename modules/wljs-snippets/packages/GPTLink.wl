@@ -292,7 +292,7 @@ With[{chat = GPTChatObject[]}, TaskWait[GPTChatCompleteAsync[chat, prompt, Ident
 (* ::Sction:: *)
 (*Internal*)
 
-
+ifAuto["Automatic", value_] := value; 
 ifAuto[Automatic, value_] := value; 
 
 

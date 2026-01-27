@@ -114,10 +114,10 @@ defaultSysPrompt = Compress[Import[FileNameJoin[{$rootDir, "rules.default.min.tx
 
 getParameter[key_] := With[{
         params = Join[<|
-            "AIAssistantEndpoint" -> "https://api.openai.com", 
-            "AIAssistantModel" -> "gpt-4o", 
-            "AIAssistantMaxTokens" -> 70000, 
-            "AIAssistantTemperature" -> 0.3,
+            "AIAssistantEndpoint" -> "https://api.anthropic.com", 
+            "AIAssistantModel" -> "claude-haiku-4-5-20251001", 
+            "AIAssistantMaxTokens" -> 100000, 
+            "AIAssistantTemperature" -> 0.5,
             "AIAssistantInitialPrompt" -> True,
             "AIAssistantLibraryStopList" -> {},
             "AIAssistantAutocomplit" -> False,
