@@ -367,11 +367,11 @@ window.CellWrapper = class {
     const pos = list.indexOf(this.uid);
 
     if (!(pos + 1 < list.length) && !(this.props["Hidden"] === true)) {
-      alert('There are no output cells to be hidden');
+      //alert('There are no output cells to be hidden');
       return;
     }
     if (CellHash.get(list[pos + 1]).type != 'Output' && !(this.props["Hidden"] === true)) {
-      alert('There are no output cells to be hidden');
+      //alert('There are no output cells to be hidden');
       return;
     }
 
