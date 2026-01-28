@@ -21,6 +21,24 @@ ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
+ScriptInitialization[OptionsPattern[]] := With[{WinSize = OptionValue["ImageSize"]},
+  If[MatchQ[WinSize, {_?NumberQ, _?NumberQ}], With[{
+    WidthX = WinSize[[1]],
+    HeightX = WinSize[[2]]
+  },
+    <script type="module">
+      core._isWindow = true; 
+      resizeTo(<WidthX/>, <HeightX/>)
+    </script>  
+  ] ,
+    <script type="module">
+      core._isWindow = true; 
+    </script>
+  ]
+];
+
+Options[ScriptInitialization] = {"ImageSize"->Null};
+
 WindowView[opts__] := If[MatchQ["Window" /. List[opts], _win`WindowObj],
   Window[opts]
 ,
@@ -43,7 +61,8 @@ App[request_] := With[{
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]
     },
     {
-      windowTitle = If[StringQ[window["Title"]], window["Title"], "Application"]
+      windowTitle = If[StringQ[window["Title"]], window["Title"], "Application"],
+      windowSize = If[window["FirstTime"]//TrueQ, window[ImageSize], False]
     },
 
     EventHandler[OnLoad, Function[Null,
@@ -101,9 +120,7 @@ App[request_] := With[{
             </div> 
           </div>
         </div>
-        <script type="module">
-          core._isWindow = true; 
-        </script>
+        <ScriptInitialization ImageSize={windowSize}/>
         <WindowScript Parameters={GlobalParameters} Modals={ModalController} Window={window} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
         <ExtensionTemplates Template={"AppScripts"} />
         </body>

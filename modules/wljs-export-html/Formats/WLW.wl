@@ -71,7 +71,7 @@ checkKernel[kernel_, cbk_] := (Echo["Checking kernel..."]; If[TrueQ[kernel["Cont
 
 (* [TODO] [REFACTOR] *)
 
-execute[opts__][path_String, secondaryOpts___] := Module[{str, cells, objects, notebook, store, symbols, place, windowTitle},
+execute[opts__][path_String, secondaryOpts___] := Module[{str, cells, objects, notebook, store, symbols, place, windowTitle, windowSize},
 With[{
     name = FileBaseName[path],
     promise = Promise[],
@@ -84,6 +84,7 @@ With[{
 }, 
 
     windowTitle = "Application";
+    windowSize = Automatic;
     options = Join[Association[List[opts] ], Association[ List[secondaryOpts] ] ]; 
 
     notebook["Path"] = path;
@@ -136,14 +137,19 @@ With[{
                             If[!StringMatchQ[t["Data"], ".md\n"~~__], Echo["WLW >> Title is missing!"]; ,
                                 {title, decription} = StringCases[t["Data"], RegularExpression[".md\n[#| ]*([^\n]*)\n?(.*)?"]:> {"$1", "$2"}] // First;
                                 If[StringQ[title], windowTitle = title; ];
+                                With[{res = StringCases[t["Data"], "WindowSize: "~~(d1:DigitCharacter..)~~"x"~~(d2:DigitCharacter..) :> {ToExpression[d1],ToExpression[d2]}] // First },
+                                    If[MatchQ[res, {_?NumberQ, _?NumberQ}], windowSize = res ];
+                                ];
                             ];
                         ] // Quiet;   
                 ];
+                
 
 
                 With[{hash = kernel["Hash"], s = Promise[] // First},
                     Then[Promise[s], Function[Null,
-                        With[{win = win`WindowObj["Notebook" -> notebook, "Title"->windowTitle, "Data" -> last["Data"], "Ref" -> last["Hash"] ]},
+                        With[{win = win`WindowObj["Notebook" -> notebook, "Title"->windowTitle, ImageSize->windowSize, "Data" -> last["Data"], "Ref" -> last["Hash"] ]},
+                            win["FirstTime"] = True;
                             Echo["project >> sending global event"];
                             EventFire[notebook, "OnWindowCreate", <|"Window"->win, "Client"->options["Client"]|>];
                             EventHandler[win["Hash"] // EventClone, {"Ready" -> Function[Null,
@@ -159,6 +165,7 @@ With[{
                                 ];                            
                             ]
                             }];
+
 
                             EventFire[promise, Resolve, {StringJoin["/window?id=", win["Hash"] ], ""} ];
                         
