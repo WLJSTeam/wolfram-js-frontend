@@ -40,6 +40,13 @@ AIChat`HashMap;
 
 Begin["`Private`"]
 
+exportString[args__] := With[{e = ExportString[args]},
+    If[!StringQ[e],
+        "ERROR: Tool error! Cannot serialize: "<>StringTake[ToString[e], UpTo[16] ]
+    ,   
+        e
+    ]
+]
 
 CoffeeLiqueur`Extensions`CommandPalette`AI`Private`Siriwave;
 
@@ -328,7 +335,7 @@ tool["manage_todo_list"] = <|
               <|"ok" -> False, "error" -> "Unknown action. Use: list, add, complete."|>
             ];
 
-            toolResults[[myIndex]] = ExportString[result, "JSON", "Compact" -> True];
+            toolResults[[myIndex]] = exportString[result, "JSON", "Compact" -> True];
           ]
         ]
       ];
@@ -367,7 +374,7 @@ tool["find_symbol_docs"] = <|
                 "Query" -> args["query"],
                 "WordSearch" -> Lookup[args, "complete_word", True]
             |>, Function[result,
-                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                toolResults[[myIndex]] = exportString[result, "JSON"];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -403,7 +410,7 @@ tool["consult_docs"] = <|
                     ] ];
                 ],
                 AppendTo[toolsQue, Function[Null, toolResults[[myIndex]] =
-                       ExportString[ Map[Function[val, <|"title"->val["title"], "id"->val["hash"]|>], library ]//Values, "JSON"];
+                       exportString[ Map[Function[val, <|"title"->val["title"], "id"->val["hash"]|>], library ]//Values, "JSON"];
                 ] ];
             ]
         ]
@@ -431,7 +438,7 @@ tool["list_cells"] = <|
             makeAPIRequest["/api/notebook/cells/list/", <|
                 "Notebook" -> notebook["Hash"]
             |>, Function[result,
-                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                toolResults[[myIndex]] = exportString[result, "JSON"];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -460,7 +467,7 @@ tool["get_focused_cell"] = <|
             makeAPIRequest["/api/notebook/cells/focused/", <|
                 "Notebook" -> notebook["Hash"]
             |>, Function[result,
-                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                toolResults[[myIndex]] = exportString[result, "JSON"];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -505,7 +512,7 @@ tool["get_cell_lines"] = <|
                 "From" -> args["from"],
                 "To" -> args["to"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"]];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -555,7 +562,7 @@ tool["set_cell_lines"] = <|
                 "To" -> args["to"],
                 "Content" -> args["content"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"]];
                 EventFire[p, Resolve, True];
                 WebUISubmit[vfx`MagicWand[removeQuotes @ args["cell"] ], socket];
             ] ];
@@ -605,7 +612,7 @@ tool["set_cell_lines_batch"] = <|
                 "Cell" -> removeQuotes @ args["cell"],
                 "Changes" -> Map[<|"From" -> #["from"], "To" -> #["to"], "Content" -> #["content"]|> &, args["changes"]]
             |>, Function[result,
-                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                toolResults[[myIndex]] = exportString[result, "JSON"];
                 WebUISubmit[vfx`MagicWand[removeQuotes @ args["cell"] ], socket];
                 EventFire[p, Resolve, True];
             ] ];
@@ -651,7 +658,7 @@ tool["insert_cell_lines"] = <|
                 "After" -> args["after"],
                 "Content" -> args["content"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"] ];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"] ];
                 WebUISubmit[vfx`MagicWand[removeQuotes @ args["cell"] ], socket];
                 EventFire[p, Resolve, True];
             ] ];
@@ -704,7 +711,7 @@ tool["add_cell"] = <|
                 If[KeyExistsQ[args, "hidden"], "Hidden" -> args["hidden"], Nothing]
             |>},
                 makeAPIRequest["/api/notebook/cells/add/", body, Function[result,
-                    toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                    toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"]];
                     WebUISubmit[vfx`MagicWand[ result ], socket];
                     EventFire[p, Resolve, True];
                 ] ];
@@ -764,7 +771,7 @@ tool["add_cells_batch"] = <|
                 If[KeyExistsQ[args, "before"], "Before" -> removeQuotes @ args["before"], Nothing]
             |>},
                 makeAPIRequest["/api/notebook/cells/add/batch/", body, Function[result,
-                    toolResults[[myIndex]] = ExportString[result, "JSON"];
+                    toolResults[[myIndex]] = exportString[result, "JSON"];
                     WebUISubmit[vfx`MagicWand[ # ]&/@ result, socket];
                     EventFire[p, Resolve, True];
                 ] ];
@@ -801,7 +808,7 @@ tool["delete_cell"] = <|
             makeAPIRequest["/api/notebook/cells/delete/", <|
                 "Cell" -> removeQuotes @ args["cell"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"]];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -836,7 +843,7 @@ tool["evaluate_cell"] = <|
             makeAPIRequest["/api/notebook/cells/evaluate/", <|
                 "Cell" -> removeQuotes @ args["cell"]
             |>, Function[result,
-                toolResults[[myIndex]] = ExportString[result, "JSON"];
+                toolResults[[myIndex]] = exportString[result, "JSON"];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -871,7 +878,7 @@ tool["project_cell"] = <|
             makeAPIRequest["/api/notebook/cells/project/", <|
                 "Cell" -> removeQuotes @ args["cell"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"]];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"]];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -907,7 +914,7 @@ tool["kernel_evaluate"] = <|
                 "Expression" -> args["expression"]
             |>},
                 makeAPIRequest["/api/kernel/evaluate/", body, Function[result,
-                    toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"] ];
+                    toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"] ];
                     EventFire[p, Resolve, True];
                 ] ];
             ];
@@ -943,7 +950,7 @@ tool["wolfram_alpha"] = <|
             makeAPIRequest["/api/alphaRequest/", <|
                 "Query" -> args["query"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, ExportString[result, "JSON"] ];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"] ];
                 EventFire[p, Resolve, True];
             ] ];        
             p
