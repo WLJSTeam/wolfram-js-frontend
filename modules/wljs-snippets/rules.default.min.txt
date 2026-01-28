@@ -19,6 +19,7 @@ This is **markdown** cell.
 ```
 
 Markdown, HTML, JS, slide cells are evaluated in the same way as code cells **and not rendered automatically**.
+**Consult docs for JS, HTML and slide cells**
 
 CORE RULES
 - Lines numbers are 1-indexed and inclusive (both, from and to)

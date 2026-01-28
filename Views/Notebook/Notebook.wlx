@@ -834,6 +834,12 @@ Component[OptionsPattern[]] := With[{
             notebook["FocusedCell"] // Delete;
             If[notebook["Cells"] === {}, cell`CellObj["Notebook"->notebook, "Data"->""]];
         ],
+
+        "DeleteACell" -> Function[cell,
+            trashCell[notebook, cell];
+            cell // Delete;
+            If[notebook["Cells"] === {}, cell`CellObj["Notebook"->notebook, "Data"->""]];
+        ],
         
         "EvaluateInitCells" -> Function[Null,
             notebook["CellsInitialized"] = True;

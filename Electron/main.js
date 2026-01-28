@@ -2804,7 +2804,7 @@ function start_server (window) {
     let accentColor = systemPreferences.getAccentColor();
 
     if (!accentColor) {
-        accentColor = '#008855';  
+        accentColor = '#ff7214';  
     } else {
         if (accentColor.charAt(0) != '#') accentColor = '#'+accentColor;
         if (accentColor.length > 7) accentColor = accentColor.slice(0, 7);

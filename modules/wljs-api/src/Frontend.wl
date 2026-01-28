@@ -360,9 +360,19 @@ apiCall[request_, "/api/notebook/cells/getlines/"] := Module[{body = request["Bo
     ]
 ]
 
+deleteCell[cell_] := If[TrueQ[cell["Notebook"]["Opened"] ],
+                (* use interactive notebook API. for ex. for collecting trashed cell *)
+                EventFire[cell["Notebook"]["Controller"], "DeleteACell", cell ];
+            ,
+                (* do it directly *)
+                Delete[cell ];
+            ];
+
 updateCellContent[cell_, newData_] :=  If[TrueQ[cell["Notebook"]["Opened"] ],
+                (* use interactive notebook API. for updating lively *)
                 EventFire[cell, "ChangeContent", newData ];
             ,
+                (* directly set the property *)
                 cell["Data"] = newData;
             ];
 
@@ -537,7 +547,7 @@ apiCall[request_, "/api/notebook/cells/delete/"] := Module[{body = request["Body
         {cell = cell`HashMap[ body["Cell"] ]},
         If[!MatchQ[cell, _cell`CellObj], Return[failure["Cell is missing"], Module] ];
         If[cell["Type"] === "Output", Return[failure["Cannot delete output cell. Delete parent input cell"], Module] ];
-        Delete[cell];
+        deleteCell[cell];
         "Removed 1 cell"
     ]
 ]

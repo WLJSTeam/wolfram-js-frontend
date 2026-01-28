@@ -79,3 +79,29 @@ this.ondestroy = () => {
 
 - A `return` at the **top-level** of the cell ends execution immediately.  
 - The returned value is displayed in the output cell.
+
+---
+
+## 6. How to exchange data with WL
+
+Define a symbol in `core` object as async function:
+
+```
+.js
+core.sumOfArray = async (args, env) => {
+    const data = await interpretate(args[0], env);
+    return data.reduce((a, c) => a + c, 0);
+}
+```
+
+then you can execute it and fetch the result using:
+
+```
+FrontFetch[sumOfArray[Table[i, {i,10}]]]
+```
+
+or execute only (no results):
+
+```
+FrontSubmit[sumOfArray[Table[i, {i,10}]]];
+```
