@@ -1381,7 +1381,7 @@ foreignObject .katex-display{
     padding-top: .1875em;
     padding-inline-end: .375em;
     padding-bottom: .1875em;
-    box-shadow: 0 0 0 1px var(--system-accent-color), 0 3px 0 var(--system-accent-color);
+    box-shadow: 0 0 0 1px #6b7280, 0 3px 0 #6b7280;
     border-radius: .3125rem;
     padding-inline-start: .375em;
     font-family: monospace;
