@@ -144,7 +144,7 @@ escapeReplacement[handler_, pattern_] := With[{unique = Unique["EscapedExpr"]},
 (*** Tokenizer for the WLX subset ***)
 
 (* regexp for the inset of the WL expression *)
-wlinset = "[\\w|@|\\[|\\]|,|#|)|(|\\>|;|:|\\<|\\||\\/|\\+|\\$|{|}|\\\"|\\-|\\.|\\s|\\d]*";
+wlinset = "[\\w|@|\\[|\\]|,|#|)|(|\\>|;|:|\\<|\\||\\/|\\+|\\$|{|}|\\\"|\\?|!|%|\\-|\\.|\\s|\\d]*";
 
 tokenizer[s_, r_, str_] := 
  With[{element = 
@@ -173,7 +173,7 @@ tokenizer[s_, r_, str_] :=
     common = 
      StringCases[element, 
       RegularExpression[
-        "([\\w|\\-]*)=\\\"([\\w|\\(|\\)|=|\\;|\\^|\\:|\\s|\\d|\\%|#|\\.|\\-|\\,|\\?|\\/|\\@]*)\\\""] -> ("$1" -> "$2") ]
+        "([\\w|\\-]*)=\\\"([\\w|\\(|\\)|=|\\;|\\^|\\:|\\s|\\d|\\%|#|\\.|\\-|\\,|\\?|!|%|\\/|\\@]*)\\\""] -> ("$1" -> "$2") ]
     },
 
     With[{firstH = StringTake[head, 1]},
