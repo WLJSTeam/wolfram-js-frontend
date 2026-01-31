@@ -1314,11 +1314,13 @@ handle[data_Association] := Module[{}, With[{
     ];
 
 
-    WebUISubmit[Siriwave["Start", "canvas-palette-back"], data["Client"] ];
+    
 
     With[{assoc = Join[data, <|"Notebook" -> getNotebook[data]|> ]},
         If[MatchQ[assoc["Notebook"]["ChatBook"], _GPTChatObject],
             Echo["Reuse a chat!"];
+
+            WebUISubmit[Siriwave["Start", "canvas-palette-back"], data["Client"] ];
 
             If[!(assoc["Notebook"]["ChatBook"]["Shown"] // TrueQ),
                 WebUILocation["/gptchat?id="<>assoc["Notebook"]["ChatBook"]["Hash"], data["Client"], "Target"->_, "Features"->"width=460, height=640, top=0, left=800"];
@@ -1335,6 +1337,7 @@ handle[data_Association] := Module[{}, With[{
                     EventFire[data["Messanger"], "Warning", "Failed to create a chat"];
                     Return[Null];
                 ,
+                    WebUISubmit[Siriwave["Start", "canvas-palette-back"], data["Client"] ];
                     Then[GPTChatCompletePromise[ chat, makePromt[assoc] ], Function[Null,
                         WebUISubmit[Siriwave["Stop"], data["Client"] ];
                 
