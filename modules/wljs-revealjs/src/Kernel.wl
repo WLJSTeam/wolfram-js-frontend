@@ -7,7 +7,7 @@ FrontSlidesSelected::usage = "A frontend function, that gives access to current 
 Begin["`Private`"]
 
 
-SlideEventListener[OptionsPattern[]] := StringTemplate["RVJSEvent[\"``\",\"``\"]"][OptionValue["Id"], OptionValue["Pattern"] ]
+SlideEventListener[OptionsPattern[] ] := StringTemplate["RVJSEvent[\"``\",\"``\"]"][If[StringQ[OptionValue["Id"] ], OptionValue["Id"], OptionValue["Id"]["Id"] ], OptionValue["Pattern"] ]
 Options[SlideEventListener] = {"Id"->"default-slide-event", "Pattern"->"Slide"}
 
 End[]
