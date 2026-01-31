@@ -6,6 +6,9 @@
 
 BeginPackage["CoffeeLiqueur`GPTLink`", {"CoffeeLiqueur`Objects`"}];
 
+GPTModelsRequest::usage = "
+GPTModelsRequest[endpoint, apiToken, cbk]
+"
 
 GPTChatComplete::usage = 
 "GPTChatComplete[chat] complete given chat. 
@@ -121,6 +124,40 @@ Options[GPTChatCompleteAsync] = {
 GPTChatCompleteAsync::err = 
 "`1`"; 
 
+GPTModelsRequest[endpoint_, apiToken_, cbk_, args_List:{}] := Module[{url, headers, request},
+
+	url = URLBuild[{endpoint, "v1", "models"}]; 
+	
+	headers = If[StringQ[apiToken] && TrueQ[StringLength[apiToken] > 0], 
+		Join[{
+			"x-api-key" -> apiToken,
+			"Authorization" -> "Bearer " <> apiToken, 
+        	"Accept" -> "application/json"
+		}, args]
+	,
+		args
+	];
+
+	request = HTTPRequest[url, <|
+		Method -> "GET", 
+		"Headers" -> headers
+	|>]; 
+
+
+
+	URLSubmit[request, 
+			HandlerFunctions -> <|
+				"BodyReceived" -> Function[Module[{responseBody, responseAssoc}, 
+					If[#["StatusCode"] === 200, 
+						cbk[<|"Body" -> ImportByteArray[#["BodyByteArray"], "RawJSON", CharacterEncoding -> "UTF-8"], "Event" -> "ResponseBody"|>]; 
+					,
+						cbk[<|"Error" -> #["StatusCode"], "Body"-> ImportByteArray[#["BodyByteArray"], "Text", CharacterEncoding -> "UTF-8"]|>]
+					]
+				] ]
+			|>,
+			HandlerFunctionsKeys -> {"StatusCode", "BodyByteArray", "Headers"}
+	];
+]
 
 GPTChatCompleteAsync[chat_GPTChatObject, callback: _Function | _Symbol, 
 	secondCall: GPTChatComplete | GPTChatCompleteAsync: GPTChatCompleteAsync, opts: OptionsPattern[]] := 
@@ -248,8 +285,48 @@ Module[{
 							$logger[<|"Error" -> "Response is not valid JSON"|>]; 
 							Message[GPTChatCompleteAsync::err, responseAssoc]; $Failed
 						], 
-						$logger[<|"Error" -> "Response code: "<>ToString[(#["StatusCode"])]|>]; 
-						$Failed
+						Switch[#["StatusCode"],
+							401,
+								$logger[<|"Error" -> "API key error"|>]; 
+								$Failed
+							,
+
+							429,
+								Echo["GPTLink >> Too many requests. Slow down"];
+								SetTimeout[
+									Echo["GPTLink >> Trying again..."];
+									GPTChatCompleteAsync[chat, callback, opts];, Quantity[7, "Seconds"] 
+								];
+							,
+
+							413,
+								$logger[<|"Error" -> "Request is too large"|>]; 
+								$Failed								
+							,
+
+							403,
+								$logger[<|"Error" -> "Country, region, or territory not supported"|>]; 
+								$Failed	
+
+							,
+							
+							529,
+								$logger[<|"Error" -> "Service is overloaded"|>]; 
+								$Failed
+							,
+
+							503,
+								Echo["GPTLink >> Too many requests. Slow down"];
+								SetTimeout[
+									Echo["GPTLink >> Trying again..."];
+									GPTChatCompleteAsync[chat, callback, opts];, Quantity[7, "Seconds"] 
+								];
+							,
+
+							_,
+							$logger[<|"Error" -> "Response code: "<>ToString[(#["StatusCode"])]|>]; 
+							$Failed						
+						]
 					]
 				] ]
 			|>, 

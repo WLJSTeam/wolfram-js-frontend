@@ -17,7 +17,7 @@ Component[OptionsPattern[]] := With[{
                 server.kernel._emitt('<Event/>', 'True', '<Topic/>');     
             });
         </script>
-    }
+    } // ToStringRiffle
 ]
 
 Options[Component] = {"Event"->"blackhole", "Label"->"Click", "Topic"->"Default", "Class"->"", "Style"->""};

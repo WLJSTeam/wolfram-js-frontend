@@ -6,7 +6,10 @@ IfKeyExists[assoc_Association, list_List] := With[{},
 ];
 
 parseInt[any_String] := ToExpression[any]
-parseInt[any_] := any 
+parseInt[any_] := any
+
+removeToken[type_] := With[{key = StringJoin["WLJSAI_API_KEY_", type]}, SystemCredential[key] = . ];
+
 
 setInHold[s_, val_] := Scan[Function[Null, # = val, HoldAll], s]
 SetAttributes[setInHold, HoldFirst]
@@ -35,8 +38,8 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
         LLMAssistantPromptInitial = Unique["llmAssistant"],
 
         initialValues = IfKeyExists[OptionValue["Settings"], {
-            {"AIAssistantEndpoint", "https://api.anthropic.com"}, 
-            {"AIAssistantModel", "claude-haiku-4-5-20251001"}, 
+            {"AIAssistantEndpoint", "http://localhost:11434/"}, 
+            {"AIAssistantModel", "qwen3:8b"}, 
             {"AIAssistantMaxTokens", 100000}, 
             {"AIAssistantTemperature", 0.5},
             {"AIAssistantInitialPrompt", True},
@@ -59,29 +62,39 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
         LLMAssistantPromptInitial = Uncompress @ Lookup[settings, "AIAssistantAssistantPrompt", Compress @ defaultSystemPrompt];
 
         EventHandler[update, {
-            "ResetKey" -> Function[Null,
-                SystemCredential["OPENAI_API_KEY"] = .;
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes"];
+            "ResetKeyO" -> Function[Null,
+                removeToken["OpenAI"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ],
+
+            "ResetKeyA" -> Function[Null,
+                removeToken["Anthropic"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
+            ],   
+            
+            "ResetKeyC" -> Function[Null,
+                removeToken["Custom"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
+            ],            
 
             "Prompt" -> Function[value,
                 onsave[<|"AIAssistantInitialPrompt" -> URLDecode[value]|>];
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ],
 
             "Endpoint" -> Function[value,
                 onsave[<|"AIAssistantEndpoint" -> URLDecode[value]|>];
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ],
 
             "Model" -> Function[value,
                 onsave[<|"AIAssistantModel" -> URLDecode[value]|>];
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ],
 
             "MaxTokens" -> Function[value,
                 onsave[<|"AIAssistantMaxTokens" -> parseInt[value]|>];
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ],
 
             "InputLag" -> Function[value,
@@ -91,7 +104,7 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
 
             "Temperature" -> Function[value,
                 onsave[<|"AIAssistantTemperature" -> parseInt[value]|>];
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ],
 
             "APIKey" -> Function[value,
@@ -126,7 +139,7 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
                 
                 onsave[<|"AIAssistantAssistantPrompt" -> Compress[LLMAssistantPromptInitial]|>];
 
-                EventFire[log, "Saved", "Type 'reset chat' in the AI chat window to see changes or restart an app"];
+                EventFire[log, "Saved", "Reset chat to see changes"];
             ]
         }];
 
@@ -156,19 +169,11 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
                         <WebUIEventListener Id={"llm-prompt-assistant"} Pattern={"SystemAssistantPrompt"} Type={"blur"} Event={update}/>
                     </div>  
                 </div> 
-                <span class="dark:text-gray-400">General</span>           
-                <div class="block my-2 py-2">
-                    <div class="pb-10 pb-10 mt-5 gap-y-2 flex flex-col">
-                        <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-                            <label for="api-key-field" class="block text-xs font-medium text-gray-900 dark:text-gray-400">API Key</label>
-                            <input type="text" id="api-key-field" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Paste here"/>
-                            <WebUIEventListener Property={"value"} Id={"api-key-field"} Pattern={"APIKey"} Type={"blur"} Event={update}/>
-                        </div> 
-                        <Knob Label={"Set API Key"} Topic={"SetKey"} Event={update} Class={"w15"}/>
-                    </div>  
-                    <StringRiffle>
-                        <Knob Label={"Remove API Key"} Topic={"ResetKey"} Event={update} Class={"w15"}/>
-                    </StringRiffle>
+                <span class="dark:text-gray-400">API Keys</span>           
+                <div class="block my-2 py-2"> 
+                    <Knob Label={"Reset OpenAI API key"} Topic={"ResetKeyO"} Event={update} Class={"w15"}/>   
+                    <Knob Label={"Reset Anthropic API key"} Topic={"ResetKeyA"} Event={update} Class={"w15"}/>    
+                    <Knob Label={"Reset API key for custom model"} Topic={"ResetKeyC"} Event={update} Class={"w15"}/>
                 </div>
                 <div class="pb-2 mt-2 gap-y-2 flex flex-col">
                     <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
@@ -176,17 +181,18 @@ generator[opts_Association] := With[{library = opts["Library"], defaultSystemPro
                         <LibraryTemplate/>
                     </div>
                 </div>
+                <span class="dark:text-gray-400 mt-2">Custom model</span>  
                 <div class="pb-2 mt-2 gap-y-2 flex flex-col">
                     <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                         <label for="endpoint" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Endpoint</label>
-                        <input type="text" id="endpoint" value="{initialValues[[1]]}" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="https://api.openai.com"/>
+                        <input type="text" id="endpoint" value="{initialValues[[1]]}" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="http://localhost:11434/"/>
                         <WebUIEventListener Id={"endpoint"} Type={"blur"} Event={update} Pattern={"Endpoint"}/>
                     </div> 
                 </div> 
                 <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
                     <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
                         <label for="Model" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Model</label>
-                        <input type="text" id="Model" value="{initialValues[[2]]}" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" value="" placeholder="gpt-4o"/>
+                        <input type="text" id="Model" value="{initialValues[[2]]}" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" value="" placeholder="qwen3:8b"/>
                         <WebUIEventListener Id={"Model"} Type={"blur"} Event={update} Pattern={"Model"}/>
                     </div> 
                 </div> 

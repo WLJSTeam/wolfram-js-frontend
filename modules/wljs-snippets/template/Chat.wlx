@@ -4,6 +4,7 @@ Alert           = ImportComponent["Components/Alert.wlx"];
 
 SendForm   = ImportComponent["ChatComponents/SendForm.wlx"];
 ChatLayout           = ImportComponent["ChatComponents/List.wlx"];
+ChatControls = ImportComponent["ChatComponents/ChatControls.wlx"];
 
 ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
 ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
@@ -51,6 +52,10 @@ App[request_] := With[{
 
         "Comment" -> Function[data,
           EventFire[chat, "Comment", data];
+        ],
+
+        rest_String :> Function[data,
+          EventFire[chat, rest, data];
         ]
       }
     ];
@@ -133,8 +138,8 @@ App[request_] := With[{
             <div class="h-full flex flex-col">          
               <main class="grow flex flex-col overflow-hidden">
                 <div class="divide-y divide-gray-200 flex flex-col overflow-hidden h-full bg-transparent dark:divide-gray-600">
-                  <div class="px-4 py-2 text-center text-sm font-semibold dark:text-gray-400 linux:hidden win:h-titlebar owin:h-titlebar" style="-webkit-app-region: drag">
-                    AI Assistant
+                  <div class="atitlebar flex sticky top-0 z-40 flex h-10 win:h-titlebar owin:h-titlebar linux:h-titlebar shrink-0 items-center osx:border-b border-gray-300 dark:border-gray-500 osx:bg-239 dark:bg-gray-700 dark:win:bg-transparent dark:owin:bg-transparent dark:linux:bg-transparent px-2 pl-20 win:pl-0 owin:pl-0 linux:pl-2" style="z-index: 100; -webkit-app-region: drag">
+                    <ChatControls Event={secret}/>
                   </div>
                   <ChatLayout Chat={chat} Controller={LocalControls}/>               
                   <SendForm Event={secret}/>

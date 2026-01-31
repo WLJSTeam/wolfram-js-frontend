@@ -40,6 +40,7 @@ AIChat`HashMap;
 
 Begin["`Private`"]
 
+
 exportString[args__] := With[{e = ExportString[args]},
     If[!StringQ[e],
         "ERROR: Tool error! Cannot serialize: "<>StringTake[ToString[e], UpTo[16] ]
@@ -70,6 +71,9 @@ chatWindow = ImportComponent[FileNameJoin[{$rootDir, "template", "Chat.wlx"}] ];
 settings = <||>;
 loadSettings[settings];
 
+
+CurrentProvider = Automatic;
+CurrentModel = Automatic;
 
 settingsKeyTable = {
     "Endpoint" -> "AIAssistantEndpoint",
@@ -121,8 +125,8 @@ defaultSysPrompt = Compress[Import[FileNameJoin[{$rootDir, "rules.default.min.tx
 
 getParameter[key_] := With[{
         params = Join[<|
-            "AIAssistantEndpoint" -> "https://api.anthropic.com", 
-            "AIAssistantModel" -> "claude-haiku-4-5-20251001", 
+            "AIAssistantEndpoint" -> "http://localhost:11434/", 
+            "AIAssistantModel" -> "qwen3:8b", 
             "AIAssistantMaxTokens" -> 100000, 
             "AIAssistantTemperature" -> 0.5,
             "AIAssistantInitialPrompt" -> True,
@@ -808,7 +812,7 @@ tool["delete_cell"] = <|
             makeAPIRequest["/api/notebook/cells/delete/", <|
                 "Cell" -> removeQuotes @ args["cell"]
             |>, Function[result,
-                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"]];
+                toolResults[[myIndex]] = If[StringQ[result], result, exportString[result, "JSON"] ];
                 EventFire[p, Resolve, True];
             ] ];
             p
@@ -994,27 +998,84 @@ createChat[assoc_Association] := With[{
     client = assoc["Client"],
     logger = assoc["Messanger"],
     notebook = assoc["Notebook"],
+    modals = assoc["Modals"],
     globalControls = assoc["Controls"]
-},
-    Module[{
-        chat,
-        functionsHandler,
-        setContent,
-        printCell,
-        encodingError,
-        APIError,
-        last
+},  
+    AsyncFunction[Null, With[{
+        chat = Unique[],
+        functionsHandler = Unique[],
+        encodingError = Unique[],
+        APIError = Unique[],
+        defaultModels = Unique[],
+        initializeChat = Unique[]
     },
 
         loadSettings[settings];
+
+        discoverFunction[model_] := With[{p = Promise[]},
+            Echo["AI >> model discovery"];
+            GPTModelsRequest[model["Endpoint"], model["APIToken"], model["ListHandler"][p], model["Headers"] ];
+            p
+        ];
+
+        defaultModels := <|
+            "OpenAI" -> {
+                "APIToken"->getToken["OpenAI"], 
+
+                "Endpoint" -> "https://api.openai.com",
+                "Temperature" -> 0.1,
+                "Model" -> CurrentModel,
+                "Headers" -> {},
+                "ListHandler" -> Function[p, Function[resp,
+                    If[KeyExistsQ[resp, "Error"], EventFire[p, Resolve, $Failed],
+                        EventFire[p, Resolve, Map[
+                            Function[ass,
+                                {ass["id"], ass["id"]}
+                            ],
+                            Select[resp["Body"]["data"], Function[m, m["object"] === "model"] ]
+                        ] ]
+                    ]
+                ] ],                
+                "MaxTokens" -> getParameter["MaxTokens"]             
+            },
+            "Anthropic" -> {
+                "APIToken"->getToken["Anthropic"], 
+
+                "Endpoint" -> "https://api.anthropic.com",
+                "Temperature" -> 0.3,
+                "Headers" -> {"anthropic-version" -> "2023-06-01"},
+                "Model" -> CurrentModel,
+                "ListHandler" -> Function[p, Function[resp,
+                    If[KeyExistsQ[resp, "Error"], EventFire[p, Resolve, $Failed],
+                        EventFire[p, Resolve, Map[
+                            Function[ass,
+                                {ass["id"], ass["display_name"]}
+                            ],
+                            Select[resp["Body"]["data"], Function[m, m["type"] === "model"] ]
+                        ] ]
+                    ]
+                ] ],
+                "MaxTokens" -> getParameter["MaxTokens"]              
+            },
+            "Custom" -> {
+                "APIToken"->getToken["Custom"], 
+
+                "Endpoint" -> getParameter["Endpoint"],
+                "Temperature" -> getParameter["Temperature"],
+                "Model" -> getParameter["Model"],
+                "MaxTokens" -> getParameter["MaxTokens"]              
+            }
+        |>;
 
 
         focused := notebook["FocusedCell"];
 
 
         encodingError[body_] := (
+            Echo["AI >> Encoding error!"];
+            Echo[Compress[body] ];
             chat["Messages"] = Append[chat["Messages"], <|
-                                    "content" -> "Encoding error! <b>Cannot interprete the request</b>. Please reset the chat by sending <code>reset chat</code>. <br/> <p>Compressed message: "<>Compress[body]<>"</p>",
+                                    "content" -> "Encoding error! <b>Cannot interprete the request</b>. Please restart this chat. <br/> <p>Compressed message: "<>Compress[body]<>"</p>",
                                     "role" -> "watchdog",
                                     "date" -> Now
                                 |>];                            
@@ -1023,8 +1084,10 @@ createChat[assoc_Association] := With[{
         );
 
         APIError[err_] := (
+            Echo["AI >> API Error!"];
+            Echo[err];
             chat["Messages"] = Append[chat["Messages"], <|
-                                    "content" -> StringJoin[err, "\n", "Please reset the chat by sending <code>reset chat</code>"],
+                                    "content" -> StringJoin[err, "\n", "Please restart this chat"],
                                     "role" -> "watchdog",
                                     "date" -> Now
                                 |>];                            
@@ -1033,7 +1096,7 @@ createChat[assoc_Association] := With[{
         );
 
         functionsHandler[a_Association, cbk_] := Module[{toolResults = {}, callIndex = 0, totalCalls},
-            Echo["AI request >>"];
+            Echo["AI function handling >>"];
 
             totalCalls = Length[a["tool_calls"] ];
             (* Pre-allocate toolResults with placeholders to preserve order *)
@@ -1059,63 +1122,61 @@ createChat[assoc_Association] := With[{
             ] ];
         ];
 
-        initializeChat := (
+        initializeChat := Module[{localChat},
+            Echo["AI >> initializeChat"];
             systemPromt = Uncompress[getParameter["AIAssistantAssistantPrompt"] ];
 
-            With[{promt = systemPromt},
-                chat = GPTChatObject[promt, 
+            With[{promt = systemPromt, modelParams = defaultModels[CurrentProvider]},
+                localChat = GPTChatObject[promt, 
                     "ToolFunction"->basisChatFunction, 
                     "ToolHandler"->functionsHandler, 
-                    "APIToken"->getToken, 
-
-                    "Endpoint" -> getParameter["Endpoint"],
-                    "Temperature" -> getParameter["Temperature"],
-                    "Model" -> getParameter["Model"],
-                    "MaxTokens" -> getParameter["MaxTokens"],
-
+                    Sequence @@ modelParams,
                     "Logger"->Function[x, 
                         If[StringQ[x["Error"] ],
-                            APIError[x["Error"] ]
+                            APIError[x["Error"] ];
+                            WebUISubmit[Siriwave["Stop"], client ];
                         ,
-                            EventFire[chat, "Update", chat["Messages"] ] 
+                            EventFire[localChat, "Update", localChat["Messages"] ] 
                         ]
                     ] ]
                 ;
             ];
 
-            notebook["ChatBook"] = chat;
-            chat
-        );
+            notebook["ChatBook"] = localChat;
 
-        initializeChat;
+            With[{uid = CreateUUID[], c = localChat},
+                AIChat`HashMap[uid] = c;
+                c["Hash"] = uid;
 
-        With[{uid = CreateUUID[], c = chat},
-            AIChat`HashMap[uid] = c;
-            c["Hash"] = uid;
+                If[c["Shown"] // TrueQ,
+                    WebUIClose[c["Socket"] ];
+                    SetTimeout[WebUILocation["/gptchat?id="<>uid, client, "Target"->_, "Features"->"width=460, height=640, top=0, left=800"], 300];
+                ,
+                    WebUILocation["/gptchat?id="<>uid, client, "Target"->_, "Features"->"width=460, height=640, top=0, left=800"];
+                ];
 
-            If[c["Shown"] // TrueQ,
-                WebUIClose[c["Socket"] ];
-                SetTimeout[WebUILocation["/gptchat?id="<>uid, client, "Target"->_, "Features"->"width=460, height=640, top=0, left=800"], 300];
-            ,
-                WebUILocation["/gptchat?id="<>uid, client, "Target"->_, "Features"->"width=460, height=640, top=0, left=800"];
-            ];
 
-            
-            EventHandler[EventClone[notebook], {
-                "OnClose" -> Function[Null,
-                    notebook["ChatBook"] = .;
-                    AIChat`HashMap[uid] = .;
-                    If[c["Shown"] // TrueQ,
-                        WebUIClose[c["Socket"] ];
-                    ];
-                    Delete[c];
-                    Echo["AI Chat was destoryed"];
-                ]
-            }];
+                EventHandler[EventClone[notebook], {
+                    "OnClose" -> Function[Null,
+                        notebook["ChatBook"] = .;
+                        AIChat`HashMap[uid] = .;
+                        If[c["Shown"] // TrueQ,
+                            WebUIClose[c["Socket"] ];
+                        ];
+                        Delete[c];
+                        Echo["AI Chat was destoryed"];
+                    ]
+                }];
 
-            EventHandler[chat, {"Comment" -> Function[payload,
-                If[StringMatchQ[ToLowerCase[payload], "reset chat"~~___],
-
+                EventHandler[localChat, {
+                "ModelChange" -> Function[Null,
+                    Echo["AI >> ModelChange requested"];
+                    CurrentProvider = Automatic;
+                    CurrentModel = Automatic;
+                    EventFire[localChat, "Reset", True];
+                ],
+                "Reset" -> Function[payload,
+                    Echo["AI >> Reset chat"];
                     notebook["ChatBook"] = .;
                     AIChat`HashMap[uid] = .;
                     If[c["Shown"] // TrueQ,
@@ -1124,34 +1185,122 @@ createChat[assoc_Association] := With[{
                     Delete[c];
                     WebUISubmit[Siriwave["Stop"], client ];
                     Echo["AI Chat was destoryed"];
+                ],
 
+                "Comment" -> Function[payload,
+                        WebUISubmit[Siriwave["Start", "canvas-palette-back"], client ];
+                        Echo["AI >> Comment to a chat"];
 
-                ,
-                    WebUISubmit[Siriwave["Start", "canvas-palette-back"], client ];
-                    Echo["Appending to chat:"];
-                   
-                    Then[GPTChatCompletePromise[ chat, payload ], Function[Null,
-                        WebUISubmit[Siriwave["Stop"], client ];
-                    ] ]; 
-                ];
-            ]}];
+                        Then[GPTChatCompletePromise[ localChat, payload ], Function[Null,
+                            WebUISubmit[Siriwave["Stop"], client ];
+                        ] ]; 
+                ]}];
+            ];
+
+            localChat
         ];
 
+        Echo[StringTemplate["AI >> CurrentProvider is ``"][CurrentProvider] ];
+        If[CurrentProvider === Automatic, With[{p = Promise[]},
+            
+            EventFire[modals, "SelectBox", <|"Promise"->p, "message"->"", "title"->"Select a provider", "list"->Keys[defaultModels]|>];
 
+            CurrentProvider = Await[p];
+            If[IntegerQ[CurrentProvider],
+                CurrentProvider = Keys[defaultModels][[CurrentProvider]];
+            ];
 
+            Echo[StringTemplate["AI >> Got a provider ``"][CurrentProvider] ];
 
+            If[!StringQ[CurrentProvider], 
+                Echo["AI >> Failed to get a provider"];
+                chat = $Failed;
+                CurrentProvider = Automatic;
+                CurrentModel = Automatic;
+            ];
+        ] ];
+
+        Echo[StringTemplate["AI >> APIToken is ``"][Association[defaultModels[CurrentProvider] ]["APIToken"] ] ];
+        
+        If[!StringQ[Association[ defaultModels[CurrentProvider] ]["APIToken"] ] && chat =!= $Failed, With[{requestPromise = Promise[], token = Unique[]},   
+            EventFire[modals, "TextBox", <|
+                "Promise"->requestPromise, "title"->"Please, paste your API Key here", "default"-> ""
+            |>];
+
+            token = Await[requestPromise];
+
+            Echo["AI >> Got a token from window"];
+
+            If[!StringQ[token], 
+                Echo["AI >> Failed to get a token"];
+                chat = $Failed;
+                CurrentProvider = Automatic;
+                CurrentModel = Automatic;
+            ,            
+
+                setToken[CurrentProvider, StringTrim[token] ];
+                Echo[StringTemplate["AI >> APIToken is ``"][token ] ];
+            ];
+        ] ];
+
+        Echo[StringTemplate["AI >> Provider is ``"][ToString[ CurrentProvider ] ] ];
+        Echo[StringTemplate["AI >> Provider is ``"][ToString[ Association[defaultModels[CurrentProvider] ] ] ] ];
+        Echo[StringTemplate["AI >> Model is ``"][ToString[ Association[defaultModels[CurrentProvider] ]["Model"] ] ] ];
+
+        Echo[StringTemplate["AI >> chat is ``"][ToString[ chat ] ] ];
+
+        If[Association[defaultModels[CurrentProvider] ]["Model"]  === Automatic && chat =!= $Failed, With[{
+            discovered = Unique[],
+            p = Promise[]
+        },
+            Echo["AI >> Try to discover"];
+
+            discovered = discoverFunction[Association[ defaultModels[CurrentProvider] ] ];
+            discovered = discovered // Await;
+
+            Echo["AI >> Discovered models: "];
+            Echo[discovered];
+
+            If[!ListQ[discovered], 
+                Echo["AI >> Failed to discover"];
+                chat = $Failed;
+                CurrentProvider = Automatic;
+                CurrentModel = Automatic;
+            ,
+                EventFire[modals, "SelectBox", <|"Promise"->p, "message"->"", "title"->"Select a model", "list"->discovered[[All,2]]|>];
+
+                CurrentModel = Await[p];
+                If[IntegerQ[CurrentModel], CurrentModel = discovered[[CurrentModel, 1]]];
+
+                Echo["AI >> Got a model: "<>CurrentModel ];
+
+                If[!StringQ[CurrentModel],
+                    Echo["AI >> Failed to set a model"];
+                    chat = $Failed;
+                    CurrentProvider = Automatic;
+                    CurrentModel = Automatic;                
+                ];
+
+            ];     
+        ] ];  
+
+        Echo["AI >> Trying to initialize a chat"];
+
+        If[chat =!= $Failed, 
+            chat = initializeChat;
+            Echo["AI >> Done"];, 
+            Echo["AI >> Failed"];
+        ];  
+        
         chat
-    ]
-]
+    ] ]
+] 
 
 
-getToken := SystemCredential["WLJSAI_API_KEY"]
+getToken[type_] := SystemCredential["WLJSAI_API_KEY_"<>type]
+setToken[type_, data_] := With[{key = "WLJSAI_API_KEY_"<>type}, SystemCredential[key] = data ];
 
-checkToken := With[{
-    token = getToken
-},
-    StringQ[token]
-]
+
 
 handle[data_Association] := Module[{}, With[{
     
@@ -1161,24 +1310,6 @@ handle[data_Association] := Module[{}, With[{
 
     If[$VersionNumber < 14.0, 
         EventFire[data["Messanger"], "Warning", "Wolfram Engine Version 14.0 or higher is required"];
-        Return[Null];
-    ];
-
-    If[!checkToken, 
-        EventFire[data["Messanger"], "Warning", "API Key was not found. Please, enter a valid one"];
-        With[{requestPromise = Promise[]},
-            Then[requestPromise, Function[token,
-                If[StringQ[token],
-                    getToken = StringTrim[token];
-                    SystemCredential["WLJSAI_API_KEY"] = StringTrim[token];
-                    handle[data];
-                ];
-            ] ];
-
-            EventFire[data["Modals"], "TextBox", <|
-                "Promise"->requestPromise, "title"->"Please, paste your API Key here", "default"-> ""
-            |>];
-        ];
         Return[Null];
     ];
 
@@ -1199,10 +1330,17 @@ handle[data_Association] := Module[{}, With[{
             ] ]; 
         ,
             Echo["Create a chat!"];
-            Then[GPTChatCompletePromise[ createChat[assoc], makePromt[assoc] ], Function[Null,
-                WebUISubmit[Siriwave["Stop"], data["Client"] ];
+            Then[createChat[assoc][], Function[chat,
+                If[chat === $Failed,
+                    EventFire[data["Messanger"], "Warning", "Failed to create a chat"];
+                    Return[Null];
+                ,
+                    Then[GPTChatCompletePromise[ chat, makePromt[assoc] ], Function[Null,
+                        WebUISubmit[Siriwave["Stop"], data["Client"] ];
                 
-            ] ];        
+                    ] ];      
+                ]; 
+            ] ];  
         ]
 
     ];
@@ -1211,11 +1349,6 @@ handle[data_Association] := Module[{}, With[{
 
 EventHandler[SnippetsEvents, {"InvokeAI" -> handle}];
 
-If[getParameter["AIAssistantAutocomplit"],
-    If[checkToken,
-        Get[FileNameJoin[{$rootDir, "src", "Autocomplete.wl"}] ];
-    ];
-];
 
 End[]
 EndPackage[]

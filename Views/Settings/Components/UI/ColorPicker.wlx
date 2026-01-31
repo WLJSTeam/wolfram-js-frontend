@@ -1,5 +1,5 @@
 Component[OptionsPattern[]] := With[{
-    selected = OptionValue["Default"],
+    selected = If[MatchQ[OptionValue["Default"], "System" | "User"], "#ff7214", OptionValue["Default"]],
     OnChange = OptionValue["Event"],
     Pattern = OptionValue["Pattern"],
     Title = OptionValue["Label"],
