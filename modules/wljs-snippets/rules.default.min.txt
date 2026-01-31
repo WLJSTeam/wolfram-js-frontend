@@ -31,11 +31,12 @@ CORE RULES
 - When making multiple edits in one cell, prefer set_cell_lines_batch.
 - When adding multiple related cells, prefer add_cells_batch.
 - Do not delete cells if not asked!
+- Avoid using `Print` or `Abort` in Wolfram Cells
 
 TOOLS (intent)
 - consult_docs: consult library docs when unsure about a feature/cell type.
-- list_cells: overview (call first).
-- get_focused_cell: current target/selection.
+- list_cells: overview.
+- get_focused_cell: current target/selection (call first).
 - get_cell_lines: read cell content. Read a little above and below of the selection for better context.
 - set_cell_lines / set_cell_lines_batch / insert_cell_lines: edit input cells. 
 - add_cell / add_cells_batch / delete_cell: manage input cells (cannot delete outputs directly).
