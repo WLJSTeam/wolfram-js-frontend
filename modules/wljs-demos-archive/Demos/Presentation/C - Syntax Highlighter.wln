@@ -1,73 +1,53 @@
-<|"Notebook" -> <|"Controller" -> "a16fe7f5-4db0-4f40-a28c-bcb7a2d7e13e", 
+<|"Notebook" -> <|"Controller" -> "073142f8-2ef6-4837-b656-1246f144a2a7", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$234], 
-   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "6892d695-c098-448b-bbe2-2a107f605aa1", 
-   "Objects" -> <|"39642a5b-f8c5-4616-84c3-7dc13faab5ad" -> 
-      <|"Public" -> Hold[HLJSView["\n#include <stdio.h>\n\nint main() {\n    \
-int *ptr;  // Declaring a pointer, but not initializing it\n\n    *ptr = 42; \
-// \|01f52b Writing to an uninitialized pointer \[LongDash] undefined \
-behavior!\n\n    printf(\"Value at ptr: %d\\n\", *ptr);\n\n    return \
-0;\n}\n", "c"]]|>|>, "Path" -> "/Users/kirill/Github/wljs-demos-archive/Demos\
-/Slides and presentation/B - Highlight code.wln", 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$807], "FocusedCellSelection" -> 
+    {25, 24}, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "99e11084-4c32-49a7-bee3-9779cba1d719", 
+   "Objects" -> <|"0eda8793-2d84-4839-a78e-b0c26fc637ca" -> 
+      <|"Public" -> Hold[HLJSView["\n#include <stdio.h>\n\nint main() {\n  \
+int *ptr;  // Declaring a pointer, but not initializing it\n\n  *ptr = 42; // \
+\|01f52b Writing to an uninitialized pointer \[LongDash] undefined \
+behavior!\n\n  printf(\"Value at ptr: %d\n\", *ptr);\n\n  return 0;\n}\n", 
+          "c"]]|>|>, "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modu\
+les/wljs-demos-archive/Demos/Presentation/C - Syntax Highlighter.wln", 
    "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
    "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
-      "Highlight Code on slides", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$187]], 
-     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Building", 
-      CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$199]], 
-     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Usage", 
-      CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$233]]}|>, 
- "Cells" -> {<|"Data" -> ".md\n# Highlight Code on slides\nIn this example we \
-will build and use a custom component to highlight code placed on slides \
-using HLJS library\n\n> No bundling is needed", "Display" -> "codemirror", 
-    "Hash" -> "43483d9c-55b3-40e8-9aca-e557446de143", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "# Highlight Code on slides\nIn this example we will build and \
-use a custom component to highlight code placed on slides using HLJS \
-library\n\n> No bundling is needed", "Display" -> "markdown", 
-    "Hash" -> "a8cc5af1-4fbd-488a-a5fe-f1b417d785c7", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".md\n## Building\n\n:::note\nThis notebook already contains \
-built version of all scripts in the output cells. Do not evaluate the \
-following cells if you want just to use it.\n\n__Skip to `Usage` \
-section__\n:::", "Display" -> "codemirror", 
-    "Hash" -> "c383ca11-c5ad-4b6d-8317-63540089996e", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "## Building\n\n:::note\nThis notebook already contains built \
-version of all scripts in the output cells. Do not evaluate the following \
-cells if you want just to use it.\n\n__Skip to `Usage` section__\n:::", 
-    "Display" -> "markdown", "Hash" -> 
-     "577729df-f063-4867-bba9-f96b79e18e9e", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".sh\nnpm i highlight.js --prefix .", 
+      "Syntax Highlighter", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$806]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Syntax Highlighter\nIt uses HLJS compiled \
+using ESM cells. \n\n:::note\nYou do not need to recompile it again, but just \
+copy the whole cell group.\n:::\n\nInstall NPM library:", 
     "Display" -> "codemirror", "Hash" -> 
-     "8d502d56-3197-41e1-9df1-a26017fda880", "Invisible" -> False, 
+     "94d402be-de37-47a2-a41d-066b999d6f47", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> "# Syntax Highlighter\nIt uses HLJS compiled using ESM cells. \
+\n\n:::note\nYou do not need to recompile it again, but just copy the whole \
+cell group.\n:::\n\nInstall NPM library:", "Display" -> "markdown", 
+    "Hash" -> "7d3adb9c-a6fd-4ca8-b743-a1eaeda0fff7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> ".sh\nnpm i highlight.js", "Display" -> "codemirror", 
+    "Hash" -> "09bc0271-1b18-4d29-ac22-61a880e2980b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".md\nNow define our function to highlight the content in JS", 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> 
+     ".md\nBundle it and define a WLJS function to run the highlighting:", 
     "Display" -> "codemirror", "Hash" -> 
-     "dde17e4e-4db0-40af-89b5-2dc3b284bf97", "Invisible" -> False, 
+     "68be133c-871a-47fb-aa06-e77961a61375", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "Now define our function to highlight the content in JS", 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> 
+     "Bundle it and define a WLJS function to run the highlighting:", 
     "Display" -> "markdown", "Hash" -> 
-     "49c79473-11bf-47a2-8563-2f1e62b1046a", "Invisible" -> False, 
+     "567b43e8-5218-4fe6-b17e-0db208a17f26", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
    <|"Data" -> ".esm\n\nimport hljs from 'highlight.js';\n\ncore.HLJSView = \
 async (args, env) => {\n  const code = await interpretate(args[0], env);\n  \
 const language = await interpretate(args[1], env);\n  const container = \
@@ -77,10 +57,10 @@ env.element.appendChild(container);\n  container.appendChild(element);\n  \
 element.classList.add('hljs', 'text-left', 'rounded');\n\n  element.innerHTML \
 = hljs.highlight(\n    code.trim(),\n    { language: language }\n  \
 ).value;\n}\n", "Display" -> "codemirror", 
-    "Hash" -> "7d186f97-c3a7-4360-aa14-7fae7255ed38", "Invisible" -> False, 
+    "Hash" -> "e984437b-4cea-4604-adbc-4ebf54f417fc", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
    <|"Data" -> "var __create = Object.create;\nvar __defProp = \
 Object.defineProperty;\nvar __getOwnPropDesc = \
 Object.getOwnPropertyDescriptor;\nvar __getOwnPropNames = \
@@ -27340,23 +27320,23 @@ env.element.appendChild(container);\n  container.appendChild(element);\n  \
 element.classList.add(\"hljs\", \"text-left\", \"rounded\");\n  \
 element.innerHTML = es_default.highlight(\n    code.trim(),\n    { language \
 }\n  ).value;\n};\n", "Display" -> "esm", 
-    "Hash" -> "8afe9bdc-3f5c-4957-915b-5a1401384177", "Invisible" -> False, 
+    "Hash" -> "51ff90fb-dace-4565-b0ef-a43d2a5fd89b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".md\nDefine the styles for the highlighter", 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> ".md\nEvaluate styles for HLJS in a separate cell:", 
     "Display" -> "codemirror", "Hash" -> 
-     "a4c359ec-d421-4180-99c4-909a6ded4d52", "Invisible" -> False, 
+     "e1487711-b501-4281-b393-44ba12b847a7", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "Define the styles for the highlighter", 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> "Evaluate styles for HLJS in a separate cell:", 
     "Display" -> "markdown", "Hash" -> 
-     "4615976f-68e8-410e-b23f-e210ecf1ff68", "Invisible" -> False, 
+     "a98b36a5-cfef-4b84-8945-d783f47e0e90", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".wlx\n\n<style>\npre \
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> ".html\n\n<style>\npre \
 code.hljs{font-family:'Hasklig';display:block;overflow-x:auto;padding:1em}cod\
 e.hljs{padding:3px \
 5px}.hljs{background:#f3f3f3;color:#444}.hljs-comment{color:#697070}.hljs-pun\
@@ -27371,11 +27351,11 @@ js-selector-pseudo,.hljs-symbol,.hljs-template-variable,.hljs-variable{color:\
 hljs-code{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta \
 .hljs-string{color:#38a}.hljs-emphasis{font-style:italic}.hljs-strong{font-we\
 ight:700} \n</style>", "Display" -> "codemirror", 
-    "Hash" -> "c3daf862-8994-4a06-9f70-d8719a39568b", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "<style >pre \
+    "Hash" -> "9bc29240-28c5-4d8f-bd03-f80725baf298", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> "\n<style>\npre \
 code.hljs{font-family:'Hasklig';display:block;overflow-x:auto;padding:1em}cod\
 e.hljs{padding:3px \
 5px}.hljs{background:#f3f3f3;color:#444}.hljs-comment{color:#697070}.hljs-pun\
@@ -27389,74 +27369,58 @@ js-selector-pseudo,.hljs-symbol,.hljs-template-variable,.hljs-variable{color:\
 #ab5656}.hljs-literal{color:#695}.hljs-addition,.hljs-built_in,.hljs-bullet,.\
 hljs-code{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta \
 .hljs-string{color:#38a}.hljs-emphasis{font-style:italic}.hljs-strong{font-we\
-ight:700}</style>", "Display" -> "wlx", 
-    "Hash" -> "25289816-916f-48f8-808e-76737468ddad", "Invisible" -> False, 
+ight:700} \n</style>", "Display" -> "html", 
+    "Hash" -> "96d60a5d-d0f2-4745-a531-52214154b721", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".md\nDefine a wapper function on Wolfram Kernel", 
-    "Display" -> "codemirror", "Hash" -> 
-     "efb87745-757c-41f4-8bce-d2c232944dbc", "Invisible" -> False, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> ".md\nEvaluate the Wolfram Language definitions for HLJS \
+symbol. It will define an output `WLXForm`:", "Display" -> "codemirror", 
+    "Hash" -> "9485d5ce-4c8d-4d56-9866-a088a5382862", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "Define a wapper function on Wolfram Kernel", 
-    "Display" -> "markdown", "Hash" -> 
-     "0c6b36d8-65b3-46ce-b0cb-56572241846a", "Invisible" -> False, 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> "Evaluate the Wolfram Language definitions for HLJS symbol. It \
+will define an output `WLXForm`:", "Display" -> "markdown", 
+    "Hash" -> "a52844cb-3aa9-4567-8a8e-e9500eac1630", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
    <|"Data" -> "HLJS[code_, Rule[\"Lang\", lang_String]] := \
 CreateFrontEndObject[\n  HLJSView[code // ToStringRiffle, lang]\n]", 
     "Display" -> "codemirror", "Hash" -> 
-     "8da33fab-6c90-48ef-99b1-a8c4047fd019", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".md\nHere `CreateFrontEndObject` allows to compress the \
-expression and minimize the memoryprint. Another benifit an expression \
-produced by it already has a defined output form for WLX cells aka `WLXForm` \
-used as slides.", "Display" -> "codemirror", 
-    "Hash" -> "67d4d1ef-46f4-4a28-a250-786b62690d2c", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "Here `CreateFrontEndObject` allows to compress the expression \
-and minimize the memoryprint. Another benifit an expression produced by it \
-already has a defined output form for WLX cells aka `WLXForm` used as \
-slides.", "Display" -> "markdown", "Hash" -> 
-     "e0f7b1b4-333a-46d3-82e8-fee88816d6b1", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".md\n## Usage\nLet's make a basic slide with a C-code block", 
-    "Display" -> "codemirror", "Hash" -> 
-     "6abaeeb6-25fc-4825-b40f-9f943aa0ec60", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> "## Usage\nLet's make a basic slide with a C-code block", 
-    "Display" -> "markdown", "Hash" -> 
-     "d86782e2-b777-4776-b951-5f63c27ecb58", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
-   <|"Data" -> ".slide\n\n<!-- .slide: class=\"slide-standard\" -->\n\n# \
-Pointers in C\n\nHere is how you can shoot youself in a leg\n\n<HLJS \
-Lang={\"c\"}>\n<Escape>\n#include <stdio.h>\n\nint main() {\n    int *ptr;  \
-// Declaring a pointer, but not initializing it\n\n    *ptr = 42; // \|01f52b \
-Writing to an uninitialized pointer \[LongDash] undefined behavior!\n\n    \
-printf(\"Value at ptr: %d\\n\", *ptr);\n\n    return \
-0;\n}\n</Escape>\n</HLJS>", "Display" -> "codemirror", 
-    "Hash" -> "823dda79-177e-4f98-a03a-4f62a52bb176", "Invisible" -> False, 
+     "ea842eaa-d2a2-4bf2-bf03-91e33fd01a88", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> ".md\nNow we are ready to embed any code on a slide! Here is \
+an example with C:", "Display" -> "codemirror", 
+    "Hash" -> "40a2d491-ffbf-4d39-ae5c-f245df8f25c5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> "Now we are ready to embed any code on a slide! Here is an \
+example with C:", "Display" -> "markdown", 
+    "Hash" -> "68dc1566-56e3-4f5d-87fb-e65c3d002e52", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
+   <|"Data" -> ".slide\n\n<!-- .slide: class=\"slide-standard\" -->\n\n# \
+Pointers in C\n\nHere is how you can shoot youself in a leg\n\n<HLJS \
+Lang={\"c\"}>\n<Escape>\n#include <stdio.h>\n\nint main() {\n  int *ptr;  // \
+Declaring a pointer, but not initializing it\n\n  *ptr = 42; // \|01f52b \
+Writing to an uninitialized pointer \[LongDash] undefined behavior!\n\n  \
+printf(\"Value at ptr: %d\n\", *ptr);\n\n  return 0;\n}\n</Escape>\n</HLJS>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ff64d3db-4c5a-4b65-acd6-f4be2f311333", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
    <|"Data" -> "<dummy >\n<!-- .slide: class=\"slide-standard\" -->\n\n# \
 Pointers in C\n\nHere is how you can shoot youself in a \
-leg\n\nFrontEndExecutable[39642a5b-f8c5-4616-84c3-7dc13faab5ad]</dummy>", 
-    "Display" -> "slide", "Hash" -> "21bafbfd-b3f7-44d4-978e-e61ec538a48a", 
+leg\n\nFrontEndExecutable[0eda8793-2d84-4839-a78e-b0c26fc637ca]</dummy>", 
+    "Display" -> "slide", "Hash" -> "b868692d-0955-454d-a58b-40470ab62fb9", 
     "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
-    "UID" -> Null, "Notebook" -> "887035a7-21ad-4e53-a14c-5df9e682aaa0"|>}, 
+    "UID" -> Null, "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>}, 
  "serializer" -> "jsfn4"|>
