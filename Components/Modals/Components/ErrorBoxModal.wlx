@@ -29,7 +29,7 @@ Component[OptionsPattern[]] := With[{
             core['<ModalController/>'] = async (args, env) => {
                 const api = window.electronAPI || window.iframeAPI;
                 const opts = await interpretate(args[0], env);
-                if (opts.content) alert(opts.title + ': ' + opts.content); else alert(opts.title);
+                if (opts.content) interpretate.alert(opts.title + ': ' + opts.content); else interpretate.alert(opts.title);
             }            
         </script>
     ]

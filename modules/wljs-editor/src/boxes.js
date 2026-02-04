@@ -41,6 +41,8 @@
             });
   }
 
+  boxes.LightDarkAutoColorRules = () => {}
+
   boxes.ViewDecorator = async (args, env) => {
     const type = interpretate(args[0], env);
     await boxes.ViewDecorator[type](args.slice(1), {...env, context:boxes});

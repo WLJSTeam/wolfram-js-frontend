@@ -41,7 +41,7 @@ let cryptoHash = async (message) => {
 
 if (!(window?.crypto?.subtle)) {
     cryptoHash = async () => {
-        alert('Crypto features are not available in non-secured context. Please run an app locally or use reverse proxy with TSL.');
+        interpretate.alert('Crypto features are not available in non-secured context. Please run an app locally or use reverse proxy with TSL.');
         throw 'Crypto features are not available in non-secured context';
     }
 }

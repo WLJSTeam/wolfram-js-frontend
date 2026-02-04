@@ -44,7 +44,7 @@ Component[OptionsPattern[]] := With[{
         <script type="module">
             core['<ModalController/>'] = async (args, env) => {
                 const opts = await interpretate(args[0], env);
-                const res = window.confirm(opts.confirmMessage || opts.message);
+                const res = await interpretate.confirmAsync(opts.confirmMessage || opts.message);
                 return res;
             }
         </script>

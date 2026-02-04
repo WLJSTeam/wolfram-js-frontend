@@ -29466,7 +29466,7 @@ wolframLanguage.reBuild = (vocabulary) => {
   builtinsLocalQ = vocabulary.map((e) => e.type == 'keyword' ? false : true);
 };
 
-const transferFiles = (list, ev, view, handler) => {
+const transferFiles = async (list, ev, view, handler) => {
     
 
     
@@ -29475,7 +29475,8 @@ const transferFiles = (list, ev, view, handler) => {
     if (list.length == 0) return;
 
     if (window.electronAPI && handler.pastePath) {
-      if (!confirm('Upload a file too?')) {
+      const conf = await interpretate.confirmAsync('Upload a file too?');
+      if (!conf) {
         handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
         return;
       }
@@ -29542,7 +29543,7 @@ function readFile(file, cbk, fail) {
     reader.addEventListener('load', (event) => {
       const payload = event.target.result;
       if (payload.byteLength / 1024 / 1024 > 100) {
-        alert('Files > 100Mb are not supported for drag and drop');
+        interpretate.alert('Files > 100Mb are not supported for drag and drop');
         fail();
         return;
         //throw 'Files > 15Mb are not supported for drag and drop';

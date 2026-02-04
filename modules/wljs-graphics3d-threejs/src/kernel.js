@@ -4384,7 +4384,7 @@ g3d.DefaultLighting = (args, env) => {
       light.position.fromArray(l.position);
 
     } else {
-      alert("Error: Internal Light Error", l.type);
+      interpretate.alert("Error: Internal Light Error", l.type);
       return;
     }
     return light;

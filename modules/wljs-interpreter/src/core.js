@@ -729,7 +729,7 @@ core.Equals.update = core.Equals
 core.Equals.destroy = core.Equals
 
 core.Alert = async(args, env) => {
-    alert(await interpretate(args[0], env));
+    interpretate.alert(await interpretate(args[0], env));
 }
 
 core.Print = async(args, env) => {

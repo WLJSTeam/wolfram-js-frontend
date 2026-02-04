@@ -77,7 +77,7 @@ core['CoffeeLiqueur`Extensions`ExportImport`Slides`Private`FlushPDF'] = async (a
 core['CoffeeLiqueur`Extensions`ExportImport`Slides`Private`GetPDF'] = async (args, env) => {
     if (!(window?.electronAPI?.toPDF)) {
         if (overlay) await overlay.dispose();
-        alert('PDF generation is only possible using WLJS desktop app (Electron)');
+        interpretate.alert('PDF generation is only possible using WLJS desktop app (Electron)');
         throw('PDF generation is only possible on desktop app (Electron)');
     }
 
@@ -102,7 +102,7 @@ const printingStyles = `%20%40media%20print%20%7B%0A%20%20%20%20html%2C%20body%2
 core['CoffeeLiqueur`Extensions`ExportImport`Slides`Private`OverlayView'].Create = async (args, env) => {
     if (!(window?.electronAPI?.requestScreenshot)) {
         if (overlay) await overlay.dispose();
-        alert('Rasterization is only possible using WLJS desktop app (Electron)');
+        interpretate.alert('Rasterization is only possible using WLJS desktop app (Electron)');
         throw('Rasterization is only possible on desktop app (Electron)');
     }
 

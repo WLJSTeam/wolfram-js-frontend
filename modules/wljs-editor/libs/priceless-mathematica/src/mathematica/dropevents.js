@@ -5,7 +5,7 @@ import {
   } from "@codemirror/view";
 
 
-  const transferFiles = (list, ev, view, handler) => {
+  const transferFiles = async (list, ev, view, handler) => {
     
 
     
@@ -14,7 +14,8 @@ import {
     if (list.length == 0) return;
 
     if (window.electronAPI && handler.pastePath) {
-      if (!confirm('Upload a file too?')) {
+      const conf = await interpretate.confirmAsync('Upload a file too?');
+      if (!conf) {
         handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
         return;
       }

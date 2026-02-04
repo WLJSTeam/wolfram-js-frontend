@@ -44,7 +44,7 @@ const printingStyles = `%20%40media%20print%20%7B%0A%20%20%20%20html%2C%20body%2
 recorder.Create = async (args, env) => {
     if (!(window?.electronAPI?.requestScreenshot)) {
         if (overlay) await overlay.dispose();
-        alert('Rasterization is only possible using WLJS desktop app (Electron)');
+        interpretate.alert('Rasterization is only possible using WLJS desktop app (Electron)');
         throw('Rasterization is only possible on desktop app (Electron)');
     }
 

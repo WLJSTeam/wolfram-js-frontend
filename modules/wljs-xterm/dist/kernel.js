@@ -167,7 +167,7 @@ core.UIXtermLoad = async (args, env) => {
   const read = (cbk) =>
     localEcho.read('$ ')
       .then(input => cbk(input))
-      .catch(error => alert(`Error reading: ${error}`));
+      .catch(error => interpretate.alert(`Error reading: ${error}`));
 
   const loop = (cmd) => {
     // Create a dedicated status line under the prompt for the spinner

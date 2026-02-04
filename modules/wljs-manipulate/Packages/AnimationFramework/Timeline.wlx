@@ -559,7 +559,7 @@ Component[TEvent_, HandlerSymbol1_, HandlerSymbol2_] := With[{UId = CreateUUID[]
         try {
           stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         } catch(err) {
-          alert('No input device found or allowed');
+          interpretate.alert('No input device found or allowed');
           return;
         }
 

@@ -39,7 +39,7 @@ Window[OptionsPattern[]] := With[{promise = OptionValue["Data"]["Promise"], Comm
                         this.on('Pattern 1', async (data) => {
                             const assoc = await interpretate(data, {hold:true});
                             const payload = await interpretate(assoc.Payload, {});
-                            alert(payload);
+                            interpretate.alert(payload);
                         });
                     </WebUIJSBind>
                   </li>

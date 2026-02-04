@@ -172,7 +172,7 @@ ScriptTemplate[_, port_, initCode_] :=
               console.log(event);
               if (wport == 0) return;
               tryreload(() => {
-                alert('Connection lost. Please, update the page to see new changes.')
+                interpretate.alert('Connection lost. Please, update the page to see new changes.')
               });
             }; 
 
@@ -207,7 +207,7 @@ ScriptTemplate[_, port_, host_, initCode_] :=
               console.log(event);
               if (wport == 0) return;
               tryreload(() => {
-                alert('Connection lost. Please, update the page to see new changes.')
+                interpretate.alert('Connection lost. Please, update the page to see new changes.')
               });
             }; 
 
@@ -244,7 +244,7 @@ ScriptTemplate[prefix_String, port_, initCode_] :=
               console.log(event);
               if (wport == 0) return;
               tryreload(() => {
-                alert('Connection lost. Please, update the page to see new changes.')
+                interpretate.alert('Connection lost. Please, update the page to see new changes.')
               });
             }; 
 
@@ -279,7 +279,7 @@ ScriptTemplate[prefix_String, port_, host_, initCode_] :=
               console.log(event);
               if (wport == 0) return;
               tryreload(() => {
-                alert('Connection lost. Please, update the page to see new changes.')
+                interpretate.alert('Connection lost. Please, update the page to see new changes.')
               });
             }; 
 

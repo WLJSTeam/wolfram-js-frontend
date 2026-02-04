@@ -175,4 +175,3 @@ function search(direction) {
   }                
   document.getElementById("searchInput").focus()
 }
-
