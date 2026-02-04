@@ -1552,8 +1552,11 @@ const closing_handler = (event, id) => {
             return; 
         }
 
-        blocked_windows[id].window.webContents.send('confirm', {message: blocked_windows[id].message, uid: uid});
+        const res = dialog.showMessageBox({message: blocked_windows[id].message, buttons: ['Cancel', 'Close'],  noLink:true, type:'question'});
         
+        res.then((r) => {
+            blocked_windows_messages[uid](r.response == 1);
+        });
 
         event.preventDefault();
         return false;
@@ -2968,10 +2971,14 @@ const promts_hash = {}
 class promt {
     constructor(type = 'binary', title, cbk, window) {
         this.uuid = uuid4();
+        const self = this;
 
         switch(type) {
             case 'binary':
-                window.webContents.send('yesorno', this.uuid, title);
+                const res = dialog.showMessageBox({message: title, buttons: ['No', 'Yes'], noLink:true});
+                res.then((r) => {
+                    self.resolve(r.response == 1);
+                });
                 this.promise = (result) => cbk(result)
             break;
 
