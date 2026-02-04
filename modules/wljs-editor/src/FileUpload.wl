@@ -193,16 +193,11 @@ pasteFileNames["md", cli_, files_] := With[{},
     , cli]
 ]
 
-fixOSPaths[str_] := If[$OperatingSystem === "Windows",
-    StringReplace[str, "\\" -> "\\\\"]
-,
-    str
-]
 
-pasteFilePaths[cli_, controls_, data_, modals_, messager_] := Module[{files = fixOSPaths /@ URLDecode /@ ImportString[URLDecode[data["JSON"] ], "RawJSON"]},
+pasteFilePaths[cli_, controls_, data_, modals_, messager_] := Module[{files = URLDecode /@ ImportString[URLDecode[data["JSON"] ], "RawJSON"]},
     If[data["CellType"] =!= "wl", Return[Null, Module] ];
     WLJSTransportSend[If[Length[files ] === 1,
-        FrontEditorSelected["Set", "Import[\""<>files[[1]]<>"\"]" ]
+        FrontEditorSelected["Set", "Import["<>ToString[files[[1]], InputForm]<>"]" ]
     ,
         FrontEditorSelected["Set", "Import /@ "<>ToString[ files, InputForm] ]
     ], cli]    
