@@ -29474,11 +29474,15 @@ const transferFiles = async (list, ev, view, handler) => {
 
     if (list.length == 0) return;
 
-    if (window.electronAPI && handler.pastePath) {
-      const conf = await interpretate.confirmAsync('Upload a file too?');
-      if (!conf) {
-        handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
-        return;
+    if (handler.pasteTypeAsk) {
+      const ch = await handler.pasteTypeAsk(view, ['Import a file', 'Import a path', 'Insert a path']);
+      switch (ch) {
+        case 2:
+          handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
+          return;
+        case 3:
+          handler.insertPath(view, list.map((el) => window.electronAPI.getFilePath(el)));
+          return;
       }
     }
 
@@ -29543,7 +29547,7 @@ function readFile(file, cbk, fail) {
     reader.addEventListener('load', (event) => {
       const payload = event.target.result;
       if (payload.byteLength / 1024 / 1024 > 100) {
-        interpretate.alert('Files > 100Mb are not supported for drag and drop');
+        alert('Files > 100Mb are not supported for drag and drop');
         fail();
         return;
         //throw 'Files > 15Mb are not supported for drag and drop';
@@ -41772,6 +41776,24 @@ const wlDrop = {
       }
     },
 
+    pasteTypeAsk: async (view, choise) => {
+      console.log('asking a user');
+      if (view.dom.ocellref) {
+        const uid = view.dom.ocellref.origin.uid;
+        const res = await server.io.fetch('CoffeeLiqueur`Extensions`FileUploader`Private`askUserToChoose', [uid, choise]);
+        console.log(res);
+        return res;
+      }
+    },
+
+    insertPath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:InsertFilePaths"]');
+      }
+    },
+
     pastePath: (view, pathsArray) => {
       selectedEditor = view;
       if (view.dom.ocellref) {
@@ -41804,6 +41826,21 @@ const wlPaste = {
       const channel = view.dom.ocellref.origin.channel;
       server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"wl"|>`, 'Forwarded["CM:PasteEvent"]');
     }
+  },
+
+  pasteTypeAsk: async (view, choise) => {
+      if (view.dom.ocellref) {
+        const uid = view.dom.ocellref.origin.uid;
+        return await server.io.fetch('CoffeeLiqueur`Extensions`FileUploader`Private`askUserToChoose', [uid, choise]);
+      }
+  },
+
+  insertPath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:InsertFilePaths"]');
+      }
   },
 
   pastePath: (view, pathsArray) => {

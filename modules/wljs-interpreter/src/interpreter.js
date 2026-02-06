@@ -765,7 +765,7 @@ interpretate.alert = (msg) => {
     alert(msg);
     return;
   }
-  electronAPI.showMessageBox({type:'info', message:msg}, console.log);
+  electronAPI.showMessageBox({type:'info', message:String(msg)}, console.log);
 }
 
 interpretate.confirm = (msg, cbk) => interpretate.confirmAsync(msg).then((r) => cbk(r == true))
@@ -773,7 +773,7 @@ interpretate.confirm = (msg, cbk) => interpretate.confirmAsync(msg).then((r) => 
 interpretate.confirmAsync = async (msg) => {
   if (!electronAPI) return confirm(msg);
   const p = Deferred();
-  electronAPI.showMessageBox({type:'question', noLink:true,message:msg, buttons:['Cancel', 'OK']}, (r)=>{p.resolve(r.response == 1)});
+  electronAPI.showMessageBox({type:'question', noLink:true,message:String(msg), buttons:['Cancel', 'OK']}, (r)=>{p.resolve(r.response == 1)});
   return p.promise;
 }
 

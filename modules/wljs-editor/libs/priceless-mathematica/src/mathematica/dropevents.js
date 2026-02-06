@@ -13,11 +13,19 @@ import {
 
     if (list.length == 0) return;
 
-    if (window.electronAPI && handler.pastePath) {
-      const conf = await interpretate.confirmAsync('Upload a file too?');
-      if (!conf) {
-        handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
-        return;
+    if (handler.pasteTypeAsk) {
+      const ch = await handler.pasteTypeAsk(view, ['Import a file', 'Import a path', 'Insert a path']);
+      switch (ch) {
+        case 2:
+          handler.pastePath(view, list.map((el) => window.electronAPI.getFilePath(el)));
+          return;
+        break;
+        case 3:
+          handler.insertPath(view, list.map((el) => window.electronAPI.getFilePath(el)));
+          return;
+        
+        break
+        default:
       }
     }
 

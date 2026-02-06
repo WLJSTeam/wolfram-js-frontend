@@ -122,7 +122,7 @@ transformCell[cell_, "Output", _] := With[{
     ]
 ]
 
-transformCell[cell_, "Output", "esm" | "js" | "javascript"] := With[{
+transformCell[cell_, "Output", "mjs" | "js" | "javascript"] := With[{
     opts = ExportString[cell["Props"], "JSON", "Compact"->0],
     id = cell["Hash"],
     nid = cell["Notebook"]["Hash"],

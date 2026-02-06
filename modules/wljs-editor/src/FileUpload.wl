@@ -16,6 +16,14 @@ Needs["CoffeeLiqueur`Notebook`Evaluator`" -> "StandardEvaluator`"];
 Begin["`Private`"]
 
 
+askUserToChoose[cellId_, list_] := With[{notebook = cell`HashMap[cellId]["Notebook"], p = Promise[]},
+    Echo["File uploader >> upload choise"];
+    Echo[cellId];
+    Echo[list];
+    EventFire[notebook["ModalsChannel"], "SelectBox", <|"Promise"->p, "title"->"File options", "message"->"Please, choose one above", "list"->list|>];
+    p
+];
+
 checkLink[notebook_, logs_] := With[{},
     If[!(notebook["Evaluator"]["Kernel"]["State"] === "Initialized") || !TrueQ[notebook["WebSocketQ"] ],
         EventFire[logs, "Warning", "Kernel is not ready or not connected to a notebook"];
@@ -203,6 +211,17 @@ pasteFilePaths[cli_, controls_, data_, modals_, messager_] := Module[{files = UR
     ], cli]    
 ]
 
+insertFilePaths[cli_, controls_, data_, modals_, messager_] := Module[{files = URLDecode /@ ImportString[URLDecode[data["JSON"] ], "RawJSON"]},
+    If[data["CellType"] =!= "wl", Return[Null, Module] ];
+    WLJSTransportSend[If[Length[files ] === 1,
+        FrontEditorSelected["Set", ""<>ToString[files[[1]], InputForm]<>"" ]
+    ,
+        FrontEditorSelected["Set", ""<>ToString[ files, InputForm] ]
+    ], cli]    
+]
+
+
+
 (* drop and paste events *)
 controlsListener[OptionsPattern[]] := With[{messager = OptionValue["Messager"], secret = OptionValue["Event"], controls = OptionValue["Controls"], appEvents = OptionValue["AppEvent"], modals = OptionValue["Modals"]},
     EventHandler[EventClone[controls], {
@@ -211,7 +230,8 @@ controlsListener[OptionsPattern[]] := With[{messager = OptionValue["Messager"], 
         "CM:PasteCellEvent" -> Function[data, pasteCells[Global`$Client, controls, data, modals, messager] ],
         "CM:PasteCrappy1Event" -> Function[data, pasteCrappyContent1[Global`$Client, controls, data, modals, messager] ],
         "CM:PasteCrappy2Event" -> Function[data, pasteCrappyContent2[Global`$Client, controls, data, modals, messager] ],
-        "CM:DropFilePaths" -> Function[data, pasteFilePaths[Global`$Client, controls, data, modals, messager] ]
+        "CM:DropFilePaths" -> Function[data, pasteFilePaths[Global`$Client, controls, data, modals, messager] ],
+        "CM:InsertFilePaths" -> Function[data, insertFilePaths[Global`$Client, controls, data, modals, messager] ]
     }];
 
     ""

@@ -746,6 +746,24 @@ const wlDrop = {
       }
     },
 
+    pasteTypeAsk: async (view, choise) => {
+      console.log('asking a user');
+      if (view.dom.ocellref) {
+        const uid = view.dom.ocellref.origin.uid;
+        const res = await server.io.fetch('CoffeeLiqueur`Extensions`FileUploader`Private`askUserToChoose', [uid, choise]);
+        console.log(res);
+        return res;
+      }
+    },
+
+    insertPath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:InsertFilePaths"]');
+      }
+    },
+
     pastePath: (view, pathsArray) => {
       selectedEditor = view;
       if (view.dom.ocellref) {
@@ -778,6 +796,21 @@ const wlPaste = {
       const channel = view.dom.ocellref.origin.channel;
       server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"wl"|>`, 'Forwarded["CM:PasteEvent"]');
     }
+  },
+
+  pasteTypeAsk: async (view, choise) => {
+      if (view.dom.ocellref) {
+        const uid = view.dom.ocellref.origin.uid;
+        return await server.io.fetch('CoffeeLiqueur`Extensions`FileUploader`Private`askUserToChoose', [uid, choise]);
+      }
+  },
+
+  insertPath: (view, pathsArray) => {
+      selectedEditor = view;
+      if (view.dom.ocellref) {
+        const channel = view.dom.ocellref.origin.channel;
+        server._emitt(channel, `<|"JSON"->"${encodeURIComponent(JSON.stringify(pathsArray.map(encodeURIComponent)))}", "CellType"->"wl"|>`, 'Forwarded["CM:InsertFilePaths"]');
+      }
   },
 
   pastePath: (view, pathsArray) => {

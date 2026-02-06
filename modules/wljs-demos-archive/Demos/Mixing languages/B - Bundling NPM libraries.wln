@@ -19,7 +19,7 @@ hive/Demos/Mixing languages/B - Using NPM libraries.wln",
       CoffeeLiqueur`Notebook`Cells`CellObj[
        CoffeeLiqueur`Notebook`Cells`CellObj`$871]]}|>, 
  "Cells" -> {<|"Data" -> ".md\n# Siri animation using ESM module\n## Building \
-Javascript\nHere we will use `.esm` cell types to bundle NPM package into the \
+Javascript\nHere we will use `.mjs` cell types to bundle NPM package into the \
 output cell and execute it right in the notebook.\n\n*credits to npm \
 [library](https://github.com/kopiro/siriwave)*", "Display" -> "codemirror", 
     "Hash" -> "3b45bde7-7c88-4c7e-b3f0-6befca5c51bf", "Invisible" -> False, 
@@ -27,7 +27,7 @@ output cell and execute it right in the notebook.\n\n*credits to npm \
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
     "UID" -> Null, "Notebook" -> "381fe9cd-6435-4035-a9fa-74dfc0bb3adb"|>, 
    <|"Data" -> "# Siri animation using ESM module\n## Building \
-Javascript\nHere we will use `.esm` cell types to bundle NPM package into the \
+Javascript\nHere we will use `.mjs` cell types to bundle NPM package into the \
 output cell and execute it right in the notebook.\n\n*credits to npm \
 [library](https://github.com/kopiro/siriwave)*", "Display" -> "markdown", 
     "Hash" -> "343b28bd-07fb-4eae-9fee-e61f73e1a42b", "Invisible" -> False, 
@@ -63,7 +63,7 @@ output cell and execute it right in the notebook.\n\n*credits to npm \
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
     "Notebook" -> "381fe9cd-6435-4035-a9fa-74dfc0bb3adb"|>, 
-   <|"Data" -> ".esm\nimport SiriWave from \"siriwave\";\n\nconst dom = \
+   <|"Data" -> ".mjs\nimport SiriWave from \"siriwave\";\n\nconst dom = \
 document.createElement('div');\nthis.return(dom);\n\nlet \
 siriWave;\n\nsiriWave = new SiriWave({\n\tcontainer: dom,\n\theight:300,\n    \
 style: \"ios9\",\n\twidth:600\n});\n\nsiriWave.start();\n\nthis.ondestroy = \
@@ -364,7 +364,7 @@ USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR\n      \
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR\n      \
 PERFORMANCE OF THIS SOFTWARE.\n      \
 ***************************************************************************** \
-*)\n*/\n", "Display" -> "esm", "Hash" -> 
+*)\n*/\n", "Display" -> "mjs", "Hash" -> 
      "7250388e-d551-467d-9021-70256c29cb41", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 

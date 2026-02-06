@@ -49,11 +49,11 @@ init[k_] := Module[{},
 ]
 
 
-ESMQ[t_Transaction] := (StringMatchQ[t["Data"], ".esm\n"~~___] )
+MJSQ[t_Transaction] := (StringMatchQ[t["Data"], ".mjs\n"~~___] )
 
-esm  = StandardEvaluator`StandardEvaluator["Name" -> "ESM Evaluator", "InitKernel" -> (#&), "Pattern" -> (_?ESMQ), "Priority"->(3)];
+mjs  = StandardEvaluator`StandardEvaluator["Name" -> "MJS Evaluator", "InitKernel" -> (#&), "Pattern" -> (_?MJSQ), "Priority"->(3)];
 
-StandardEvaluator`ReadyQ[esm, k_] := (True)
+StandardEvaluator`ReadyQ[mjs, k_] := (True)
 
 SystemShellRun[exec : {___String}, opts : OptionsPattern[]] := 
  SystemShellRun[StringRiffle[exec, " "], All, opts]
@@ -113,7 +113,7 @@ If[StringContainsQ[$OperatingSystem, "Windows"],
     ]
 ];
 
-StandardEvaluator`EvaluateTransaction[esm, k_, t_] := Module[{list},
+StandardEvaluator`EvaluateTransaction[mjs, k_, t_] := Module[{list},
     t["Data"] = StringTrim[StringDrop[t["Data"], 5]];
 
     If[MemberQ[t["Properties"], "EvaluationContext"],
@@ -131,7 +131,7 @@ StandardEvaluator`EvaluateTransaction[esm, k_, t_] := Module[{list},
 
                     With[{result = buildESM[{"--bundle", "--format=esm", "--define:this=g0this"}, All, t["Data"], ProcessDirectory->path, ProcessEnvironment->processEnv]},
                         If[result["ExitCode"] === 0,
-                            EventFire[t, "Result", <|"Data" -> result["StandardOutput"], "Meta" -> Sequence["Display"->"esm"] |> ];
+                            EventFire[t, "Result", <|"Data" -> result["StandardOutput"], "Meta" -> Sequence["Display"->"mjs"] |> ];
                             EventFire[t, "Finished", True];
                         ,
                             EventFire[t, "Error", limitString @ result["StandardError"]];

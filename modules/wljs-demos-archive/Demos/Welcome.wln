@@ -13,7 +13,7 @@ hive/Demos/Welcome.wln", "PublicFields" -> {"Properties"}, "Quick" -> True,
        CoffeeLiqueur`Notebook`Cells`CellObj`$454]]}|>, 
  "Cells" -> 
   {<|"Data" -> 
-     ".esm\nimport party from \
+     ".mjs\nimport party from \
 \"party-js\";\n\nparty.confetti(document.body);", "Display" -> "codemirror", 
     "Hash" -> "0de7f49a-497f-4873-b092-d9f96df6afdc", "Invisible" -> True, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
@@ -967,7 +967,7 @@ forceInit() {\n      exports.scene.current;\n    }\n    exports.forceInit = \
 forceInit;\n    exports.default = require_lib();\n  }\n});\n\n// <stdin>\nvar \
 import_party_js = \
 __toESM(require_lib());\nimport_party_js.default.confetti(document.body);\n", 
-    "Display" -> "esm", "Hash" -> "5459e2e7-7564-45ad-aae8-924538bdfbb8", 
+    "Display" -> "mjs", "Hash" -> "5459e2e7-7564-45ad-aae8-924538bdfbb8", 
     "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
     "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 

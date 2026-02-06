@@ -48,7 +48,7 @@ cell group.\n:::\n\nInstall NPM library:", "Display" -> "markdown",
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
     "Notebook" -> "37312473-9c53-49dd-bbc5-09f2edb8d664"|>, 
-   <|"Data" -> ".esm\n\nimport hljs from 'highlight.js';\n\ncore.HLJSView = \
+   <|"Data" -> ".mjs\n\nimport hljs from 'highlight.js';\n\ncore.HLJSView = \
 async (args, env) => {\n  const code = await interpretate(args[0], env);\n  \
 const language = await interpretate(args[1], env);\n  const container = \
 document.createElement('pre');\n  const element = \
@@ -27319,7 +27319,7 @@ env);\n  const container = document.createElement(\"pre\");\n  const element \
 env.element.appendChild(container);\n  container.appendChild(element);\n  \
 element.classList.add(\"hljs\", \"text-left\", \"rounded\");\n  \
 element.innerHTML = es_default.highlight(\n    code.trim(),\n    { language \
-}\n  ).value;\n};\n", "Display" -> "esm", 
+}\n  ).value;\n};\n", "Display" -> "mjs", 
     "Hash" -> "51ff90fb-dace-4565-b0ef-a43d2a5fd89b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
