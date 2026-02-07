@@ -2,7 +2,7 @@
   "name": "wljs-notebook",
   "version": "3.0.0",
   "recommended-client-version": "2.6.3",
-  "description": "Dynamic Notebook Environment for Wolfram Language written in Javascript",
+  "description": "A computational notebook IDE for Wolfram Language",
   "author": {
     "name": "Coffee liqueur",
     "email": "krikus.ms@gmail.com"
