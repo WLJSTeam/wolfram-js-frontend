@@ -1727,13 +1727,27 @@ async function processLabel(ref0, gX, env, textFallback, nodeFallback) {
     let gGX;
     let gGY;
 
+    let axesOrigin = [0, height];
+    if (!framed) {
+      const origin = await interpretate(options.AxesOrigin, {...env});
+
+      if (Array.isArray(origin)) {
+        if (typeof origin[0] == 'number' && typeof origin[1] == 'number') {
+          if (origin[0] != 0 || origin[1] != 0) { //FUCK U Wolfram!
+            axesOrigin[0] = x(origin[0]);
+            axesOrigin[1] = y(origin[1]);
+          }
+        }
+      }
+    }
+
     if (yGrid) gGY = svg.append('g').attr('stroke', '#0000002e').attr('stroke-dasharray', '4 2').call(yGrid(y));
     if (xGrid) gGX = svg.append('g').attr('stroke', '#0000002e').attr('stroke-dasharray', '4 2').call(xGrid(x));
 
-    if (axis[0]) gX = svg.append("g").attr("transform", "translate(0," + height + ")").call(xAxis).attr('font-size', ticksstyle.fontsize).style('color', ticksstyle.color);
+    if (axis[0]) gX = svg.append("g").attr("transform", "translate(0," + axesOrigin[1] + ")").call(xAxis).attr('font-size', ticksstyle.fontsize).style('color', ticksstyle.color);
     if (axis[2]) gTX = svg.append("g").attr("transform", "translate(0," + 0 + ")").call(txAxis).attr('font-size', ticksstyle.fontsize).style('color', ticksstyle.color);
     
-    if (axis[1]) gY = svg.append("g").call(yAxis).attr('font-size', ticksstyle.fontsize).style('color', ticksstyle.color);
+    if (axis[1]) gY = svg.append("g").call(yAxis).attr("transform", "translate("+axesOrigin[0]+",0)").attr('font-size', ticksstyle.fontsize).style('color', ticksstyle.color);
     if (axis[3]) gRY = svg.append("g").attr("transform", "translate(" + width + ", 0)").call(ryAxis).attr('font-size', ticksstyle.fontsize).style('color', ticksstyle.color);
 
 
