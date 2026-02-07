@@ -17,7 +17,7 @@ clients = {};
 shareDefinitions[cli_, set_List] := With[{
     data = set
 },
-    If[FailureQ @ WebSocketSend[cli, ExportByteArray[UIAutocompleteExtend[data], "ExpressionJSON"] ], clients = clients /. {cli -> Nothing}];
+    If[FailureQ @ WebSocketUSend[cli, ExportByteArray[UIAutocompleteExtend[data], "ExpressionJSON"] ], clients = clients /. {cli -> Nothing}];
 ]
 
 EventHandler["autocomplete", {

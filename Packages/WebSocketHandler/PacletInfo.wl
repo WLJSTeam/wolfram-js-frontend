@@ -2,7 +2,7 @@
 
 PacletObject[
   <|
-    "Name" -> "CoffeeLiqueur/WebSocketHandler",
+    "Name" -> "CoffeeLiqueur/WebSocketUHandler",
     "Description" -> "WebSocket Handler",
     "Creator" -> "Kirill Belov",
     "License" -> "MIT",
@@ -17,14 +17,6 @@ PacletObject[
           {
             "CoffeeLiqueur`WebSocketHandler`",
             "WebSocketHandler.wl"
-          }, 
-          {
-            "CoffeeLiqueur`WebSocketHandler`Extensions`",
-            "Extensions.wl"
-          }, 
-          {
-            "CoffeeLiqueur`WebSocketHandler`RemoteParallelKernel`", 
-            "RemoteParallelKernel.wl"
           }
         },
         "Symbols" -> {}

@@ -45,8 +45,8 @@ UIXtermColorize[str_String] := StringReplace[str, {
 rootDir = $InputFileName // DirectoryName // ParentDirectory;
 xTerm = ImportComponent[FileNameJoin[{rootDir, "template", "xterm.wlx"}] ];
 
-With[{http = AppExtensions`HTTPHandler},
-    http["MessageHandler", "XtermWindow"] = AssocMatchQ[<|"Path" -> "/xterm"|>] -> xTerm;
+With[{http = AppExtensions`HTTPUHandler},
+    http["MessageHandler", "XtermWindow"] = AssocUMatchQ[<|"Path" -> "/xterm"|>] -> xTerm;
 ];
 
 

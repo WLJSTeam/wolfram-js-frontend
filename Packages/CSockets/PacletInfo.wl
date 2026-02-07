@@ -21,10 +21,10 @@ PacletObject[
           {"CoffeeLiqueur`CSockets`Interface`Unix`", "Unix.wl"}
         },
         "Symbols" -> {
-          "CoffeeLiqueur`CSockets`CSocketObject",
-          "CoffeeLiqueur`CSockets`CSocketListener",
-          "CoffeeLiqueur`CSockets`CSocketOpen",
-          "CoffeeLiqueur`CSockets`CSocketConnect"
+          "CoffeeLiqueur`CSockets`USocketObject",
+          "CoffeeLiqueur`CSockets`USocketListener",
+          "CoffeeLiqueur`CSockets`USocketOpen",
+          "CoffeeLiqueur`CSockets`USocketConnect"
         }
       },
       {"LibraryLink", "Root" -> "LibraryResources"},

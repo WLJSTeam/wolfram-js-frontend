@@ -220,14 +220,14 @@ $DefaultSerializer = ExportByteArray[#, "ExpressionJSON"]&
 
 Print["Staring HTTP server..."];
 
-tcp = TCPServer[];
-tcp["CompleteHandler", "HTTP"] = HTTPPacketQ -> HTTPPacketLength;
-tcp["MessageHandler", "HTTP"]  = HTTPPacketQ -> http;
+tcp = TCPUServer[];
+tcp["CompleteHandler", "HTTP"] = HTTPUPacketQ -> HTTPUPacketLength;
+tcp["MessageHandler", "HTTP"]  = HTTPUPacketQ -> http;
 
-http = HTTPHandler[];
-$Server["HTTPHandler"] = http;
+http = HTTPUHandler[];
+$Server["HTTPUHandler"] = http;
 
-AppExtensions`HTTPHandler = http;
+AppExtensions`HTTPUHandler = http;
 
 
 With[{now = Now},
@@ -327,33 +327,33 @@ ElectronGetVersion[request_] := If[KeyExistsQ[request["Headers"], "Electron"], r
 
 (* serve static *)
 AppExtensions`HTTPFileExtensions = {"jpeg", "wlx", "ttf",  "otf", "woff", "woff2", "css", "js", "png", "jpg", "webp", "svg", "pdf", "gif", "dat"};
-http["MessageHandler", "File"]  = GetFileRequestQ[AppExtensions`HTTPFileExtensions] -> (
-  ImportFile[#, "Base":>$ExposedDirectories, "Routes":>$ExposedRoutes] &
+http["MessageHandler", "File"]  = GetFileURequestQ[AppExtensions`HTTPFileExtensions] -> (
+  ImportUFile[#, "Base":>$ExposedDirectories, "Routes":>$ExposedRoutes] &
 )
 
-SocketListen[CSocketOpen[$Env["host"], $Env["http"]], tcp@#&]
+SocketListen[USocketOpen[$Env["host"], $Env["http"]], tcp@#&]
 
 
 Print["Staring WS/HTTP server..."];
 
-wcp = TCPServer[]
-wcp["CompleteHandler", "WebSocket"] = WebSocketPacketQ -> WebSocketPacketLength
-wcp["MessageHandler", "WebSocket"]  = WebSocketPacketQ -> ws
+wcp = TCPUServer[]
+wcp["CompleteHandler", "WebSocket"] = WebSocketUPacketQ -> WebSocketUPacketLength
+wcp["MessageHandler", "WebSocket"]  = WebSocketUPacketQ -> ws
 
-ws = WebSocketHandler[]
-$Server["WebSocketHandler"] = ws;
+ws = WebSocketUHandler[]
+$Server["WebSocketUHandler"] = ws;
 
 (* configure the handler for WLJS communications *)
 ws["MessageHandler", "Evaluate"]  = Function[True] -> WLJSTransportHandler
 
 
-SocketListen[CSocketOpen[$Env["host"], $Env["ws"] ], wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
+SocketListen[USocketOpen[$Env["host"], $Env["ws"] ], wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
 
 (* start all webservers from extensions *)
 Map[Function[key, 
   With[{server = AppExtensions`WebServers[key]},
     Echo[StringTemplate["Starting App extension server `` on ``:``"][key, server["Host"], server["Port"]]];
-    SocketListen[CSocketOpen[server["Host"], server["Port"]], server["Handler"]];
+    SocketListen[USocketOpen[server["Host"], server["Port"]], server["Handler"]];
   ]
 ], Keys[AppExtensions`WebServers]];
 
@@ -366,15 +366,15 @@ middleware[app_][request_] := app[request]
 
 
 (* hook all routes handlers *)
-AutoTest["HTTPHandler"->http];
-Downloader["HTTPHandler"->http];
-Protocol["HTTPHandler"->http, "AppProtocol" -> AppExtensions`AppProtocol, "Middleware"->Identity, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-Settings["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates]
-Window["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates];
-PromptWindow["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-ExtendedApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-IframeApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-App["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+AutoTest["HTTPUHandler"->http];
+Downloader["HTTPUHandler"->http];
+Protocol["HTTPUHandler"->http, "AppProtocol" -> AppExtensions`AppProtocol, "Middleware"->Identity, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+Settings["HTTPUHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates]
+Window["HTTPUHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates];
+PromptWindow["HTTPUHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+ExtendedApp["HTTPUHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+IframeApp["HTTPUHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+App["HTTPUHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 
 
 SetTimeout[

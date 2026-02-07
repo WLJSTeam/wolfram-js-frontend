@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 env                       =  $Options["Env"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
@@ -56,8 +56,8 @@ dumpNotebook[notebook_nb`NotebookObj, GlobalMessanger_, ModalController_, client
 
 
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
@@ -353,7 +353,7 @@ Script[Rule["Secret", Secret_]] := With[{},
   </script>
 ] ;
 
-http["MessageHandler", "PromptWindow"] = AssocMatchQ[<|"Method" -> "GET", "Path" -> "/prompt" ~~___|>] -> App;
+http["MessageHandler", "PromptWindow"] = AssocUMatchQ[<|"Method" -> "GET", "Path" -> "/prompt" ~~___|>] -> App;
 
 
 Print["Prompt window Loaded!"];

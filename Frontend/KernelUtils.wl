@@ -75,11 +75,11 @@ wsStartListerning[kernel_, port_, host_] := With[{},
         (*Print["Establishing WS link..."];*)
         System`$DefaultSerializer = ExportByteArray[#, "ExpressionJSON"]&;
         Module[{Internal`Kernel`wcp, Internal`Kernel`ws},
-          Internal`Kernel`wcp = TCPServer[];
-          Internal`Kernel`wcp["CompleteHandler", "WebSocket"] = WebSocketPacketQ -> WebSocketPacketLength;
+          Internal`Kernel`wcp = TCPUServer[];
+          Internal`Kernel`wcp["CompleteHandler", "WebSocket"] = WebSocketUPacketQ -> WebSocketUPacketLength;
           
-          Internal`Kernel`ws = WebSocketHandler[];
-          Internal`Kernel`wcp["MessageHandler", "WebSocket"]  = WebSocketPacketQ -> Internal`Kernel`ws;
+          Internal`Kernel`ws = WebSocketUHandler[];
+          Internal`Kernel`wcp["MessageHandler", "WebSocket"]  = WebSocketUPacketQ -> Internal`Kernel`ws;
 
           (* configure the handler for WLJS communications *)
           Internal`Kernel`ws["MessageHandler", "Evaluate"]  = Function[True] -> WLJSTransportHandler;
@@ -103,7 +103,7 @@ wsStartListerning[kernel_, port_, host_] := With[{},
           ];
 
           (*Echo[StringTemplate["starting @ ``:port ``"][Internal`Kernel`Host, port] ];*)
-          SocketListen[CSocketOpen[host, port ], Internal`Kernel`wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
+          SocketListen[USocketOpen[host, port ], Internal`Kernel`wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
 
           (*SocketListen[port, wcp@#&];*)
         ];

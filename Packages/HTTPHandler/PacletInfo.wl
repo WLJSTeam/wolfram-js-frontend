@@ -2,7 +2,7 @@
 
 PacletObject[
   <|
-    "Name" -> "CoffeeLiqueur/HTTPHandler",
+    "Name" -> "CoffeeLiqueur/HTTPUHandler",
     "Description" -> "HTTP Handler",
     "Creator" -> "Kirill Belov",
     "License" -> "MIT",
@@ -21,10 +21,6 @@ PacletObject[
           {
             "CoffeeLiqueur`HTTPHandler`Extensions`",
             "Extensions.wl"
-          },
-          {
-            "CoffeeLiqueur`HTTPHandler`WSPAdapter`",
-            "WSPAdapter.wl"
           }
         },
         "Symbols" -> {}

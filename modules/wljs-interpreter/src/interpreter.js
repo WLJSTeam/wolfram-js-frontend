@@ -761,7 +761,7 @@ function throttle(cb, delay = () => interpretate.throttle) {
 }
 
 interpretate.alert = (msg) => {
-  if (!electronAPI) {
+  if (!window.electronAPI) {
     alert(msg);
     return;
   }
@@ -771,7 +771,7 @@ interpretate.alert = (msg) => {
 interpretate.confirm = (msg, cbk) => interpretate.confirmAsync(msg).then((r) => cbk(r == true))
 
 interpretate.confirmAsync = async (msg) => {
-  if (!electronAPI) return confirm(msg);
+  if (!window.electronAPI) return confirm(msg);
   const p = Deferred();
   electronAPI.showMessageBox({type:'question', noLink:true,message:String(msg), buttons:['Cancel', 'OK']}, (r)=>{p.resolve(r.response == 1)});
   return p.promise;

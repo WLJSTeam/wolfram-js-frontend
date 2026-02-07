@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
 
@@ -16,8 +16,8 @@ loadSettings[settings];
 
 {Window, WindowScript}           = ImportComponent["Views/Window/Window.wlx"];
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
@@ -129,7 +129,7 @@ App[request_] := With[{
 ];
 
 
-http["MessageHandler", "Window"] = AssocMatchQ[<|"Path" -> "/window"|>] -> App;
+http["MessageHandler", "Window"] = AssocUMatchQ[<|"Path" -> "/window"|>] -> App;
 Print["Window Loaded!"];
 
 

@@ -927,8 +927,8 @@ existsOrEmpty[settings_, field_] := If[KeyExistsQ[settings, field], settings[fie
 
 existsOrTrue[settings_, field_] := If[KeyExistsQ[settings, field], settings[field], True]
 
-With[{http = AppExtensions`HTTPHandler},
-    http["MessageHandler", "ExternalAPI"] = AssocMatchQ[<|"Path" -> ("/api/"~~___)|>] -> HTTPAPICall;
+With[{http = AppExtensions`HTTPUHandler},
+    http["MessageHandler", "ExternalAPI"] = AssocUMatchQ[<|"Path" -> ("/api/"~~___)|>] -> HTTPAPICall;
 ];
 
 End[]

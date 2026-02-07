@@ -160,9 +160,9 @@ With[{libItems = Table[Import[i, "Text"], {i, FileNames["*.txt", FileNameJoin[{$
 AppExtensions`TemplateInjection["SettingsFooter"] = (ImportComponent[FileNameJoin[{$rootDir, "template", "Settings.wlx"}] ][<|"Library" -> Hold[library], "DefaultAIAssistantAssistantPrompt" -> Uncompress[defaultSysPrompt]|>]);
 
 
-With[{http = AppExtensions`HTTPHandler},
+With[{http = AppExtensions`HTTPUHandler},
     Echo[http];
-    http["MessageHandler", "ChatWindow"] = AssocMatchQ[<|"Path" -> "/gptchat"|>] -> chatWindow;
+    http["MessageHandler", "ChatWindow"] = AssocUMatchQ[<|"Path" -> "/gptchat"|>] -> chatWindow;
 ];
 
 GPTChatCompletePromise[args__, rules___Rule] := With[{p = Promise[], o = {args} // First},

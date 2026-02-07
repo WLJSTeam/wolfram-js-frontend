@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 env                       =  $Options["Env"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
@@ -231,8 +231,8 @@ Then[WebUIFetch[UIPrintPDF[
 ]] ];
 
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
@@ -444,7 +444,7 @@ Script[Rule["Secret", Secret_]] := With[{},
   </script>
 ];
 
-http["MessageHandler", "App"] = AssocMatchQ[<|"Method" -> "GET"|>] -> middleware[App];
+http["MessageHandler", "App"] = AssocUMatchQ[<|"Method" -> "GET"|>] -> middleware[App];
 
 
 Print["App Loaded!"];

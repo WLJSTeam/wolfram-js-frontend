@@ -40,8 +40,8 @@ BeginPackage["CoffeeLiqueur`TCPServer`", {
 (*Names*)
 
 
-TCPServer::usage = 
-"TCPServer[opts] TCP server"; 
+TCPUServer::usage = 
+"TCPUServer[opts] TCP server"; 
 
 
 (* ::Section::Closed:: *)
@@ -59,7 +59,7 @@ Begin["`Private`"];
 (*Cosntructor*)
 
 
-CreateType[TCPServer, {
+CreateType[TCPUServer, {
 	"Logger", 
 	"Buffer" -> <||>, 
 	"CompleteHandler" -> <||>, 
@@ -73,9 +73,9 @@ CreateType[TCPServer, {
 (*Entrypoint*)
 
 
-server_TCPServer[packet_Association] := 
+server_TCPUServer[packet_Association] := 
 Module[{logger, client, extendedPacket, message, result, extraPacket, extraPacketDataLength}, 
-	client = packet["SourceSocket"]; (*SocketObject[] | CSocketObject[]*)
+	client = packet["SourceSocket"]; (*SocketObject[] | USocketObject[]*)
 	extendedPacket = getExtendedPacket[server, client, packet]; (*Association[]*)
 
 	If[extendedPacket["Completed"], 
@@ -103,7 +103,7 @@ Module[{logger, client, extendedPacket, message, result, extraPacket, extraPacke
 (*Internal methods*)
 
 
-TCPServer /: getExtendedPacket[server_TCPServer, client: _[uuid_], packet_Association] := 
+TCPUServer /: getExtendedPacket[server_TCPUServer, client: _[uuid_], packet_Association] := 
 Module[{data, dataLength, buffer, last, expectedLength, storedLength, completed, completeHandler, defaultCompleteHandler, extendedPacket}, 
 	data = packet["DataByteArray"]; (*ByteArray[]*)
 	dataLength = Length[data]; 
@@ -117,7 +117,7 @@ Module[{data, dataLength, buffer, last, expectedLength, storedLength, completed,
 	(*Else*)
 		completeHandler = server["CompleteHandler"]; (*Association[] | Function[]*)
 		defaultCompleteHandler = server["DefaultCompleteHandler"]; (*Function[]*)
-		expectedLength = ConditionApply[completeHandler, defaultCompleteHandler][client, data]; 
+		expectedLength = ConditionUApply[completeHandler, defaultCompleteHandler][client, data]; 
 		storedLength = 0; 
 	]; 
 
@@ -135,7 +135,7 @@ Module[{data, dataLength, buffer, last, expectedLength, storedLength, completed,
 ]; 
 
 
-TCPServer /: getMessage[server_TCPServer, client: _[uuid_], extendedPacket_Association] := 
+TCPUServer /: getMessage[server_TCPUServer, client: _[uuid_], extendedPacket_Association] := 
 If[KeyExistsQ[server["Buffer"], uuid] && server["Buffer", uuid]["Length"] > 0,  
 
 	(*Return: _ByteArray*)
@@ -151,17 +151,17 @@ If[KeyExistsQ[server["Buffer"], uuid] && server["Buffer", uuid]["Length"] > 0,
 ];  
 
 
-TCPServer /: invokeHandler[server_TCPServer, client_, message_ByteArray] := 
+TCPUServer /: invokeHandler[server_TCPUServer, client_, message_ByteArray] := 
 Module[{messageHandler, defaultMessageHandler}, 
 	messageHandler = server["MessageHandler"]; 
 	defaultMessageHandler = server["DefaultMessageHandler"]; 
 
 	(*Return: ByteArray[] | _String | Null*)
-	ConditionApply[messageHandler, defaultMessageHandler][client, message]
+	ConditionUApply[messageHandler, defaultMessageHandler][client, message]
 ]; 
 
 
-TCPServer /: sendResponse[server_TCPServer, client_, result: _ByteArray | _String | Null] := 
+TCPUServer /: sendResponse[server_TCPUServer, client_, result: _ByteArray | _String | Null] := 
 Switch[result, 
 	_String, 
 		server["Logger"]["sending " <> ToString[StringLength[result]] <> " bytes response..."]; 
@@ -183,14 +183,14 @@ Switch[result,
 ]; 
 
 
-TCPServer /: savePacketToBuffer[server_TCPServer, _[uuid_], extendedPacket_Association] := 
+TCPUServer /: savePacketToBuffer[server_TCPUServer, _[uuid_], extendedPacket_Association] := 
 If[KeyExistsQ[server["Buffer"], uuid], 
 	server["Buffer", uuid]["Append", extendedPacket], 
 	server["Buffer", uuid] = CreateDataStructure["DynamicArray", {extendedPacket}]
 ]; 
 
 
-TCPServer /: clearBuffer[server_TCPServer, _[uuid_]] := 
+TCPUServer /: clearBuffer[server_TCPUServer, _[uuid_]] := 
 If[KeyExistsQ[server["Buffer"], uuid], 
 	server["Buffer", uuid]["DropAll"]; 
 ]; 

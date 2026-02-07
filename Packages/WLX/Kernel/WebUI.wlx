@@ -16,27 +16,27 @@ WebUILazyLoad[content_, OptionsPattern[]] := With[{event = EventClone[OptionValu
         If[AssociationQ[data],
             If[KeyExistsQ[data, "Downvalues"],
                 With[{data = content @@ (data["Downvalues"])},
-                    WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[data] ] ];
+                    WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[data] ] ];
                 ]
             ,
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[content] ] ];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[content] ] ];
             ]
         ,
-            WebSocketSend[Global`$Client (*`*), $DefaultSerializer @ UILazyLoad["Load", uid, ToString[content] ] ];
+            WebSocketUSend[Global`$Client (*`*), $DefaultSerializer @ UILazyLoad["Load", uid, ToString[content] ] ];
         ]
       ]
     ],
 
     "Remove" -> Function[data,
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Remove", uid] ];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Remove", uid] ];
     ],
 
     "Hide" -> Function[data,
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Hide", uid] ];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Hide", uid] ];
     ],
 
     "Show" -> Function[data,
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Show", uid] ];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Show", uid] ];
     ]
 
     }];
@@ -51,7 +51,7 @@ SetAttributes[WebUILazyLoad, HoldFirst];
 System`UILocation(*`*);
 System`UILocationBlank(*`*);
 
-WebUISubmit[expr_, client_:Global`$Client (*`*)] := WebSocketSend[client, $DefaultSerializer @ expr ];
+WebUISubmit[expr_, client_:Global`$Client (*`*)] := WebSocketUSend[client, $DefaultSerializer @ expr ];
 
 WebUILocation[loc_String, client_:Global`$Client (*`*), OptionsPattern[]] := With[{},
     If[OptionValue["Target"] === _,
@@ -76,23 +76,23 @@ WebUIRefresh[Content__, OptionsPattern[]] := With[{event = OptionValue["Event"],
     "Refresh" -> Function[data,
         If[KeyExistsQ[data, "Downvalues"],
             With[{data = Content @@ (data["Downvalues"])},
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[data] ] ];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[data] ] ];
             ]
         ,
-            WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[StringRiffle[{Content}]] ] ];
+            WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, ToString[StringRiffle[{Content}]] ] ];
         ];
     ],
 
     "Clear" -> Function[data,
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, "" ] ];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Load", uid, "" ] ];
     ],
 
     "Hide" -> Function[data,
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Hide", uid] ];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Hide", uid] ];
     ],
     
     "Show" -> Function[data,
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyLoad["Show", uid] ];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyLoad["Show", uid] ];
     ]    
 
     }];
@@ -117,19 +117,19 @@ WebUIContainer[arg_, OptionsPattern[]] := With[{Uid = CreateUUID[], Event = Opti
     EventHandler[EventClone[Event], {
         "Append" -> Function[data,
             If[AssociationQ[data["Data"]],
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendAfterParent", Uid,  data["Data"]["HTML"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after] ]];
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendScript", data["Data"]["Script"]] ];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendAfterParent", Uid,  data["Data"]["HTML"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after] ]];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendScript", data["Data"]["Script"]] ];
             ,
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendAfterParent", Uid,  data["Data"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after] ]];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendAfterParent", Uid,  data["Data"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after] ]];
             ]
         ],
 
         "Prepend" -> Function[data,
             If[AssociationQ[data["Data"]],
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendBeforeParent", Uid,  data["Data"]["HTML"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after]] ];
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendScript", data["Data"]["Script"]] ];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendBeforeParent", Uid,  data["Data"]["HTML"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after]] ];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendScript", data["Data"]["Script"]] ];
             ,
-                WebSocketSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendBeforeParent", Uid,  data["Data"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after] ]];
+                WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyContainer["AppendBeforeParent", Uid,  data["Data"], If[KeyExistsQ[data, "ApplyAfter"], data["ApplyAfter"], after] ]];
             ]
         ]        
     }];
@@ -152,7 +152,7 @@ System`UILazyEventDispatch(*`*);
 WebUIJSBind[Script__String, OptionsPattern[]] := With[{Event = OptionValue["Event"], Uid = CreateUUID[], Str = StringJoin[Script]},
     EventHandler[EventClone[Event], {any_String :> Function[data,
         If[!AssociationQ[data], Return[]];
-        WebSocketSend[data["Client"], $DefaultSerializer @ UILazyEventDispatch[Uid, any, data]];
+        WebSocketUSend[data["Client"], $DefaultSerializer @ UILazyEventDispatch[Uid, any, data]];
     ]}];
 
     If[!OptionValue["ScriptTag"],
@@ -174,7 +174,7 @@ WebUIOnLoad[OptionsPattern[]] := With[{Event = OptionValue["Event"], Type = Opti
     </script>
 ]
 
-WebUIAliveQ[client_:Global`$Client(*`*)] := If[!FailureQ[WebSocketSend[client, $DefaultSerializer @ 7]], !FailureQ[WebSocketSend[client, $DefaultSerializer @ 7]], False]
+WebUIAliveQ[client_:Global`$Client(*`*)] := If[!FailureQ[WebSocketUSend[client, $DefaultSerializer @ 7]], !FailureQ[WebSocketUSend[client, $DefaultSerializer @ 7]], False]
 
 
 Options[WebUIOnLoad] = {"Event" -> "xyz", "Pattern"->"Default"};

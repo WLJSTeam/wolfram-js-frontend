@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
 
@@ -11,8 +11,8 @@ Modals           = ImportComponent["Components/Modals/Modals.wlx"];
 
 {Settings, SettingsScript, Initialization}           = ImportComponent["Views/Settings/Settings.wlx"];
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
@@ -91,7 +91,7 @@ App[request_] := With[{
 ];
 
 
-http["MessageHandler", "Settings"] = AssocMatchQ[<|"Path" -> "/settings"|>] -> App;
+http["MessageHandler", "Settings"] = AssocUMatchQ[<|"Path" -> "/settings"|>] -> App;
 Print["Settings Loaded!"];
 
 

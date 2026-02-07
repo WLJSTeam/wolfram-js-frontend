@@ -4623,7 +4623,7 @@ id=\"balloon-container\">\n</div>", "Display" -> "html",
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
     "Notebook" -> "39a69cba-b17b-430a-b687-9600d15c081f"|>, 
    <|"Data" -> ".md\n## Unix Sockets\nWe removed a landmine found in a \
-dynamic library used for TCP/IP communications (CSocketListener Library) on \
+dynamic library used for TCP/IP communications (USocketListener Library) on \
 macOS and GNU/Linux. It sometimes caused a violation of the order in which \
 TCP packets are sent, leading to unpredictable behavior in the communication \
 between the GUI and the Wolfram Kernel.\n\nWhat was affected:\n- All Docker \
@@ -4634,7 +4634,7 @@ images before `v2.8.0`.\n- `.deb`, `.zip` archives for GNU/Linux.\n- `.dmg`, \
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
     "UID" -> Null, "Notebook" -> "39a69cba-b17b-430a-b687-9600d15c081f"|>, 
    <|"Data" -> "## Unix Sockets\nWe removed a landmine found in a dynamic \
-library used for TCP/IP communications (CSocketListener Library) on macOS and \
+library used for TCP/IP communications (USocketListener Library) on macOS and \
 GNU/Linux. It sometimes caused a violation of the order in which TCP packets \
 are sent, leading to unpredictable behavior in the communication between the \
 GUI and the Wolfram Kernel.\n\nWhat was affected:\n- All Docker images before \

@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 env                       =  $Options["Env"];
 AppEvent                  =  $Options["AppEvent"];
 AppProtocol                =  $Options["AppProtocol"];
@@ -48,8 +48,8 @@ loadSettingsOnceMore := With[{},
 
 
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
@@ -208,8 +208,8 @@ Echo[Protocol];
 ]
 
 
-http["MessageHandler", "Protocol"] = AssocMatchQ[<|"Path" -> "/protocol/" ~~ ___|>] -> middleware[App];
-http["MessageHandler", "CMD API"] = AssocMatchQ[<|"Path" -> "/cmdapi/" ~~ ___|>] -> middleware[CMDAPIHandler];
+http["MessageHandler", "Protocol"] = AssocUMatchQ[<|"Path" -> "/protocol/" ~~ ___|>] -> middleware[App];
+http["MessageHandler", "CMD API"] = AssocUMatchQ[<|"Path" -> "/cmdapi/" ~~ ___|>] -> middleware[CMDAPIHandler];
 
 
 

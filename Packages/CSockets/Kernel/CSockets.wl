@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
 (* ::Chapter:: *)
-(*CSocketListener*)
+(*USocketListener*)
 
 
 (* ::Section:: *)
@@ -19,20 +19,20 @@ Needs @ If[$OperatingSystem === "Windows",
 (*Names*)
 
 
-CSocketObject::usage = 
-"CSocketObject[socketId] socket representation."; 
+USocketObject::usage = 
+"USocketObject[socketId] socket representation."; 
 
 
-CSocketOpen::usage = 
-"CSocketOpen[port] returns new server socket."; 
+USocketOpen::usage = 
+"USocketOpen[port] returns new server socket."; 
 
 
-CSocketConnect::usage = 
-"CSocketConnect[host, port] connect to socket"; 
+USocketConnect::usage = 
+"USocketConnect[host, port] connect to socket"; 
 
 
-CSocketListener::usage = 
-"CSocketListener[assoc] listener object."; 
+USocketListener::usage = 
+"USocketListener[assoc] listener object."; 
 
 
 (* ::Section:: *)
@@ -46,67 +46,67 @@ Begin["`Private`"];
 (*Implementation*)
 
 
-CSocketObject[socketId_Integer]["DestinationPort"] := 
+USocketObject[socketId_Integer]["DestinationPort"] := 
 socketPort[socketId]; 
 
 
-CSocketOpen[host_String: "localhost", port_Integer] := 
-CSocketObject[socketOpen[host, ToString[port]]]; 
+USocketOpen[host_String: "localhost", port_Integer] := 
+USocketObject[socketOpen[host, ToString[port]]]; 
 
 
-CSocketOpen[address_String ] /; 
+USocketOpen[address_String ] /; 
 StringMatchQ[address, __ ~~ ":" ~~ NumberString] := 
-CSocketObject[Apply[socketOpen, Join[StringSplit[address, ":"], {}] ] ]; 
+USocketObject[Apply[socketOpen, Join[StringSplit[address, ":"], {}] ] ]; 
 
 
 
-CSocketConnect[host_String: "localhost", port_Integer] := 
-CSocketObject[socketConnect[host, ToString[port]]]; 
+USocketConnect[host_String: "localhost", port_Integer] := 
+USocketObject[socketConnect[host, ToString[port]]]; 
 
-CSocketObject /: SocketConnect[CSocketObject[socketId_] ] := CSocketObject[ socketConnectInternal[socketId] ]; 
+USocketObject /: SocketConnect[USocketObject[socketId_] ] := USocketObject[ socketConnectInternal[socketId] ]; 
 
 
-CSocketConnect[address_String] /; 
+USocketConnect[address_String] /; 
 StringMatchQ[address, __ ~~ ":" ~~ NumberString] := 
-CSocketObject[Apply[socketConnect, StringSplit[address, ":"]]]; 
+USocketObject[Apply[socketConnect, StringSplit[address, ":"]]]; 
 
 
-CSocketObject /: BinaryWrite[CSocketObject[socketId_Integer], data_ByteArray] := With[{result = socketBinaryWrite[socketId, data, Length[data], $bufferSize]},
+USocketObject /: BinaryWrite[USocketObject[socketId_Integer], data_ByteArray] := With[{result = socketBinaryWrite[socketId, data, Length[data], $bufferSize]},
 	If[result < 0,  $Failed, result]
 ]
 
 
-CSocketObject /: BinaryWrite[CSocketObject[socketId_Integer], data_List] := With[{result = socketBinaryWrite[socketId, ByteArray[data], Length[data], $bufferSize]},
+USocketObject /: BinaryWrite[USocketObject[socketId_Integer], data_List] := With[{result = socketBinaryWrite[socketId, ByteArray[data], Length[data], $bufferSize]},
 	If[result < 0,  $Failed, result]
 ]
 
 
-CSocketObject /: WriteString[CSocketObject[socketId_Integer], data_String] := With[{result = socketWriteString[socketId, data, StringLength[data], $bufferSize]},
+USocketObject /: WriteString[USocketObject[socketId_Integer], data_String] := With[{result = socketWriteString[socketId, data, StringLength[data], $bufferSize]},
 	If[result < 0,  $Failed, result]
 ]
 
 
-CSocketObject /: SocketReadMessage[CSocketObject[socketId_Integer], bufferSize_Integer: $bufferSize] := 
+USocketObject /: SocketReadMessage[USocketObject[socketId_Integer], bufferSize_Integer: $bufferSize] := 
 socketReadMessage[socketId, bufferSize]; 
 
 
-CSocketObject /: SocketReadyQ[CSocketObject[socketId_Integer]] := 
+USocketObject /: SocketReadyQ[USocketObject[socketId_Integer]] := 
 socketReadyQ[socketId]; 
 
 
-CSocketObject /: Close[CSocketObject[socketId_Integer]] := 
+USocketObject /: Close[USocketObject[socketId_Integer]] := 
 socketClose[socketId]; 
 
 StandardSocketEventsHandler = Echo[StringTemplate["`` was ``"][#2, #1] ]&;
 
-CSocketObject /: SocketListen[socket: CSocketObject[socketId_Integer], handler_, OptionsPattern[{SocketListen, "BufferSize" -> $bufferSize, "SocketEventsHandler" -> StandardSocketEventsHandler}]] := 
+USocketObject /: SocketListen[socket: USocketObject[socketId_Integer], handler_, OptionsPattern[{SocketListen, "BufferSize" -> $bufferSize, "SocketEventsHandler" -> StandardSocketEventsHandler}]] := 
 With[{messager = OptionValue["SocketEventsHandler"]},
 	Module[{task}, 
 		task = createAsynchronousTask[socketId, 
 			(With[{p = toPacket[##]}, p /. {a_Association :> handler[a], b_List :> (messager@@b)} ] ) &
 		, "BufferSize" -> OptionValue["BufferSize"] ]; 
 
-		CSocketListener[<|
+		USocketListener[<|
 			"Socket" -> socket, 
 			"Host" -> socket["DestinationHostname"], 
 			"Port" -> socket["DestinationPort"], 
@@ -118,7 +118,7 @@ With[{messager = OptionValue["SocketEventsHandler"]},
 ];
 
 
-CSocketListener /: DeleteObject[CSocketListener[assoc_Association]] := 
+USocketListener /: DeleteObject[USocketListener[assoc_Association]] := 
 socketListenerTaskRemove[assoc["TaskId"]]; 
 
 
@@ -129,12 +129,12 @@ $bufferSize = 8192;
 
 toPacket[task_, "Received", {serverId_, clientId_, data_}] :=
 	<|
-		"Socket" -> CSocketObject[serverId], 
-		"SourceSocket" -> CSocketObject[clientId], 
+		"Socket" -> USocketObject[serverId], 
+		"SourceSocket" -> USocketObject[clientId], 
 		"DataByteArray" -> ByteArray[data]
 	|>
 
-toPacket[task_, any_String, {serverId_, clientId_, data_}] := {any, CSocketObject[clientId]}
+toPacket[task_, any_String, {serverId_, clientId_, data_}] := {any, USocketObject[clientId]}
 
 
 (* ::Section:: *)

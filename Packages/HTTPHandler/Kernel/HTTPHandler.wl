@@ -5,9 +5,9 @@
 
 
 (*
-	message - ByteArray passed from TCPServer handler
+	message - ByteArray passed from TCPUServer handler
 	request - Association parsed from message
-	response - Null | String | ByteArray for further sending to TCPServer handler
+	response - Null | String | ByteArray for further sending to TCPUServer handler
 *)
 
 
@@ -51,16 +51,16 @@ BeginPackage["CoffeeLiqueur`HTTPHandler`", {
 ClearAll["`*"]
 
 
-HTTPPacketQ::usage = 
-"HTTPPacketQ[client, message] check that message was sent via HTTP protocol."; 
+HTTPUPacketQ::usage = 
+"HTTPUPacketQ[client, message] check that message was sent via HTTP protocol."; 
 
 
-HTTPPacketLength::usage = 
-"HTTPPacketLength[client, message] returns expected message length."; 
+HTTPUPacketLength::usage = 
+"HTTPUPacketLength[client, message] returns expected message length."; 
 
 
-HTTPHandler::usage = 
-"HTTPHandler[opts] mutable type for the handling HTTP request."; 
+HTTPUHandler::usage = 
+"HTTPUHandler[opts] mutable type for the handling HTTP request."; 
 
 
 (* ::Section::Closed:: *)
@@ -71,12 +71,12 @@ Begin["`Private`"];
 
 
 (* ::Section::Closed:: *)
-(*HTTPPacketQ*)
+(*HTTPUPacketQ*)
 
 
-HTTPPacketQ[client_, message_ByteArray] := 
+HTTPUPacketQ[client_, message_ByteArray] := 
 Module[{head}, 
-	head = ByteArrayToString[BytesSplit[message, $httpEndOfHead -> 1][[1]]]; 
+	head = ByteArrayToString[BytesUSplit[message, $httpEndOfHead -> 1][[1]]]; 
 	
 	(*Return: True | False*)
 	And[
@@ -91,12 +91,12 @@ Module[{head},
 
 
 (* ::Section::Closed:: *)
-(*HTTPPacketLength*)
+(*HTTPUPacketLength*)
 
 
-HTTPPacketLength[client_, message_ByteArray] := 
+HTTPUPacketLength[client_, message_ByteArray] := 
 Module[{head}, 
-	head = ByteArrayToString[BytesSplit[message, $httpEndOfHead -> 1][[1]]]; 
+	head = ByteArrayToString[BytesUSplit[message, $httpEndOfHead -> 1][[1]]]; 
 
 	(*Return: _Integer*)
 	Which[
@@ -109,10 +109,10 @@ Module[{head},
 
 
 (* ::Section::Closed:: *)
-(*HTTPHandler*)
+(*HTTPUHandler*)
 
 
-CreateType[HTTPHandler, {
+CreateType[HTTPUHandler, {
 	"MessageHandler" -> <||>, 
 	"DefaultMessageHandler" -> $messageHandler, 
 	"Deserializer" -> <||>, 
@@ -121,7 +121,7 @@ CreateType[HTTPHandler, {
 }]; 
 
 
-handler_HTTPHandler[client_, message_ByteArray] := 
+handler_HTTPUHandler[client_, message_ByteArray] := 
 Module[{request, response, pipeline, result, deserializer, serializer, messageHandler, defaultMessageHandler, logger}, 
 	deserializer = handler["Deserializer"]; 
 	serializer = handler["Serializer"]; 
@@ -137,7 +137,7 @@ Module[{request, response, pipeline, result, deserializer, serializer, messageHa
 	logger["Parsed", request]; 
 
 	(*Result: _String | _Association*)
-	result = ConditionApply[messageHandler, defaultMessageHandler][request]; 
+	result = ConditionUApply[messageHandler, defaultMessageHandler][request]; 
 	logger["Result", result]; 
 
 	(*Result: _String | _ByteArray*)
@@ -164,7 +164,7 @@ $errorResponse = <|"Code" -> 404, "Body" -> "Not found"|>;
 
 parseRequest[message_ByteArray, deserializer_] := 
 Module[{headBytes, head, headline, headers, body, bodyBytes}, 
-	{headBytes, bodyBytes} = BytesSplit[message, $httpEndOfHead -> 1]; 
+	{headBytes, bodyBytes} = BytesUSplit[message, $httpEndOfHead -> 1]; 
 	head = ByteArrayToString[headBytes]; 
 	
 	headline = First @ StringCases[
@@ -184,7 +184,7 @@ Module[{headBytes, head, headline, headers, body, bodyBytes},
   		StringExtract[head, "\r\n\r\n" -> 1, "\r\n" -> 2 ;; ]
 	]; 
 
-	body = ConditionApply[deserializer, $deserializer][headers, bodyBytes]; 
+	body = ConditionUApply[deserializer, $deserializer][headers, bodyBytes]; 
 
 	(*Return: Association[
 		Metod, 
@@ -213,7 +213,7 @@ createResponse[
 
 createResponse[assoc_Association, serializer_] := 
 Module[{response = assoc, body, headers}, 
-	body = ConditionApply[serializer, $serializer][response["Body"]]; 
+	body = ConditionUApply[serializer, $serializer][response["Body"]]; 
 
 	If[StringQ[body], body = StringToByteArray[body]];
 

@@ -44,28 +44,28 @@ BeginPackage["CoffeeLiqueur`WebSocketHandler`", {"CoffeeLiqueur`Internal`", "Cof
 ClearAll["`*"]; 
 
 
-$CurrenctClient::usage = 
+$CurrenctUClient::usage = 
 "Current client."; 
 
 
-WebSocketPacketQ::usage = 
-"WebSocketPacketQ[client, packet] check that packet sent via WebSocket protocol."; 
+WebSocketUPacketQ::usage = 
+"WebSocketUPacketQ[client, packet] check that packet sent via WebSocket protocol."; 
 
 
-WebSocketPacketLength::usage = 
+WebSocketUPacketLength::usage = 
 "WSLength[client, message] get expected message length."; 
 
 
-WebSocketSend::uasge = 
-"WebSocketSend[client, message] send message via WebSocket protocol."; 
+WebSocketUSend::uasge = 
+"WebSocketUSend[client, message] send message via WebSocket protocol."; 
 
 
-WebSocketChannel::usage = 
-"WebSocketChannel[name] multiple client connection."; 
+WebSocketUChannel::usage = 
+"WebSocketUChannel[name] multiple client connection."; 
 
 
-WebSocketHandler::usage = 
-"WebSocketHandler[opts] handle messages received via WebSocket protocol."; 
+WebSocketUHandler::usage = 
+"WebSocketUHandler[opts] handle messages received via WebSocket protocol."; 
 
 
 (*::Section::Close::*)
@@ -78,53 +78,53 @@ Begin["`Private`"];
 ClearAll["`*"]; 
 
 
-WebSocketPacketQ[client_, message_ByteArray] := 
+WebSocketUPacketQ[client_, message_ByteArray] := 
 (frameQ[client, message] || handshakeQ[client, message]); 
 
 
-WebSocketPacketLength[client_, message_ByteArray] := 
+WebSocketUPacketLength[client_, message_ByteArray] := 
 If[frameQ[client, message], 
 	getFrameLength[client, message], 
 	Length[message]
 ]; 
 
 
-Options[WebSocketSend] = {
+Options[WebSocketUSend] = {
 	"Serializer" -> $serializer
 }
 
 
-WebSocketSend[client_, message: _String | _ByteArray] := 
+WebSocketUSend[client_, message: _String | _ByteArray] := 
 BinaryWrite[client, encodeFrame[message]]; 
 
 
-WebSocketSend[client_, expr_, OptionsPattern[]] := 
+WebSocketUSend[client_, expr_, OptionsPattern[]] := 
 Module[{serializer, message}, 
 	serializer = OptionValue["Serializer"]; 
 	message = serializer[expr]; 
-	WebSocketSend[client, message]
+	WebSocketUSend[client, message]
 ]; 
 
 
-CreateType[WebSocketChannel, init, {
+CreateType[WebSocketUChannel, init, {
 	"Name", 
 	"Serializer" -> $serializer, 
 	"Connections"
 }]; 
 
 
-WebSocketChannel[name_String, clients: {___}: {}, serializer_: $serializer] := 
+WebSocketUChannel[name_String, clients: {___}: {}, serializer_: $serializer] := 
 Module[{channel, connections}, 
-	channel = WebSocketChannel["Name" -> name, "Serializer" -> serializer]; 
+	channel = WebSocketUChannel["Name" -> name, "Serializer" -> serializer]; 
 	connections = channel["Connections"]; 
 	Map[connections["Insert", #]&, clients]; 
 	
-	(*Return: WebSocketChannel[]*)
+	(*Return: WebSocketUChannel[]*)
 	channel
 ]; 
 
 
-WebSocketChannel /: Append[channel_WebSocketChannel, client_] := 
+WebSocketUChannel /: Append[channel_WebSocketUChannel, client_] := 
 Module[{connections}, 
 	connections = channel["Connections"]; 
 	connections["Insert", client]; 
@@ -132,12 +132,12 @@ Module[{connections},
 	Echo[client, "Added client:"];
 	Echo[connections//Normal, "Current subscriptions:"];
 
-	(*Return: WebSocketChannel[]*)
+	(*Return: WebSocketUChannel[]*)
 	channel
 ]; 
 
 
-WebSocketChannel /: Delete[channel_WebSocketChannel, client_] := 
+WebSocketUChannel /: Delete[channel_WebSocketUChannel, client_] := 
 Module[{connections}, 
 	connections = channel["Connections"]; 
 	connections["Remove", client]; 
@@ -145,31 +145,31 @@ Module[{connections},
 	Echo[client, "Deleted client:"];
 	Echo[connections//Normal, "Current subscriptions:"];
 
-	(*Return: WebSocketChannel[]*)
+	(*Return: WebSocketUChannel[]*)
 	channel
 ]; 
 
 
-WebSocketChannel /: WebSocketSend[channel_WebSocketChannel, client_, message: _String | _ByteArray] := 
-If[FailureQ[#], Delete[channel, client]]& @ WebSocketSend[client, message]; 
+WebSocketUChannel /: WebSocketUSend[channel_WebSocketUChannel, client_, message: _String | _ByteArray] := 
+If[FailureQ[#], Delete[channel, client]]& @ WebSocketUSend[client, message]; 
 
 
-WebSocketChannel /: WebSocketSend[channel_WebSocketChannel, client_, expr_] := 
+WebSocketUChannel /: WebSocketUSend[channel_WebSocketUChannel, client_, expr_] := 
 Module[{serializer, message}, 
 	serializer = channel["Serializer"]; 
 	message = serializer[expr]; 
-	WebSocketSend[channel, client, message]; 
+	WebSocketUSend[channel, client, message]; 
 ]; 
 
 
-WebSocketChannel /: WebSocketSend[channel_WebSocketChannel, expr_] := 
+WebSocketUChannel /: WebSocketUSend[channel_WebSocketUChannel, expr_] := 
 Module[{connections}, 
 	connections = channel["Connections"]; 
-	Map[WebSocketSend[channel, #, expr]&, connections["Elements"]]; 
+	Map[WebSocketUSend[channel, #, expr]&, connections["Elements"]]; 
 ]; 
 
 
-CreateType[WebSocketHandler, init, {
+CreateType[WebSocketUHandler, init, {
 	"MessageHandler" -> <||>, 
 	"DefaultMessageHandler" -> $defaultMessageHandler, 	
 	"Deserializer" -> $deserializer, (*Input: <|.., "Data" -> ByteArray[]|>*)
@@ -179,9 +179,9 @@ CreateType[WebSocketHandler, init, {
 }]; 
 
 
-handler_WebSocketHandler[client_, message_ByteArray] := 
+handler_WebSocketUHandler[client_, message_ByteArray] := 
 Module[{connections, deserializer, messageHandler, defaultMessageHandler, frame, buffer, data, expr, joinedMessage, extra}, 
-	$CurrenctClient = client; 
+	$CurrenctUClient = client; 
 
 	connections = handler["Connections"]; 
 	deserializer = handler["Deserializer"]; 
@@ -219,7 +219,7 @@ Module[{connections, deserializer, messageHandler, defaultMessageHandler, frame,
 					expr = deserializer[data]; 
 					messageHandler = handler["MessageHandler"]; 
 					defaultMessageHandler = handler["DefaultMessageHandler"]; 
-					ConditionApply[messageHandler, defaultMessageHandler][client, expr];, 
+					ConditionUApply[messageHandler, defaultMessageHandler][client, expr];, 
 
 				(*Else*) 
 					saveFrameToBuffer[buffer, client, frame]; 
@@ -241,16 +241,16 @@ Module[{connections, deserializer, messageHandler, defaultMessageHandler, frame,
 ]; 
 
 
-WebSocketHandler /: WebSocketSend[handler_WebSocketHandler, client_, message_] := 
-WebSocketSend[client, encodeFrame[handler, message]]; 
+WebSocketUHandler /: WebSocketUSend[handler_WebSocketUHandler, client_, message_] := 
+WebSocketUSend[client, encodeFrame[handler, message]]; 
 
 
-WebSocketHandler /: WebSocketChannel[handler_WebSocketHandler, name_String, clients: {___}: {}] := 
+WebSocketUHandler /: WebSocketUChannel[handler_WebSocketUHandler, name_String, clients: {___}: {}] := 
 Module[{channel}, 
-	channel = WebSocketChannel[name, clients]; 
+	channel = WebSocketUChannel[name, clients]; 
 	channel["Serializer"] := handler["Serializer"]; 
 
-	(*Return: WebSocketChannel[]*)
+	(*Return: WebSocketUChannel[]*)
 	channel
 ]; 
 
@@ -280,13 +280,13 @@ $directory = DirectoryName[$InputFileName, 2];
 $connections = <||>; 
 
 
-WebSocketHandler /: init[handler_WebSocketHandler] := (
+WebSocketUHandler /: init[handler_WebSocketUHandler] := (
 	handler["Connections"] = CreateDataStructure["HashSet"]; 
 	handler["Buffer"] = CreateDataStructure["HashTable"]; 
 );
 
 
-WebSocketChannel /: init[channel_WebSocketChannel] := 
+WebSocketUChannel /: init[channel_WebSocketUChannel] := 
 channel["Connections"] = CreateDataStructure["HashSet"]; 
 
 
@@ -299,7 +299,7 @@ handshakeQ[client_, message_ByteArray] :=
 Module[{head, connections}, 
 	(*Result: DataStructure[HashSet]*)
 	connections = getConnetionsByClient[client]; 
-	head = ByteArrayToString[BytesSplit[message, $httpEndOfHead -> 1][[1]]]; 
+	head = ByteArrayToString[BytesUSplit[message, $httpEndOfHead -> 1][[1]]]; 
 
 	(*Return: True | False*)
 	(!DataStructureQ[connections] || !connections["MemberQ", client]) && 
@@ -400,7 +400,7 @@ encodeFrame[message_String] :=
 encodeFrame[StringToByteArray[message]]; 
 
 
-WebSocketHandler /: encodeFrame[handler_WebSocketHandler, expr_] := 
+WebSocketUHandler /: encodeFrame[handler_WebSocketUHandler, expr_] := 
 Module[{serializer}, 
 	serializer = handler["Serializer"]; 
 	
@@ -416,7 +416,7 @@ Module[{header, payload, data},
 	(* check for fragmentation of the header *)
 	If[FailureQ[header],
 		(*Need more bytes *)
-		(*Echo["WebSocketHandler >> Need more bytes"]; *)
+		(*Echo["WebSocketUHandler >> Need more bytes"]; *)
 		Return[{$Failed, message}];
 		(*Return: {$Failed, _ByteArray}*)
 	];
@@ -424,13 +424,13 @@ Module[{header, payload, data},
 	(* check for fragmentation of the payload *)
 	If[header["PayloadPosition"][[2]] > Length[message],
 		(*Need more bytes *)
-		(*Echo["WebSocketHandler >> Payload is less than a buffer size"]; *)
+		(*Echo["WebSocketUHandler >> Payload is less than a buffer size"]; *)
 		Return[{$Failed, message}];
 		(*Return: {$Failed, _ByteArray}*)	
 	];
 
 	payload = message[[header["PayloadPosition"]]]; 
-	data = If[Length[header["MaskingKey"]] == 4, ByteArray[ByteMask[header["MaskingKey"], payload]], payload]; 
+	data = If[Length[header["MaskingKey"]] == 4, ByteArray[ByteUMask[header["MaskingKey"], payload]], payload]; 
 	(*Return: {data_Association, extra_ByteArray}*)
 	{Append[header, "Data" -> data], Drop[message, header["PayloadPosition"][[2]] ]}
 ]; 
@@ -483,7 +483,7 @@ Module[{byte1, byte2, fin, opcode, mask, len, maskingKey, nextPosition, payload,
 	(* if the header is split in multiple TCP packets *)
 	(*Return: $Failed*)
 	If[!NumberQ[len] || !ByteArrayQ[maskingKey],
-		(* Echo["WebSocketHandler >> Frame header is broken!"]; *)
+		(* Echo["WebSocketUHandler >> Frame header is broken!"]; *)
 		(* Echo[{len, maskingKey}]; *)
 		Return[$Failed];
 		(*Return: $Failed*)

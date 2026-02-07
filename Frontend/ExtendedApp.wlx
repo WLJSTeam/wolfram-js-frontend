@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 env                       =  $Options["Env"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
@@ -211,8 +211,8 @@ printPDF[client_, ModalController_, log_] := Module[{spinner = Notifications`Spi
 ]] ];
 
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
 
@@ -510,8 +510,8 @@ Script[Rule["Secret", Secret_]] := With[{},
 ];
 
 
-http["MessageHandler", "Folder"] = AssocMatchQ[<|"Method" -> "GET", "Path" -> "/folder/" ~~ ___|>] -> middleware[App];
-http["MessageHandler", "Index"] = AssocMatchQ[<|"Method" -> "GET", "Path" -> "/"|>] -> middleware[App];
+http["MessageHandler", "Folder"] = AssocUMatchQ[<|"Method" -> "GET", "Path" -> "/folder/" ~~ ___|>] -> middleware[App];
+http["MessageHandler", "Index"] = AssocUMatchQ[<|"Method" -> "GET", "Path" -> "/"|>] -> middleware[App];
 
 
 

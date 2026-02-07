@@ -11,70 +11,70 @@ BeginPackage["CoffeeLiqueur`HTTPHandler`Extensions`", {
 }]; 
 
 
-AddHTTPHandler::usage = 
-"AddHTTPHandler[tcp, http] adds HTTP Handler to TCP Server."; 
+AddHTTPUHandler::usage = 
+"AddHTTPUHandler[tcp, http] adds HTTP Handler to TCP Server."; 
 
 
-GetFileRequestQ::usage = 
-"GetFileRequestQ[fileType] returns function for checking that is a Get request and path contatins file."; 
+GetFileURequestQ::usage = 
+"GetFileURequestQ[fileType] returns function for checking that is a Get request and path contatins file."; 
 
 
-URLPathToFileName::usage = 
-"URLPathToFileName[request] to file path."; 
+URLPathToUFileName::usage = 
+"URLPathToUFileName[request] to file path."; 
 
 
-FileNameToURLPath::usage = 
-"FileNameToURLPath[file] to url."; 
+FileNameToUURLPath::usage = 
+"FileNameToUURLPath[file] to url."; 
 
 
-ImportFile::usage = 
+ImportUFile::usage = 
 "ImportFileAsText[request] import file from request as text data."; 
 
 
-GetMIMEType::usage = 
-"GetMIMEType[request] returns mime type based on a file extension."; 
+GetMIMEUType::usage = 
+"GetMIMEUType[request] returns mime type based on a file extension."; 
 
 
-GetPOSTRequestQ::usage = 
-"GetPOSTRequestQ[fileType] returns function for checking that is a Post request and path contatins file."; 
+GetPOSTURequestQ::usage = 
+"GetPOSTURequestQ[fileType] returns function for checking that is a Post request and path contatins file."; 
 
 
-ProcessMultipart::usage = 
-"ProcessMultipart[request] returns processed request with a POST data decrypted."; 
+ProcessUMultipart::usage = 
+"ProcessUMultipart[request] returns processed request with a POST data decrypted."; 
 
 
-SetMIMETable::usage =
-"SetMIMETable[table_Association] sets a custom MIME types table"
+SetMIMEUTable::usage =
+"SetMIMEUTable[table_Association] sets a custom MIME types table"
 
 Begin["`Private`"]; 
 
 
-AddHTTPHandler[tcp_TCPServer, key_String: "HTTP", http_HTTPHandler] := (
-    tcp["CompleteHandler", key] = HTTPPacketQ -> HTTPPacketLength; 
-    tcp["MessageHandler", key] = HTTPPacketQ -> http; 
+AddHTTPUHandler[tcp_TCPUServer, key_String: "HTTP", http_HTTPUHandler] := (
+    tcp["CompleteHandler", key] = HTTPUPacketQ -> HTTPUPacketLength; 
+    tcp["MessageHandler", key] = HTTPUPacketQ -> http; 
 );
 
 
-GetFileRequestQ[fileType: _String | {__String} | _StringExpression] := 
-AssocMatchQ[<|"Method" -> "GET", "Path" -> "/" ~~ ___ ~~ "." ~~ fileType|>]; 
+GetFileURequestQ[fileType: _String | {__String} | _StringExpression] := 
+AssocUMatchQ[<|"Method" -> "GET", "Path" -> "/" ~~ ___ ~~ "." ~~ fileType|>]; 
 
-GetPOSTRequestQ[fileType: _String | {__String} | _StringExpression] := 
-AssocMatchQ[<|"Method" -> "POST", "Path" -> "/" ~~ ___ ~~ "." ~~ fileType|>];
+GetPOSTURequestQ[fileType: _String | {__String} | _StringExpression] := 
+AssocUMatchQ[<|"Method" -> "POST", "Path" -> "/" ~~ ___ ~~ "." ~~ fileType|>];
 
-URLPathToFileName[urlPath_String] := 
+URLPathToUFileName[urlPath_String] := 
 FileNameJoin[FileNameSplit[StringTrim[urlPath // URLDecode, "/"]]]; 
 
 
-URLPathToFileName[request_Association] := 
-URLPathToFileName[request["Path"]]; 
+URLPathToUFileName[request_Association] := 
+URLPathToUFileName[request["Path"]]; 
 
 
-FileNameToURLPath[fileName_String] := 
+FileNameToUURLPath[fileName_String] := 
 URLBuild[FileNameSplit[StringTrim[fileName, StartOfString ~~ Directory[]]]]; 
 
 
-Options[ImportFile] = {"Base" :> {Directory[]}, "StringOutput"->False, "RequestPath" -> "", "Routes" -> <||>}
-Options[importFile] = Options[ImportFile]
+Options[ImportUFile] = {"Base" :> {Directory[]}, "StringOutput"->False, "RequestPath" -> "", "Routes" -> <||>}
+Options[importFile] = Options[ImportUFile]
 
 importFile[path_String, opts:OptionsPattern[]] := With[{body = ReadByteArray[path]},
       If[!OptionValue["StringOutput"],
@@ -82,7 +82,7 @@ importFile[path_String, opts:OptionsPattern[]] := With[{body = ReadByteArray[pat
             "Body" -> body, 
             "Code" -> 200, 
             "Headers" -> <|
-                "Content-Type" -> GetMIMEType[path], 
+                "Content-Type" -> GetMIMEUType[path], 
                 "Content-Length" -> Length[body], 
                 "Connection"-> "Keep-Alive", 
                 "Keep-Alive" -> "timeout=5, max=1000", 
@@ -94,14 +94,14 @@ importFile[path_String, opts:OptionsPattern[]] := With[{body = ReadByteArray[pat
       ] 
     ]
 
-ImportFile[file_String, opts:OptionsPattern[]] := Module[{
+ImportUFile[file_String, opts:OptionsPattern[]] := Module[{
     paths = Flatten[OptionValue["Base"]], 
     raw = OptionValue["RequestPath"], 
     routes = OptionValue["Routes"]
 },
     
     With[{path = FileNameJoin[{#, file}]},
-     Echo["HTTPHandler >> Checking "<>path<>"..."];
+     Echo["HTTPUHandler >> Checking "<>path<>"..."];
      If[
          FileExistsQ[path]
      ,
@@ -117,11 +117,11 @@ ImportFile[file_String, opts:OptionsPattern[]] := Module[{
     },
 
         If[!MissingQ[route],
-            Echo["HTTPHandler >> Checking route "<>ToString[route]<>"..."];
+            Echo["HTTPUHandler >> Checking route "<>ToString[route]<>"..."];
             With[{
                 resolved = FileNameJoin[{Key[route][routes], Drop[splitted, Length[route]-1]} // Flatten]
             },
-                Echo["HTTPHandler >> Resolved to: "<>resolved];
+                Echo["HTTPUHandler >> Resolved to: "<>resolved];
                 If[FileExistsQ[resolved],
                     Return[importFile[resolved, opts], Module];
                 ];
@@ -129,21 +129,21 @@ ImportFile[file_String, opts:OptionsPattern[]] := Module[{
         ];
     ];
 
-    Echo["HTTPHandler >> File "<>file<>" was not found ;()"];
+    Echo["HTTPUHandler >> File "<>file<>" was not found ;()"];
 
     <|"Code" -> 404|>
 ]
 
 
 
-ImportFile[request_Association, opts: OptionsPattern[]] := 
-ImportFile[URLPathToFileName[request["Path"]], "RequestPath"->request["Path"], opts]
+ImportUFile[request_Association, opts: OptionsPattern[]] := 
+ImportUFile[URLPathToUFileName[request["Path"]], "RequestPath"->request["Path"], opts]
 
 
-ImportFileAsText = ImportFile
+ImportFileAsText = ImportUFile
 
 
-GetMIMEType[file_String] := Module[{type},
+GetMIMEUType[file_String] := Module[{type},
     type = $mimeTypes[file // FileExtension];
 	If[!StringQ[type], type = "application/octet-stream"];
     type
@@ -157,10 +157,10 @@ DirectoryName[$InputFileName];
 $mimeTypes = 
 Get[FileNameJoin[{$directory, "MIMETypes.wl"}]];
 
-SetMIMETable[assoc_Association] := $mimeTypes = assoc
+SetMIMEUTable[assoc_Association] := $mimeTypes = assoc
 
-GetMIMEType[request_Association] := 
-GetMIMEType[URLPathToFileName[request["Path"]]]; 
+GetMIMEUType[request_Association] := 
+GetMIMEUType[URLPathToUFileName[request["Path"]]]; 
 
 
 $DeserializeUrlencoded[request_Association, body_ByteArray] := (
@@ -250,7 +250,7 @@ $DeserializeMultipart[request_Association, body_ByteArray] := Module[{boundary, 
 ]; 
 
 
-ProcessMultipart[request_Association, OptionsPattern[]] := Module[{},
+ProcessUMultipart[request_Association, OptionsPattern[]] := Module[{},
     (* Return request_Association *)
 
     If[StringMatchQ[request["Headers"]["Content-Type"], "application/x-www-form-urlencoded" ~~ ___],

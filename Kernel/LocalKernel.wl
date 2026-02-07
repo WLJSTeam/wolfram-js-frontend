@@ -19,7 +19,7 @@ LTPServerStart[port_:36800] := With[{},
     ltpRunning = True;
     Echo[">> Starting local LTP server ..."];
 
-    tcp = TCPServer[];
+    tcp = TCPUServer[];
     tcp["CompleteHandler", "LTP"] = LTPQ -> LTPLength;
     tcp["MessageHandler", "LTP"]  = LTPQ -> LTPHandler;
 
@@ -87,15 +87,15 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
         Print["Establishing LTP link... using "<>addr];
         Internal`Kernel`Host = host;
         
-        Internal`Kernel`Stdout = CSocketConnect[addr] // LTPTransport;
+        Internal`Kernel`Stdout = USocketConnect[addr] // LTPTransport;
         Print["Establishing starting LTP server for backlink... using "<>(StringTemplate["127.0.0.1:``"][p])];
         Module[{Internal`Kernel`ltcp},
-            Internal`Kernel`ltcp = TCPServer[];
+            Internal`Kernel`ltcp = TCPUServer[];
      
             Internal`Kernel`ltcp["CompleteHandler", "LTP"] = LTPQ -> LTPLength;
             Internal`Kernel`ltcp["MessageHandler", "LTP"]  = LTPQ -> LTPHandler;
 
-            SocketListen[CSocketOpen["127.0.0.1:"<>ToString[p] ], Internal`Kernel`ltcp@#&];
+            SocketListen[USocketOpen["127.0.0.1:"<>ToString[p] ], Internal`Kernel`ltcp@#&];
             
         ];
 

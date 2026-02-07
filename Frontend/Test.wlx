@@ -1,4 +1,4 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 
 App[request_] := With[{
     SecretString = ToString[StringReverse[URLDecode[ request["Path"] ] ] ]
@@ -9,8 +9,8 @@ App[request_] := With[{
 
 Ping[request_] := With[{}, "OK"];
 
-http["MessageHandler", "Test"] = AssocMatchQ[<|"Path" -> "/test"|>] -> App;
-http["MessageHandler", "Ping"] = AssocMatchQ[<|"Path" -> "/ping"|>] -> Ping;
+http["MessageHandler", "Test"] = AssocUMatchQ[<|"Path" -> "/test"|>] -> App;
+http["MessageHandler", "Ping"] = AssocUMatchQ[<|"Path" -> "/ping"|>] -> Ping;
 Print["Test Loaded!"];
 
 

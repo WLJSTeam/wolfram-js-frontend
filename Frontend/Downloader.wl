@@ -54,7 +54,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
                         "Body" -> file,
                         "Code" -> 200, 
                         "Headers" -> <|
-                            "Content-Type" -> GetMIMEType[path], 
+                            "Content-Type" -> GetMIMEUType[path], 
                             "Content-Length" -> Length[file],
                             "Connection"-> "Keep-Alive", 
                             "Keep-Alive" -> "timeout=5, max=1000"
@@ -81,7 +81,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
                         "Body" -> body,
                         "Code" -> 206, 
                         "Headers" -> <|
-                            "Content-Type" -> GetMIMEType[path], 
+                            "Content-Type" -> GetMIMEUType[path], 
                             "Content-Length" -> Length[body],
                             "Content-Range" -> StringTemplate["bytes ``-``/``"][ranges[[1]], Min[ranges[[2]], size-1], size],
                             "Connection"-> "Keep-Alive", 
@@ -108,7 +108,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
             <|
                 "Code" -> 200, 
                 "Headers" -> <|
-                    "Content-Type" -> GetMIMEType[path], 
+                    "Content-Type" -> GetMIMEUType[path], 
                     "Accept-Ranges" -> "bytes",
                     "Content-Length" -> Round[QuantityMagnitude[FileSize[path], "Bytes"] ], 
                     "Connection"-> "Keep-Alive", 
@@ -119,7 +119,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
             <|
                 "Code" -> 404, 
                 "Headers" -> <|
-                    "Content-Type" -> GetMIMEType[path], 
+                    "Content-Type" -> GetMIMEUType[path], 
                     "Accept-Ranges" -> "bytes",
                     "Content-Length" -> 0, 
                     "Connection"-> "Keep-Alive", 
@@ -129,12 +129,12 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         ]      
     ] ]
 
-    module[OptionsPattern[] ] := With[{http = OptionValue["HTTPHandler"]},
+    module[OptionsPattern[] ] := With[{http = OptionValue["HTTPUHandler"]},
         Echo["Downloads module was attached"];
-        http["MessageHandler", "Downloader"] = AssocMatchQ[<|"Path" -> "/downloadFile/"|>] -> (handler[ #["Method"] ][#]&);
+        http["MessageHandler", "Downloader"] = AssocUMatchQ[<|"Path" -> "/downloadFile/"|>] -> (handler[ #["Method"] ][#]&);
     ]
 
-    Options[module] = {"HTTPHandler" -> Null}
+    Options[module] = {"HTTPUHandler" -> Null}
 
     End[]
 

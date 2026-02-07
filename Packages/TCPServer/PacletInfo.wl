@@ -2,7 +2,7 @@
 
 PacletObject[
   <|
-    "Name" -> "CoffeeLiqueur/TCPServer",
+    "Name" -> "CoffeeLiqueur/TCPUServer",
     "Description" -> "TCP Server",
     "Creator" -> "Kirill Belov",
     "License" -> "MIT",

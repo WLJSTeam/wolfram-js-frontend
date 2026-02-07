@@ -30,8 +30,8 @@ utils = Get[ FileNameJoin[{root, "src", "Utils.wl"}] ];
 gui  = ImportComponent[FileNameJoin @ {root, "templates", "GUI.wlx"}];
 gui  = gui[utils];
 
-With[{http = AppExtensions`HTTPHandler},
-    http["MessageHandler", "Debugger"] = AssocMatchQ[<|"Path" -> ("/debugger/"~~___)|>] -> gui;
+With[{http = AppExtensions`HTTPUHandler},
+    http["MessageHandler", "Debugger"] = AssocUMatchQ[<|"Path" -> ("/debugger/"~~___)|>] -> gui;
 ];
 
 getNotebook[controls_] := EventFire[controls, "NotebookQ", True] /. {{___, n_nb`NotebookObj, ___} :> n};

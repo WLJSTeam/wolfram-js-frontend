@@ -154,8 +154,8 @@ EventHandler["autocompleteFindDoc", Function[label, With[{cli = Global`$Client},
 
 docsWindow = ImportComponent[FileNameJoin[{rootDir, "templates", "Docs.wlx"}] ];
 
-With[{http = AppExtensions`HTTPHandler},
-    http["MessageHandler", "DocsFinder"] = AssocMatchQ[<|"Path" -> ("/docFind/"~~___)|>] -> docsWindow;
+With[{http = AppExtensions`HTTPUHandler},
+    http["MessageHandler", "DocsFinder"] = AssocUMatchQ[<|"Path" -> ("/docFind/"~~___)|>] -> docsWindow;
 ];
 
 

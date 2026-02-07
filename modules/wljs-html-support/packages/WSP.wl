@@ -75,18 +75,18 @@ SetCache[interval_String] := (pcache = wcache; wcacheInterval = interval)
 
 findComponent[path_] := If[DirectoryQ[path], FileNameJoin[{path, "index.wsp"}], path]
 
-URLPathToFileName[urlPath_String] := 
+URLPathToUFileName[urlPath_String] := 
 FileNameJoin[FileNameSplit[StringTrim[urlPath, "/"]]]; 
 
 LoadPage[p_, vars_: {}, OptionsPattern[]]:=
     Block[vars,
         If[StringQ[Global`$WSPPublic] && StringLength[OptionValue["Base"]] == 0,
-            With[{path = FileNameJoin[{Global`$WSPPublic, URLPathToFileName[p]}]},
+            With[{path = FileNameJoin[{Global`$WSPPublic, URLPathToUFileName[p]}]},
                 Process@(pcache[ With[{stream = Import[path // findComponent, "Text"]}, AST[stream, {}, "Simple"] ], wcacheInterval ])
             ]
         ,
             Block[{Global`$WSPPublic = OptionValue["Base"]},
-                With[{path =If[StringLength[Global`$WSPPublic] > 0, FileNameJoin[{Global`$WSPPublic, URLPathToFileName[p]}], URLPathToFileName[p] ]  },
+                With[{path =If[StringLength[Global`$WSPPublic] > 0, FileNameJoin[{Global`$WSPPublic, URLPathToUFileName[p]}], URLPathToUFileName[p] ]  },
                     Process@(pcache[ With[{stream = Import[path // findComponent, "Text"]}, AST[stream, {}, "Simple"] ], wcacheInterval ])
                 ]            
             ]
