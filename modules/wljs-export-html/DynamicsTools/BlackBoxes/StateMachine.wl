@@ -95,7 +95,7 @@ probeState[action_, kernel_, symbol_, aborted_, {values_, events_}, client_] := 
   promise
 ]
 
-compress[expr_] := With[{arr = Normal[ExportByteArray[expr, "JSON"] ]},
+compress[expr_] := With[{arr = Normal[ExportByteArray[expr /. {n_NumericArray :> Normal[n]} , "JSON"] ]},
   With[{data = BaseEncode[ByteArray[Developer`RawCompress[arr] ] ]},
     data
   ]

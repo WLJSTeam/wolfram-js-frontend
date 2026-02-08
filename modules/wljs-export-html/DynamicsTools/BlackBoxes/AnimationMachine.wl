@@ -100,11 +100,13 @@ animationMachine /: blackBox`delete[machine_animationMachine] := (
     machine["Values"]=.;
 )
 
-compress[expr_] := With[{arr = Normal[ExportByteArray[expr, "JSON"] ]},
+
+compress[expr_] := With[{arr = Normal[ExportByteArray[expr /. {n_NumericArray :> Normal[n]}, "JSON"] ]},
   With[{data = BaseEncode[ByteArray[Developer`RawCompress[arr] ] ]},
     data
   ]
 ]
+
 
 animationMachine /: blackBox`export[machine_animationMachine] := With[{},
 With[{data = <|"Compressed" -> compress[ machine["Values"] ],
@@ -114,6 +116,7 @@ With[{data = <|"Compressed" -> compress[ machine["Values"] ],
   "Event" -> machine["Event"]["FullForm"],
   "HashState" -> machine["HashState"]
 |>},
+
     machine["Values"]=.;
     Delete[machine];
     data

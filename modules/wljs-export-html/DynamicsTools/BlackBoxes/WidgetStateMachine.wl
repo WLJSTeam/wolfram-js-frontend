@@ -99,7 +99,7 @@ checkType[type_] := "JS";
 processTyped[data_?Developer`PackedArrayQ | data_?NumericArrayQ] := ExportByteArray[NumericArray[data], "WXF"]//BaseEncode 
 processTyped[data_] := data
 
-compress[expr_] := With[{arr = Normal[ExportByteArray[expr, "JSON"] ]},
+compress[expr_] := With[{arr = Normal[ExportByteArray[expr /. {n_NumericArray :> Normal[n]} , "JSON"] ]},
   With[{data = BaseEncode[ByteArray[Developer`RawCompress[arr] ] ]},
     data
   ]
