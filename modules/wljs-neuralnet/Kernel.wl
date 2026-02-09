@@ -188,34 +188,34 @@ neuralPrinter[assoc_Association] := If[!AssociationQ[System`$EvaluationContext],
 
     Null;
   ,
-    Module[{generator, length, plot, System`params, System`cellContent},
+    Module[{generator, length, plot, params, cellContent},
       associatedNets[callId] = Function[{data, p}, 
           PlotlyExtendTraces[plot, <|"y" -> {Drop[data, length]}|>, {0}];
           length = Length[data];
-          System`params = p;
+          params = p;
 
           If[p[[2]] < 3,
-            System`cellContent = ToString[Style["Complete", Background->LightGreen], StandardForm];
+            cellContent = ToString[Style["Complete", Background->LightGreen], StandardForm];
             associatedNets[callId] = Null;
           ];
       ];
 
       length = Length[assoc["RoundLossList"]];
 
-      System`params = {
+      params = {
         assoc["TimeElapsed"], assoc["TimeRemaining"],
         assoc["RoundLoss"], assoc["LearningRate"]
       };
 
-      System`cellContent = ToString[{
+      cellContent = ToString[{
         {Style["Target device", 10], Style[assoc["TargetDevice"], Italic, 10]} // Row,
         {{
-          TextView[System`params[[1]] // Offload, "Label"->"Time elapsed", ImageSize->100],
-          TextView[System`params[[2]] // Offload, "Label"->"Time remaining", ImageSize->100]
+          TextView[params[[1]] // Offload, "Label"->"Time elapsed", ImageSize->100],
+          TextView[params[[2]] // Offload, "Label"->"Time remaining", ImageSize->100]
         },
         {
-          TextView[System`params[[3]] // Offload, "Label"->"Round loss", ImageSize->100],
-          TextView[System`params[[4]] // Offload, "Label"->"Learning rate", ImageSize->100]  
+          TextView[params[[3]] // Offload, "Label"->"Round loss", ImageSize->100],
+          TextView[params[[4]] // Offload, "Label"->"Learning rate", ImageSize->100]  
         }} // Grid,
         plot = Plotly[<|
           "y" -> assoc["RoundLossList"],
@@ -225,7 +225,7 @@ neuralPrinter[assoc_Association] := If[!AssociationQ[System`$EvaluationContext],
         |>]
       } // Column, StandardForm];
     
-      EditorView[System`cellContent // Offload]
+      EditorView[cellContent // Offload]
 
     ]
     
