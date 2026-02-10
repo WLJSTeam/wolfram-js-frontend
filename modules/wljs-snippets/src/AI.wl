@@ -27,10 +27,10 @@ Needs["CoffeeLiqueur`Extensions`CommandPalette`VFX`" -> "vfx`", FileNameJoin[{Di
 
 
 
-GPTChatObject /: EventHandler[o_GPTChatObject, opts_] := EventHandler[o["Hash"], opts]
-GPTChatObject /: EventFire[o_GPTChatObject, opts__] := EventFire[o["Hash"], opts]
-GPTChatObject /: EventClone[o_GPTChatObject] := EventClone[o["Hash"] ]
-GPTChatObject /: EventRemove[o_GPTChatObject, opts_] := EventRemove[o["Hash"], opts]
+GPTUChatObject /: EventHandler[o_GPTChatObject, opts_] := EventHandler[o["Hash"], opts]
+GPTUChatObject /: EventFire[o_GPTChatObject, opts__] := EventFire[o["Hash"], opts]
+GPTUChatObject /: EventClone[o_GPTChatObject] := EventClone[o["Hash"] ]
+GPTUChatObject /: EventRemove[o_GPTChatObject, opts_] := EventRemove[o["Hash"], opts]
 
 
 AIChatRenderer;
@@ -170,7 +170,7 @@ GPTChatCompletePromise[args__, rules___Rule] := With[{p = Promise[], o = {args} 
     Echo["TokensTotal: "<>ToString[o["TotalTokens"] ] ];
 
 
-    GPTChatCompleteAsync[args, Function[data,
+    GPTUChatCompleteAsync[args, Function[data,
         With[{},
             EventFire[o, "Complete", o["Messages"] ];
         ];
@@ -1014,7 +1014,7 @@ createChat[assoc_Association] := With[{
 
         discoverFunction[model_] := With[{p = Promise[]},
             Echo["AI >> model discovery"];
-            GPTModelsRequest[model["Endpoint"], model["APIToken"], model["ListHandler"][p], model["Headers"] ];
+            GPTUModelsRequest[model["Endpoint"], model["APIToken"], model["ListHandler"][p], model["Headers"] ];
             p
         ];
 
@@ -1127,7 +1127,7 @@ createChat[assoc_Association] := With[{
             systemPromt = Uncompress[getParameter["AIAssistantAssistantPrompt"] ];
 
             With[{promt = systemPromt, modelParams = defaultModels[CurrentProvider]},
-                localChat = GPTChatObject[promt, 
+                localChat = GPTUChatObject[promt, 
                     "ToolFunction"->basisChatFunction, 
                     "ToolHandler"->functionsHandler, 
                     Sequence @@ modelParams,

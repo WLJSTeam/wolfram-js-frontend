@@ -80,7 +80,7 @@ $rootDir =  ParentDirectory[ DirectoryName[$InputFileName] ];
             If[bot === Null, 
       
 
-                bot = GPTChatObject[
+                bot = GPTUChatObject[
                     sysP,
                     "APIToken"->getToken, 
                     "Endpoint" -> getParameter["Endpoint"],
@@ -107,7 +107,7 @@ $rootDir =  ParentDirectory[ DirectoryName[$InputFileName] ];
                     bot["Messages"] = Join[{bot["Messages"][[1]], bot["Messages"][[2]]}, Take[bot["Messages"], -10] ];
                 ];
 
-                GPTChatCompleteAsync[bot, payload, Function[Null, 
+                GPTUChatCompleteAsync[bot, payload, Function[Null, 
                     EventFire[promise, Resolve, bot["Messages"][[-1, "content"]] ];
                 ] ];
             ];

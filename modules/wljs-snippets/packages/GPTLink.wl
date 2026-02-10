@@ -6,25 +6,25 @@
 
 BeginPackage["CoffeeLiqueur`GPTLink`", {"CoffeeLiqueur`Objects`"}];
 
-GPTModelsRequest::usage = "
-GPTModelsRequest[endpoint, apiToken, cbk]
+GPTUModelsRequest::usage = "
+GPTUModelsRequest[endpoint, apiToken, cbk]
 "
 
-GPTChatComplete::usage = 
-"GPTChatComplete[chat] complete given chat. 
-GPTChatCompleteAsync[prompt] complete given prompt. 
-GPTChatCompleteAsync[chat, prompt] complete chat using given prompt."; 
+GPTUChatComplete::usage = 
+"GPTUChatComplete[chat] complete given chat. 
+GPTUChatCompleteAsync[prompt] complete given prompt. 
+GPTUChatCompleteAsync[chat, prompt] complete chat using given prompt."; 
 
 
-GPTChatCompleteAsync::usage = 
-"GPTChatCompleteAsync[chat, callback] complete given chat in async mode. 
-GPTChatCompleteAsync[prompt, callback] complete given prompt in async mode. 
-GPTChatCompleteAsync[chat, prompt, callback] complete chat using given prompt in async mode."; 
+GPTUChatCompleteAsync::usage = 
+"GPTUChatCompleteAsync[chat, callback] complete given chat in async mode. 
+GPTUChatCompleteAsync[prompt, callback] complete given prompt in async mode. 
+GPTUChatCompleteAsync[chat, prompt, callback] complete chat using given prompt in async mode."; 
 
 
-GPTChatObject::usage = 
-"GPTChatObject[] symbolic chat representation in Wolfram Language.
-GPTChatObject[\"system\"] symbolic chat representation with system prompt in Wolfram Language."; 
+GPTUChatObject::usage = 
+"GPTUChatObject[] symbolic chat representation in Wolfram Language.
+GPTUChatObject[\"system\"] symbolic chat representation with system prompt in Wolfram Language."; 
 
 
 Begin["`Private`"];
@@ -37,7 +37,7 @@ Begin["`Private`"];
 promptPattern = _String | _Image | {_String, _Image} | {_String, _Graphics} | {_String, Legended[_Graphics, ___]}; 
 
 
-CreateType[GPTChatObject, {
+CreateType[GPTUChatObject, {
 	"Endpoint" -> "https://api.openai.com", 
 	"Temperature" -> 0.7, 
 	"User", 
@@ -54,8 +54,8 @@ CreateType[GPTChatObject, {
 }]; 
 
 
-GPTChatObject[system_String, opts: OptionsPattern[]] := 
-With[{chat = GPTChatObject[opts]}, 
+GPTUChatObject[system_String, opts: OptionsPattern[]] := 
+With[{chat = GPTUChatObject[opts]}, 
 	chat["Messages"] = Append[chat["Messages"], <|
 		"role" -> "system", 
 		"date" -> Now,
@@ -65,15 +65,15 @@ With[{chat = GPTChatObject[opts]},
 ]; 
 
 
-GPTChatObject /: Append[chat_GPTChatObject, message_Association?AssociationQ] := 
+GPTUChatObject /: Append[chat_GPTChatObject, message_Association?AssociationQ] := 
 (chat["Messages"] = Append[chat["Messages"], Append[message, "date" -> Now]]; chat); 
 
 
-GPTChatObject /: Append[chat_GPTChatObject, message_String?StringQ] := 
+GPTUChatObject /: Append[chat_GPTChatObject, message_String?StringQ] := 
 Append[chat, <|"role" -> "user", "content" -> message|>]; 
 
 
-GPTChatObject /: Append[chat_GPTChatObject, image_Image?ImageQ] := 
+GPTUChatObject /: Append[chat_GPTChatObject, image_Image?ImageQ] := 
 With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]}, 
 	Append[chat, <|"role" -> "user", "content" -> {
 		<|
@@ -86,7 +86,7 @@ With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]},
 ]; 
 
 
-GPTChatObject /: Append[chat_GPTChatObject, {text_String?StringQ, image_Image?ImageQ}] := 
+GPTUChatObject /: Append[chat_GPTChatObject, {text_String?StringQ, image_Image?ImageQ}] := 
 With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]}, 
 	Append[chat, <|"role" -> "user", "content" -> {
 		<|"type" -> "text", "text" -> text|>, 
@@ -100,13 +100,13 @@ With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]},
 ]; 
 
 
-GPTChatObject /: Append[chat_GPTChatObject, {text_String?StringQ, graphics: _Graphics | Legended[_Graphics, ___]}] := 
+GPTUChatObject /: Append[chat_GPTChatObject, {text_String?StringQ, graphics: _Graphics | Legended[_Graphics, ___]}] := 
 With[{image = Rasterize[graphics]}, 
 	Append[chat, {text, image}]
 ]; 
 
 
-Options[GPTChatCompleteAsync] = {
+Options[GPTUChatCompleteAsync] = {
 	"Endpoint" -> Automatic, 
 	"Temperature" -> Automatic, 
 	"User" -> Automatic, 
@@ -121,10 +121,10 @@ Options[GPTChatCompleteAsync] = {
 }; 
 
 
-GPTChatCompleteAsync::err = 
+GPTUChatCompleteAsync::err = 
 "`1`"; 
 
-GPTModelsRequest[endpoint_, apiToken_, cbk_, args_List:{}] := Module[{url, headers, request},
+GPTUModelsRequest[endpoint_, apiToken_, cbk_, args_List:{}] := Module[{url, headers, request},
 
 	url = URLBuild[{endpoint, "v1", "models"}]; 
 	
@@ -159,8 +159,8 @@ GPTModelsRequest[endpoint_, apiToken_, cbk_, args_List:{}] := Module[{url, heade
 	];
 ]
 
-GPTChatCompleteAsync[chat_GPTChatObject, callback: _Function | _Symbol, 
-	secondCall: GPTChatComplete | GPTChatCompleteAsync: GPTChatCompleteAsync, opts: OptionsPattern[]] := 
+GPTUChatCompleteAsync[chat_GPTChatObject, callback: _Function | _Symbol, 
+	secondCall: GPTUChatComplete | GPTUChatCompleteAsync: GPTUChatCompleteAsync, opts: OptionsPattern[]] := 
 Module[{ 
 	endpoint = ifAuto[OptionValue["Endpoint"], chat["Endpoint"]],  
 	apiToken = ifAuto[OptionValue["APIToken"], chat["APIToken"]], 
@@ -248,7 +248,7 @@ Module[{
 
 										, 
 										(*Else*)
-											Message[GPTChatCompleteAsync::err, $result]; $Failed		
+											Message[GPTUChatCompleteAsync::err, $result]; $Failed		
 										];
 									  , {i, Length[$result ]}];
 
@@ -259,7 +259,7 @@ Module[{
 									  If[chat["OldMessagesLength"] =!= Length[chat["Messages"] ],
 									  	chat["OldMessagesLength"] = Length[chat["Messages"] ];
 									  	Echo["GPTLink >> Subcall"];
-										GPTChatCompleteAsync[chat, callback, opts];
+										GPTUChatCompleteAsync[chat, callback, opts];
 			
 									  ,
 									  	Echo["GPTLink >> Nothing to do. No new messages"];
@@ -279,11 +279,11 @@ Module[{
 							, 
 							(*Else*)
 								$logger[<|"Error" -> "No messages provided in the reply"|>]; 
-								Message[GPTChatCompleteAsync::err, responseAssoc]; $Failed
+								Message[GPTUChatCompleteAsync::err, responseAssoc]; $Failed
 							], 
 						(*Else*)
 							$logger[<|"Error" -> "Response is not valid JSON"|>]; 
-							Message[GPTChatCompleteAsync::err, responseAssoc]; $Failed
+							Message[GPTUChatCompleteAsync::err, responseAssoc]; $Failed
 						], 
 						Switch[#["StatusCode"],
 							401,
@@ -295,7 +295,7 @@ Module[{
 								Echo["GPTLink >> Too many requests. Slow down"];
 								SetTimeout[
 									Echo["GPTLink >> Trying again..."];
-									GPTChatCompleteAsync[chat, callback, opts];, Quantity[7, "Seconds"] 
+									GPTUChatCompleteAsync[chat, callback, opts];, Quantity[7, "Seconds"] 
 								];
 							,
 
@@ -317,9 +317,11 @@ Module[{
 
 							503,
 								Echo["GPTLink >> Too many requests. Slow down"];
+								Echo[ImportByteArray[#["BodyByteArray"], "Text", CharacterEncoding -> "UTF-8"] ];
+								Echo["GPTLink >> We will try in 10 seconds"];
 								SetTimeout[
 									Echo["GPTLink >> Trying again..."];
-									GPTChatCompleteAsync[chat, callback, opts];, Quantity[7, "Seconds"] 
+									GPTUChatCompleteAsync[chat, callback, opts];, Quantity[10, "Seconds"] 
 								];
 							,
 
@@ -336,34 +338,34 @@ Module[{
 ]; 
 
 
-GPTChatCompleteAsync[chat_GPTChatObject, prompt: promptPattern, callback: _Symbol | _Function, 
-	secondCall: GPTChatComplete | GPTChatCompleteAsync: GPTChatCompleteAsync, opts: OptionsPattern[]] := (
+GPTUChatCompleteAsync[chat_GPTChatObject, prompt: promptPattern, callback: _Symbol | _Function, 
+	secondCall: GPTUChatComplete | GPTUChatCompleteAsync: GPTUChatCompleteAsync, opts: OptionsPattern[]] := (
 	Append[chat, prompt]; 
-	GPTChatCompleteAsync[chat, callback, secondCall, opts]
+	GPTUChatCompleteAsync[chat, callback, secondCall, opts]
 ); 
 
 
-GPTChatCompleteAsync[prompt: promptPattern, callback: _Symbol | _Function, 
-	secondCall: GPTChatComplete | GPTChatCompleteAsync: GPTChatCompleteAsync, opts: OptionsPattern[]] := 
-With[{chat = GPTChatObject[]}, 
+GPTUChatCompleteAsync[prompt: promptPattern, callback: _Symbol | _Function, 
+	secondCall: GPTUChatComplete | GPTUChatCompleteAsync: GPTUChatCompleteAsync, opts: OptionsPattern[]] := 
+With[{chat = GPTUChatObject[]}, 
 	Append[chat, prompt]; 
-	GPTChatCompleteAsync[chat, callback, secondCall, opts]
+	GPTUChatCompleteAsync[chat, callback, secondCall, opts]
 ]; 
 
 
-Options[GPTChatComplete] = Options[GPTChatCompleteAsync]; 
+Options[GPTUChatComplete] = Options[GPTUChatCompleteAsync]; 
 
 
-GPTChatComplete[chat_GPTChatObject, opts: OptionsPattern[]] := 
-(TaskWait[GPTChatCompleteAsync[chat, Identity, GPTChatComplete, opts]]; chat); 
+GPTUChatComplete[chat_GPTChatObject, opts: OptionsPattern[]] := 
+(TaskWait[GPTUChatCompleteAsync[chat, Identity, GPTUChatComplete, opts]]; chat); 
 
 
-GPTChatComplete[chat_GPTChatObject, prompt: promptPattern, opts: OptionsPattern[]] := 
-(TaskWait[GPTChatCompleteAsync[chat, prompt, Identity, GPTChatComplete, opts]]; chat); 
+GPTUChatComplete[chat_GPTChatObject, prompt: promptPattern, opts: OptionsPattern[]] := 
+(TaskWait[GPTUChatCompleteAsync[chat, prompt, Identity, GPTUChatComplete, opts]]; chat); 
 
 
-GPTChatComplete[prompt: promptPattern, opts: OptionsPattern[]] := 
-With[{chat = GPTChatObject[]}, TaskWait[GPTChatCompleteAsync[chat, prompt, Identity, GPTChatComplete, opts]]; chat]; 
+GPTUChatComplete[prompt: promptPattern, opts: OptionsPattern[]] := 
+With[{chat = GPTUChatObject[]}, TaskWait[GPTUChatCompleteAsync[chat, prompt, Identity, GPTUChatComplete, opts]]; chat]; 
 
 
 (* ::Sction:: *)
