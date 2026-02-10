@@ -65,15 +65,15 @@ With[{chat = GPTUChatObject[opts]},
 ]; 
 
 
-GPTUChatObject /: Append[chat_GPTChatObject, message_Association?AssociationQ] := 
+GPTUChatObject /: Append[chat_GPTUChatObject, message_Association?AssociationQ] := 
 (chat["Messages"] = Append[chat["Messages"], Append[message, "date" -> Now]]; chat); 
 
 
-GPTUChatObject /: Append[chat_GPTChatObject, message_String?StringQ] := 
+GPTUChatObject /: Append[chat_GPTUChatObject, message_String?StringQ] := 
 Append[chat, <|"role" -> "user", "content" -> message|>]; 
 
 
-GPTUChatObject /: Append[chat_GPTChatObject, image_Image?ImageQ] := 
+GPTUChatObject /: Append[chat_GPTUChatObject, image_Image?ImageQ] := 
 With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]}, 
 	Append[chat, <|"role" -> "user", "content" -> {
 		<|
@@ -86,7 +86,7 @@ With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]},
 ]; 
 
 
-GPTUChatObject /: Append[chat_GPTChatObject, {text_String?StringQ, image_Image?ImageQ}] := 
+GPTUChatObject /: Append[chat_GPTUChatObject, {text_String?StringQ, image_Image?ImageQ}] := 
 With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]}, 
 	Append[chat, <|"role" -> "user", "content" -> {
 		<|"type" -> "text", "text" -> text|>, 
@@ -100,7 +100,7 @@ With[{imageBase64 = BaseEncode[ExportByteArray[image, "JPEG"], "Base64"]},
 ]; 
 
 
-GPTUChatObject /: Append[chat_GPTChatObject, {text_String?StringQ, graphics: _Graphics | Legended[_Graphics, ___]}] := 
+GPTUChatObject /: Append[chat_GPTUChatObject, {text_String?StringQ, graphics: _Graphics | Legended[_Graphics, ___]}] := 
 With[{image = Rasterize[graphics]}, 
 	Append[chat, {text, image}]
 ]; 
@@ -159,7 +159,7 @@ GPTUModelsRequest[endpoint_, apiToken_, cbk_, args_List:{}] := Module[{url, head
 	];
 ]
 
-GPTUChatCompleteAsync[chat_GPTChatObject, callback: _Function | _Symbol, 
+GPTUChatCompleteAsync[chat_GPTUChatObject, callback: _Function | _Symbol, 
 	secondCall: GPTUChatComplete | GPTUChatCompleteAsync: GPTUChatCompleteAsync, opts: OptionsPattern[]] := 
 Module[{ 
 	endpoint = ifAuto[OptionValue["Endpoint"], chat["Endpoint"]],  
@@ -338,7 +338,7 @@ Module[{
 ]; 
 
 
-GPTUChatCompleteAsync[chat_GPTChatObject, prompt: promptPattern, callback: _Symbol | _Function, 
+GPTUChatCompleteAsync[chat_GPTUChatObject, prompt: promptPattern, callback: _Symbol | _Function, 
 	secondCall: GPTUChatComplete | GPTUChatCompleteAsync: GPTUChatCompleteAsync, opts: OptionsPattern[]] := (
 	Append[chat, prompt]; 
 	GPTUChatCompleteAsync[chat, callback, secondCall, opts]
@@ -356,11 +356,11 @@ With[{chat = GPTUChatObject[]},
 Options[GPTUChatComplete] = Options[GPTUChatCompleteAsync]; 
 
 
-GPTUChatComplete[chat_GPTChatObject, opts: OptionsPattern[]] := 
+GPTUChatComplete[chat_GPTUChatObject, opts: OptionsPattern[]] := 
 (TaskWait[GPTUChatCompleteAsync[chat, Identity, GPTUChatComplete, opts]]; chat); 
 
 
-GPTUChatComplete[chat_GPTChatObject, prompt: promptPattern, opts: OptionsPattern[]] := 
+GPTUChatComplete[chat_GPTUChatObject, prompt: promptPattern, opts: OptionsPattern[]] := 
 (TaskWait[GPTUChatCompleteAsync[chat, prompt, Identity, GPTUChatComplete, opts]]; chat); 
 
 

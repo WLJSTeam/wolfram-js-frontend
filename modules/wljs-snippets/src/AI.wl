@@ -27,10 +27,10 @@ Needs["CoffeeLiqueur`Extensions`CommandPalette`VFX`" -> "vfx`", FileNameJoin[{Di
 
 
 
-GPTUChatObject /: EventHandler[o_GPTChatObject, opts_] := EventHandler[o["Hash"], opts]
-GPTUChatObject /: EventFire[o_GPTChatObject, opts__] := EventFire[o["Hash"], opts]
-GPTUChatObject /: EventClone[o_GPTChatObject] := EventClone[o["Hash"] ]
-GPTUChatObject /: EventRemove[o_GPTChatObject, opts_] := EventRemove[o["Hash"], opts]
+GPTUChatObject /: EventHandler[o_GPTUChatObject, opts_] := EventHandler[o["Hash"], opts]
+GPTUChatObject /: EventFire[o_GPTUChatObject, opts__] := EventFire[o["Hash"], opts]
+GPTUChatObject /: EventClone[o_GPTUChatObject] := EventClone[o["Hash"] ]
+GPTUChatObject /: EventRemove[o_GPTUChatObject, opts_] := EventRemove[o["Hash"], opts]
 
 
 AIChatRenderer;
@@ -1317,7 +1317,7 @@ handle[data_Association] := Module[{}, With[{
     
 
     With[{assoc = Join[data, <|"Notebook" -> getNotebook[data]|> ]},
-        If[MatchQ[assoc["Notebook"]["ChatBook"], _GPTChatObject],
+        If[MatchQ[assoc["Notebook"]["ChatBook"], _GPTUChatObject],
             Echo["Reuse a chat!"];
 
             WebUISubmit[Siriwave["Start", "canvas-palette-back"], data["Client"] ];
