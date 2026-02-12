@@ -1606,6 +1606,12 @@ If[Internal`Kernel`Watchdog["Enabled"],
       Get[file]
     , tag];
 
+    Internal`Kernel`Watchdog["Assertion", "Iconize",
+      FormatValues[Iconize]//Hash
+    ,
+      Get[file]
+    , tag];
+
     Internal`Kernel`Watchdog["Assertion", "D",
       FormatValues[D] //Hash
     ,
