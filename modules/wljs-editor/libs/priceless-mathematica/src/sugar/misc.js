@@ -103,6 +103,19 @@ const pr = (elt, match, group1, group2) => {
 const regexp = /(sqrt|undirectededge|directededge|transpose|degree|doublestruckcapital|doublestruck|curlycapital|formalcapital|scriptcapital|capital|curly|formal|script|.*)(.*)/;
 
 
+export const processGreeksAll = (elt, str, mode=true) => {
+  
+  if (mode) {
+    const result = str.toLowerCase().match(regexp);
+    elt.innerHTML = pr(elt, result[0], result[1], result[2]);
+  } else {
+
+    elt.innerHTML = str.replaceAll(/\\\[(\w+)\]/g, (match) => {
+      return '&'+match.toLowerCase().slice(2,-1)+';'
+    })
+  }
+}
+
 export const processGreeks = (elt, str, mode=true) => {
   
   if (mode) {

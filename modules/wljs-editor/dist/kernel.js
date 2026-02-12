@@ -29746,6 +29746,19 @@ const pr = (elt, match, group1, group2) => {
 const regexp = /(sqrt|undirectededge|directededge|transpose|degree|doublestruckcapital|doublestruck|curlycapital|formalcapital|scriptcapital|capital|curly|formal|script|.*)(.*)/;
 
 
+const processGreeksAll = (elt, str, mode=true) => {
+  
+  if (mode) {
+    const result = str.toLowerCase().match(regexp);
+    elt.innerHTML = pr(elt, result[0], result[1], result[2]);
+  } else {
+
+    elt.innerHTML = str.replaceAll(/\\\[(\w+)\]/g, (match) => {
+      return '&'+match.toLowerCase().slice(2,-1)+';'
+    });
+  }
+};
+
 const processGreeks = (elt, str, mode=true) => {
   
   if (mode) {
@@ -31575,7 +31588,7 @@ let EditorWidget$5 = class EditorWidget {
     } else {
       bottomEditor = {passiveMode:true, destroy:() => {}, setState:(newState) => {
         if (typeof newState == 'string') {
-          processGreeks(sub.firstChild, newState.slice(1,-1), false);
+          processGreeksAll(sub.firstChild, newState.replaceAll('"',''), false);
         } else {
           sub.innerHTML = '';
           this.bottomEditor = new EditorView({
@@ -31587,7 +31600,7 @@ let EditorWidget$5 = class EditorWidget {
 
       const sp = document.createElement('span');
       sp.style.color = "#777";
-      processGreeks(sp, bottomDoc.slice(1,-1), false);
+      processGreeksAll(sp, bottomDoc.replaceAll('"',''), false);
       sub.appendChild(sp);
     }
 
