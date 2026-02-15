@@ -85,9 +85,9 @@ transformCell[cell_, "Output", "html"] := wrapHTML @ fixLinks @ cell["Data"]
 
 escape[str_String] := StringReplace[str, "`" -> "\\`"]
 
-escapeRawStringJSX[str_String] := StringReplace[StringReplace[str, {"`"->"\\`"}], {"\n"->"\n\t"}]
+escapeRawStringJSX[str_String] := StringReplace[str, {"\n"->"\n\t"}]
 
-checkIfJSXInterpolation[str_String] := Length[StringCases[str, "${"]] > 0
+checkIfJSXInterpolation[str_String] := StringMatchQ[str, ___~~("${" | "`")~~___]
 
 wrapHTML[str_String] := StringJoin["<","wljs-html encoded=\"true\"",">{`",URLEncode[str],"`}<","/","wljs-html>"]
 
