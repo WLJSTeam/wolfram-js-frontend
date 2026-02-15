@@ -137,7 +137,7 @@ processRequest[cli_, controls_, data_, __] := With[{channel = data["Channel"]},
                     If[Length[Keys[chunks[name] ] ] === payload["Chunks"],
                         With[{merged = StringJoin @@ (KeySort[chunks[name] ] // Values)},
                             chunks[name] = .;
-                            With[{safeName = FileBaseName[name]<>"-"<>StringTake[CreateUUID[], 3]<>"."<>FileExtension[name]},
+                            With[{safeName = StringReplace[FileBaseName[name], " "->"-"]<>"-"<>StringTake[CreateUUID[], 3]<>"."<>FileExtension[name]},
                                 files[safeName] = merged // BaseDecode;
                             ];
                             count--;
@@ -158,7 +158,7 @@ processRequest[cli_, controls_, data_, __] := With[{channel = data["Channel"]},
 
 
                     With[{name = payload["Name"]},
-                        With[{safeName = FileBaseName[name]<>"-"<>StringTake[CreateUUID[], 3]<>"."<>FileExtension[name]},
+                        With[{safeName = StringReplace[FileBaseName[name], " "->"-"]<>"-"<>StringTake[CreateUUID[], 3]<>"."<>FileExtension[name]},
                             files[safeName] = payload["Data"] // BaseDecode;
                         ]
                     ];
