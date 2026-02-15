@@ -1508,6 +1508,25 @@ Failure /: MakeBoxes[f:Failure[_, command_Association], form: StandardForm] := W
   ]
 ]
 
+Unprotect[Success]
+FormatValues[Success] = {};
+Success /: MakeBoxes[f:Success[__], form: StandardForm] := With[{
+  keys = f["Properties"]
+},
+  With[{msg = Table[{
+    BoxForm`SummaryItem[{k, f[k]}]
+  }, {k, Complement[keys, {"StandardError", "StandardOutput"}]}]},
+    BoxForm`ArrangeSummaryBox[
+                 Success, (* head *)
+                 f,      (* interpretation *)
+                 None,    (* icon, use None if not needed *)
+                 (* above and below must be in a format suitable for Grid or Column *)
+                 msg,    (* always shown content *)
+                 Null (* expandable content. Currently not supported!*)
+    ]
+  ]
+]
+
 (* Tooltip: temporal plug *)
 Unprotect[Tooltip];
 FormatValues[Tooltip] = {}
