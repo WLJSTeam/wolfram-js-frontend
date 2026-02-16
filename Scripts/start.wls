@@ -2,7 +2,7 @@
 
 If[$Env["ElectronCode"] =!= 1,
 "WLJS Notebooks
-Copyright (c) 2025 Coffee liqueur
+Copyright (c) 2026 Coffee liqueur
 Licensed under the GNU GPL v3.0. See <AppDir>/LICENSE.md.
 
 This product bundles third-party FOSS. Full license texts are included in <AppDir>/licenses/.
