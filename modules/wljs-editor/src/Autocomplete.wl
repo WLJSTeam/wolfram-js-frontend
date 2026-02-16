@@ -116,13 +116,8 @@ blackList[name_String] := MemberQ[{
 }, name];
 
 
-makeURL[name_] := With[{docs = Information[name]["Documentation"]},
-        If[AssociationQ[docs] && !blackList[name],
-            docs // First
-        ,
-           "https://wljs.io/search?q="<>URLEncode[StringTrim[name] ]
-        ]
-        
+makeURL[name_] := With[{},
+        "https://wljs.io/search?q="<>URLEncode[StringTrim[name] ]
 ]
 
 DocWindowHashMap = <||>;
