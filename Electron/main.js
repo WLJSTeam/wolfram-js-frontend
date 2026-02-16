@@ -3045,7 +3045,7 @@ function check_wl (configuration, cbk, window) {
     if (configuration) server.wolfram = {...server.wolfram, ...configuration.wolfram};
 
     windows.log.print(`WLJS Notebooks
-Copyright (c) 2025 Coffee liqueur
+Copyright (c) 2026 Coffee liqueur
 Licensed under the GNU GPL v3.0. See /LICENSE.md.
 
 This product bundles third-party FOSS. 
