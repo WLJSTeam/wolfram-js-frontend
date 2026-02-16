@@ -14,7 +14,7 @@ if [ "$(getent passwd wljs | cut -d: -f6)" != "/home/wljs" ]; then
 fi
 
 # a bug, no idea why
-usermod -d /home/wljs ubuntu
+usermod -d /home/wljs wljs
 
 # Check if the script is running as root and set LICENSE_DIR accordingly
 if [ "$PGID" -eq 0 ]; then
