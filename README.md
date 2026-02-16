@@ -34,7 +34,7 @@ Typeset math input, syntactic sugar, multiple languages, and a fast, granular ev
 
 - **[Documentation & Tutorials](https://wljs.io/)** 📔
 - **[Freeware Wolfram Language Interpreter](https://www.wolfram.com/engine/)**
-- **[Wolfram Language Introduction](https://wljs-docs-v2.vercel.app/frontend/Wolfram-Language)** 🐺
+- **[Wolfram Language Introduction](https://wljs.io/frontend/Wolfram-Language)** 🐺
 - **[Github Discussions](https://github.com/JerryI/wolfram-js-frontend/discussions)** 💬
 - **[Telegram Support Chat](https://t.me/wljs_support)** 🐴
 
