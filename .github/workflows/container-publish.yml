@@ -41,34 +41,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # ---- Your prep container (Wolfram) ----
-      - name: Start Wolfram Engine Container
-        run: |
-          docker run -d --name wolfram \
-            -v "$GITHUB_WORKSPACE":/workspace \
-            -w /workspace \
-            wolframresearch/wolframengine:14.2 tail -f /dev/null
-
-      - name: Fix permissions for /workspace
-        run: sudo chmod -R 777 "$GITHUB_WORKSPACE"
-
-      - name: Fetch all dependencies inside Wolfram container
-        env:
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-        run: |
-          docker exec -e WOLFRAMSCRIPT_ENTITLEMENTID="$WOLFRAMSCRIPT_ENTITLEMENTID" wolfram \
-            wolframscript -script ./Scripts/bundle.wls
-
-      # ---- Stop & remove the heavy helper container BEFORE our image build ----
-      - name: Tear down Wolfram container and prune
-        if: always()
-        run: |
-          docker ps -a
-          docker rm -f wolfram || true
-          # Clean up everything to reclaim space (images, containers, volumes, build cache)
-          docker system prune -af --volumes
-          df -h
-
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5

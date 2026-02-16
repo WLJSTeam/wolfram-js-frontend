@@ -1,4 +1,17 @@
-FROM docker.io/wolframresearch/wolframengine
+# syntax=docker/dockerfile:1
+FROM docker.io/wolframresearch/wolframengine AS deps
+
+USER root
+RUN apt-get update && apt-get install -y ffmpeg
+User wolframengine
+
+
+WORKDIR /workspace
+
+RUN --mount=type=secret,id=wolfram_license,env=WOLFRAMSCRIPT_ENTITLEMENTID,required=true wolframscript -script Scripts/update.wls
+
+
+FROM wolframresearch/wolframengine:14.2 AS final
 
 USER root
 
@@ -29,4 +42,4 @@ COPY ./ /wljs/
 COPY container/run.sh /run.sh
 RUN chmod +x /run.sh
 
-CMD /run.sh
+CMD ["/usr/local/bin/run.sh"]
