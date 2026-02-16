@@ -1,24 +1,25 @@
-<|"Notebook" -> <|"Controller" -> "cb0e3e08-c110-426e-b68b-8b00ab99e1f5", 
+<|"Notebook" -> <|"Controller" -> "f88369c4-0f06-4d88-94ab-ccb00ee5fdee", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$404], "HaveToSaveAs" -> False, 
-   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "9c35f58a-f371-463d-899e-08ae1ac93dfa", "Objects" -> <||>, 
-   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
-hive/Demos/Welcome.wln", "PublicFields" -> {"Properties"}, "Quick" -> True, 
-   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
-      4, "Cells", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$454]], 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$434], "FocusedCellSelection" -> 
+    {1, 0}, "HaveToSaveAs" -> False, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "5fc30d34-7f6a-495a-abed-c87e5ed2761b", 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend/mod\
+ules/wljs-demos-archive/Demos/Welcome.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[4, "Cells", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$408]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[4, "Evaluation", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$454]]}|>, 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$408]]}|>, 
  "Cells" -> 
   {<|"Data" -> 
      ".mjs\nimport party from \
 \"party-js\";\n\nparty.confetti(document.body);", "Display" -> "codemirror", 
-    "Hash" -> "0de7f49a-497f-4873-b092-d9f96df6afdc", "Invisible" -> True, 
+    "Hash" -> "1b793bc3-638a-4fd5-8262-9f8d37bfdfb4", "Invisible" -> True, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "var __create = Object.create;\nvar __defProp = \
 Object.defineProperty;\nvar __getOwnPropDesc = \
 Object.getOwnPropertyDescriptor;\nvar __getOwnPropNames = \
@@ -967,10 +968,10 @@ forceInit() {\n      exports.scene.current;\n    }\n    exports.forceInit = \
 forceInit;\n    exports.default = require_lib();\n  }\n});\n\n// <stdin>\nvar \
 import_party_js = \
 __toESM(require_lib());\nimport_party_js.default.confetti(document.body);\n", 
-    "Display" -> "mjs", "Hash" -> "5459e2e7-7564-45ad-aae8-924538bdfbb8", 
+    "Display" -> "mjs", "Hash" -> "72ce61e1-6656-4d36-b6ca-275bb7ab7b22", 
     "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 mt-2 text-center\" \
 style=\"height: 100vh;display: flex;align-content: flex-start;flex-direction: \
 column;flex-wrap: nowrap;justify-content: center;align-items: \
@@ -980,25 +981,25 @@ overflow:hidden;\n    pointer-events:none;\n  \"\n>\n  <!-- Gradient blobs \
 -->\n  <div\n    style=\"\n      position:absolute;\n      top:0;\n      \
 left:50%;\n      transform:translateX(-50%);\n      width:350px;\n      \
 height:350px;\n      background:linear-gradient(to bottom right,\n        \
-rgba(249,115,22,0.15),\n        rgba(0,0,0,0),\n        \
-rgba(236,72,153,0.15)\n      );\n      filter:blur(64px);\n      \
+rgba(249,115,22,0.35),\n        rgba(0,0,0,0),\n        \
+rgba(236,72,153,0.45)\n      );\n      filter:blur(64px);\n      \
 animation:pulse 4s ease-in-out infinite;\n    \"\n  ></div>\n\n  <div\n    \
 style=\"\n      position:absolute;\n      top:33.333%;\n      right:-25%;\n   \
    width:250px;\n      height:250px;\n      background:linear-gradient(to \
-bottom left,\n        rgba(244,63,94,0.70),\n        rgba(0,0,0,0),\n        \
+bottom left,\n        rgba(244,63,94,0.40),\n        rgba(0,0,0,0),\n        \
 rgba(249,115,22,0.15)\n      );\n      filter:blur(64px);\n      \
-opacity:0.5;\n    \"\n  ></div>\n\n  <div\n    style=\"\n      \
+opacity:0.9;\n    \"\n  ></div>\n\n  <div\n    style=\"\n      \
 position:absolute;\n      bottom:0;\n      left:-25%;\n      width:200px;\n   \
    height:200px;\n      background:linear-gradient(to top right,\n        \
-rgba(236,72,153,0.70),\n        rgba(0,0,0,0),\n        \
+rgba(236,72,153,0.10),\n        rgba(0,0,0,0),\n        \
 rgba(244,63,94,0.10)\n      );\n      filter:blur(64px);\n      \
-opacity:0.4;\n    \"\n  ></div>\n\n  <!-- Noise overlay (very subtle) -->\n  \
+opacity:0.2;\n    \"\n  ></div>\n\n  <!-- Noise overlay (very subtle) -->\n  \
 <svg\n    style=\"\n      position:absolute;\n      top:0; right:0; bottom:0; \
-left:0;\n      width:100%;\n      height:100%;\n      opacity:0.02;\n    \"\n \
-   xmlns=\"http://www.w3.org/2000/svg\"\n  >\n    <defs>\n      <filter \
+left:0;\n      width:100%;\n      height:100%;\n      opacity:0.2;\n    \"\n  \
+  xmlns=\"http://www.w3.org/2000/svg\"\n  >\n    <defs>\n      <filter \
 id=\"noise\">\n        <feTurbulence type=\"fractalNoise\" \
-baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\" />\n        \
-<feColorMatrix type=\"saturate\" values=\"0\" />\n      </filter>\n    \
+baseFrequency=\"0.75\" numOctaves=\"1\" stitchTiles=\"stitch\" />\n        \
+<feColorMatrix type=\"saturate\" values=\"3\" />\n      </filter>\n    \
 </defs>\n    <rect width=\"100%\" height=\"100%\" \
 filter=\"url(#noise)\"></rect>\n  </svg>\n\n  <!-- Geometric shapes -->\n  \
 <svg\n    style=\"\n      position:absolute;\n      top:0; right:0; bottom:0; \
@@ -1006,11 +1007,11 @@ left:0;\n      width:100%;\n      height:100%;\n    \"\n    \
 xmlns=\"http://www.w3.org/2000/svg\"\n    viewBox=\"0 0 1600 900\"\n    \
 preserveAspectRatio=\"xMidYMid slice\"\n  >\n    <defs>\n      <filter \
 id=\"noiseTexture\">\n        <feTurbulence type=\"fractalNoise\" \
-baseFrequency=\"0.9\" numOctaves=\"4\" result=\"noise\" />\n        \
+baseFrequency=\"1\" numOctaves=\"1\" result=\"noise\" />\n        \
 <feColorMatrix in=\"noise\" type=\"saturate\" values=\"0\" />\n      \
 </filter>\n    </defs>\n\n    <!-- Circle top right -->\n    <circle \
 cx=\"1400\" cy=\"150\" r=\"200\" fill=\"#f97316\" \
-filter=\"url(#noiseTexture)\" opacity=\"0.15\"></circle>\n\n    <!-- Triangle \
+filter=\"url(#noiseTexture)\" opacity=\"0.35\"></circle>\n\n    <!-- Triangle \
 top left -->\n    <polygon points=\"100,150 350,100 200,400\" \
 fill=\"#ec4899\" filter=\"url(#noiseTexture)\" \
 opacity=\"0.12\"></polygon>\n\n    <!-- Pentagon bottom left -->\n    \
@@ -1018,7 +1019,7 @@ opacity=\"0.12\"></polygon>\n\n    <!-- Pentagon bottom left -->\n    \
 filter=\"url(#noiseTexture)\" opacity=\"0.13\"></polygon>\n\n    <!-- \
 Rectangle rotated -->\n    <rect x=\"1200\" y=\"500\" width=\"300\" \
 height=\"200\" fill=\"#f97316\"\n      transform=\"rotate(25 1350 600)\" \
-filter=\"url(#noiseTexture)\" opacity=\"0.12\"></rect>\n\n    <!-- Hexagon \
+filter=\"url(#noiseTexture)\" opacity=\"0.22\"></rect>\n\n    <!-- Hexagon \
 middle right -->\n    <polygon points=\"1300,450 1380,490 1380,570 1300,610 \
 1220,570 1220,490\"\n      fill=\"#ec4899\" filter=\"url(#noiseTexture)\" \
 opacity=\"0.13\"></polygon>\n\n    <!-- Small circles scattered -->\n    \
@@ -1027,13 +1028,13 @@ filter=\"url(#noiseTexture)\" opacity=\"0.10\"></circle>\n    <circle \
 cx=\"1450\" cy=\"700\" r=\"150\" fill=\"#f97316\" \
 filter=\"url(#noiseTexture)\" opacity=\"0.12\"></circle>\n\n    <!-- Diamond \
 shape center -->\n    <polygon points=\"800,350 900,450 800,550 700,450\" \
-fill=\"#ec4899\" filter=\"url(#noiseTexture)\" opacity=\"0.10\"></polygon>\n  \
+fill=\"#ec4899\" filter=\"url(#noiseTexture)\" opacity=\"0.20\"></polygon>\n  \
 </svg>\n\n  <!-- Grid pattern -->\n  <div\n    style=\"\n      \
 position:absolute;\n      top:0; right:0; bottom:0; left:0;\n      \
-background-image:\n        linear-gradient(to right, rgba(136,136,136,0.133) \
+background-image:\n        linear-gradient(to right, rgba(136,136,136,0.233) \
 1px, transparent 1px),\n        linear-gradient(to bottom, \
-rgba(136,136,136,0.133) 1px, transparent 1px);\n      background-size:4rem \
-4rem;\n      opacity:0.2;\n\n      /* radial mask to fade grid out toward \
+rgba(136,136,136,0.633) 1px, transparent 1px);\n      background-size:4rem \
+4rem;\n      opacity:0.9;\n\n      /* radial mask to fade grid out toward \
 edges */\n      -webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% \
 50%, #000 60%, transparent 100%);\n      mask-image:radial-gradient(ellipse \
 60% 50% at 50% 50%, #000 60%, transparent 100%);\n    \"\n  ></div>\n\n  <!-- \
@@ -1062,10 +1063,10 @@ els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })\n</script>\n\n\n  \n</div>", 
     "Display" -> "codemirror", "Hash" -> 
-     "2631c187-184a-4ab3-b3d9-431f7dff363e", "Invisible" -> False, 
+     "3b72e1a5-0821-47de-83e8-9d42fde38114", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 mt-2 text-center\" style=\"height: \
 100vh;display: flex;align-content: flex-start;flex-direction: \
 column;flex-wrap: nowrap;justify-content: center;align-items: center;\"><!-- \
@@ -1074,41 +1075,41 @@ bottom:0; left:0;\n    z-index:-10;\n    overflow:hidden;\n    \
 pointer-events:none;\n  \"> <!-- Gradient blobs --><div style=\"\n      \
 position:absolute;\n      top:0;\n      left:50%;\n      \
 transform:translateX(-50%);\n      width:350px;\n      height:350px;\n      \
-background:linear-gradient(to bottom right,\n        rgba(249,115,22,0.15),\n \
-       rgba(0,0,0,0),\n        rgba(236,72,153,0.15)\n      );\n      \
+background:linear-gradient(to bottom right,\n        rgba(249,115,22,0.35),\n \
+       rgba(0,0,0,0),\n        rgba(236,72,153,0.45)\n      );\n      \
 filter:blur(64px);\n      animation:pulse 4s ease-in-out infinite;\n    \
 \"></div><div style=\"\n      position:absolute;\n      top:33.333%;\n      \
 right:-25%;\n      width:250px;\n      height:250px;\n      \
-background:linear-gradient(to bottom left,\n        rgba(244,63,94,0.70),\n   \
+background:linear-gradient(to bottom left,\n        rgba(244,63,94,0.40),\n   \
      rgba(0,0,0,0),\n        rgba(249,115,22,0.15)\n      );\n      \
-filter:blur(64px);\n      opacity:0.5;\n    \"></div><div style=\"\n      \
+filter:blur(64px);\n      opacity:0.9;\n    \"></div><div style=\"\n      \
 position:absolute;\n      bottom:0;\n      left:-25%;\n      width:200px;\n   \
    height:200px;\n      background:linear-gradient(to top right,\n        \
-rgba(236,72,153,0.70),\n        rgba(0,0,0,0),\n        \
+rgba(236,72,153,0.10),\n        rgba(0,0,0,0),\n        \
 rgba(244,63,94,0.10)\n      );\n      filter:blur(64px);\n      \
-opacity:0.4;\n    \"></div> <!-- Noise overlay (very subtle) --><svg \
+opacity:0.2;\n    \"></div> <!-- Noise overlay (very subtle) --><svg \
 style=\"\n      position:absolute;\n      top:0; right:0; bottom:0; left:0;\n \
-     width:100%;\n      height:100%;\n      opacity:0.02;\n    \" \
+     width:100%;\n      height:100%;\n      opacity:0.2;\n    \" \
 xmlns=\"http://www.w3.org/2000/svg\"><defs ><filter \
-id=\"noise\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" \
-numOctaves=\"3\" stitchTiles=\"stitch\"/><feColorMatrix type=\"saturate\" \
-values=\"0\"/></filter></defs><rect width=\"100%\" height=\"100%\" \
+id=\"noise\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.75\" \
+numOctaves=\"1\" stitchTiles=\"stitch\"/><feColorMatrix type=\"saturate\" \
+values=\"3\"/></filter></defs><rect width=\"100%\" height=\"100%\" \
 filter=\"url(#noise)\"></rect></svg> <!-- Geometric shapes --><svg style=\"\n \
      position:absolute;\n      top:0; right:0; bottom:0; left:0;\n      \
 width:100%;\n      height:100%;\n    \" xmlns=\"http://www.w3.org/2000/svg\" \
 viewBox=\"0 0 1600 900\" preserveAspectRatio=\"xMidYMid slice\"><defs \
 ><filter id=\"noiseTexture\"><feTurbulence type=\"fractalNoise\" \
-baseFrequency=\"0.9\" numOctaves=\"4\" result=\"noise\"/><feColorMatrix \
+baseFrequency=\"1\" numOctaves=\"1\" result=\"noise\"/><feColorMatrix \
 in=\"noise\" type=\"saturate\" values=\"0\"/></filter></defs> <!-- Circle top \
 right --><circle cx=\"1400\" cy=\"150\" r=\"200\" fill=\"#f97316\" \
-filter=\"url(#noiseTexture)\" opacity=\"0.15\"></circle> <!-- Triangle top \
+filter=\"url(#noiseTexture)\" opacity=\"0.35\"></circle> <!-- Triangle top \
 left --><polygon points=\"100,150 350,100 200,400\" fill=\"#ec4899\" \
 filter=\"url(#noiseTexture)\" opacity=\"0.12\"></polygon> <!-- Pentagon \
 bottom left --><polygon points=\"150,600 300,550 400,650 320,800 120,750\" \
 fill=\"#f43f5e\" filter=\"url(#noiseTexture)\" opacity=\"0.13\"></polygon> \
 <!-- Rectangle rotated --><rect x=\"1200\" y=\"500\" width=\"300\" \
 height=\"200\" fill=\"#f97316\" transform=\"rotate(25 1350 600)\" \
-filter=\"url(#noiseTexture)\" opacity=\"0.12\"></rect> <!-- Hexagon middle \
+filter=\"url(#noiseTexture)\" opacity=\"0.22\"></rect> <!-- Hexagon middle \
 right --><polygon points=\"1300,450 1380,490 1380,570 1300,610 1220,570 \
 1220,490\" fill=\"#ec4899\" filter=\"url(#noiseTexture)\" \
 opacity=\"0.13\"></polygon> <!-- Small circles scattered --><circle \
@@ -1117,7 +1118,7 @@ filter=\"url(#noiseTexture)\" opacity=\"0.10\"></circle><circle cx=\"1450\" \
 cy=\"700\" r=\"150\" fill=\"#f97316\" filter=\"url(#noiseTexture)\" \
 opacity=\"0.12\"></circle> <!-- Diamond shape center --><polygon \
 points=\"800,350 900,450 800,550 700,450\" fill=\"#ec4899\" \
-filter=\"url(#noiseTexture)\" opacity=\"0.10\"></polygon></svg> <!-- Grid \
+filter=\"url(#noiseTexture)\" opacity=\"0.20\"></polygon></svg> <!-- Grid \
 pattern --><div ></div> <!-- Inline keyframes (required for the pulse \
 animation) --><style >@keyframes pulse {\n      0%, 100% { opacity: 1; \
 transform: translateX(-50%) scale(1); }\n      50%      { opacity: 0.75; \
@@ -1142,10 +1143,10 @@ i<els.length; ++i) {\n      console.log(els[i]);\n      \
 els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "8babe144-188f-44b0-9742-42cd92f5a41e", "Invisible" -> False, 
+    "Hash" -> "129ebc74-ec45-4c7f-9be0-44b65b590218", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 pt-2 text-center flex \
 flex-col\" style=\"min-height:100vh\" id=\"marker_0\">\n\n<div class=\"appear \
 text-center flex flex-row justify-between\">\n\n \n<h1>Concept of \
@@ -1165,10 +1166,10 @@ i<els.length; ++i) {\n      console.log(els[i]);\n      \
 els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })\n</script>\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "6442f1f0-c12e-40c9-b294-3536ed90bcc6", "Invisible" -> False, 
+    "Hash" -> "3295ef09-26d3-4713-8ed1-07ec305340c5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 pt-2 text-center flex flex-col\" \
 style=\"min-height:100vh\" id=\"marker_0\"><div class=\"appear text-center \
 flex flex-row justify-between\"><h1 >Concept of cells</h1><button \
@@ -1187,10 +1188,10 @@ i<els.length; ++i) {\n      console.log(els[i]);\n      \
 els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "bf5b7a5b-1389-4a1d-add0-74ab95ed17b6", "Invisible" -> False, 
+    "Hash" -> "3140db5f-f641-414e-a8c2-30339e0053f6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 pt-2\" \
 id=\"marker_1\">\n\n<div class=\"appear flex flex-row \
 justify-between\">\n\n<div>  \n<h1>Let's Create a Cell</h1>\n<p>The initial \
@@ -1208,11 +1209,11 @@ i<els.length; ++i) {\n      console.log(els[i]);\n      \
 els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })\n</script>\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "8ee34d4f-ec9f-4a51-aa68-b09446fa1978", "Invisible" -> False, 
+    "Hash" -> "de28c24c-a312-4b36-9dd9-3be67627dd53", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Fade" -> False, "Hidden" -> True, 
       "Locked" -> True|>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 pt-2\" id=\"marker_1\"><div \
 class=\"appear flex flex-row justify-between\"><div ><h1 >Let's Create a \
 Cell</h1><p >The initial evaluation may take a moment...</p></div><button \
@@ -1229,36 +1230,26 @@ console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
 console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "9ac3027b-ad1a-4a5d-84f8-9da4d01eca21", "Invisible" -> False, 
+    "Hash" -> "be6897b9-133a-4dca-806e-005e01e6a7b5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "a4591895-bd81-4791-9e3f-c8a45d74075e", "Invisible" -> False, 
+    "Hash" -> "1913e3c7-4a67-4e62-bb29-14bff2396bf9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
-   <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "a929434b-43bb-4a98-b8cd-432ad46bf245", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
-   <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "d42df386-1975-4b58-9551-68268e1a1d6e", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div style=\"height:50vh\"></div>", 
     "Display" -> "codemirror", "Hash" -> 
-     "3d3e36c7-a87f-4921-aab5-60de3d25a429", "Invisible" -> False, 
+     "cde4a4ed-ff93-4bd4-91f1-79da9fae376a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div style=\"height:50vh\"></div>", "Display" -> "wlx", 
-    "Hash" -> "8c7cb273-8faf-4f8e-8b47-2a4c43cf3a27", "Invisible" -> False, 
+    "Hash" -> "759380e1-e16c-458d-9af8-7eb151888376", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 mt-2 pt-2\" \
 id=\"marker_2\">\n\n<div class=\"flex flex-row justify-between \
 appear\">\n\n<div class=\"appear\">  \n<h1>Try our math typing</h1>\n<p>Keep \
@@ -1276,11 +1267,11 @@ console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
 console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })\n</script>\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "63b01ada-8cfb-4f22-8199-c7ff2f65ec7b", "Invisible" -> False, 
+    "Hash" -> "f90f9fa4-0f51-42ec-a3fb-038a89826185", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Fade" -> False, "Locked" -> True, 
       "Hidden" -> True|>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 mt-2 pt-2\" id=\"marker_2\"><div \
 class=\"flex flex-row justify-between appear\"><div class=\"appear\"><h1 >Try \
 our math typing</h1><p >Keep your fingers on the keyboard and start casting \
@@ -1297,10 +1288,10 @@ console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
 console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "92e108ff-02fc-4fe6-acc5-edf1847699f9", "Invisible" -> False, 
+    "Hash" -> "77ab6b2c-45bc-444c-a979-f84ef25ea7f1", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".md\n\n<div class=\"flex flex-row\">\n\n<div>\n\n#### \
 Cells\n\n- <kbd>Ctrl-/</kbd>: Create fraction\n- <kbd>Ctrl-6</kbd>: Power\n- \
 <kbd>Ctrl-2</kbd>: Square root\n- <kbd>Ctrl--</kbd>: Subscript\n- \
@@ -1313,10 +1304,10 @@ Evaluate cell and jump to the next\n- <kbd>Ctrl-Shift-Enter</kbd> or \
 <kbd>\[CloverLeaf]-Shift-Enter</kbd>: Evaluate in a new window\n- \
 <kbd>Alt-I</kbd> or <kbd>\[CloverLeaf]-I</kbd>: Evaluate initialization \
 cells\n\n</div>\n\n</div>", "Display" -> "codemirror", 
-    "Hash" -> "ee37797c-8a31-45ce-8473-796dc1903a91", "Invisible" -> False, 
+    "Hash" -> "39aa1db4-b29b-4211-b9dd-6f054bff752f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"flex flex-row\"><div >\n\n#### Cells\n\n- <kbd \
 >Ctrl-/</kbd>: Create fraction\n- <kbd >Ctrl-6</kbd>: Power\n- <kbd \
 >Ctrl-2</kbd>: Square root\n- <kbd >Ctrl--</kbd>: Subscript\n- <kbd \
@@ -1329,26 +1320,26 @@ Evaluate cell and jump to the next\n- <kbd >Ctrl-Shift-Enter</kbd> or <kbd \
 >\[CloverLeaf]-Shift-Enter</kbd>: Evaluate in a new window\n- <kbd \
 >Alt-I</kbd> or <kbd >\[CloverLeaf]-I</kbd>: Evaluate initialization \
 cells\n\n</div></div>", "Display" -> "markdown", 
-    "Hash" -> "805d63b8-6317-412b-a053-5c7f0b05f941", "Invisible" -> False, 
+    "Hash" -> "e5c9d288-76c4-41c6-ae41-6a4a066788e8", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "ca06c8df-e506-4809-ba34-f5d9f3632f4a", "Invisible" -> False, 
+    "Hash" -> "2bfdf4d7-e07c-40ec-8dad-aa7970d62b60", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n<div style=\"height:40vh\"></div>", 
     "Display" -> "codemirror", "Hash" -> 
-     "9622f485-03e1-48e0-a332-5a737c406fa1", "Invisible" -> False, 
+     "7e26b67d-dc54-481d-99b0-48e8c71f35a3", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div style=\"height:40vh\"></div>", "Display" -> "wlx", 
-    "Hash" -> "66c7385b-2ef2-437a-9931-ffbf2d5ca1b1", "Invisible" -> False, 
+    "Hash" -> "2f1f842c-98dd-4bb4-8f96-41a185eb9d94", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 mt-2 pt-2\" \
 id=\"marker_3\">\n\n<div class=\"flex flex-row appear \
 justify-between\">\n\n<div class=\"appear\">  \n<h1>Write in Multiple \
@@ -1367,11 +1358,11 @@ i<els.length; ++i) {\n      console.log(els[i]);\n      \
 els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })\n</script>\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "1eca0315-9bbc-40a2-a66c-180ab2ed513f", "Invisible" -> False, 
+    "Hash" -> "48e084d4-c79d-4ce2-b28c-e3ce06a0b429", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Fade" -> False, "Locked" -> True, 
       "Hidden" -> True|>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 mt-2 pt-2\" id=\"marker_3\"><div \
 class=\"flex flex-row appear justify-between\"><div class=\"appear\"><h1 \
 >Write in Multiple Languages</h1><p >Type the extension on the first line to \
@@ -1388,42 +1379,42 @@ console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
 console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "f704c6fa-124f-4d20-84a6-4a5f94046b5a", "Invisible" -> False, 
+    "Hash" -> "45b4f77f-4aa4-4fa2-8391-7af13645c782", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".md\n\n# Hello World", "Display" -> "codemirror", 
-    "Hash" -> "2e07efc2-5ceb-463e-a844-c7caffc00e81", "Invisible" -> False, 
+    "Hash" -> "ca14baba-5f5c-4dbf-9663-5d60376090fa", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".js\n\nconst d = document.createElement('h3');\nd.innerText = \
 'Hello World';\nreturn d;", "Display" -> "codemirror", 
-    "Hash" -> "1133c2c9-e297-4ba5-8052-bd2ca2e0e344", "Invisible" -> False, 
+    "Hash" -> "624bb0cb-e94d-474b-a01f-291edacb8542", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".slide\n\n# Hello World", "Display" -> "codemirror", 
-    "Hash" -> "887e0a9b-5e4a-4890-94f4-718119e574ac", "Invisible" -> False, 
+    "Hash" -> "4ba4b15d-9be9-455a-9bac-eb9d3d53b500", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "b6e7afef-6d0c-4566-ada9-30a1681f0a64", "Invisible" -> False, 
+    "Hash" -> "978be15a-4f8f-4297-ba09-4927c12760ea", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div style=\"height:20vh\"></div>", 
     "Display" -> "codemirror", "Hash" -> 
-     "e5b35827-ca67-4406-a419-afbc1fd2bf3a", "Invisible" -> False, 
+     "55184bf5-b046-42c5-8c4e-5c02426f86a9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div style=\"height:20vh\"></div>", "Display" -> "wlx", 
-    "Hash" -> "312a70c6-a70c-4241-8f7e-48bf25c39407", "Invisible" -> False, 
+    "Hash" -> "ad6a5e04-d72c-4844-aaeb-c88d91a8da96", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 mt-2 pt-2\" \
 id=\"marker_4\">\n\n<div class=\"flex flex-row justify-between \
 appear\">\n\n<div class=\"appear\">  \n<h1>Manipulate Things \
@@ -1442,10 +1433,10 @@ i<els.length; ++i) {\n      console.log(els[i]);\n      \
 els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })\n</script>\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "97609248-cafa-4e27-98bf-2c3c55345b38", "Invisible" -> False, 
+    "Hash" -> "1dd4dd5d-bccc-4074-bfa9-6177efff6f8b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 mt-2 pt-2\" id=\"marker_4\"><div \
 class=\"flex flex-row justify-between appear\"><div class=\"appear\"><h1 \
 >Manipulate Things Live</h1><p >Drag a slider and see the changes \
@@ -1462,40 +1453,45 @@ console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
 console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
 els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
 'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "a8e050e9-9932-48d3-8b62-8858ecd527b0", "Invisible" -> False, 
+    "Hash" -> "530b0c95-384e-41ee-9938-e1e66e472949", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> 
      "ManipulatePlot[Sin[(*SqB[*)Sqrt[x w](*]SqB*)], {x,0,50}, {w,1,40}]", 
     "Display" -> "codemirror", "Hash" -> 
-     "a4d4db0d-2907-4192-bd7e-3e5f296e1b66", "Invisible" -> False, 
+     "2c5f1968-ac5c-4e97-9d26-7d1c69d3813d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
-   <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "05e48707-2fa1-48f4-810b-49a3bfef5b08", "Invisible" -> False, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
+   <|"Data" -> ".md\n---", "Display" -> "codemirror", 
+    "Hash" -> "46950c18-0c97-42e4-bc10-038fefc42f65", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
+   <|"Data" -> "---", "Display" -> "markdown", 
+    "Hash" -> "916f488a-0aa3-48bc-a869-1296c654f91f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> 
      "Manipulate[Series[Sin[x], {x,0,n}], {n,1,5,1}, ContinuousAction->True]"\
 , "Display" -> "codemirror", "Hash" -> 
-     "c963bedb-1208-4484-858e-67e9313ce4d0", "Invisible" -> False, 
+     "fdb9b8bd-ba10-4aef-afd0-75f610052926", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n<div style=\"height:30vh\"></div>", 
     "Display" -> "codemirror", "Hash" -> 
-     "10774990-e043-4876-90bd-f8ac7049fe66", "Invisible" -> False, 
+     "26d74289-e715-43e1-a3d1-c0358db03d7a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div style=\"height:30vh\"></div>", "Display" -> "wlx", 
-    "Hash" -> "8995a88f-9da3-445a-8403-6e423986f590", "Invisible" -> False, 
+    "Hash" -> "d341de5c-e88c-419c-8047-f4953e85a2d7", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 mt-2 pt-2\" \
 id=\"marker_5\">\n\n<div class=\"flex flex-row justify-between \
 appear\">\n\n<div class=\"appear\">  \n<h1>Use the Command Palette</h1>\n<p \
@@ -1507,16 +1503,17 @@ style=\"margin-top: 2rem;animation-delay:0.5s;left: \
 white;\">Next</button>\n\n</div>\n  \n<img class=\"rounded-lg mt-2\" \
 src=\"/Experimental/attachments/matrix-b0b.gif\" width=\"100%\"/>\n\n<script \
 type=\"module\">\n  document.getElementById('btn6').addEventListener('click', \
-() => {\n    const d = document.getElementById('marker_6');\n    \
-console.log(d);\n    const els = d.querySelectorAll('.appear');\n    \
-console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
-console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
-els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
-'instant'});\n    }\n  })\n</script>\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "8db9d0e7-e4cf-4284-992f-1942e0e01683", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+() => {\n    const d = document.getElementById('marker_8');\n    \
+d.scrollIntoView({behavior: 'instant'});\n    console.log(d);\n    const els \
+= d.querySelectorAll('.appear');\n    console.log(els);\n    for (let i=0; \
+i<els.length; ++i) {\n      console.log(els[i]);\n      \
+els[i].classList.toggle('appear');\n      \
+els[i].classList.toggle('appear');\n      \n    }\n  })\n</script>\n  \
+\n</div>", "Display" -> "codemirror", 
+    "Hash" -> "51789f72-4520-4292-b2f0-2eaa3e9ac7da", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 mt-2 pt-2\" id=\"marker_5\"><div \
 class=\"flex flex-row justify-between appear\"><div class=\"appear\"><h1 >Use \
 the Command Palette</h1><p class=\"markdown\">A handy set of powerful \
@@ -1527,44 +1524,44 @@ hover:bg-gray-50\" style=\"margin-top: 2rem;animation-delay:0.5s;left: \
 white;\">Next</button></div><img class=\"rounded-lg mt-2\" \
 src=\"/Experimental/attachments/matrix-b0b.gif\" width=\"100%\"/><script \
 type=\"module\"> document.getElementById('btn6').addEventListener('click', () \
-=> {\n    const d = document.getElementById('marker_6');\n    \
-console.log(d);\n    const els = d.querySelectorAll('.appear');\n    \
-console.log(els);\n    for (let i=0; i<els.length; ++i) {\n      \
-console.log(els[i]);\n      els[i].classList.toggle('appear');\n      \
-els[i].classList.toggle('appear');\n      d.scrollIntoView({behavior: \
-'instant'});\n    }\n  })</script></div>", "Display" -> "wlx", 
-    "Hash" -> "1e1307f8-850b-4bae-b23a-38a5953d5c8f", "Invisible" -> False, 
+=> {\n    const d = document.getElementById('marker_8');\n    \
+d.scrollIntoView({behavior: 'instant'});\n    console.log(d);\n    const els \
+= d.querySelectorAll('.appear');\n    console.log(els);\n    for (let i=0; \
+i<els.length; ++i) {\n      console.log(els[i]);\n      \
+els[i].classList.toggle('appear');\n      \
+els[i].classList.toggle('appear');\n      \n    }\n  })</script></div>", 
+    "Display" -> "wlx", "Hash" -> "6167e484-3a42-409e-b9de-c8212187ff38", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Output", 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
+   <|"Data" -> ".md\n---", "Display" -> "codemirror", 
+    "Hash" -> "a1dee437-57e7-4909-b056-38d1c33d2f39", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
+   <|"Data" -> "---", "Display" -> "markdown", 
+    "Hash" -> "2fa0eb27-c751-412a-8cc2-38d9d92aec4a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
-   <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "6f18f183-54e8-42c6-82af-0b425eff4fbe", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "fcb7264e-8f82-485f-9042-7148959928d8", "Invisible" -> False, 
+    "Hash" -> "1b66b366-6fe2-445a-8b39-ba2485026928", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
-   <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "e7465d57-31b1-4538-9471-0a920b94bcdb", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n<div style=\"height:30vh\"></div>", 
     "Display" -> "codemirror", "Hash" -> 
-     "8deee5e8-69de-4798-9484-8e7cf2311fce", "Invisible" -> False, 
+     "ee00dee7-c230-4f2c-8128-05b6f6271d66", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div style=\"height:30vh\"></div>", "Display" -> "wlx", 
-    "Hash" -> "574be14e-1cd6-4748-ab20-bb3a4f6d9b4b", "Invisible" -> False, 
+    "Hash" -> "14f1f221-5f50-48d9-b339-8d9f9a7286fb", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> ".wlx\n\n<div class=\"text-gray-700 mt-2 pt-2\" \
-style=\"min-height:100vh\" id=\"marker_6\">\n\n<h2>Use WLJS overlay</h2>\n  \
+style=\"min-height:100vh\" id=\"marker_8\">\n\n<h2>Use WLJS overlay</h2>\n  \
 <p class=\"markdown\">Instant access using \
 <kbd>Shift-Alt-Space</kbd></p>\n\n<br/>\n\n\n<h2>Open docs from \
 autocomplete</h2>\n  <p>Click on \|01f50e to locate examples and \
@@ -1573,12 +1570,12 @@ working?</h2>\n\nSubmit an issue or open a discussion on <a \
 style=\"text-decoration:underline\" \
 href=\"https://github.com/WLJSTeam/wolfram-js-frontend\" \
 target=\"_blank\">Github</a>.\n  \n</div>", "Display" -> "codemirror", 
-    "Hash" -> "6c1e5f8e-27dc-4583-84c9-95ca03fc2f72", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+    "Hash" -> "e215eddc-092b-4c7f-b7f3-d5ee01d19999", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True, "Locked" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "UID" -> Null, "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> "<div class=\"text-gray-700 mt-2 pt-2\" \
-style=\"min-height:100vh\" id=\"marker_6\"><h2 >Use WLJS overlay</h2><p \
+style=\"min-height:100vh\" id=\"marker_8\"><h2 >Use WLJS overlay</h2><p \
 class=\"markdown\">Instant access using <kbd >Shift-Alt-Space</kbd></p><br \
 /><h2 >Open docs from autocomplete</h2><p >Click on \|01f50e to locate \
 examples and documentation on a given symbol</p><br /><h2 >Something isn't \
@@ -1586,33 +1583,33 @@ working?</h2>Submit an issue or open a discussion on <a \
 style=\"text-decoration:underline\" \
 href=\"https://github.com/WLJSTeam/wolfram-js-frontend\" \
 target=\"_blank\">Github</a>.</div>", "Display" -> "wlx", 
-    "Hash" -> "220d9e4c-50f8-4913-910b-4f402e9e61a3", "Invisible" -> False, 
+    "Hash" -> "d8ec4ccf-0894-4e7b-94de-0899298ff61d", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "07625194-68b5-4033-b8c6-276fa259fe69", "Invisible" -> False, 
+    "Hash" -> "00357563-c2d1-4b9b-8293-9cb4d45523b4", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "6695f54d-841c-4e96-afd1-528f2f6eac3e", "Invisible" -> False, 
+    "Hash" -> "085bd99e-8aad-49a1-bbad-5ee34454f68b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "e1ba8605-1438-485d-9917-b718532cb1bf", "Invisible" -> False, 
+    "Hash" -> "2a5e0a86-34d4-47bf-be28-ab2b96f27aad", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "c87c0705-f575-42de-8125-51f38ff35ebc", "Invisible" -> False, 
+    "Hash" -> "02394c9c-f2fd-44e0-8fa2-6f48b2f533ac", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>, 
    <|"Data" -> " ", "Display" -> "codemirror", 
-    "Hash" -> "c260771a-898e-4c14-bef3-90bc7ea57f99", "Invisible" -> False, 
+    "Hash" -> "ee0312f3-e434-410f-803e-a6ff67f7ead1", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "3479aaef-82a9-482d-8939-f6545000a4c6"|>}, 
+    "Notebook" -> "a74d4df0-3e4f-4ffd-9c7f-5ef6289c18f0"|>}, 
  "serializer" -> "jsfn4"|>

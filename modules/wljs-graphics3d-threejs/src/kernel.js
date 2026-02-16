@@ -3181,8 +3181,10 @@ g3dComplex.Polygon.update = async (args, env) => {
     }
 
     //console.warn(env.vertices);
-    env.local.geometry.computeBoundingBox();
-    env.local.geometry.computeBoundingSphere();
+    if (b < 100000) { //too slow
+      env.local.geometry.computeBoundingBox();
+      env.local.geometry.computeBoundingSphere();
+    }
 
     
     env.wake(true);
