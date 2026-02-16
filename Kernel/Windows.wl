@@ -1,4 +1,4 @@
-BeginPackage["CoffeeLiqueur`Notebook`Windows`", {"JerryI`Misc`Events`", "KirillBelov`Objects`", "CoffeeLiqueur`Notebook`Transactions`"}]
+BeginPackage["CoffeeLiqueur`Notebook`Windows`", {"CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`Objects`", "CoffeeLiqueur`Notebook`Transactions`"}]
 
 Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];
 Needs["CoffeeLiqueur`Notebook`" -> "nb`"];
@@ -20,7 +20,7 @@ HashMap = <||>
 
 
 
-CreateType[WindowObj, init, {"Notebook"->Null, ImageSize->Automatic, "Display"->"codemirror", "EvaluatedQ"->False, "Hash"->Null, "Data"->"", "Ref"->""}]
+CreateType[WindowObj, init, {"Notebook"->Null, "Title"->"Application", ImageSize->Automatic, "Display"->"codemirror", "EvaluatedQ"->False, "Hash"->Null, "Data"->"", "Ref"->""}]
 
 WindowObj /: EventHandler[n_WindowObj, opts__] := EventHandler[n["Hash"], opts] 
 WindowObj /: EventFire[n_WindowObj, opts__] := EventFire[n["Hash"], opts]

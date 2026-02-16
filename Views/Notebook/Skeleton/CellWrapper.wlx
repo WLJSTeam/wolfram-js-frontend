@@ -1,0 +1,19 @@
+Component[OptionsPattern[]] := With[{
+    id = OptionValue["Cell"]["Hash"],
+    parameters = OptionValue["Parameters"]
+},{
+    initQ = TrueQ[OptionValue["Cell"]["Props"]["InitGroup"]]
+},{
+    Class = StringJoin[If[TrueQ[OptionValue["Cell"]["Props"]["Hidden"]], "hidden ", If[TrueQ[OptionValue["Cell"]["Props"]["Fade"]], "h-fade-20 ", " "]],  If[TrueQ[OptionValue["Cell"]["Props"]["Locked"]], "blur ", " "], If[initQ, "cinit ", " "], If[OptionValue["Cell"]["Type"] == "Input", "cin", "cout"]],
+    CGIState = StringJoin["bg-sys", If[initQ, "", " hidden"]]
+},
+
+<div class="cwrapper {Class}" id="{id}">
+    <div id="gi-{id}" class="cgi-ico {CGIState}" style="opacity:0.75"></div>
+</div>
+
+];
+
+Options[Component] = {"Parameters"-><||>, "Cell"->Null}
+
+Component

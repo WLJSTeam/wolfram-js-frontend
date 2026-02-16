@@ -2,6 +2,8 @@ Checkbox = ImportComponent["UI/Checkbox.wlx"];
 Knob     = ImportComponent["UI/Button.wlx"];
 Radio     = ImportComponent["UI/Radio.wlx"];
 
+ColorPicker     = ImportComponent["UI/ColorPicker.wlx"];
+
 Secret = $Options["Secret"] // EventClone;
 
 Messager = $Options["Messager"];
@@ -28,9 +30,12 @@ defaultTheme = If[KeyExistsQ[settings, "Theme"], settings["Theme"], "System"]
 defaultTray = If[KeyExistsQ[settings, "RunInTray"], settings["RunInTray"], False]
 defaultMaterial = If[KeyExistsQ[settings, "WindowsBackgroundMaterial"], settings["WindowsBackgroundMaterial"], "tabbed"]
 
+defaultColor = If[KeyExistsQ[settings, "AccentColor"], settings["AccentColor"], "System"];
+defaultColorChoice = If[defaultColor === "System", "System", "User"];
+
 FrontEndCustomCSS = If[KeyExistsQ[settings, "FrontEndCustomCSS"], settings["FrontEndCustomCSS"], ""];
 
-DefaultHome = Join[<|"Home"->FileNameJoin[{Directory[], "Examples"}]|>, settings]["Home"];
+DefaultHome = Join[<|"Home"->AppExtensions`DefaultDocumentsDir|>, settings]["Home"];
 
 EventHandler[Secret, {"Load" -> Function[Null,
     EventFire[homefolderEvent, "ChangeLabel", <|"Client" -> $Client, "Text"->URLEncode[DefaultHome]|>];
@@ -64,6 +69,28 @@ EventHandler[Secret, {"Load" -> Function[Null,
             onSave[settings];
             EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Restart to see an effect"];
         ],  
+
+        "Color" -> Function[state,
+            Echo[state];
+            defaultColor = state;
+            If[defaultColorChoice =!= "System",
+                settings = Join[settings, <|"AccentColor"->defaultColor|>];
+                onSave[settings];
+                EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Restart to see an effect"];
+            ];
+        ],
+
+        "ColorChoice" -> Function[state,
+            defaultColorChoice = state;
+            If[state === "User",
+                settings = Join[settings, <|"AccentColor"->defaultColor|>];
+            ,
+                settings = Join[settings, <|"AccentColor"->"System"|>];
+            ];
+            
+            onSave[settings];
+            EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Restart to see an effect"];        
+        ],
         
         "Material" -> Function[state,
             If[$OperatingSystem =!= "Windows", 
@@ -77,34 +104,43 @@ EventHandler[Secret, {"Load" -> Function[Null,
         ],  
 
         "ChangeHome" -> Function[Null,
-            With[{p = Promise[], cli = $Client},
-                EventFire[homefolderEvent, "Ask", <|"Client" -> $Client, "Promise"->First[p]|>];
-                Then[p, Function[result,
-                    EventFire[homefolderEvent, "ChangeLabel", <|"Client" -> $Client, "Text"->result|>];
-                    settings = Join[settings, <|"Home"->URLDecode[result]|>];
-                    EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];
-                    onSave[settings];
-                ],
-                    Function[reason,
-                        If[reason === "NoElectron",
-                            With[{request = CreateUUID[]},
-                                EventHandler[request, {
-                                    "Success" -> Function[path,
-                                        EventFire[homefolderEvent, "ChangeLabel", <|"Client" -> $Client, "Text"->path|>];
-                                        settings = Join[settings, <|"Home"->path|>];
-                                        EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];
-                                        onSave[settings];
-                                    ],
-                                
-                                    _ -> Function[Null,
-                                        EventRemove[request];
+            With[{requestId = CreateUUID[], cli = $Client},
+                EventHandler[requestId, {
+                    "NoElectron" -> Function[Null,
+                            With[{p = Promise[]},
+                                Then[p, Function[path,
+                                    Switch[path,
+                                        _String,
+                                            EventFire[homefolderEvent, "ChangeLabel", <|"Client" -> $Client, "Text"->path|>];
+                                            settings = Join[settings, <|"Home"->path|>];
+                                            EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];
+                                            onSave[settings];
+                                        ,
+
+                                        _,
+
+                                        Null
                                     ]
-                                }];
-                                EventFire[Modals, "TextField", <|"Client"->cli, "Callback"->request, "Title"->"Enter the default path", "String"-> DefaultHome|>];
-                            ];                            
-                        ];
+                                ]];
+    
+                                EventFire[Modals, "TextBox", <|"Promise"->p, "title"->"Enter the default path", "default"-> DefaultHome|>];
+                            ]; 
+                            EventRemove[requestId];                       
+                    ],
+
+                    "Picked" -> Function[path,
+                        EventFire[homefolderEvent, "ChangeLabel", <|"Client" -> $Client, "Text"->URLDecode[path]|>];
+                        settings = Join[settings, <|"Home"->URLDecode[path]|>];
+                        EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];
+                        onSave[settings];
+                        EventRemove[requestId];    
+                    ],
+
+                    _ -> Function[Null,
+                        EventRemove[requestId];    
                     ]
-                ];
+                }];
+                EventFire[homefolderEvent, "Ask", <|"Client" -> $Client, "Id"->requestId|>];
             ]
         ],
 
@@ -126,7 +162,7 @@ EventHandler[Secret, {"Load" -> Function[Null,
         ],
 
         "FrontEndCustomCSS" -> Function[value,
-            settings = Join[settings, <|"FrontEndCustomCSS"-> value|>];
+            settings = Join[settings, <|"FrontEndCustomCSS"-> URLDecode[value]|>];
             onSave[settings];
             EventFire[Messager, Notifications`NotificationMessage["Info"](*`*), "Changes will be applied after restart"];            
         ]
@@ -171,22 +207,22 @@ EventHandler[Secret, {"Load" -> Function[Null,
             <WebUIJSBind Event={homefolderEvent}>
                 this.on('Ask', async (data) => {
                     const assoc = await interpretate(data, {hold:true});
-                    const promise = await interpretate(assoc.Promise, {});
+                    const id = await interpretate(assoc.Id, {});
                     
                     if (!window.electronAPI) {
-                        server._emitt(promise, '"NoElectron"', 'Reject');
+                        server.io.fire(id, false, 'NoElectron');
                         return;
                     }
 
-                    window.electronAPI.requestFolderWindow({title:"Home"}, (result) => {
-                        if (!result) {
+                    window.electronAPI.showOpenDialog({ title: "Home folder", buttonLabel:'Set', properties: ['openDirectory', 'createDirectory']}, (result) => {
+                        if (result.canceled) {
                             console.log('Cancelled');
-                            server._emitt(promise, '"Cancel"', 'Reject');
+                            server.io.fire(id, false, 'Cancel');
                             return;
                         }
 
                         console.log(result);
-                        server._emitt(promise, '"'+result+'"', 'Resolve');
+                        server.io.fire(id, encodeURIComponent(result.filePaths[0]), 'Picked');              
                     });
                 });
 
@@ -219,7 +255,7 @@ EventHandler[Secret, {"Load" -> Function[Null,
             </div> 
 
             <StringRiffle>
-                <Checkbox Label={"Expert mode"} Event={controller} Topic={"ExpertMode"} Description={"Shows invisible cells"} Checked={settings["ExpertMode"]}/>
+                <Checkbox Label={"Expert mode"} Event={controller} Topic={"ExpertMode"} Description={"Shows invisible cells and inspect button"} Checked={settings["ExpertMode"]}/>
             </StringRiffle>
 
             <StringRiffle>
@@ -233,7 +269,11 @@ EventHandler[Secret, {"Load" -> Function[Null,
 
 
             <Radio Label={"UI Theme"} List={ {{"System", "System"}, {"Light", "Light"}, {"Dark", "Dark"}} } Selected={defaultTheme} Pattern={"Theme"} Event={controller} />
-            
+
+            <Radio Label={"UI Color"} List={ {{"System", "System"}, {"User", "User"}} } Selected={defaultColorChoice} Pattern={"ColorChoice"} Event={controller} />
+
+            <ColorPicker Label={"Accent color"} Default={defaultColor} Pattern={"Color"} Event={controller}/>
+
             <Radio Label={"Background Material"} List={ {{"Mica", "mica"}, {"Acrylic", "acrylic"}, {"Tabbed", "tabbed"}, {"Auto", "auto"}} } Selected={defaultMaterial} Pattern={"Material"} Event={controller} />
         
             <p class="mt-1 max-w-2xl text-sm  text-gray-500 dark:text-gray-500">Custom CSS</p>

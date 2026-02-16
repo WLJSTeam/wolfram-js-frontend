@@ -1,0 +1,75 @@
+<|"Notebook" -> <|"Controller" -> "9d7bc574-d9ae-4836-bace-8a235a9cb6ea", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$37], "HaveToSaveAs" -> True, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "e8393504-f028-40ea-aa56-5060d4a10ada", "Objects" -> <||>, 
+   "Path" -> 
+    "/Users/kirill/Github/wljs-demos-archive/Demos/Experimental/Fireworks.wln\
+", "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Fireworks", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$36]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Fireworks\n*Demo demonstrating dynamic \
+creation and removing of proxies*\n\nIt uses a rectangle primitive coupled \
+with controlled opacity and color. It reacts on a user's mouse and spawns \
+more objects.", "Display" -> "codemirror", 
+    "Hash" -> "542ba19b-5d91-4ea2-b544-6cab1da8eea1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "818a90ef-57ab-4122-8922-34cc0eb12952"|>, 
+   <|"Data" -> "# Fireworks\n*Demo demonstrating dynamic creation and \
+removing of proxies*\n\nIt uses a rectangle primitive coupled with controlled \
+opacity and color. It reacts on a user's mouse and spawns more objects.", 
+    "Display" -> "markdown", "Hash" -> 
+     "41c6ecf0-c085-45ee-a819-de0fcb46e848", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "818a90ef-57ab-4122-8922-34cc0eb12952"|>, 
+   <|"Data" -> "Needs[\"FrontProxy`\" -> \"f`\"];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "27c730f6-6138-4e8d-bc78-16af650c65a4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "818a90ef-57ab-4122-8922-34cc0eb12952"|>, 
+   <|"Data" -> "(* Define the rectangle proxy with initial properties \
+*)\nrectangleProxy = f`Proxy[\n  {position, velocity, rotationAngle, \
+lifeSpan}, \n  Translate[\n    {Opacity[lifeSpan], RGBColor[With[{l = \
+lifeSpan}, {l, 0, 1 - l}]], Rectangle[{-1, -1}, {1, 1}]}, \n    position\n  \
+]\n];\n\n(* Initialize variables *)\nnewProxies = {};\nexpiredProxies = \
+{};\nframeCounter = 1;\nframeRate = 1;\nlastUpdateTime = \
+AbsoluteTime[];\n\nsceneReference = FrontInstanceReference[];\n\n(* Function \
+to add new proxies at a given position *)\naddProxyAtPosition[position_] := \
+newProxies = {\n  newProxies, \n  f`AddTo[\n    rectangleProxy, \n    \
+Sequence @@ Table[\n      {position, RandomReal[{0.99, 1.01}] {Cos[angle], \
+Sin[angle]} // N, RandomReal[{0, 3.14}], 1.0},\n      {angle, 0., 2 Pi, 2 Pi \
+/ 12.0}\n    ]\n  ]\n};\n\n(* Frame update logic *)\nModule[{},\n  \
+EventHandler[\"frame\", Function[Null,\n    With[{\n      positions = \
+f`Buffer[rectangleProxy, 1],\n      velocities = f`Buffer[rectangleProxy, \
+2],\n      lifeSpans = f`Buffer[rectangleProxy, 4],\n      isValid = \
+f`Buffer[rectangleProxy, -1]\n    },\n      (* Identify expired proxies for \
+disposal *)\n      expiredProxies = MapThread[\n        If[#1 && #2 < 0.2, \
+#3, Nothing] &, \n        {isValid, lifeSpans, Range[Length[lifeSpans]]}\n    \
+  ];\n      \n      (* Update positions and life spans *)\n      \
+f`BufferSet[rectangleProxy, 1, positions + velocities];\n      \
+f`BufferSet[rectangleProxy, 4, lifeSpans * 0.95];\n    ];\n\n    (* Dispatch \
+updates to proxies *)\n    f`Dispatch[rectangleProxy];\n\n    (* Remove \
+expired proxies *)\n    If[Length[expiredProxies] > 0,\n      \
+f`Remove[rectangleProxy, expiredProxies];\n      expiredProxies = {};\n    \
+];\n\n    (* Submit new proxies *)\n    If[Length[newProxies] > 0, \n      \
+FrontSubmit[f`FullForm[rectangleProxy, newProxies // Flatten], \
+sceneReference];\n      newProxies = {};\n    ];\n\n    (* Update FPS counter \
+*)\n    With[{currentTime = AbsoluteTime[]},\n      If[currentTime - \
+lastUpdateTime > 1.0,\n        frameRate = Round[(frameCounter + frameRate) / \
+2.0];\n        frameCounter = 1;\n        lastUpdateTime = currentTime;\n     \
+ ,\n        frameCounter++;\n      ];\n    ];\n  ]]\n];\n\n(* Create the \
+graphics and event handlers *)\nGraphics[\n  {\n    sceneReference, \n    \
+{Directive[FontSize -> 20], Text[frameRate // Offload, {-80, -80}]}, \n    \
+AnimationFrameListener[frameCounter // Offload, \"Event\" -> \"frame\"], \n   \
+ EventHandler[\n      Null, \n      {\"mousemove\" -> addProxyAtPosition}\n   \
+ ]\n  }, \n  PlotRange -> {{-100, 100}, {-100, 100}}, \n  TransitionType -> \
+None\n]", "Display" -> "codemirror", 
+    "Hash" -> "dc10ea71-8538-4512-80ef-c0742bc37dcb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "818a90ef-57ab-4122-8922-34cc0eb12952"|>}, 
+ "serializer" -> "jsfn4"|>

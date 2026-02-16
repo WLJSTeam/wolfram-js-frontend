@@ -1,0 +1,24 @@
+Component[OptionsPattern[]] := With[{
+    id = OptionValue["Notebook"]["Hash"],
+    Color = If[StringQ[#], #, "teal"]& @ (OptionValue["Parameters"]["AccentColor"])
+},
+
+With[{},
+    If[TrueQ[OptionValue["Parameters"]["ExpertMode"]],
+        <div class="ccontainer px-3 pr-4 py-2 sm:px-2 sm:pr-3 md:px-4 md:pr-5 win:sc-b owin:sc-b overflow-y-auto grow bg-white bg-g-trans" style="padding-bottom: 25rem" id="container-{id}">
+            <style>
+                .invisible-cell {
+                    display: block;
+                    background: #fa87f01f;
+                }
+            </style>
+        </div>
+    ,
+        <div class="ccontainer px-3 pr-4 py-2 sm:px-2 sm:pr-3 md:px-4 md:pr-5 win:sc-b owin:sc-b overflow-y-auto grow bg-white bg-g-trans" style="padding-bottom: 25rem" id="container-{id}">
+        </div>
+    ]
+] ];
+
+Options[Component] = {"Notebook"->"", "Parameters"->""}
+
+Component

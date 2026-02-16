@@ -1,0 +1,39 @@
+Component[opts_Association, OptionsPattern[]] := With[{
+    Selected = If[OptionValue["Selected"]===Null, First @ Keys @ opts, OptionValue["Selected"]], 
+    Label = OptionValue["Label"], 
+    Event = OptionValue["Event"],
+    Topic = OptionValue["Topic"],
+    UId   = CreateUUID[]
+},
+With[{
+    Opts = Table[
+        With[{OValue = opts[OKey]},
+            If[Selected === OKey,
+                <option value="{OKey}" selected="true"><OValue/></option>
+            ,
+                <option value="{OKey}"><OValue/></option>
+            ]
+        ]
+    , {OKey, Keys[opts]}]
+},
+  {
+    <div>
+      <label for="#instanceId" class="block text-sm font-medium leading-6 text-gray-900"><Label/></label>
+      <select id="#instanceId" class="sm-controls mt-1 block rounded-md border-0 py-1 px-1 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-1 focus:ring-sys text-xs">
+        <Opts/>
+      </select>
+    </div>
+  ,
+    <script type="module">
+        document.getElementById('#instanceId').addEventListener('change', function () {
+            console.log(['<Event/>', '"'+this.value+'"', '<Topic/>']);
+            server.kernel.io.fire('<Event/>', this.value, '<Topic/>');
+        })    
+    </script>  
+  }
+] ]
+
+Options[Component] = {"Topic" -> "Default", "Label"->"", "Event"->"blackhole", "Selected" -> Null, "TrackedExpression"->Null}
+
+Component
+

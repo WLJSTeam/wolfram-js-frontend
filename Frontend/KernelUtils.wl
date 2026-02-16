@@ -1,12 +1,12 @@
 BeginPackage["CoffeeLiqueur`Notebook`KernelUtils`", {
-  "JerryI`Misc`Events`",
-  "JerryI`Misc`Events`Promise`",
-  "KirillBelov`CSockets`",
-  "KirillBelov`CSockets`EventsExtension`",
-  "KirillBelov`Internal`",
-  "KirillBelov`TCPServer`",
-  "KirillBelov`WebSocketHandler`",
-  "JerryI`Misc`WLJS`Transport`"
+  "CoffeeLiqueur`Misc`Events`",
+  "CoffeeLiqueur`Misc`Events`Promise`",
+  "CoffeeLiqueur`CSockets`",
+  "CoffeeLiqueur`CSockets`EventsExtension`",
+  "CoffeeLiqueur`Internal`",
+  "CoffeeLiqueur`TCPServer`",
+  "CoffeeLiqueur`WebSocketHandler`",
+  "CoffeeLiqueur`Misc`WLJS`Transport`"
 }];
 
 
@@ -16,6 +16,9 @@ Begin["`Internal`"];
 Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 Needs["CoffeeLiqueur`Notebook`Kernel`" -> "GenericKernel`"];
 Needs["CoffeeLiqueur`Notebook`Evaluator`" -> "StandardEvaluator`"]
+
+Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
+
 
 initializeKernel[parameters_][kernel_] := With[{
   wsPort = parameters["env", "ws2"], 
@@ -28,8 +31,8 @@ initializeKernel[parameters_][kernel_] := With[{
 
   (* load kernels and provide remote path *)
   With[{
-    path = ToString[URLBuild[<|"Scheme" -> "http", 	"Query"->{"path" -> URLEncode[FileNameJoin[{Directory[], "wljs_packages", FileNameSplit[#][[1]] }] ]}, "Domain" -> (StringTemplate["``:``"][With[{h =  parameters["env", "host"]}, If[h === "0.0.0.0", "127.0.0.1", h] ], parameters["env", "http"] ]), "Path" -> "downloadFile/"|> ], InputForm],
-    p = Import[FileNameJoin[{"wljs_packages", #}], "String"]
+    path = ToString[URLBuild[<|"Scheme" -> "http", 	"Query"->{"path" -> URLEncode[ FileNameSplit[#][[1]] ]}, "Domain" -> (StringTemplate["``:``"][With[{h =  parameters["env", "host"]}, If[h === "0.0.0.0", "127.0.0.1", h] ], parameters["env", "http"] ]), "Path" -> "downloadFile/"|> ], InputForm],
+    p = Import[#, "String", Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}]
   },
     Echo[StringJoin["Loading into Kernel... ", #] ];
 
@@ -38,10 +41,7 @@ initializeKernel[parameters_][kernel_] := With[{
     With[{processed = StringReplace[p, "$RemotePackageDirectory" -> ("Internal`RemoteFS["<>path<>"]")]},
       GenericKernel`Async[kernel,  ImportString[processed, "WL"] ](*`*);
     ];
-    (*With[{u = StringJoin["Block[{System`$RemotePackageDirectory = Internal`RemoteFS[",path,"]}, Get[\"",dir,"\"] ];"]},
-      Echo[u];
-      GenericKernel`Init[kernel,  ToExpression[ u ] ](*`*);
-    ];*)
+
   ] &/@ WLJSPackages`Includes["kernel"];
 
   Echo["Starting WS link"];
@@ -75,11 +75,11 @@ wsStartListerning[kernel_, port_, host_] := With[{},
         (*Print["Establishing WS link..."];*)
         System`$DefaultSerializer = ExportByteArray[#, "ExpressionJSON"]&;
         Module[{Internal`Kernel`wcp, Internal`Kernel`ws},
-          Internal`Kernel`wcp = TCPServer[];
-          Internal`Kernel`wcp["CompleteHandler", "WebSocket"] = WebSocketPacketQ -> WebSocketPacketLength;
+          Internal`Kernel`wcp = TCPUServer[];
+          Internal`Kernel`wcp["CompleteHandler", "WebSocket"] = WebSocketUPacketQ -> WebSocketUPacketLength;
           
-          Internal`Kernel`ws = WebSocketHandler[];
-          Internal`Kernel`wcp["MessageHandler", "WebSocket"]  = WebSocketPacketQ -> Internal`Kernel`ws;
+          Internal`Kernel`ws = WebSocketUHandler[];
+          Internal`Kernel`wcp["MessageHandler", "WebSocket"]  = WebSocketUPacketQ -> Internal`Kernel`ws;
 
           (* configure the handler for WLJS communications *)
           Internal`Kernel`ws["MessageHandler", "Evaluate"]  = Function[True] -> WLJSTransportHandler;
@@ -103,7 +103,7 @@ wsStartListerning[kernel_, port_, host_] := With[{},
           ];
 
           (*Echo[StringTemplate["starting @ ``:port ``"][Internal`Kernel`Host, port] ];*)
-          SocketListen[CSocketOpen[host, port ], Internal`Kernel`wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
+          SocketListen[USocketOpen[host, port ], Internal`Kernel`wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
 
           (*SocketListen[port, wcp@#&];*)
         ];

@@ -1,0 +1,16 @@
+.cell-type-wlx {
+  background-color: rgb(45 255 227 / 79%);
+  color: #0000009c;
+}
+
+@media print {
+  .print\:breakabove { 
+    break-before:page;
+    height: 1px;
+  }
+  .print\:breakbelow { 
+    break-after:page;
+    height: 1px;
+  }
+}
+

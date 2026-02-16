@@ -1,0 +1,9 @@
+.sm-controls {
+    font-family: system-ui;
+}
+.sm-frange {
+  height: 4px;
+}
+
+.sm-frange::-webkit-slider-thumb { transform: scale(0.85); }
+.sm-frange::-moz-range-thumb     { transform: scale(0.85); }

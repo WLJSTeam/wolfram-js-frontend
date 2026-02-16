@@ -1,8 +1,8 @@
 {
   "name": "wljs-notebook",
-  "version": "2.8.2",
+  "version": "3.0.0",
   "recommended-client-version": "2.6.3",
-  "description": "Dynamic Notebook Environment for Wolfram Language written in Javascript",
+  "description": "A computational notebook IDE for Wolfram Language",
   "author": {
     "name": "Coffee liqueur",
     "email": "krikus.ms@gmail.com"
@@ -35,28 +35,28 @@
     "afterPack": "./Electron/build/hook.js",
     "appId": "wljs-notebook",
     "productName": "WLJS Notebook",
-    "copyright": "WLJS © 2025 ${author}",
+    "copyright": "WLJS © 2026 ${author}",
     "artifactName": "wljs-notebook-${version}-${arch}.${ext}",
     "dmg": {
       "title": "${productName} ${version}",
-      "icon": "./Electron/build/512x512.icns",
+      "icon": "./Electron/build/icon.icns",
       "sign": false
     },
     "mac": {
-      "icon": "./Electron/build/512x512.icns",
+      "icon": "./Electron/build/icon.icns",
       "artifactName": "wljs-notebook-${version}-${arch}-macos.${ext}",
       "fileAssociations": [
         {
           "ext": "wln",
           "name": "WLJS Notebook",
           "role": "Editor",
-          "icon": "./Electron/build/file/512x512.icns"
-        },        
+          "icon": "./Electron/build/file/File.icns"
+        },
         {
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.icns"
+          "icon": "./Electron/build/file/File-2.icns"
         }
       ],
       "hardenedRuntime": true,
@@ -79,7 +79,8 @@
     "linux": {
       "target": [
         "deb",
-        "zip"
+        "zip",
+        "appimage"
       ],
       "artifactName": "wljs-notebook-${version}-${arch}-gnulinux.${ext}",
       "fileAssociations": [
@@ -88,17 +89,17 @@
           "ext": "wln",
           "name": "WLJS Notebook",
           "role": "Editor",
-          "icon": "./Electron/build/file/512x512.png"
-        }, 
+          "icon": "./Electron/build/file/File-512x512.png"
+        },
         {
           "mimeType": "application/wlw",
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.png"
+          "icon": "./Electron/build/file/File-2.png"
         }
       ],
-      "icon": "./Electron/build/512x512.png",
+      "icon": "./Electron/build/icon.png",
       "protocols": [
         {
           "name": "WLJS URL communication",
@@ -114,20 +115,20 @@
     },
     "win": {
       "target": "NSIS",
-      "icon": "./Electron/build/512x512.ico",
+      "icon": "./Electron/build/icon.ico",
       "artifactName": "wljs-notebook-${version}-${arch}-win.${ext}",
       "fileAssociations": [
         {
           "ext": "wln",
           "name": "WLJS Notebook",
           "role": "Editor",
-          "icon": "./Electron/build/file/512x512.ico"
-        },      
+          "icon": "./Electron/build/file/File.ico"
+        },
         {
           "ext": "wlw",
           "name": "WLJS Widget",
           "role": "Viewer",
-          "icon": "./Electron/build/file/512x512-2.ico"
+          "icon": "./Electron/build/file/File-2.ico"
         }
       ],
       "protocols": [
@@ -156,7 +157,19 @@
       "./Electron/build/**/*",
       "./Electron/build/**/",
       "./Electron/pdfjs/**",
-      "./bundle/**"
+      "./Assets/**",
+      "./Common/**",
+      "./Components/**",
+      "./Frontend/**",
+      "./Kernel/**",
+      "./Scripts/**",
+      "./Views/**",
+      "./modules/**",
+      "./Packages/**",
+      "./package.json",
+      "./PacletInfo.wl",
+      "./LICENSE",
+      "./licenses/**"
     ],
     "asar": false
   },
@@ -174,8 +187,8 @@
     "@playwright/test": "^1.51.0",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@types/node": "^22.13.10",
-    "electron": "32.2.5",
-    "electron-builder": "^25.1.8",
+    "electron": "^39.2.7",
+    "electron-builder": "^26.0.12",
     "rollup": "^3.29.3",
     "rollup-plugin-combine": "^2.1.1",
     "serve-static": "^1.14.1",
@@ -208,6 +221,7 @@
     "node-fetch": "^3.3.2",
     "node-stream-zip": "^1.15.0",
     "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.394",
     "postcss-cli": "^11.0.0",
     "postcss-nested": "^6.0.1",
     "random-words": "^2.0.0",

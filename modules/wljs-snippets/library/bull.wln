@@ -1,0 +1,274 @@
+<|"Notebook" -> <|"Controller" -> "9a91da7d-2dad-4e1b-bc66-897d4f03d579", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$559], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "ce44c6e7-6052-4e32-8179-91769425e8af", "Objects" -> <||>, 
+   "Path" -> "/Applications/WLJS \
+Notebook.app/Contents/Resources/app/wljs_packages/wljs-snippets/library/New \
+Folder With Items/bull.wln", "PublicFields" -> {"Properties"}, 
+   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
+      1, "Bull running", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$555]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> ".md\n# Bull running\nRuns a bull over the notebook", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6b0abbfa-0455-4f45-867f-a1b1287f2906", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> "# Bull running\nRuns a bull over the notebook", 
+    "Display" -> "markdown", "Hash" -> 
+     "e1cb3ffa-ae57-4680-a137-7e861b9dd820", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> ".md\n__source code__", "Display" -> "codemirror", 
+    "Hash" -> "d944554f-9877-40dd-b2ff-23a4a167ae77", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> "__source code__", "Display" -> "markdown", 
+    "Hash" -> "b31ea35b-48d6-49bb-a88d-eb444f1cc921", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> "bull.js\n(function (global) {\n  if (global.BullParty) \
+return;\n\n  const STYLE_ID = \"bp-style\";\n  const ROOT_ID = \
+\"bp-root\";\n\n  const DEFAULTS = {\n    duration: 5200,\n    groundOffset: \
+80,\n    shakeMax: 14,\n    rotateMax: 0.8,\n    particleRate: 46,\n    \
+turboParticles: true,\n    zIndex: 2147483647,\n    bullScale: 1,\n    \
+colorTheme: \"sunset\",   // \"sunset\" | \"ember\" | \"midnight\"\n    \
+direction: \"right\",     // \"right\" | \"left\"\n  };\n\n  const \
+prefersReduced =\n    typeof window !== \"undefined\" &&\n    \
+window.matchMedia &&\n    window.matchMedia(\"(prefers-reduced-motion: \
+reduce)\").matches;\n\n  function injectStyles() {\n    if \
+(document.getElementById(STYLE_ID)) return;\n\n    const css = \
+`\n#${ROOT_ID}{\n  position: fixed;\n  inset: 0;\n  pointer-events: none;\n  \
+z-index: ${DEFAULTS.zIndex};\n  overflow: visible;\n}\n#${ROOT_ID} \
+.bp-layer{\n  position: absolute;\n  inset: 0;\n  overflow: \
+visible;\n}\n#${ROOT_ID} .bp-bull{\n  position: absolute;\n  left: 0;\n  \
+bottom: 0;\n  width: 180px;\n  height: 120px;\n  transform-origin: 50% 85%;\n \
+ filter:\n    drop-shadow(0 14px 22px rgba(0,0,0,0.32))\n    drop-shadow(0 0 \
+26px rgba(255,160,40,0.16));\n  will-change: transform, left, \
+top;\n}\n#${ROOT_ID} .bp-dust,\n#${ROOT_ID} .bp-smoke,\n#${ROOT_ID} \
+.bp-spark{\n  position: absolute;\n  border-radius: 50%;\n  pointer-events: \
+none;\n  will-change: transform, opacity;\n}\n#${ROOT_ID} .bp-dust{\n  \
+background:\n    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), \
+transparent 55%),\n    radial-gradient(circle at 70% 70%, \
+rgba(255,180,80,0.14), transparent 60%),\n    rgba(255,255,255,0.06);\n  \
+filter: blur(0.2px);\n}\n#${ROOT_ID} .bp-smoke{\n  background:\n    \
+radial-gradient(circle at 35% 35%, rgba(255,255,255,0.18), transparent \
+60%),\n    rgba(255,255,255,0.05);\n  filter: blur(1.1px);\n}\n#${ROOT_ID} \
+.bp-spark{\n  background:\n    radial-gradient(circle at 40% 40%, \
+rgba(255,220,140,0.55), transparent 60%),\n    rgba(255,120,0,0.14);\n  \
+filter: blur(0.2px);\n}\n#${ROOT_ID} .bp-leg{\n  transform-origin: 50% 0%;\n  \
+animation: bp-leg 0.18s linear infinite;\n}\n#${ROOT_ID} .bp-leg.alt{\n  \
+animation-delay: 0.09s;\n}\n@keyframes bp-leg{\n  0%{transform: \
+rotate(12deg)}\n  50%{transform: rotate(-12deg)}\n  100%{transform: \
+rotate(12deg)}\n}\n    `.trim();\n\n    const style = \
+document.createElement(\"style\");\n    style.id = STYLE_ID;\n    \
+style.textContent = css;\n    document.head.appendChild(style);\n  }\n\n  \
+function createRoot(zIndex) {\n    let root = \
+document.getElementById(ROOT_ID);\n    if (root) return root;\n\n    root = \
+document.createElement(\"div\");\n    root.id = ROOT_ID;\n    \
+root.style.zIndex = String(zIndex ?? DEFAULTS.zIndex);\n\n    const layer = \
+document.createElement(\"div\");\n    layer.className = \"bp-layer\";\n    \
+root.appendChild(layer);\n\n    document.documentElement.appendChild(root);\n \
+   return root;\n  }\n\n  function bullSVG(theme = \"sunset\") {\n    const \
+palettes = {\n      sunset: {\n        body1: \"#5a1f0e\",   // deep copper\n \
+       body2: \"#1b0a06\",   // espresso\n        body3: \"#7a2c14\",   // \
+highlight\n        horn1: \"#fff1d6\",\n        horn2: \"#d9c49a\",\n        \
+accent: \"#ff9f1c\",\n      },\n      ember: {\n        body1: \"#3b1d0f\",\n \
+       body2: \"#120605\",\n        body3: \"#512410\",\n        horn1: \
+\"#f8f1e1\",\n        horn2: \"#d7c6a3\",\n        accent: \"#ffb703\",\n     \
+ },\n      midnight: {\n        body1: \"#0c1327\",\n        body2: \
+\"#05070f\",\n        body3: \"#132045\",\n        horn1: \"#f5f1e6\",\n      \
+  horn2: \"#cfc3a8\",\n        accent: \"#7dd3fc\",\n      },\n    };\n\n    \
+const c = palettes[theme] || palettes.sunset;\n\n    return `\n<svg \
+viewBox=\"0 0 220 140\" width=\"100%\" height=\"100%\" \
+xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\">\n  <defs>\n    \
+<linearGradient id=\"bp-body\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      \
+<stop offset=\"0%\" stop-color=\"${c.body3}\"/>\n      <stop offset=\"45%\" \
+stop-color=\"${c.body1}\"/>\n      <stop offset=\"100%\" \
+stop-color=\"${c.body2}\"/>\n    </linearGradient>\n    <linearGradient \
+id=\"bp-horn\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop \
+offset=\"0%\" stop-color=\"${c.horn1}\"/>\n      <stop offset=\"100%\" \
+stop-color=\"${c.horn2}\"/>\n    </linearGradient>\n    <radialGradient \
+id=\"bp-glow\" cx=\"30%\" cy=\"30%\" r=\"75%\">\n      <stop offset=\"0%\" \
+stop-color=\"${c.accent}\" stop-opacity=\"0.18\"/>\n      <stop \
+offset=\"100%\" stop-color=\"${c.accent}\" stop-opacity=\"0\"/>\n    \
+</radialGradient>\n  </defs>\n\n  <ellipse cx=\"120\" cy=\"70\" rx=\"110\" \
+ry=\"70\" fill=\"url(#bp-glow)\"/>\n\n  <rect x=\"70\" y=\"45\" rx=\"28\" \
+ry=\"28\" width=\"130\" height=\"70\"\n        fill=\"url(#bp-body)\" \
+stroke=\"rgba(255,255,255,0.08)\"/>\n\n  <rect x=\"60\" y=\"50\" rx=\"24\" \
+ry=\"24\" width=\"70\" height=\"60\"\n        fill=\"url(#bp-body)\" \
+opacity=\"0.98\"/>\n\n  <g transform=\"translate(10,35)\">\n    <rect \
+x=\"35\" y=\"18\" rx=\"18\" ry=\"18\" width=\"65\" height=\"60\"\n          \
+fill=\"url(#bp-body)\" stroke=\"rgba(255,255,255,0.08)\"/>\n    <rect \
+x=\"28\" y=\"8\" rx=\"999\" ry=\"999\" width=\"26\" height=\"14\"\n          \
+fill=\"url(#bp-horn)\" transform=\"rotate(-12 41 15)\"/>\n    <rect x=\"81\" \
+y=\"8\" rx=\"999\" ry=\"999\" width=\"26\" height=\"14\"\n          \
+fill=\"url(#bp-horn)\" transform=\"rotate(12 94 15)\"/>\n    <circle \
+cx=\"55\" cy=\"40\" r=\"4.6\" fill=\"#0b0b0b\"/>\n    <circle cx=\"55\" \
+cy=\"40\" r=\"8\" fill=\"none\"\n            stroke=\"${c.accent}\" \
+stroke-opacity=\"0.22\" stroke-width=\"2\"/>\n    <rect x=\"42\" y=\"58\" \
+rx=\"10\" ry=\"10\" width=\"35\" height=\"18\"\n          fill=\"#0a0302\" \
+opacity=\"0.9\"/>\n  </g>\n\n  <rect x=\"196\" y=\"74\" rx=\"999\" ry=\"999\" \
+width=\"22\" height=\"8\" fill=\"url(#bp-body)\"/>\n  <circle cx=\"220\" \
+cy=\"78\" r=\"5\" fill=\"#070707\"/>\n\n  <g>\n    <rect class=\"bp-leg\" \
+x=\"95\" y=\"98\" rx=\"8\" ry=\"8\" width=\"18\" height=\"38\" \
+fill=\"#070707\"/>\n    <rect class=\"bp-leg alt\" x=\"122\" y=\"98\" \
+rx=\"8\" ry=\"8\" width=\"18\" height=\"38\" fill=\"#070707\"/>\n    <rect \
+class=\"bp-leg alt\" x=\"155\" y=\"98\" rx=\"8\" ry=\"8\" width=\"18\" \
+height=\"38\" fill=\"#050505\"/>\n    <rect class=\"bp-leg\" x=\"178\" \
+y=\"98\" rx=\"8\" ry=\"8\" width=\"18\" height=\"38\" fill=\"#050505\"/>\n  \
+</g>\n</svg>\n    `.trim();\n  }\n\n  function clamp(n, min, max) {\n    \
+return Math.max(min, Math.min(max, n));\n  }\n\n  function bell(p) {\n    \
+return Math.sin(Math.PI * clamp(p, 0, 1));\n  }\n\n  function easeInOut(p) \
+{\n    p = clamp(p, 0, 1);\n    return p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 \
+* p + 2, 2) / 2;\n  }\n\n  function spawnParticle(layer, cls, x, y, size, vx, \
+vy, life) {\n    const el = document.createElement(\"div\");\n    \
+el.className = cls;\n    el.style.width = `${size}px`;\n    el.style.height = \
+`${size}px`;\n    el.style.left = `${x}px`;\n    el.style.top = `${y}px`;\n   \
+ layer.appendChild(el);\n\n    const start = performance.now();\n    const g \
+= cls.includes(\"bp-smoke\") ? 8 : 18;\n\n    function tick(now) {\n      \
+const t = now - start;\n      const p = clamp(t / life, 0, 1);\n\n      const \
+dx = vx * p;\n      const dy = vy * p + g * p * p;\n\n      const scale = \
+cls.includes(\"bp-smoke\") ? 1 + p * 1.2 : 1 + p * 0.35;\n\n      \
+el.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;\n      \
+el.style.opacity = String(1 - p);\n\n      if (p < 1) \
+requestAnimationFrame(tick);\n      else el.remove();\n    }\n    \
+requestAnimationFrame(tick);\n  }\n\n  function burstDustAndSmoke(layer, x, \
+y, strength, theme) {\n    const s = clamp(strength, 0, 1);\n\n    const \
+dustCount = 1 + Math.round(2 * s);\n    for (let i = 0; i < dustCount; i++) \
+{\n      const size = 6 + Math.random() * 10 * (0.7 + s);\n      const angle \
+= Math.PI + (Math.random() * 0.9 - 0.45);\n      const v = 50 + Math.random() \
+* 120 * (0.5 + s);\n      const vx = Math.cos(angle) * v;\n      const vy = \
+Math.sin(angle) * v - 20 * s;\n\n      spawnParticle(\n        layer,\n       \
+ \"bp-dust\",\n        x + (Math.random() * 14 - 7),\n        y + \
+(Math.random() * 10 - 5),\n        size,\n        vx * 0.12,\n        vy * \
+0.1,\n        420 + Math.random() * 260\n      );\n    }\n\n    if (s > 0.35) \
+{\n      const smokeCount = Math.round(1 + 2 * s);\n      for (let i = 0; i < \
+smokeCount; i++) {\n        const size = 10 + Math.random() * 18 * s;\n       \
+ const vx = -10 + Math.random() * 20;\n        const vy = -25 - Math.random() \
+* 35 * s;\n\n        spawnParticle(\n          layer,\n          \
+\"bp-smoke\",\n          x + (Math.random() * 20 - 10),\n          y - 8 + \
+(Math.random() * 10 - 5),\n          size,\n          vx,\n          vy,\n    \
+      900 + Math.random() * 450\n        );\n      }\n    }\n\n    // Sparks \
+for warm palettes\n    if (theme !== \"midnight\" && s > 0.55) {\n      const \
+sparkCount = 1 + Math.round(2 * s);\n      for (let i = 0; i < sparkCount; \
+i++) {\n        const size = 3 + Math.random() * 4;\n        const vx = -20 + \
+Math.random() * 40;\n        const vy = -40 - Math.random() * 50 * s;\n       \
+ spawnParticle(\n          layer,\n          \"bp-spark\",\n          x + \
+(Math.random() * 10 - 5),\n          y - 10 + (Math.random() * 6 - 3),\n      \
+    size,\n          vx * 0.25,\n          vy * 0.22,\n          320 + \
+Math.random() * 180\n        );\n      }\n    }\n  }\n\n  function \
+applyShake(envelope, opts) {\n    if (prefersReduced) return;\n\n    const \
+amp = opts.shakeMax * envelope;\n    const rotAmp = opts.rotateMax * \
+envelope;\n\n    const sx = (Math.random() - 0.5) * amp * 2;\n    const sy = \
+(Math.random() - 0.5) * amp * 2;\n    const sr = (Math.random() - 0.5) * \
+rotAmp * 2;\n\n    document.body.style.transform =\n      \
+`translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px) \
+rotate(${sr.toFixed(3)}deg)`;\n  }\n\n  function clearShake() {\n    \
+document.body.style.transform = \"\";\n  }\n\n  function run(userOpts = {}) \
+{\n    injectStyles();\n\n    const opts = { ...DEFAULTS, ...userOpts };\n    \
+const root = createRoot(opts.zIndex);\n    const layer = \
+root.querySelector(\".bp-layer\");\n\n    const bull = \
+document.createElement(\"div\");\n    bull.className = \"bp-bull\";\n    \
+bull.innerHTML = bullSVG(opts.colorTheme);\n    layer.appendChild(bull);\n\n  \
+  const vw = window.innerWidth;\n    const vh = window.innerHeight;\n\n    \
+const rect = bull.getBoundingClientRect();\n    const bullW = rect.width || \
+180;\n    const bullH = rect.height || 120;\n\n    // Direction: the SVG \
+faces LEFT by default.\n    // To move RIGHT while facing RIGHT, we flip \
+horizontally.\n    const movingRight = opts.direction !== \"left\";\n\n    \
+const startX = movingRight ? -bullW - 40 : vw + bullW + 40;\n    const endX   \
+= movingRight ? vw + bullW + 40 : -bullW - 40;\n\n    const groundY =\n      \
+vh - (opts.groundOffset + Math.round(bullH * 0.35));\n    const baseY = \
+groundY;\n\n    let lastParticle = 0;\n    const startTime = \
+performance.now();\n\n    return new Promise((resolve) => {\n      function \
+frame(now) {\n        const elapsed = now - startTime;\n        const p = \
+clamp(elapsed / opts.duration, 0, 1);\n\n        const moveP = \
+easeInOut(p);\n        const x = startX + (endX - startX) * moveP;\n\n        \
+const bob =\n          Math.sin(elapsed * (prefersReduced ? 0.01 : 0.02)) *\n \
+         (prefersReduced ? 1.5 : 4.5);\n\n        const env = bell(p);\n\n    \
+    const tilt = (prefersReduced ? 0 : 1) * (env * 6) * Math.sin(elapsed * \
+0.02);\n        const squash = 1 + env * 0.06;\n\n        // Flip logic:\n    \
+    // SVG faces left; if we are moving right, flip to face right.\n        \
+const flipX = movingRight ? -1 : 1;\n\n        bull.style.left = \
+`${x.toFixed(1)}px`;\n        bull.style.top = `${(baseY + \
+bob).toFixed(1)}px`;\n        bull.style.transform =\n          \
+`scale(${(opts.bullScale * squash).toFixed(3)}) ` +\n          \
+`scaleX(${flipX}) rotate(${tilt.toFixed(2)}deg)`;\n\n        applyShake(env, \
+opts);\n\n        const dynamicRate = clamp(\n          opts.particleRate * \
+(1.25 - env * 0.9),\n          10,\n          60\n        );\n\n        if \
+(elapsed - lastParticle >= dynamicRate) {\n          lastParticle = \
+elapsed;\n\n          const hoofX = x + bullW * 0.35;\n          const hoofY \
+= baseY + bullH * 0.72;\n\n          const strength = prefersReduced ? 0.35 : \
+env;\n          burstDustAndSmoke(layer, hoofX, hoofY, strength, \
+opts.colorTheme);\n        }\n\n        if (p < 1) {\n          \
+requestAnimationFrame(frame);\n        } else {\n          clearShake();\n    \
+      bull.remove();\n          setTimeout(() => {\n            if (layer && \
+layer.childElementCount === 0) root.remove();\n            resolve();\n       \
+   }, 300);\n        }\n      }\n\n      requestAnimationFrame(frame);\n    \
+});\n  }\n\n  global.BullParty = { run };\n})(window);\nBullParty.run();", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a50853eb-1cb8-4c15-89b4-abfe7791a489", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> "FrontSubmit[Import[\"bull.js\", \"Text\"]];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "3f167923-7448-43c2-a163-648657fe76aa", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> ".md\n__template__", "Display" -> "codemirror", 
+    "Hash" -> "86408ad2-dde4-46a4-a080-038c9bf7a029", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> "__template__", "Display" -> "markdown", 
+    "Hash" -> "aeea4fa5-288e-4eb1-a6c4-571926c25ad9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>, 
+   <|"Data" -> "icon.wlx\nComponent[OptionsPattern[]] := With[{Title = \
+OptionValue[\"Title\"], Kbd = OptionValue[\"Shortcut\"], UTag = \
+OptionValue[\"Tag\"], Btn = OptionValue[\"Button\"]},\n    <li \
+tabindex=\"-1\" tag=\"{UTag}\" class=\"list-none nooline rounded-sm group \
+flex cursor-default select-none items-center rounded-md px-2 py-1 \
+focus:bg-teal-500/25\">\n             <svg class=\"h-4 ml-1  w-4 flex-none \
+text-gray-900  dark:text-gray-400 text-opacity-40\" fill=\"none\" viewBox=\"4 \
+0 24 24\"><path d=\"M21 4H3M20 8H6M18 12H9M15 16H8M17 20H12\" \
+stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" \
+stroke-linejoin=\"round\"/></svg> \n              <span class=\"ml-3 \
+flex-auto truncate\"><Title/></span><span class=\"ml-3 flex-none text-xs \
+font-semibold text-gray-500\">\n                <kbd \
+class=\"font-sans\"><Kbd/></kbd>\n                <button class=\"p-0.5 \
+rounded hover:bg-gray-100 dark:hover:bg-gray-200\" btag=\"{Btn}\">\n          \
+        <svg class=\"w-4 h-4 text-gray-400\" viewBox=\"0 0 24 24\" \
+fill=\"none\">\n                    \n                    <path \
+fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M12 2.75C6.89137 2.75 2.75 \
+6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 \
+17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 \
+6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 \
+17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 \
+7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 \
+9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 \
+6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 \
+13.3353 11.1354C13.1385 11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 \
+11.6246 12.75 11.7036 12.75 11.75V13C12.75 13.4142 12.4142 13.75 12 \
+13.75C11.5858 13.75 11.25 13.4142 11.25 13V11.75C11.25 11.2441 11.4715 \
+10.8336 11.7266 10.533C11.9786 10.236 12.2929 10.0092 12.5715 9.84439C12.9044 \
+9.64739 13.125 9.28655 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 \
+17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 \
+15.4477 11 16C11 16.5523 11.4477 17 12 17Z\" fill=\"currentColor\"/>\n        \
+          </svg>                  \n                </button>\n              \
+</span>\n    </li>    \n];\n\nOptions[Component] = {\"Title\"->\"Example\", \
+\"Shortcut\"->\"\", \"Tag\"->\"generic\", \"Button\"->Null};\n\nComponent", 
+    "Display" -> "codemirror", "Hash" -> 
+     "32b5d1a5-d577-4abf-b7ba-fed53cf19df0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f9ed9579-6b9c-4f3c-be4b-e5b584f7baa0"|>}, 
+ "serializer" -> "jsfn4"|>

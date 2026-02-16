@@ -129,7 +129,40 @@ test.describe('1D Plot', () => {
 
 
   
+  test('Plot framed axes labels shifted', async () => {
+    await clearCell(page);
   
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}, Frame->True, FrameLabel->{{"x-axis", {-20,0}}, {"y-axis", {0,0}}}]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot1daxesshifted.png']);
+  });  
+  
+  test('Plot framed axes labels shifted 2', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}, Frame->True, FrameLabel->{{"x-axis", {-20,0}}, {"y-axis"}}]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot1daxesshifted2.png']);
+  });    
+
+  test('Plot framed axes labels Automatic', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}, Frame->True, FrameLabel->Automatic]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot1dframedautomatic.png']);
+  });   
+
+  test('Plot axes labels Automatic', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}, AxesLabel->Automatic]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot1dnonframedautomatic.png']);
+  });   
+
+  test('Plot axes labels TeX', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}, Frame->True, FrameLabel->{{HoldForm[CellView["\\alpha", "Display"->"latex"]], {0,-5}},  None}]', 15000, 2000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot1dnonframedTex.png']);
+  });   
 
   
   

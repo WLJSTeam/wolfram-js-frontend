@@ -1,0 +1,44 @@
+{
+  "name": "wljs-snippets",
+  "version": "1.4.4",
+  "description": "Command Palette for WLJS Notebook",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-snippets && mv wljs-snippets/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "frontend": "src/Frontend.wl",
+    "js": "dist/kernel.js",
+    "deferred": "src/VFX.wl",
+    "priority": 4998,
+    "category": "Notebook Extensions",
+    "menu": [
+      {
+        "label": "Command Palette",
+        "accelerator": [
+          "Cmd+p",
+          "Ctrl+p"
+        ],
+        "event": "open_snippets",
+        "spawnWindow": false,
+        "type": "button"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-snippets"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "party-js": "^2.2.0",
+    "rollup": "^3.21.6",
+    "siriwave": "^2.4.0"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}

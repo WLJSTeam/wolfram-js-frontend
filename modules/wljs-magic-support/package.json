@@ -1,0 +1,26 @@
+{
+  "name": "wljs-magic-support",
+  "version": "0.0.6",
+  "description": "Some misc commands for WLJS Editor",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-magic-support && mv wljs-magic-support/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "js": "src/kernel.js",
+    "frontend": "src/Frontend.wl",
+    "category": "Editor",
+    "priority": -5
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-magic-support"
+  },
+  "dependencies": {
+    "rollup": "^3.21.6"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}

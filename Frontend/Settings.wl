@@ -1,8 +1,8 @@
 BeginPackage["CoffeeLiqueur`Notebook`SettingsUtils`"];
 Begin["`Internal`"];
 
-loadConfiguration  := If[FileExistsQ[FileNameJoin[{Directory[], "_settings.wl"}]], Get[FileNameJoin[{Directory[], "_settings.wl"}]], Missing[]];
-storeConfiguration[c_Association] := Put[c, FileNameJoin[{Directory[], "_settings.wl"}] ];
+loadConfiguration  := If[FileExistsQ[CoffeeLiqueur`Notebook`AppExtensions`AppConfig ], Get[CoffeeLiqueur`Notebook`AppExtensions`AppConfig ], Missing[] ];
+storeConfiguration[c_Association] := Put[c, CoffeeLiqueur`Notebook`AppExtensions`AppConfig ];
 
 initialize[conf_, OptionsPattern[] ] := With[{default = OptionValue["Defaults"]},
     conf = Join[default, (If[MissingQ[#], <||>, #]& ) @ loadConfiguration];

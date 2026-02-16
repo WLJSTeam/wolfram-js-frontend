@@ -13,13 +13,16 @@ HTTPFileExtensions;
 
 WebServers;
 
-HTTPHandler;
+HTTPUHandler;
 KernelList;
 
 QuickNotesDir;
 BackupsDir;
 DefaultDocumentsDir;
 DemosDir;
+ExtensionsDir;
+AppDataDir;
+AppConfig;
 
 Templates;
 TemplateInjection;
@@ -40,7 +43,7 @@ Templates[ opts: OptionsPattern[] ] := With[{template = OptionValue["Template"]}
     ]
 ]
 
-HTTPHandler = Null
+HTTPUHandler = Null
 
 sidebarIcons = {};
 SidebarIcons := sidebarIcons

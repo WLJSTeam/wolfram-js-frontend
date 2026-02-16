@@ -1,0 +1,187 @@
+.frontend-view {
+    display: inline-flex;
+    vertical-align: sub;
+    position: relative;
+}
+
+@keyframes pulse {
+  50% {
+      opacity:.75
+  }
+}
+
+.frontend-view.floading::after {
+  width: 100%;
+  height: 100%;
+  padding: 0.20em;
+  padding-right:1em;
+  padding-left:1em;
+  border-radius:4px;
+  font-family:system-ui;
+  color:#444;
+  background: rgba(15, 15, 15, 0.2);
+  opacity: 0.25;
+  overflow: hidden;
+  font-size:x-small;
+  content: 'Loading...';
+  animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite;
+}
+
+.cm-tooltip {
+    font-family: var(--font-code-family);
+    line-height:1.2;
+    text-align: left;
+}
+
+.cm-focused {
+    outline: none !important;
+    background: var(--editor-selected-tint) !important;
+    border-radius: 1px !important;
+}
+
+
+.cm-tooltip.cm-tooltip-autocomplete ul li {
+  font-family: var(--font-code-family);
+}
+
+.cm-tooltip-autocomplete.cm-tooltip{
+border: 1px none #888 !important;
+border-radius: 4px !important;
+/* box-shadow: 0px 0px 10px #d4d4d47f !important; */
+background-color: #fff !important;
+}
+
+.cm-tooltip.cm-tooltip-autocomplete > ul{
+font-family: 'Hasklig' !important;
+  font-size: small !important;
+  padding: 0em;
+  white-space: nowrap;
+  overflow: hidden auto;
+  max-width: 700px;
+  max-width: min(700px, 95vw);
+  min-width: 250px;
+  max-height: 10em;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  padding: 0.25rem !important;
+  overflow-y: hidden !important;
+}
+
+.cm-tooltip-autocomplete ul li[aria-selected] {
+background: #00b5f8 !important;
+color: white !important;
+
+border-radius: 4px !important;
+}
+
+.cm-tooltip.cm-completionInfo {
+position: absolute;
+padding: 3px 9px;
+font-size: small !important;
+width: max-content;
+max-width: 400px;
+box-sizing: border-box;
+border-radius: 4px !important;
+border: 1px none #888 !important;
+color: #333338;
+border-radius: 4px !important;
+box-shadow: 0px 0px 10px #d4d4d47f !important;
+background-color: #fff !important;
+}
+.frame-box {
+    border: 1px solid #000000;
+  }
+
+sup.subscript-tail {
+    line-height: normal;
+    vertical-align: super;
+    font-size: smaller;
+    top:auto;
+}
+
+sub.subscript-tail {
+  line-height: normal;
+  vertical-align: sub;
+  font-size: smaller;
+  bottom:auto;
+}
+  
+  .subscript-tail {
+    display: inline-block;
+  }
+  
+  .fraction {
+    display: inline-flex;
+    vertical-align: super;
+    text-align: center;
+  }
+  
+  .matrix {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+  
+  .fraction .container .enumenator {
+    border-bottom:solid 1px;
+  }
+  
+  .sqroot {
+    display: inline-block;
+    vertical-align: baseline;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    transform: skew(-15deg);
+    transform-origin: bottom left;
+    margin: 0 10px;
+    position: relative;
+  }
+  
+  .sqroot:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 40%;
+    width: 4px;
+    left: -4px;
+    border-top: 1px solid;
+    border-right: 2px solid;
+    transform: skew(30deg);
+    transform-origin: bottom right;
+  }
+  
+  .radicand {
+    display: inline-block;
+    padding-left: 0.5em;
+    transform: skew(15deg);
+    padding-top: 0.25rem;
+  }
+
+ 
+  .cm-tex {
+    text-rendering: auto;
+    line-height: normal;
+    text-indent: 0;
+  }
+
+  .cm-tex > .s0 {
+      font-family:KaTeX_Size1
+  }
+
+  .cm-tex > .s1 {
+      font-family:KaTeX_Size2
+  }
+
+  .cm-tex > .s2 {
+      font-family:KaTeX_Size3
+  }
+
+  .cm-tex > .s3 {
+      font-family:KaTeX_Size4
+  }
+
+  .cm-tex > .s4 {
+      font-family:KaTeX_Size4;
+      font-size: larger;
+  }

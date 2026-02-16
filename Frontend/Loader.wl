@@ -1,7 +1,7 @@
 BeginPackage["CoffeeLiqueur`Notebook`Loader`", {
-    "JerryI`Misc`Events`", 
-    "JerryI`Misc`Events`Promise`", 
-    "JerryI`WLX`WebUI`"
+    "CoffeeLiqueur`Misc`Events`", 
+    "CoffeeLiqueur`Misc`Events`Promise`", 
+    "CoffeeLiqueur`WLX`WebUI`"
 }];
 
     Needs["CoffeeLiqueur`Notebook`Cells`" -> "cell`"];
@@ -94,57 +94,6 @@ BeginPackage["CoffeeLiqueur`Notebook`Loader`", {
                 
             );
 
-            (*If[ MemberQ[FileNameSplit[dir], "Examples"] && !MissingQ[client],
-                    With[{request = CreateUUID[]},
-                        EventHandler[request, {
-                            "Success" -> Function[assoc,
-                                EventRemove[request];
-                                
-                                With[{
-                                    p = Promise[]
-                                },
-                                    EventFire[modals, "RequestPathToSave", <|
-                                        "Promise"->p,
-                                        "Title"->"Save as",
-                                        "Ext"->"wln",
-                                        "Client"->assoc["Client"]
-                                    |>];
-
-                                    Then[p, Function[directory,
-
-                                        
-                                        With[{newDir = If[StringTake[dir, -3] =!= "wln",
-                                            directory <> ".wln", directory
-                                        ]},
-                                            dir = newDir;
-                                            cache[newDir] = .;
-                                            cache[newDir] = notebook;
-                                            notebook["Path"] = newDir;
-                                            saveByPath;                                         
-                                        ]
-
-
-                                    ] ];
-                                ];
-
-                            ],
-
-                            _ -> Function[assoc,
-                                EventRemove[request];
-                                saveByPath; 
-                            ]
-                        }];
-
-                        EventFire[modals, "GenericAskTemplate", <|
-                            "Callback" -> request, 
-                            "Client" -> client,
-                            "Title" -> "It seems you are trying to save to Examples folder, which is read-only. Save to somewhere else?", "SVGIcon" -> ""
-                        |>];
-                    ];                
-            ,
-               saveByPath; 
-            ];*)
-
             saveByPath; 
         ];
 
@@ -220,24 +169,33 @@ BeginPackage["CoffeeLiqueur`Notebook`Loader`", {
             If[h =!= False, 
                 If[FileDate[h, "Modification"] > FileDate[path, 	"Modification"],
                     Echo["Loader >> found a backup copy!"];
-                    With[{request = CreateUUID[]},
-                        EventHandler[request, {
-                            "Success" -> Function[assoc,
+                    With[{requestPromise = Promise[]},
+                        Then[requestPromise, Function[result,
+                            If[TrueQ[result] || result["response"] === 0,
                                 EventRemove[request];
                                 loadToCache[h, path, path, opts];
-                                WebUILocation[URLEncode[path] , assoc["Client"] ];
-                            ],
-
-                            _ -> Function[assoc,
+                                WebUILocation[URLEncode[path] , Global`$Client ];                            
+                            ,
                                 EventRemove[request];
                                 loadToCache[path, path, path, opts];
-                                WebUILocation[URLEncode[path] , assoc["Client"] ];
+                                WebUILocation[URLEncode[path] , Global`$Client ];                            
                             ]
-                        }];
+                        ] ];
 
-                        Return[<|
-                            "Type" -> "PickAFile", "Callback" -> request, "Original"->FileDate[path, 	"Modification"], "Date" -> FileDate[h, "Modification"]
-                        |>];
+                        With[{
+                            date = TextString[Round[ Now - FileDate[h, "Modification"] ] ]
+                        },
+                        
+                        
+                            Return[<|
+                                "Type" -> "MessageBox", "Promise" -> requestPromise, "type" -> "question",
+                                "title" -> "Restore backup",
+                                "message" -> "We found an autosaved notebook "<>date<>" ago",
+                                "buttons" -> {"Restore", "Use original"},
+                                "cancelId" -> 1,
+                                "Client" -> Null (* to prevent from adding *)
+                            |>]
+                        ];
                     ];
                 ,
                     Echo["Temporal copy is outdated... removing"];

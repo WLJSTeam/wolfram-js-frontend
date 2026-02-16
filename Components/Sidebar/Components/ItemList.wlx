@@ -12,6 +12,7 @@ Component[OptionsPattern[]] := With[{
   RawPath  = OptionValue["RawPath"],
   Current  = OptionValue["Current"],
   Parameters = OptionValue["Parameters"],
+  electronQ = OptionValue["ElectronQ"],
 
   Icons = OptionValue["Icons"],
   Port = OptionValue["Port"]
@@ -23,8 +24,8 @@ Component[OptionsPattern[]] := With[{
     Ul = Table[
       If[DirectoryQ[i],  
 
-        <li class="list-none"><Dir Icons={Icons} Port={Port} Parameters={Parameters} ListComponent={Component} Level={Level+1} File={i} Selected={SameQ[Current, i]}/></li>,
-        <li class="list-none"><Fl  Icons={Icons} Port={Port} Parameters={Parameters} File={i} Selected={SameQ[Current, i]}/></li>
+        <li class="list-none"><Dir ElectronQ={electronQ} Icons={Icons} Port={Port} Parameters={Parameters} ListComponent={Component} Level={Level+1} File={i} Selected={SameQ[Current, i]}/></li>,
+        <li class="list-none"><Fl  ElectronQ={electronQ} Icons={Icons} Port={Port} Parameters={Parameters} File={i} Selected={SameQ[Current, i]}/></li>
       ]
     , {i, Select[FileNames["*", Path], !StringMatchQ[#, ___~~".DS_Store"]&]}],
 
@@ -47,6 +48,6 @@ Component[OptionsPattern[]] := With[{
 
 ];
 
-Options[Component] = {"RawPath"->Null, "Level"->Null, "Class"->"", "Current"->"", "Path"->"", "Parameters"-><||>, "Port"->"", "Icons"->""};
+Options[Component] = {"ElectronQ"->False, "RawPath"->Null, "Level"->Null, "Class"->"", "Current"->"", "Path"->"", "Parameters"-><||>, "Port"->"", "Icons"->""};
 
 Component

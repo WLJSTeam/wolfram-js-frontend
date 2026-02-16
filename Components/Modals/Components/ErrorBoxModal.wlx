@@ -1,0 +1,40 @@
+ModalController = Unique["modalControllerBox"];
+
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
+Component[OptionsPattern[]] := With[{
+    Port = OptionValue["Port"],
+    Controller1 = CreateUUID[],
+    electronQ = OptionValue["ElectronQ"],
+    destructor = OptionValue["Destructor"],
+    cli = OptionValue["Client"]
+}, Module[{},
+    EventHandler[Port, {
+        "ErrorBox" -> Function[data,
+            WebUISubmit[ModalController[KeyDrop[data, {"Promise", "Client"}]], If[SymbolQ[cli], Global`$Client, cli]];
+        ]
+    }];
+
+
+    If[electronQ,
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const api = window.electronAPI || window.iframeAPI;
+                const opts = await interpretate(args[0], env);
+                api.showErrorBox(opts, ()=>{})
+            }
+        </script>
+    ,
+        <script type="module">
+            core['<ModalController/>'] = async (args, env) => {
+                const api = window.electronAPI || window.iframeAPI;
+                const opts = await interpretate(args[0], env);
+                if (opts.content) interpretate.alert(opts.title + ': ' + opts.content); else interpretate.alert(opts.title);
+            }            
+        </script>
+    ]
+]];
+
+Options[Component] = {"Port" -> "", "Client" -> "", "ElectronQ" -> "", "Destructor"->Null}
+
+Component

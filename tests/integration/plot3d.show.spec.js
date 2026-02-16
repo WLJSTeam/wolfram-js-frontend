@@ -102,6 +102,22 @@ test.describe('3D Plot', () => {
     const outputCell = await evaluate(page, 'Graphics3D[{Directive["Shadows"->True], Polygon[ {{-5,5,-1}, {5,5,-1}, {5,-5,-1}, {-5,-5,-1}}], White, Cuboid[{-1,-1,-1}, {1,1,1}], Directive["Shadows"->False], PointLight[Red, {1.5075, 4.1557, 2.6129}, 100], Directive["Shadows"->True], SpotLight[Cyan, {-2.268, -2.144, 3.1635}]}, "Lighting"->None]', 15000, 500);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'imagenegate.png']);
   });
+
+  test('Plot3D 2 AxesLabels', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Plot3D[x y, {x,0,1}, {y,0,1}, AxesLabel->{Cos[3], "y", "z"}]', 15000, 1000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot3d2Axes.png']);
+  }); 
+
+  test('Plot3D 2 AxesLabels Automatic', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Plot3D[x y, {x,0,1}, {y,0,1}, AxesLabel->Automatic]', 15000, 1000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot3d2AxesAuto.png']);
+  }); 
+
+  
   
 
 });

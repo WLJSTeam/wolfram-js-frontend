@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Notebook`Cells`", {
-    "JerryI`Misc`Events`", 
-    "KirillBelov`Objects`", 
+    "CoffeeLiqueur`Misc`Events`", 
+    "CoffeeLiqueur`Objects`", 
     "CoffeeLiqueur`Notebook`Transactions`"
 }]
 
@@ -24,8 +24,6 @@ Begin["`Private`"]
 NullQ[any_] := any === Null
 
 initCell[o_] := Module[{uid = CreateUUID[]},
-    Print["Init cellobj"];
-
     If[o["Hash"] === Null, 
         o["Hash"] = uid;
         HashMap[uid] = o;
@@ -114,6 +112,9 @@ SelectCells[list_List, pattern__] := With[{seq = SequencePosition[list, List[pat
 
 CellObj /: EvaluateCellObj[o_CellObj, OptionsPattern[] ] := Module[{transaction},
     Print["Submit cellobj"];
+
+    (* [TODO] [REFACTOR] *)
+    (* Just accept options, do not check Notebook field *)
     If[!NullQ[ o["Notebook"] ],
 
         o["State"] = "Evaluation";
@@ -227,6 +228,7 @@ CellObj /: Delete[o_CellObj] := Module[{},
                 n["Cells"] = n["Cells"] /. {o -> Nothing};
             ];
             HashMap[o["Hash"] ] = .; 
+            EventRemove[o["Hash"] ];
         ,
             (* else if Input -> remove all next output cells *)
             With[{list = SequenceCases[o["Notebook"]["Cells"], {o, ___?OutputCellQ}] // First, n = o["Notebook"]},
@@ -236,10 +238,12 @@ CellObj /: Delete[o_CellObj] := Module[{},
 
                 n["Cells"] = n["Cells"] /. {o -> Nothing};
                 HashMap[o["Hash"] ] = .; 
+                EventRemove[o["Hash"] ];
             ]
         ]
     ,
         HashMap[o["Hash"] ] = .; 
+        EventRemove[o["Hash"] ];
     ];
 ]
 

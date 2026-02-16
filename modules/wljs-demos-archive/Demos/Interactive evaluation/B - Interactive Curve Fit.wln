@@ -1,0 +1,119 @@
+<|"Notebook" -> <|"Controller" -> "e4d186e3-7eaf-4daf-b6d6-77bb6bd9d841", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1133], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "567ea0a9-e05f-4122-8f18-cf9ebdb52784", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Interactive evaluation/B - Interactive Curve Fit.wln", 
+   "PublicFields" -> {"Properties"}, "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Interactive Curve Fit", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1199]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Interactive Curve Fit\nSome primitives, as \
+well as the entire canvas, can emit events on various user actions. Let's \
+build an interactive Gaussian curve fit.", "Display" -> "codemirror", 
+    "Hash" -> "659a1282-d041-4631-8783-59b977f741ee", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "# Interactive Curve Fit\nSome primitives, as well as the \
+entire canvas, can emit events on various user actions. Let's build an \
+interactive Gaussian curve fit.", "Display" -> "markdown", 
+    "Hash" -> "38bb3577-a866-47a0-9285-1725cb1156f9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> ".md\nCertain graphic primitives emit events. Some supported \
+primitives, including `Point`, `Disk`, and `Rectangle`, support these \
+patterns:\n\n<div class=\"text-sm mt-2\">\n\n- \"drag\": Makes the primitive \
+draggable and returns coordinates\n- \"dragsignal\": Captures dragging \
+without moving the primitive itself; returns coordinates\n- \"dragall\": Like \
+\"drag\", but also fires events at drag start and end\n- \"click\": Captures \
+clicks without the Alt key\n- \"altclick\": Captures clicks with the Alt \
+key\n- \"mousedown\": Fires on mouse press\n- \"mouseup\": Fires on mouse \
+release\n- \"mousemove\": Captures movement\n- \"mouseover\": Captures entry \
+into element area\n- \"zoom\": Captures mouse wheel input\n\n</div>\n\nHere \
+we combine \"zoom\" and \"drag\":", "Display" -> "codemirror", 
+    "Hash" -> "1744329c-492b-4c67-8d0f-15f8fa877c1a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "Certain graphic primitives emit events. Some supported \
+primitives, including `Point`, `Disk`, and `Rectangle`, support these \
+patterns:\n\n<div class=\"text-sm mt-2\">\n\n- \"drag\": Makes the primitive \
+draggable and returns coordinates\n- \"dragsignal\": Captures dragging \
+without moving the primitive itself; returns coordinates\n- \"dragall\": Like \
+\"drag\", but also fires events at drag start and end\n- \"click\": Captures \
+clicks without the Alt key\n- \"altclick\": Captures clicks with the Alt \
+key\n- \"mousedown\": Fires on mouse press\n- \"mouseup\": Fires on mouse \
+release\n- \"mousemove\": Captures movement\n- \"mouseover\": Captures entry \
+into element area\n- \"zoom\": Captures mouse wheel input\n\n</div>\n\nHere \
+we combine \"zoom\" and \"drag\":", "Display" -> "markdown", 
+    "Hash" -> "0275dae2-3b19-4ffd-897f-61a82800a2ef", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "curve = {{-1,0}, {1,0}};\n\nGraphics[{\n  Cyan, Line[curve // \
+Offload], Red, PointSize[0.05],\n  EventHandler[Point[{0,0.5}], {\n    \
+\"drag\" -> drag,\n    \"zoom\" -> zoom\n  }]\n}, Frame->True, Axes->True, \
+PlotRange->{{-1,1}, {0,1}}]", "Display" -> "codemirror", 
+    "Hash" -> "31e98637-6e6c-4637-9c83-31b0d20fba92", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> ".md\nBut if you drag a red point, it won't do anything since \
+`drag` and `zoom` functions are undefined.\n\nLet's start with a generator \
+for our Gaussian curve:", "Display" -> "codemirror", 
+    "Hash" -> "019f700b-3452-43f6-bece-85d6a8bae1c0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "But if you drag a red point, it won't do anything since \
+`drag` and `zoom` functions are undefined.\n\nLet's start with a generator \
+for our Gaussian curve:", "Display" -> "markdown", 
+    "Hash" -> "b66eb54a-a105-4d21-8454-2c9b68058892", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "ClearAll[generate];\ngenerate[{x_, y_}, k_] := Table[{t, y \
+Exp[- (*FB[*)(((*SpB[*)Power[(x - t)(*|*),(*|*)2](*]SpB*))(*,*)/(*,*)(2 \
+k))(*]FB*)]}, {t,-1,1, 0.03}]", "Display" -> "codemirror", 
+    "Hash" -> "921568a9-e7b4-4f20-a0bf-b625f9956a73", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> ".md\nWe should regenerate the curve every time we interact \
+with a red point. Finally, we define our handlers:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "fcd9c83a-efab-4118-a754-9eb40be09a8b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "We should regenerate the curve every time we interact with a \
+red point. Finally, we define our handlers:", "Display" -> "markdown", 
+    "Hash" -> "07591b17-c899-4a63-8e99-fe9334135148", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "defaults = {{0, 0.5}, 1/20.};\n\ndrag[xy_] := (\n  \
+defaults[[1]] = xy;\n  curve = generate @@ defaults;\n)\n\nzoom[k_] := (\n  \
+defaults[[2]] = k / 20.;\n  curve = generate @@ defaults;\n)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "d9bfee60-0b70-41a9-a139-44333ed90fc5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> 
+     ".md\n*Now try to drag and use the mouse wheel on a point above*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b672515c-ed2a-4863-a333-610179f657e3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>, 
+   <|"Data" -> "*Now try to drag and use the mouse wheel on a point above*", 
+    "Display" -> "markdown", "Hash" -> 
+     "2d951f23-7197-4fb7-8c6d-bc4ac38e562a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "155710a3-8db2-48a8-a2e1-cc8e63a3cce4"|>}, 
+ "serializer" -> "jsfn4"|>

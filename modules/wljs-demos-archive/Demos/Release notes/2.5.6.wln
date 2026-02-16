@@ -1,0 +1,419 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$205], 
+   "HaveToSaveAs" -> False, "Objects" -> 
+    <|"ea164bfe-1a61-45eb-8280-f508462829eb" -> 
+      <|"Public" -> Hold[CellView["\ngraph LR\n    A[Text Header 3200 byte]  \
+--> B[Binary Header 400 byte]\n    B --> C1[240 byte 1-st trace header] --> \
+T1[samples of 1-st trace]\n    B --> C2[240 byte 2-st trace header] --> \
+T2[samples of 1-st trace]\n    B --> CN[240 byte n-st trace header] --> \
+T3[samples of 1-st trace] \n", "Display" -> "mermaid"]]|>|>, 
+   "Path" -> 
+    "/users/kirill/Github/wolfram-js-frontend/Demos/Release notes/2.5.6.wln", 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {Notebook`Editor`TOC`Private`heading[1, "Release notes *2.5.6*", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$161]], 
+     Notebook`Editor`TOC`Private`heading[2, "WXF Format and Compute Shaders", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$163]], 
+     Notebook`Editor`TOC`Private`heading[3, 
+      "OpenCL as a main language for compute shaders", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$168]], 
+     Notebook`Editor`TOC`Private`heading[2, 
+      "Better support for Mathematica notebooks format", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$178]], 
+     Notebook`Editor`TOC`Private`heading[2, "AI assistant Library", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$180]], 
+     Notebook`Editor`TOC`Private`heading[2, "More examples and tutorials!", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$182]], 
+     Notebook`Editor`TOC`Private`heading[2, 
+      "Render cells inside other cells", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$194]], 
+     Notebook`Editor`TOC`Private`heading[2, "Sponsors", 
+      CellObj[CoffeeLiqueur`Notebook`CellObj`$185]]}|>, 
+ "Cells" -> {<|"Data" -> ".html\n\n<style>\n  .balloon {\n  height: 125px;\n  \
+width: 105px;\n  border-radius: 75% 75% 70% 70%;\n  position: \
+relative;\n}\n\n.balloon:before {\n  content: \"\";\n  height: 75px;\n  \
+width: 1px;\n  padding: 1px;\n  background-color: #FDFD96;\n  display: \
+block;\n  position: absolute;\n  top: 125px;\n  left: 0;\n  right: 0;\n  \
+margin: auto;\n}\n\n.balloon:after {\n    content: \"\[FilledUpTriangle]\";\n \
+   text-align: center;\n    display: block;\n    position: absolute;\n    \
+color: inherit;\n    top: 120px;\n    left: 0;\n    right: 0;\n    margin: \
+auto;\n}\n\n@keyframes float {\n  from {transform: translateY(100vh);\n  \
+opacity: 1;}\n  to {transform: translateY(-300vh);\n  opacity: \
+0;}\n}\n#balloon-container {\n  height: 100vh;\n  top: 0;\n  \
+position:fixed;\n  bottom: 0;\n  z-index: -99;  \n  padding: 1em;\n  \
+box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  overflow: \
+hidden;\n  transition: opacity 500ms;\n}\n</style>\n\n<div \
+id=\"balloon-container\">\n</div>", "Display" -> "codemirror", 
+    "Hash" -> "e82f9d68-0e79-4301-a145-52c70e3abcdb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "\n<style>\n  .balloon {\n  height: 125px;\n  width: 105px;\n  \
+border-radius: 75% 75% 70% 70%;\n  position: relative;\n}\n\n.balloon:before \
+{\n  content: \"\";\n  height: 75px;\n  width: 1px;\n  padding: 1px;\n  \
+background-color: #FDFD96;\n  display: block;\n  position: absolute;\n  top: \
+125px;\n  left: 0;\n  right: 0;\n  margin: auto;\n}\n\n.balloon:after {\n    \
+content: \"\[FilledUpTriangle]\";\n    text-align: center;\n    display: \
+block;\n    position: absolute;\n    color: inherit;\n    top: 120px;\n    \
+left: 0;\n    right: 0;\n    margin: auto;\n}\n\n@keyframes float {\n  from \
+{transform: translateY(100vh);\n  opacity: 1;}\n  to {transform: \
+translateY(-300vh);\n  opacity: 0;}\n}\n#balloon-container {\n  height: \
+100vh;\n  top: 0;\n  position:fixed;\n  bottom: 0;\n  z-index: -99;  \n  \
+padding: 1em;\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: \
+wrap;\n  overflow: hidden;\n  transition: opacity 500ms;\n}\n</style>\n\n<div \
+id=\"balloon-container\">\n</div>", "Display" -> "html", 
+    "Hash" -> "667206b0-5330-4624-a137-0a01d7eeea79", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".js\n\nconst balloonContainer = \
+document.getElementById(\"balloon-container\");\n\nfunction random(num) {\n  \
+return Math.floor(Math.random() * num);\n}\n\nfunction getRandomStyles() {\n  \
+var r = random(255);\n  var g = random(255);\n  var b = random(255);\n  var \
+mt = random(200);\n  var ml = random(50);\n  var dur = random(5) + 5;\n  \
+return `\n  background-color: rgba(${r},${g},${b},0.7);\n  color: \
+rgba(${r},${g},${b},0.7); \n  box-shadow: inset -7px -3px 10px rgba(${r - \
+10},${g - 10},${b - 10},0.7);\n  margin: ${mt}px 0 0 ${ml}px;\n  animation: \
+float ${dur}s ease-in infinite\n  `;\n}\n\nfunction createBalloons(num) {\n  \
+for (var i = num; i > 0; i--) {\n    var balloon = \
+document.createElement(\"div\");\n    balloon.className = \"balloon\";\n    \
+balloon.style.cssText = getRandomStyles();\n    \
+balloonContainer.append(balloon);\n  }\n}\n\nfunction removeBalloons() {\n  \
+balloonContainer.style.opacity = 0;\n  setTimeout(() => {\n    \
+balloonContainer.remove()\n  }, \
+500)\n}\n\ncreateBalloons(10);\nsetTimeout(removeBalloons, 7000);\n\nreturn \
+'';\n", "Display" -> "codemirror", "Hash" -> 
+     "eff47825-fd82-40c9-a3c9-f05dd62e3d9c", "Invisible" -> True, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "\nconst balloonContainer = \
+document.getElementById(\"balloon-container\");\n\nfunction random(num) {\n  \
+return Math.floor(Math.random() * num);\n}\n\nfunction getRandomStyles() {\n  \
+var r = random(255);\n  var g = random(255);\n  var b = random(255);\n  var \
+mt = random(200);\n  var ml = random(50);\n  var dur = random(5) + 5;\n  \
+return `\n  background-color: rgba(${r},${g},${b},0.7);\n  color: \
+rgba(${r},${g},${b},0.7); \n  box-shadow: inset -7px -3px 10px rgba(${r - \
+10},${g - 10},${b - 10},0.7);\n  margin: ${mt}px 0 0 ${ml}px;\n  animation: \
+float ${dur}s ease-in infinite\n  `;\n}\n\nfunction createBalloons(num) {\n  \
+for (var i = num; i > 0; i--) {\n    var balloon = \
+document.createElement(\"div\");\n    balloon.className = \"balloon\";\n    \
+balloon.style.cssText = getRandomStyles();\n    \
+balloonContainer.append(balloon);\n  }\n}\n\nfunction removeBalloons() {\n  \
+balloonContainer.style.opacity = 0;\n  setTimeout(() => {\n    \
+balloonContainer.remove()\n  }, \
+500)\n}\n\ncreateBalloons(10);\nsetTimeout(removeBalloons, 15000);\n\nreturn \
+'';\n", "Display" -> "js", "Hash" -> "997ee6a2-52f7-4f97-b2c5-7d7585826ebc", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n# Release notes *2.5.6*\n\nA massive perfomance \
+improvements: we adopted a binary format WXF (instead of JSON) for updating \
+the data on the frontend from Wolfram Kernel, fixed UI bugs on Linux, slide \
+cells and improved an import feature for Mathematica's notebook", 
+    "Display" -> "codemirror", "Hash" -> 
+     "50d653c7-dd44-48c5-8f13-aab469399a2a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "# Release notes *2.5.6*\n\nA massive perfomance improvements: \
+we adopted a binary format WXF (instead of JSON) for updating the data on the \
+frontend from Wolfram Kernel, fixed UI bugs on Linux, slide cells and \
+improved an import feature for Mathematica's notebook", 
+    "Display" -> "markdown", "Hash" -> 
+     "9f1eb65c-acef-41b6-bd63-a9d4a65b0cd8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## WXF Format and Compute Shaders\nCompared to JSON it \
+results in $~10-100$ speed up depending on what kind of data you is \
+transported. Raw video streaming is now possible check out this example", 
+    "Display" -> "codemirror", "Hash" -> 
+     "3d2093c0-06a6-4846-baff-361c4feb56e2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "## WXF Format and Compute Shaders\nCompared to JSON it \
+results in $~10-100$ speed up depending on what kind of data you is \
+transported. Raw video streaming is now possible check out this example", 
+    "Display" -> "markdown", "Hash" -> 
+     "3c02da51-28c1-45ed-9d0b-ba88b7a3bdd3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "v = Video[\"ExampleData/Caminandes.mp4\"];\nencoded = \
+Map[Function[frame, NumericArray[255.0 ImageData[frame], \
+\"UnsignedInteger8\", \"ClipAndRound\"]], VideoExtractFrames[v, \
+Range[60]]];\n\nindex = 1;\ntime = AbsoluteTime[];\n\nEventHandler[\"film\", \
+Function[Null,\n  frame = encoded[[index]];\n  index++;\n  If[index >= \
+Length[encoded], index = 1];\n  \n  With[{t = AbsoluteTime[]},\n    fps = \
+Round[ (*FB[*)((fps + 1/(t - time))(*,*)/(*,*)(2.0))(*]FB*)];\n    time = \
+t;\n  ];\n]];\n\nframe = encoded // First;\nfps = 0.4;\nGraphics[{\n  \
+Inset[Image[frame // Offload, \"Byte\"], {0,0}, ViewMatrix->None],\n  Red, \
+Directive[FontSize->18,Bold], Text[fps // Offload, {0.1,0.2}],\n  \
+AnimationFrameListener[fps // Offload, \"Event\"->\"film\"]\n\n}, \
+PlotRange->{{0,1}, {0,1}}, ImageSize->{600, 500}, Controls->False]\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "307b0cbf-d1ab-4533-9e17-b5d9053ed185", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\nAn average result on Mac Air M1 was around `50~FPS`. \
+Which is quite large for a video playback, but this is just a benchmark \
+\|01f609", "Display" -> "codemirror", 
+    "Hash" -> "e33041e9-1a23-4526-bf4e-f09a5eee8f28", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "An average result on Mac Air M1 was around `50~FPS`. Which is \
+quite large for a video playback, but this is just a benchmark \|01f609", 
+    "Display" -> "markdown", "Hash" -> 
+     "a17d98e7-28f1-4a18-8179-0ebdf1458c66", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n### OpenCL as a main language for compute shaders\nSince \
+we have a decent speed for raw raster data, one can program and run GPU code \
+from WL and display the data as a raster image. For now `OpenCLLink` is the \
+only choice if target a notebook to be crossplatform. \n\nIf you have \
+`OpenCL` - compatible hardware, you can try to run this beautiful shader \
+designed by [@](https://www.shadertoy.com/view/mtyGWy) in his *Shader Coding \
+Art*", "Display" -> "codemirror", "Hash" -> 
+     "aeb35770-0282-4dce-b941-8a2b37c3192c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "### OpenCL as a main language for compute shaders\nSince we \
+have a decent speed for raw raster data, one can program and run GPU code \
+from WL and display the data as a raster image. For now `OpenCLLink` is the \
+only choice if target a notebook to be crossplatform. \n\nIf you have \
+`OpenCL` - compatible hardware, you can try to run this beautiful shader \
+designed by [@](https://www.shadertoy.com/view/mtyGWy) in his *Shader Coding \
+Art*", "Display" -> "markdown", "Hash" -> 
+     "9dca23c6-19be-42a4-8bfc-b4ecb7602b72", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "Needs[\"OpenCLLink`\"]\nIf[!OpenCLQ[], Alert[\"Sorry, \
+OpenCLLink is not supported\"] // FrontSubmit]", "Display" -> "codemirror", 
+    "Hash" -> "1cc57c79-9931-4eda-a22b-ff8d3214b38b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\nThen run this", "Display" -> "codemirror", 
+    "Hash" -> "b2b1ebb1-2e1b-4ee9-b152-51db44658d6a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, <|"Data" -> "Then run this", 
+    "Display" -> "markdown", "Hash" -> 
+     "79a407f6-fef3-45b6-8203-9a22ab1da83c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "image = OpenCLMemoryLoad[Table[{0, 0, 0, 0}, {i, 512}, {j, \
+512}], \"UnsignedByte[4]\"];\nrender = \
+OpenCLFunctionLoad[File[FileNameJoin[{\"attachments\", \"art.cl\"}]], \n  \
+\"render\", {{\"UnsignedByte[4]\", _, \"Output\"}, _Integer, _Integer, \
+\"Float\"}, 256, \"ShellOutputFunction\"->Print];\n\nModule[{buffer, t=0.0, \
+ev = CreateUUID[]},\n  EventHandler[ev, Function[Null,\n    render[image, \
+512, 512, t, 512 512];\n    buffer = NumericArray[image // OpenCLMemoryGet, \
+\"UnsignedInteger8\"];\n    t += 0.1;\n  ]];\n\n  EventFire[ev, True];\n\n  \
+Graphics[{\n    Inset[Image[buffer // Offload, \"Byte\"], {0,0}, \
+ViewMatrix->None],\n    AnimationFrameListener[buffer // Offload, \
+\"Event\"->ev]\n  }, ImageSize->{512, 512}, PlotRange->{{0,1}, {0,1}}, \
+ImagePadding->None]\n]", "Display" -> "codemirror", 
+    "Hash" -> "24a5c4a1-5e80-4517-85e8-49abb70ff074", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\nCheck out a new section in `Examples` (or `Demos`)!", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e1314d87-ff60-4835-8ed7-e521458f674b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "Check out a new section in `Examples` (or `Demos`)!", 
+    "Display" -> "markdown", "Hash" -> 
+     "57fec782-1ae7-40ae-8c07-2d251a742e97", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\nPlease read our \
+[Blog](https://jerryi.github.io/wljs-docs/blog) for more info.", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b937d5bd-c567-4aa5-b5ac-64c34899ce16", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "Please read our \
+[Blog](https://jerryi.github.io/wljs-docs/blog) for more info.", 
+    "Display" -> "markdown", "Hash" -> 
+     "6a32b21f-9003-496c-8bce-5606151e4ff5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## Better support for Mathematica notebooks format\nThis \
+feature was highly requested by different members from the beginning of our \
+WLJS project. \n\nSee \
+[issue](https://github.com/JerryI/wolfram-js-frontend/issues/70)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "ac3746ef-9426-4e92-9b75-6d25f3609c67", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "## Better support for Mathematica notebooks format\nThis \
+feature was highly requested by different members from the beginning of our \
+WLJS project. \n\nSee \
+[issue](https://github.com/JerryI/wolfram-js-frontend/issues/70)", 
+    "Display" -> "markdown", "Hash" -> 
+     "212afc13-73a2-4a32-aebf-eb6006f0ee24", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## AI assistant Library\nWe splitted and sorted out all \
+knowldge needed for AI to work properly with cells. Now it is available on \
+demand to AI, which __saves up a lot of tokens__. You can tune this \
+settings\n\n\n![](/attachments/Screenshot%202024-09-02%20at%2012.12.12.png)\n\
+\nEven if all of them are enabled, it doesn not mean, they consume tokens on \
+start. Each item can be fetched AI if needed by the context of a provided \
+problem.", "Display" -> "codemirror", 
+    "Hash" -> "f28ffa30-b3bb-482d-9109-c4e9274178a2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "## AI assistant Library\nWe splitted and sorted out all \
+knowldge needed for AI to work properly with cells. Now it is available on \
+demand to AI, which __saves up a lot of tokens__. You can tune this \
+settings\n\n\n![](/attachments/Screenshot%202024-09-02%20at%2012.12.12.png)\n\
+\nEven if all of them are enabled, it doesn not mean, they consume tokens on \
+start. Each item can be fetched AI if needed by the context of a provided \
+problem.", "Display" -> "markdown", 
+    "Hash" -> "8939f1da-bbc6-4d68-979b-38c38a0861ca", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## More examples and tutorials!\nCheck you `Examples` \
+section, we have some new stuff to show \|01f609\n\n[__WLJS Demonstration \
+Project__](https://jerryi.github.io/wljs-docs/wljs-demo) was updated and \
+includes interactive web-notebooks you can try (no Wolfram Kernel running is \
+needed or WLJS App)", "Display" -> "codemirror", 
+    "Hash" -> "c6608ac1-de58-46d8-a2cc-9634475ad0ff", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "## More examples and tutorials!\nCheck you `Examples` \
+section, we have some new stuff to show \|01f609\n\n[__WLJS Demonstration \
+Project__](https://jerryi.github.io/wljs-docs/wljs-demo) was updated and \
+includes interactive web-notebooks you can try (no Wolfram Kernel running is \
+needed or WLJS App)", "Display" -> "markdown", 
+    "Hash" -> "a1af565f-7b25-4d1c-8626-b6bce4ac929a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## Render cells inside other cells\nWe introduce a new \
+view-component", "Display" -> "codemirror", 
+    "Hash" -> "a72ea7b6-bf9e-43da-bd67-f05dcb864aec", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> 
+     "## Render cells inside other cells\nWe introduce a new view-component", 
+    "Display" -> "markdown", "Hash" -> 
+     "c23180fe-c8c9-4634-b9c5-f27a39d22831", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "CellView[\"\ngraph LR\n    A[Text Header 3200 byte]  --> \
+B[Binary Header 400 byte]\n    B --> C1[240 byte 1-st trace header] --> \
+T1[samples of 1-st trace]\n    B --> C2[240 byte 2-st trace header] --> \
+T2[samples of 1-st trace]\n    B --> CN[240 byte n-st trace header] --> \
+T3[samples of 1-st trace] \n\", \"Display\"->\"mermaid\"]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "80f3f444-c03d-479a-92fe-916601aa9dfe", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"ea164bfe-1a61-45eb-8280-f508462829eb\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKpyYam\
+pkkpaXqGiaaGeqamKYm6VoYWRjoppkaWJiYGVkYWaYmAQCH4BV1\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "473cdd77-ffd2-4254-bfa6-4a0c219427ec", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\nIt is aimed to embed diagrams and other cells to \
+presentations (slide cells). But, may be you will come up with other \
+applications as well...", "Display" -> "codemirror", 
+    "Hash" -> "154ec035-a577-4e64-9c5a-b085b0950eb3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "It is aimed to embed diagrams and other cells to \
+presentations (slide cells). But, may be you will come up with other \
+applications as well...", "Display" -> "markdown", 
+    "Hash" -> "80c9c402-e1d1-4c8a-85f7-1e50373b339e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## Figures export\nThere is a way to embed individual \
+graphs from your notebook to a web. You need just a little knowledge about \
+HTML \
+technology.\n\n<br/>\n\n![](/attachments/Screenshot%202024-07-27%20at%2019.22\
+.59.png)\n\n<br/>\n\n\n![](/attachments/Screenshot%202024-07-27%20at%2019.23.\
+32.png)\n\n<br/>\n\nThen you select which plot to export and as a result you \
+get two section of HTML/JS code: *head* and *figure itself*\n\n<br/>\n\nThe \
+head contains all libraries and core scripts and can be reused for all \
+figures on the same page.\n\n<br/>\n\nRemove libraries, which are not used in \
+your plots from the head section to reduce the loading time of your website. \
+WLJS cannot guess it automatically.\n\n<br/>\n\nThe code section for the \
+figure can be embedded to any place in your HTML document. Feel free to \
+customize CSS.\n", "Display" -> "codemirror", 
+    "Hash" -> "7e79ba92-d331-441f-aa63-16fd12e7fa14", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n## Sponsors\nWe have a new sponsor for this \
+release\n\n__Gani Ganapathi, USA \|01f973__\n\nThank you for supporting our \
+project \|01f49b", "Display" -> "codemirror", 
+    "Hash" -> "4180ce03-100f-4080-a0da-663875cfcf86", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "## Sponsors\nWe have a new sponsor for this release\n\n__Gani \
+Ganapathi, USA \|01f973__\n\nThank you for supporting our project \|01f49b", 
+    "Display" -> "markdown", "Hash" -> 
+     "ede626d8-fb7c-4f04-a963-ea1b6aea8570", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".md\n*Ballon animation by Jemima (codepen)*", 
+    "Display" -> "codemirror", "Hash" -> 
+     "41a63575-d487-43d0-8a99-631b7e67087d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ">*Ballon animation by Jemima (codepen)*", 
+    "Display" -> "markdown", "Hash" -> 
+     "84a86250-5d34-4a43-9411-1a800d0ada83", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> ".html\n\n<style>\n  [transparency=\"false\"] .bg-g-trans {\n  \
+  background: transparent !important;\n  }\n\n  [transparency=\"true\"] \
+.bg-g-trans {\n    background: transparent !important;\n  }\n</style>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "51e23509-741d-4806-b32e-73c95a3f1f79", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> "\n<style>\n  [transparency=\"false\"] .bg-g-trans {\n    \
+background: transparent !important;\n  }\n\n  [transparency=\"true\"] \
+.bg-g-trans {\n    background: transparent !important;\n  }\n</style>", 
+    "Display" -> "html", "Hash" -> "469f5067-30f1-4b09-998f-61611fb76591", 
+    "Invisible" -> False, "MetaOnly" -> False, "Props" -> <||>, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>, 
+   <|"Data" -> " ", "Display" -> "codemirror", 
+    "Hash" -> "84e6b94a-770c-4335-99aa-97fbfa2626ae", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "a1f4bdbb-d8ed-4a29-aa1c-cbbf717182f7"|>}, "serializer" -> "jsfn4"|>

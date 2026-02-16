@@ -1,10 +1,12 @@
 BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
-    "KirillBelov`HTTPHandler`",
-    "KirillBelov`HTTPHandler`Extensions`",
-    "KirillBelov`Internal`"
+    "CoffeeLiqueur`HTTPHandler`",
+    "CoffeeLiqueur`HTTPHandler`Extensions`",
+    "CoffeeLiqueur`Internal`"
 }]
     
     Begin["`Internal`"]
+
+    Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 
     parseBytesRange[str_String] := Module[{matches},
       matches = StringCases[
@@ -23,10 +25,18 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         Echo[k];
     )
 
-    handler["GET"][request_] := With[{path = URLDecode[request["Query", "path"] ], rangesString = Lookup[request["Headers"], "Range", False]},
+    wljsPackages = FileNameJoin[{Directory[], "modules"}];
+
+
+    handler["GET"][request_] := With[{
+        rawPath = URLDecode[request["Query", "path"] ], rangesString = Lookup[request["Headers"], "Range", False]
+    }, Module[{
+        path = rawPath
+    },
+        path = SelectFirst[If[# === Null, rawPath, FileNameJoin[{#, rawPath}] ] &/@ {wljsPackages, AppExtensions`ExtensionsDir, Directory[], Null}, FileExistsQ ];
         Echo["Downloader >> Get request"];
 
-        If[!FileExistsQ[path],
+        If[MissingQ[path],
             Echo["File: "<>path<>" does not exist"];
                     <|
                         "Code" -> 404, 
@@ -44,7 +54,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
                         "Body" -> file,
                         "Code" -> 200, 
                         "Headers" -> <|
-                            "Content-Type" -> GetMIMEType[path], 
+                            "Content-Type" -> GetMIMEUType[path], 
                             "Content-Length" -> Length[file],
                             "Connection"-> "Keep-Alive", 
                             "Keep-Alive" -> "timeout=5, max=1000"
@@ -71,7 +81,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
                         "Body" -> body,
                         "Code" -> 206, 
                         "Headers" -> <|
-                            "Content-Type" -> GetMIMEType[path], 
+                            "Content-Type" -> GetMIMEUType[path], 
                             "Content-Length" -> Length[body],
                             "Content-Range" -> StringTemplate["bytes ``-``/``"][ranges[[1]], Min[ranges[[2]], size-1], size],
                             "Connection"-> "Keep-Alive", 
@@ -84,16 +94,21 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
         ]
     
         
-    ]
+    ] ]
 
-    handler["HEAD"][request_] := With[{path = URLDecode[request["Query", "path"] ]},
+    handler["HEAD"][request_] := With[{
+        rawPath = URLDecode[request["Query", "path"] ]
+    }, Module[{
+        path
+    },
         Echo["Downloader >> Head request"];
-        Echo[request];
-        If[FileExistsQ[path],
+        path = SelectFirst[If[# === Null, rawPath, FileNameJoin[{#, rawPath}] ] &/@ {wljsPackages, AppExtensions`ExtensionsDir, Directory[], Null}, FileExistsQ ];
+
+        If[!MissingQ[path],
             <|
                 "Code" -> 200, 
                 "Headers" -> <|
-                    "Content-Type" -> GetMIMEType[path], 
+                    "Content-Type" -> GetMIMEUType[path], 
                     "Accept-Ranges" -> "bytes",
                     "Content-Length" -> Round[QuantityMagnitude[FileSize[path], "Bytes"] ], 
                     "Connection"-> "Keep-Alive", 
@@ -104,7 +119,7 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
             <|
                 "Code" -> 404, 
                 "Headers" -> <|
-                    "Content-Type" -> GetMIMEType[path], 
+                    "Content-Type" -> GetMIMEUType[path], 
                     "Accept-Ranges" -> "bytes",
                     "Content-Length" -> 0, 
                     "Connection"-> "Keep-Alive", 
@@ -112,14 +127,14 @@ BeginPackage["CoffeeLiqueur`Notebook`HTTPDownLoader`", {
                 |>
             |>  
         ]      
-    ]
+    ] ]
 
-    module[OptionsPattern[] ] := With[{http = OptionValue["HTTPHandler"]},
+    module[OptionsPattern[] ] := With[{http = OptionValue["HTTPUHandler"]},
         Echo["Downloads module was attached"];
-        http["MessageHandler", "Downloader"] = AssocMatchQ[<|"Path" -> "/downloadFile/"|>] -> (handler[ #["Method"] ][#]&);
+        http["MessageHandler", "Downloader"] = AssocUMatchQ[<|"Path" -> "/downloadFile/"|>] -> (handler[ #["Method"] ][#]&);
     ]
 
-    Options[module] = {"HTTPHandler" -> Null}
+    Options[module] = {"HTTPUHandler" -> Null}
 
     End[]
 

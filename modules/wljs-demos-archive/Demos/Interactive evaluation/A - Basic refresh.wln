@@ -1,0 +1,47 @@
+<|"Notebook" -> <|"Controller" -> "e111dbc3-53df-48ae-846b-bbb85e514176", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1062], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "bec6de23-d276-47af-8733-ff186e22bbe2", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Interactive evaluation/A - Basic refresh.wln", 
+   "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Refresh", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1058]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Refresh\nIf you need to keep track the \
+changes of some variable visually:", "Display" -> "codemirror", 
+    "Hash" -> "f6a162a6-26f4-400f-a30e-9233e396e466", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "15c46cb1-5d5c-4233-99e3-ff1595c2d7a5"|>, 
+   <|"Data" -> "## Refresh\nIf you need to keep track the changes of some \
+variable visually:", "Display" -> "markdown", 
+    "Hash" -> "a692a9a1-4cfb-4e95-97a9-2ed646b6b7df", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "15c46cb1-5d5c-4233-99e3-ff1595c2d7a5"|>, 
+   <|"Data" -> "Refresh[Now, 1]", "Display" -> "codemirror", 
+    "Hash" -> "ec051ce1-5d4a-470c-87bb-f462da07369f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "15c46cb1-5d5c-4233-99e3-ff1595c2d7a5"|>, 
+   <|"Data" -> ".md\nIt works with images too and many other expressions:", 
+    "Display" -> "codemirror", "Hash" -> 
+     "a6a741dc-91de-46b5-9bf1-cfd2ef168d34", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "15c46cb1-5d5c-4233-99e3-ff1595c2d7a5"|>, 
+   <|"Data" -> "It works with images too and many other expressions:", 
+    "Display" -> "markdown", "Hash" -> 
+     "23d09fb9-0092-405a-936d-c73b4bb2dea6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "15c46cb1-5d5c-4233-99e3-ff1595c2d7a5"|>, 
+   <|"Data" -> "img = ExampleData[{\"TestImage\", \"Lena\"}];\nRefresh[(img = \
+EdgeDetect[img] 0.05 + img; img), 0.1]", "Display" -> "codemirror", 
+    "Hash" -> "9c15497e-4585-4d5d-8329-ba73088b20e4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "15c46cb1-5d5c-4233-99e3-ff1595c2d7a5"|>}, 
+ "serializer" -> "jsfn4"|>

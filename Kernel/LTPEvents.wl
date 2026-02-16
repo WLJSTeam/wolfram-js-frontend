@@ -1,5 +1,5 @@
-BeginPackage["KirillBelov`LTP`Events`", {
-    "JerryI`Misc`Events`", "KirillBelov`LTP`", "JerryI`Misc`Events`Promise`"
+BeginPackage["CoffeeLiqueur`LTP`Events`", {
+    "CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`LTP`", "CoffeeLiqueur`Misc`Events`Promise`"
 }]
 
 Begin["`Private`"]

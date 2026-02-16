@@ -1,6 +1,6 @@
 BeginPackage["CoffeeLiqueur`Notebook`", {
-    "JerryI`Misc`Events`", 
-    "KirillBelov`Objects`"
+    "CoffeeLiqueur`Misc`Events`", 
+    "CoffeeLiqueur`Objects`"
 }]
 
 NotebookObj;
@@ -15,7 +15,7 @@ HashMap = <||>;
 
 NullQ[any_] := any === Null
 
-initNotebook[o_] := With[{uid = CreateUUID[]},
+initNotebook[o_] := With[{uid = If[StringQ[o["Hash"] ] && o["Hash"] =!= Null, o["Hash"], CreateUUID[] ]},
     o["Hash"] = uid;
     HashMap[uid] = o;
     o

@@ -5,13 +5,15 @@ Component[OptionsPattern[]] := With[{
   port = OptionValue["Port"],
   parameters = OptionValue["Parameters"],
   path = OptionValue["Path"],
-  rawPath = OptionValue["RawPath"]
+  rawPath = OptionValue["RawPath"],
+  electronQ = OptionValue["ElectronQ"],
+  Id = OptionValue["Id"]
 },
 
-    <nav class="flex flex-1 flex-col" style="-webkit-app-region:none">
+    <nav id="{Id}" class="flex flex-1 flex-col" style="-webkit-app-region:none">
       <ul role="list" class="flex flex-1 flex-col gap-y-7 p-0">
         <li class="list-none">
-          <ItemList Icons={icons} Port={port} Parameters={parameters} Level={0} Class={"-mx-2 space-y-0"} RawPath={rawPath} Path={path} Current={path} />
+          <ItemList ElectronQ={electronQ} Icons={icons} Port={port} Parameters={parameters} Level={0} Class={"-mx-2 space-y-0"} RawPath={rawPath} Path={path} Current={path} />
         </li>
         
       </ul>
@@ -19,7 +21,7 @@ Component[OptionsPattern[]] := With[{
 
 ];
 
-Options[Component] = {"Icons"->Null, "Port"->Null, "RawPath"->Null, "Path"->Null, "Parameters"-><||>}
+Options[Component] = {"Id":>CreateUUID[], "ElectronQ"->False, "Icons"->Null, "Port"->Null, "RawPath"->Null, "Path"->Null, "Parameters"-><||>}
 
 Component
 

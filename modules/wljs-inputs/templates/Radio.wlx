@@ -1,0 +1,47 @@
+Component[OptionsPattern[]] := With[{
+    UIDList = Table[CreateUUID[], {i, Length[OptionValue["List"]]}],
+    selected = OptionValue["Selected"],
+    OnChange = OptionValue["Event"],
+    Pattern = "Default",
+    Title = OptionValue["Label"]
+},
+    With[{
+        OptionsList = Table[With[{Name = OptionValue["List"][[index, 1]], Val = OptionValue["List"][[index, 2]], UId = UIDList[[index]]},
+            If[selected === Val,
+                <div class="flex items-center">
+                    <input name="{OnChange}" value="{index}" checked="true" type="radio" class="h-4 w-4 border-gray-300  text-sys focus:ring-sys" /><label for="{UId}" class="ml-3 block text-sm  font-medium leading-6 text-gray-900"><Name/></label>
+                </div>
+            ,
+                <div class="flex items-center">
+                    <input name="{OnChange}" value="{index}" type="radio" class="h-4 w-4 border-gray-300 text-sys  focus:ring-sys" /><label for="{UId}" class="ml-3 block text-sm font-medium  leading-6 text-gray-900"><Name/></label>
+                </div>    
+            ]
+        ], {index, 1, Length @ OptionValue["List"]}]
+    },
+        With[{
+            JSONList = ExportString[UIDList, "JSON"]
+        },
+            <fieldset>
+                <legend class="mt-1 text-sm leading-6 text-gray-600 "><Title/></legend>
+                <div class="mt-2 flex-row gap-x-2 flex items-baseline" id="#instanceId">
+                    <OptionsList/>
+                </div>
+                <script type="module">
+                    let opts = document.getElementById('#instanceId').getElementsByTagName('input');
+                    //opts = opts.map((el) => document.getElementById(el));
+                    for (let i=0; i<opts.length; ++i) {
+                    //opts.forEach((o) => {
+                            opts[i].addEventListener('change', () => {
+                                server.kernel.io.fire('<OnChange/>', Number(opts[i].value), '<Pattern/>');
+                            })
+                       // })
+                    }
+                </script>
+            </fieldset>
+        ]
+    ]
+]
+
+Options[Component] = {"Label"->"", "Topic"->"Default", "Event"->"", "List"->{}, "Selected"->""}
+
+Component

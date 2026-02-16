@@ -3,22 +3,19 @@ on: workflow_dispatch
 jobs:
   build-x86:
     runs-on: ubuntu-latest
-    container:
-      image: wolframresearch/wolframengine:14.2
-      options: --user root
     env:
       WOLFRAM_SYSTEM_ID: Linux-x86-64-v8
     steps:
       - name: Install build tools
         run: |
-          apt-get -y update
-          apt-get -y install build-essential
-          apt-get -y install libuv1-dev
+          sudo apt-get -y update
+          sudo apt-get -y install build-essential
+          sudo apt-get -y install libuv1-dev
 
       - name: Install Git in container
         run: |
-          apt-get -y update
-          apt-get -y install git
+          sudo apt-get -y update
+          sudo apt-get -y install git
           # one time fix to avoid permission problems later on
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # Checks-out the repository under $GITHUB_WORKSPACE.
@@ -64,12 +61,6 @@ jobs:
       - name: Install dependencies
         run: npm install                  
 
-      - name: Bundle
-        env:
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-        run: |
-          npm run pre-dist
-
       - name: Build electron
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}       
@@ -78,23 +69,11 @@ jobs:
 
   build-ARM:
     runs-on: ubuntu-24.04-arm
-    env:
-      WOLFRAM_SYSTEM_ID: Linux-ARM
-      WOLFRAMENGINE_CACHE_KEY: WolframEngine-BA
-      WOLFRAMENGINE_INSTALLATION_DIRECTORY: "/Applications/Wolfram Engine.app"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_TOKEN }}
-
-      - name: Install WE
-        run: |
-            set -eux -o pipefail
-            chmod +x ./.github/workflows/install_arm.sh
-            WE_MODE=install bash ./.github/workflows/install_arm.sh
-            sudo apt install libuv1-dev -y
-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -131,13 +110,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install                  
-
-      - name: Bundle
-        env:
-          WOLFRAMSCRIPT_ENTITLEMENTID: ${{ secrets.WOLFRAM_LICENSE_ENTITLEMENT_ID }}
-        run: |
-          /opt/Wolfram/WolframEngine/14.1/SystemFiles/Kernel/Binaries/Linux-ARM64/wolframscript -debug -verbose -script ./Scripts/bundle.wls
-
+        
       - name: Install Ruby and dependencies
         run: |
           sudo apt-get update

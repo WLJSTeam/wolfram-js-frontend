@@ -7,7 +7,7 @@
 splitted = FileNameSplit[$Options["FileName"]];
 
 PathList = Table[
-    With[{P = splitted[[i]], URL = FileNameJoin[splitted[[;; i]]] // FileNameToURLPath
+    With[{P = splitted[[i]], URL = FileNameJoin[splitted[[;; i]]] // FileNameToUURLPath
            },
         <li>
           <div class="flex items-center">

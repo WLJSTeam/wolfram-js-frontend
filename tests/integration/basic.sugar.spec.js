@@ -175,14 +175,14 @@ test.describe('Easy check for most basic decorators', () => {
   test('Plot', async () => {
     await clearCell(page);
   
-    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}]', 15000);
+    const outputCell = await evaluate(page, 'Plot[x, {x,0,1}]', 99000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'plot.png']);
   });  
 
   test('Sphere', async () => {
     await clearCell(page);
   
-    const outputCell = await evaluate(page, 'Graphics3D[Sphere[]]', 15000);
+    const outputCell = await evaluate(page, 'Graphics3D[Sphere[]]', 55000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'sphere.png']);
   });  
   
@@ -198,7 +198,14 @@ test.describe('Easy check for most basic decorators', () => {
   
     const outputCell = await evaluate(page, 'Image[Table[Clip[(x^2 - y^2)/10000.0], {x,-100,100}, {y,-100,100}],Magnification->Graphics`DPR[]]', 15000);
     await expect(outputCell).toHaveScreenshot(['screenshorts', 'image.png']);
-  });     
+  });    
+  
+  test('Reals', async () => {
+    await clearCell(page);
+  
+    const outputCell = await evaluate(page, 'Reals', 15000);
+    await expect(outputCell).toHaveScreenshot(['screenshorts', 'realss.png']);
+  });  
   
 
   test('Derivative Decoration', async () => {

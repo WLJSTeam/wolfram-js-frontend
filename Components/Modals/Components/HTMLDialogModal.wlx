@@ -1,0 +1,47 @@
+Window[OptionsPattern[]] := With[{
+    promise = OptionValue["Data"]["Promise"],  
+    Content = OptionValue["Data"]["Content"], 
+    loader = OptionValue["Data"]["LazyLoad"], 
+    client = OptionValue["Data"]["Client"],
+    data = OptionValue["Data"]["Data"]
+},
+    With[{
+        Uid = CreateUUID[]
+    },
+
+      EventHandler[Uid, {
+        "Close" -> Function[Null,
+            EventFire[loader, "Remove", <|"Client" -> client|>];
+        ]
+      }];
+    
+      <div class="relative z-inf" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500 dark:bg-gray-800 dark:bg-opacity-75 bg-opacity-75 transition-opacity"></div>
+         <div class="fixed flex inset-0 z-10 w-screen overflow-y-auto p-4 sm:p-6 md:p-20">
+            <div class="mx-auto my-auto transform divide-y divide-gray-500 divide-opacity-10 overflow-hidden rounded-xl bg-white bg-opacity-60 shadow-2xl ring-1 ring-black ring-opacity-5 backdrop-blur backdrop-filter transition-all dark:bg-gray-700">
+               <Content Client={client} ModalController={Uid} UId={Uid} Data={data} Promise={promise}/>
+            </div>
+         </div>
+      </div>
+    ]
+];
+
+Options[Window] = {"Channel" -> "", "Data" -> <| |>};
+
+SymbolQ = Function[x, MatchQ[x, _Symbol]];
+
+Component[OptionsPattern[]] := With[{Port = OptionValue["Port"], Channel = CreateUUID[], LazyLoad = CreateUUID[], Cli = OptionValue["Client"]}, Module[{loaded = False},
+    EventHandler[Port, {
+        "HTMLWindow" -> Function[data,
+            EventFire[LazyLoad, "Load", Join[data, <|"Client" -> If[SymbolQ[Cli], Global`$Client, Cli], "LazyLoad" -> LazyLoad|>]];
+        ]
+    }];
+
+    <WebUILazyLoad Event={LazyLoad}>
+        <Window Channel={Channel} Data={WebUILazyLoadDataProvided}/>
+    </WebUILazyLoad>
+]];
+
+Options[Component] = {"Port" -> "", "Client" -> "", "ElectronQ" -> False, "Destructor" -> Null}
+
+Component

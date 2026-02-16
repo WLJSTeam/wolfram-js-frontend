@@ -1,0 +1,24 @@
+processRequest = $Options["HandlerFunction"];
+
+Component[OptionsPattern[]] := With[{messager = OptionValue["Messanger"], controls = OptionValue["Controls"], appEvents = OptionValue["AppEvent"], modals = OptionValue["Modals"]},
+    (*/* this uid will be shared with Electron's shortcuts, therefore we use a public Controls pool of events */*)
+    EventHandler[EventClone[controls], {
+        "export-html" -> Function[Null, processRequest[controls, modals, messager, Global`$Client (*`*)]],
+        "archive-files" -> Function[Null, processRequest[controls, modals, messager, Global`$Client (*`*), "SFX"]]
+    }];
+
+    {
+        <button style="-webkit-app-region: no-drag" title="Export notebook" id="sidebar-sharehtml" class="win:autohide win:ml-0 owin:ml-0 linux:ml-0 text-red-400 rounded-md w-6 h-6">
+            <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 mr-auto ml-auto">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M20 5.5C20 7.433 18.433 9 16.5 9C15.598 9 14.7757 8.6588 14.1551 8.09843L8.88613 11.6111C8.96044 11.8949 9 12.1929 9 12.5C9 12.8071 8.96044 13.1051 8.88613 13.3889L13.6039 16.5341C14.2336 15.6081 15.2958 15 16.5 15C18.433 15 20 16.567 20 18.5C20 20.433 18.433 22 16.5 22C14.5788 22 13.0191 20.452 13.0002 18.5353L7.84486 15.0984C7.22429 15.6588 6.40199 16 5.5 16C3.567 16 2 14.433 2 12.5C2 10.567 3.567 9 5.5 9C6.40199 9 7.22429 9.3412 7.84486 9.90157L13.1139 6.3889C13.0396 6.10505 13 5.80715 13 5.5C13 3.567 14.567 2 16.5 2C18.433 2 20 3.567 20 5.5ZM16.5 7C17.3284 7 18 6.32843 18 5.5C18 4.67157 17.3284 4 16.5 4C15.6716 4 15 4.67157 15 5.5C15 6.32843 15.6716 7 16.5 7ZM5.5 14C6.32843 14 7 13.3284 7 12.5C7 11.6716 6.32843 11 5.5 11C4.67157 11 4 11.6716 4 12.5C4 13.3284 4.67157 14 5.5 14ZM18 18.5C18 19.3284 17.3284 20 16.5 20C15.6716 20 15 19.3284 15 18.5C15 17.6716 15.6716 17 16.5 17C17.3284 17 18 17.6716 18 18.5Z" fill="currentColor"/>
+            </svg>
+            
+        </button>  
+    ,
+        <WebUIEventListener Type={"click"} Id={"sidebar-sharehtml"} Pattern={"export-html"} Event={controls} /> 
+    }
+]
+
+Options[Component] = {"Controls"->"", "AppEvent"->"", "Modals"->""}
+
+Component

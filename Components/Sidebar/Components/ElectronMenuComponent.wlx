@@ -1,0 +1,81 @@
+Component[OptionsPattern[]] := With[{
+    NavID = OptionValue["NavID"],
+    Port = OptionValue["Port"]
+},
+    EventHandler[Port, {
+        "Change" -> Function[Null, WebUISubmit[UISidebarRescanContext[], Global`$Client]],
+        "BubbleUp" -> Function[arr, EventFire[Port, FileOperate[arr[[2]]], arr[[1]] ]]
+    }];
+
+    <script type="module">
+        
+        const set = new Set();
+        function makeFileMenu(e) {
+            console.log('makeing context menu');
+            e.preventDefault();
+            const path = this.dataset.path;
+            const res = window.electronAPI.createMenu([
+             {label: 'Rename', ref:'Rename'},
+             {label: 'Duplicate', ref:'Duplicate'},
+             {label: 'Reveal in explorer', ref:'Reveal'},
+             {type: 'separator'},
+             {label: 'Open in new window', ref: 'Window'},
+             {type: 'separator'},
+             {label: 'Delete', ref: 'Delete'}
+            ]);
+            res.then((value) => {
+                if (value) server.io.fire('<Port/>', [path, value], 'BubbleUp');
+            })
+            
+        }
+        function makeDirMenu(e) {
+            console.log('makeing context menu');
+            e.preventDefault();
+            const path = this.dataset.path;
+            const res = window.electronAPI.createMenu([
+             {label: 'Rename', ref:'Rename'},
+             {label: 'Reveal in explorer', ref:'Reveal'},
+             {type: 'separator'},
+             {label: 'Open in new window', ref: 'Window'},
+             {type: 'separator'},
+             {label: 'Delete', ref: 'Delete'}
+            ]);
+
+            res.then((value) => {
+                if (value) server.io.fire('<Port/>', [path, value], 'BubbleUp');
+            })
+        }        
+        core.UISidebarRescanContext = async () => {
+            console.log('Rescan');
+            const doc = document.getElementById('<NavID/>');
+            const dirs = doc.querySelectorAll('[data-type="dir"]');
+            const files = doc.querySelectorAll('[data-type="file"]');
+            console.log([dirs.length, files.length]);
+            for (let i=0; i<dirs.length; ++i) {
+                const d = dirs[i];
+                if (set.has(d)) continue;
+                set.add(d); 
+                d.addEventListener('contextmenu', makeDirMenu)
+                d.addEventListener('dragstart', (event) => {
+                    event.preventDefault();
+                });
+            }
+            for (let i=0; i<files.length; ++i) {
+                const d = files[i];
+                if (set.has(d)) continue;
+                set.add(d); 
+                d.addEventListener('contextmenu', makeFileMenu);
+                d.addEventListener('dragstart', (event) => {
+                  event.preventDefault();
+                  if (!window.electronAPI.startDrag) return;
+                  window.electronAPI.startDrag(decodeURIComponent(d.dataset.path));
+                });
+            }
+        }
+        core.UISidebarRescanContext();
+    </script>
+]
+
+Options[Component] = {"NavID" -> "", "Port" -> ""};
+
+Component

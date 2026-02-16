@@ -1,0 +1,82 @@
+Component[OptionsPattern[]] := With[{
+    Event    = OptionValue["Event"],
+    Controls = OptionValue["Controls"]
+},
+
+<script type="module">
+    const api = window.electronAPI || window.iframeAPI;
+    if (api) {
+        api.listener('abort', () => {
+            server.emitt('<Controls/>', 'True', 'Abort');
+        });
+        api.listener('changekernel', () => {
+            server.emitt('<Controls/>', 'True', 'ChangeKernel');
+        });
+
+        api.listener('save', () => {
+            server.emitt('<Controls/>', 'True', 'Save');
+        });
+
+        api.listener('saveas', (ev, path) => {
+            server.emitt('<Controls/>', `"${path}"`, 'SaveAs');
+        });
+
+        api.listener('reopenasquick', (ev) => {
+            server.emitt('<Controls/>', `True`, 'ReopenAsQuickNote');
+        });
+        
+
+        api.listener('unhideallcells', () => {
+            server.emitt('<Controls/>', 'True', 'UnhideAllCells');
+        });
+
+        api.listener('clearoutputs', () => {
+            server.emitt('<Controls/>', 'True', 'ClearOutputs');
+        });
+
+        api.listener('togglecell', () => {
+            server.emitt('<Controls/>', 'True', 'ToggleFocusedCell');
+        });
+
+        api.listener('deletecell', () => {
+            server.emitt('<Controls/>', 'True', 'DeleteFocusedCell');
+        });
+
+        api.listener('untrashcell', () => {
+            server.emitt('<Controls/>', 'True', 'UntrashCell');
+        });
+    
+        api.listener('evaluateinit', () => {
+            server.emitt('<Controls/>', 'True', 'EvaluateInitCells');
+        });
+
+        api.listener('evaluateall', () => {
+            server.emitt('<Controls/>', 'True', 'EvaluateAllCells');
+        });
+        
+    } else {
+        window.addEventListener("keydown", function (e) {
+            if (e.ctrlKey && e.key == "s" || e.metaKey && e.key == "s") {
+                server.emitt('<Controls/>', 'True', 'Save');
+                e.preventDefault();
+                return false;
+            }
+            if (e.altKey && e.key == "." || e.metaKey && e.key == ".") {
+                server.emitt('<Controls/>', 'True', 'Abort');
+                e.preventDefault();
+                return false;
+            }           
+            
+            if (e.altKey && e.key == "2" || e.metaKey && e.key == "2") {
+                server.emitt('<Controls/>', 'True', 'ToggleFocusedCell');
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+</script>
+];
+
+Options[Component] = {"Controls"->"", "Event"->""};
+
+Component

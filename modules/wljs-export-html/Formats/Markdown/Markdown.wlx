@@ -1,0 +1,134 @@
+
+
+(* /* TODO: Add export to SVG for all figures via frontend */  *) 
+(* /* TODO: Add export to equations */  *) 
+(* /* TODO: Move it to a command line utility */  *) 
+
+
+imageProcessor[i_String, notebook_] := Module[{img, path = StringSplit[i, "/"]},
+  img = {Import[FileNameJoin[{DirectoryName @ notebook["Path"], Drop[path,-1], URLDecode[path // Last]} // Flatten]]} // Flatten // First;
+  StringJoin["data:image/jpeg;base64,", ExportString[img, {"Base64", "JPEG"}, CompressionLevel->0]]
+]
+
+cellProcess[any_, _, _, _, _] := any
+
+cellProcess[data_, "Input", _, _, _] := <|"Data" -> ""|>;
+
+checkLang[".md"] := Null
+checkLang[".slide"] := Null
+checkLang[".js"] := "javascript"
+checkLang[".wlx"] := "jsx"
+checkLang[".html"] := Null
+checkLang[".mermaid"] := "mermaid"
+checkLang[any_] := StringDrop[any, 1];
+
+cellProcess[data_, "Output", "codemirror", _, _] := <|"Data" -> ""|>;
+cellProcess[data_, "Output", _, _, _] := <|"Data" -> ""|>;
+
+cellProcess[data_, "Input", "codemirror", _, _] := <|"Data" -> With[{splitted = StringSplit[data["Data"], "\n"]},
+  If[StringTake[data["Data"], 1] === ".",
+    With[{lang = checkLang[First @ splitted]},
+      If[lang === Null, "",
+        StringRiffle[Flatten @ {StringJoin["```", lang],  Rest[splitted], "```"}, "\n"]
+      ]
+    ]
+  ,
+    If[StringLength[StringTrim[data["Data"]]] === 0, "",
+      StringRiffle[Flatten @ {"```wolfram", StringReplace[data["Data"], RegularExpression["\\(\\*[^\\*]+\\*\\)"] -> ""], "```"}, "\n"]
+    ]
+  ]
+] |>
+
+removeArrows[str_String] := If[StringLength[str] > 1,
+  If[StringTake[str, 1] == ">",
+    StringDrop[str, 1]
+  ,
+    str
+  ]
+,
+  str
+]
+
+cellProcess[data_, "Output", "markdown", notebook_, settings_] := Join[data, <|"Data" -> 
+  If[settings["ExportHTMLImages"] === False,
+    data["Data"] // removeArrows
+  ,
+    StringReplace[data["Data"] // removeArrows, {
+        RegularExpression["!\\[[\\w| |\\d]*\\]\\(([^):]*)\\)"] :> With[{i = imageProcessor["$1", notebook]},
+          StringJoin["![](", StringReplace[i, "\n"->""], ")"]
+        ],
+      
+        RegularExpression["src=\"([^):\"=\\>\\<.]*).(png|jpeg|jpg|ttf|gif|webm|bmp)\""] :> With[{i = imageProcessor[StringJoin["$1", ".", "$2"], notebook]},
+          StringJoin["src=\"", StringReplace[i, "\n"->""], "\""]
+        ]      
+      }
+    ]
+  ]
+|>]
+
+
+cellProcess[data_, "Output", "slide", notebook_, settings_] := Join[data, <|"Data" -> 
+  If[settings["ExportHTMLImages"] === False,
+    data["Data"]
+  ,
+    StringReplace[data["Data"], {
+        RegularExpression["!\\[[\\w| |\\d]*\\]\\(([^):]*)\\)"] :> With[{i = imageProcessor["$1", notebook]},
+          StringJoin["![](", StringReplace[i, "\n"->""], ")"]
+        ],
+
+        RegularExpression["src=\"([^):\"=\\>\\<.]*).(png|jpeg|jpg|ttf|gif|webm|bmp)\""] :> With[{i = imageProcessor[StringJoin["$1", ".", "$2"], notebook]},
+          StringJoin["src=\"", StringReplace[i, "\n"->""], "\""]
+        ]      
+      }
+    ]
+  ]
+|>]
+
+cellProcess[data_, "Output", "html", notebook_, settings_] := Join[data, <|"Data" -> 
+  If[settings["ExportHTMLImages"] === False,
+    data["Data"]
+  ,
+    StringReplace[data["Data"], {
+        RegularExpression["!\\[[\\w| |\\d]*\\]\\(([^):]*)\\)"] :> With[{i = imageProcessor["$1", notebook]},
+          StringJoin["![](", StringReplace[i, "\n"->""], ")"]
+        ],
+
+        RegularExpression["src=\"([^):\"=\\>\\<.]*).(png|jpeg|jpg|ttf|gif|webm|bmp)\""] :> With[{i = imageProcessor[StringJoin["$1", ".", "$2"], notebook]},
+          StringJoin["src=\"", StringReplace[i, "\n"->""], "\""]
+        ]      
+      }
+    ]
+  ]
+|>]
+
+ExportCells[Rule["Notebook", notebook_], Rule["Settings", settings_]] := Module[{},
+  With[{cells = Map[
+      Function[cell,
+          With[{list = #["Hash"] &/@ (cell["Notebook","Cells"])},
+              With[{serialized = cell`Serialize[cell](*`*)},
+                cellProcess[serialized, serialized["Type"], serialized["Display"], notebook, settings]["Data"]
+              ]
+          ]
+      ]   
+    ,    
+        notebook["Cells"]
+    ]
+  },
+    StringRiffle[Select[cells, Function[s, StringLength[s] > 0]], "\n\n"]
+  ]
+];
+
+Component[OptionsPattern[]] := Module[{}, With[{
+  Title = OptionValue["Title"],
+  notebook = OptionValue["Notebook"],
+  nid = OptionValue["Notebook"]["Hash"],
+  settings = OptionValue["Settings"]
+},
+
+
+    <ExportCells Notebook={notebook} Settings={settings}/>
+]]
+
+Options[Component] = {"Title" -> "Example", "Notebook"->"", "Settings"-><||>}
+
+Component

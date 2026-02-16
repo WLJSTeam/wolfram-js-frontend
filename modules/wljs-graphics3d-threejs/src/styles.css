@@ -1,0 +1,139 @@
+.graphics3d-controller {
+    position:absolute;
+    right:0;
+    opacity:0; 
+}
+
+.graphics3d-controller:hover {
+    opacity:1;
+}
+
+.g3d-label {
+    font-size: x-small;
+    color: rgb(28, 30, 33);
+    font-family: system-ui;
+}
+
+.dg.main {
+    color:#777;
+    text-shadow: none;
+    border-radius: 4px;
+    max-width:200px;
+}
+
+
+.dg.main li.cr.function {
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important;
+    
+}
+
+.dg .cr.number input[type=text] {
+        color: #777 !important;
+    text-shadow: none; 
+        font-size:x-small;
+    line-height:0.8rem;
+}
+
+.dg .c input[type=text] {
+    background: none !important;
+        color: #777;
+    text-shadow: none; 
+}
+
+.dg li.folder {
+    list-style: none;
+}
+
+.dg .c select {
+   font-size:x-small;
+    padding:0.1rem;
+    margin-left:1rem;
+}
+
+
+
+.dg.main li.cr.number {
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important;
+    color: #777;
+    text-shadow: none; 
+    
+}
+
+
+.dg.main li.title {
+    background-color: rgb(0 0 0 / 5%) !important;
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    color: #777;
+    text-shadow: none;
+    list-style: none;
+}
+
+.dg.main .close-button.close-bottom {
+    background-color: rgb(0 0 0 / 5%) !important;
+    border-radius: 4px;
+    border-bottom: none;
+    font-weight: 500;
+    color: #777;
+    text-shadow: none;   
+    max-width:200px; 
+}
+
+.dg.main li.cr.string {
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important; 
+    color:#777;
+    text-shadow: none;
+}
+
+.dg.main li.cr.boolean {
+        border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important; 
+    color:#777;
+    text-shadow: none;
+}
+
+.dg.main li.cr.color {
+    font-size:x-small;
+    color: #777;
+    text-shadow: none;
+    
+    border-radius: 4px;
+    border-bottom: none;
+    margin-bottom:0.25rem;
+    padding-top:0.25rem;
+    height:9rem;
+    padding-bottom:0.25rem;
+    background-color: rgb(0 0 0 / 5%) !important;
+    
+}
+
+.dg li {
+    list-style: none;
+}
+
+.dg ul.closed li {
+    display: none;
+}
+
+.dg ul.closed :first-child {
+    display: list-item;
+}
+
+.dg .c input[type=text] {
+    font-size:x-small !important;
+    line-height: 0.25rem !important;
+    color: #777 !important;
+    text-shadow: none !important;
+}

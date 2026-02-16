@@ -1,0 +1,130 @@
+<|"Notebook" -> <|"Controller" -> "3bd5cdb4-77eb-4fc7-9823-4974b031baa5", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$189], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "8fc91f4e-4a6c-423d-b954-29551d2dd092", "Objects" -> <||>, 
+   "Path" -> "/applications/WLJS \
+Notebook.app/Contents/Resources/app/wljs_packages/wljs-snippets/library/escap\
+e.wln", "PublicFields" -> {"Properties"}, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Escape string", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$182]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Usage", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$184]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Escape string\nA helper to escape strings", 
+    "Display" -> "codemirror", "Hash" -> 
+     "d5390221-faf5-4c07-a2ef-a6aa5d73aa94", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "# Escape string\nA helper to escape strings", 
+    "Display" -> "markdown", "Hash" -> 
+     "40afac2a-4beb-468b-9697-605b80256288", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> ".md\n## Usage\nCall this snippet in your notebook. Enter \
+unescaped string to the input box. An escaped string will appear in a new \
+input cell", "Display" -> "codemirror", 
+    "Hash" -> "afef3e5f-86a0-4d57-96a2-12feb32fdb79", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "## Usage\nCall this snippet in your notebook. Enter unescaped \
+string to the input box. An escaped string will appear in a new input cell", 
+    "Display" -> "markdown", "Hash" -> 
+     "0f79b149-0915-4f79-b683-c7510c5234a2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> ".md\n__source code__", "Display" -> "codemirror", 
+    "Hash" -> "ae71ee49-2ff5-48df-8a9a-e0b1edba7fdd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "__source code__", "Display" -> "markdown", 
+    "Hash" -> "a08cbbee-840f-474c-ad27-1d20bcd7cfab", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "Module[{},\n With[{\n   notebook = EvaluationNotebook[], \n   \
+cell = NotebookFocusedCell[]\n  },\n    Then[InputStringAsync[\"Enter \
+unescaped string\", \" \", \"Notebook\"->notebook], Function[res,\n      \
+If[Quiet[TrueQ[StringLength[res] > 0]], \n        \
+NotebookWrite[NotebookLocationSpecifier[cell, \"After\"], ExpressionCell[res, \
+\"Input\"]];\n      ];\n    ]]\n] ];", "Display" -> "codemirror", 
+    "Hash" -> "3bed8a2f-0bf0-45e2-878b-7162f4866a99", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> ".md\n__Icon__", "Display" -> "codemirror", 
+    "Hash" -> "4ae3963a-df93-412b-a9c5-8b885fdb7819", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "__Icon__", "Display" -> "markdown", 
+    "Hash" -> "eed7bfea-ac0b-47f8-a7cf-29a894a0f096", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "icon.wlx\nComponent[OptionsPattern[]] := With[{Title = \
+OptionValue[\"Title\"], Kbd = OptionValue[\"Shortcut\"], UTag = \
+OptionValue[\"Tag\"], Btn = OptionValue[\"Button\"]},\n    <li \
+tabindex=\"-1\" tag=\"{UTag}\" class=\"nooline rounded-sm group flex \
+cursor-default select-none items-center rounded-md px-2 py-1 \
+focus:bg-sys-25\">\n              <svg class=\"h-5 w-5 flex-none \
+text-gray-900  dark:text-gray-400 text-opacity-40\" fill=\"none\" viewBox=\"0 \
+0 24 24\"><path d=\"M16 17C17.6569 17 19 15.6569 19 14V12.0001M19 \
+12.0001V8.59847C19 8.03951 19 7.7596 18.8911 7.5459C18.7952 7.35774 18.6419 \
+7.20487 18.4537 7.10899C18.2398 7 17.9602 7 17.4001 7H15.6001C15.04 7 14.7598 \
+7 14.5459 7.10899C14.3577 7.20487 14.2049 7.35774 14.109 7.5459C14 7.75981 14 \
+8.04005 14 8.6001V10.4001C14 10.9602 14 11.2398 14.109 11.4537C14.2049 \
+11.6419 14.3577 11.7952 14.5459 11.8911C14.7596 12 15.0395 12 15.5985 12L19 \
+12.0001ZM7 17C8.65685 17 10 15.6569 10 14L10 12.0001M10 12.0001V8.59846C10 \
+8.0395 10 7.7596 9.89111 7.5459C9.79524 7.35774 9.64186 7.20487 9.4537 \
+7.10899C9.23979 7 8.96015 7 8.4001 7H6.6001C6.04005 7 5.75981 7 5.5459 \
+7.10899C5.35774 7.20487 5.20487 7.35774 5.10899 7.5459C5 7.75981 5 8.04005 5 \
+8.6001V10.4001C5 10.9602 5 11.2398 5.10899 11.4537C5.20487 11.6419 5.35774 \
+11.7952 5.5459 11.8911C5.7596 12 6.0395 12 6.59845 12L10 12.0001Z\" \
+stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" \
+stroke-linejoin=\"round\"/></svg>\n              <span class=\"ml-3 flex-auto \
+truncate\"><Title/></span><span class=\"ml-3 flex-none text-xs font-semibold \
+text-gray-500\">\n                <kbd class=\"font-sans\"><Kbd/></kbd>\n     \
+           <button class=\"p-0.5 rounded hover:bg-gray-100 \
+dark:hover:bg-gray-200\" btag=\"{Btn}\">\n                  <svg class=\"w-4 \
+h-4 text-gray-400\" viewBox=\"0 0 24 24\" fill=\"none\">\n                    \
+<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M12 2.75C6.89137 2.75 \
+2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 \
+17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 \
+6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 \
+17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 \
+7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 \
+9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 \
+6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 \
+13.3353 11.1354C13.1385 11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 \
+11.6246 12.75 11.7036 12.75 11.75V13C12.75 13.4142 12.4142 13.75 12 \
+13.75C11.5858 13.75 11.25 13.4142 11.25 13V11.75C11.25 11.2441 11.4715 \
+10.8336 11.7266 10.533C11.9786 10.236 12.2929 10.0092 12.5715 9.84439C12.9044 \
+9.64739 13.125 9.28655 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 \
+17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 \
+15.4477 11 16C11 16.5523 11.4477 17 12 17Z\" fill=\"currentColor\"/>\n        \
+          </svg>                  \n                </button>\n              \
+</span>\n    </li>    \n];\n\nOptions[Component] = {\"Title\"->\"Example\", \
+\"Shortcut\"->\"\", \"Tag\"->\"generic\", \"Button\"->Null};\n\nComponent", 
+    "Display" -> "codemirror", "Hash" -> 
+     "dff29174-5792-4e83-84aa-020f9d1868c4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> ".md\n__Exports__", "Display" -> "codemirror", 
+    "Hash" -> "e5c53f3a-4376-4b98-89b3-a8d3ac195bc3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>, 
+   <|"Data" -> "__Exports__", "Display" -> "markdown", 
+    "Hash" -> "4cfd5492-077b-451f-8cd3-ba1113a95bf8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "aab4ba5d-f577-48ac-be46-ab4daa1eb42d"|>}, 
+ "serializer" -> "jsfn4"|>

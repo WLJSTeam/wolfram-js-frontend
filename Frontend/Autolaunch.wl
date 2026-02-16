@@ -1,11 +1,11 @@
 BeginPackage["CoffeeLiqueur`Notebook`KernelAutolaunch`", {
-  "JerryI`Misc`Events`",
-  "JerryI`Misc`Events`Promise`",
-  "KirillBelov`CSockets`",
-  "KirillBelov`Internal`",
-  "KirillBelov`TCPServer`",
-  "KirillBelov`WebSocketHandler`",
-  "JerryI`Misc`WLJS`Transport`"
+  "CoffeeLiqueur`Misc`Events`",
+  "CoffeeLiqueur`Misc`Events`Promise`",
+  "CoffeeLiqueur`CSockets`",
+  "CoffeeLiqueur`Internal`",
+  "CoffeeLiqueur`TCPServer`",
+  "CoffeeLiqueur`WebSocketHandler`",
+  "CoffeeLiqueur`Misc`WLJS`Transport`"
 }];
 
 

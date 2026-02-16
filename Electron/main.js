@@ -1,6 +1,11 @@
 //@ts-check
-const { session, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme } = require('electron')
+const { session, nativeImage, app, Tray, Menu, BrowserWindow, dialog, ipcMain, nativeTheme, systemPreferences } = require('electron')
 const { screen, globalShortcut} = require('electron/main')
+
+
+const pdfjsLib = require("./pdfjs/pdf.mjs");
+
+const { pathToFileURL } = require("url")
 
 const path = require('path')
 const { platform } = require('node:process');
@@ -38,6 +43,24 @@ const isWindows = process.platform === 'win32'
 const isMac = process.platform === 'darwin'
 
 
+
+if (!isWindows && !isMac) {
+   // app.commandLine.appendSwitch('gtk-version', '3')
+}
+
+class Deferred {
+  promise = {}
+  reject = {}
+  resolve = {}          
+
+  constructor() {
+    this.promise = new Promise((resolve, reject)=> {
+      this.reject = reject;
+      this.resolve = resolve;
+    });
+  }
+} 
+
 let trackpadUtils = {
     onForceClick: () => {},
     triggerFeedback: () => {}
@@ -45,17 +68,21 @@ let trackpadUtils = {
 if (isMac) trackpadUtils = require("electron-trackpad-utils");
 
 //all routes to important folders
-let installationFolder;
+let appDataFolder;
 
 //check if it is working from the repo folder of not
 if (app.isPackaged) {
-    installationFolder = path.join(app.getPath('appData'), 'wljs-notebook');
+    appDataFolder = path.join(app.getPath('appData'), 'wljs-notebook');
 } else {
-    installationFolder = app.getAppPath();
+    appDataFolder = app.getAppPath();
 }
 
-const runPath = path.join(installationFolder, 'Scripts', 'start.wls');
-const updatePath = path.join(installationFolder, 'Scripts', 'update.wls');
+let rootAppFolder = app.getAppPath();
+
+const userExtensions = path.join(app.getPath('documents'), 'WLJS Notebooks', 'Extensions');
+
+const runPath = path.join(rootAppFolder, 'Scripts', 'start.wls');
+const updatePath = path.join(rootAppFolder, 'Scripts', 'update.wls');
 const workingDir = app.getPath('home');
 
 trackpadUtils.onForceClick(() => {
@@ -63,9 +90,19 @@ trackpadUtils.onForceClick(() => {
 });
 
 
-const { Canvas, createCanvas, Image, ImageData } = require("@napi-rs/canvas")
-const pdfjsLib = require("./pdfjs/pdf");
+const { createCanvas } = require("@napi-rs/canvas")
+
+
+
+
+
+
 const { PDFDocument, breakTextIntoLines } = require('pdf-lib');
+
+
+
+
+
 //pdf-tools
 
 const NodeCanvasFactory = {
@@ -87,7 +124,7 @@ const NodeCanvasFactory = {
   };
 
 async function cropPdfBuffer(inputBuffer, margin = 10, pageNumber = 1) {
-    const bbox = await getVisualBoundingBox(inputBuffer, pageNumber);
+    const bbox = await getVisualBoundingBox(new Uint8Array(inputBuffer), pageNumber);
   
     const pdfDoc = await PDFDocument.load(inputBuffer);
     const page = pdfDoc.getPages()[pageNumber - 1];
@@ -104,8 +141,15 @@ async function cropPdfBuffer(inputBuffer, margin = 10, pageNumber = 1) {
     return await pdfDoc.save();
   }
   
+  //const pdfjsLib = require("./pdfjs/pdf");
+  //const pdfjsLib = {};
+
+
+
   async function getVisualBoundingBox(pdfBuffer, pageNumber = 1, scale = 2.0) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = require.resolve('./pdfjs/pdf.worker.js');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = pathToFileURL(
+        path.join(__dirname, "pdfjs", "pdf.worker.mjs")
+    ).href;
     const loadingTask = pdfjsLib.getDocument({ data: pdfBuffer });
     const pdf = await loadingTask.promise;
   
@@ -216,7 +260,7 @@ function check_cli_installed(log_window) {
         return;
     }
 
-    fs.exists(path.join(installationFolder, '.cli_i'), (existsQ) => {
+    fs.exists(path.join(appDataFolder, '.cli_i'), (existsQ) => {
         if (existsQ) {
             console.log('Cli is installed');
             return;
@@ -226,7 +270,7 @@ function check_cli_installed(log_window) {
 
         console.log('Cli is not installed');
 
-        if (fs.existsSync(path.join(installationFolder, '.nocli_i'))) {
+        if (fs.existsSync(path.join(appDataFolder, '.nocli_i'))) {
             console.log('skipped because of a user');
             return;
         }
@@ -248,7 +292,7 @@ function check_cli_installed(log_window) {
                     if (error) throw error;
                     console.log('stdout: ' + stdout);
 
-                    fs.writeFile(path.join(installationFolder, '.cli_i'), 'Nothing to see here', function(err) {
+                    fs.writeFile(path.join(appDataFolder, '.cli_i'), 'Nothing to see here', function(err) {
                         if (err) throw err;
                     });                    
                   }
@@ -264,7 +308,7 @@ function check_cli_installed(log_window) {
             if (answer) {
                 install()
             } else {
-                fs.writeFile(path.join(installationFolder, '.nocli_i'), 'Nothing to see here', function(err) {
+                fs.writeFile(path.join(appDataFolder, '.nocli_i'), 'Nothing to see here', function(err) {
                     if (err) throw err;
                 });
             }
@@ -303,12 +347,9 @@ pluginsMenu.items = {};
 pluginsMenu.fetch = () => {
     pluginsMenu.items = {kernel: [], edit: [], view: [], file: [], misc: []}
 
-    if (!fs.existsSync(path.join(installationFolder, 'wljs_packages'))) return;
-
     
 
-    fs.readdirSync(path.join(installationFolder, 'wljs_packages'), { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
-        const p = path.join(installationFolder, 'wljs_packages', item.name, 'package.json');
+    const appendItem = (item, p) => {
         if (fs.existsSync(p)) {
             const package = JSON.parse(fs.readFileSync(p, 'utf8'));
             if (package["wljs-meta"]["menu"]) {
@@ -324,6 +365,12 @@ pluginsMenu.fetch = () => {
                     if (mi["accelerator"]) {
                         mitem.accelerator = isMac ? mi["accelerator"][0] : mi["accelerator"][1];
                     }
+                    if (package["wljs-meta"]["priority"]) {
+                        mitem.priority = package["wljs-meta"]["priority"];
+                    } else {
+                        mitem.priority = 1;
+                    }
+
                     let section = mi["section"];
                     if (!section) section =  "misc";
 
@@ -348,15 +395,30 @@ pluginsMenu.fetch = () => {
                         contextMenuExtensions.push(mitem);
                 });
             }
-        }
-    })
+        }    
+    }    
+    const defaultPath = path.join(rootAppFolder, 'modules');
+
+    if (!fs.existsSync(defaultPath)) return;
+
+    fs.readdirSync(defaultPath, { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
+        const p = path.join(defaultPath, item.name, 'package.json');
+        appendItem(item, p);
+    });
+
+    if (!fs.existsSync(userExtensions)) return;
+
+    fs.readdirSync(userExtensions, { withFileTypes: true }).filter(item => item.isDirectory()).map(item => {
+        const p = path.join(userExtensions, item.name, 'package.json');
+        appendItem(item, p);
+    });    
 }
 
 
 //load shortcuts
 let shortcuts_table = require("./shortcuts.json");
-if (fs.existsSync(path.join(installationFolder, "Electron", "shortcuts.json"))) {
-    shortcuts_table = JSON.parse(fs.readFileSync(path.join(installationFolder, "Electron", "shortcuts.json"), 'utf8'));
+if (fs.existsSync(path.join(appDataFolder, "Electron", "shortcuts.json"))) {
+    shortcuts_table = JSON.parse(fs.readFileSync(path.join(appDataFolder, "Electron", "shortcuts.json"), 'utf8'));
 } 
 
 const { spawnSync, spawn } = require('child_process');
@@ -372,7 +434,8 @@ const shortcut = (id) => {
 
 const callFakeMenu = {}
 
-const buildMenu = (opts) => {
+let buildMenu = {};
+buildMenu = (opts) => {
     //default options
     const defaults = {
         footermenu: [],
@@ -445,7 +508,7 @@ const buildMenu = (opts) => {
                         windows.focused.call('newnotebook', true);
                     }
                 },              
-                ...options.plugins.file,
+                ...(options.plugins.file.sort((a, b)=> (a.priority - b.priority))),
                 { type: 'separator' },
                 {
                     label: 'Prompt call',
@@ -507,6 +570,15 @@ const buildMenu = (opts) => {
                         });
                     }
                 },
+                { type: 'separator' },
+                {
+                    label: 'Print',
+                    click: async(ev) => {
+                
+                        windows.focused.call('print', true);
+                        //windows.focused.win.webContents.print({silent: false, printBackground: false, deviceName: ''}, console.log);
+                    }
+                },
                 /*{ type: 'separator' },
                 {
                     label: 'Share',
@@ -545,21 +617,6 @@ const buildMenu = (opts) => {
                         click: (ev) => {
                             server.browserMode = true;
                             shell.openExternal(windows.focused.win.webContents.getURL());
-                        }
-                    },
-                    { type: 'separator' },
-                    {
-                        label: 'Locate AppData',
-                        click: async(ev) => {
-                            console.log(ev);
-                            shell.showItemInFolder(installationFolder);
-                        }
-                    },
-                    {
-                        label: 'Check updates',
-                        click: async(ev) => {
-                            console.log(ev);
-                            windows.focused.call('checkupdates', true);
                         }
                     },
                     ...(isMac ? [{ type: 'separator' }] : [
@@ -623,7 +680,7 @@ const buildMenu = (opts) => {
                     }
                 },
                 { type: 'separator' },
-                ...options.plugins.edit,
+                ...(options.plugins.edit.sort((a, b)=> (b.priority - a.priority))),
                 ...(isMac ? [
                     { role: 'pasteAndMatchStyle' },
                     { role: 'delete' },
@@ -664,7 +721,7 @@ const buildMenu = (opts) => {
                         }
                     }
                 },
-                ...options.plugins.view,
+                ...(options.plugins.view.sort((a, b)=> (a.priority - b.priority))),
                 { type: 'separator' },
                 { role: 'resetZoom' },
                 { role: 'zoomIn' },
@@ -697,6 +754,13 @@ const buildMenu = (opts) => {
                         windows.focused.call('evaluateinit', true);
                     }
                 },
+                {
+                    label: 'Evaluate All Cells',
+                    click: async(ev) => {
+                        console.log(ev);
+                        windows.focused.call('evaluateall', true);
+                    }
+                },                
                 { type: 'separator' },
                 {
                     label: 'Clear Output Cells',
@@ -706,6 +770,13 @@ const buildMenu = (opts) => {
                         windows.focused.call('clearoutputs', true);
                     }
                 },
+                {
+                    label: 'Trashed Cells',
+                    click: async(ev) => {
+                        console.log(ev);
+                        windows.focused.call('untrashcell', true);
+                    }
+                },                
 
                 {
                     label: 'Change Kernel',
@@ -715,7 +786,7 @@ const buildMenu = (opts) => {
                     }
                 },
 
-                ...options.plugins.kernel,
+                ...(options.plugins.kernel.sort((a, b)=> (a.priority - b.priority))),
 
                 { type: 'separator' },
 
@@ -759,22 +830,58 @@ const buildMenu = (opts) => {
 
                 { type: 'separator' },
 
-                ...options.plugins.misc,
-                {
-                    role: 'help',
-                    label: 'Acknowledgments',
-                    click: async() => {
-                        //const { shell } = require('electron')
-                        windows.focused.call('acknowledgments', true);
-                        //create_window({url: server.url.default('local') + `/sponsors`, title: 'Acknowledgments'});
-                    }
-                }                
+                ...(options.plugins.misc.sort((a, b)=> (a.priority - b.priority)))               
             ]
         }
     ];
 
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    const noMenu = [
+        // { role: 'appMenu' }
+        ...(isMac ? [{
+            label: app.name,
+            submenu: [
+                { role: 'about' },
+                { type: 'separator' },
+                ...(options.footermenu),
+                { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
+                    console.warn('Quit dialog');
+                    dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                        if (res.response == 0) {
+                            app.quit();
+                        }
+                    })
+                    
+                }}
+            ]
+        }] : []),
+        // { role: 'fileMenu' }
+        ...(isMac ? [] : [{
+            label: 'File',
+            submenu: [
+                    ...(isMac ? [{ type: 'separator' }] : [
+                        { label: 'Close app', accelerator: shortcut('quit'), click: (ev) => {
+                            console.warn('Quit dialog');
+                            dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
+                                if (res.response == 0) {
+                                    app.quit();
+                                }
+                            })
+                    
+                        }}
+                    ])
+            ]
+        }]),
+
+        {
+            label: 'Window',
+            submenu: [
+                { role: 'toggleDevTools' }
+            ]
+        }        
+    ];
+
+    buildMenu.small = Menu.buildFromTemplate(noMenu);
+    buildMenu.main  = Menu.buildFromTemplate(template);
 }
 
 callFakeMenu["openFile"] = async () => {
@@ -807,6 +914,12 @@ callFakeMenu["openFolder"] = async () => {
 callFakeMenu["Save"] = async () => {
     windows.focused.call('save', true);
 }
+
+callFakeMenu["print"] = async (ev) => {
+    windows.focused.call('print', true);
+    //windows.focused.call('print', true);
+}
+
 
 callFakeMenu["SaveAs"] = async () => {
     const promise = dialog.showSaveDialog({ title: 'Save as', properties: ['createDirectory'], filters: [
@@ -853,6 +966,11 @@ callFakeMenu["abort"] = () => {
     windows.focused.call('abort', true);
 }
 
+
+callFakeMenu["untrashcell"] = () => {
+    windows.focused.call('untrashcell', true);
+}
+
 callFakeMenu["clearoutputs"] = () => {
     windows.focused.call('clearoutputs', true);
 }
@@ -863,6 +981,10 @@ callFakeMenu["togglecells"] = () => {
 
 callFakeMenu["evalInit"] = () => {
     windows.focused.call('evaluateinit', true);
+}
+
+callFakeMenu["evalAll"] = () => {
+    windows.focused.call('evaluateall', true);
 }
 
 callFakeMenu["restartkernels"] = () => {
@@ -881,6 +1003,10 @@ callFakeMenu["zoomIn"] = () => {
     windows.focused.call('zoomIn', true);
 }
 
+callFakeMenu["devTools"] = () => {
+    windows.focused.win.webContents.openDevTools()
+}
+
 callFakeMenu["zoomOut"] = () => {
     windows.focused.call('zoomOut', true);
 }
@@ -891,7 +1017,7 @@ callFakeMenu["locateExamples"] = async(ev) => {
 
 callFakeMenu["locateAppData"] = async(ev) => {
     console.log(ev);
-    shell.showItemInFolder(installationFolder);
+    shell.showItemInFolder(appDataFolder);
 }
 
 callFakeMenu["reload"] = () => {
@@ -912,9 +1038,6 @@ callFakeMenu["quickmode"] = () => {
     windows.focused.call('reopenasquick', true);
 }
 
-callFakeMenu["checkupdates"] = () => {
-    windows.focused.call('checkupdates', true);
-}
 
 callFakeMenu["exit"] = () => {
     dialog.showMessageBox({message: 'Are you sure you want to quit?', type:'question', buttons:['Yes', 'No']}).then((res) => {
@@ -924,89 +1047,115 @@ callFakeMenu["exit"] = () => {
                     })
 }
 
-const devicesHID = {};
-
 let deviceDialogOpen = false;
+// Track callbacks we've already used so we never call the same Electron callback twice
+const usedHIDCallbacks = new WeakSet();
 
 const createHIDDialog = (deviceList, cbk) => {
-    if (deviceDialogOpen) return;
+    // If Electron passes us a callback we've already used, never touch it again.
+    if (usedHIDCallbacks.has(cbk)) {
+        console.log('HID: callback already used, ignoring this event');
+        return;
+    }
+
+    // If a dialog is already open, ignore new events and let the existing
+    // dialog eventually resolve its callback.
+    if (deviceDialogOpen) {
+        console.log('HID: dialog already open, ignoring this event');
+        return;
+    }
 
     deviceDialogOpen = true;
     let done = false;
 
-    console.log('HID Dialog!');
-
-    const win = new BrowserWindow({
-        vibrancy: "sidebar", // in my case...
-        frame: true,
-        show: false,
-        titleBarStyle: 'hiddenInset',
-        width: 400,
-        height: 300,
-        resizable: false,
-        title: 'Device selector',
-        webPreferences: {
-            preload: path.join(__dirname, 'preload_device.js'),
-            webSecurity: false,
-            //nodeIntegration: true
-        }
-    });
-
-    win.loadFile(path.join(__dirname, 'device.html'));
-
-    win.on('ready-to-show', () => {
-
-        const list = deviceList.map((e) => {
-            return {name: e.name || e.deviceName, id: e.deviceId}
-        });
-        console.log(deviceList);
-
-
-        win.webContents.send('load', {
-            list: list
-        });
-        
-        ipcMain.once('choise_hid', (e, id) => {
-            done = true;
-            cbk(id);
-            win.close();
-        });
-
-        win.show();
-    });
-
-    win.on('close', () => {
+    const finish = (id) => {
+        if (done) return; // never call the same callback more than once
+        done = true;
         deviceDialogOpen = false;
-        if (done) return;
-        cbk('');
+
+        if (!usedHIDCallbacks.has(cbk)) {
+            usedHIDCallbacks.add(cbk);
+        }
+
+        try {
+            cbk(id);
+        } catch (err) {
+            console.error('Error in HID callback:', err);
+        }
+    };
+
+    console.log('HID Dialog (dialog.showMessageBox)!');
+
+    const list = (deviceList || []).map((e) => ({
+        name: e.name || e.deviceName || 'Unknown device',
+        id: e.deviceId
+    }));
+
+    // No devices -> show info dialog, then "cancel" selection
+    if (!list.length) {
+        dialog.showMessageBox({
+            type: 'info',
+            buttons: ['OK'],
+            defaultId: 0,
+            title: 'Device selector',
+            message: 'No devices available',
+            detail: 'No HID-compatible devices are currently available. Please connect a device and try again.',
+            noLink: true,
+            normalizeAccessKeys: true
+        })
+        .finally(() => {
+            finish(''); // signal "no selection"
+        });
+
+        return;
+    }
+
+    const buttons = list.map(d => d.name);
+    buttons.push('Cancel');
+    const cancelId = buttons.length - 1;
+
+    dialog.showMessageBox({
+        type: 'question',
+        buttons,
+        cancelId,
+        defaultId: 0,
+        title: 'Device selector',
+        message: 'Select a HID device',
+        detail: 'Choose the device you want to use from the list below.',
+        noLink: true,
+        normalizeAccessKeys: true
     })
-}
+    .then(({ response }) => {
+        if (response === cancelId) {
+            finish('');
+        } else {
+            const selected = list[response];
+            finish(selected ? selected.id : '');
+        }
+    })
+    .catch((err) => {
+        console.error('Error showing HID selection dialog:', err);
+        finish('');
+    });
+};
 
 /* permissions for the main window, special headers */
 const setHID = (/** @type {BrowserWindow} */ mainWindow) => {
 
 
     mainWindow.webContents.on('select-bluetooth-device', (event, deviceList, callback) => {
-        console.log('Select HID');
-        
+        console.log('Select HID (bluetooth)');
         event.preventDefault();
-        //select bluetooth
-        console.log('select bluetooth');
         createHIDDialog(deviceList, callback);
         return false;
     });
-
+    
     mainWindow.webContents.session.on('select-hid-device', (event, details, callback) => {
-        // Add events to handle devices being added or removed before the callback on
-        // `select-hid-device` is called.
         console.log('Select HID');
-
         event.preventDefault();
-
-        console.log('select hid');
         createHIDDialog(details.deviceList, callback);
         return false;
-    })
+    });
 
     mainWindow.webContents.session.setPermissionCheckHandler((webContents, permission, requestingOrigin, details) => {
         return true
@@ -1157,15 +1306,21 @@ const windows = {
                 height: 400,
                 resizable: false,
                 title: 'Launcher',
+                contextMenu: true,
+                
                 webPreferences: {
                     preload: path.join(__dirname, 'preload_log.js'),
                     webSecurity: false,
+                    contextMenu: true
                     //nodeIntegration: true
                 }
              });
             } else if (isWindows) {
+                let mica = server.frontend.WindowsBackgroundMaterial || 'tabbed';
+                if (server.frontend.WindowsLegacy) mica = false;
+
                 win = new BrowserWindow({
-                    vibrancy: "sidebar", // in my case...
+                    backgroundMaterial: mica, // in my case...
                     frame: true,
                     autoHideMenuBar: true,
                     titleBarStyle: 'hidden',
@@ -1178,10 +1333,13 @@ const windows = {
                     height: 400,
                     resizable: false,
                     title: 'Launcher',
+                    maximizable: false,
+                    contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
                         //webSecurity: false,
-                        nodeIntegration: true
+                        nodeIntegration: true,
+                        contextMenu: true
                     }
                  });
 
@@ -1190,22 +1348,38 @@ const windows = {
 
             } else {
                 win = new BrowserWindow({
-                    vibrancy: "sidebar", // in my case...
                     frame: true,
+                    autoHideMenuBar: true,
+                    transparent: false,
+                    titleBarStyle: 'hidden',
+                    titleBarOverlay: {
+                        color: 'rgba(255, 255, 255, 0.0)',
+                        symbolColor: 'rgba(128, 128, 128, 1.0)'
+                    },
                     autoHideMenuBar: true,
                     width: 600,
                     height: 400,
                     resizable: false,
                     title: 'Launcher',
+                    maximizable: false,
+                    contextMenu: true,
                     webPreferences: {
                         preload: path.join(__dirname, 'preload_log.js'),
                         //webSecurity: false,
-                        nodeIntegration: true
-                    },
-
-                    icon: path.join(__dirname, "build", "512x512.png")
+                        nodeIntegration: true,
+                        contextMenu: true
+                    }
                  });                
             }
+
+            contextMenu({
+                window: win,
+                menu: (actions, props, browserWindow, dictionarySuggestions) => [
+                    actions.cut(),
+                    actions.copy(),
+                    actions.paste()
+                ]
+            });            
 
             win.webContents.setWindowOpenHandler((details) => {
                 shell.openExternal(details.url); // Open URL in user's browser.
@@ -1223,6 +1397,24 @@ const windows = {
                 win.loadFile(path.join(__dirname, 'log_padded.html'));
             }
             
+
+            if ((!isMac && !isWindows) || (isWindows && (!IS_WINDOWS_11 || server.frontend.WindowsLegacy))) {
+                                const checkTheme = () => {
+                    if (!nativeTheme.shouldUseDarkColors) {
+                        win.setBackgroundColor("#eeeeee");
+                        //titleBarOverlay
+                    } else {
+                        win.setBackgroundColor("#212731");
+                    }
+                }
+
+                nativeTheme.on("updated", checkTheme);
+                win.on('closed', () => {
+                    nativeTheme.removeListener("updated", checkTheme);
+                });
+
+                checkTheme();
+            }
 
             windows.log.win = win;
             this.aliveQ = true;
@@ -1289,16 +1481,6 @@ const windows = {
     }
 };
 
-const exportImageBuffer = async (buffer, format, pp, frames) => {
-    const len = Math.min(buffer.length, frames);
-    for (let i=0; i<len; ++i) {
-        const frame = buffer.pop();
-        const p = path.join(pp, String(frame[0]) + "." + format);
-        fs.writeFileSync(p, frame[1]);
-        console.log(p);
-    }
-}
-
 function ensureDirectoryExistence(filePath) {
     var dirname = path.dirname(filePath);
     if (fs.existsSync(dirname)) {
@@ -1309,7 +1491,7 @@ function ensureDirectoryExistence(filePath) {
   }
 
 const dumpLogs = (cbk) => {
-    const p = path.join(installationFolder, 'Debug', 'System.log');
+    const p = path.join(appDataFolder, 'Debug', 'System.log');
     ensureDirectoryExistence(p);
     fs.writeFile(p, windows.log.dump.join('\r\n'), function(err) {
         if (err) throw err;
@@ -1323,8 +1505,8 @@ const dumpLogs = (cbk) => {
 }
 
 const read_wl_settings = () => {
-    if (!fs.existsSync(path.join(installationFolder, '_settings.wl'))) return;
-    const file = fs.readFileSync(path.join(installationFolder, '_settings.wl'), 'utf8');
+    if (!fs.existsSync(path.join(appDataFolder, '_settings.wl'))) return;
+    const file = fs.readFileSync(path.join(appDataFolder, '_settings.wl'), 'utf8');
     console.log(file);
 
     const r = new RegExp(/("\w*") -> *\n* *("?[^"|>,]*"?)/gm);
@@ -1370,8 +1552,11 @@ const closing_handler = (event, id) => {
             return; 
         }
 
-        blocked_windows[id].window.webContents.send('confirm', {message: blocked_windows[id].message, uid: uid});
+        const res = dialog.showMessageBox({message: blocked_windows[id].message, buttons: ['Cancel', 'Close'],  noLink:true, type:'question'});
         
+        res.then((r) => {
+            blocked_windows_messages[uid](r.response == 1);
+        });
 
         event.preventDefault();
         return false;
@@ -1389,7 +1574,14 @@ function parseWindowFeatures(features) {
     );
 }
 
+
+
 function create_window(opts, cbk = () => {}) {
+    if (buildMenu.main) {
+        Menu.setApplicationMenu(buildMenu.main);
+        buildMenu.main = undefined
+    }
+
         //default options
         const defaults = {
             title: 'Notebook',
@@ -1408,23 +1600,31 @@ function create_window(opts, cbk = () => {}) {
         options.minWidth = 576;
         if (!isMac) {
             options.minWidth = 700;
-        }        
+        }       
+        
+        if (isWindows) {
+            options.disallowFullscreen = true;
+            
+        }
 
         if ((new RegExp(/gptchat/)).exec(options.url)) {
             options.minWidth = 200;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
 
         if ((new RegExp(/docFind/)).exec(options.url)) {
             options.width = options.minWidth;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
 
         if ((new RegExp(/settings/)).exec(options.url)) {
             options.linuxMenuBar = false;
-            options.contextMenu = false;
+            options.contextMenu = true;
+            options.override.maximizable = false;
         }
         
 
@@ -1432,6 +1632,7 @@ function create_window(opts, cbk = () => {}) {
             options.height = 310;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = false;
         }
 
         if (new RegExp(/window/).exec(options.url)) {
@@ -1440,6 +1641,9 @@ function create_window(opts, cbk = () => {}) {
             options.height = 500;
             options.linuxMenuBar = false;
             options.contextMenu = false;
+            options.override.maximizable = true;
+            options.disallowFullscreen = false;
+            //options.override.fullScreenable = true;
         }        
         
 
@@ -1464,6 +1668,7 @@ function create_window(opts, cbk = () => {}) {
             options.override.titleBarOverlay = undefined;
             options.override.vibrancy = undefined;
             options.override.backgroundMaterial = false; 
+            options.override.maximizable = false;
         }
 
         let win;
@@ -1565,13 +1770,14 @@ function create_window(opts, cbk = () => {}) {
                 //win.setRoundedCorner();
             }*/
             if (!options.overlay) {
+
                 if (!IS_WINDOWS_11 || server.frontend.WindowsLegacy) {
                 const checkTheme = () => {
                     if (!nativeTheme.shouldUseDarkColors) {
-                        win.setBackgroundColor("#fff");
+                        win.setBackgroundColor("#eeeeee");
                         //titleBarOverlay
                     } else {
-                        win.setBackgroundColor("#000");
+                        win.setBackgroundColor("#212731");
                     }
                 }
 
@@ -1585,7 +1791,7 @@ function create_window(opts, cbk = () => {}) {
                 //a bug with maximizing the window
                 //https://github.com/electron/electron/issues/38743
 
-                win.once('maximize', () => {
+                /*win.once('maximize', () => {
                     const checkTheme = () => {
                         if (!nativeTheme.shouldUseDarkColors) {
                             win.setBackgroundColor("#fff");
@@ -1601,7 +1807,7 @@ function create_window(opts, cbk = () => {}) {
                     });
 
                     checkTheme();
-                });
+                });*/
 
 
 
@@ -1611,9 +1817,15 @@ function create_window(opts, cbk = () => {}) {
         } else {
             win = new BrowserWindow({
                 frame: true,
-                autoHideMenuBar: !(options.linuxMenuBar),
+                autoHideMenuBar: true,
+                titleBarStyle: 'hidden',
+                titleBarOverlay: {
+                  color: 'rgba(255, 255, 255, 0.0)',
+                  symbolColor: 'rgba(128, 128, 128, 1.0)'
+                },
                 width: Math.round(options.width),
                 height: Math.round(options.height),
+                
                 minWidth: Math.round(options.minWidth),
                 title: options.title,
                 //transparent:true,
@@ -1623,9 +1835,56 @@ function create_window(opts, cbk = () => {}) {
                 webPreferences: {
                     preload: path.join(__dirname, 'preload_main.js')
                 },
-                ...options.override,
-                icon: path.join(__dirname, "build", "512x512.png")
+                ...options.override
+
             });
+
+
+            if (!options.overlay) {
+
+                if (true) {
+                const checkTheme = () => {
+                    if (!nativeTheme.shouldUseDarkColors) {
+                        win.setBackgroundColor("#eeeeee");
+                        //titleBarOverlay
+                    } else {
+                        win.setBackgroundColor("#212731");
+                    }
+                }
+
+                nativeTheme.on("updated", checkTheme);
+                win.on('closed', () => {
+                    nativeTheme.removeListener("updated", checkTheme);
+                });
+
+                checkTheme();
+                } else {
+                //a bug with maximizing the window
+                //https://github.com/electron/electron/issues/38743
+
+                /*win.once('maximize', () => {
+                    const checkTheme = () => {
+                        if (!nativeTheme.shouldUseDarkColors) {
+                            win.setBackgroundColor("#fff");
+                            //titleBarOverlay
+                        } else {
+                            win.setBackgroundColor("#000");
+                        }
+                    }
+
+                    nativeTheme.on("updated", checkTheme);
+                    win.on('closed', () => {
+                        nativeTheme.removeListener("updated", checkTheme);
+                    });
+
+                    checkTheme();
+                });*/
+
+
+
+                }
+            }
+
         }
 
         if (options.overlay) {
@@ -1634,7 +1893,7 @@ function create_window(opts, cbk = () => {}) {
             })
         }
 
-        if (options.features) {
+        if (options.features ) {
             if (options.features.top || options.features.right || options.features.left || options.features.bottom) {
                 const pos = options.parent.getPosition();
                 pos[0] = pos[0] + (options.features.right || 0) - (options.features.left || 0);
@@ -1709,8 +1968,7 @@ function create_window(opts, cbk = () => {}) {
                     actions.cut(),
                     actions.copy(),
                     actions.paste(),
-                    actions.separator(),
-                    actions.inspect()
+                    ...(server.frontend.ExpertMode ? [actions.separator(), actions.inspect()] : [])
                 ]
             });
         }
@@ -2008,8 +2266,8 @@ if (process.defaultApp) {
 
 //reset HTTP cache in the browser if an update flag was detected (created by WL)
 const checkCacheReset = (cbk) => {
-    if (fs.existsSync(path.join(installationFolder, '.wasupdated'))) {
-        fs.unlinkSync(path.join(installationFolder, '.wasupdated'));
+    if (fs.existsSync(path.join(appDataFolder, '.wasupdated'))) {
+        fs.unlinkSync(path.join(appDataFolder, '.wasupdated'));
         session.defaultSession.clearStorageData();
         session.defaultSession.clearCache();
 
@@ -2052,16 +2310,16 @@ const powerSaver = () => {
 
 const os = require('node:os');
 
-
+const draggingIcon = nativeImage.createFromPath(path.join(__dirname, 'build', 'file', 'File-512x512.png'));
 
 /* App Ready */
 
 app.whenReady().then(() => {
     if (!isMac) {
         if (!isWindows) {
-            tray = new Tray(path.join(__dirname, 'build', '512x512.png'));
+            tray = new Tray(path.join(__dirname, 'build', 'icon.png'));
         } else {
-            tray = new Tray(path.join(__dirname, 'build', '256x256_new.ico'));
+            tray = new Tray(path.join(__dirname, 'build', 'icon.ico'));
         }
         //console.log(path.join(__dirname, 'build', '256x256_new.ico'));
         tray.setToolTip('Sorry, I am buzy');
@@ -2104,11 +2362,18 @@ app.whenReady().then(() => {
 
     pluginsMenu.fetch();
     buildMenu({plugins: pluginsMenu.items});
+    Menu.setApplicationMenu(buildMenu.small);
+    
 
 
     powerSaver();
 
-
+    ipcMain.on('ondragstart', (event, filePath) => {
+      event.sender.startDrag({
+        file: filePath,
+        icon: draggingIcon
+      })
+    });
 
     ipcMain.on('debug', () => {
         server.debug = true;
@@ -2128,92 +2393,7 @@ app.whenReady().then(() => {
     windows.log.construct((log_window) => {
         windows.log.version(app.getVersion());
         
-        ipcMain.on('reinstall', () => {
-            reinstall((state) => {
-                if (state) {
-                    server.browserMode = false; 
-                    server.frontend.RunInTray = false;
-                    app.relaunch();
-                    app.quit();
-                }
-            }, log_window);
-        });
-
-        ipcMain.on('update', () => {
-            windows.log.info('Update mode');
-            windows.log.clear();
-            windows.log.print('Shutting down a server...');
-
-            try {
-                server.shutdown(true);
-            } catch(err) {
-                windows.log.print(err);
-            }
-
-            
-            server.down = true;
-            setTimeout(() => {
-                windows.log.info('Update mode');
-                windows.log.print('Please wait a bit more. This ensures, that Wolfram Kernel has finished the execution.');
-            }, 2000);
-
-            setTimeout(() => {
-                windows.log.info('Update mode');
-                windows.log.print('1 more second before starting an update');
-            }, 3000);            
-
-            setTimeout(() => {
-                initServer();
-
-                windows.log.print('Done');
-                check_wl(load_configuration(), () => store_configuration(() => {
-
-                    windows.log.info('Starting script');
-                    server.wolfram.process.stdin.write(`Get[URLDecode["${encodeURIComponent(updatePath)}"]]\n`);
-                    server.wolfram.process.stdin.write(`\n`);
-                
-                    const sign = new RegExp(/@Electron, go ahead/);
-                    let sign_match;
-                
-                    server.wolfram.streamer = (data) => {
-                        if (sign_match) return;
-                
-                        const string = data.toString();
-                        windows.log.print(string);
-                
-                        sign_match = sign.exec(string);
-                        if (sign_match) { 
-                            
-
-                            try {
-                                server.shutdown(true);
-                            } catch(err) {
-                                windows.log.print(err);
-                            }   
-                            
-                            server.down = false;
-
-                            windows.log.info('Finished');
-
-                            session.defaultSession.clearStorageData();
-                            session.defaultSession.clearCache();
-                            windows.log.print('Cache clear');
-                            
-                            setTimeout(() => {
-                                initServer();
-                                check_installed(() => check_wl(load_configuration(), () => store_configuration(() => start_server(log_window)), log_window), log_window);
-                            }, 1000);
-                        }
-                    };
-
-                    server.wolfram.process.stdout.on('data', server.wolfram.streamer);
-                    
-                    
-                }), log_window)
-            }, 4000);
-
-
-        });
+ 
         //new promt('input', 'Do you have Wolfram Engine installed?', (answer) => console.log(answer), log_window);
         check_installed(() => check_wl(load_configuration(), () => store_configuration(() => start_server(log_window)), log_window), log_window);
     });
@@ -2224,10 +2404,6 @@ app.whenReady().then(() => {
     if (!server.frontend.NoUpdates) autoUpdater.checkForUpdatesAndNotify();
 
     
-
-    //server.url.local = `http://127.0.0.1:20560`;
-    //create_window({url: 'http://127.0.0.1:20560', show: true, focus: true, cacheClear: true});
-
     ipcMain.on('system-harptic', () => {
         trackpadUtils.triggerFeedback();
     });
@@ -2238,6 +2414,10 @@ app.whenReady().then(() => {
 
     ipcMain.handle('system-window-zoom-get', async (e) => {
         return e.sender.getZoomLevel()+1;
+    });
+
+    ipcMain.on('print', (e, opts) => {
+        e.sender.print({printBackground: true})
     });
 
     ipcMain.handle('print-pdf', async (e, opts) => {
@@ -2257,6 +2437,37 @@ app.whenReady().then(() => {
         return promiseBuf
     });
 
+
+    ipcMain.handle('createMenu', async (e, args) => {
+        //const w = BrowserWindow.fromWebContents(e.sender);
+        const p = new Deferred();
+        let closedQ = false;
+
+        const menu = Menu.buildFromTemplate(args.map((assoc) => {
+            const ref = assoc.ref;
+            if (!ref) {
+                return assoc;
+            }
+            const copy = {...assoc};
+            if (Array.isArray(copy.accelerator)) {
+                copy.accelerator = isMac ? copy.accelerator[1] : copy.accelerator[0];
+            }
+            return {
+                ...copy,
+                click: () => {
+                    p.resolve(ref);
+                    closedQ = true;
+                }
+            }
+        }));
+        
+        menu.popup({callback: () => {
+            if (!closedQ) p.resolve(false);
+        }});
+
+        return await p.promise;
+    })
+
     ipcMain.on('install-cli', () => {
         //trackpadUtils.triggerFeedback();
         check_cli_installed();
@@ -2267,10 +2478,11 @@ app.whenReady().then(() => {
         cli_uninstall();
     }); 
     
-    const capturePocket = {};
+    const capturedBuffer = {};
 
     ipcMain.handle('capture', async (e, area) => {
         let zoom = e.sender.zoomFactor;
+        const windowId = e.sender.id;
 
         if (area) {
             if (!area.deferred) {
@@ -2278,69 +2490,38 @@ app.whenReady().then(() => {
                     area.y = Math.round(area.y * zoom);
                     area.width = Math.round(area.width * zoom);
                     area.height = Math.round(area.height * zoom);
-                    const img = await e.sender.capturePage(area)
+                    const img = await e.sender.capturePage(area);
                     return img.toDataURL();
             }
 
-            switch(area.deferred.type) {
-                case 'Init':
-                    capturePocket[area.deferred.id] = {
-                        buffer: [], format: area.deferred.format, 
-                        quality: area.deferred.quality,
-                        path: decodeURIComponent(area.deferred.path)
-                    };
-                    
+            switch(area.deferred) {
+                case 'Flush':
+                    capturedBuffer[windowId] = [];
+                    return 'flushed';
 
-                    return;
+                case 'Capture': {
+                        console.log(area);
+                        area.x = Math.round(area.x * zoom);
+                        area.y = Math.round(area.y * zoom);
+                        area.width = Math.round(area.width * zoom);
+                        area.height = Math.round(area.height * zoom);
 
-                case 'Purge':
-                    delete capturePocket[area.deferred.id];
-                    return;
+                        const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
+                        console.log(rect);
 
-                case 'Record': {
-                    console.log(area);
-                    area.x = Math.round(area.x * zoom);
-                    area.y = Math.round(area.y * zoom);
-                    area.width = Math.round(area.width * zoom);
-                    area.height = Math.round(area.height * zoom);
-                    const l = capturePocket[area.deferred.id];
-
-                    const rect = {x: area.x, y: area.y, width: area.width, height: area.height};
-                    console.log(rect);
-
-                    const img = await e.sender.capturePage(rect);
-                    let data;
-                    switch(l.format) {
-                        case 'JPG':
-                            data = img.toJPEG(l.quality);
-                        break;
-                        case 'JPEG':
-                            data = img.toJPEG(l.quality);
-                        break;
-                        default:
-                            data = img.toPNG();
-                        break;
+                        const img = await e.sender.capturePage(rect);
+                        capturedBuffer[windowId].push(img.toDataURL());
                     }
-                    l.buffer.push([l.buffer.length, data]);
+                    return 'captured';
 
-                    if (l.buffer > 20) {
-                        await exportImageBuffer(l.buffer, l.format, l.path, 20);
-                    }
+                case 'Pop': {
+                    const item = capturedBuffer[windowId].shift();
+                    if (item) return item;                
+                    return false;
                 }
-                    return 'Saved';
 
-                case 'Export': {
-                    const id = area.deferred.id;
-                    const l = capturePocket[id];
-
-                    await exportImageBuffer(l.buffer, l.format, l.path, Infinity);
-
-                    delete l.buffer;
-                    delete capturePocket[id];
-
-                    return 'Exported';                    
-
-                }
+                default:
+                    return false;
             }
 
         } else {
@@ -2394,8 +2575,6 @@ app.whenReady().then(() => {
         session.defaultSession.clearCache();
 
         if (senderWindow) {
-
-
             const ses = senderWindow.webContents.session;
             ses.clearCache();
         }
@@ -2483,43 +2662,29 @@ app.whenReady().then(() => {
         }
     });
 
-    ipcMain.handle('system-save-something', async (event, p) => {
-        const result = await dialog.showSaveDialog({ title: p.title, properties: ['createDirectory'], filters: p.filters || [
-            { extensions: p.extension }
-        ]});
+    ipcMain.handle('showOpenDialog', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showOpenDialog(p);
+        return result;
+    }); 
 
-        if (!result.canceled) {
-            return encodeURIComponent(result.filePath);
-        } else {
-            return false;
-        }
-    });
+    ipcMain.handle('showSaveDialog', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showSaveDialog(p);
+        return result;
+    }); 
 
-    ipcMain.handle('system-open-something', async (event, p) => {
-        const result = await dialog.showOpenDialog({ title: p.title, filters: p.filters || [
-            { extensions: p.extension }
-        ],
-            properties: p.list? ["multiSelections", "openFile"] : ["openFile"]
-        });
+    ipcMain.handle('showMessageBox', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showMessageBox(p);
+        return result;
+    });     
 
-        if (!result.canceled) {
-            if (p.list) return result.filePaths.map(encodeURIComponent);
-            return encodeURIComponent(result.filePaths[0]);
-        } else {
-            return false;
-        }
-    });    
-
-    ipcMain.handle('system-open-folder-something', async (event, p) => {
-        const result = await dialog.showOpenDialog({ title: p.title, buttonLabel:'Set', properties: ['openDirectory', 'createDirectory']});
-
-        if (!result.canceled) {
-            return encodeURIComponent(result.filePaths[0]);
-        } else {
-            return false;
-        }
-    });
-
+    ipcMain.handle('showErrorBox', async (event, p) => {
+        console.log(p);
+        const result = await dialog.showErrorBox(p.title, p.content);
+        return result;
+    });     
 
     ipcMain.on('system-window-expand', (e, p) => {
         windows.focused.win.setBounds({ width: 800 , animate: true});
@@ -2564,17 +2729,28 @@ app.whenReady().then(() => {
 
     ipcMain.on('system-open-external', (e, p) => {
         const url = p;
+        console.log('Open url: ', p);
         shell.openExternal(url);
     });
 
     ipcMain.on('system-open-path', (e, p) => {
-        const url = p;
-        shell.openPath(url);
+        const url = path.join(...p);
+        console.log('Open path: ', url);
+        if (!fs.existsSync(url)) {
+            shell.openPath('/'+url);
+        } else {
+            shell.openPath(url);
+        }
     });
 
     ipcMain.on('system-show-folder', (e, p) => {
-        const url = p;
-        shell.showItemInFolder(url);
+        const url = path.join(...p);
+        console.log('Open dir: ', url);
+        if (!fs.existsSync(url)) {
+            shell.showItemInFolder('/'+url);
+        } else {
+            shell.showItemInFolder(url);
+        }        
     });
 
     
@@ -2591,7 +2767,7 @@ app.whenReady().then(() => {
     });
 
     ipcMain.on('locate-logfile', () => {
-        shell.showItemInFolder(installationFolder);
+        shell.showItemInFolder(appDataFolder);
     });
 
     globalShortcut.register(shortcut("overlay"), () => {
@@ -2628,41 +2804,37 @@ function start_server (window) {
     }
 
     windows.log.info('Starting server');
-    server.wolfram.process.stdin.write('System`$Env = <|"ElectronCode"->'+server.electronCode+'|>;');
+    let accentColor = systemPreferences.getAccentColor();
+
+    if (!accentColor) {
+        accentColor = '#ff7214';  
+    } else {
+        if (accentColor.charAt(0) != '#') accentColor = '#'+accentColor;
+        if (accentColor.length > 7) accentColor = accentColor.slice(0, 7);
+        
+    }
+
+
+    console.log('Accentcolor: ', accentColor);
+
+
+    server.wolfram.process.stdin.write('System`$Env = <|"AppData"->URLDecode["'+encodeURIComponent(appDataFolder)+'"], "ElectronCode"->'+server.electronCode+', "AccentColor"->"'+accentColor+'"|>;');
     server.wolfram.process.stdin.write(`Get[URLDecode["${encodeURIComponent(runPath)}"]]\n`);
 
     const PACError = new RegExp(/Execution of PAC script at/);
 
-    const help_me_sign = new RegExp(/@Electron, fetch me libraries/);
-    let help_me_sign_match;
+
 
     let url_match;
     const url_reg = new RegExp(/Open http:\/\/(?<ip>[0-9|.]*):(?<port>[0-9]*) in your browser/);
 
     server.wolfram.streamer = (data) => {
-        if (help_me_sign_match) return;
+
 
         const string = data.toString();
         windows.log.print(string);
 
-        help_me_sign_match = help_me_sign.exec(string);
-        if (help_me_sign_match && !server.running) {
-            try {
-                server.shutdown(true);
-            } catch(err) {
-                console.error(err);
-            }
-
-
-            windows.log.clear();
-            windows.log.print("Running recovery mode. Installing shipped libraries...");
-
-            install_frontend(() => {
-                check_wl(load_configuration(), () => store_configuration(() => start_server(window)), window)
-            }, window, true);
-            
-            return;
-        }
+        
 
         //listerning for a specific line in output
         url_match = url_reg.exec(string);
@@ -2689,7 +2861,6 @@ function start_server (window) {
 
     };
     server.wolfram.errors = (data) => {
-        if (help_me_sign_match) return;
         const string = data.toString();
 
         //checking errors
@@ -2709,11 +2880,7 @@ function start_server (window) {
 
 //applicable only to the first time!!!
 function create_first_window() {
-    //we need to decide what to open!
-    if (server.wasUpdated) { //reset app menu
-        pluginsMenu.fetch();
-        buildMenu({plugins: pluginsMenu.items});
-    }
+    
 
     const parsedCommndLine = parseArgs(process.argv);
     const commandOnly = parsedCommndLine.c;
@@ -2804,10 +2971,14 @@ const promts_hash = {}
 class promt {
     constructor(type = 'binary', title, cbk, window) {
         this.uuid = uuid4();
+        const self = this;
 
         switch(type) {
             case 'binary':
-                window.webContents.send('yesorno', this.uuid, title);
+                const res = dialog.showMessageBox({message: title, buttons: ['No', 'Yes'], noLink:true});
+                res.then((r) => {
+                    self.resolve(r.response == 1);
+                });
                 this.promise = (result) => cbk(result)
             break;
 
@@ -2831,26 +3002,56 @@ class promt {
 
 function store_configuration(cbk) {
     const opts = {
-        wolfram: server.wolfram
+        wolfram: server.wolfram,
+        version: app.getVersion()
     };
 
-    fs.writeFile(path.join(installationFolder, 'configuration.ini'), JSON.stringify(opts), function(err) {
+    fs.writeFile(path.join(appDataFolder, 'configuration.ini'), JSON.stringify(opts), function(err) {
         if (err) throw err;
     });
 
     cbk();
 }
 
+function clearAllCache() {
+    session.defaultSession.clearStorageData();
+    session.defaultSession.clearCache();
+    console.log('Cache was nuked');
+}
+
 function load_configuration() {
-    if (!fs.existsSync(path.join(installationFolder, 'configuration.ini'))) return undefined;
-    return JSON.parse(fs.readFileSync(path.join(installationFolder, 'configuration.ini'), 'utf8'));
+    if (!fs.existsSync(path.join(appDataFolder, 'configuration.ini'))) {
+        clearAllCache();
+        return undefined;
+    }
+    const content = fs.readFileSync(path.join(appDataFolder, 'configuration.ini'), 'utf8');
+    if (content.length == 0) {
+        clearAllCache();
+        return undefined;
+    }
+
+    const parsed = JSON.parse(content);
+    if (!parsed) return undefined;
+
+    if (parsed.version != app.getVersion()) {
+        clearAllCache();
+    }
+
+    return parsed;
 }
 
 //checking if there is working Wolfram Kernel.
 function check_wl (configuration, cbk, window) {
     if (configuration) server.wolfram = {...server.wolfram, ...configuration.wolfram};
 
-    windows.log.print("");
+    windows.log.print(`WLJS Notebooks
+Copyright (c) 2025 Coffee liqueur
+Licensed under the GNU GPL v3.0. See /LICENSE.md.
+
+This product bundles third-party FOSS. 
+Wolfram Engine is proprietary and distributed by Wolfram Research.
+
+`);
     windows.log.info("Starting wolframscript");
     windows.log.print("Starting wolframscript by path: " + server.wolfram.path);
     let program;
@@ -2861,6 +3062,7 @@ function check_wl (configuration, cbk, window) {
         console.log('TRY');
         program = spawn(server.wolfram.path, server.wolfram.args, { cwd: workingDir });
     } catch (err) {
+        console.log('catch::err');
         windows.log.clear();
         windows.log.print(err);
         console.log(err);
@@ -2871,23 +3073,23 @@ function check_wl (configuration, cbk, window) {
         new promt('binary', 'Do you have Wolfram Engine installed?', (answer) => {
             if (answer) {
                 windows.log.print("");
-                new promt('binary', 'Please, locate an executable called `wolframscript` or `WolframKernel`', ()=>{}, window);
+                new promt('binary', 'Please, locate an executable called wolframscript or WolframKernel', ()=>{
+                    setTimeout(() => {
+                        const promise = dialog.showOpenDialog({ title: 'Locate wolframscript', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
+                        promise.then((res) => {
+                            if (!res.canceled) {
+                                server.wolfram.path = res.filePaths[0];
+                                console.log(res.filePaths);
+                                windows.log.clear();
+                                check_wl(undefined, cbk, window);
+                            } else {
+                                windows.log.clear();
+                                check_wl(undefined, cbk, window);
+                            }
+                        });
+                    }, 1000);                    
+                }, window);
                 windows.log.print('Please, locate an executable called `wolframscript` or `WolframKernel`', '\x1b[44m');
-
-                setTimeout(() => {
-                    const promise = dialog.showOpenDialog({ title: 'Locate wolframscript', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
-                    promise.then((res) => {
-                        if (!res.canceled) {
-                            server.wolfram.path = res.filePaths[0];
-                            console.log(res.filePaths);
-                            windows.log.clear();
-                            check_wl(undefined, cbk, window);
-                        } else {
-                            windows.log.clear();
-                            check_wl(undefined, cbk, window);
-                        }
-                    });
-                }, 2000);
 
             } else {
                 install_wl(window);
@@ -2898,7 +3100,7 @@ function check_wl (configuration, cbk, window) {
 
 
     program.on('close', (code) => {
-
+        console.log('on::close');
 
         if (_nohup) {
             windows.log.info("Process exited with code "+code);
@@ -2922,6 +3124,8 @@ function check_wl (configuration, cbk, window) {
 
     //error
     program.on('error', function(err) {
+        console.log('on::error');
+        
         windows.log.print("");
         windows.log.info("Cannot execute a given process");
         windows.log.print("Cannot execute a given process", '\x1b[46m');
@@ -2929,12 +3133,13 @@ function check_wl (configuration, cbk, window) {
 
         if (cautch) return;
         cautch = true;
+        console.log("Cannot execute a given process");
 
         setTimeout(() => {
             windows.log.clear();
             windows.log.print(err);
             console.log(err);
-            //windows.log.print('Do you have Wolfram Engine installed?', '\x1b[42m');
+            console.log('Do you have Wolfram Engine installed?');
             windows.log.info("Cannot locate wolframscript!");
             new promt('binary', 'Do you have Wolfram Engine installed?', (answer) => {
                 if (answer) {
@@ -2942,32 +3147,34 @@ function check_wl (configuration, cbk, window) {
                     
                     windows.log.print('Please, locate an executable called `wolframscript` or `WolframKernel`', '\x1b[44m');
 
-                    setTimeout(() => {
-                        const promise = dialog.showOpenDialog({ title: 'Locate wolframscript or WolframKernel', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
-                        promise.then((res) => {
-                            if (!res.canceled) {
-                                //throw ;
-                                if (path.basename(res.filePaths[0]) == 'Wolfram Engine' && isMac) {
-                                    
+                    new promt('binary', 'Please, locate an executable called wolframscript or WolframKernel', () => {
+                        setTimeout(() => {
+                            const promise = dialog.showOpenDialog({ title: 'Locate wolframscript or WolframKernel', properties: ['openFile', 'showHiddenFiles', 'treatPackageAsDirectory', 'dontAddToRecent']});
+                            promise.then((res) => {
+                                if (!res.canceled) {
+                                    //throw ;
+                                    if (path.basename(res.filePaths[0]) == 'Wolfram Engine' && isMac) {
+
+                                        windows.log.clear();
+                                        windows.log.print("Error!");
+                                        windows.log.print('Please do not select "Wolfram Engine" Unix binary on OSX! Use WolframKernel link file instead', '\x1b[44m');
+                                        windows.log.print('Restarting in 2 seconds...');
+
+                                        setTimeout(() => {check_wl(undefined, cbk, window);}, 2000);
+
+                                        return;
+                                    }
+                                    server.wolfram.path = res.filePaths[0];
+                                    console.log(res.filePaths);
                                     windows.log.clear();
-                                    windows.log.print("Error!");
-                                    windows.log.print('Please do not select "Wolfram Engine" Unix binary on OSX! Use WolframKernel link file instead', '\x1b[44m');
-                                    windows.log.print('Restarting in 2 seconds...');
-                                    
-                                    setTimeout(() => {check_wl(undefined, cbk, window);}, 2000);
-                                    
-                                    return;
+                                    check_wl(undefined, cbk, window);
+                                } else {
+                                    windows.log.clear();
+                                    check_wl(undefined, cbk, window);
                                 }
-                                server.wolfram.path = res.filePaths[0];
-                                console.log(res.filePaths);
-                                windows.log.clear();
-                                check_wl(undefined, cbk, window);
-                            } else {
-                                windows.log.clear();
-                                check_wl(undefined, cbk, window);
-                            }
-                        });
-                    }, 2000);
+                            });
+                        }, 1000);
+                    }, window);
 
                 } else {
                     install_wl(window);
@@ -2990,6 +3197,7 @@ function check_wl (configuration, cbk, window) {
     }); */
 
     program.stderr.once('data', (data) => {
+        console.log('stderr::data');
         console.warn(data.toString());
         if (_nohup) return;
         _nohup = true;
@@ -3004,7 +3212,7 @@ function check_wl (configuration, cbk, window) {
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
-            windows.log.clear();
+            //windows.log.clear();
             cbk();
         },
         () => {
@@ -3049,7 +3257,7 @@ function check_wl (configuration, cbk, window) {
         if (default_error_handling(()=>{
             //If managed
             //Wolframscript started
-            windows.log.clear();
+            //windows.log.clear();
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
@@ -3077,7 +3285,7 @@ function check_wl (configuration, cbk, window) {
             server.wolfram.process = program;
             server.running = false;
             server.startedQ = true;
-            windows.log.clear();
+            //windows.log.clear();
             cbk();
             return;
         }
@@ -3285,7 +3493,7 @@ function activate_wl(program, success, rejection, window) {
             program.stdin.write('\n');
 
             windows.log.clear();
-            windows.log.print('Waiting for the responce from wolframscript');
+            windows.log.print('Waiting for the response from wolframscript');
 
             let _nohup = false;
             let timer = setTimeout(() => {
@@ -3362,111 +3570,22 @@ function install_wl(window) {
     windows.log.clear();
     windows.log.info('Wolfram Engine is required');
     windows.log.print("Please download and install Wolfram Engine manually. A windows will open shortly. A feature for auto-installation is not supported for now.");
-    setTimeout(() => {
-        shell.openExternal("https://www.wolfram.com/engine/");
-        app.quit();
-    }, 3000);
-}
-
-function reinstall(cbk, window) {
-    const toRemove = ['package.json', '.wl_timestamp', '.wljs_timestamp', 'wl_packages_lock.wl', 'wljs_packages_lock.wl', 'wljs_packages_users.wl'];
-    const dirToRemove = ['wl_packages', 'Scripts', 'wljs_packages', '__localkernel'];
-    const recreate = ['__localkernel'];
-
-    new promt('binary', 'This action will remove wl*, wljs* package folders', (answer) => {
-        if (answer) {
-            //cbk(true); return;
-            if (!app.isPackaged) return cbk(false);
-
-            toRemove.forEach((p) => {
-                if (fs.existsSync(path.join(installationFolder, p))) {
-                    fs.unlinkSync(path.join(installationFolder, p));
-                }
-            });
-        
-            dirToRemove.forEach((p) => {
-                if (fs.existsSync(path.join(installationFolder, p))) {
-                    fs.rmSync(path.join(installationFolder, p), { recursive: true, force: true });
-                }
-            });
-        
-            recreate.forEach((p) => {
-                fs.mkdirSync(path.join(installationFolder, p))
-            });
-        
-            cbk(true);
-        } else {
-            cbk(false);
-        }
+    
+    new promt('binary', 'Please download and install freeware Wolfram Engine manually. A window will open shortly. ', () => {
+        setTimeout(() => {
+            shell.openExternal("https://www.wolfram.com/engine/");
+            app.quit();
+        }, 1000);        
     }, window);
-
-
-
 }
+
+
 
 function check_installed (cbk, window) {
-    if (!app.isPackaged) return cbk(); //development env
-
-    windows.log.print('checking WLJS Application Data...', '\x1b[32m');
-    windows.log.print(installationFolder, '\x1b[32m');
-
-    const package = path.join(installationFolder, 'package.json');
-
-    if (fs.existsSync(package)) {
-        windows.log.print('package-data located');
-        fs.readFile(package, 'utf8', (err, raw) => {
-            if (err) {
-                windows.log.print('Cannot read '+package+'!');
-                windows.log.info('Cannot read package files');
-                windows.log.print('Clean installation', '\x1b[34m');
-                install_frontend(cbk, window);
-                return;
-            }
-
-            const data = JSON.parse(raw);
-            
-            windows.log.print('AppData: ' + data["version"], '\x1b[34m');
-            windows.log.print('Binary: ' + app.getVersion(), '\x1b[34m');
-            if ((app.getVersion().trim()) != (data["version"].trim())) {
-                windows.log.print('Needs an update', '\x1b[34m');
-                install_frontend(cbk, window);
-            } else {
-                return cbk();
-            }
-        });
-    } else {
-        windows.log.print('Clean installation', '\x1b[34m');
-        install_frontend(cbk, window);
-    }
+    return cbk(); 
 }
 
 
-function install_frontend(cbk, window, force=false) {
-    if (!app.isPackaged) return cbk(); //development env
-
-    const sub = path.join(app.getAppPath(), 'bundle');
-    windows.log.print(sub);
-
-    if (fs.existsSync(sub)) {
-        windows.log.print('Copying files...');
-        fse.copySync(sub, installationFolder, { overwrite: true });
-        windows.log.print('');
-        windows.log.print('Done!');
-        windows.log.info('Done!');
-        server.wasUpdated = true;
-
-        windows.log.print('Cache reset');
-
-        session.defaultSession.clearStorageData();
-        session.defaultSession.clearCache();
-
-        cbk();
-    } else {
-        windows.log.clear();
-        windows.log.print('Fatal error. No bundle files found ');
-    }
-
-}
 
 
 

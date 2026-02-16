@@ -1,0 +1,55 @@
+<|"Notebook" -> <|"Controller" -> "a10a50d3-5b24-4931-9574-36041ec6537e", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2009], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "8ff80405-312f-4d71-9f0f-f484ee8cb78e", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Interactive evaluation/B - Transition Types.wln", 
+   "PublicFields" -> {"Properties"}, "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[2, 
+      "Transition types", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2010]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n## Transition types\nThe basics of animation", 
+    "Display" -> "codemirror", "Hash" -> 
+     "68b70f77-2acb-4c7b-9225-0399b216e8ea", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>, 
+   <|"Data" -> "## Transition types\nThe basics of animation", 
+    "Display" -> "markdown", "Hash" -> 
+     "311bd7d5-d83e-42ba-8707-323c877c313a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>, 
+   <|"Data" -> "object = \
+{-1.,0.};\nGraphics[{\n\t{Directive[\"TransitionType\" -> \"Linear\"], \
+Disk[(object + {0,0.5}) // Offload, 0.2]},\n\t{Directive[\"TransitionType\" \
+-> \"CubicInOut\"], Disk[(object - {0,0}) // Offload, 0.2]},\n   \
+{Directive[\"TransitionType\" -> None], Disk[(object - {0,0.5}) // Offload, \
+0.2]}\n}, PlotRange->{{-1,1}, {-1,1.5}}, \"TransitionDuration\"->500]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "3fe39b75-d61d-45a6-b6f0-b9c60ebed7d2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>, 
+   <|"Data" -> ".md\nPerform the transition", "Display" -> "codemirror", 
+    "Hash" -> "a5d0a78f-27db-4d82-bb92-62733b04075b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>, 
+   <|"Data" -> "Perform the transition", "Display" -> "markdown", 
+    "Hash" -> "4cdf69dc-5631-4969-9620-13a0a7867221", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>, 
+   <|"Data" -> "object = {1,0}", "Display" -> "codemirror", 
+    "Hash" -> "7f3b5166-903a-4d46-8426-d1bb5ed2530c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>, 
+   <|"Data" -> "{1,0}", "Display" -> "codemirror", 
+    "Hash" -> "bf2cc9ee-820e-40d5-9fca-87ed6f77f20b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "c7213d5e-1df0-40e5-9db5-590286b19588"|>}, 
+ "serializer" -> "jsfn4"|>

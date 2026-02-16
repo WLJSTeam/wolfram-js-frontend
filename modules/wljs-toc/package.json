@@ -1,0 +1,28 @@
+{
+    "name": "wljs-toc",
+    "version": "0.0.2",
+    "description": "Table of content plugin",
+    "scripts": {
+      "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+      "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-toc && mv wljs-toc/.git ../.git && cd .. && rm -rf _temp"
+    },
+    "defaultPackage": true,
+    "wljs-meta": {
+      "frontend": "src/Frontend.wl",
+      "priority": 99999,
+      "category": "Notebook Extensions"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/JerryI/wljs-toc"
+    },
+    "dependencies": {
+      "party-js": "^2.2.0",
+      "rollup": "^3.21.6",
+      "siriwave": "^2.4.0"
+    },
+    "resolutions": {
+      "@babel/preset-env": "7.13.8"
+    }
+  }
+  

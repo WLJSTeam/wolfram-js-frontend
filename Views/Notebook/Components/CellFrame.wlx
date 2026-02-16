@@ -1,3 +1,0 @@
-id = $Options["Cell"]["Hash"];
-
-<div class="grow cframe" style="position:relative" id="frame-{id}"><$Children/></div>

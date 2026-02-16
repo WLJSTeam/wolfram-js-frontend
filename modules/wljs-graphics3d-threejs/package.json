@@ -1,0 +1,59 @@
+{
+  "name": "wljs-graphics3d-threejs",
+  "version": "0.7.8",
+  "description": "A ThreeJS implementation of Mathematica's Graphics3D",
+  "wljs-meta": {
+    "js": "dist/kernel.js",
+    "minjs": "dist/kernel.min.js",
+    "kernel": "src/Kernel.wl",
+    "styles": "src/styles.css",
+    "category": "Plotting & Graphics",
+    "figureExportRequired": true,
+    "cellExportRequired": true
+  },
+  "defaultPackage": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine"
+  },
+  "author": "Kirill Vasin",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine/issues"
+  },
+  "homepage": "https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine#readme",
+  "dependencies": {
+    "@fantasy-color/lab-to-rgb": "^2.1.0",
+    "chroma-js": "^3.1.2",
+    "dat.gui": "^0.7.9",
+    "earcut": "^3.0.1"
+  },
+  "devDependencies": {
+    "@lookingglass/webxr": "^0.3.1",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "canvas-capture": "^2.0.5",
+    "eslint": "^7.32.0",
+    "eslint-config-mdcs": "^5.0.0",
+    "node-fetch": "^3.2.9",
+    "parcel": "^2.4.0",
+    "pixelmatch": "^5.3.0",
+    "pngjs": "^6.0.0",
+    "process": "^0.11.10",
+    "rollup": "^2.70.0",
+    "rollup-plugin-combine": "^2.1.1",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-serve": "^2.0.2",
+    "simple-git": "^3.10.0",
+    "yargs": "^17.5.1"
+  },
+  "peerDependencies": {
+    "xatlas-web": "^0.1.0"
+  },
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine && mv Mathematica-ThreeJS-graphics-engine/.git ../.git && cd .. && rm -rf _temp"
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "wljs-print-redirect-fix",
+    "version": "0.0.5",
+    "description": "An override to $Output, that redirects all messages to notifications",
+    "wljs-meta": {
+      "frontend": [
+        "Frontend.wl"        
+      ],
+      "js": "kernel.js",
+      "minjs": "kernel.js",
+      "kernel": [
+        "Kernel.wl"        
+      ],      
+      "priority": 10000,
+      "category": "User's GUI"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/JerryI/wljs-print-redirect-fix"
+    }
+  }
+  

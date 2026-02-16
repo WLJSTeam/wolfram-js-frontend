@@ -5,8 +5,6 @@ USER root
 RUN apt-get update && apt-get install -y ffmpeg
 User wolframengine
 
-COPY Scripts/update.wls /workspace/Scripts/update.wls
-COPY Common/ /workspace/Common/
 
 WORKDIR /workspace
 
@@ -21,25 +19,27 @@ RUN useradd -m wljs
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY --from=deps /workspace/wl_packages /wljs/wl_packages  
-COPY --from=deps /workspace/wljs_packages /wljs/wljs_packages
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+      ffmpeg ca-certificates gnupg curl git nginx expect \
+      build-essential cmake ninja-build pkg-config clang lld lldb; \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-COPY ./ /wljs/
-COPY container/run.sh /usr/local/bin/run.sh
+# NodeSource setup + nodejs (separate chunk, with no cached .debs kept)
+RUN set -eux; \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends -o APT::Keep-Downloaded-Packages=false nodejs; \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 COPY container/wljs-routes /etc/nginx/sites-available/default
 COPY container/proxy-snippet.conf /etc/nginx/snippets/proxy.conf
 
-RUN apt-get update && apt-get install -y \
-    git \
-    nginx \
-    expect \
-    curl \
-    ffmpeg \
- && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
- && apt-get install -y nodejs \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
- && chmod +x /usr/local/bin/run.sh
+RUN mkdir -p /wljs
+COPY ./ /wljs/
+
+COPY container/run.sh /run.sh
+RUN chmod +x /run.sh
 
 CMD ["/usr/local/bin/run.sh"]

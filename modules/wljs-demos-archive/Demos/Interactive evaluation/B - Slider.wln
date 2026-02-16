@@ -1,0 +1,71 @@
+<|"Notebook" -> <|"Controller" -> "6de6fde6-0546-4bea-b43f-74e87cc00880", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2027], 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "089b62ee-d812-4b15-9689-2fcaf0be0ae6", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Interactive evaluation/B - Slider.wln", 
+   "PublicFields" -> {"Properties"}, "ReadOnly" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, "Slider", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2048]]}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Slider\nHere, we explore a very basic input \
+element\[LongDash]a slider\[LongDash]and assign its value to the length of a \
+`Rectangle` primitive.", "Display" -> "codemirror", 
+    "Hash" -> "c023577a-0f1f-446e-9f8b-62ccf48a3a51", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> "# Slider\nHere, we explore a very basic input \
+element\[LongDash]a slider\[LongDash]and assign its value to the length of a \
+`Rectangle` primitive.", "Display" -> "markdown", 
+    "Hash" -> "6ae903ad-6720-4230-b574-3d2de71076f4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> "slider = InputRange[-1,1,0.1, \"Label\"->\"Length\"]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "c0392dd7-f960-477c-ab83-c258ede56547", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> ".md\nBind our event to update the symbol `length`; fire the \
+slider event manually to initialize `length`.", "Display" -> "codemirror", 
+    "Hash" -> "f60205b8-077d-4e12-84ea-a606e7a75485", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> "Bind our event to update the symbol `length`; fire the slider \
+event manually to initialize `length`.", "Display" -> "markdown", 
+    "Hash" -> "b77305a3-cb9c-4060-8484-0e3f42a6d9d3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> 
+     "EventHandler[slider, Function[l, length = l]];\nEventFire[slider];", 
+    "Display" -> "codemirror", "Hash" -> 
+     "b569ef25-6b0c-488d-bf85-47b8ddba9181", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> ".md\nNow we draw a `Rectangle` that updates whenever there is \
+a change in the value of the `length` symbol.", "Display" -> "codemirror", 
+    "Hash" -> "bb0254f0-5764-451f-9ba7-8db479bea749", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> "Now we draw a `Rectangle` that updates whenever there is a \
+change in the value of the `length` symbol.", "Display" -> "markdown", 
+    "Hash" -> "71a0bfac-24ef-4ab8-9f78-36921def736d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>, 
+   <|"Data" -> "Graphics[{Cyan, \n  Rectangle[{-1,-1}, {length // Offload, \
+1}]\n}, PlotRange->{{-1,1},{-1,1}}, ImageSize->{400,100}, \
+\"TransitionDuration\"->30, \"TransitionType\"->\"Linear\"] ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "2e709b55-cbca-4b45-8146-ed0606d4f2fc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "4aba8ac1-d056-46fa-b62e-9864bb88db76"|>}, 
+ "serializer" -> "jsfn4"|>

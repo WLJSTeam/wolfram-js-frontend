@@ -1,0 +1,128 @@
+Checkbox = ImportComponent["UI/Checkbox.wlx"];
+Knob     = ImportComponent["UI/Button.wlx"];
+
+IfKeyExists[assoc_Association, list_Association] := With[{},
+    If[KeyExistsQ[assoc, #[[1]]], assoc[#[[1]]], #[[2]]] &/@ Keys[list]
+];
+
+bundlable = Select[Keys[WLJSPackages`Packages], !MissingQ[WLJSPackages`Packages[#, "wljs-meta", "minjs"]]&];
+
+getDesc[tag_] := WLJSPackages`Packages[tag, "description"]
+
+parseInt[any_String] := ToExpression[any]
+parseInt[any_] := any 
+
+
+
+Component[OptionsPattern[]] := Module[{tempBuffer}, With[{
+    update = CreateUUID[],
+    settings = OptionValue["Settings"],
+    log = OptionValue["Messager"],
+    onsave = OptionValue["OnSave"],
+    toggleSwitch = CreateUUID[],
+
+    initialValues = Join[<|
+        "ExportHTMLNotebookStore" -> True,
+        "ExportHTMLImages" -> True,
+        "ExportHTMLUseCDN" -> False,
+        "HTMLExportStatesInterpolation" -> True,
+        "ExportHTMLAutomaticDark" -> True,
+        "ExportSlideExposureTime" -> 1.5,
+        "ExportHTMLExclude" -> {"wljs-plotly", "wljs-mermaid-support"}
+    |>, OptionValue["Settings"]]
+},
+{
+    initialValuesTime = SetPrecision[initialValues["ExportSlideExposureTime"], 2]//ToString
+},
+    EventHandler[update, {
+        "ExportHTMLNotebookStore" -> Function[state,
+            onsave[<|"ExportHTMLNotebookStore" -> state|>];
+        ],
+
+        "ExportHTMLUseCDN" -> Function[state,
+            onsave[<|"ExportHTMLUseCDN" -> state|>];
+        ],
+        
+        "ExportHTMLImages" -> Function[state,
+            onsave[<|"ExportHTMLImages" -> state|>];
+        ],
+
+        "ExportHTMLAutomaticDark" -> Function[state,
+            onsave[<|"ExportHTMLAutomaticDark" -> state|>];
+        ],
+
+        "HTMLExportStatesInterpolation" -> Function[state,
+            onsave[<|"HTMLExportStatesInterpolation" -> state|>];
+        ],
+
+        "ExportSlideExposureTime" -> Function[state,
+            onsave[<|"ExportSlideExposureTime" -> parseInt[state]|>];
+        ]
+    }];
+
+    tempBuffer = initialValues["ExportHTMLExclude"];
+    EventHandler[toggleSwitch, {
+        name_String :> Function[state,
+            If[state,
+                tempBuffer = Append[tempBuffer, name];
+            ,
+                tempBuffer = tempBuffer /. {name -> Nothing};
+            ];
+            onsave[<|"ExportHTMLExclude" -> tempBuffer|>];
+        ]
+    }];
+
+    With[{ExtensionsList = 
+        Table[
+            <StringRiffle>
+                <Checkbox Label={name} Event={toggleSwitch} Topic={name} Description={getDesc[name]} Checked={MemberQ[initialValues["ExportHTMLExclude"], name]}/>
+            </StringRiffle>   
+        , {name, bundlable}]
+    },
+
+        <li class="list-none px-0 py-4 sm:px-0">
+            <div class="px-4 sm:px-0 pb-3 border-b border-gray-100">
+                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-300">Export settings</h3>
+                <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500 dark:text-gray-500"></p>
+            </div>
+            <div class="mt-4">   
+                <span class="dark:text-gray-400">General</span>
+                <div class="block my-2 py-2">          
+                    <StringRiffle>
+                        <Checkbox Label={"Automatic dark mode"} Event={update} Topic={"ExportHTMLAutomaticDark"} Description={"Enables hue shift and colors inversion based on user's OS preferences"} Checked={initialValues["ExportHTMLAutomaticDark"]}/>
+                    </StringRiffle> 
+                    
+                </div>
+                <span class="dark:text-gray-400">Include</span>
+                <div class="block my-2 py-2">
+                    <StringRiffle>
+                        <Checkbox Label={"NotebookStore"} Event={update} Topic={"ExportHTMLNotebookStore"} Description={"Include intenal notebook storage data"} Checked={initialValues["ExportHTMLNotebookStore"]}/>
+                    </StringRiffle>            
+                    <StringRiffle>
+                        <Checkbox Label={"External images"} Event={update} Topic={"ExportHTMLImages"} Description={"Compress external images used on slides and WLX, HTML and Markdown cells"} Checked={initialValues["ExportHTMLImages"]}/>
+                    </StringRiffle>
+                    <div class="pb-2 mt-2 mt-5 gap-y-2 flex flex-col">
+                    <div class="rounded-md px-3 pb-3 pt-2.5 shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+                        <label for="exposureTimeSlide" class="block text-xs font-medium text-gray-900 dark:text-gray-400">Delay time while rendering slides (sec)</label>
+                        <input type="number" value="{initialValuesTime}" min="1" max="5" step="0.5" id="exposureTimeSlide" class="block w-full border-0 p-0 dark:bg-gray-700 text-gray-900 dark:text-gray-300 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"/>
+                        <WebUIEventListener Id={"exposureTimeSlide"} Type={"blur"} Event={update} Pattern={"ExportSlideExposureTime"}/>
+                    </div> 
+                    </div>
+                    <StringRiffle>
+                        <Checkbox Label={"States interpolation"} Event={update} Topic={"HTMLExportStatesInterpolation"} Description={"Enables interpolation between sampled states (may cause artifacts) in interactive HTML exports. This may lead to glitchy behavior in 3D graphics, especially when nearby states cannot be accurately derived through linear interpolation."} Checked={initialValues["HTMLExportStatesInterpolation"]}/>
+                    </StringRiffle>                    
+                </div>     
+            </div>
+            <div class="mt-4">   
+                <span class="dark:text-gray-400">Exclude from bundle</span>
+                <div class="block my-2 py-2">
+                    <StringRiffle>
+                        <ExtensionsList/>
+                    </StringRiffle>            
+                </div>     
+            </div>         
+        </li>
+    ]
+]]
+
+Component

@@ -1,8 +1,8 @@
-http                      =  $Options["HTTPHandler"];
+http                      =  $Options["HTTPUHandler"];
 AppEvent                  =  $Options["AppEvent"];
 ExtensionTemplates        =  $Options["ExtensionTemplates"];
 
-Head        := ImportComponent["Components/Head.wlx"];
+Head        = ImportComponent["Components/Head.wlx"];
 
 Notifications  = ImportComponent["Components/Notifications/Notifications.wlx"];
 
@@ -16,10 +16,28 @@ loadSettings[settings];
 
 {Window, WindowScript}           = ImportComponent["Views/Window/Window.wlx"];
 
-ExtensionsJS = (StringJoin["/", FileNameToURLPath[#]]) &/@ WLJSPackages`Includes["js"];
-ExtensionsStyles = With[{Path = StringJoin["/", FileNameToURLPath[#]]},
+ExtensionsJS = (StringJoin["/", FileNameToUURLPath[#]]) &/@ WLJSPackages`Includes["js"];
+ExtensionsStyles = With[{Path = StringJoin["/", FileNameToUURLPath[#]]},
   <link rel="stylesheet" href="{Path}"/> 
 ] &/@ WLJSPackages`Includes["styles"] // ToStringRiffle;
+
+ScriptInitialization[OptionsPattern[]] := With[{WinSize = OptionValue["ImageSize"]},
+  If[MatchQ[WinSize, {_?NumberQ, _?NumberQ}], With[{
+    WidthX = WinSize[[1]],
+    HeightX = WinSize[[2]]
+  },
+    <script type="module">
+      core._isWindow = true; 
+      resizeTo(<WidthX/>, <HeightX/>)
+    </script>  
+  ] ,
+    <script type="module">
+      core._isWindow = true; 
+    </script>
+  ]
+];
+
+Options[ScriptInitialization] = {"ImageSize"->Null};
 
 WindowView[opts__] := If[MatchQ["Window" /. List[opts], _win`WindowObj],
   Window[opts]
@@ -33,11 +51,38 @@ App[request_] := With[{
         Secret = CreateUUID[], 
         GlobalControls  = CreateUUID[],
         ModalController = CreateUUID[],
+        isElectron = ElectronQ[request],
+        cachedClient = Unique["cachedClient"],
         GlobalMessanger = CreateUUID[],
+        OnLoad = CreateUUID[],
+        accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c]],
         GlobalParameters = <|"ElectronQ" -> ElectronQ[request], "AccentColor"->"teal"|>,
         window        = win`HashMap[request["Query", "id"]] (*`*),
         NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"]
     },
+    {
+      windowTitle = If[StringQ[window["Title"]], window["Title"], "Application"],
+      windowSize = If[window["FirstTime"]//TrueQ, window[ImageSize], False]
+    },
+
+    EventHandler[OnLoad, Function[Null,
+      cachedClient = $Client;
+      EventRemove[OnLoad];
+      EventFire[AppEvent, "AfterUILoad", <|"Client"->$Client, "Settings"->settings, "Env"->env, "Controls"->GlobalControls, "WindowQ"->True|>];
+
+      With[{socket = EventClone[$Client]},
+        EventHandler[socket, {"Closed" -> Function[Null,
+          EventRemove[socket];  
+          Echo["Window >> Destroy"];
+          EventRemove[Secret];
+          EventRemove[GlobalControls];
+          EventRemove[ModalController];
+          EventRemove[GlobalMessanger];
+          ClearAll[cachedClient];
+          EventFire[AppEvent, "AppUIDestroy", True];
+        ]}]
+      ];      
+    ]];
 
     (* /* redirect to extensions  */ *)
     EventHandler[EventClone[GlobalMessanger], {
@@ -52,32 +97,30 @@ App[request_] := With[{
       "<!DOCTYPE html>"
     ,
     <html class="h-full" os="{NavigatorOS}"> 
-        <Head Title={"Projector"} Settings={settings}>
+        <Head AccentColor={accentColor} Title={windowTitle} Settings={settings}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
             <WLJSTransportScript TwoKernels={True} PrefixMode={$Env["wsprefix"]} Port={$Env["ws"]}/>     
             <WebUIInitializationScript/>
             <ExtensionsStyles/>
         </Head>  
-        <body class="h-full owin:border owin:border-slate-400"> 
+        <body class="h-full owin:border owin:border-slate-400 linux:border linux:border-slate-400"> 
+        <WebUIOnLoad Event={OnLoad}/>
         <ExtensionTemplates Template={"AppHead"} />
         <div class="h-full overflow-hidden">
-          <Alert/>
-          <Modals ModalsPort={ModalController}/>
+          <Modals CachedClient={cachedClient} ModalsPort={ModalController} ElectronQ={isElectron}/>
           
           <div id="frame" class="h-full overflow-hidden">
             <div class="h-full flex flex-col">
-              <div style="z-index: 100;" class="sticky top-0 z-40 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-300 px-2 pl-20 md:pl-2 dark:border-gray-500 bg-239 dark:bg-gray-700 hidden osx:flex win:flex owin:flex win:h-titlebar owin:h-titlebar">
+              <div style="z-index: 100;" class="sticky top-0 z-40 flex h-10 shrink-0 items-center gap-x-4 border-b border-gray-300 px-2 pl-20 md:pl-2 dark:border-gray-500 bg-239 dark:bg-gray-700 hidden osx:flex linux:flex win:flex owin:flex linux:h-titlebar win:h-titlebar owin:h-titlebar">
                 <div class="grow h-full" style="-webkit-app-region: drag"></div>       
               </div>              
-              <Notifications MessagePort={GlobalMessanger}/>
-              <WindowView Parameters={GlobalParameters} Modals={ModalController} Window={window} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
+              <Notifications CachedClient={cachedClient} ElectronQ={isElectron} MessagePort={GlobalMessanger}/>
+              <WindowView Parameters={GlobalParameters} ElectronQ={isElectron} Modals={ModalController} Window={window} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
             </div> 
           </div>
         </div>
-        <script type="module">
-          core._isWindow = true; 
-        </script>
+        <ScriptInitialization ImageSize={windowSize}/>
         <WindowScript Parameters={GlobalParameters} Modals={ModalController} Window={window} AppEvents={AppEvent} Messanger={GlobalMessanger} Controls={GlobalControls} ExtensionTemplateInjection={ExtensionTemplates}/>
         <ExtensionTemplates Template={"AppScripts"} />
         </body>
@@ -86,7 +129,7 @@ App[request_] := With[{
 ];
 
 
-http["MessageHandler", "Window"] = AssocMatchQ[<|"Path" -> "/window"|>] -> App;
+http["MessageHandler", "Window"] = AssocUMatchQ[<|"Path" -> "/window"|>] -> App;
 Print["Window Loaded!"];
 
 

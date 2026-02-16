@@ -1,0 +1,308 @@
+Component[CSymbol_, Event_, hh_, ww_] := With[{
+    s = StringTemplate["width:``px; height:``px; font-size:small"][ww, hh]
+},
+
+    <div>
+        <div id="#instanceId" class="rounded" style="{s}"></div>
+        <script type="module">
+            /*credits: https://github.com/mkrl/ttty */
+            var ttty = (function (f) {
+                "use strict";
+                const c = (t, n, e) => {
+                        const o = document.createElement(t);
+                        return n && (o.className = n), e && (o.innerHTML = e), o;
+                    },
+                    N = (t, n = !1) => {
+                        (t.input.readOnly = !n), (t.inputContainer.style.opacity = n ? "" : "0");
+                    },
+                    C = (t, n) => {
+                        t.className = "terminal";
+                        const e = c("div", "terminal-container"),
+                            o = c("div", "terminal-type"),
+                            s = c("span", void 0, n),
+                            r = c("input");
+                        return (
+                            r.setAttribute("type", "text"),
+                            o.append(s),
+                            o.append(r),
+                            t.append(e),
+                            t.append(o),
+                            t.addEventListener("click", () => r.focus()),
+                            { commandContainer: e, input: r, inputContainer: o }
+                        );
+                    },
+                    // Detect whether the terminal is scrolled to (or very near) the bottom
+                    isNearBottom = (el, threshold = 8) =>
+                        el.scrollHeight - el.scrollTop - el.clientHeight <= threshold,
+                
+                    // Print a line. Supports command echo + error styling.
+                    T = (t, n, e, o, s, r, aErr = !1) => {
+                        const a = c("p");
+                    
+                        if (n) {
+                            // Command echo line
+                            a.innerText = r.prompt;
+                            const i = c("span", "terminal-command", t);
+                            a.append(i);
+                        } else {
+                            // Output line
+                            if (aErr) {
+                                const i = c("span", "terminal-error", t);
+                                a.append(i);
+                            } else {
+                                a.innerText = t;
+                            }
+                        }
+                    
+                        o.append(a), e;
+                    };
+                
+                var p = ((t) => (
+                    // Fired when user submits ANY input (raw string)
+                    (t.ON_COMMAND = "onCommand"),
+                    (t.ON_PROCESS_START = "onProcessStart"),
+                    (t.ON_PROCESS_END = "onProcessStop"),
+                    (t.ON_PROCESS_INTERRUPT = "onProcessInterrupt"),
+                    // Ctrl+C signal that does NOT automatically interrupt
+                    (t.ON_CTRL_C = "onCtrlC"),
+                    (t.ON_INIT = "onInit"),
+                    t
+                ))(p || {});
+            
+                const m = (t, n, e) => {
+                        const o = new CustomEvent(t, { detail: e });
+                        n.dispatchEvent(o);
+                    },
+                
+                    // NEW: no command lookup, no help, no 404.
+                    // Just emit the raw input.
+                    v = (t, n) => {
+                        m(p.ON_COMMAND, n.settings.host, t);
+                    },
+                
+                    _ = (t) => {
+                        const {
+                            settings: { host: n },
+                        } = t;
+                        N(t), (t.isProcessRunning = !0), m(p.ON_PROCESS_START, n);
+                    },
+                    y = (t) => {
+                        const {
+                            input: n,
+                            settings: { host: e },
+                        } = t;
+                        N(t, !0), (t.isProcessRunning = !1), n.focus(), m(p.ON_PROCESS_END, e);
+                    },
+                
+                    // Typing animation with sticky autoscroll support
+                    R = (t, n, e, o) =>
+                        new Promise((s) => {
+                            _(e);
+                            const r = c("p", void 0, o ? e.settings.prompt : ""),
+                                a = c("span", "terminal-command", "");
+                            o && r.append(a), e.commandContainer.append(r);
+                            let i = 0;
+                            const u = o ? a : r,
+                                g = () => {
+                                    if (i < t.length && e.isProcessRunning) {
+                                        u.innerText += t.charAt(i);
+                                        i++;
+                                    
+                                        if (e.autoScroll) {
+                                            const host = e.settings.host;
+                                            host.scrollTop = host.scrollHeight;
+                                        }
+                                    
+                                        setTimeout(g, n);
+                                    } else {
+                                        y(e), s(i === t.length);
+                                    }
+                                };
+                            setTimeout(g, n);
+                        }),
+                    
+                    I = (t) => {
+                        const {
+                            input: { value: n },
+                            history: e,
+                            settings: { historyLength: o },
+                        } = t;
+                        if (n !== e[0]) {
+                            if (e.length >= o) {
+                                t.history = [n, ...e.slice(0, -1)];
+                                return;
+                            }
+                            (t.history = [n, ...e]), (t.lastHistoryIndex = 0);
+                        }
+                    },
+                    P = (t, n) => {
+                        const { history: e, lastHistoryIndex: o } = t,
+                            s = e.length - 1;
+                        let r;
+                        (n && o === 0) ||
+                            (!n && o === e.length) ||
+                            s < 0 ||
+                            (n
+                                ? ((r = o - 1), (t.input.value = r - 1 >= 0 ? e[r - 1] : ""))
+                                : ((r = o + 1), (t.input.value = e[o])),
+                            (t.lastHistoryIndex = r));
+                    },
+                    b = (t, n) => {
+                        const { input: e, printstdout: o } = n;
+                        t.addEventListener("keyup", ({ key: s, ctrlKey: r }) => {
+                            // Ctrl+C always emits a dedicated signal event.
+                            // It no longer automatically stops/interrupts a running process.
+                            if (r && s === "c") {
+                                if (n.isProcessRunning) {
+                                    // Optional echo like a real terminal
+                                    o("^C");
+                                }
+                                m(p.ON_CTRL_C, t, { isProcessRunning: n.isProcessRunning });
+                                return;
+                            }
+                        
+                            if (n.isProcessRunning) return;
+                        
+                            if (s === "Enter") {
+                                n.lastHistoryIndex = 0;
+                            
+                                if (e.value.length > 0) {
+                                    // Echo the command
+                                    o(e.value, !0);
+                                
+                                    // Save history
+                                    I(n);
+                                
+                                    // Emit raw input to host
+                                    v(e.value, n);
+                                } else {
+                                    o(" ", !0);
+                                }
+                            
+                                e.value = "";
+                                return;
+                            }
+                        
+                            if (s === "ArrowUp") {
+                                P(n);
+                                return;
+                            }
+                            s === "ArrowDown" && P(n, !0);
+                        });
+                    },
+                    A =
+                        '.terminal{border-radius:0.25rem;overflow-y:auto;overflow-x:hidden;background-color:var(--terminal-bg-color, black);padding:15px;box-sizing:border-box}.terminal *{color:var(--terminal-fg-color, white);font-family:var(--terminal-font, "Hasklig-Regular", monospace)}.terminal-type{width:100%;display:inline-block}.terminal-type>span{padding-right:0}.terminal-type>input{width:calc(100% - 1rem);background:transparent;border:0;font-size:inherit;padding:0}.terminal-type>input:focus{border:none;outline:none}.terminal-container>p{margin:0}span.terminal-command{color:var(--terminal-accent-color, #ffff7d)}span.terminal-error{color:var(--terminal-error-color, #cc1010)}',
+                    M = () => {
+                        if (document.head.querySelectorAll('style[data-type="terminal"]').length === 0) {
+                            const t = c("style", void 0, A);
+                            t.setAttribute("data-type", "terminal"), t.setAttribute("type", "text/css"), document.head.append(t);
+                        }
+                    },
+                    w = (t, n, e) => {
+                        e.prompt = t;
+                        const o = n.querySelector("span");
+                        o.innerText = t;
+                    },
+                    H = ({
+                        host: t,
+                        welcomeMessage: n,
+                        prompt: e = "$: ",
+                        historyLength: o = 50,
+                        history: s = [],
+                        // commands + enableHelp kept for backwards shape, but no longer used
+                        enableHelp: r = !0,
+                        commands: a = {},
+                    }) => {
+                        const i = { host: t, welcomeMessage: n, prompt: e, historyLength: o, enableHelp: r, commands: a };
+                        M();
+                        const { commandContainer: u, input: g, inputContainer: S } = C(t, e),
+                            l = {
+                                history: s,
+                                lastHistoryIndex: 0,
+                                isProcessRunning: !1,
+                                settings: i,
+                                commandContainer: u,
+                                inputContainer: S,
+                                input: g,
+                            
+                                // Backwards-compatible print (stdout)
+                                print: (d, h = !1, O = !0) => {
+                                    T(d, h, O, u, g, i, !1);
+                                    if (l.autoScroll) {
+                                        t.scrollTop = t.scrollHeight;
+                                    }
+                                },
+                            
+                                // New stdout printer (alias of print)
+                                printstdout: (d, h = !1, O = !0) => {
+                                    T(d, h, O, u, g, i, !1);
+                                    if (l.autoScroll) {
+                                        t.scrollTop = t.scrollHeight;
+                                    }
+                                },
+                            
+                                // New stderr printer (red)
+                                printstderror: (d, h = !1, O = !0) => {
+                                    T(d, h, O, u, g, i, !0);
+                                    if (l.autoScroll) {
+                                        t.scrollTop = t.scrollHeight;
+                                    }
+                                },
+                            
+                                // Emit raw input
+                                run: (d) => v(d, l),
+                            
+                                start: () => _(l),
+                                stop: () => y(l),
+                                type: (d, h = 60, O) => R(d, h, l, O),
+                                setPrompt: (d) => w(d, S, i),
+                            };
+                        
+                        // Sticky autoscroll state
+                        l.autoScroll = !0;
+                        
+                        const updateAutoScroll = () => {
+                            l.autoScroll = isNearBottom(t);
+                        };
+                    
+                        // Track user scroll to toggle autoscroll
+                        t.addEventListener("scroll", updateAutoScroll);
+                        updateAutoScroll();
+                    
+                        b(t, l);
+                        m(p.ON_INIT, t);
+                        n && l.printstdout(n);
+                        return l;
+                    };
+                
+                return (
+                    (f.TerminalEvent = p),
+                    (f.initTerminal = H),
+                    Object.defineProperties(f, { __esModule: { value: !0 }, [Symbol.toStringTag]: { value: "Module" } }),
+                    f
+                );
+            })({});
+
+            const dom = document.getElementById('#instanceId');
+            const term = ttty.initTerminal({host: dom, prompt: "> ", commands:{}});
+            dom.addEventListener('onCommand', e => {
+                server.kernel.io.fire('<Event/>', e.detail, 'Command');
+            });
+            dom.addEventListener('onCtrlC', e => {
+                server.kernel.io.fire('<Event/>', true, 'Interrupt');
+            });
+            core['<CSymbol/>'] = async (args, env) => {
+                const type = await interpretate(args[0], env);
+                const text = await interpretate(args[1], env);
+                if (type == 'error') {
+                    if (Array.isArray(text)) text.forEach((t)=>{term.printstderror(t)}); else term.printstderror(text);
+                } else {
+                    if (Array.isArray(text)) text.forEach((t)=>{term.printstdout(t)}); else term.printstdout(text);
+                }
+            }
+            server.kernel.io.fire('<Event/>', true, 'Mount');
+        </script>
+    </div>
+];
+
+Component

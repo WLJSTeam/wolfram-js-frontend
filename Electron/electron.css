@@ -9,23 +9,23 @@ body {
 }
 /* https://manuel.pinto.dev */
 body {
-	background: linear-gradient(-45deg, #ee77521f, #e7ce3c1a, #d523760f, #23d5ab2e);
-	background-size: 400% 400%;
-	animation: gradient 5s ease infinite;
+	/* background: linear-gradient(-45deg, #ee77521f, #e7ce3c1a, #d523760f, #23d5ab2e); */
+	/* background-size: 400% 400%; */
+	/* animation: gradient 5s ease infinite; */
 	height: 100vh;
 	/* opacity: 0.1; */
 }
 
 .dark-static {
-  background: linear-gradient(-45deg, rgb(64,55,65), rgb(61,61,64),  rgb(52, 45, 64),  rgb(52, 75, 81));
+  /* background: linear-gradient(-45deg, rgb(64,55,65), rgb(61,61,64),  rgb(52, 45, 64),  rgb(52, 75, 81)); */
   background-size: 400% 400%;
 	animation: gradient 5s ease infinite;
 }
 
 .light-static {
-  background: linear-gradient(-45deg, rgb(251, 239, 235), rgb(252, 250, 238), rgb(252, 243, 247), rgb(227, 247, 240));
+  /* background: linear-gradient(-45deg, rgb(251, 239, 235), rgb(252, 250, 238), rgb(252, 243, 247), rgb(227, 247, 240)); */
   background-size: 400% 400%;
-	animation: gradient 5s ease infinite;
+	/* animation: gradient 5s ease infinite; */
 }
 
 @keyframes gradient {

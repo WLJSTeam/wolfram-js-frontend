@@ -1,0 +1,142 @@
+(* tokenizer *)
+
+fixLinks[str_] := StringReplace[str, {
+    RegularExpression["\\[([^\\[^\\]]*)\\]\\(\\/([^\\[^\\]]+\\))"] :> StringJoin["[$1]", "($2"],
+    RegularExpression["src=\"\\/([^\"]+)\""] :> StringJoin["src=\"", "$1", "\""],
+    RegularExpression["href=\"\\/([^\"]+)\""] :> StringJoin["href=\"", "$1", "\""]
+}]
+
+fixLatex[str_] := With[{slash = FromCharacterCode[{92}], double = FromCharacterCode[{92,92}]},
+    StringReplace[str, double -> slash] 
+]
+
+fixMarkdownBug[str_] := If[StringTake[str,1] == ">", StringDrop[str,1], str]
+
+
+transformCell[cell_, "Input", "markdown"]  := Nothing
+transformCell[cell_, "Output", "markdown"] := needsTransform[fixLinks @ fixMarkdownBug @ cell["Data"]]
+
+transformCell[cell_, "Output", "html"] := wrapHTML @ fixLinks @ cell["Data"]
+
+
+escape[str_String] := StringReplace[str, "`" -> "\\`"]
+
+escapeRawStringJSX[str_String] := StringReplace[str, {"`"->"\\`"}]
+checkIfJSXInterpolation[str_String] := Length[StringCases[str, "${"]] > 0
+
+wrapHTML[str_String] := StringJoin["<","wljs-html encoded=\"true\"",">",URLEncode[str],"<","/","wljs-html>"]
+
+transformCell[cell_, "Input", "codemirror"] := With[{
+    opts = ExportString[cell["Props"], "JSON", "Compact"->0],
+    id = cell["Hash"],
+    nid = cell["Notebook"]["Hash"],
+    display = cell["Display"],
+    data = cell["Data"]
+},
+    If[!(!TrueQ[cell["Props"]["Hidden"]] && !TrueQ[cell["Invisible"]] && StringLength[StringTrim[data]] > 0),
+        Nothing
+    ,
+        StringJoin["<", "wljs-editor ", "display=\"", display ,"\" ", "type=\"Input\" ", "", If[TrueQ[cell["Props"]["Fade"]], "fade=\"true\"", ""], " ", ">","<","xmp",">", data, "<","/","xmp",">","<", "/", "wljs-editor", ">"]
+    ] 
+]
+
+transformCell[cell_, "Output", _] := With[{
+    opts = ExportString[cell["Props"], "JSON", "Compact"->0],
+    id = cell["Hash"],
+    nid = cell["Notebook"]["Hash"],
+    display = cell["Display"],
+    data = cell["Data"]
+},
+    StringJoin["<", "wljs-editor ", "display=\"", display ,"\" ", "type=\"Output\" ", "", If[TrueQ[cell["Props"]["Fade"]], "fade=\"true\"", ""], " ", ">","<","xmp",">", data, "<","/","xmp",">","<", "/", "wljs-editor", ">"]
+]
+
+transformCell[cell_, "Output", "mjs" | "js" | "javascript"] := With[{
+    opts = ExportString[cell["Props"], "JSON", "Compact"->0],
+    id = cell["Hash"],
+    nid = cell["Notebook"]["Hash"],
+    display = cell["Display"],
+    data = cell["Data"]
+},
+    StringJoin["<", "wljs-editor ", "display=\"", display ,"\" ", "type=\"Output\" ", "", "encoded=\"true\" class=\"wljs-hide-undefined\"", " ", ">", URLEncode[data], "<", "/", "wljs-editor", ">"]
+]
+
+transformCell[cell_] := transformCell[cell, cell["Type"], cell["Display"]]
+
+
+stripHTMLTags[s_String] := StringReplace[s, Uncompress["1:eJxTTMoPSmNmYGAoZgESPpnFJWlMMF5QaU5qMCOQoRIMJBhQJSCaBIBEcElRZl66a0VBUWpxcWZ+HliLTRqILOYAqU4tSE0sSU0p5gVywvOLUpwzEosSk0tSi8Aq7UgzHKTORp9E0wFHSzGb"]]
+
+stripHTMLTags[_] := ""
+
+getTitle[notebook_] := With[{},
+  With[{inputs = Select[notebook["Cells"], cell`InputCellQ]},
+    With[{markdown = Select[inputs, StringMatchQ[#["Data"], ".md\n"~~__]&]},
+      If[Length[markdown] == 0,
+        "WLJS Notebook",
+
+        With[{ r = StringCases[markdown[[1]]["Data"], RegularExpression[".md\n#+(.*)"] :> "$1"] },
+          stripHTMLTags[If[Length[r] == 0,  StringSplit[markdown[[1]]["Data"], "\n"][[2]], r[[1]] ]]
+        ]
+      ]
+    ]
+  ]
+]
+
+exportStore[notebook_] := With[{
+    objs = ExportByteArray[#["Public"] &/@ notebook["Objects"], "ExpressionJSON", "Compact"->1] // ByteArrayToString,
+    syms = ExportByteArray[If[MemberQ[notebook["Properties"], "Symbols"], notebook["Symbols"], <||>], "ExpressionJSON", "Compact"->1] // ByteArrayToString
+  },
+  
+    StringJoin["{\n\"objects\":",objs,", \n\"symbols\":",syms,"\n}"]
+]
+
+
+metaCell[notebook_, NId_, dynamicQ_, name_] := With[{},
+  StringJoin[
+        URLDecode["%3C!--%20add%20this%20script%20to%20the%20end%20of%20the%20body%20--%3E%0D%0A%3C!--%20https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FWLJSTeam%2Fweb-components%40latest%2Fsrc%2Fcommon%2Fapp.js%20--%3E"] 
+    ,
+        "\r\n","\r\n"
+    ,
+        If[dynamicQ,
+            StringJoin["<","wljs-store"," kernel=\"./attachments/", "kernel-", ToString[Hash[name] ], ".txt\"", " json=\"./attachments/",NId,".txt\"",">", "<","/","wljs-store", ">", "\r\n\n"]
+        ,
+            StringJoin["<","wljs-store"," json=\"./attachments/",NId,".txt\"",">", "<","/","wljs-store", ">", "\r\n\n"]
+        ]
+    , "\r\n","\r\n",
+        If[MemberQ[notebook["Properties"], "RuntimeCache"], 
+            With[{data = StringRiffle[Select[Flatten[{EventFire[NotebookEditorChannel, "GetRuntimeAssetsBundle", notebook["RuntimeCache"]] } ], StringQ]]},
+                StringJoin["<","wljs-assets encoded=\"true\"", ">", URLEncode[data], "<", "/", "wljs-assets", ">\r\n\n"]
+            ] 
+        , ""]
+    ,    
+        "\n"
+  ]
+]
+
+Component[OptionsPattern[]] := Module[{settings}, With[{
+    Title = OptionValue["Title"],
+    notebook = OptionValue["Notebook"],
+    ExtensionTemplates = OptionValue["ExtensionTemplates"],
+    NId = OptionValue["Notebook"]["Hash"],
+    dynamicQ = OptionValue["DynamicQ"],
+    markdownTransfomer = OptionValue["MarkdownTransformer"]
+  }, 
+  With[{
+    data = Map[Function[s, If[StringQ[s], s, markdownTransfomer[ s[[1]] ] ]], Flatten @ {metaCell[notebook, NId, dynamicQ, Title], transformCell /@ notebook["Cells"]}],
+    p = Promise[]
+  },
+
+    With[{
+      
+    },
+      Then[data, Function[strings,
+        EventFire[p, Resolve, StringRiffle[strings, "\r\n\r\n"]];
+      ]];
+      p
+    ] ]
+
+  ] ];
+
+Options[Component] = {"MarkdownTransformer"->Identity, "Title" -> "Example", "Notebook"->"", "ExtensionTemplates"->{}, "DynamicQ" -> False}
+
+
+{Component, exportStore}

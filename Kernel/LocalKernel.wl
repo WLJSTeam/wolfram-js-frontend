@@ -1,4 +1,4 @@
-BeginPackage["CoffeeLiqueur`Notebook`LocalKernel`", {"JerryI`Misc`Async`", "JerryI`Misc`Events`", "JerryI`Misc`Events`Promise`", "KirillBelov`Objects`", "KirillBelov`Internal`",  "KirillBelov`LTP`", "KirillBelov`TCPServer`", "KirillBelov`CSockets`"}]
+BeginPackage["CoffeeLiqueur`Notebook`LocalKernel`", {"CoffeeLiqueur`Misc`Async`", "CoffeeLiqueur`Misc`Events`", "CoffeeLiqueur`Misc`Events`Promise`", "CoffeeLiqueur`Objects`", "CoffeeLiqueur`Internal`",  "CoffeeLiqueur`LTP`", "CoffeeLiqueur`TCPServer`", "CoffeeLiqueur`CSockets`"}]
 
 LocalKernel;
 
@@ -19,7 +19,7 @@ LTPServerStart[port_:36800] := With[{},
     ltpRunning = True;
     Echo[">> Starting local LTP server ..."];
 
-    tcp = TCPServer[];
+    tcp = TCPUServer[];
     tcp["CompleteHandler", "LTP"] = LTPQ -> LTPLength;
     tcp["MessageHandler", "LTP"]  = LTPQ -> LTPHandler;
 
@@ -82,20 +82,20 @@ HeldRemotePacket /: LinkWrite[lnk_, HeldRemotePacket[p_String] ] := With[{pp = p
 HoldRemotePacket[any_] := any // Hold // Compress // HeldRemotePacket
 SetAttributes[HoldRemotePacket, HoldFirst]
 
-tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port]},
+tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o["Host"], uid = o["Hash"], p = o["Port"], addr = "127.0.0.1:"<>ToString[port], env = System`$Env, electronQ = (System`$Env["ElectronCode"] === 1)},
     (  
         Print["Establishing LTP link... using "<>addr];
         Internal`Kernel`Host = host;
         
-        Internal`Kernel`Stdout = CSocketConnect[addr] // LTPTransport;
+        Internal`Kernel`Stdout = USocketConnect[addr] // LTPTransport;
         Print["Establishing starting LTP server for backlink... using "<>(StringTemplate["127.0.0.1:``"][p])];
         Module[{Internal`Kernel`ltcp},
-            Internal`Kernel`ltcp = TCPServer[];
+            Internal`Kernel`ltcp = TCPUServer[];
      
             Internal`Kernel`ltcp["CompleteHandler", "LTP"] = LTPQ -> LTPLength;
             Internal`Kernel`ltcp["MessageHandler", "LTP"]  = LTPQ -> LTPHandler;
 
-            SocketListen[CSocketOpen["127.0.0.1:"<>ToString[p] ], Internal`Kernel`ltcp@#&];
+            SocketListen[USocketOpen["127.0.0.1:"<>ToString[p] ], Internal`Kernel`ltcp@#&];
             
         ];
 
@@ -103,7 +103,12 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
         Internal`Kernel`Type = "LocalKernel";
         Internal`Kernel`Hash = uid;
         Internal`Kernel`WLJSQ = True;
+        Internal`Kernel`$Env = env;
+        Internal`Kernel`ElectronQ = electronQ;
         System`$FrontEndWLJSQ = True; (* DEPRICATED *)
+
+        Off[Unset::norep];
+        Off[TagUnset::norep];
 
         AppendTo[$Path, shared]; (* add shared directory *)
 
@@ -118,24 +123,33 @@ tcpConnect[port_, o_LocalKernelObject] := With[{shared = af`SharedDir, host = o[
             EventFire[Internal`Kernel`Stdout[secret], "Pong", True];
         );
 
-        Internal`Kernel`Watchdog["Assertion", name_String, test_, action_] := (
+        Internal`Kernel`Watchdog["Assertion", name_String, test_, action_] := With[{uid = CreateUUID[]},
+            Internal`Kernel`Watchdog["Assertion", name, test, action, uid ];
+        ];
+        Internal`Kernel`Watchdog["Assertion", name_String, test_, action_, tag_] := (
            If[!KeyExistsQ[Internal`Kernel`Watchdog`store, name],
-             Echo["Added watchdog >> "<>name];
-             Internal`Kernel`Watchdog`store[name] = {Hold[test], Hold[action]};
+             Internal`Kernel`Watchdog`store[name] = {Hold[test], Hold[action], tag};
              Internal`Kernel`Watchdog`state[name] = ReleaseHold[test];
            ];
         );
 
         Internal`Kernel`Watchdog::assert = "Assertion failed ``. Actions were applied";
 
-        Internal`Kernel`Watchdog["Test"] := With[{},
+        Internal`Kernel`Watchdog`$Journal = {};
+
+        Internal`Kernel`Watchdog["Test"] := Module[{firedTags},
             KeyValueMap[Function[{key, value},
                 If[Internal`Kernel`Watchdog`state[key] =!= ReleaseHold[value[[1]]],
-                    Message[Internal`Kernel`Watchdog::assert, key];
-                    value[[2]] // ReleaseHold;
+                    Internal`Kernel`Watchdog`$Journal = Append[Internal`Kernel`Watchdog`$Journal, {StringTemplate[Internal`Kernel`Watchdog::assert][key], Now} ];
+                    
+                    If[!TrueQ[firedTags[value[[3]] ] ], value[[2]] // ReleaseHold];
+                    With[{v = value[[3]]}, firedTags[v] = True];
+                    
                     Internal`Kernel`Watchdog`state[key] = ReleaseHold[value[[1]]];
                 ];
             ], Internal`Kernel`Watchdog`store ];
+            
+            ClearAll[firedTags];
         ];
 
         Internal`Kernel`Watchdog["QuickTest"] := Internal`Kernel`Watchdog["Test"];
@@ -248,11 +262,11 @@ start[k_LocalKernelObject] := Module[{link},
     EventFire[k, "State", k["State"] ];
 
     If[FailureQ[link], 
-        EventFire[k, "Error", "Link failed. Trying legacy methods..."]; 
+        EventFire[k, "Error", "Kernel link failed. Trying legacy methods..."]; 
         link = LinkLaunch["math -mathlink"];
 
         If[FailureQ[link], 
-            EventFire[k, "Error", "Link failed."]; 
+            EventFire[k, "Error", "Kernel link failed."]; 
         ];
 
         k["State"] = "Link failed!";
@@ -274,24 +288,30 @@ start[k_LocalKernelObject] := Module[{link},
         LinkWrite[link, Unevaluated[ SetDirectory[path] ] ] ;
         LinkWrite[link, Unevaluated[ Set[Internal`Kernel`RootDirectory, path] ] ];
         LinkWrite[link, Unevaluated[ PacletDirectoryLoad[Directory[] ] ] ];
-        LinkWrite[link, Unevaluated[ PacletDirectoryLoad[FileNameJoin[{Directory[], "wl_packages"}] ] ] ];
+        LinkWrite[link, Unevaluated[ PacletDirectoryLoad[FileNameJoin[{Directory[], "Packages"}] ] ] ];
 
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`CSockets`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`Objects`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`Internal`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`TCPServer`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Events`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Async`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Language`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Events`Promise`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`Parallel`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`WebSocketHandler`"] ];
-        LinkWrite[link, EnterTextPacket["<<JerryI`Misc`WLJS`Transport`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`CSockets`EventsExtension`"] ];
-        LinkWrite[link, EnterTextPacket["<<KirillBelov`LTP`Events`"] ];
+        If[TrueQ @ Internal`$NoWRServices, 
+             LinkWrite[link, Unevaluated[ Get[FileNameJoin[{Directory[], "Common", "Patches", "NoWR.wl"}] ] ] ];
+        ];
+
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`CSockets`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Objects`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Internal`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`LTP`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`TCPServer`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Events`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Async`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Language`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Events`Promise`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`Parallel`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`WebSocketHandler`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`Misc`WLJS`Transport`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`CSockets`EventsExtension`"] ];
+        LinkWrite[link, EnterTextPacket["<<CoffeeLiqueur`LTP`Events`"] ];
         LinkWrite[link, EnterTextPacket["<<LetWL`"] ];
         LinkWrite[link, EnterTextPacket["Off[Most::argx]"] ];
+        LinkWrite[link, EnterTextPacket["$Inspector = Dialog[]&;"] ];
+        
         
 
         (* unknown bug, doesn't work in initialization ... *)
@@ -312,7 +332,7 @@ start[k_LocalKernelObject] := Module[{link},
                 any_ :> (Echo[any]&)
             }];
 
-            k["PrintTask"] = Looper`Submit[
+            k["PrintTask"] = MicrotaskSubmit[
                 If[LinkReadyQ[kernel["Link"] ], EventFire[kernel["StandardOutput"], LinkRead[kernel["Link"] ], kernel] ];
             , "Continuous" -> True];
         ];
@@ -329,7 +349,7 @@ start[k_LocalKernelObject] := Module[{link},
 
 checkState[k_LocalKernelObject] := Module[{},
     k["State"] = "Timeout";
-    EventFire[k, "Error", "Timeout"];
+    EventFire[k, "Error", "Kernel initialization timeout"];
 ]
 
 (* [NOTE] You may easily overload the evaluation que on Windows machines *)

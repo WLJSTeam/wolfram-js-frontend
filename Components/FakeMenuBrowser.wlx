@@ -35,18 +35,17 @@ With[{
         <button data-name="LocateExamples" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
        
           Locate examples
-        </button> 
-        <button data-name="CheckUpdates" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+        </button>             
+      </div>
+,
+      <div class="py-0 px-2" role="none">
+        <button data-name="OpenSettings" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
        
-          Check updates
-        </button>              
+          Settings
+        </button>             
       </div>
     ,
-      <div class="py-0 px-2" role="none">       
-      <button data-name="Acknowledgments" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
-  
-        Acknowledgments
-      </button>        
+      <div class="py-0 px-2" role="none">            
       <button data-name="Exit" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
 
         Shutdown
@@ -66,7 +65,11 @@ LayoutView =
         <button data-name="EvaluateInitCells" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
 
           Evaluate initialization cells
-        </button>      
+        </button>    
+        <button data-name="EvaluateAllCells" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+
+          Evaluate all cells
+        </button>           
         <button data-name="ToggleCells" class="block w-full text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
 
           Show/Hide cell
@@ -75,6 +78,10 @@ LayoutView =
         <button data-name="ClearOutputs" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
     
           Clear outputs
+        </button>
+        <button data-name="UntrashCell" class="block w-full  text-black group flex items-center px-1 my-1 py-1 rounded text-sm leading-4 dark:text-gray-400" role="menuitem" tabindex="-1">
+    
+          Trashed Cells
         </button>
       </div>
     ,
@@ -100,7 +107,7 @@ LayoutMisc =
   }//Flatten
 },
 
-    <div class="h-titlebar p-1 pr-2 flex zen:ml-0 pl-1 md:-ml-70 zen:relative relative ml-0 md:absolute">
+    <div style="-webkit-app-region: no-drag" class="h-titlebar p-1 pr-2 flex zen:ml-0 pl-1 md:-ml-70 zen:relative relative ml-0 md:absolute">
         <div class="my-auto mr-auto pr-1 flex gap-x-1 text-sm">
             <button id="fake-menu-file" class="text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md px-2 h-6 win:ml-0 owin:ml-0 linux:ml-0">
                 File

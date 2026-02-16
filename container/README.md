@@ -4,6 +4,13 @@
 ## Description
 A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfram-js-frontend) project is provided here. The image is based on the on the [Wolfram Engine](https://hub.docker.com/r/wolframresearch/wolframengine) docker image to provide wolframscript.
 
+### What is included:
+- Node 18
+- Clang + utils
+- git
+- ffmpeg
+- curl
+
 ## Getting Started
 
 1. Make sure you have either installed [docker](https://docs.docker.com/engine/install/) or [podman](https://podman.io/get-started) on your machine.
@@ -15,7 +22,6 @@ A docker container for the [Wolfram JS Frontend](https://github.com/JerryI/wolfr
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/home/wljs/WLJS Notebooks" \
   -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
   -e PUID=$(id -u) \
@@ -47,7 +53,6 @@ To feath a new version, you need to purge the old one including a named volume
 ```bash
 docker stop wljs
 docker rm wljs
-docker volume rm wljs_data
 docker system prune -a
 ```
 
@@ -77,16 +82,12 @@ docker run -it \
   ghcr.io/wljsteam/wolfram-js-frontend:main
 ```
 
-***Note***
-To update WLJS Notebook image, please, remove named volume `wljs_data` as well. Otherwise some packages may appear to be outdated
-
 ## Running as root
 *Not recommended*
 Change the mounting directories
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/root/WLJS Notebooks" \
   -v ~/wljs/Licensing:/root/.WolframEngine/Licensing \
   -e PUID=$(id -u) \
@@ -227,7 +228,6 @@ Restart nginx.
 
 ```bash
 docker run -it \
-  -v wljs_data:/wljs \
   -v ~/wljs:"/home/wljs/WLJS Notebooks" \
   -v ~/wljs/Licensing:/home/wljs/.WolframEngine/Licensing \
   -e PUID=$(id -u) \

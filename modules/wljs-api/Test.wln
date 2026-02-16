@@ -1,0 +1,95 @@
+<|"Notebook" -> <|"Controller" -> "81eb3315-8352-435a-94c1-088889e16f72", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$355], "FocusedCellSelection" -> 
+    {2, 1}, "HaveToSaveAs" -> False, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "2ad458a2-4476-431a-afeb-7d2f59d071b9", 
+   "Objects" -> <||>, "Path" -> 
+    "/users/kirill/Github/wolfram-js-frontend/modules/wljs-api/Test.wln", 
+   "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {}|>, "Cells" -> 
+  {<|"Data" -> "ImportString[URLRead[\"http://127.0.0.1:20560/api/\"][\"Body\
+\"], \"RawJSON\"] // TableForm ", "Display" -> "codemirror", 
+    "Hash" -> "82439cbd-420a-4a17-835c-fe0b98e8495c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "Selection" -> {85, 85}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "(*GB[*){{\"/api/ready/\"}(*||*),(*||*){\"/api/notebook/\"}(*|\
+|*),(*||*){\"/api/kernel/\"}(*||*),(*||*){\"/api/alphaRequest/\"}(*||*),(*||*\
+){\"/api/promise/\"}}(*]GB*)", "Display" -> "codemirror", 
+    "Hash" -> "4fceb8ff-ab9f-47bb-86f8-18a294fbe9bb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "nid = \
+SelectFirst[ImportString[URLRead[\"http://127.0.0.1:20560/api/notebook/list/\
+\"][\"Body\"], \"RawJSON\"], #Opened&][\"Id\"]", "Display" -> "codemirror", 
+    "Hash" -> "5714f071-bd40-4bed-8647-84585181d16a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "Selection" -> {106, 106}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "\"5f625c7f-fd88-48b3-8e42-73ae44bda25b\"", 
+    "Display" -> "codemirror", "Hash" -> 
+     "19564cac-7c4b-4513-99e1-3b3b744ceed2", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> ".md\nHelper function", "Display" -> "codemirror", 
+    "Hash" -> "e719fa48-f6d5-48d3-b2eb-167ad843e98d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "Selection" -> {19, 19}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "Helper function", "Display" -> "markdown", 
+    "Hash" -> "949eb90f-0d3d-4cce-b7e2-85e0099e6f7f", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "request[path_, body_] := Module[{\n  response = \
+ImportString[URLRead[HTTPRequest[\"http://127.0.0.1:20560\"<>path, \
+<|\"Body\"->ExportString[body, \"JSON\"], Method->\"POST\"|>]][\"Body\"], \
+\"RawJSON\"],\n  ready = False,\n  result\n},\n  \
+If[StringQ[response[\"Promise\"]], \n    While[!ready,\n      Pause[0.5];\n   \
+   result = \
+ImportString[URLRead[HTTPRequest[\"http://127.0.0.1:20560/api/promise/\", \
+<|\"Body\"->ExportString[<|\"Promise\"->response[\"Promise\"]|>, \"JSON\"], \
+Method->\"POST\"|>]][\"Body\"], \"RawJSON\"];\n      \
+If[result[\"ReadyQ\"]//TrueQ, ready = True];\n    ];\n\n    \
+result[\"Result\"]\n  ,\n    response\n  ]\n]", "Display" -> "codemirror", 
+    "Hash" -> "cf77bb7d-e309-4792-9313-d6a8b4aded7d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "Selection" -> {561, 561}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "0", "Display" -> "codemirror", 
+    "Hash" -> "39064882-42d2-41dc-9084-1b2a9dba671a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> False|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> 
+     "request[\"/api/notebook/cells/focused/\", <|\"Notebook\"->nid|>] ", 
+    "Display" -> "codemirror", "Hash" -> 
+     "915f77fd-aa92-4752-86cb-2129b9f99fa9", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "<|\"Id\"->\"33065018-758c-41cb-b612-e82b1876b874\",\"Display\
+\"->\"codemirror\",\"Lines\"->5,\"FirstLine\"->\"Some multiline \
+garabge\",\"SelectedLines\"->{5,4}|>", "Display" -> "codemirror", 
+    "Hash" -> "6637755d-3f44-4c6e-8d1c-3ed254e7abfb", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "request[\"/api/notebook/cells/setlines/\", \
+<|\"Notebook\"->nid, \"Cell\"->\"33065018-758c-41cb-b612-e82b1876b874\", \
+\"From\"->2, \"To\"->2, \"Content\"->\"123\\n456\\n111\"|>]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "171b9f62-ca41-4f4b-b6c2-44b3d8d87815", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "Selection" -> {36, 36}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>, 
+   <|"Data" -> "\"Lines were set\"", "Display" -> "codemirror", 
+    "Hash" -> "2e8b267b-7036-4903-97cd-48847f011403", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "5f625c7f-fd88-48b3-8e42-73ae44bda25b"|>}, 
+ "serializer" -> "jsfn4"|>

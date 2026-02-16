@@ -1,0 +1,108 @@
+<|"Notebook" -> <|"Controller" -> "0f5c5826-957f-4a4e-9573-37bd31f8a422", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$1773], "HaveToSaveAs" -> False, 
+   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
+    "1a7e8fb2-c6c1-4c00-a4d6-670748d0b0f8", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Downloads/Videostream.wln", 
+   "PublicFields" -> {"Properties"}, "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Live video streaming", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1766]]}|>, 
+ "Cells" -> 
+  {<|"Data" -> 
+     ".md\n# Live video streaming\nA stress test for the whole system ;)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "459150b7-6531-4fc7-ada9-160c521c6674", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> 
+     "# Live video streaming\nA stress test for the whole system ;)", 
+    "Display" -> "markdown", "Hash" -> 
+     "a20c95a3-c659-40c2-bee4-cee69ea4c5fd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "v = Video[\"ExampleData/Caminandes.mp4\"];\nframes = \
+VideoFrameList[v, 600];", "Display" -> "codemirror", 
+    "Hash" -> "f7b41835-8318-4c4c-8bcd-5dfd8e1c7db3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> ".md\nEncode frames as numeric arrays", 
+    "Display" -> "codemirror", "Hash" -> 
+     "e56b1dee-1f52-46a5-97a1-860ebb556db7", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "Encode frames as numeric arrays", "Display" -> "markdown", 
+    "Hash" -> "aee0c94b-6443-4242-b470-151cd6eb35aa", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "encoded  = Map[Function[f, \n\n  NumericArray[ImageData[f, \
+\"Byte\"], \"UnsignedInteger8\"]\n\n], frames];", "Display" -> "codemirror", 
+    "Hash" -> "596ce9e8-de57-4e95-934c-a15cfa726884", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> ".md\n__Stream__", "Display" -> "codemirror", 
+    "Hash" -> "2d43988a-ddcc-4e3e-8661-1931e6aae28d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "__Stream__", "Display" -> "markdown", 
+    "Hash" -> "45629034-2482-4b64-8b75-d95aaa6e454a", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "frame = encoded // First;\nfps = 0.4;\nGraphics[{\n  \
+Inset[Image[frame // Offload, \"Byte\"], {0,0}, ViewMatrix->None],\n  Red, \
+Directive[FontSize->18,Bold], Text[fps // Offload, {0.1,0.2}],\n  \
+AnimationFrameListener[fps // Offload, \"Event\"->\"film\"]\n\n}, \
+PlotRange->{{0,1}, {0,1}}, ImageSize->{600, 300}, Controls->False]", 
+    "Display" -> "codemirror", "Hash" -> 
+     "59ca0acd-d639-4c82-a3a3-9b8fba4190e0", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> ".md\nStart streaming", "Display" -> "codemirror", 
+    "Hash" -> "1e0aa73f-5b5a-4a2c-9758-f94af9a8b9fa", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "Start streaming", "Display" -> "markdown", 
+    "Hash" -> "8fdd5eb1-be69-4ec9-9e81-c2fda027ae8c", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "index = 1;\ntime = AbsoluteTime[];\n\nEventHandler[\"film\", \
+Function[Null,\n  frame = encoded[[index]];\n  index++;\n  If[index >= \
+Length[encoded], index = 1; Return[]];\n  \n  With[{t = AbsoluteTime[]},\n    \
+fps = Round[ (*FB[*)((fps + 1/(t - time))(*,*)/(*,*)(2.0))(*]FB*)];\n    time \
+= t;\n  ];\n]]\n\nEventFire[\"film\", True];", "Display" -> "codemirror", 
+    "Hash" -> "ce41784f-2b61-415b-b72b-65d72c730be4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "\"film\"", "Display" -> "codemirror", 
+    "Hash" -> "e7ad6320-6847-4c97-937e-75fd3296a8a1", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> ".md\nStop", "Display" -> "codemirror", 
+    "Hash" -> "b0b240db-81c9-4a05-836f-297850180267", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "Stop", "Display" -> "markdown", 
+    "Hash" -> "12637844-0aea-4093-aea4-3753f37a1478", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>, 
+   <|"Data" -> "EventRemove[\"film\", True];", "Display" -> "codemirror", 
+    "Hash" -> "4e156d4b-d376-4c1a-a1d6-9d3c68a50b57", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "8bd0ba88-4ff0-469c-94e0-d12cfd2dc67b"|>}, 
+ "serializer" -> "jsfn4"|>

@@ -1,0 +1,141 @@
+<|"Notebook" -> <|"FocusedCell" -> CellObj[CoffeeLiqueur`Notebook`CellObj`$120], 
+   "Objects" -> <||>, "Path" -> "/users/kirill/Github/wolfram-js-frontend-dev\
+/wljs_packages/wljs-templates/Library/Notebooks/Matcha/Matcha.wln", 
+   "Symbols" -> <||>|>, "Cells" -> 
+  {<|"Data" -> ".html\n<style>\n /*\n * Copyright (c) 2016-present Sven Greb \
+<development@svengreb.de>\n * This source code is licensed under the MIT \
+license found in the license file.\n */\n\n:root {\n  --matcha0: #fafafa; /* \
+Lightest background (similar to nord0) */\n  --matcha1: #f0f0f0; /* Slightly \
+darker than matcha0 (similar to nord1) */\n  --matcha2: #e5e5e5; /* Slightly \
+darker than matcha1 (similar to nord2) */\n  --matcha3: #939393; /* Dark gray \
+for contrasts (similar to nord3) */\n  --matcha4: #868686; /* Slightly darker \
+than matcha3 (similar to nord4) */\n  --matcha5: #787878; /* Slightly darker \
+than matcha4 (similar to nord5) */\n  --matcha6: #4d4d4d; /* Darkest \
+background (similar to nord6) */\n  --matcha7: #9ecb8e; /* Unchanged (Matcha \
+accent similar to nord7) */\n  --matcha8: #87c0a8; /* Unchanged (Matcha \
+accent similar to nord8) */\n  --matcha9: #5e8a8b; /* Darker for better \
+contrast (similar to nord9) */\n  --matcha10: #4c7873; /* Darker for better \
+contrast (similar to nord10) */\n  --matcha11: #88b388; /* Replaced red with \
+greenish hue */\n  --matcha11r: #d85f5f; /* Unchanged (Matcha accent similar \
+to nord11) */\n  --matcha12: #a2c3a2; /* Replaced red with lighter greenish \
+hue */\n  --matcha13: #ebd28b; /* Unchanged (Matcha accent similar to nord13) \
+*/\n  --matcha14: #a3be89; /* Unchanged (Matcha accent similar to nord14) \
+*/\n  --matcha15: #b48e9d; /* Unchanged (Matcha accent similar to nord15) \
+*/\n  --editor-key-meta: var(--matcha3); /* Darker for better contrast */\n  \
+--editor-key-keyword: var(--matcha9); /* Darker for better contrast */\n  \
+--editor-key-atom: var(--matcha15); /* Unchanged */\n  --editor-key-literal: \
+var(--matcha15); /* Unchanged */\n  --editor-key-string: var(--matcha11r); /* \
+Unchanged */\n  --editor-key-escape: var(--matcha13); /* Unchanged */\n  \
+--editor-key-variable: var(--matcha4); /* Darker for better contrast */\n  \
+--editor-local-variable: var(--matcha4); /* Darker for better contrast */\n  \
+--editor-key-type: var(--matcha7); /* Unchanged */\n  --editor-key-class: \
+var(--matcha7); /* Unchanged */\n  --editor-special-variable: var(--matcha4); \
+/* Darker for better contrast */\n  --editor-key-property: var(--matcha8); /* \
+Darker for better contrast */\n  --editor-key-comment: var(--matcha12); /* \
+Unchanged */\n  --editor-key-invalid: var(--matcha11); /* Unchanged */\n  \
+--editor-outline: var(--matcha4); /* Darker for better contrast */\n  color: \
+black; /* Text color for light mode */\n}\n\n[transparency=\"true\"] \
+.bg-g-trans {\n  background: var(--matcha0) \
+!important;\n}\n\n[transparency=\"false\"] .bg-g-trans {\n  background: \
+var(--matcha0) !important;\n}  \n\n.bg-g-trans {\n  background: \
+var(--matcha1) !important;\n}\n\n.cm-tooltip-autocomplete.cm-tooltip {\n  \
+background-color: var(--matcha2) !important;\n}\n\n.cm-editor .cm-cursor {\n  \
+border-left-color: var(--matcha5);\n}\n\n.cm-tooltip-autocomplete ul \
+li[aria-selected] {\n  background: var(--matcha3); /* Darker for better \
+contrast */\n  color: white !important; /* Ensuring text visibility */\n  \
+border-radius: 4px !important;\n}\n\n  h1 {\n    color: var(--matcha11)\n  \
+}\n\n  h2 {\n    color: var(--matcha12)\n  }\n\n  h3 {\n    color: \
+var(--matcha13)\n  }\n\n  h3 {\n    color: var(--matcha14)\n  }  \n\n  \
+mark{\n    background: var(--matcha13);\n    color: black;\n    padding-left: \
+0.25rem;\n    padding-right: 0.25rem;\n  }\n\n  body {\n    background: \
+var(--matcha0);\n  }\n\n  @media (prefers-color-scheme: dark) {\n    body {\n \
+     background: var(--matcha5);\n    }\n  }\n</style>", 
+    "Display" -> "codemirror", "Hash" -> 
+     "22dbed4d-75b7-437d-9c2b-bfadddfd61f7", "Invisible" -> True, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>, 
+   <|"Data" -> "<style>\n /*\n * Copyright (c) 2016-present Sven Greb \
+<development@svengreb.de>\n * This source code is licensed under the MIT \
+license found in the license file.\n */\n\n:root {\n  --matcha0: #fafafa; /* \
+Lightest background (similar to nord0) */\n  --matcha1: #f0f0f0; /* Slightly \
+darker than matcha0 (similar to nord1) */\n  --matcha2: #e5e5e5; /* Slightly \
+darker than matcha1 (similar to nord2) */\n  --matcha3: #939393; /* Dark gray \
+for contrasts (similar to nord3) */\n  --matcha4: #868686; /* Slightly darker \
+than matcha3 (similar to nord4) */\n  --matcha5: #787878; /* Slightly darker \
+than matcha4 (similar to nord5) */\n  --matcha6: #4d4d4d; /* Darkest \
+background (similar to nord6) */\n  --matcha7: #9ecb8e; /* Unchanged (Matcha \
+accent similar to nord7) */\n  --matcha8: #87c0a8; /* Unchanged (Matcha \
+accent similar to nord8) */\n  --matcha9: #5e8a8b; /* Darker for better \
+contrast (similar to nord9) */\n  --matcha10: #4c7873; /* Darker for better \
+contrast (similar to nord10) */\n  --matcha11: #88b388; /* Replaced red with \
+greenish hue */\n  --matcha11r: #d85f5f; /* Unchanged (Matcha accent similar \
+to nord11) */\n  --matcha12: #a2c3a2; /* Replaced red with lighter greenish \
+hue */\n  --matcha13: #ebd28b; /* Unchanged (Matcha accent similar to nord13) \
+*/\n  --matcha14: #a3be89; /* Unchanged (Matcha accent similar to nord14) \
+*/\n  --matcha15: #b48e9d; /* Unchanged (Matcha accent similar to nord15) \
+*/\n  --editor-key-meta: var(--matcha3); /* Darker for better contrast */\n  \
+--editor-key-keyword: var(--matcha9); /* Darker for better contrast */\n  \
+--editor-key-atom: var(--matcha15); /* Unchanged */\n  --editor-key-literal: \
+var(--matcha15); /* Unchanged */\n  --editor-key-string: var(--matcha11r); /* \
+Unchanged */\n  --editor-key-escape: var(--matcha13); /* Unchanged */\n  \
+--editor-key-variable: var(--matcha4); /* Darker for better contrast */\n  \
+--editor-local-variable: var(--matcha4); /* Darker for better contrast */\n  \
+--editor-key-type: var(--matcha7); /* Unchanged */\n  --editor-key-class: \
+var(--matcha7); /* Unchanged */\n  --editor-special-variable: var(--matcha4); \
+/* Darker for better contrast */\n  --editor-key-property: var(--matcha8); /* \
+Darker for better contrast */\n  --editor-key-comment: var(--matcha12); /* \
+Unchanged */\n  --editor-key-invalid: var(--matcha11); /* Unchanged */\n  \
+--editor-outline: var(--matcha4); /* Darker for better contrast */\n  color: \
+black; /* Text color for light mode */\n}\n\n[transparency=\"true\"] \
+.bg-g-trans {\n  background: var(--matcha0) \
+!important;\n}\n\n[transparency=\"false\"] .bg-g-trans {\n  background: \
+var(--matcha0) !important;\n}  \n\n.bg-g-trans {\n  background: \
+var(--matcha1) !important;\n}\n\n.cm-tooltip-autocomplete.cm-tooltip {\n  \
+background-color: var(--matcha2) !important;\n}\n\n.cm-editor .cm-cursor {\n  \
+border-left-color: var(--matcha5);\n}\n\n.cm-tooltip-autocomplete ul \
+li[aria-selected] {\n  background: var(--matcha3); /* Darker for better \
+contrast */\n  color: white !important; /* Ensuring text visibility */\n  \
+border-radius: 4px !important;\n}\n\n  h1 {\n    color: var(--matcha11)\n  \
+}\n\n  h2 {\n    color: var(--matcha12)\n  }\n\n  h3 {\n    color: \
+var(--matcha13)\n  }\n\n  h3 {\n    color: var(--matcha14)\n  }  \n\n  \
+mark{\n    background: var(--matcha13);\n    color: black;\n    padding-left: \
+0.25rem;\n    padding-right: 0.25rem;\n  }\n\n  body {\n    background: \
+var(--matcha0);\n  }\n\n  @media (prefers-color-scheme: dark) {\n    body {\n \
+     background: var(--matcha5);\n    }\n  }\n</style>", "Display" -> "html", 
+    "Hash" -> "ad6858ed-97e4-4d2b-a386-0a4bdbc471e5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>, 
+   <|"Data" -> ".md\n\n\n<img \
+src=\"attachments/0a12e130650543cf5b165a008d1604e3.gif\" style=\"width: \
+100vw; object-fit: cover; image-rendering: pixelated; height: 300px\"/>\n\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "d3bd6eef-42b8-4297-ac22-0e2d39d1a40b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Locked" -> True, "Hidden" -> True|>, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>, 
+   <|"Data" -> "><img \
+src=\"/attachments/0a12e130650543cf5b165a008d1604e3.gif\" style=\"width: \
+100vw; object-fit: cover; image-rendering: pixelated; height: 300px\"/>", 
+    "Display" -> "markdown", "Hash" -> 
+     "5dde8167-28f0-4d3c-b1db-551176990ba5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>, 
+   <|"Data" -> ".md\n# Matcha theme\nAesthetic Green", 
+    "Display" -> "codemirror", "Hash" -> 
+     "766d6e13-f4b8-42dc-b496-c0022e2e99b5", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>, 
+   <|"Data" -> "># Matcha theme\nAesthetic Green", "Display" -> "markdown", 
+    "Hash" -> "4348c66b-0eaf-4e5e-99ed-0c517dc5bc87", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Output", "UID" -> Null, "Notebook" -> 
+     "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>, 
+   <|"Data" -> "", "Display" -> "codemirror", 
+    "Hash" -> "20e86f95-741b-445e-bb12-4ced0dfc8494", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "State" -> "Idle", 
+    "Type" -> "Input", "UID" -> Null, "Notebook" -> 
+     "b113ee23-9090-4cfa-a5e0-da9bd4678bbd"|>}, "serializer" -> "jsfn4"|>

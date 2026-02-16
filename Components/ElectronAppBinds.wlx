@@ -1,4 +1,4 @@
-Controls = $Options["Controls"];
+Component[OptionsPattern[]] := With[{Controls = OptionValue["Controls"]},
 
 <script type="module">
     const api = window.electronAPI || window.iframeAPI;
@@ -17,6 +17,11 @@ Controls = $Options["Controls"];
             server.emitt('<Controls/>', 'True', '_NewNotebook');
         });
 
+        api.listener('print', () => {
+            console.log('note');
+            server.emitt('<Controls/>', 'True', 'PrintPDF');
+        });
+
         api.listener('acknowledgments', () => {
             open('/acknowledgments', '_blank');
         });
@@ -31,3 +36,8 @@ Controls = $Options["Controls"];
         });     
     }
 </script>
+];
+
+Options[Component] = {"Controls"->""};
+
+Component

@@ -1,0 +1,29 @@
+Component[OptionsPattern[]] := With[{
+  notebook     = OptionValue["Notebook"],
+  Controller   = CreateUUID[]
+},
+
+
+<div>
+    <div id="{Controller}"></div>
+    <WebUIJSBind Event={Controller}>
+      const button = document.getElementById('<Controller/>');
+      this.on('Error', (data) => {
+        button.style.background = "red";
+      });
+
+      this.on('Good', (data) => {
+        button.style.background = "Green";
+      });        
+
+      this.on('Loading', (data) => {
+        button.style.background = "Yellow";
+      });      
+    </WebUIJSBind>
+</div>
+];
+
+Options[Component] = {"Controller"->""}
+
+
+Component

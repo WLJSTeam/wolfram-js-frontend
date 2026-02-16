@@ -1,0 +1,28 @@
+{
+  "name": "wljs-manipulate",
+  "version": "1.3.1",
+  "description": "A helper library for making interactive plots & other things for WLJS Notebook",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-manipulate && mv wljs-manipulate/.git ../.git && cd .. && rm -rf _temp"
+  },  
+  "defaultPackage": true,
+  "wljs-meta": {
+    "js": "kernel.js",
+    "minjs": "kernel.js",
+    "kernel": ["Diff.wl", "Kernel.wl"],
+    "deferred": ["Packages/AnimationFramework", "Packages/AnimationFramework.wl"],
+    "category": "Plotting & Graphics",
+    "priority": 5002
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-manipulate"
+  },
+  "author": "Kirill Vasin",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/JerryI/wljs-manipulate/issues"
+  },
+  "homepage": "https://github.com/JerryI/wljs-manipulate#readme"
+}

@@ -1,0 +1,9 @@
+Component[Child_, OptionsPattern[]] := With[{},
+    <div class="csubgroup flex flex-row w-full group relative"><Child/></div>
+];
+
+Component[c__, opts: OptionsPattern[]] := Component[ToStringRiffle[{c}], opts];
+
+Options[Component] = {"Cell"->Null};
+
+Component

@@ -1,0 +1,78 @@
+makeScript[_, _, _] := ""
+makeScript[_, Event_String, Topic_String] := (
+    <script type="module">
+        const el = document.getElementById('#instanceId');
+        console.log('WORKING!!!!');
+        el.addEventListener('input', () => {
+            server.kernel.emitt('<Event/>', 'URLDecode["'+encodeURIComponent(el.value)+'"]', '<Topic/>')
+        })
+    </script>
+)
+
+makeScript[_, Event_String, {TopicChange_String, _}] := (
+    <script type="module">
+        const el = document.getElementById('#instanceId');
+        el.addEventListener('input', () => {
+            server.kernel.emitt('<Event/>', 'URLDecode["'+encodeURIComponent(el.value)+'"]', '<TopicChange/>')
+        })
+    </script>    
+)
+
+makeScript[_, Event_String, {_, TopicBlur_String}] := (
+    <script type="module">
+        const el = document.getElementById('#instanceId');
+        el.addEventListener('blur', () => {
+            server.kernel.emitt('<Event/>', 'URLDecode["'+encodeURIComponent(el.value)+'"]', '<TopicBlur/>')
+        })
+    </script>    
+)
+
+makeScript[_, Event_String, {TopicChange_String, TopicBlur_String}] := (
+    <script type="module">
+        const el = document.getElementById('#instanceId');
+        el.addEventListener('blur', () => {
+            server.kernel.emitt('<Event/>', 'URLDecode["'+encodeURIComponent(el.value)+'"]', '<TopicBlur/>')
+        })        
+        el.addEventListener('blur', () => {
+            server.kernel.emitt('<Event/>', 'URLDecode["'+encodeURIComponent(el.value)+'"]', '<TopicBlur/>')
+        })
+    </script>    
+)
+
+Component[value_String:"", OptionsPattern[]] := With[{
+    event = OptionValue["Event"], size = OptionValue[ImageSize], Label = OptionValue["Label"], Descp = OptionValue["Description"], Placeholder = OptionValue["Placeholder"], topic = OptionValue["Topic"],
+    ClassName = If[OptionValue[Appearance] === Automatic, 
+        "relative cursor-default rounded-md 0 h-6 pl-3 pr-2 text-left text-gray-900  focus:outline-none sm:text-xs sm:leading-6 bg-gray-100",
+        "relative cursor-default rounded-md 0 h-6 pl-3 pr-2 text-left focus:outline-none border-0 sm:text-xs sm:leading-6"
+    ],
+    CSSStyle = OptionValue["CSS"]
+},
+{
+    FinalCSS = StringJoin[StringTemplate["width: ``px;"][Round[size]], CSSStyle]
+},
+  {
+    If[size === Automatic,
+        <div class="sm-controls">
+            <label for="#instanceId" class="block text-sm font-medium leading-6 text-gray-900"><Label/></label>
+            <div class="mt-1">
+              <input id="#instanceId" style="{FinalCSS}" data-type="text-string" value="{value}" type="text" class="{ClassName}" placeholder="{Placeholder}"/>
+            </div>
+            <p class="mt-1 text-sm text-gray-500"><Descp/></p>
+        </div>
+    ,
+        <div class="sm-controls">
+            <label for="#instanceId" class="block text-sm font-medium leading-6 text-gray-900"><Label/></label>
+            <div class="mt-1">
+              <input id="#instanceId" style="{FinalCSS}" data-type="text-string" value="{value}" type="text" class="{ClassName}" placeholder="{Placeholder}" aria-describedby="email-description"/>
+            </div>
+            <p class="mt-1 text-sm text-gray-500"><Descp/></p>
+        </div>
+    ]
+  ,
+    makeScript[_, event, topic]
+  }
+]
+
+Options[Component] = {"CSS"->"", "Placeholder"->"Type here...", Appearance->Automatic, ImageSize->Automatic, "Label"->"", "Description"->"", "UId":>CreateUUID[], "Event"->Null, "Topic"->"Default"}
+
+Component

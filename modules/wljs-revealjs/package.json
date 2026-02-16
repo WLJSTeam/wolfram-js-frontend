@@ -1,0 +1,43 @@
+{
+  "name": "wljs-revealjs",
+  "version": "0.4.2",
+  "description": "Presentation support based on RevealJS and WLX",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-revealjs && mv wljs-revealjs/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "frontend": "src/Frontend.wl",
+    "kernel": "src/Kernel.wl",
+    "minjs": "dist/kernel.min.js",
+    "js": "dist/kernel.js",
+    "styles": [
+      "dist/reveal.css",
+      "src/style.css",
+      "src/drawer/drawer.css",
+      "src/pointer/pointer.css"
+    ],
+    "priority": 980,
+    "category": "Cell types",
+    "cellExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-revealjs"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "katex": "^0.16.10",
+    "mathjax-full": "^3.2.2",
+    "reveal.js": "^4.5.0",
+    "rollup": "^3.21.6",
+    "svg-path-properties": "^1.3.0"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}

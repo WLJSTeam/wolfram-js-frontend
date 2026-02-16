@@ -1,0 +1,28 @@
+{
+  "name": "wljs-js-support",
+  "version": "0.0.9",
+  "description": "JS cells support for WLJS Editor",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
+    "restore": "mkdir _temp && cd _temp && git clone --branch base https://github.com/JerryI/wljs-js-support && mv wljs-js-support/.git ../.git && cd .. && rm -rf _temp"
+  },
+  "defaultPackage": true,
+  "wljs-meta": {
+    "frontend" : "src/Frontend.wl",
+    "minjs": "src/kernel.js",
+    "js": "src/kernel.js",
+    "styles": "src/style.css",
+    "category": "Cell types",
+    "cellExportRequired": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-js-support"
+  },
+  "dependencies": {
+    "rollup": "^3.21.6"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}

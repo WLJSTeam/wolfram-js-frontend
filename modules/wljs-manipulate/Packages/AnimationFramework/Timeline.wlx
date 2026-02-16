@@ -1,0 +1,1195 @@
+
+
+Component[TEvent_, HandlerSymbol1_, HandlerSymbol2_] := With[{UId = CreateUUID[]},
+<div class="py-2">
+  <style>
+
+    .mod-audio-clip {
+      position: absolute;
+      background-color: #8b5cf6;    /* purple-500 */
+      border: 2px solid #7c3aed;     /* purple-600 */
+      border-radius: 0.375rem;
+      display: block;
+      height:3rem;
+      cursor: move;
+      overflow: hidden;             /* needed for waveform img */
+    }
+
+    .mod-audio-clip .handle {
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      background: #D1D5DB;          /* gray-300 */
+      cursor: ew-resize;
+      z-index: 3;
+    }
+
+    .mod-audio-clip .handle.start { left: 0; top: 0; }
+    .mod-audio-clip .handle.end   { right: 0; top: 0; }
+
+    .mod-audio-clip .waveform-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-repeat: no-repeat;
+      /* background-size and background-position will be set in JS */
+    }
+
+    .mod-timeline-container {
+      padding: 1rem;
+      width:100%;
+    }
+
+    /* Controls wrapper */
+    .mod-timeline-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Button styles */
+    .mod-timeline-button {
+      font-size: 0.75rem; /* text-sm */
+      line-height: 1rem;  /* leading-6 */
+      padding: 0.375rem 0.75rem; /* 6px 12px */
+      border-radius: 0.375rem;   /* rounded-md */
+      border: 1px solid transparent;
+      cursor: pointer;
+      background-color: #10B981; /* emerald-500 */
+      color: white;
+      transition: background-color 0.2s;
+    }
+    .mod-timeline-button:hover {
+      background-color: #059669; /* emerald-600 */
+    }
+    .mod-timeline-stop {
+      background-color: #EF4444; /* red-500 */
+    }
+    .mod-timeline-stop:hover {
+      background-color: #DC2626; /* red-600 */
+    }
+
+    /* Select and checkbox labels */
+    .mod-timeline-select,
+    .mod-timeline-range {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem; /* 4px 8px */
+      border: 1px solid #D1D5DB; /* gray-300 */
+      border-radius: 0.375rem;
+      background-color: white;
+      color: #1F2937;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .mod-timeline-select:focus,
+    .mod-timeline-range:focus {
+      border-color: #6366F1; /* indigo-500 */
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Checkbox label */
+    .mod-timeline-controls label {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+      color: #4B5563; /* gray-600 */
+      user-select: none;
+    }
+    .mod-timeline-controls input[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      accent-color: rgb(76, 179, 212); /* indigo-500 */
+      cursor: pointer;
+      border-radius:0.25rem;
+    }
+
+    /* Timeline scroll area */
+    .mod-timeline-scroll {
+      position: relative;
+      height: 9rem;
+      width:60vw;
+      background-color: white;
+      overflow-x: scroll;
+      border: 1px solid #D1D5DB; /* gray-300 */
+      border-radius: 0.375rem;
+      white-space: nowrap;
+      outline: none; /* remove default focus ring */
+    }
+    .mod-timeline-scroll:focus {
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+      border-color: #6366F1;
+    }
+
+    /* Track and lines */
+    .mod-timeline-track {
+      position: relative;
+      height: 100%;
+    }
+    .mod-timeline-line {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background-color: #E5E7EB; /* gray-200 */
+    }
+    .mod-timeline-line-24 { top: 24px; }
+    .mod-timeline-line-48 { top: 48px; }
+    .mod-timeline-line-72 { top: 72px; }
+    .mod-timeline-line-96 { top: 96px; }
+
+    /* Cursor */
+    .mod-timeline-cursor {
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background-color: #EF4444; /* red-500 */
+      top: 0;
+    }
+
+    /* Tick lines and labels */
+    .mod-tick-line {
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background-color: #D1D5DB; /* gray-300 */
+      opacity: 0.3;
+      z-index: 1;
+      top: 0;
+    }
+    .mod-tick-label {
+      position: absolute;
+      font-size: 0.75rem; /* text-xs */
+      color: #4B5563; /* gray-600 */
+      top: 0;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* Marker styling */
+    .mod-marker {
+      position: absolute;
+      background-color: #2563EB; /* blue-600 */
+      color: white;
+      font-size: 0.75rem;
+      border-radius: 0.25rem;
+      display: flex;
+      z-index: 2;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+      cursor: move;
+      transition: background-color 0.2s, box-shadow 0.2s;
+      user-select: none;
+    }
+    .mod-marker:hover {
+      background-color: #1D4ED8; /* blue-700 */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .mod-marker-label {
+      user-select: none;
+      white-space: nowrap;
+      flex-grow: 1;
+    }
+    .mod-marker-input {
+      border: none;
+      background-color: #DBEAFE; /* blue-100 */
+      outline: none;
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 0 0.25rem;
+      border-radius: 0.25rem;
+    }
+    .mod-marker-resize {
+      width: 8px;
+      height: 8px;
+      background-color: #93C5FD; /* blue-300 */
+      cursor: ew-resize;
+      border-radius: 0 0.375rem 0.375rem 0;
+    }
+
+    /* Hide default scrollbar but keep ability to scroll */
+    .mod-timeline-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .mod-timeline-scroll::-webkit-scrollbar-thumb {
+      background-color: #9CA3AF; /* gray-400 */
+      border-radius: 3px;
+    }
+  </style>
+
+  <div class="mod-timeline-container">
+    <div class="mod-timeline-controls">
+      <button id="{UId}-playBtn" style="color: #4B5563; width: 3rem; justify-content: center;" class="inline-flex text-gray-600 items-center rounded bg-green-50 px-2 py-1 text-xs ring-1 ring-inset ring-green-600/20">Play</button>
+      <button id="{UId}-stopBtn" style="color: #4B5563" class="inline-flex items-center rounded bg-red-50 px-2 py-1 text-xs ring-1 ring-inset ring-red-600/20">Stop</button>
+      <button id="{UId}-recordBtn" style="color: #4B5563; background:#f0f3ff; width: 3rem; justify-content: center;" class="inline-flex text-gray-600 items-center rounded px-2 py-1 text-xs ring-1 ring-inset">Voice</button>
+      <label>
+        <input id="{UId}-snapToggle" type="checkbox" />
+        Snap
+      </label>
+      <label>
+        Snap Resolution:
+        <select id="{UId}-snapResolution" class="mod-timeline-select">
+          <option value="1">1s</option>
+          <option value="0.25">1/4s</option>
+          <option value="0.125">1/8s</option>
+          <option value="0.0625">1/16s</option>
+        </select>
+      </label>
+      <label>
+        Zoom:
+        <input id="{UId}-zoomSlider" type="range" min="0.05" max="1.5" step="0.05" value="1" class="mod-timeline-range"/>
+      </label>
+    </div>
+    <div id="{UId}-timelineContainer" class="mod-timeline-scroll" tabindex="0">
+      <div id="{UId}-timeline" class="mod-timeline-track">
+        <div class="mod-timeline-line mod-timeline-line-24"></div>
+        <div class="mod-timeline-line mod-timeline-line-48"></div>
+        <div class="mod-timeline-line mod-timeline-line-72"></div>
+        <div class="mod-timeline-line mod-timeline-line-96"></div>
+        <div id="{UId}-cursor" class="mod-timeline-cursor"></div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    const timelineContainer = document.getElementById('<UId/>-timelineContainer');
+    const timeline = document.getElementById('<UId/>-timeline');
+    const cursor = document.getElementById('<UId/>-cursor');
+    let baseScale = 1;
+    const snapToggle = document.getElementById('<UId/>-snapToggle');
+    const snapResolution = document.getElementById('<UId/>-snapResolution');
+    const zoomSlider = document.getElementById('<UId/>-zoomSlider');
+
+    let cursorTime = 0; // time in seconds
+    let lastTimestamp = null;
+    let animationFrameId = null;
+    let timelineIsPlaying = false;
+    let didDrag = false;
+    const markers = [];
+    let clickTimer = null;
+    let ignoreClick = false; // to skip click after editing
+
+    function getSnapPixels() {
+      const res = parseFloat(snapResolution?.value || 1);
+      return 100 * res * baseScale;
+    }
+
+    function formatTimeLabel(seconds) {
+      const s = Math.floor(seconds % 60);
+      const m = Math.floor((seconds / 60) % 60);
+      const h = Math.floor(seconds / 3600);
+      return h
+        ? `${h}:${m.toString().padStart(2, '0')}:{s.toString().padStart(2, '0')}`
+        : `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function drawGridTicks() {
+      document
+        .querySelectorAll('.mod-tick-line, .mod-tick-label')
+        .forEach(el => el.remove());
+      const step = getSnapPixels();
+      const minLabelSpacing = 50;
+      let lastLabelX = -Infinity;
+
+      const scrollLeft = timelineContainer.scrollLeft;
+      const visibleWidth = timelineContainer.clientWidth;
+      const buffer = 500;
+      const startX = Math.max(0, scrollLeft - buffer);
+      const endX = scrollLeft + visibleWidth + buffer;
+
+      for (let x = Math.floor(startX / step) * step; x < endX; x += step) {
+        const tick = document.createElement('div');
+        tick.className = 'mod-tick-line';
+        tick.style.left = `${x}px`;
+        timeline.appendChild(tick);
+
+        if (x - lastLabelX >= minLabelSpacing) {
+          const label = document.createElement('div');
+          label.className = 'mod-tick-label';
+          label.style.left = `${x + 4}px`;
+          label.textContent = formatTimeLabel(x / (100 * baseScale));
+          timeline.appendChild(label);
+          lastLabelX = x;
+        }
+      }
+    }
+
+    function redrawMarkers() {
+      markers.forEach(marker => {
+        const startX = parseFloat(marker.dataset.time) * baseScale * 100;
+        const dur = parseFloat(marker.dataset.duration) * baseScale * 100;
+        marker.style.left = `${startX}px`;
+        marker.style.width = `${dur}px`;
+      });
+    }
+
+    zoomSlider?.addEventListener('input', e => {
+      const newScale = parseFloat(e.target.value);
+      cursorTime = cursor.offsetLeft / (baseScale * 100);
+      baseScale = newScale;
+      const duration = 120; // total duration in seconds
+      timeline.style.width = `${duration * 100 * baseScale}px`;
+      drawGridTicks();
+      redrawMarkers();
+      markers
+          .filter(m => m.dataset.type === 'audio')
+          .forEach(clip => {
+            const t0  = parseFloat(clip.dataset.time);        // clip start on timeline
+            const sc  = parseFloat(clip.dataset.startCrop);   // seconds cropped at start
+            const ec  = parseFloat(clip.dataset.endCrop);     // seconds cropped at end
+            const dur = parseFloat(clip.dataset.duration);    // full clip duration
+          
+            // a) reposition the clip container to its timeline time
+            clip.style.left = `${(t0 - sc) * baseScale * 100}px`;
+          
+            // b) resize the container to only show the cropped span
+            clip.style.width = `${(ec - sc) * baseScale * 100}px`;
+          
+            updateWaveformClipping(clip);
+          });
+
+    });
+
+    snapResolution?.addEventListener('change', () => drawGridTicks());
+
+    timelineContainer?.addEventListener('scroll', () => {
+      clearTimeout(window.__tickScrollTimeout);
+      window.__tickScrollTimeout = setTimeout(() => {
+        drawGridTicks();
+      }, 50);
+    });
+
+    var triggeredClips = new Set();
+
+    function animate(timestamp) {
+      cursorTime = timestamp;
+      const cursorPosition = cursorTime * baseScale * 100;
+      cursor.style.transform = `translateX(${cursorPosition}px)`;
+      timelineContainer.scrollLeft = cursorPosition - timelineContainer.clientWidth / 2;
+
+      markers.forEach(marker => {
+        let startX; let dur;
+
+        if (marker.dataset.type == "audio") {
+          if (seekingInProgress) {
+            return;
+          }
+          if (triggeredClips.has(marker)) return;
+
+              const clip = marker;
+              const t0    = parseFloat(clip.dataset.time);            // clip start on timeline
+              const sc    = parseFloat(clip.dataset.startCrop);       // crop‐in
+              const ec    = parseFloat(clip.dataset.endCrop);         // crop‐out
+              const length = ec - sc;                                 // effective play length
+              const tEnd  = length + t0;                              // timeline end
+          
+              startX = (t0) * baseScale * 100;
+              dur = (ec - sc) * baseScale * 100;
+              // Fire the audio exactly once when the cursor first enters
+              if (cursorTime >= (t0) && cursorTime < tEnd && !triggeredClips.has(clip)) {
+                // how far into the crop window are we?
+                const offsetInCrop = cursorTime - t0;      // seconds
+                const bufferOffset = sc;    // seconds into the buffer
+                const remaining    = ec - sc - offsetInCrop;    // seconds left to play
+              
+                // schedule playback
+                const src = audioCtx.createBufferSource();
+                src.buffer = clip._audioBuffer;
+                clip._srcNode = src;
+                src.connect(audioCtx.destination);
+                // start immediately, from bufferOffset, for `remaining` seconds
+                src.start(0, bufferOffset + offsetInCrop, remaining);
+                src.addEventListener('ended', () => {
+                  triggeredClips.delete(clip);
+                });
+              
+                // remember we’ve played this one already
+                triggeredClips.add(clip);
+              } else {
+                  if (triggeredClips.has(clip)) triggeredClips.delete(clip);
+              }
+        } else {
+          startX = parseFloat(marker.dataset.time) * baseScale * 100;
+          dur = parseFloat(marker.dataset.duration) * baseScale * 100;
+        }
+
+        
+        if (cursorPosition >= startX && cursorPosition <= startX + dur) {
+          marker.style.outline = '2px solid rgba(239, 68, 68, 0.8)';
+        } else {
+          marker.style.outline = 'none';
+        }
+      });
+    }
+
+    core['<HandlerSymbol1/>'] = async (args, env) => {
+      const val = await interpretate(args[0], env);
+      animate(val);
+    }
+
+    core['<HandlerSymbol1/>'].update = core['<HandlerSymbol1/>'];
+    core['<HandlerSymbol1/>'].destroy = () => {
+        delete core['<HandlerSymbol1/>'];
+    }
+
+    core['<HandlerSymbol1/>'].virtual = true;
+
+    core['<HandlerSymbol2/>'] = async (args, env) => {
+        const type = await interpretate(args[0], env);
+        return await core['<HandlerSymbol2/>'][type](args.slice(1), env);
+    }
+
+    var seekingInProgress = false;
+
+    core['<HandlerSymbol2/>'].SeekingBlock = async (args, env) => {
+      seekingInProgress = await interpretate(args[0], env);
+      if (seekingInProgress) {
+        for (const a of triggeredClips) {
+          a._srcNode.stop();
+        }
+        triggeredClips.clear();
+      }
+    }
+
+    core['<HandlerSymbol2/>'].State = async (args, env) => {
+      const s = await interpretate(args[0], env);
+      timelineIsPlaying = s;
+      if (s) {
+        document.getElementById('<UId/>-playBtn').innerText="Pause";
+      } else {
+        document.getElementById('<UId/>-playBtn').innerText="Play";
+        for (const a of triggeredClips) {
+          a._srcNode.stop();
+        }
+        triggeredClips.clear();        
+      }
+    }
+
+    core['<HandlerSymbol2/>'].Load = async (args, env) => {
+      const s = await interpretate(args[0], env);
+      const a = await interpretate(args[1], env);
+      importMarkers(s);
+      importAudioClipsFromBase64Original(a);
+      server.kernel.io.fire('<TEvent/>', true, 'ready');
+    }    
+
+    let localClips = [];
+
+    core['<HandlerSymbol2/>'].ConvertAudioClips = async (args, env) => {
+      localClips = await exportAudioClipsAsBase64Original();
+      return localClips.length;
+    }
+
+    core['<HandlerSymbol2/>'].PopAudio = async (args, env) => {
+      if (!localClips) return `$Failed`;
+      if (localClips.length == 0) return false;
+      return localClips.pop();
+    }
+
+    core['<HandlerSymbol2/>'].virtual = true;
+    core['<HandlerSymbol2/>'].destroy = () => {
+        delete core['<HandlerSymbol2/>'];   
+
+        markers.forEach(clip => {
+          // audio
+          if (clip._originalBlob) {
+            URL.revokeObjectURL(clip._originalBlob);
+            clip._originalBlob = null;
+          }
+          // waveform image
+          if (clip._waveformBg) {
+            const bgUrl = clip._waveformBg.style.backgroundImage.match(/url\((.+)\)/)[1];
+            URL.revokeObjectURL(bgUrl);
+            clip._waveformBg = null;
+          }
+          // AudioBuffer
+          clip._audioBuffer = null;
+        });   
+        
+        if (audioCtx && typeof audioCtx.close === 'function') {
+          audioCtx.close();
+          audioCtx = null;
+        }
+    }
+
+    document.getElementById('<UId/>-playBtn')?.addEventListener('click', () => {
+      if (ignoreAllClicks) return;
+      if (seekingInProgress) return;
+          if (timelineIsPlaying || mediaRecorder) {
+            server.kernel.io.fire('<TEvent/>', true, 'pause');
+            if (mediaRecorder) {
+              mediaRecorder.stop();
+              mediaRecorder = null;
+              recordBtn.textContent = 'Voice';
+            }
+          } else {
+            server.kernel.io.fire('<TEvent/>', true, 'play');
+          }
+    });
+
+    document.getElementById('<UId/>-stopBtn')?.addEventListener('click', () => {
+      //if (seekingInProgress) return;
+      if (ignoreAllClicks) return;
+      server.kernel.io.fire('<TEvent/>', true, 'stop');
+
+      if (mediaRecorder) {
+        mediaRecorder.stop();
+        mediaRecorder = null;
+        recordBtn.textContent = 'Voice';
+      }
+    });
+
+    let mediaRecorder;
+    let ignoreAllClicks = false;
+    let audioChunks = [];
+    let oldcursorTime = cursorTime;
+
+
+    const recordBtn = document.getElementById('<UId/>-recordBtn');
+    recordBtn.addEventListener('click', async () => {
+      if (ignoreAllClicks) return;
+      if (seekingInProgress) return;
+
+      if (!mediaRecorder) {
+        let stream;
+        
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch(err) {
+          interpretate.alert('No input device found or allowed');
+          return;
+        }
+
+        server.kernel.io.fire('<TEvent/>', true, 'play');
+        oldcursorTime = cursorTime;
+        
+
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = finishRecording;
+        mediaRecorder.start();
+        recordBtn.textContent = 'Stop';
+      } else {
+        mediaRecorder.stop();
+        mediaRecorder = null;
+        recordBtn.textContent = 'Voice';
+        server.kernel.io.fire('<TEvent/>', true, 'pause');
+      }
+    });
+
+    let audioCtx = new AudioContext();
+
+      function finishRecording() {
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      audioChunks = [];
+
+        
+
+      const x = oldcursorTime * baseScale * 100;
+      const y = getNearestTrack( 72 ); // or wherever you want
+      createAudioClip(oldcursorTime, x, y, blob);
+        
+        
+    }
+
+    async function makeFullWaveformURL(buffer, clip) {
+      const duration  = buffer.duration;             // seconds
+      const totalPx   = Math.ceil(duration * baseScale * 100);
+      const heightPx  = 150;
+      const ratio     = window.devicePixelRatio || 1;
+      const canvasW   = totalPx * ratio;
+      const canvasH   = heightPx * ratio;
+    
+      // OffscreenCanvas if available
+      const off = (typeof OffscreenCanvas !== 'undefined')
+        ? new OffscreenCanvas(canvasW, canvasH)
+        : Object.assign(document.createElement('canvas'), {
+            width: canvasW,
+            height: canvasH
+          });
+      const ctx = off.getContext('2d');
+      ctx.scale(ratio, ratio);
+        
+      // draw PCM min/max per column
+      const pcm = buffer.getChannelData(0);
+      const spp = Math.ceil(pcm.length / totalPx);
+      ctx.lineWidth   = 1;
+      ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+      ctx.beginPath();
+      for (let x = 0; x < totalPx; x++) {
+        let min = 1, max = -1;
+        const base = x * spp;
+        for (let i = 0; i < spp; i++) {
+          const v = pcm[base + i];
+          if (v < min) min = v;
+          if (v > max) max = v;
+        }
+        const y1 = ((1 - max) / 2) * heightPx * 1.2;
+        const y2 = ((1 - min) / 2) * heightPx * 1.2;
+        ctx.moveTo(x + 0.5, y1);
+        ctx.lineTo(x + 0.5, y2);
+      }
+      ctx.stroke();
+    
+      // bake to blob URL
+      let blob;
+      if (off.convertToBlob) {
+        blob = await off.convertToBlob();
+      } else {
+        const dataURL = off.toDataURL('image/png');
+        blob = await (await fetch(dataURL)).blob();
+      }
+      return URL.createObjectURL(blob);
+    }
+
+    function updateWaveformClipping(clip) {
+      const sc        = parseFloat(clip.dataset.startCrop);
+      const ec        = parseFloat(clip.dataset.endCrop);
+      const duration  = parseFloat(clip.dataset.duration);
+      const fullWidth = duration * baseScale * 100;
+      const visiblePx = (ec - sc) * baseScale * 100;
+      const shiftPx   = sc * baseScale * 100;
+    
+      // 1) resize the clip container
+      clip.style.width = `${visiblePx}px`;
+    
+      // 2) shift the background inside
+      if (clip._waveformBg) {
+        clip._waveformBg.style.backgroundSize     = `${fullWidth}px ${clip.clientHeight}px`;
+        clip._waveformBg.style.backgroundPosition = `-${shiftPx}px 0`;
+      }
+    }
+
+
+
+    function blobToDataURL(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror   = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+
+
+
+    async function importAudioClipsFromBase64Original(arr) {
+      for (const item of arr) {
+        // 1) turn base64 back into a Blob
+        const res      = await fetch(item.data);
+        const blob     = await res.blob();
+      
+        // 2) compute position on timeline
+        const x        = item.time * baseScale * 100;
+        // choose a track; you might store it too if you like:
+        const y        = getNearestTrack(24);
+      
+        // 3) recreate the clip using your existing factory
+        //    it will set startCrop=0,endCrop=duration by default
+        await createAudioClip(item.time, x, y, blob);
+      
+        // 4) override cropping and time, then re-draw waveform
+        const clip = markers[markers.length - 1];
+        clip.dataset.uid       = item.uid;
+        clip.dataset.time      = item.time.toFixed(3);
+        clip.dataset.startCrop = item.startCrop.toFixed(3);
+        clip.dataset.endCrop   = item.endCrop.toFixed(3);
+        clip.dataset.duration  = item.duration.toFixed(3);
+      
+        // finally update visual size & background
+        updateWaveformClipping(clip);
+      }
+    }
+
+
+    async function exportAudioClipsAsBase64Original() {
+      const out = [];
+      for (const clip of markers.filter(m => m.dataset.type === 'audio')) {
+        const blob = clip._originalBlob;
+        if (!blob) continue;
+      
+        const dataURL = await blobToDataURL(blob);
+      
+        out.push({
+          uid:       clip.dataset.uid,
+          time:      parseFloat(clip.dataset.time),
+          startCrop: parseFloat(clip.dataset.startCrop),
+          endCrop:   parseFloat(clip.dataset.endCrop),
+          duration:  parseFloat(clip.dataset.duration),
+          data:      dataURL
+        });
+      }
+      return out;
+    }
+
+    // 3) Create an “audio clip” marker with two crop‐handles
+    async function createAudioClip(cursorTime, x, y, blob) {
+
+      const arrayBuffer = await blob.arrayBuffer();
+      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+      const duration = audioBuffer.duration;
+
+      const clip = document.createElement('div');
+      clip.dataset.bufferId = uuidv4();    // or any unique key
+      clip.className = 'mod-audio-clip';
+      clip.dataset.uid = clip.dataset.bufferId || `A${markers.length+1}`;
+      clip.dataset.startCrop = 0;
+      clip.dataset.endCrop = duration;
+      clip.dataset.duration = duration;
+      clip.dataset.type = "audio";
+      clip.dataset.time = cursorTime;
+    
+    
+    
+    
+      // store it on the element for later
+
+      clip._audioBuffer = audioBuffer; 
+      clip._originalBlob = blob;
+    
+    
+
+      // position & size
+      clip.style.left  = `${x}px`;
+      clip.style.top   = `${y}px`;
+      clip.style.width = `${duration * baseScale * 100}px`;
+    
+    
+    
+      const waveURL = await makeFullWaveformURL(audioBuffer, clip);
+    
+      const fullWidth  = duration * baseScale * 100;
+    const bg = document.createElement('div');
+    bg.className = 'waveform-bg';
+    bg.style.width           = `${fullWidth}px`;
+    bg.style.height          = `3rem`;
+    bg.style.backgroundImage = `url(${waveURL})`;
+    bg.style.backgroundSize  = `${fullWidth}px 3rem`;
+    bg.style.backgroundPosition = `0 0`;
+    clip.prepend(bg);
+    clip._waveformBg = bg;
+
+      // **Immediately** lock the image to full waveform width
+    
+    clip.addEventListener('contextmenu', e => {
+      e.stopPropagation();
+      e.preventDefault();
+    
+      // 1) Remove from markers array
+      const idx = markers.indexOf(clip);
+      if (idx !== -1) markers.splice(idx, 1);
+    
+      // 2) Revoke any blob URLs
+      if (clip._waveformURL) {
+        URL.revokeObjectURL(clip._waveformURL);
+      }
+    
+      // 3) Dereference the AudioBuffer so it can be GC’d
+      clip._audioBuffer = null;
+    
+      // 4) Remove from the DOM
+      clip.remove();
+    
+      // 5) Notify host/backend
+      sendUpdate();
+    });
+
+
+      ['start','end'].forEach(pos => {
+      const h = document.createElement('div');
+      h.className = `handle ${pos}`;
+      clip.appendChild(h);
+      
+      let startPointerX, origCrop, origLeft, origWidth, dragging = false;
+      
+      h.addEventListener('mousedown', e => {
+        e.stopPropagation();
+        dragging = true;
+      
+        const rect     = timelineContainer.getBoundingClientRect();
+        startPointerX  = e.clientX - rect.left + timelineContainer.scrollLeft;
+        origLeft       = parseFloat(clip.style.left);
+        origWidth      = parseFloat(clip.style.width);
+        origCrop       = parseFloat(
+          clip.dataset[pos === 'start' ? 'startCrop' : 'endCrop']
+        );
+      
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup',   onUp);
+      });
+    
+      function onDrag(e) {
+        if (!dragging) return;
+      
+        // 1) recompute pointer in timeline space
+        const rect       = timelineContainer.getBoundingClientRect();
+        const currPtrX   = e.clientX - rect.left + timelineContainer.scrollLeft;
+        const dxPx       = currPtrX - startPointerX;
+        const dxSec      = dxPx / (baseScale * 100);
+        let   newCrop    = origCrop + dxSec;
+      
+        // clamp between 0 and full duration
+        newCrop = Math.max(0, Math.min(parseFloat(clip.dataset.duration), newCrop));
+      
+        if (pos === 'start') {
+      const endCrop = parseFloat(clip.dataset.endCrop);
+      if (newCrop >= endCrop) return;
+        
+      clip.dataset.startCrop = newCrop.toFixed(3);
+        
+      const shiftPx = (newCrop - origCrop) * baseScale * 100;
+      clip.style.left = `${origLeft + shiftPx}px`;
+      clip.dataset.time = ((origLeft + shiftPx) / (baseScale * 100)).toFixed(3);
+        
+      updateWaveformClipping(clip);
+        
+        } else {
+          // end handle: only grow/shrink width
+     const startCrop = parseFloat(clip.dataset.startCrop);
+      if (newCrop <= startCrop) return;
+        
+      clip.dataset.endCrop = newCrop.toFixed(3);
+        
+      updateWaveformClipping(clip);
+        }
+      
+
+      }
+    
+      function onUp() {
+        dragging = false;
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('mouseup',   onUp);
+        sendUpdate();
+        updateWaveformClipping(clip);
+      }
+    });
+
+
+
+    clip.addEventListener('mousedown', e => {
+      if (e.target.classList.contains('handle')) return;
+      e.stopPropagation();
+    
+      const startX  = e.clientX;
+      const startY  = e.clientY;
+      const origL   = parseFloat(clip.style.left);
+      const origT   = parseFloat(clip.style.top);
+      clip.style.zIndex = 10;
+    
+      function onMouseMove(e) {
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+      
+        // horizontal
+        let newLeft = origL + dx;
+        if (snapToggle.checked) {
+          const snapPx = getSnapPixels();
+          newLeft = Math.round(newLeft / snapPx) * snapPx;
+        }
+        newLeft = Math.max(0, newLeft);
+      
+        // vertical → snap to nearest track
+        let newTop = getNearestTrack(origT + dy);
+      
+        clip.style.left = `${newLeft}px`;
+        clip.dataset.time = (newLeft / (baseScale * 100)).toFixed(3);
+        clip.style.top  = `${newTop}px`;
+      }
+    
+      function onMouseUp() {
+        clip.style.zIndex = '';
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup',   onMouseUp);
+        sendUpdate();
+      }
+    
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup',   onMouseUp);
+    });
+
+
+      // push into marker list & add to DOM
+
+      markers.push(clip);
+      timeline.appendChild(clip);
+
+
+
+    }
+
+
+    if (timelineContainer) {
+      timelineContainer.tabIndex = 0;
+      timelineContainer.addEventListener('keydown', e => {
+        if (ignoreAllClicks) return;
+        if (e.code === 'Space') {
+          e.preventDefault();
+          if (timelineIsPlaying) {
+            server.kernel.io.fire('<TEvent/>', true, 'pause');
+          } else {
+            server.kernel.io.fire('<TEvent/>', true, 'play');
+          }
+        }
+      });
+    }
+
+    function getNearestTrack(y) {
+      const trackTops = [24, 48, 72, 96];
+      return trackTops.reduce((prev, curr) =>
+        Math.abs(curr - y) < Math.abs(prev - y) ? curr : prev
+      );
+    }
+
+    function createMarker(x, y, uid = null) {
+      const marker = document.createElement('div');
+      marker.className = 'mod-marker';
+      marker.dataset.uid = uid || `M${markers.length + 1}`;
+      marker.dataset.time = x / (baseScale * 100);
+      marker.dataset.duration = 1;
+      marker.style.left = `${x}px`;
+      marker.style.width = `${baseScale * 100}px`;
+      marker.style.top = `${getNearestTrack(y)}px`;
+
+      const label = document.createElement('div');
+      label.className = 'mod-marker-label';
+      label.textContent = marker.dataset.uid;
+      marker.appendChild(label);
+
+      const resizeHandle = document.createElement('div');
+      resizeHandle.className = 'mod-marker-resize';
+      marker.appendChild(resizeHandle);
+      let editing = false;
+
+      label.addEventListener('dblclick', e => {
+        if (!editing) return;
+        e.stopPropagation();
+      });
+
+      label.addEventListener('click', e => {
+        e.stopPropagation();
+        if (didDrag) {
+          didDrag = false;
+          return;
+        }
+        editing = true;
+        ignoreAllClicks = true;
+        const input = document.createElement('input');
+        input.className = 'mod-marker-input';
+        input.value = label.textContent;
+        input.addEventListener('mousedown', evt => evt.stopPropagation());
+        input.addEventListener('blur', () => {
+          label.textContent = input.value;
+          input.replaceWith(label);
+          marker.dataset.uid = input.value;
+          sendUpdate();
+          ignoreClick = true;
+          ignoreAllClicks = false;
+          editing = false;
+        });
+        input.addEventListener('keydown', evt => {
+          if (evt.key === 'Enter') input.blur();
+        });
+        label.replaceWith(input);
+        input.focus();
+        
+      });
+
+      marker.addEventListener('mousedown', e => {
+        if (ignoreAllClicks) return;
+        if (e.target === resizeHandle) return;
+        didDrag = false;
+        if (e.button !== 0) return;
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const initialLeft = parseFloat(marker.style.left);
+        const initialTop = parseFloat(marker.style.top);
+
+        function onMouseMove(e) {
+          didDrag = true;
+          const deltaX = e.clientX - startX;
+          const deltaY = e.clientY - startY;
+          let newX = initialLeft + deltaX;
+          const newY = initialTop + deltaY;
+          if (snapToggle?.checked) {
+            const snapPx = getSnapPixels();
+            const cursorPosition = cursorTime * baseScale * 100;
+            if (Math.abs(newX - cursorPosition) < 5) {
+              newX = cursorPosition;
+            } else {
+              newX = Math.round(newX / snapPx) * snapPx;
+            }
+          }
+          marker.style.left = `${Math.max(newX, 0)}px`;
+          marker.dataset.time = newX / (baseScale * 100);
+          marker.style.top = `${getNearestTrack(newY)}px`;
+        }
+
+        function onMouseUp() {
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+          sendUpdate();
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+
+      resizeHandle.addEventListener('mousedown', e => {
+        
+        e.stopPropagation();
+        if (ignoreAllClicks) return;
+        let startX = e.clientX;
+        const initialWidth = parseFloat(marker.style.width);
+
+        function onMouseMove(e) {
+          const deltaX = e.clientX - startX;
+          let newWidth = initialWidth + deltaX;
+          if (snapToggle?.checked) {
+            const snapPx = getSnapPixels();
+            newWidth = Math.round(newWidth / snapPx) * snapPx;
+          }
+          newWidth = Math.max(newWidth, baseScale * 20);
+          marker.style.width = `${newWidth}px`;
+          marker.dataset.duration = newWidth / (baseScale * 100);
+        }
+
+        function onMouseUp() {
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+          sendUpdate();
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+
+      marker.addEventListener('contextmenu', e => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (ignoreAllClicks) return;
+        const index = markers.indexOf(marker);
+        if (index > -1) {
+          markers.splice(index, 1);
+          marker.remove();
+          sendUpdate();
+        }
+      });
+
+      markers.push(marker);
+      timeline.appendChild(marker);
+    }
+
+    timelineContainer.addEventListener('click', e => {
+      if (seekingInProgress || ignoreAllClicks) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
+      if (ignoreClick) { ignoreClick = false; return; }
+      if (timelineIsPlaying) return;
+      const target = e.target;
+      if (
+        target.closest('.mod-marker') ||
+        target.closest('.mod-audio-clip') ||
+        target.classList.contains('mod-marker-label') ||
+        target.classList.contains('mod-marker-input') ||
+        target.classList.contains('mod-marker-resize') ||
+        target.classList.contains('handle')
+      ) {
+        return;
+      }
+      clearTimeout(clickTimer);
+      clickTimer = setTimeout(() => {
+        const rect = timelineContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left + timelineContainer.scrollLeft;
+        cursorTime = x / (baseScale * 100);
+        /*cursor.style.transform = `translateX(${x}px)`;
+        timelineContainer.scrollLeft = x - timelineContainer.clientWidth / 2;*/
+        server.kernel.io.fire('<TEvent/>', cursorTime, 'seek');
+      }, 200);
+    });
+
+    timelineContainer.addEventListener('dblclick', e => {
+      if (seekingInProgress || ignoreAllClicks) {
+        e.preventDefault();
+        e.stopPropagation();        
+        return;
+      }
+      clearTimeout(clickTimer);
+      e.preventDefault();
+      e.stopPropagation();
+      
+
+      const prevCursorTime = cursorTime;
+      const prevCursorPosition = prevCursorTime * baseScale * 100;
+      const rect = timelineContainer.getBoundingClientRect();
+      const x = e.clientX - rect.left + timelineContainer.scrollLeft;
+      const y = e.clientY - rect.top;
+      createMarker(x, y);
+      //cursorTime = prevCursorTime;
+      //cursor.style.transform = `translateX(${prevCursorPosition}px)`;
+      //timelineContainer.scrollLeft = prevCursorPosition - timelineContainer.clientWidth / 2;
+
+      sendUpdate();
+    });   
+
+    function sendUpdate() {
+      server.kernel.io.fire('<TEvent/>', exportMarkers(), 'markers');
+    }
+
+    function exportMarkers() {
+      const assoc = {};
+      markers.forEach(marker => {
+      if (marker.dataset.type == "audio") return;
+      assoc[marker.dataset.uid] = {
+        uid: marker.dataset.uid,
+        time: parseFloat(marker.dataset.time),
+        duration: parseFloat(marker.dataset.duration),
+        track: parseInt(marker.style.top, 10)
+      }});
+
+      return assoc;
+    }
+
+    function importMarkers(dataArray) {
+    // 1) Remove all existing marker DOM nodes + clear the markers[] array
+    markers.forEach(m => m.remove());
+    markers.length = 0;
+
+    Object.values(dataArray).forEach(item => {
+      // 2) Compute pixel positions (based on baseScale)
+      const x = item.time * baseScale * 100;
+      const y = item.track;
+
+      // 3) Use your existing createMarker(...) to create a new marker at (x, y)
+      //    We pass item.uid so label is set correctly.
+      createMarker(x, y, item.uid);
+
+      // 4) The newly created marker is now the last element in markers[]
+      const newMarker = markers[markers.length - 1];
+
+      // 5) Override its duration & track dataset and adjust its width
+      newMarker.dataset.duration = item.duration;
+      newMarker.dataset.track = item.track;
+
+      // 6) Set the CSS width so it visually spans (duration * scale * 100) pixels
+      newMarker.style.width = `${item.duration * baseScale * 100}px`;
+    });
+    }
+
+
+    baseScale = parseFloat(zoomSlider.value);
+    timeline.style.width = `${120 * 100 * baseScale}px`;
+    drawGridTicks();
+    redrawMarkers();
+  </script>
+</div>
+]
+
+Component

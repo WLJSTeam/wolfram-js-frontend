@@ -1,5 +1,16 @@
 #!/usr/bin/env wolframscript
 
+If[$Env["ElectronCode"] =!= 1,
+"WLJS Notebooks
+Copyright (c) 2025 Coffee liqueur
+Licensed under the GNU GPL v3.0. See <AppDir>/LICENSE.md.
+
+This product bundles third-party FOSS. Full license texts are included in <AppDir>/licenses/.
+Wolfram Engine is proprietary and distributed separately by Wolfram Research, Inc.
+" // Print];
+
+"This project is not affiliated with, endorsed by, or sponsored by Wolfram Research, Inc. Wolfram and Wolfram Language are trademarks of Wolfram Research, Inc." // Print;
+
 PacletDirectoryUnload /@ PacletDirectoryLoad[]; (* FIXME WL autoloads some crap *)
 
 ParentDirectory[DirectoryName[$InputFileName]] // SetDirectory;
@@ -10,28 +21,25 @@ Get[FileNameJoin[{Directory[], "Common", "LPM", "LPM.wl"}] ];
 Off[General::shdw]; (* avoid warning messages from ContextAliases *)
 Off[Part::partd]; (* avoid warning messages from WLX *)
 
-PacletRepositories[{
-  Github -> "https://github.com/KirillBelovTest/Objects" -> "master",
-  Github -> "https://github.com/JerryI/Internal" -> "master",
-  Github -> "https://github.com/JerryI/TCPServer" -> "master",
-  Github -> "https://github.com/JerryI/HTTPHandler" -> "master",
-  Github -> "https://github.com/JerryI/WebSocketHandler" -> "master",
-  Github -> "https://github.com/JerryI/CSocketListener" -> "master",
-  Github -> "https://github.com/JerryI/wl-wlx" -> "master",
-  Github -> "https://github.com/JerryI/wl-misc" -> "main",
-  Github -> "https://github.com/lshifr/LetWL" -> "master"
-}, "Directory" -> Directory[], "MaxVersionDiff"-> 1, "AutomaticUpdates"-> False, "StrictMode"->True  ]
+(* WLJS Package manager *)
+Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
+
+LPMLoad[ "Directory" -> Directory[], "DefaultName" -> "Packages"]
+WLJSPackages`Load[FileNameJoin[{Directory[], "modules"}] ];
+
+
+"WLJS Notebook does not collect or transmit your data unless you explicitly choose a feature that needs the network." // Print;
 
 (* web-server *)
-Needs["KirillBelov`CSockets`"]
-Needs["KirillBelov`Objects`"]
-Needs["KirillBelov`Internal`"]
-Needs["KirillBelov`TCPServer`"]
+Needs["CoffeeLiqueur`CSockets`"]
+Needs["CoffeeLiqueur`Objects`"]
+Needs["CoffeeLiqueur`Internal`"]
+Needs["CoffeeLiqueur`TCPServer`"]
 
-Needs["KirillBelov`HTTPHandler`"]
-Needs["KirillBelov`HTTPHandler`Extensions`"]
-Needs["KirillBelov`WebSocketHandler`"]
-Needs["KirillBelov`LTP`"]
+Needs["CoffeeLiqueur`HTTPHandler`"]
+Needs["CoffeeLiqueur`HTTPHandler`Extensions`"]
+Needs["CoffeeLiqueur`WebSocketHandler`"]
+Needs["CoffeeLiqueur`LTP`"]
 
 Needs["LetWL`"]
 
@@ -50,15 +58,15 @@ Needs["CoffeeLiqueur`Notebook`Windows`" -> "win`"];
 Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 
 (* WLJS transport *)
-Needs["JerryI`Misc`WLJS`Transport`"]
+Needs["CoffeeLiqueur`Misc`WLJS`Transport`"]
 
 (* event system  *)
-Needs["JerryI`Misc`Events`"]
-Needs["JerryI`Misc`Events`Promise`"]
+Needs["CoffeeLiqueur`Misc`Events`"]
+Needs["CoffeeLiqueur`Misc`Events`Promise`"]
 
-Needs["JerryI`Misc`Async`"]
+Needs["CoffeeLiqueur`Misc`Async`"]
 
-Needs["JerryI`Misc`Parallel`"]
+Needs["CoffeeLiqueur`Misc`Parallel`"]
 
 
 
@@ -66,20 +74,17 @@ Needs["CoffeeLiqueur`Notebook`LocalKernel`" -> "LocalKernel`"];
 Needs["CoffeeLiqueur`Notebook`Transactions`"]
 
 
-Needs["KirillBelov`CSockets`EventsExtension`"]
+Needs["CoffeeLiqueur`CSockets`EventsExtension`"]
 
 (* WLX template engine *)
-Needs["JerryI`WLX`"]
-Needs["JerryI`WLX`Importer`"]
-Needs["JerryI`WLX`WLJS`"]
+Needs["CoffeeLiqueur`WLX`"]
+Needs["CoffeeLiqueur`WLX`Importer`"]
+Needs["CoffeeLiqueur`WLX`WLJS`"]
 
 (* WebUI Toolkit *)
-Needs["JerryI`WLX`WebUI`"]
+Needs["CoffeeLiqueur`WLX`WebUI`"]
 
 Needs["CodeParser`"]
-
-(* WLJS Package manager *)
-Needs["CoffeeLiqueur`ExtensionManager`" -> "WLJSPackages`"];
 
 
 (* env parameters *)
@@ -94,7 +99,9 @@ $Env = Join[<|
   "ws2"  -> 20563,
 
   "wsprefix" -> False,
-  "ws2prefix" -> False
+  "ws2prefix" -> False,
+
+  "AccentColor" -> "#0AC7BB"
   (*,"docs" -> 20540*)
 |>, If[AssociationQ[$Env], $Env, <||> ] ];
 
@@ -129,8 +136,6 @@ With[{appJSON = Import[FileNameJoin[{Directory[], "package.json"}], "RawJSON"]},
   $Env["AppJSON"] = appJSON;
 ];
 
-Echo["System`$Env"];
-Echo[ToString[$Env, InputForm] ];
 
 versionToNumber[ver_String] := FromDigits[ToExpression@StringSplit[ver, "."], 1000];
 
@@ -138,32 +143,12 @@ If[versionToNumber[$VersionNumber] > versionToNumber["14.2"],
   Echo["Warning: your Wolfram Kernel version is higher, that tested with WLJS Notebook. We do not guarantee it will work"];
 ];
 
-If[versionToNumber[$VersionNumber] < versionToNumber["13.1"],
-  Echo["Error: your Wolfram Kernel version is lower than 13.1. WLJS App won't work. We are sorry"];
+If[versionToNumber[$VersionNumber] < versionToNumber["13.3"],
+  Echo["Error: your Wolfram Kernel version is older than 13.3. WLJS App won't work. We are sorry"];
   Echo["You can always download a freeware Wolfram Engine"];
   Exit[-1];
 ];
 
-MergeDirectories[source_String, target_String] := (
-  Echo[StringTemplate["Copy directory `` to ``"][source, target]];
-  If[!DirectoryQ[target], CreateDirectory[target]; ];
-  
-  With[{names = FileNames[All, source]},
-    With[{folders = Select[names, DirectoryQ[#] &], files = Select[names, !DirectoryQ[#] &]},
-
-    
-      Map[Function[folder,
-        With[{folderName = FileNameTake[folder, -1] },
-          MergeDirectories[folder, FileNameJoin[{target, folderName}]]
-        ]], folders];
-
-      Map[Function[file,
-        CopyFile[file, FileNameJoin[{target, FileNameTake[file, -1]}], OverwriteTarget->True];
-        Echo[StringTemplate["Copied `` to ``"][file, FileNameJoin[{target, FileNameTake[file, -1]}]]];
-      ], files];
-    ]
-  ];
-);
 
 syncDemoFolders[path_String] := Null;
 
@@ -181,6 +166,17 @@ If[!DirectoryQ[AppExtensions`DefaultDocumentsDir], CreateDirectory[AppExtensions
 AppExtensions`DemosDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Demos"}];
 If[!DirectoryQ[AppExtensions`DemosDir], CreateDirectory[AppExtensions`DemosDir]; syncDemoFolders[AppExtensions`DemosDir]; ];
 
+AppExtensions`ExtensionsDir = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "Extensions"}];
+If[!DirectoryQ[AppExtensions`ExtensionsDir], CreateDirectory[AppExtensions`ExtensionsDir]; ];
+
+AppExtensions`AppDataDir = Lookup[$Env, "AppData", Directory[] ];
+
+AppExtensions`AppConfig = FileNameJoin[{AppExtensions`AppDataDir, "_settings.wl"}];
+
+If[KeyExistsQ[$Env, "store_config_in_docs"],
+  AppExtensions`AppConfig = FileNameJoin[{AppExtensions`DefaultDocumentsDir, "config.wl"}];
+];
+
 (* ~~check version~~ *)
 Echo["Checking version of WLJS Notebook ..."];
 Echo[AppExtensions`FrontendEnv["AppJSON"]["version"] ];
@@ -190,54 +186,29 @@ Echo[">> QuickNotesDir: "<> AppExtensions`QuickNotesDir];
 Echo[">> BackupsDir: "<> AppExtensions`BackupsDir];
 Echo[">> DefaultDocumentsDir: "<> AppExtensions`DefaultDocumentsDir];
 Echo[">> DemosDir: "<> AppExtensions`DemosDir];
+Echo[">> ExtensionsDir: "<> AppExtensions`ExtensionsDir];
+Echo[">> AppDataDir: "<> AppExtensions`AppDataDir];
+Echo[">> AppConfig: "<> AppExtensions`AppConfig];
 Echo[">> Root: "<> Directory[] ];
+
+(* load users extensions *)
+WLJSPackages`Load[ AppExtensions`ExtensionsDir ];
 
 {loadSettings, storeSettings}        = Get[FileNameJoin[{"Frontend", "Settings.wl"}] ];
 
-WLJSPackages`Repositories[{
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-editor" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/Mathematica-ThreeJS-graphics-engine" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-d3" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-mk" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sharedlib-three" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-graphics-d3" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-html-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-inputs" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-interpreter" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-js-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-markdown-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-magic-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-plotly" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-cells" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-revealjs" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-wlx-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-mermaid-support" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-snippets" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-alt-cell-controls" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-print-redirect-fix" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-export-html" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-manipulate" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-sound" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-video" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-templates" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-xterm" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-excalidraw" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-toc" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-wxf-accelerator" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-neuralnet" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-docs-archive" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-demos-archive" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-debugger" -> "base",
-  WLJSPackages`Github -> "https://github.com/JerryI/wljs-api" -> "base"
-}, "Directory" -> Directory[], "MaxVersionDiff"-> 3, "AutomaticUpdates"-> False, "StrictMode"->True ]
+(* check if there is internet or connection to WR servers *)
+(* NetworkConnected is not robust enough *)
+Internal`$NoWRServices = !StringQ[RandomWord[]];
 
-RandomWord[];
+If[TrueQ @ Internal`$NoWRServices, 
+  Echo["No WR servers are reachable, we will apply patches to some system symbols..."];
+  Get[FileNameJoin[{Directory[], "Common", "Patches", "NoWR.wl"}]]
+];
 
 WLJSPackages`Includes["js"];
 WLJSPackages`Includes["frontend"];
 
-WLJSPackages`SyncShared[Directory[], FileNameJoin[{Directory[], "__shared"}] ];
-
+WLJSPackages`SyncShared[{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}, FileNameJoin[{AppExtensions`AppDataDir, "__shared"}] ];
 
 (*EventHandler[AppExtensions`AppEvents // EventClone, {
  any_ :> (Echo[StringTemplate["App Event ``: ``"][any, #]]&)
@@ -249,14 +220,14 @@ $DefaultSerializer = ExportByteArray[#, "ExpressionJSON"]&
 
 Print["Staring HTTP server..."];
 
-tcp = TCPServer[];
-tcp["CompleteHandler", "HTTP"] = HTTPPacketQ -> HTTPPacketLength;
-tcp["MessageHandler", "HTTP"]  = HTTPPacketQ -> http;
+tcp = TCPUServer[];
+tcp["CompleteHandler", "HTTP"] = HTTPUPacketQ -> HTTPUPacketLength;
+tcp["MessageHandler", "HTTP"]  = HTTPUPacketQ -> http;
 
-http = HTTPHandler[];
-$Server["HTTPHandler"] = http;
+http = HTTPUHandler[];
+$Server["HTTPUHandler"] = http;
 
-AppExtensions`HTTPHandler = http;
+AppExtensions`HTTPUHandler = http;
 
 
 With[{now = Now},
@@ -275,18 +246,22 @@ With[{now = Now},
 (* load stuff into frontend *)
 Echo["Loading packages: FRONTEND"];
 
-  If[FailureQ[Get[FileNameJoin[{Directory[], "wljs_packages",  UniversalPathConverter[#]}] ] ],
-    Echo["Failed to load some of the packages (see logs)"];
-    Exit[0]
-  ] &/@ WLJSPackages`Includes["frontend"]; 
+If[FailureQ[
+    Get[
+      UniversalPathConverter[#],
+      Path->{FileNameJoin[{Directory[], "modules"}], AppExtensions`ExtensionsDir}
+    ] 
+  ],
+  Echo["Failed to load some of the packages (see logs)"];
+  Exit[0]
+] &/@ WLJSPackages`Includes["frontend"]; 
 
-JerryI`WLX`Importer`Private`CacheControl["Hour"];
+CoffeeLiqueur`WLX`Importer`Private`CacheControl["Hour"];
 
 AppExtensions`KernelList = {};
 
 
 (* Entrypoint of an app *)
-Sponsors       := ImportComponent["Frontend/Sponsors.wlx"];
 ServerError       := ImportComponent["Frontend/ServerError.wlx"];
 Protocol          := ImportComponent["Frontend/Protocol.wlx"];
 ExtendedApp               := ImportComponent["Frontend/ExtendedApp.wlx"];
@@ -299,8 +274,8 @@ Downloader   = ImportComponent["Frontend/Downloader.wl"];
 
 (* Global variables *)
 
-$ExposedDirectories = {FileNameJoin[{Directory[], "wljs_packages"}], FileNameJoin[{Directory[], "Assets"}], Directory[], "/", ""}
-
+$ExposedDirectories = {FileNameJoin[{Directory[], "modules"}], FileNameJoin[{Directory[], "Assets"}], Directory[], AppExtensions`ExtensionsDir, "/", ""}
+$ExposedRoutes = <||>;
 
 
 EventHandler[AppExtensions`AppEvents // EventClone, {
@@ -335,6 +310,10 @@ EventHandler[AppExtensions`AppEvents // EventClone, {
   $ExposedDirectories = Append[$ExposedDirectories, path] // DeleteDuplicates;
  ],
 
+ "App:ExtendRoute" -> Function[route,
+  $ExposedRoutes = Join[$ExposedRoutes, route];
+ ], 
+
  "App:RemovePath" -> Function[paths, Module[{p = $ExposedDirectories},
     $ExposedDirectories = p /. {paths -> Nothing};
   ] ]
@@ -348,33 +327,33 @@ ElectronGetVersion[request_] := If[KeyExistsQ[request["Headers"], "Electron"], r
 
 (* serve static *)
 AppExtensions`HTTPFileExtensions = {"jpeg", "wlx", "ttf",  "otf", "woff", "woff2", "css", "js", "png", "jpg", "webp", "svg", "pdf", "gif", "dat"};
-http["MessageHandler", "File"]  = GetFileRequestQ[AppExtensions`HTTPFileExtensions] -> (
-  ImportFile[#, "Base":>$ExposedDirectories] &
+http["MessageHandler", "File"]  = GetFileURequestQ[AppExtensions`HTTPFileExtensions] -> (
+  ImportUFile[#, "Base":>$ExposedDirectories, "Routes":>$ExposedRoutes] &
 )
 
-SocketListen[CSocketOpen[$Env["host"], $Env["http"]], tcp@#&]
+SocketListen[USocketOpen[$Env["host"], $Env["http"]], tcp@#&]
 
 
 Print["Staring WS/HTTP server..."];
 
-wcp = TCPServer[]
-wcp["CompleteHandler", "WebSocket"] = WebSocketPacketQ -> WebSocketPacketLength
-wcp["MessageHandler", "WebSocket"]  = WebSocketPacketQ -> ws
+wcp = TCPUServer[]
+wcp["CompleteHandler", "WebSocket"] = WebSocketUPacketQ -> WebSocketUPacketLength
+wcp["MessageHandler", "WebSocket"]  = WebSocketUPacketQ -> ws
 
-ws = WebSocketHandler[]
-$Server["WebSocketHandler"] = ws;
+ws = WebSocketUHandler[]
+$Server["WebSocketUHandler"] = ws;
 
 (* configure the handler for WLJS communications *)
 ws["MessageHandler", "Evaluate"]  = Function[True] -> WLJSTransportHandler
 
 
-SocketListen[CSocketOpen[$Env["host"], $Env["ws"] ], wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
+SocketListen[USocketOpen[$Env["host"], $Env["ws"] ], wcp@#&, "SocketEventsHandler"->CSocketsClosingHandler];
 
 (* start all webservers from extensions *)
 Map[Function[key, 
   With[{server = AppExtensions`WebServers[key]},
     Echo[StringTemplate["Starting App extension server `` on ``:``"][key, server["Host"], server["Port"]]];
-    SocketListen[CSocketOpen[server["Host"], server["Port"]], server["Handler"]];
+    SocketListen[USocketOpen[server["Host"], server["Port"]], server["Handler"]];
   ]
 ], Keys[AppExtensions`WebServers]];
 
@@ -384,41 +363,18 @@ SetAttributes[Offload, HoldFirst];
 
 middleware[app_][request_] := app[request]
 
+
+
 (* hook all routes handlers *)
-AutoTest["HTTPHandler"->http];
-Downloader["HTTPHandler"->http];
-Sponsors["HTTPHandler"->http];
-Protocol["HTTPHandler"->http, "AppProtocol" -> AppExtensions`AppProtocol, "Middleware"->Identity, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-Settings["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates]
-Window["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates];
-PromptWindow["HTTPHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-ExtendedApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-IframeApp["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-App["HTTPHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
-
-(*Echo["Autotest start!"];
-
-If[$Env["bypasstest"] === "True" || $Env["bypasstest"] === True,
-  Echo["Autotest was skipped"];
-,
-  (* autotest *)
-  With[{secret = "123"},
-    With[{
-            result = Get[StringTemplate["http://``:``/test/``"][$Env["host"], $Env["http"], URLEncode[ secret ] ] ]
-        },
-
-      If[result === ToString[ Hash[secret] ],
-        Echo["Autotest passed!"];
-      ,
-        Echo["Autotest failed!"];
-        Echo[result];
-        If[!TrueQ[$Env["bypasstest"] ], Exit[-1] ];
-      ];
-    ];
-  ];
-];*)
-
-
+AutoTest["HTTPUHandler"->http];
+Downloader["HTTPUHandler"->http];
+Protocol["HTTPUHandler"->http, "AppProtocol" -> AppExtensions`AppProtocol, "Middleware"->Identity, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+Settings["HTTPUHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates]
+Window["HTTPUHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates];
+PromptWindow["HTTPUHandler"->http, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+ExtendedApp["HTTPUHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+IframeApp["HTTPUHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
+App["HTTPUHandler"->http, "Middleware"->middleware, "AppEvent"->AppExtensions`AppEvents, "ExtensionTemplates"->AppExtensions`Templates, "ExtensionSidebarIcons"->AppExtensions`SidebarIcons, "Env"->$Env];
 
 
 SetTimeout[
@@ -448,4 +404,7 @@ SetTimeout[
 
 (* Main sync thread *)
 
-Looper[];
+While[True,
+  MicrotasksRun[];
+  Pause[0.01];
+];
