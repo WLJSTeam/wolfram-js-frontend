@@ -168,12 +168,24 @@ apiCall[request_, "/api/docs/"] := {
     "/api/docs/find/"
 }
 
+getNLinesAfter[url_, query_, n_:40] := Module[{stream = OpenRead[url], skipping = False},
+  If[!StringQ[Find[stream, query]], Close[stream]; Return[$Failed]];
+  With[{res = StringRiffle[Table[With[{line = ReadLine[stream]},
+    If[StringMatchQ[line, (StartOfString~~"# "~~___) | "Please visit the official [Wolfram Language Reference]"~~___] || skipping, skipping = True; Nothing, line]
+  ], {n}], "\n"]},
+    Close[stream];
+    res
+  ]
+]
+
 
 apiCall[request_, "/api/docs/find/"] := With[{
     query = request["Body"]["Query"], 
-    wordSearch = Lookup[request["Body"], "WordSearch", True]
+    number = ToExpression@Lookup[request["Body"], "LinesCount", 40]
+}, {
+    found = getNLinesAfter[getLLMFile, "# "<>StringTrim[query], number]
 },
-    FindList[getLLMFile, query, 5, WordSearch->wordSearch]
+    If[!StringQ[found], failure["No results"], found]
 ]
 
 (* 

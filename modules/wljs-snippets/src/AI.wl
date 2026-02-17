@@ -354,7 +354,7 @@ tool["find_symbol_docs"] = <|
     	"type" -> "function", 
     	"function" -> <|
     		"name" -> "find_symbol_docs", 
-    		"description" -> "returns a list of results from wolfram documentation found for a symbol or keyword", 
+    		"description" -> "returns a corresponding N lines from local wolfram documentation found for a symbol", 
     		"parameters" -> <|
     			"type" -> "object", 
     			"properties" -> <|
@@ -363,9 +363,9 @@ tool["find_symbol_docs"] = <|
                         "description"-> "symbol name or keyword"
                     |>,
 
-                    "complete_word" -> <|
-                        "type" -> "boolean",
-                        "description" -> "if true - query searched for appear as a word (default is true)"
+                    "line_count" -> <|
+                        "type" -> "number",
+                        "description" -> "max number of lines fetched from documentation (default is 40)"
                     |>
                 |>,
                 "required" -> {"query"}
@@ -376,9 +376,14 @@ tool["find_symbol_docs"] = <|
         AppendTo[toolsQue, Function[Null, With[{p = Promise[]},
             makeAPIRequest["/api/docs/find/", <|
                 "Query" -> args["query"],
-                "WordSearch" -> Lookup[args, "complete_word", True]
+                "LinesCount" -> Lookup[args, "line_count", 40]
             |>, Function[result,
-                toolResults[[myIndex]] = exportString[result, "JSON"];
+                If[!StringQ[result],
+                    toolResults[[myIndex]] = "ERROR: No results";
+                ,
+                    toolResults[[myIndex]] = result;
+                ];
+                
                 EventFire[p, Resolve, True];
             ] ];
             p

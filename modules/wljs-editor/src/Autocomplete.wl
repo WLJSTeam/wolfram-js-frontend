@@ -26,11 +26,24 @@ Needs["CoffeeLiqueur`Notebook`AppExtensions`" -> "AppExtensions`"];
 rootDir = $InputFileName // DirectoryName // ParentDirectory;
 
 defaults = Get[FileNameJoin[{rootDir, "src", "AutocompleteDefaults.wl"}] ];
-Export[FileNameJoin[{rootDir, "dist", "llm.txt"}], StringRiffle[StringTemplate["``\n``"][#["label"], #["info"] ] &/@ defaults, "\n\n---\n\n"], "Text"];
+
+testEndpoint[path_] := With[{test = Find[str = OpenRead[path], "# Map"]},
+  Close[str];
+  Echo["Test results: "]; Echo[test];
+  test === "# Map"
+];
+
+endpoint = SelectFirst[{
+    "https://wljs.io/llms-full.txt",
+    "https://wljs-docs-v2.vercel.app/llms-full.txt",
+    FileNameJoin[{rootDir, "dist", "llm.txt"}]
+}, testEndpoint];
+
+Echo["Using endpoint for llm text: "<>endpoint];
 
 EventHandler[AppExtensions`AppEvents// EventClone, {
     "Autocomplete:llm.txt" -> Function[Null,
-        File[ FileNameJoin[{rootDir, "dist", "llm.txt"}] ]
+        File[ endpoint ]
     ]
 }];
 
