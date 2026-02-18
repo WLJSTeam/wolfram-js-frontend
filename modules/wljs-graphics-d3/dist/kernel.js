@@ -40,6 +40,7 @@ function arrdims(arr) {
   
   core.PlotInteractivity = () => 'PlotInteractivity';
 
+  core['System`Private`VertexInterpolants'] = () => {};
   core['Charting`DateTicksFunction'] = () => 'DateTicksFunction';
   core['Charting`ScaledTicks'] = (args, env) => {return({type:'ScaledTicks', args:args})};
   core['Charting`ScaledFrameTicks'] = (args, env) => {return({type:'ScaledFrameTicks', args:args})};
