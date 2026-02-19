@@ -534,3 +534,7 @@ class MarkdownCell {
   window.SupportedCells['latex'] = {
     view: LaTeXCell
   };
+
+  window.SupportedCells['katex'] = {
+    view: LaTeXCell
+  };  
