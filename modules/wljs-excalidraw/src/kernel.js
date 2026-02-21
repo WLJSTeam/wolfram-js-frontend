@@ -181,7 +181,7 @@ const ExcalidrawWindow = (scene, cchange, files) => () => {
 };
 
 const matcher = new codemirror.MatchDecorator({
-  regexp: /!!\[.*\]/g,
+  regexp: /!!\[[^\]^\[]*\]/g,
   maxLength: Infinity,
   decoration: (match, view, pos) => {
    
