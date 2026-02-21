@@ -28,6 +28,7 @@ App[request_] := With[{
         GlobalControls  = CreateUUID[],
         LocalControls   = CreateUUID[],
         ModalController = CreateUUID[],
+        NavigatorOS = If[KeyExistsQ[#, "AppOS"], #["AppOS"], "Browser"] &@ request["Headers"],
         accentColor = With[{c = Lookup[settings, "AccentColor", "System"]}, If[c === "System", Lookup[System`$Env, "AccentColor", "#008855"], c] ],
         GlobalMessanger = CreateUUID[],
         chat        = AIChat`HashMap[request["Query", "id"]] (*`*),
@@ -61,7 +62,7 @@ App[request_] := With[{
     ];
 
 
-    <html class="h-full"> 
+    <html os="{NavigatorOS}" class="h-full"> 
         <Head AccentColor={accentColor} Title={"AI Chat"} Settings={settings}>
             <meta charset="utf-8"/>
             <WLJSHeader List={ExtensionsJS}/>  
