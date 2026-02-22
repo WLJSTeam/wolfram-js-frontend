@@ -1493,7 +1493,7 @@ class RevealJSCell {
   
   window.SupportedLanguages.push({
     check: (r) => {return(r[0] === '.slide' || r[0] === '.slides')},
-    plugins: [codemirror.markdown(), codemirror.DropPasteHandlers(pasteDrop, pasteFile), codemirror.EditorView.editorAttributes.of({class: 'clang-slide'})],
+    plugins: [codemirror.markdown(), codemirror.DropPasteHandlers(pasteDrop, pasteFile), codemirror.EditorView.editorAttributes.of({class: 'clang-slide'}),codemirror.EditorView.contentAttributes.of({ spellcheck: 'true' })],
     name: codemirror.markdownLanguage.name
   });
 

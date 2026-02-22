@@ -500,7 +500,7 @@ class MarkdownCell {
 
   window.SupportedLanguages.push({
     check: (r) => {return(r[0].match(/\w*\.(md)$/) != null)},
-    plugins: [codemirror.markdown(), codemirror.DropPasteHandlers(pasteDrop, pasteFile), codemirror.EditorView.editorAttributes.of({class: 'clang-markdown'})],
+    plugins: [codemirror.markdown(), codemirror.DropPasteHandlers(pasteDrop, pasteFile), codemirror.EditorView.editorAttributes.of({class: 'clang-markdown'}), codemirror.EditorView.contentAttributes.of({ spellcheck: 'true' })],
     name: codemirror.markdownLanguage.name
   });
 
