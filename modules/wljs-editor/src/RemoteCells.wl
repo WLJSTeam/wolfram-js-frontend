@@ -49,6 +49,25 @@ writeNotebook[uid_, struct_Association, hash_] := With[{
     ];
 ]
 
+exportNotebook[notebook_, savingPath_, ext: ("md" | "mdx" | "html" | "nb")] := With[{},
+    EventFire[AppExtensions`AppEvents, "Exporter:ExportNotebook", <|
+        "Notebook" -> notebook,
+        "Path" -> savingPath,
+        "Type" -> ext
+    |>];
+]
+
+exportNotebook[notebook_, savingPath_, "wln"] := With[{},
+    notebook["Path"] = savingPath;
+    notebook["Directory"] = DirectoryName[savingPath];
+
+    Put[<| 
+        "Notebook" -> Join[nb`Serialize[notebook], <|"Evaluator" -> notebook["Evaluator"]|>], 
+        "Cells" -> ( cell`Serialize /@ notebook["Cells"]), 
+        "serializer" -> "jsfn4" 
+    |>, savingPath ]
+]
+
 saveNotebook[path_, uid_] := With[{
     notebook = nb`HashMap[uid]
 },
@@ -63,15 +82,7 @@ saveNotebook[path_, uid_] := With[{
     ]
 },
 
-    notebook["Path"] = savingPath;
-    notebook["Directory"] = DirectoryName[savingPath];
-
-    Put[<| 
-        "Notebook" -> Join[nb`Serialize[notebook], <|"Evaluator" -> notebook["Evaluator"]|>], 
-        "Cells" -> ( cell`Serialize /@ notebook["Cells"]), 
-        "serializer" -> "jsfn4" 
-    |>, savingPath ]
-
+    exportNotebook[notebook, savingPath, FileExtension[savingPath] ]
 ]
 
 importNotebook[content_, path_, fullpath_, uid_] := With[{

@@ -31,7 +31,8 @@ LoaderComponent = ImportComponent[ FileNameJoin[{rootFolder, "Templates", "Loade
 Needs["CoffeeLiqueur`Extensions`ExportImport`SFX`" -> "sfx`", FileNameJoin[{rootFolder, "Formats", "SFX", "SFX.wl"}] ];
 
 EventHandler[AppExtensions`AppEvents// EventClone, {
-    "Loader:LoadNotebook" -> sfx`extract
+    "Loader:LoadNotebook" -> sfx`extract,
+    "Exporter:ExportNotebook" -> universalStaticExport
 }];
 
 Needs["CoffeeLiqueur`Extensions`ExportImport`HTML`" -> "html`", FileNameJoin[{rootFolder, "Formats", "HTML", "HTML.wl"}] ];
@@ -299,7 +300,38 @@ EventHandler[AppExtensions`AppProtocol, {
     ] ]
 }]
 
+universalStaticExport[as_Association] := universalStaticExport[as["Notebook"], as["Path"], as["Type"] ]
+universalStaticExport[notebook_, outputPath_, "html" ] :=  With[{
+    path = DirectoryName[ notebook["Path"] ],
+    name = FileBaseName[ notebook["Path"] ],
+    ext  = AppExtensions`Templates
+}, 
+    html`Static`export[outputPath, notebook, path, name, ext, settings, <||>];
+]
 
+universalStaticExport[notebook_, outputPath_, "md" ] :=  With[{
+    path = DirectoryName[ notebook["Path"] ],
+    name = FileBaseName[ notebook["Path"] ],
+    ext  = AppExtensions`Templates
+}, 
+    markdown`export[outputPath, notebook, path, name, ext, settings, <||>];
+]
+
+universalStaticExport[notebook_, outputPath_, "mdx" ] :=  With[{
+    path = DirectoryName[ notebook["Path"] ],
+    name = FileBaseName[ notebook["Path"] ],
+    ext  = AppExtensions`Templates
+}, 
+    mdx`Static`export[outputPath, notebook, path, name, ext, settings, <||>];
+]
+
+universalStaticExport[notebook_, outputPath_, "nb" ] :=  With[{
+    path = DirectoryName[ notebook["Path"] ],
+    name = FileBaseName[ notebook["Path"] ],
+    ext  = AppExtensions`Templates
+}, 
+    mathematica`export[outputPath, notebook, path, name, ext, settings, <||>];
+]
 
 End[]
 EndPackage[]
