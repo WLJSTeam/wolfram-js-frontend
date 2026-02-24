@@ -1981,5 +1981,20 @@ Animate /: MMAView[Animate[f_, parameters:({_Symbol | {_Symbol, _?NumericQ} | {_
 ] ] ] 
 
 
+Unprotect[Monitor]
+ClearAll[Monitor]
+SetAttributes[Monitor, HoldAll];
+Monitor[expr_, mon_, rate_:1.0] := expr;
+Monitor[expr_, mon_, rate_:1.0] := With[{
+  inputCell = EvaluationCell[]
+}, {
+  cell = NotebookWrite[NotebookLocationSpecifier[inputCell, "After"], ExpressionCell[Panel[Refresh[mon, rate] ], "Output"] ]
+}, {
+  result = expr
+},
+  NotebookDelete[cell];
+  result
+] /; MatchQ[EvaluationCell[], _RemoteCellObj]
+
 End[]
 EndPackage[]
