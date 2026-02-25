@@ -1,153 +1,28 @@
-<|"Notebook" -> <|"Controller" -> "8f5632ed-9fb0-460e-9a30-1f7f8e9edc02", 
+<|"Notebook" -> <|"Controller" -> "a4b2d23e-e33a-42cb-9e3a-2c78b2a54788", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$2065], 
-   "FocusedCellSelection" -> {1, 0}, "HaveToSaveAs" -> True, 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$4717], 
+   "FocusedCellSelection" -> {95, 94}, "HaveToSaveAs" -> False, 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "66d88f4f-400c-42fe-ac70-bb2e0374b20b", "Objects" -> <||>, 
-   "Path" -> "/private/var/folders/fs/ch7ddlhn7jz5vyg5k8bbrxyh0000gn/T/wljs_q\
-uicknotes/3.0.1.wln", "PublicFields" -> {"Properties"}, "Quick" -> True, 
-   "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
-      1, "Release notes *3.0.1*", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$2063]], 
+    "8f66ecf3-6898-4cf9-9114-92ad4a3f2ea4", "Objects" -> <||>, 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Release notes/3.0.1.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Release notes *3.0.1*", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4723]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Spellcheck", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$2051]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4710]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Layout improvements", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$2056]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4712]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "`Monitor` support", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$2059]]}|>, 
- "Cells" -> {<|"Data" -> ".md\n# Release notes *3.0.1*\n\n<Now/>\n\nRate your \
-experience with the previous release. Your feedback is important for \
-us\n\n<style>\n    .rating { \n      display: flex;\n      flex-direction: \
-row-reverse;\n      justify-content: center;\n    }\n    .rating input {\n    \
-  display: none;\n    }\n    .rating label {\n      font-size: 2rem;\n      \
-color: #ccc;\n      cursor: pointer;\n      transition: color 0.2s;\n    }\n  \
-  .rating input:checked ~ label,\n    .rating label:hover,\n    .rating \
-label:hover ~ label {\n      color: rgb(248 113 113);\n    }\n    .feedback \
-{\n      display: block;\n      width: 100%;\n      max-width: 400px;\n      \
-margin: 1rem auto;\n      padding: 0.5rem;\n      font-size: 1rem;\n    }\n   \
- .submit-btn {\n      display: block;\n      margin: 0.5rem auto;\n      \
-padding: 0.5rem 1rem;\n      font-size: 1rem;\n      cursor: pointer;\n    }  \
-\n</style>\n\n<form onsubmit=\"return false\" class=\"flex flex-col\" \
-id=\"rating-c\">\n    <fieldset>\n      <div class=\"rating\" \
-id=\"rating-form\">\n        <input type=\"radio\" id=\"star5\" \
-name=\"rating\" value=\"5\" />\n        <label \
-for=\"star5\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
-id=\"star4\" name=\"rating\" value=\"4\" />\n        <label \
-for=\"star4\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
-id=\"star3\" name=\"rating\" value=\"3\" />\n        <label \
-for=\"star3\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
-id=\"star2\" name=\"rating\" value=\"2\" />\n        <label \
-for=\"star2\">\[FivePointedStar]</label>\n        <input type=\"radio\" \
-id=\"star1\" name=\"rating\" value=\"1\" />\n        <label \
-for=\"star1\">\[FivePointedStar]</label>\n      </div>\n    </fieldset>\n    \
-<input type=\"text\" id=\"feedback-form\" name=\"feedback\" \
-style=\"width:20rem\" class=\"border-1 ml-auto mr-auto align-center \
-rounded-lg text-sm text-gray-700 ring-0 text-sm py-1\" placeholder=\"one-line \
-feedback...\" maxlength=\"100\" />\n</form>\n\nTell your thoughts, what you \
-would like to see or anything else. The form will be sent automatically once \
-you have finished.", "Display" -> "codemirror", 
-    "Hash" -> "c44a5f93-2634-47dc-b7f8-8ce9199f1b80", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "# Release notes *3.0.1*\n\nTue 24 Feb 2026 21:46:18\n\nRate \
-your experience with the previous release. Your feedback is important for \
-us\n\n<style >\n    .rating { \n      display: flex;\n      flex-direction: \
-row-reverse;\n      justify-content: center;\n    }\n    .rating input {\n    \
-  display: none;\n    }\n    .rating label {\n      font-size: 2rem;\n      \
-color: #ccc;\n      cursor: pointer;\n      transition: color 0.2s;\n    }\n  \
-  .rating input:checked ~ label,\n    .rating label:hover,\n    .rating \
-label:hover ~ label {\n      color: rgb(248 113 113);\n    }\n    .feedback \
-{\n      display: block;\n      width: 100%;\n      max-width: 400px;\n      \
-margin: 1rem auto;\n      padding: 0.5rem;\n      font-size: 1rem;\n    }\n   \
- .submit-btn {\n      display: block;\n      margin: 0.5rem auto;\n      \
-padding: 0.5rem 1rem;\n      font-size: 1rem;\n      cursor: pointer;\n    \
-}</style><form onsubmit=\"return false\" class=\"flex flex-col\" \
-id=\"rating-c\"><fieldset ><div class=\"rating\" id=\"rating-form\"><input \
-type=\"radio\" id=\"star5\" name=\"rating\" value=\"5\"/><label \
-for=\"star5\">\[FivePointedStar]</label><input type=\"radio\" id=\"star4\" \
-name=\"rating\" value=\"4\"/><label \
-for=\"star4\">\[FivePointedStar]</label><input type=\"radio\" id=\"star3\" \
-name=\"rating\" value=\"3\"/><label \
-for=\"star3\">\[FivePointedStar]</label><input type=\"radio\" id=\"star2\" \
-name=\"rating\" value=\"2\"/><label \
-for=\"star2\">\[FivePointedStar]</label><input type=\"radio\" id=\"star1\" \
-name=\"rating\" value=\"1\"/><label \
-for=\"star1\">\[FivePointedStar]</label></div></fieldset><input type=\"text\" \
-id=\"feedback-form\" name=\"feedback\" style=\"width:20rem\" class=\"border-1 \
-ml-auto mr-auto align-center rounded-lg text-sm text-gray-700 ring-0 text-sm \
-py-1\" placeholder=\"one-line feedback...\" \
-maxlength=\"100\"/></form>\n\nTell your thoughts, what you would like to see \
-or anything else. The form will be sent automatically once you have \
-finished.", "Display" -> "markdown", 
-    "Hash" -> "d3a225c6-45f5-4ba1-9b81-0d7cae932d88", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> ".md\n## Spellcheck\nWe added native OS spellcheck for \
-markdown and slide cells", "Display" -> "codemirror", 
-    "Hash" -> "a91d9b07-f0e7-413d-bd0f-e7d38fde5bf3", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "## Spellcheck\nWe added native OS spellcheck for markdown and \
-slide cells", "Display" -> "markdown", 
-    "Hash" -> "a980f49f-5c0d-488d-9e0b-06fcb5ab2d94", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> ".md\n## Layout improvements\n- Chat window control buttons \
-were misplaced on Windows/Linux machines\n", "Display" -> "codemirror", 
-    "Hash" -> "88316c03-2d91-4541-8398-cbab01760c96", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "## Layout improvements\n- Chat window control buttons were \
-misplaced on Windows/Linux machines\n", "Display" -> "markdown", 
-    "Hash" -> "915210fc-6317-4635-80df-5f3e97c86d2b", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> ".md\n## `Monitor` support\nWe added the missing `Monitor` \
-symbol, which should help your to watch the intermediate results of your long \
-computations:", "Display" -> "codemirror", 
-    "Hash" -> "6f82dc92-27a0-47ca-9cbc-fceb3039fc5c", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "## `Monitor` support\nWe added the missing `Monitor` symbol, \
-which should help your to watch the intermediate results of your long \
-computations:", "Display" -> "markdown", 
-    "Hash" -> "255cb449-69ff-4b8e-b2dc-3cb848f53c67", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "values = {};\nMonitor[NIntegrate[Sqrt[x (1 - x)], {x, 0, 1}, \
-\n  EvaluationMonitor :> (Pause[0.025]; AppendTo[values, x];)], \n \
-Quiet@ListPlot[values]]", "Display" -> "codemirror", 
-    "Hash" -> "1cd12c04-6848-456d-a92e-cdc0410b2d5f", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "eca332d1-8a9c-46f0-b678-9c533a1f65ae", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "740f73a3-3e11-4b0d-b364-4f29fae36bc6", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "428cee3b-31f4-419d-b130-2f7a9e746fca", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> "fautorun.wl\n\nEventHandler[\"submit-form-281\", \
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4714]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "PrintTemporary", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$4852]]}, 
+   "TrashedCells" -> {"fautorun.wl\n\nEventHandler[\"submit-form-281\", \
 Function[payload,\n  \
 URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
 =\"<>(\n  ExportString[\n    <|\n      \"Rating\" -> payload[[1]],\n      \
@@ -159,15 +34,93 @@ URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
 If[AssociationQ[System`$Env], Lookup[System`$Env, \"ElectronCode\", 0], \
 \"undefined\"],\n      \"Version\" -> \
 If[AssociationQ[System`$Env[\"AppJSON\"] ], System`$Env[[\"AppJSON\", \
-\"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  ] // URLEncode)];  \n]];", 
+\"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  ] // URLEncode)];  \n]];"}\
+|>, "Cells" -> {<|"Data" -> ".md\n# Release notes *3.0.1*\n\n<Now/>\n", 
     "Display" -> "codemirror", "Hash" -> 
-     "7df4ef96-c46e-4caa-a4bb-2d48878b2b2f", "Invisible" -> False, 
+     "94f9cc2e-451b-42a5-be3e-410a640c34d9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>, 
-   <|"Data" -> " ", "Display" -> "shell", 
-    "Hash" -> "870780fe-beb9-460d-8478-c9bd7872de38", "Invisible" -> False, 
+    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "# Release notes *3.0.1*\n\nWed 25 Feb 2026 14:19:55", 
+    "Display" -> "markdown", "Hash" -> 
+     "7e4a69ca-6109-4a69-8ab0-863f4e20b0e6", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "c4e29eb4-063b-4273-a356-c8847fbb3791"|>}, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> ".md\n## Spellcheck\nWe added native OS spellcheck for \
+markdown and slide cells", "Display" -> "codemirror", 
+    "Hash" -> "12f89ecf-e818-4551-8c60-10c024fde0a8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "## Spellcheck\nWe added native OS spellcheck for markdown and \
+slide cells", "Display" -> "markdown", 
+    "Hash" -> "129c7035-b6eb-4ab9-a3a2-332ba3a27631", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> ".md\n## Layout improvements\n- Chat window control buttons \
+were misplaced on Windows/Linux machines\n", "Display" -> "codemirror", 
+    "Hash" -> "4ab7bf42-1860-425b-84ab-ea0a1a472f74", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "## Layout improvements\n- Chat window control buttons were \
+misplaced on Windows/Linux machines\n", "Display" -> "markdown", 
+    "Hash" -> "b86d934e-27ca-42cb-afef-bd3b47adacf6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> ".md\n## `Monitor` support\nWe added the missing `Monitor` \
+symbol, which should help your to watch the intermediate results of your long \
+computations:", "Display" -> "codemirror", 
+    "Hash" -> "ad4195de-7340-4920-ab41-931b62198795", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "## `Monitor` support\nWe added the missing `Monitor` symbol, \
+which should help your to watch the intermediate results of your long \
+computations:", "Display" -> "markdown", 
+    "Hash" -> "738daf11-cd2f-4cc9-a7cc-4cea64254d45", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "values = {};\nMonitor[NIntegrate[Sqrt[x (1 - x)], {x, 0, 1}, \
+\n  EvaluationMonitor :> (Pause[0.025]; AppendTo[values, x];)], \n \
+Quiet@ListPlot[values]]", "Display" -> "codemirror", 
+    "Hash" -> "a2f959e5-8f0e-44c7-b497-0d1d53ff5617", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> ".md\n## PrintTemporary\nWe added another missing feature \
+`PrintTemporary`. It prints `expr` and then automatically removes it after \
+the evaluation is finished", "Display" -> "codemirror", 
+    "Hash" -> "f23d192c-fb29-443c-be82-8a548e9b72e4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "## PrintTemporary\nWe added another missing feature \
+`PrintTemporary`. It prints `expr` and then automatically removes it after \
+the evaluation is finished", "Display" -> "markdown", 
+    "Hash" -> "1378a390-4be1-4a92-be92-dcd5419a535d", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "val = \
+0.0;\nPrintTemporary[ProgressIndicator[val//Offload]];\nDo[val+=0.1; \
+Pause[0.25], {10.0}];\n\"Hey\"", "Display" -> "codemirror", 
+    "Hash" -> "76b03e3c-eefc-458a-9f0b-b873c9e18d4b", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "\"Hey\"", "Display" -> "codemirror", 
+    "Hash" -> "632a2519-040b-4fa4-a8c0-4880c51ba5d3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+   <|"Data" -> "", "Display" -> "codemirror", 
+    "Hash" -> "1262b8c5-4ba4-4a17-a66f-6ecca5f8f9cd", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>}, 
  "serializer" -> "jsfn4"|>

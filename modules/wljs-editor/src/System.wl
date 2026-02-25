@@ -626,6 +626,23 @@ ClickToCopy[label_, expr_, opts: OptionsPattern[] ] := With[{win = OptionValue["
     Pane[Panel[label], "Event"->uid]
 ]
 
+Unprotect[PrintTemporary];
+ClearAll[PrintTemporary];
+
+PrintTemporary[args__] := Print[args];
+PrintTemporary[args__] := Module[{c = EvaluationCell[], cell, ev}, 
+  cell = NotebookWrite[NotebookLocationSpecifier[c, "After"],
+    ExpressionCell[Row[{args}], "Output"]
+  ];
+  
+  ev = EventHandler[c, {"State" -> Function[state, (* WARNING: this leaks memory. Check RemoteCellsKernel.wl*)
+    If[state === "Idle", 
+      NotebookDelete[cell];
+      EventRemove[ev];
+    ]
+  ]}];
+  Null;
+] /; MatchQ[EvaluationCell[], _RemoteCellObj]
 
 End[]
 EndPackage[]
