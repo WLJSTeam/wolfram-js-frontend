@@ -196,6 +196,9 @@ WLJSPackages`Load[ AppExtensions`ExtensionsDir ];
 
 {loadSettings, storeSettings}        = Get[FileNameJoin[{"Frontend", "Settings.wl"}] ];
 
+Echo["\n\nWe are looking for funding ❤️  https://wljs.io/frontend/Support\n\n"];
+Echo["\n\n"];
+
 (* check if there is internet or connection to WR servers *)
 (* NetworkConnected is not robust enough *)
 Internal`$NoWRServices = !StringQ[RandomWord[]];
