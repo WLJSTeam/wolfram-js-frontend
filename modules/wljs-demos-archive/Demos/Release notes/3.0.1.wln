@@ -1,27 +1,30 @@
-<|"Notebook" -> <|"Controller" -> "a4b2d23e-e33a-42cb-9e3a-2c78b2a54788", 
+<|"Notebook" -> <|"Controller" -> "b8ae96f5-c9f0-4185-ae53-b2dc32d2b8d2", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$4717], 
-   "FocusedCellSelection" -> {95, 94}, "HaveToSaveAs" -> False, 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2034], 
+   "FocusedCellSelection" -> {135, 134}, "HaveToSaveAs" -> False, 
    "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "8f66ecf3-6898-4cf9-9114-92ad4a3f2ea4", "Objects" -> <||>, 
-   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+    "0be5f938-b603-47ff-b4ca-bebd4b175aba", "Objects" -> <||>, 
+   "Path" -> "/users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
 hive/Demos/Release notes/3.0.1.wln", "PublicFields" -> {"Properties"}, 
    "Quick" -> True, "Symbols" -> <||>, 
    "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
       "Release notes *3.0.1*", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$4723]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2045]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Spellcheck", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$4710]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2024]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Layout improvements", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$4712]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2026]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "`Monitor` support", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$4714]], 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2028]], 
      CoffeeLiqueur`Extensions`TOC`Private`heading[2, "PrintTemporary", 
       CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$4852]]}, 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2031]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "MacOS Tahoe", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2043]]}, 
    "TrashedCells" -> {"fautorun.wl\n\nEventHandler[\"submit-form-281\", \
 Function[payload,\n  \
 URLSubmit[\"https://datadrop.wolframcloud.com/api/v1.0/Add?bin=1xq2BKScR&data\
@@ -37,90 +40,99 @@ If[AssociationQ[System`$Env[\"AppJSON\"] ], System`$Env[[\"AppJSON\", \
 \"version\"]], \"undefined\"]\n    |>, \"JSON\"\n  ] // URLEncode)];  \n]];"}\
 |>, "Cells" -> {<|"Data" -> ".md\n# Release notes *3.0.1*\n\n<Now/>\n", 
     "Display" -> "codemirror", "Hash" -> 
-     "94f9cc2e-451b-42a5-be3e-410a640c34d9", "Invisible" -> False, 
+     "1124107e-ab11-48d0-b4a7-79fe79435ff8", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
-   <|"Data" -> "# Release notes *3.0.1*\n\nWed 25 Feb 2026 14:19:55", 
+    "UID" -> Null, "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
+   <|"Data" -> "# Release notes *3.0.1*\n\nThu 26 Feb 2026 21:22:34", 
     "Display" -> "markdown", "Hash" -> 
-     "7e4a69ca-6109-4a69-8ab0-863f4e20b0e6", "Invisible" -> False, 
+     "be728b6d-c20c-4b55-8953-cb0e61a86e0f", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> ".md\n## Spellcheck\nWe added native OS spellcheck for \
 markdown and slide cells", "Display" -> "codemirror", 
-    "Hash" -> "12f89ecf-e818-4551-8c60-10c024fde0a8", "Invisible" -> False, 
+    "Hash" -> "241022fd-c5c3-42fe-bd45-8e2c91e65e55", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "UID" -> Null, "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "## Spellcheck\nWe added native OS spellcheck for markdown and \
 slide cells", "Display" -> "markdown", 
-    "Hash" -> "129c7035-b6eb-4ab9-a3a2-332ba3a27631", "Invisible" -> False, 
+    "Hash" -> "0cdb87a9-53b4-41ae-a80f-31e39a442b42", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> ".md\n## Layout improvements\n- Chat window control buttons \
 were misplaced on Windows/Linux machines\n", "Display" -> "codemirror", 
-    "Hash" -> "4ab7bf42-1860-425b-84ab-ea0a1a472f74", "Invisible" -> False, 
+    "Hash" -> "273fd418-f44e-42a8-a32f-ab26002167e9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "UID" -> Null, "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "## Layout improvements\n- Chat window control buttons were \
 misplaced on Windows/Linux machines\n", "Display" -> "markdown", 
-    "Hash" -> "b86d934e-27ca-42cb-afef-bd3b47adacf6", "Invisible" -> False, 
+    "Hash" -> "778459bb-d86e-4fe3-aa28-964c91f72ecc", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> ".md\n## `Monitor` support\nWe added the missing `Monitor` \
 symbol, which should help your to watch the intermediate results of your long \
 computations:", "Display" -> "codemirror", 
-    "Hash" -> "ad4195de-7340-4920-ab41-931b62198795", "Invisible" -> False, 
+    "Hash" -> "1a54bee9-7906-4159-8191-97b01357d2e4", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "UID" -> Null, "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "## `Monitor` support\nWe added the missing `Monitor` symbol, \
 which should help your to watch the intermediate results of your long \
 computations:", "Display" -> "markdown", 
-    "Hash" -> "738daf11-cd2f-4cc9-a7cc-4cea64254d45", "Invisible" -> False, 
+    "Hash" -> "9381c7cb-f65a-49e8-b540-7c7682c5e1f9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "values = {};\nMonitor[NIntegrate[Sqrt[x (1 - x)], {x, 0, 1}, \
 \n  EvaluationMonitor :> (Pause[0.025]; AppendTo[values, x];)], \n \
 Quiet@ListPlot[values]]", "Display" -> "codemirror", 
-    "Hash" -> "a2f959e5-8f0e-44c7-b497-0d1d53ff5617", "Invisible" -> False, 
+    "Hash" -> "45bfbbb5-827b-48e7-b7d7-b0a40fe24d17", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> ".md\n## PrintTemporary\nWe added another missing feature \
 `PrintTemporary`. It prints `expr` and then automatically removes it after \
 the evaluation is finished", "Display" -> "codemirror", 
-    "Hash" -> "f23d192c-fb29-443c-be82-8a548e9b72e4", "Invisible" -> False, 
+    "Hash" -> "47c36136-9e38-4036-8354-4f1424a9b6d8", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "UID" -> Null, "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "## PrintTemporary\nWe added another missing feature \
 `PrintTemporary`. It prints `expr` and then automatically removes it after \
 the evaluation is finished", "Display" -> "markdown", 
-    "Hash" -> "1378a390-4be1-4a92-be92-dcd5419a535d", "Invisible" -> False, 
+    "Hash" -> "9a7bf35f-d69d-4fcb-bb20-07eb07ef3f5c", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "val = \
 0.0;\nPrintTemporary[ProgressIndicator[val//Offload]];\nDo[val+=0.1; \
 Pause[0.25], {10.0}];\n\"Hey\"", "Display" -> "codemirror", 
-    "Hash" -> "76b03e3c-eefc-458a-9f0b-b873c9e18d4b", "Invisible" -> False, 
+    "Hash" -> "8a9e819d-8238-4bcd-8ab6-8eaded4eb27b", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
    <|"Data" -> "\"Hey\"", "Display" -> "codemirror", 
-    "Hash" -> "632a2519-040b-4fa4-a8c0-4880c51ba5d3", "Invisible" -> False, 
+    "Hash" -> "46bbfc16-51f0-49a3-8b43-1e0945418dfb", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>, 
-   <|"Data" -> "", "Display" -> "codemirror", 
-    "Hash" -> "1262b8c5-4ba4-4a17-a66f-6ecca5f8f9cd", "Invisible" -> False, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
+   <|"Data" -> ".md\n## MacOS Tahoe\nWe had to roll out this release quickly \
+since a new update from Apple had given us extra challenges to pass all new \
+audits. <strike>f@ck u, Tim</strike>", "Display" -> "codemirror", 
+    "Hash" -> "b98cc802-7ca5-4722-a9f9-74545861f0da", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>, 
+   <|"Data" -> "## MacOS Tahoe\nWe had to roll out this release quickly since \
+a new update from Apple had given us extra challenges to pass all new audits. \
+<strike >f@ck u, Tim</strike>", "Display" -> "markdown", 
+    "Hash" -> "4f6e634d-b19b-489e-9913-8f07e0648ca9", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "09f989c2-b6af-431f-870f-3c2c7240f9e3"|>}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "a65bd51d-fe0d-40f1-af99-280a206905f7"|>}, 
  "serializer" -> "jsfn4"|>

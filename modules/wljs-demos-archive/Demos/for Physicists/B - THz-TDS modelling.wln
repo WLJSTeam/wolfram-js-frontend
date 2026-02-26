@@ -1,9 +1,9 @@
-<|"Notebook" -> <|"Controller" -> "2fd2e200-813f-4a69-8873-f06e8b14ddbe", 
+<|"Notebook" -> <|"Controller" -> "4913cffc-e444-4e91-82da-bc7b3a3bc394", 
    "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
-     CoffeeLiqueur`Notebook`Cells`CellObj`$2498], 
-   "MessangerChannel" -> Messanger, "ModalsChannel" -> 
-    "7e03e28f-b707-4323-826d-410376e8f65b", 
-   "Objects" -> <|"8d1a6108-bdf6-4de9-85d2-dbddb2e17679" -> 
+     CoffeeLiqueur`Notebook`Cells`CellObj`$2004], 
+   "FocusedCellSelection" -> {383, 382}, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "df13b63e-177f-4c19-9d47-5a593609ff48", 
+   "Objects" -> <|"23256bca-854c-4e7c-a0b6-a505457eae1e" -> 
       <|"Public" -> Hold[Graphics[{Annotation[
             {{{{}, {}, Annotation[{Directive[Opacity[1], RGBColor[0.24, 0.6, 
                    0.8], AbsoluteThickness[2]], Line[{{8.66000081632653, 
@@ -1009,126 +1009,183 @@
             True, PlotRangePadding -> {{Scaled[0.02], Scaled[0.02]}, 
              {Scaled[0.02], Scaled[0.02]}}, Ticks -> {Automatic, 
              Automatic}}]]|>|>, "Path" -> "/Users/kirill/Github/wolfram-js-fr\
-ontend/modules/wljs-demos-archive/Demos/for Physicists/C - THz-TDS \
+ontend/modules/wljs-demos-archive/Demos/for Physicists/B - THz-TDS \
 modelling.wln", "PublicFields" -> {"Properties"}, "ReadOnly" -> True, 
    "Symbols" -> <||>, "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[
       1, "THz Time-domain modelling", CoffeeLiqueur`Notebook`Cells`CellObj[
-       CoffeeLiqueur`Notebook`Cells`CellObj`$2459]]}|>, 
+       CoffeeLiqueur`Notebook`Cells`CellObj`$1981]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "Bonus", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$2015]]}, 
+   "TrashedCells" -> 
+    {".md\nA responce of a material to a short pulse ($\\\\delta$ - \
+function)", ".md\nEvaluate __initialization cells first__"}|>, 
  "Cells" -> {<|"Data" -> ".md\n# THz Time-domain modelling\nUsing a single \
-Lorentz-Oscillator model we model the responce of a materials with a variable \
-thickneses", "Display" -> "codemirror", 
-    "Hash" -> "24f0ccb1-2629-49c4-a2c7-ce1ffd16cdd7", "Invisible" -> False, 
+Lorentz-Oscillator model we model the response of a materials with a variable \
+thickness.\n\nWhen electromagnetic radiation propagates through the material, \
+the transmitted radiation field can be described \
+as:\n\n$$\nE(\\omega)^{\\prime} = t(\\omega) \
+E(\\omega)^{(source)}\n$$\n\nwhere $t$ is a complex transmission function \
+describing the material response. For a relatively thick material, neglecting \
+Fresnel losses, you can relate it to material parameters such as the \
+refractive index $n$:\n\n$$\nt \\approx e^{- i \\omega n /  (c \
+L)}\n$$\n\nwhere $L$ is the plate thickness. For non-magnetic systems, the \
+material response can be described by $\\varepsilon \\approx n^2$, the \
+complex dielectric function. A common model for the dielectric response is \
+the Lorentz oscillator, which describes the motion of bound charges, ionic \
+motion, or electronic excitations:\n\n$$\n\\varepsilon(\\omega) = \
+\\varepsilon_{\\infty} + \\frac{\\omega_p^2}{\\omega_0^2 - \\omega^2 + i \
+\\gamma \\omega}\n$$\n\nwhich has resonance frequency $\\omega_0$, strength \
+$\\omega_p^2$, and damping $\\gamma$ (losses). This expression is an \
+approximation valid over a limited frequency range; contributions from \
+higher-lying excitations are approximated by the constant background \
+$\\varepsilon_{\\infty}$, which can be set to `1`.\n\nLet's define the \
+dielectric function `f` for a single Lorentz oscillator:\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "3ce6d5e8-0720-401f-880f-774de1095c33", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> False, 
       "Hidden" -> True|>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
    <|"Data" -> "# THz Time-domain modelling\nUsing a single \
-Lorentz-Oscillator model we model the responce of a materials with a variable \
-thickneses", "Display" -> "markdown", 
-    "Hash" -> "23e84da4-7b97-438a-b8a1-e2555598bcc8", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> ".md\nEvaluate __initialization cells first__", 
-    "Display" -> "codemirror", "Hash" -> 
-     "13acbe84-8747-40df-a33f-e1108815adc0", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> "Evaluate __initialization cells first__", 
+Lorentz-Oscillator model we model the response of a materials with a variable \
+thickness.\n\nWhen electromagnetic radiation propagates through the material, \
+the transmitted radiation field can be described \
+as:\n\n$$\nE(\\omega)^{\\prime} = t(\\omega) \
+E(\\omega)^{(source)}\n$$\n\nwhere $t$ is a complex transmission function \
+describing the material response. For a relatively thick material, neglecting \
+Fresnel losses, you can relate it to material parameters such as the \
+refractive index $n$:\n\n$$\nt \\approx e^{- i \\omega n /  (c \
+L)}\n$$\n\nwhere $L$ is the plate thickness. For non-magnetic systems, the \
+material response can be described by $\\varepsilon \\approx n^2$, the \
+complex dielectric function. A common model for the dielectric response is \
+the Lorentz oscillator, which describes the motion of bound charges, ionic \
+motion, or electronic excitations:\n\n$$\n\\varepsilon(\\omega) = \
+\\varepsilon_{\\infty} + \\frac{\\omega_p^2}{\\omega_0^2 - \\omega^2 + i \
+\\gamma \\omega}\n$$\n\nwhich has resonance frequency $\\omega_0$, strength \
+$\\omega_p^2$, and damping $\\gamma$ (losses). This expression is an \
+approximation valid over a limited frequency range; contributions from \
+higher-lying excitations are approximated by the constant background \
+$\\varepsilon_{\\infty}$, which can be set to `1`.\n\nLet's define the \
+dielectric function `f` for a single Lorentz oscillator:\n", 
     "Display" -> "markdown", "Hash" -> 
-     "9b09537a-20fd-458f-80a8-6564fee488cd", "Invisible" -> False, 
+     "9baa3adc-6d7c-4fa8-91f1-b51a1f0ef2f5", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
    <|"Data" -> "ClearAll[f,n,e,c,tds,tds2line];", "Display" -> "codemirror", 
-    "Hash" -> "22d4a882-5350-4286-98aa-1d230e5f91d8", "Invisible" -> False, 
+    "Hash" -> "2652cfd5-07a9-4bbc-b169-047546ffde53", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
    <|"Data" -> "f[\[Omega]_, eps_, \[Omega]0_, \[Omega]p_, \[Gamma]_] := eps \
 + \
 (*FB[*)(((*SpB[*)Power[\[Omega]p(*|*),(*|*)2](*]SpB*))(*,*)/(*,*)((*SpB[*)Pow\
 er[\[Omega]0(*|*),(*|*)2](*]SpB*) - \
-(*SpB[*)Power[\[Omega](*|*),(*|*)2](*]SpB*) + I \[Gamma] \[Omega]))(*]FB*)", 
-    "Display" -> "codemirror", "Hash" -> 
-     "ebd62220-fbea-4895-9766-e712e5b72e23", "Invisible" -> False, 
+(*SpB[*)Power[\[Omega](*|*),(*|*)2](*]SpB*) + I \[Gamma] \
+\[Omega]))(*]FB*)\nn[\[Omega]_, params__] := (*SqB[*)Sqrt[f[\[Omega], \
+params]](*]SqB*)", "Display" -> "codemirror", 
+    "Hash" -> "e9027e98-8341-4bd2-bcb0-e948815ffbbe", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> "n[\[Omega]_, params__] := (*SqB[*)Sqrt[f[\[Omega], \
-params]](*]SqB*)\n\ne[\[Omega]_, L_, params__] := Exp[- (*FB[*)((I 2\[Pi] \
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> 
+     ".md\nThe real (phase) and imaginary (loss) parts of `n` look like \
+this:", "Display" -> "codemirror", "Hash" -> 
+     "492f30c9-41c6-4ea5-a528-1ebacb0df385", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> 
+     "The real (phase) and imaginary (loss) parts of `n` look like this:", 
+    "Display" -> "markdown", "Hash" -> 
+     "aed5e683-4106-4340-b45c-d98cc02ecacc", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "Plot[n[x, 9.8, 28.66, 15, 1.5] // ReIm // Evaluate, {x,28.66 \
+- 20, 28.66 + 20}, \n  FrameLabel->{\"wavenumber (cm^{-1})\"}, \
+Frame->True\n]", "Display" -> "codemirror", 
+    "Hash" -> "d7549c21-43a0-4c7a-b863-352fac92323e", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"23256bca-854c-4e7c-a0b6-a505457eae1e\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKGxkbm\
+ZolJSfqWpiaJOuapJon6yYaJJnpJpoamJqYmqcmphqmAgCB6hXH\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "690e99e8-2a7d-4947-8472-499881d32b77", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> ".md\nThis gives the material response in the frequency \
+domain. We are interested in the time domain, which is what is measured in \
+experiments.\n\nNow substitute it into the transmission function `e`, passing \
+all arguments:", "Display" -> "codemirror", 
+    "Hash" -> "7fe7b7d1-61f8-4d98-a03e-2434ffaab063", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "This gives the material response in the frequency domain. We \
+are interested in the time domain, which is what is measured in \
+experiments.\n\nNow substitute it into the transmission function `e`, passing \
+all arguments:", "Display" -> "markdown", 
+    "Hash" -> "715bc739-eba8-48af-8d2a-4035481f5f03", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "e[\[Omega]_, L_, params__] := Exp[- (*FB[*)((I 2\[Pi] \
 (*SpB[*)Power[10(*|*),(*|*)12](*]SpB*) \[Omega] n[\[Omega], params] \
 L)(*,*)/(*,*)(c cm2THz))(*]FB*) ] /.{c -> 3.0 \
 (*SpB[*)Power[10(*|*),(*|*)10](*]SpB*), cm2THz -> 33.4}", 
     "Display" -> "codemirror", "Hash" -> 
-     "8e08bc30-95c0-4a88-abd7-0eae9e5dae69", "Invisible" -> False, 
+     "c5da0920-3116-45db-9d58-2a0f6f67b6a0", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> ".md\nMaterial parameters ($n$ and $\\\\kappa$)", 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> ".md\nIn THz spectroscopy, a short broadband pulse is \
+typically used to probe the material; the response is measured as the \
+oscillating electric field versus time. Here we model that pulse as a delta \
+function in the frequency domain:\n\n$$\n\\delta(\\omega) = 1\n$$\n\nTo \
+switch to the time domain we use `Fourier` together with some signal \
+processing to obtain the real time-domain signal:", 
     "Display" -> "codemirror", "Hash" -> 
-     "867592bb-f337-4ee6-899e-bfa5131e0302", "Invisible" -> False, 
+     "9606c1b6-2923-4237-8eb7-e3aa8d1a4d43", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> "Material parameters ($n$ and $\\\\kappa$)", 
-    "Display" -> "markdown", "Hash" -> 
-     "290b2cef-278b-44ec-a53c-af325c397d2d", "Invisible" -> False, 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "In THz spectroscopy, a short broadband pulse is typically \
+used to probe the material; the response is measured as the oscillating \
+electric field versus time. Here we model that pulse as a delta function in \
+the frequency domain:\n\n$$\n\\delta(\\omega) = 1\n$$\n\nTo switch to the \
+time domain we use `Fourier` together with some signal processing to obtain \
+the real time-domain signal:", "Display" -> "markdown", 
+    "Hash" -> "f3b88054-a320-429b-836e-864358a262ca", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> "Plot[n[x, 9.8, 28.66, 15, 1.5] // ReIm // Evaluate, {x,28.66 \
-- 20, 28.66 + 20}, \n  FrameLabel->{\"wavenumber (cm^{-1})\"}, \
-Frame->True\n]", "Display" -> "codemirror", 
-    "Hash" -> "15942f5a-71ec-4960-896f-212d9b8cf034", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> "(*VB[*)(FrontEndRef[\"8d1a6108-bdf6-4de9-85d2-dbddb2e17679\"]\
-)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKW6QYJ\
-poZGljoJqWkmemapKRa6lqYphjppiSlpCQZpRqam5lbAgCMCRYQ\"*)(*]VB*)", 
-    "Display" -> "codemirror", "Hash" -> 
-     "600bda23-19ad-4c0d-a05e-50711e8859d4", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> 
-     ".md\nA responce of a material to a short pulse ($\\\\delta$ - \
-function)", "Display" -> "codemirror", 
-    "Hash" -> "89f722f6-a3cd-48a3-af66-11d90009bdfd", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
-    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> 
-     "A responce of a material to a short pulse ($\\\\delta$ - function)", 
-    "Display" -> "markdown", "Hash" -> 
-     "ea81c4da-8064-4a96-b7da-78e1adcbc5bc", "Invisible" -> False, 
-    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
-    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
    <|"Data" -> "tds[params__] := (Join[#, Reverse[#]] &@ Table[e[\[Omega], \
 params], {\[Omega], 0,100,0.1}]) // Fourier\ntds2line[params__] := \
 {Range[Length[#]], #} &@ (Drop[#, -Length[#]/2//Ceiling] &@ tds[params] // \
 Re) // Transpose", "Display" -> "codemirror", 
-    "Hash" -> "ae7e79cb-5617-4c05-bc50-90794e457ecd", "Invisible" -> False, 
+    "Hash" -> "da41e847-2a6c-45fc-b75f-8e4d613f1193", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> 
-     ".md\nMake it interactive\n\n*evaluate this after initialization cells*"\
-, "Display" -> "codemirror", "Hash" -> 
-     "86047cc5-7a3b-472c-8e9f-6fb0cb4ef5b1", "Invisible" -> False, 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> ".md\nFinally, plot the resulting radiation (projection of the \
+E field) as a function of time, keeping the material thickness as a variable \
+parameter:", "Display" -> "codemirror", 
+    "Hash" -> "8426e726-51c4-4cd3-962f-41385994998a", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
-   <|"Data" -> 
-     "Make it interactive\n\n*evaluate this after initialization cells*", 
-    "Display" -> "markdown", "Hash" -> 
-     "1dd470e8-1466-4099-920a-f845d0e164b5", "Invisible" -> False, 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "Finally, plot the resulting radiation (projection of the E \
+field) as a function of time, keeping the material thickness as a variable \
+parameter:", "Display" -> "markdown", 
+    "Hash" -> "4544a978-6a50-47ae-97cc-0d5b6c555eef", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
     "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
-    "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
    <|"Data" -> "Manipulate[Graphics[{\n  ColorData[97][1],\n    \
 Line[tds2line[thickness/10.0, 9.8, 28., 15., 0.05]], Black,\n    \
 Text[StringTemplate[\"d = `` mm\"][thickness], {300, 2.5}]\n  },\n  \n  \
@@ -1136,8 +1193,40 @@ PlotRange->{{0,400}, {-3,3}}, \n  Axes->True, Frame->True, \
 FrameLabel->{\"time, ps\", \"Electric field, nA\"}\n], {{thickness, 0.5, \"d \
 (mm)\"}, 0.01, 1, 0.02},\n  ContinuousAction -> True,\n  Appearance->None\n]"\
 , "Display" -> "codemirror", "Hash" -> 
-     "03da2bd4-e589-4f64-8d3a-44f9c938436f", "Invisible" -> False, 
+     "254a34a4-e180-4e5f-a5f7-8a16bdb68418", "Invisible" -> False, 
     "MetaOnly" -> False, "Props" -> <|"InitGroup" -> False|>, 
     "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
-    "UID" -> Null, "Notebook" -> "4c14ae7a-a1aa-4a59-b4de-2b178b4e40f8"|>}, 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> ".md\nEven with fixed material parameters, the response \
+changes with thickness due to propagation effects, producing nonlinear \
+beatings. This phenomenon - polariton beatings or interference - occurs when \
+the light field hybridizes with the Lorentz-oscillator mode.\n\n## \
+Bonus\nArtistic view on THz spectroscopy:\n\n:::warning\nThis 3D plot \
+involves path-tracing which is resource intensive\n:::", 
+    "Display" -> "codemirror", "Hash" -> 
+     "22ab9a54-a3ca-4510-a85e-da445882c178", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "Even with fixed material parameters, the response changes \
+with thickness due to propagation effects, producing nonlinear beatings. This \
+phenomenon - polariton beatings or interference - occurs when the light field \
+hybridizes with the Lorentz-oscillator mode.\n\n## Bonus\nArtistic view on \
+THz spectroscopy:\n\n:::warning\nThis 3D plot involves path-tracing which is \
+resource intensive\n:::", "Display" -> "markdown", 
+    "Hash" -> "86a6d041-ea4b-4cdc-9024-43b717325ef6", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>, 
+   <|"Data" -> "{Gray, {Directive[\"Roughness\"->0.0], Cuboid[{Pi, -10.0/3, \
+-10/2}, {1.4Pi,10.0/2,10.0/3}]}, Directive[\"Emissive\"->Red, \
+\"EmissiveIntensity\"->10],Red, \
+Cases[Plot[5Exp[-(*SpB[*)Power[(x)(*|*),(*|*)2](*]SpB*)]Cos[10 x], \
+{x,-2Pi,Pi}, PlotRange->Full][[1]], _Line, Infinity] /. {Line[arr_] :> \
+Tube[Map[Function[xy, {xy[[1]], 0.3, xy[[2]]}], arr], 0.1]}};\nGraphics3D[%, \
+\"Renderer\"->\"PathTracing\"]", "Display" -> "codemirror", 
+    "Hash" -> "e5b3af31-83f3-4a56-82af-04c580f6c2e3", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Fade" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "f6e34e65-3fcb-4b41-bd4c-a292a40caec4"|>}, 
  "serializer" -> "jsfn4"|>
