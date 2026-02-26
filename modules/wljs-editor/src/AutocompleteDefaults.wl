@@ -1,7 +1,7 @@
 (* Created with the Wolfram Language : www.wolfram.com *)
 
 {
-  <|"label" -> "PrintTemporary", "type" -> "keyword", "PrintTemporary[expr] prints expr and removes it after the evaluation is finished"|>,
+  <|"label" -> "PrintTemporary", "type" -> "keyword", "info"->"PrintTemporary[expr] prints expr and removes it after the evaluation is finished"|>,
   <|"label" -> "Monitor", "type"->"keyword", "info" -> "Monitor[expr,mon] generates a temporary monitor cell in which the continually updated current value of mon is displayed during the course of evaluation of expr"|>,
   <|"label" -> "ListConvolve", "type"->"keyword", "info" -> "ListConvolve[list, ker] forms the convolution of the kernel ker with list."|>,
   <|"label" -> "ProgressIndicator", "type"->"keyword", "info" -> "ProgressIndicator[val] represents a comple progress bar indicator.\nProgressIndicator[val, {min,max}] represent a progress bar, that rescales val from min to max"|>,
