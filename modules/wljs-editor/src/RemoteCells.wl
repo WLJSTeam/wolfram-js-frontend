@@ -241,7 +241,7 @@ evaluateNotebook[uid_, kernel_, originNotebook_, session_, mode_, evalContext_, 
     promise
 ]
 
-
+cellClonedEvents = <||>;
 
 EventHandler[NotebookEditorChannel // EventClone,
     {
@@ -581,11 +581,21 @@ EventHandler[NotebookEditorChannel // EventClone,
             ]
         ],
 
+        "CellUnsubscribe" -> Function[assoc,
+            Print["CellUnsubscribe!!!!!!"];
+            With[{hash = assoc["CellHash"], oldEvent = assoc["Event"], kernel = GenericKernel`HashMap[ assoc["Kernel"] ]},
+                EventRemove[ cellClonedEvents[oldEvent] ];
+                cellClonedEvents[oldEvent] = .; (* just to save some memory *)
+            ]
+        ],
+
         "CellSubscribe" -> Function[assoc,
             Print["CellSubscribe!!!!!!"];
             With[{hash = assoc["CellHash"], callback = assoc["Callback"], kernel = GenericKernel`HashMap[ assoc["Kernel"] ]},
                 
                 With[{w = EventClone[hash]},
+                    cellClonedEvents[callback] = w;
+
                     EventHandler[w, {
                         "OnWebSocketConnected" -> Function[assoc,
                             With[{socket = assoc["Client"] , ev = EventClone[assoc["Client"] ] },

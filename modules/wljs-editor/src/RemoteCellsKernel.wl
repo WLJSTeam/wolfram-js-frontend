@@ -445,10 +445,18 @@ RemoteCellObj /: EvaluateCell[ RemoteCellObj[uid_] , OptionsPattern[] ] := With[
 
 Options[EvaluateCell] = {"Target" -> "Notebook"}
 
-RemoteCellObj /: EventHandler[ RemoteCellObj[uid_], list_] := With[{virtual = CreateUUID[]},
+(* [TODO] do not leak new EventObjects!!! *) 
+RemoteCellObj /: EventHandler[ RemoteCellObj[uid_], list_] := Module[{eventLike}, With[{virtual = CreateUUID[]},
     EventHandler[virtual, list];
     EventFire[Internal`Kernel`CommunicationChannel, "CellSubscribe", <|"CellHash" -> uid, "Callback" -> virtual, "Kernel"->Internal`Kernel`Hash|>];
-]
+    eventLike /: EventRemove[eventLike] := With[{}, (* just to save some memory *)
+        ClearAll[eventLike];
+        EventRemove[virtual];
+        EventFire[Internal`Kernel`CommunicationChannel, "CellUnsubscribe", <|"CellHash" -> uid, "Event" -> virtual, "Kernel"->Internal`Kernel`Hash|>];
+    ];
+
+    eventLike
+] ]
 
 RemoteCellObj /: Delete[RemoteCellObj[uid_] ] := With[{},
     EventFire[Internal`Kernel`CommunicationChannel, "DeleteCellByHash", uid];
