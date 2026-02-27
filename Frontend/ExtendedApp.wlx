@@ -277,6 +277,8 @@ App[request_] := With[{
             ""
         ], ""],
 
+        ResizerStyle = If[!MatchQ[Lookup[request["Headers"], "AppOS", "Browser"], "OSX" | "Browser"], "margin-top: 4rem;margin-left: 1rem;", ""],
+
         Transparency = If[KeyExistsQ[settings, "Transparency"], If[settings["Transparency"], "true", "false"], "false"],
 
         FakeMenu = 
@@ -415,7 +417,7 @@ App[request_] := With[{
           </div>
           
           <div class="md:pl-sidesys zen:pl-0 h-full" id="frame">
-            <div id="s-resizer" class="hidden h-full md:block zen:hidden top-0 absolute w-1" style="cursor: ew-resize; z-index:1000"></div>          
+            <div id="s-resizer" class="hidden h-full md:block zen:hidden top-0 absolute w-1" style="cursor: ew-resize; z-index:1000; {ResizerStyle}"></div>          
             <div class="h-full flex flex-col" style="-webkit-app-region: drag">
               <TopBar Menu={FakeMenu} CachedClient={cachedClient} ExtensionTemplates={ExtensionTemplates} AppEvents={AppEvent} Messanger={GlobalMessanger} Parameters={GlobalParameters} Controls={GlobalControls} Path={Path} Modals={ModalController}/>
               <Notifications CachedClient={cachedClient} ElectronQ={isElectron} Controls={GlobalControls} MessagePort={GlobalMessanger}/>
