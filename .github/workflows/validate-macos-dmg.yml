@@ -34,8 +34,8 @@ jobs:
           ATTACH_OUTPUT=$(hdiutil attach app.dmg)
           echo "Attach output: $ATTACH_OUTPUT"
           
-          # Extract mount point (looks for /Volumes/... path)
-          MOUNT_POINT=$(echo "$ATTACH_OUTPUT" | grep -oE '/Volumes/[^ ]+' | head -1)
+          # Extract mount point (handles paths with spaces)
+          MOUNT_POINT=$(echo "$ATTACH_OUTPUT" | grep -oE '/Volumes/.*' | tail -1 | xargs)
           echo "DMG mounted at: $MOUNT_POINT"
           
           if [ -z "$MOUNT_POINT" ]; then
@@ -45,7 +45,7 @@ jobs:
           
           # Find the .app bundle
           echo "Searching for .app bundle in $MOUNT_POINT"
-          APP_BUNDLE=$(find "$MOUNT_POINT" -name "*.app" -type d 2>/dev/null | head -1)
+          APP_BUNDLE=$(find "$MOUNT_POINT" -maxdepth 1 -name "*.app" -type d 2>/dev/null | head -1)
           
           if [ -z "$APP_BUNDLE" ]; then
             echo "No .app bundle found in DMG"
