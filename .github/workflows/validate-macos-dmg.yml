@@ -1,0 +1,76 @@
+name: Validate macOS DMG (ARM)
+on: workflow_dispatch
+
+jobs:
+  validate-macos-dmg:
+    runs-on: macos-26
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download latest DMG release (ARM)
+        run: |
+          # Get the latest release download URL for ARM64 DMG
+          DOWNLOAD_URL=$(curl -s \
+            https://api.github.com/repos/${{ github.repository }}/releases/latest \
+            | grep "browser_download_url" \
+            | grep -i "arm64\|aarch64" \
+            | grep "\.dmg" \
+            | head -n 1 \
+            | cut -d '"' -f 4)
+          
+          if [ -z "$DOWNLOAD_URL" ]; then
+            echo "No ARM64 DMG found in latest release"
+            exit 1
+          fi
+          
+          echo "Downloading DMG from: $DOWNLOAD_URL"
+          curl -L -o app.dmg "$DOWNLOAD_URL"
+          ls -lh app.dmg
+
+      - name: Mount and install DMG
+        run: |
+          # Mount the DMG
+          MOUNT_POINT=$(hdiutil attach app.dmg | grep Volumes | awk '{print $3}' | head -1)
+          echo "DMG mounted at: $MOUNT_POINT"
+          
+          # Find the .app bundle
+          APP_BUNDLE=$(find "$MOUNT_POINT" -name "*.app" -type d | head -1)
+          
+          if [ -z "$APP_BUNDLE" ]; then
+            echo "No .app bundle found in DMG"
+            hdiutil detach "$MOUNT_POINT"
+            exit 1
+          fi
+          
+          echo "Found app bundle: $APP_BUNDLE"
+          
+          # Copy to Applications
+          cp -R "$APP_BUNDLE" /Applications/
+          
+          # Unmount
+          hdiutil detach "$MOUNT_POINT"
+          
+          # List installed app
+          ls -la /Applications/
+
+      - name: Check Gatekeeper status
+        run: |
+          APP_NAME=$(ls /Applications | grep -i "\.app" | head -1)
+          APP_PATH="/Applications/$APP_NAME"
+          
+          echo "Checking Gatekeeper status for: $APP_PATH"
+          
+          # Check code signature
+          echo "=== Code Signature Check ==="
+          codesign -v "$APP_PATH" || echo "Code signature verification failed"
+          
+          # Check Gatekeeper assessment
+          echo "=== Gatekeeper Assessment ==="
+          spctl -a -v "$APP_PATH" || echo "Gatekeeper assessment details above"
+          
+          # Get code signature details
+          echo "=== Code Signature Details ==="
+          codesign -d -vv "$APP_PATH" || echo "Could not get detailed signature info"
+          
+          echo "=== Gatekeeper Status Check Complete ==="
