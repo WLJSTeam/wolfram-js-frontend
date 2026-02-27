@@ -51,6 +51,21 @@ jobs:
             }
           }
 
+          $forcedVersions = @{
+            "electron" = "^38.8.0"
+          }
+
+          foreach ($pkg in $forcedVersions.Keys) {
+              if ($json.dependencies.$pkg) {
+                  $json.dependencies.$pkg = $forcedVersions[$pkg]
+                  Write-Host "!!! Downgrading electron vesion (window.close bug)"
+              }
+              if ($json.devDependencies.$pkg) {
+                  $json.devDependencies.$pkg = $forcedVersions[$pkg]
+                  Write-Host "!!! Downgrading electron vesion (window.close bug)"
+              }
+          }          
+
           $json | ConvertTo-Json -Depth 10 | Out-File -Encoding UTF8 $pkgPath
 
       - name: Install Node.js manually

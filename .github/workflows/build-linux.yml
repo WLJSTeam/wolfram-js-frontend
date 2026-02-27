@@ -52,6 +52,21 @@ jobs:
             }
           });
 
+          const  forcedVersions  =  { 
+            "electron" :  "^38.8.0"
+          }; 
+
+          [ 'dependencies' ,  'devDependencies' ] . forEach( section  => { 
+            if  ( ! pkg [ section ]) { 
+              pkg [ section ]  =  {}; 
+            } 
+
+            Object . entries( forcedVersions ) . forEach(([ dep ,  version ]) => { 
+              pkg [ section ][ dep ]  =  version ;  // always enforce version 
+              console.log('!!! Downgrading electron version');
+            }); 
+          });           
+
           fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
           EOF
 
@@ -101,6 +116,21 @@ jobs:
               });
             }
           });
+
+          const  forcedVersions  =  { 
+            "electron" :  "^38.8.0"
+          }; 
+
+          [ 'dependencies' ,  'devDependencies' ] . forEach( section  => { 
+            if  ( ! pkg [ section ]) { 
+              pkg [ section ]  =  {}; 
+            } 
+
+            Object . entries( forcedVersions ) . forEach(([ dep ,  version ]) => { 
+              pkg [ section ][ dep ]  =  version ;  // always enforce version 
+              console.log('!!! Downgrading electron version');
+            }); 
+          });             
 
           fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n');
           EOF
