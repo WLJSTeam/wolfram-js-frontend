@@ -55,6 +55,10 @@ jobs:
             exit 1
           fi
           
+          # Get the app name for later use
+          APP_BASENAME=$(basename "$APP_BUNDLE")
+          echo "APP_BASENAME=$APP_BASENAME" >> $GITHUB_ENV
+          
           echo "Found app bundle: $APP_BUNDLE"
           
           # Copy to Applications
@@ -68,8 +72,7 @@ jobs:
 
       - name: Check Gatekeeper status
         run: |
-          APP_NAME=$(ls /Applications | grep -i "\.app" | head -1)
-          APP_PATH="/Applications/$APP_NAME"
+          APP_PATH="/Applications/${{ env.APP_BASENAME }}"
           
           echo "Checking Gatekeeper status for: $APP_PATH"
           
