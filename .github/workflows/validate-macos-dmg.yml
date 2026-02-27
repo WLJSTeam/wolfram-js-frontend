@@ -30,16 +30,28 @@ jobs:
 
       - name: Mount and install DMG
         run: |
-          # Mount the DMG
-          MOUNT_POINT=$(hdiutil attach app.dmg | grep Volumes | awk '{print $3}' | head -1)
+          # Mount the DMG and capture mount point
+          ATTACH_OUTPUT=$(hdiutil attach app.dmg)
+          echo "Attach output: $ATTACH_OUTPUT"
+          
+          # Extract mount point (looks for /Volumes/... path)
+          MOUNT_POINT=$(echo "$ATTACH_OUTPUT" | grep -oE '/Volumes/[^ ]+' | head -1)
           echo "DMG mounted at: $MOUNT_POINT"
           
+          if [ -z "$MOUNT_POINT" ]; then
+            echo "Failed to determine mount point"
+            exit 1
+          fi
+          
           # Find the .app bundle
-          APP_BUNDLE=$(find "$MOUNT_POINT" -name "*.app" -type d | head -1)
+          echo "Searching for .app bundle in $MOUNT_POINT"
+          APP_BUNDLE=$(find "$MOUNT_POINT" -name "*.app" -type d 2>/dev/null | head -1)
           
           if [ -z "$APP_BUNDLE" ]; then
             echo "No .app bundle found in DMG"
-            hdiutil detach "$MOUNT_POINT"
+            echo "Contents of mount point:"
+            ls -la "$MOUNT_POINT"
+            hdiutil detach "$MOUNT_POINT" || true
             exit 1
           fi
           
@@ -49,7 +61,7 @@ jobs:
           cp -R "$APP_BUNDLE" /Applications/
           
           # Unmount
-          hdiutil detach "$MOUNT_POINT"
+          hdiutil detach "$MOUNT_POINT" || true
           
           # List installed app
           ls -la /Applications/
