@@ -397,7 +397,7 @@ App[request_] := With[{
             <ExtensionsStyles/>
             <FrontEndCustomCSS/>
         </Head>  
-        <body class="h-full owin:border owin:border-slate-400 linux:border linux:border-slate-400"> 
+        <body class="h-full owin:border owin:border-slate-400 linux:border linux:border-slate-400 overflow-hidden"> 
         <WebUIOnLoad Event={OnLoad}/>
         <style>
           :root {--system-main-padding-left: <SidebarSize/>rem}
