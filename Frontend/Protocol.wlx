@@ -153,7 +153,7 @@ App[request_] := With[{
             <ExtensionsStyles/>
         </Head>  
         <ExtensionTemplates Template={"AppHead"} />
-        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400"> 
+        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:bg-white owin:border owin:border-slate-400 linux:border linux:border-slate-400 overflow-hidden"> 
         <WebUIOnLoad Event={OnLoad}/>
         <div class="h-full">
           <Modals CachedClient={cachedClient} ModalsPort={ModalController}/>
