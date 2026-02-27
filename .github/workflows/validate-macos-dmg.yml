@@ -34,8 +34,8 @@ jobs:
           ATTACH_OUTPUT=$(hdiutil attach app.dmg)
           echo "Attach output: $ATTACH_OUTPUT"
           
-          # Extract mount point (looks for /Volumes/... path)
-          MOUNT_POINT=$(echo "$ATTACH_OUTPUT" | grep -oE '/Volumes/[^ ]+' | head -1)
+          # Extract mount point (handles paths with spaces)
+          MOUNT_POINT=$(echo "$ATTACH_OUTPUT" | grep -oE '/Volumes/.*' | tail -1 | xargs)
           echo "DMG mounted at: $MOUNT_POINT"
           
           if [ -z "$MOUNT_POINT" ]; then
@@ -45,7 +45,7 @@ jobs:
           
           # Find the .app bundle
           echo "Searching for .app bundle in $MOUNT_POINT"
-          APP_BUNDLE=$(find "$MOUNT_POINT" -name "*.app" -type d 2>/dev/null | head -1)
+          APP_BUNDLE=$(find "$MOUNT_POINT" -maxdepth 1 -name "*.app" -type d 2>/dev/null | head -1)
           
           if [ -z "$APP_BUNDLE" ]; then
             echo "No .app bundle found in DMG"
@@ -54,6 +54,10 @@ jobs:
             hdiutil detach "$MOUNT_POINT" || true
             exit 1
           fi
+          
+          # Get the app name for later use
+          APP_BASENAME=$(basename "$APP_BUNDLE")
+          echo "APP_BASENAME=$APP_BASENAME" >> $GITHUB_ENV
           
           echo "Found app bundle: $APP_BUNDLE"
           
@@ -68,10 +72,18 @@ jobs:
 
       - name: Check Gatekeeper status
         run: |
-          APP_NAME=$(ls /Applications | grep -i "\.app" | head -1)
-          APP_PATH="/Applications/$APP_NAME"
+          APP_PATH="/Applications/${{ env.APP_BASENAME }}"
           
           echo "Checking Gatekeeper status for: $APP_PATH"
+          
+          # Check for quarantine attribute (causes "App is damaged" error)
+          echo "=== Quarantine Attribute Check ==="
+          if xattr -l "$APP_PATH" | grep -q com.apple.quarantine; then
+            echo "WARNING: Quarantine attribute found on app"
+            xattr -l "$APP_PATH" | grep com.apple.quarantine
+          else
+            echo "No quarantine attribute found (good!)"
+          fi
           
           # Check code signature
           echo "=== Code Signature Check ==="
