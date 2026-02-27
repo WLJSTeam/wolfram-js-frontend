@@ -65,7 +65,7 @@ App[request_] := Module[{client, channel, target}, With[{
             <WebUIInitializationScript/>
             <ExtensionsStyles/>
         </Head>  
-        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:border owin:border-gray-500 owin:bg-blue-100/20"> 
+        <body class="h-full dark:linux:bg-gray-700 dark:owin:bg-gray-700 owin:border owin:border-slate-400 linux:border linux:border-slate-400 overflow-hidden owin:bg-blue-100/20"> 
         <div class="h-full" style="-webkit-app-region: drag;">
           <div id="frame" class="h-full">
             <div class="h-full flex flex-col">          
