@@ -2804,7 +2804,14 @@ function start_server (window) {
     }
 
     windows.log.info('Starting server');
-    let accentColor = systemPreferences?.getAccentColor();
+    let accentColor;
+    //fuck u, linux version of Electron;
+    if (systemPreferences) {
+      if (typeof systemPreferences.getAccentColor == 'function') {
+        accentColor = systemPreferences.getAccentColor();
+      }
+    }
+
 
     if (!accentColor) {
         accentColor = '#ff7214';  
