@@ -277,7 +277,7 @@ App[request_] := With[{
             ""
         ], ""],
 
-        ResizerStyle = If[!MatchQ[Lookup[request["Headers"], "AppOS", "Browser"], "OSX" | "Browser"], "margin-top: 4rem;margin-left: 1rem;", ""],
+        ResizerStyle = If[!MatchQ[Lookup[request["Headers"], "AppOS", "Browser"], "OSX" | "Browser"], "margin-top: 4rem;margin-left: 1rem;height: 70%;", ""],
 
         Transparency = If[KeyExistsQ[settings, "Transparency"], If[settings["Transparency"], "true", "false"], "false"],
 
