@@ -2804,7 +2804,7 @@ function start_server (window) {
     }
 
     windows.log.info('Starting server');
-    let accentColor = systemPreferences.getAccentColor();
+    let accentColor = systemPreferences?.getAccentColor();
 
     if (!accentColor) {
         accentColor = '#ff7214';  
