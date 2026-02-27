@@ -7,7 +7,6 @@ Pl   = ImportComponent["ItemParent.wlx"];
 
 Component[OptionsPattern[]] := With[{
   Level    = OptionValue["Level"],
-  Class = StringJoin[OptionValue["Class"], " pl-", ToString[Level]],
   Path     = If[!DirectoryQ[#], DirectoryName[#], #]& @ (OptionValue["Path"]),
   RawPath  = OptionValue["RawPath"],
   Current  = OptionValue["Current"],
@@ -16,7 +15,9 @@ Component[OptionsPattern[]] := With[{
 
   Icons = OptionValue["Icons"],
   Port = OptionValue["Port"]
-
+},
+{
+  Class = StringJoin[OptionValue["Class"], " pl-", ToString[Level]]
 },
 
 
