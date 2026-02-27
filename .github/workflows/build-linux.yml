@@ -56,7 +56,7 @@ jobs:
             "electron" :  "^38.8.0"
           }; 
 
-          [ 'dependencies' ,  'devDependencies' ] . forEach( section  => { 
+          [  'devDependencies' ] . forEach( section  => { 
             if  ( ! pkg [ section ]) { 
               pkg [ section ]  =  {}; 
             } 
@@ -121,7 +121,7 @@ jobs:
             "electron" :  "^38.8.0"
           }; 
 
-          [ 'dependencies' ,  'devDependencies' ] . forEach( section  => { 
+          [  'devDependencies' ] . forEach( section  => { 
             if  ( ! pkg [ section ]) { 
               pkg [ section ]  =  {}; 
             } 

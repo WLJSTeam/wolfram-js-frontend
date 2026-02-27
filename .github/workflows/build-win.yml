@@ -36,36 +36,35 @@ jobs:
         run: |
           $pkgPath = "package.json"
           $json = Get-Content $pkgPath -Raw | ConvertFrom-Json
-
+          
           $dependenciesToRemove = @(
             "dmg-license",
             "electron-trackpad-utils"
           )
-
+          
           foreach ($dep in $dependenciesToRemove) {
-            if ($json.dependencies.$dep) {
+            if ($null -ne $json.dependencies -and $json.dependencies.PSObject.Properties.Match($dep).Count -gt 0) {
               $json.dependencies.PSObject.Properties.Remove($dep)
             }
-            if ($json.devDependencies.$dep) {
+            if ($null -ne $json.devDependencies -and $json.devDependencies.PSObject.Properties.Match($dep).Count -gt 0) {
               $json.devDependencies.PSObject.Properties.Remove($dep)
             }
           }
-
+          
           $forcedVersions = @{
             "electron" = "^38.8.0"
           }
-
+          
+          # ensure devDependencies exists if you truly want to force versions there
+          if ($null -eq $json.devDependencies) {
+            $json | Add-Member -MemberType NoteProperty -Name devDependencies -Value ([pscustomobject]@{})
+          }
+          
           foreach ($pkg in $forcedVersions.Keys) {
-              if ($json.dependencies.$pkg) {
-                  $json.dependencies.$pkg = $forcedVersions[$pkg]
-                  Write-Host "!!! Downgrading electron vesion (window.close bug)"
-              }
-              if ($json.devDependencies.$pkg) {
-                  $json.devDependencies.$pkg = $forcedVersions[$pkg]
-                  Write-Host "!!! Downgrading electron vesion (window.close bug)"
-              }
-          }          
-
+            $json.devDependencies.$pkg = $forcedVersions[$pkg]
+            Write-Host "Setting $pkg to $($forcedVersions[$pkg]) (window.close bug workaround)"
+          }
+          
           $json | ConvertTo-Json -Depth 10 | Out-File -Encoding UTF8 $pkgPath
 
       - name: Install Node.js manually
