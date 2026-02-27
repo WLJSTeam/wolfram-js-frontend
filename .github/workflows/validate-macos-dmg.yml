@@ -76,6 +76,15 @@ jobs:
           
           echo "Checking Gatekeeper status for: $APP_PATH"
           
+          # Check for quarantine attribute (causes "App is damaged" error)
+          echo "=== Quarantine Attribute Check ==="
+          if xattr -l "$APP_PATH" | grep -q com.apple.quarantine; then
+            echo "WARNING: Quarantine attribute found on app"
+            xattr -l "$APP_PATH" | grep com.apple.quarantine
+          else
+            echo "No quarantine attribute found (good!)"
+          fi
+          
           # Check code signature
           echo "=== Code Signature Check ==="
           codesign -v "$APP_PATH" || echo "Code signature verification failed"
