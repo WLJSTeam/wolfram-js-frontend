@@ -1,0 +1,79 @@
+<|"Notebook" -> <|"Controller" -> "7578ebf7-d6e7-4d4d-90ce-0fd0c410b84e", 
+   "FocusedCell" -> CoffeeLiqueur`Notebook`Cells`CellObj[
+     CoffeeLiqueur`Notebook`Cells`CellObj`$382], "FocusedCellSelection" -> 
+    {71, 70}, "HaveToSaveAs" -> False, "MessangerChannel" -> Messanger, 
+   "ModalsChannel" -> "2b44949a-2902-4c85-b9e0-0567e207023b", 
+   "Objects" -> <|"ea01a0de-4c78-4e71-8e18-8032c949b5f3" -> 
+      <|"Public" -> Hold[CellView["\\frac{1}{2}", "Display" -> "latex"]]|>|>, 
+   "Path" -> "/Users/kirill/Github/wolfram-js-frontend/modules/wljs-demos-arc\
+hive/Demos/Release notes/3.0.2.wln", "PublicFields" -> {"Properties"}, 
+   "Quick" -> True, "Symbols" -> <||>, 
+   "TOC" -> {CoffeeLiqueur`Extensions`TOC`Private`heading[1, 
+      "Release notes *3.0.2*", CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$374]], 
+     CoffeeLiqueur`Extensions`TOC`Private`heading[2, "TeXView", 
+      CoffeeLiqueur`Notebook`Cells`CellObj[
+       CoffeeLiqueur`Notebook`Cells`CellObj`$376]]}, 
+   "TrashedCells" -> {"val = \
+0.0;\nPrintTemporary[ProgressIndicator[val//Offload]];\nDo[val+=0.1; \
+Pause[0.25], {10.0}];\n\"Hey\"", ".md\n## PrintTemporary\nWe added another \
+missing feature `PrintTemporary`. It prints `expr` and then automatically \
+removes it after the evaluation is finished", "values = \
+{};\nMonitor[NIntegrate[Sqrt[x (1 - x)], {x, 0, 1}, \n  EvaluationMonitor :> \
+(Pause[0.025]; AppendTo[values, x];)], \n Quiet@ListPlot[values]]", ".md\n## \
+`Monitor` support\nWe added the missing `Monitor` symbol, which should help \
+your to watch the intermediate results of your long computations:", ".md\n## \
+Layout improvements\n- Chat window control buttons were misplaced on \
+Windows/Linux machines\n"}|>, 
+ "Cells" -> {<|"Data" -> ".md\n# Release notes *3.0.2*\n\n<Now/>\n", 
+    "Display" -> "codemirror", "Hash" -> 
+     "6133c277-1a1f-4cd3-be79-f9c5d2140535", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> "# Release notes *3.0.2*\n\nSun 1 Mar 2026 11:33:45", 
+    "Display" -> "markdown", "Hash" -> 
+     "2d5b694a-1cba-43a5-9a06-2c5a1dd2a1ee", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> ".md\n## TeXView\nWe added a shorthand symbol for rendering \
+expressions as LaTeX:", "Display" -> "codemirror", 
+    "Hash" -> "201e7262-9e0d-479e-9a39-a575bb5de554", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> "## TeXView\nWe added a shorthand symbol for rendering \
+expressions as LaTeX:", "Display" -> "markdown", 
+    "Hash" -> "ee527bf9-6815-4bd5-92ba-d292cf3c8cc8", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> "TeXView[1/2]", "Display" -> "codemirror", 
+    "Hash" -> "b1740003-8772-45ba-afb6-df7b820a7060", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Input", "UID" -> Null, 
+    "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> "(*VB[*)(FrontEndRef[\"ea01a0de-4c78-4e71-8e18-8032c949b5f3\"]\
+)(*,*)(*\"1:eJxTTMoPSmNkYGAoZgESHvk5KRCeEJBwK8rPK3HNS3GtSE0uLUlMykkNVgEKpyYaG\
+CYapKTqmiSbW+iapJob6lqkGlroWhgYGyVbmlgmmaYZAwCHTxV3\"*)(*]VB*)", 
+    "Display" -> "codemirror", "Hash" -> 
+     "4e79ac86-32c1-41e0-b323-f9200b8a8959", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> 
+     ".md\nIt works on slides, markdown and in a normal Wolfram output \
+cells.", "Display" -> "codemirror", 
+    "Hash" -> "fb45f73a-cb8a-43c1-8717-bcf050773cb4", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <|"Hidden" -> True|>, 
+    "PublicFields" -> {"Properties"}, "State" -> "Idle", "Type" -> "Input", 
+    "UID" -> Null, "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>, 
+   <|"Data" -> 
+     "It works on slides, markdown and in a normal Wolfram output cells.", 
+    "Display" -> "markdown", "Hash" -> 
+     "72558bb5-29d3-4130-be8e-fe36b3760e45", "Invisible" -> False, 
+    "MetaOnly" -> False, "Props" -> <||>, "PublicFields" -> {"Properties"}, 
+    "State" -> "Idle", "Type" -> "Output", "UID" -> Null, 
+    "Notebook" -> "d44095b6-5c2a-4c5d-9e73-36f3176d1e33"|>}, 
+ "serializer" -> "jsfn4"|>

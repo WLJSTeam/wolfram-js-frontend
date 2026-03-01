@@ -130,13 +130,13 @@ Component[OptionsPattern[]] := Module[{buffer = {}, lastClient = Null}, With[{
                 }
 
                 const oscillator = audioCtx.createOscillator();
-                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                oscillator.frequency.setValueAtTime(2*440, audioCtx.currentTime);
                 const gainNode = audioCtx.createGain();
                 oscillator.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
                 oscillator.start(audioCtx.currentTime);
                 gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
-                const fadeOutTime = 1;
+                const fadeOutTime = 0.5;
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + fadeOutTime);
                 setTimeout(() => {
                     oscillator.stop();
