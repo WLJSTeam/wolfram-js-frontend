@@ -4,18 +4,20 @@ System`EditorView; (*make it available everywhere*)
 System`CellView;
 
 
-FrontEditorSelected::usage = "A frontend function FrontEditorSelected[\"Get\"] gets the selected content. FrontEditorSelected[\"Set\", value] inserts or replaces content"
-EditorView::usage = "A view component for an editor instance EditorView[_String, opts___], where \"Event\" id can be provided for tracking changes. It supports dynamic updates as well."
+FrontEditorSelected::usage = "FrontEditorSelected[\"Get\"] gets the selected content.\nFrontEditorSelected[\"Set\", value] inserts or replaces content"
+EditorView::usage = "EditorView[string] represents a virtual editor, that renders string expression as in input cell"
 
-CellView::usage = "A view component for an input or output cell CellView[_String, opts___], where \"Display\" is provided to choose a rendering view component"
+CellView::usage = "CellView[Cell[\"Hello World\", \"Output\", \"markdown\"]] renders cell expression as markdown or other subtype"
 
 InputEditor::usage = "InputEditor[string_] _EventObject"
 
-MMAView::usage = "A view that returns a rasterized version of expr using Wolfram Mathematica frontened"
+MMAView::usage = "MMAView[expr] returns a rasterized version of expr using Wolfram Mathematica frontened"
 
 MMAViewAsync::usage = "Async version of MMAView"
 
-FrontTextSelected::usage = "A frontend function FrontTextSelected[\"Get\"] gets the selected text (anywhere)"
+FrontTextSelected::usage = "FrontTextSelected[\"Get\"] gets the selected text (anywhere)"
+
+TeXView::usage = "TeXView[expr_] renders expr as LaTeX equation"
 
 Begin["`Private`"]
 
@@ -60,6 +62,7 @@ CellView /: MakeBoxes[e_CellView, StandardForm] := With[{o = CreateFrontEndObjec
 
 Options[CellView] = {"Display" -> "codemirror", "Class" -> "", "Style"->""}
 
+TeXView[expr_] := CellView[ Cell[TeXForm[expr], "Output", "katex"] ]
 
 
 End[]
